@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
-import 'package:smart_dash/backend/src/lib/util/logging.dart';
+import 'package:logging/logging.dart';
 
 DatabaseConnection connectDrift(
   String dbName, {

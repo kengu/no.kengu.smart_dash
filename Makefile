@@ -33,9 +33,7 @@ configure:
 	mkdir -p ~/.docker/cli-plugins
 	ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
-	brew tap appwrite/sdk-for-cli https://github.com/appwrite/sdk-for-cli
-	brew update
-	brew install --HEAD appwrite
+	dart pub global activate serverpod_cli
 
 	colima start
 
@@ -51,13 +49,13 @@ build:
 	flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 serve:
-	echo "Serving AppWrite locally..."
+	echo "Serving Serverpod locally..."
 	if command -v colima &> /dev/null; then colima start; fi
-	cd lib/backend && docker compose up -d --remove-orphans
+	#cd lib/backend && docker compose up -d --remove-orphans
 
 stop:
-	echo "Stopping AppWrite..."
-	cd lib/backend && docker compose stop
+	echo "Stopping Serverpod locally..."
+	#cd lib/backend && docker compose stop
 
 upgrade:
 	echo "Updating packages..."
