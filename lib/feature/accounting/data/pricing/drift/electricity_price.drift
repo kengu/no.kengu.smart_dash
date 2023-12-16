@@ -1,0 +1,12 @@
+import 'electricity_price_database.dart';
+
+CREATE TABLE ElectricityPriceTable (
+    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    ts0 DATETIME NOT NULL,
+    ts1 DATETIME NOT NULL,
+    nokPerKwh REAL NOT NULL,
+    eurPerKwh REAL NOT NULL,
+    eurToNokRate REAL NOT NULL,
+    area TEXT NOT NULL,
+    UNIQUE (ts0, ts1,area)
+);

@@ -1,0 +1,55 @@
+import 'time_series_database.dart';
+
+CREATE TABLE TimeSeriesTable (
+    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    ts DATETIME NOT NULL,
+    span INT NOT NULL,
+    UNIQUE (name)
+);
+
+
+CREATE TABLE DataVectorTable (
+    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    idx INT NOT NULL,
+    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    data TEXT NOT NULL,
+    type ENUMNAME(DataVectorType) NOT NULL,
+    UNIQUE (name, idx)
+
+);
+
+CREATE TABLE DataCoordsTable (
+    name TEXT NOT NULL PRIMARY KEY REFERENCES TimeSeriesTable (name),
+    data TEXT NOT NULL,
+    UNIQUE (name)
+);
+
+CREATE TABLE DataDimsTable (
+    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    data TEXT NOT NULL,
+    UNIQUE (name)
+);
+
+-- Queries
+/*
+   After declaring your tables, you can put queries in here.
+   Just write the name of the query, a colon (:) and the SQL qu
+ */
+
+-- Get time series with exact name match
+getFromExactName(:name AS TEXT): SELECT * FROM TimeSeriesTable WHERE name = :name;
+
+-- Get all data vectors referencing given TimeSeries id
+getVectorsFromName(:name AS TEXT): SELECT * FROM DataVectorTable WHERE name = :name;
+
+-- Get data coordinates referencing given TimeSeries id
+getCoordsFromName(:name AS TEXT): SELECT * FROM DataCoordsTable WHERE name = :name;
+
+-- Get data dimensions referencing given TimeSeries id
+getDimsFromName(:name AS TEXT): SELECT * FROM DataDimsTable WHERE name = :name;
+
+-- Insert time series with given name
+insertTimeSeries(:name,:ts,:span): INSERT INTO TimeSeriesTable(name, ts, span) VALUES(:name, :ts, :span);
+

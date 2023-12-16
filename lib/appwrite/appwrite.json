@@ -1,0 +1,231 @@
+{
+    "projectId": "smart_dash",
+    "projectName": "Smart Dash",
+    "functions": [
+        {
+            "$id": "update_drivers",
+            "name": "Update Device Drivers",
+            "runtime": "dart-2.17",
+            "path": "src",
+            "entrypoint": "lib/device_driver/function/update_drivers/main.dart",
+            "execute": [],
+            "events": [],
+            "schedule": "* * * * *",
+            "timeout": 90
+        },
+        {
+            "$id": "get_electricity_price_hourly",
+            "name": "Get Electricity Price Hourly",
+            "runtime": "dart-2.17",
+            "path": "src",
+            "entrypoint": "lib/electricity_price/function/get_hourly/main.dart",
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        },
+        {
+            "$id": "update_electricity_price_hourly",
+            "name": "Update Electricity Price Hourly",
+            "runtime": "dart-2.17",
+            "path": "src",
+            "entrypoint": "lib/electricity_price/function/update_hourly/main.dart",
+            "execute": [],
+            "events": [],
+            "schedule": "30 13 * * *",
+            "timeout": 15
+        }
+    ],
+    "collections": [
+        {
+            "$id": "paired",
+            "databaseId": "devices",
+            "name": "Devices",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "key",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "id",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "name",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "type",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "lastUpdated",
+                    "type": "datetime",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "capabilities",
+                    "type": "enum",
+                    "status": "available",
+                    "required": false,
+                    "array": true,
+                    "format": "",
+                    "elements": ["energy","power","voltage"],
+                    "default": null
+                },
+                {
+                    "key": "dataAsJson",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 1048576,
+                    "default": null
+                },
+                {
+                    "key": "energyAsJson",
+                    "type": "string",
+                    "status": "available",
+                    "required": false,
+                    "array": false,
+                    "size": 1024,
+                    "default": null
+                },
+                {
+                    "key": "voltage",
+                    "type": "int",
+                    "status": "available",
+                    "required": false,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "lookup",
+                    "type": "unique",
+                    "status": "available",
+                    "attributes": [
+                        "id",
+                        "key"
+                    ],
+                    "orders": [
+                        "ASC",
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "electricity_price",
+            "databaseId": "accounting",
+            "name": "Electricity Price",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "area",
+                    "type": "string",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "begin",
+                    "type": "datetime",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "end",
+                    "type": "datetime",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "nokPerKwh",
+                    "type": "double",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                },
+                {
+                    "key": "eurPerKwh",
+                    "type": "double",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                },
+                {
+                    "key": "eurToNokRate",
+                    "type": "double",
+                    "status": "available",
+                    "required": true,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "lookup",
+                    "type": "unique",
+                    "status": "available",
+                    "attributes": [
+                        "area",
+                        "begin",
+                        "end"
+                    ],
+                    "orders": [
+                        "ASC",
+                        "ASC",
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "key": "sikom",
+    "name": "Sikom Living API",
+    "image": "sikom.png",
+    "description": "Use account email and password"
+  },
+  {
+    "key": "homey",
+    "name": "Homey API",
+    "image": "homey.png",
+    "description": "Use account email and password"
+  },
+  {
+    "key": "home_assistant",
+    "image": "home_assistant.png",
+    "name": "Home Assistant API",
+    "description": "Use account email and password"
+  }
+]
+
