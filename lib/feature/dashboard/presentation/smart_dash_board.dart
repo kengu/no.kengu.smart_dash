@@ -45,6 +45,12 @@ class _SmartDashboardState extends State<SmartDashboard> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    itemController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       mobile: _build(widget.mobileSlotCount),
@@ -65,7 +71,6 @@ class _SmartDashboardState extends State<SmartDashboard> {
         itemBuilder: widget.itemBuilder,
         dashboardItemController: itemController,
         errorPlaceholder: (e, s) => Text("$e , $s"),
-//        physics: const NeverScrollableScrollPhysics(),
       );
 }
 

@@ -260,10 +260,11 @@ packages:
   dashboard:
     dependency: "direct main"
     description:
-      name: dashboard
-      sha256: b593dbd9707befe19171918a0df9bb21289cae3969264d2c3b45babea2ab9c36
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: a6f94b044c2504b01bf6ae10e9bf38b8b528374c
+      url: "https://github.com/DISCOOS/dashboard.git"
+    source: git
     version: "0.0.4"
   dio:
     dependency: "direct main"
