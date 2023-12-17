@@ -19,7 +19,7 @@ class SmartDashHeader extends StatelessWidget {
         bottom: 24,
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
@@ -27,18 +27,45 @@ class SmartDashHeader extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const Spacer(flex: 1),
-          ElevatedButton(
-            onPressed: () {
-              context.go(Screens.pairing);
-            },
-            child: const Text('ADD SERVICE'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context.go(Screens.device);
-            },
-            child: const Text('ADD DEVICE'),
-          ),
+          if (ResponsiveWidget.isMobile(context))
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                context.go(value);
+              },
+              itemBuilder: (context) {
+                return <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: Screens.pairing,
+                    child: ListTile(
+                      title: Text('ADD SERVICE'),
+                      leading: Icon(Icons.device_unknown),
+                    ),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: Screens.device,
+                    child: ListTile(
+                      title: Text('ADD DEVICE'),
+                      leading: Icon(Icons.cloud),
+                    ),
+                  ),
+                ];
+              },
+            )
+          else ...[
+            ElevatedButton(
+              onPressed: () {
+                context.go(Screens.pairing);
+              },
+              child: const Text('ADD SERVICE'),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton(
+              onPressed: () {
+                context.go(Screens.device);
+              },
+              child: const Text('ADD DEVICE'),
+            ),
+          ]
         ],
       ),
     );

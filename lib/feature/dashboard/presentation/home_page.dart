@@ -115,7 +115,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       mobile: mobile(),
                       desktop: desktop(),
                       mobileSlotCount: 6,
-                      desktopSlotCount: 10,
+                      desktopSlotCount: 12,
                       itemBuilder: (item) {
                         switch (item.identifier) {
                           case 'energy':
@@ -171,7 +171,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         DashboardItem(
           identifier: Tokens.power.name,
           startX: 6,
-          width: 4,
+          width: 6,
           height: 1,
           minWidth: 1,
         ),
@@ -186,15 +186,15 @@ class _HomePageState extends ConsumerState<HomePage> {
           identifier: 'price',
           startY: 1,
           startX: 4,
-          width: 3,
+          width: 4,
           height: 1,
           minWidth: 1,
         ),
         DashboardItem(
           identifier: 'bill',
           startY: 1,
-          startX: 7,
-          width: 3,
+          startX: 8,
+          width: 4,
           height: 1,
           minWidth: 1,
         ),
