@@ -106,7 +106,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: Stack(
                 children: [
                   const SmartDashHeader(
-                    title: 'Dashboard',
+                    title: 'Home',
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 56.0),
@@ -120,6 +120,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         switch (item.identifier) {
                           case 'energy':
                             return EnergyUsageTile<int>(
+                              key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
                               history: _energy(Optional.ofNullable(
                                 event,
@@ -127,6 +128,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             );
                           case 'power':
                             return PowerUsageTile<int>(
+                              key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
                               history: _power(Optional.ofNullable(
                                 event,
@@ -134,6 +136,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             );
                           case 'voltage':
                             return VoltageTile<int>(
+                              key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
                               history: _voltage(Optional.ofNullable(
                                 event,
@@ -141,11 +144,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                             );
                           case 'price':
                             return HourlyElectricityPriceTile(
+                              key: GlobalObjectKey(item),
                               area: area,
                               when: when,
                             );
                           case 'bill':
                             return EnergyBillTile(
+                              key: GlobalObjectKey(item),
                               area: area,
                               when: when,
                             );

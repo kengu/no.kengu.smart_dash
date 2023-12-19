@@ -34,7 +34,8 @@ extension UnitX on num {
     -30: 'q',
   };
 
-  int get magnitude => this == 0 || isNaN || isInfinite ? 0 : log(this) ~/ ln10;
+  int get magnitude =>
+      this == 0 || isNaN || isInfinite ? 0 : log(abs()) ~/ ln10;
 
   int get order {
     final m = magnitude;
@@ -50,6 +51,13 @@ extension UnitX on num {
     return o.abs() < min ? '' : (o >= 0 ? upper[o] : lower[o]) ?? '';
   }
 
+  String toPower([int fractionDigits = 2]) => format('W', fractionDigits);
+  String toEnergy([int fractionDigits = 2]) => format('Wh', fractionDigits);
+  String toVoltage([int fractionDigits = 2]) => format('V', fractionDigits);
+  String toPrice(String currency, [int fractionDigits = 2]) {
+    return '${toStringAsFixed(fractionDigits)} $currency';
+  }
+
   String format(String unit, [int orderDigits = 2, int orderMin = 3]) {
     final o = order;
     final s = symbol(o, orderMin);
@@ -60,16 +68,15 @@ extension UnitX on num {
 }
 
 extension UnitInListX<T extends num> on List<T> {
-  String power([int? index, int fractionDigits = 2]) =>
+  String toPower([int? index, int fractionDigits = 2]) =>
       format('W', index, fractionDigits);
-  String energy([int? index, int fractionDigits = 2]) =>
+  String toEnergy([int? index, int fractionDigits = 2]) =>
       format('Wh', index, fractionDigits);
-  String voltage([int? index, int fractionDigits = 2]) =>
+  String toVoltage([int? index, int fractionDigits = 2]) =>
       format('V', index, fractionDigits);
-  String price(String currency, [int? index, int fractionDigits = 2]) {
-    final raw = isEmpty ? 0 : this[min(length - 1, index ?? length - 1)];
-    return '${raw.toStringAsFixed(fractionDigits)} $currency';
-  }
+  String toPrice(String currency, [int? index, int fractionDigits = 2]) =>
+      (isEmpty ? 0 : this[min(length - 1, index ?? length - 1)])
+          .toPrice(currency, fractionDigits);
 
   String format(String unit, [int? index, int fractionDigits = 2]) {
     final raw = isEmpty ? 0 : this[index ?? length - 1];

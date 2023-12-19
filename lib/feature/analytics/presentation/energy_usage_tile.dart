@@ -34,7 +34,7 @@ class EnergyUsageTile<T extends num> extends StatelessWidget {
         Icons.electric_bolt,
         color: Colors.lightGreen,
       ),
-      valueBuilder: (data) => data.energy(),
+      valueBuilder: (data) => data.toEnergy(),
       lineLabeler: (index) => history.tsAgo(begin + index.toInt()),
     );
   }

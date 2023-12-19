@@ -34,7 +34,7 @@ class VoltageTile<T extends num> extends StatelessWidget {
         Icons.electric_bolt,
         color: Colors.lightGreen,
       ),
-      valueBuilder: (data) => data.voltage(),
+      valueBuilder: (data) => data.toVoltage(),
       lineLabeler: (index) => history.tsAgo(begin + index.toInt()),
     );
   }

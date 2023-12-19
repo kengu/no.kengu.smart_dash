@@ -32,11 +32,11 @@ class TimeSeries with _$TimeSeries {
   /// Test if [array] is not empty
   bool get isNotEmpty => array.isNotEmpty;
 
-  /// Get length of data in column(s)
-  int get length => array.length;
-
-  /// Get number of columns in array (row length)
+  /// Get number of columns in array (length of data in rows)
   int get width => array.width;
+
+  /// Get length of data in columns (number of rows)
+  int get length => array.length;
 
   /// Check if array is uni-variate (length = 1)
   bool get isVector => array.isVector;
@@ -53,13 +53,13 @@ class TimeSeries with _$TimeSeries {
   /// Get last array row (same as rowAt(length-1))
   List<num> get lastRow => array.lastRow;
 
-  /// Get first array column (same as data[0])
+  /// Get first array column (same as array[0])
   List<num> get firstColumn => array.firstColumn;
 
-  /// Get last array column (same as data[0])
+  /// Get last array column (same as array[width-1])
   List<num> get lastColumn => array.lastColumn;
 
-  /// Get last array column (same as tsAt(length-1))
+  /// Get last timestamp (same as tsAt(length-1))
   DateTime get end => offset.tsAt(length - 1, span);
 
   /// Get the duration between [end] and [offset]
@@ -68,8 +68,19 @@ class TimeSeries with _$TimeSeries {
   /// Get [DateTime] at coordinate position given by [index]
   DateTime tsAt(int index, [bool end = true]) => offset.tsAt(index, span, end);
 
-  /// Get row as list of length equal to [width] at given coordinate
+  /// Get row as list of length equal to [width] at given coordinate [index].
+  /// ```text
+  /// Example:
+  ///                               |       width       |
+  ///        Index       Ts         A         B         C
+  /// 0 2012-01-01 00:00:00 -0.033823 -0.121514 -0.081447
+  /// 0 2012-01-01 00:03:00  0.056909  0.146731 -0.024320
+  /// ```
+  /// where
   List<num> rowAt(int index) => array.rowAt(index);
+
+  /// Get column at dimension [index] (same as array[index])
+  List<num> columnAt(int index) => array[index];
 
   /// Get coordinate index at given timestamp [ts].
   int indexAt(DateTime ts, [bool end = true]) => offset.indexAt(ts, span, end);

@@ -15,11 +15,11 @@ class EnergyBill with _$EnergyBill {
   }) = _EnergyBill;
 
   double get inNok {
-    return base.nokPerKwh / base.minutes * minutes;
+    return base.nokPerKwh / base.minutes * minutes * energy / 1000;
   }
 
   double get inEur {
-    return base.eurPerKwh / base.minutes * minutes;
+    return base.eurPerKwh / base.minutes * minutes * energy / 1000;
   }
 
   int get hours => end.difference(begin).inHours;

@@ -20,7 +20,7 @@ enum TimeScale {
   bool get isMonths => this == months;
   bool get isYears => this == years;
 
-  int multiplier([int steps = 1]) {
+  int multiplier() {
     switch (this) {
       case TimeScale.any:
         return 1;
@@ -71,9 +71,12 @@ enum TimeScale {
     return years;
   }
 
-  TimeScale max() => values[0];
   TimeScale min() => values[0];
-  TimeScale up() => values[math.max(0, index + 1)];
+
+  TimeScale max() => values[values.length - 1];
+
+  TimeScale up() => values[math.min(values.length - 1, index + 1)];
+
   TimeScale down() => values[math.max(0, index - 1)];
 
   Duration to([

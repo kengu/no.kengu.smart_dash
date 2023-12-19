@@ -83,103 +83,121 @@ extension TimeSeriesX on TimeSeries {
 
   TimeSeries select<T extends num>(
           {Duration? span, int begin = 0, bool tail = true}) =>
-      reduce<T>(tail ? _tail : _head, span: span, start: begin);
-  static T _head<T>(_, __, ___, List<T> inside) => inside.first;
-  static T _tail<T>(_, __, ___, List<T> inside) => inside.last;
+      fold<T>(tail ? _tail : _head, span: span, begin: begin);
+  static T _head<T>(_, __, value, List<T> inside) =>
+      inside.isEmpty ? value : inside.first;
+  static T _tail<T>(_, __, value, List<T> inside) =>
+      inside.isEmpty ? value : inside.last;
 
-  TimeSeries max<T extends num>(
-          {Duration? span, int begin = 0, bool tail = true}) =>
-      reduce<T>(_max, span: span, start: begin);
+  TimeSeries max<T extends num>({Duration? span, int begin = 0}) =>
+      fold<T>(_max, span: span, begin: begin);
   static T _max<T extends num>(_, __, ___, List<T> inside) => inside.max();
 
-  TimeSeries min<T extends num>(
-          {Duration? span, int begin = 0, bool tail = true}) =>
-      reduce<T>(_min, span: span, start: begin);
+  TimeSeries min<T extends num>({Duration? span, int begin = 0}) =>
+      fold<T>(_min, span: span, begin: begin);
   static T _min<T extends num>(_, __, ___, List<T> inside) => inside.min();
 
-  TimeSeries avg<T extends num>(
-          {Duration? span, int begin = 0, bool tail = true}) =>
-      reduce<T>(_avg, span: span, start: begin);
+  TimeSeries avg<T extends num>({Duration? span, int begin = 0}) =>
+      fold<T>(_avg, span: span, begin: begin);
   static T _avg<T extends num>(_, __, ___, List<T> inside) => inside.avg();
 
-  TimeSeries sum<T extends num>(
-          {Duration? span, int begin = 0, bool tail = true}) =>
-      reduce<T>(_sum,
-          span: span,
-          start: begin,
-          initial: List<T>.generate(1, (index) => 0.cast<T>()));
+  TimeSeries sum<T extends num>({Duration? span, int begin = 0}) => fold<T>(
+        _sum,
+        span: span,
+        begin: begin,
+        initial: List<T>.generate(width, (index) => 0.cast<T>()),
+      );
   static T _sum<T extends num>(_, __, value, List<T> inside) =>
       value + inside.sum();
+  TimeSeries group<T extends num>({Duration? span, int begin = 0}) => fold<T>(
+        _group,
+        span: span,
+        begin: begin,
+        initial: List<T>.generate(width, (index) => 0.cast<T>()),
+      );
+  static T _group<T extends num>(_, __, value, List<T> inside) => inside.sum();
 
-  TimeSeries reduce<T extends num>(
-    T Function(int column, int row, T previous, List<T> inside) combine, {
+  TimeSeries fold<T extends num>(
+    T Function(int column, int row, T value, List<T> inside) toElement, {
     Duration? span,
-    int start = 0,
+    int begin = 0,
     List<T>? initial,
   }) {
-    var ts0 = tsAt(start);
-    var row0 = initial ?? rowAt(start);
+    final hSpan = span ?? this.span;
+    final scaled = hSpan.to() != TimeScale.from(this.span);
 
     final coords = <JsonObject>[];
     final data = generateArray<T>(width);
 
     final tailCoords = <JsonObject>[];
     final tailData = generateArray<T>(width);
-    final hSpan = span ?? this.span;
-    final scale = hSpan.to();
 
-    for (int i = start; i < length; i++) {
+    var ts0 = tsAt(begin);
+    var row0 = initial ?? rowAt(begin);
+    var init = List.generate(width, (index) => true);
+
+    // Loop over all rows
+    for (int i = begin; i < length; i++) {
       final ts = tsAt(i);
       final row = rowAt(i);
       final delta = ts.difference(ts0);
 
       // First element is always selected
-      final isWithin = i > start && hSpan.isWithin(scale, delta);
+      final isWithin = i >= begin && hSpan.isWithin(scale, delta);
 
+      // Loop over all columns (dimensions) in i-th row
       for (int j = 0; j < width; j++) {
         tailData[j].add(row[j].cast<T>());
         if (!isWithin) {
-          // TODO: Fix initial conditions by starting at i==start
-          final value = combine(j, i, row0[j].cast<T>(), tailData[j]);
+          final value = toElement(
+            j,
+            i,
+            row0[j].cast<T>(),
+            init[j]
+                ? tailData[j].sublist(0, tailData[j].length - 1)
+                : tailData[j],
+          );
 
-          // Reduce
           data[j].add(value);
 
           ts0 = ts;
           row0[j] = value;
+          init[j] = false;
         }
       }
 
-      if (isWithin) {
-        tailCoords.add(array.coords[i]);
-      } else {
-        coords.add(array.coords[i]);
+      final same = init.first || scaled && i >= length - 1 || !scaled;
+      final coord = array.coords[same ? i : i - 1];
 
+      if (!scaled || !isWithin) {
+        coords.add(coord);
+      }
+
+      if (!isWithin) {
         tailData.clear();
         tailCoords.clear();
         tailData.addAll(generateArray<T>(width));
       }
+      tailCoords.add(coord);
     }
 
-    // Last element is always selected
+    // Last element is always folded
     if (tailCoords.isNotEmpty) {
-      for (int i = 0; i < width; i++) {
-        data[i].add(
-          combine(i, length - 1, row0[i].cast<T>(), tailData[i]),
+      for (int j = 0; j < width; j++) {
+        tailData[j].add(lastRow[j].cast<T>());
+        data[j].add(
+          toElement(j, length - 1, row0[j].cast<T>(), tailData[j]),
         );
       }
-      coords.add(tailCoords.last);
+      if (scaled) {
+        coords.add(tailCoords.last);
+      }
     }
 
-    if (false) {
-      debugPrint('reduce($name):: [$scale]');
-      debugPrint('old:: ${lastColumn.last} @ $length');
-      debugPrint('new:: ${data[0].last} @ ${data[0].length}');
-    }
     return TimeSeries(
       name: name,
       span: hSpan,
-      offset: offset,
+      offset: tsAt(begin),
       array: array.copyWith(
         data: data,
         coords: coords,

@@ -27,12 +27,13 @@ class DataArray with _$DataArray {
   }) = _DataArray;
 
   bool get isNotEmpty => !isEmpty;
+
   bool get isEmpty => data.isEmpty || data.every((column) => column.isEmpty);
 
-  /// Get number of columns in array (row length)
+  /// Get number of columns in array (length of data in rows)
   int get width => data.length;
 
-  /// Get length of data in column(s)
+  /// Get length of data in columns (number of rows)
   int get length => isNotEmpty && data.first.isNotEmpty ? data.first.length : 0;
 
   /// Check if array is uni-variate (length = 1)
@@ -60,10 +61,10 @@ class DataArray with _$DataArray {
   /// Get first array column (same as data[0])
   List<num> get firstColumn => data.first;
 
-  /// Get last array column (same as data[0])
+  /// Get last array column (same as data[width-1])
   List<num> get lastColumn => data.last;
 
-  /// Get column data at dimension [index]
+  /// Get column data at dimension [index] (same as data[index])
   List<num> operator [](int index) => data[index];
 
   factory DataArray.empty(List<JsonObject> dims) =>

@@ -33,7 +33,8 @@ class HistoryManager {
   HistoryManager(
     this.ref,
     HistoryTokenMap tokens, {
-    this.maxLength = 240, // 4*60m=4h
+    // TODO: Implement settings for maxLength (default = 0, indefinite)
+    this.maxLength = 1440, // 24*60m=24h
   }) : _tokens = Map.from(tokens);
 
   final Ref ref;
