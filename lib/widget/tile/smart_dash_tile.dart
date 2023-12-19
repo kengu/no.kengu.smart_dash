@@ -34,6 +34,7 @@ class SmartDashTile extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -55,7 +56,10 @@ class SmartDashTile extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              body,
+              Expanded(
+                flex: 30,
+                child: body,
+              ),
               const SizedBox(height: 16),
             ],
           ),

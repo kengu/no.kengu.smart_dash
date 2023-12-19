@@ -31,6 +31,10 @@ class _SmartDashboardState extends State<SmartDashboard> {
 
   final key = GlobalKey();
 
+  final scrollController = ScrollController();
+
+  bool isDesktop = true;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +52,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
   void dispose() {
     super.dispose();
     itemController.dispose();
+    scrollController.dispose();
   }
 
   @override
@@ -58,20 +63,34 @@ class _SmartDashboardState extends State<SmartDashboard> {
     );
   }
 
-  Dashboard<DashboardItem> _build(int slotCount) => Dashboard(
-        key: key,
-        slideToTop: true,
-        shrinkToPlace: false,
-        absorbPointer: false,
-        animateEverytime: true,
-        verticalSpace: 16,
-        horizontalSpace: 16,
-        slotCount: slotCount,
-        slotHeight: widget.slotHeight,
-        itemBuilder: widget.itemBuilder,
-        dashboardItemController: itemController,
-        errorPlaceholder: (e, s) => Text("$e , $s"),
-      );
+  Dashboard<DashboardItem> _build(int slotCount) {
+    final current = isDesktop;
+    final dashboard = Dashboard(
+      key: key,
+      slideToTop: true,
+      shrinkToPlace: true,
+      absorbPointer: false,
+      animateEverytime: true,
+      verticalSpace: 16,
+      horizontalSpace: 16,
+      slotCount: slotCount,
+      scrollController: scrollController,
+      physics: const RangeMaintainingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      slotHeight: widget.slotHeight,
+      itemBuilder: widget.itemBuilder,
+      dashboardItemController: itemController,
+      errorPlaceholder: (e, s) => Text("$e , $s"),
+    );
+    isDesktop = slotCount == widget.desktopSlotCount;
+    if (isDesktop != current &&
+        scrollController.hasClients &&
+        scrollController.position.hasContentDimensions) {
+      scrollController.jumpTo(0);
+    }
+    return dashboard;
+  }
 }
 
 class _SmartDashboardItemStorage extends DashboardItemStorageDelegate {

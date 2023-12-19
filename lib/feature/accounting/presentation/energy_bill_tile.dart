@@ -19,7 +19,10 @@ class EnergyBillTile extends ConsumerWidget {
   });
 
   final String area;
+
   final DateTime when;
+
+  static const double minItemWidth = 72;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,14 +51,17 @@ class EnergyBillTile extends ConsumerWidget {
         final total = today.lastRow.toPrice('kr', now);
         final sums = hourly.isEmpty ? <double>[0] : hourly.firstColumn;
 
+        final constraints = BoxConstraints(
+          minWidth: 270,
+          minHeight: 180,
+          maxWidth: (minItemWidth + 6) * sums.length,
+        ).normalize();
+
         return SmartDashTile(
           key: const ValueKey('energy_bill'),
           title: 'Energy Bill',
           subTitle: 'Today @ ${at.hour} hours ($area)',
-          constraints: const BoxConstraints(
-            minWidth: 270,
-            minHeight: 150,
-          ),
+          constraints: constraints,
           leading: const Icon(
             Icons.summarize_outlined,
             color: Colors.lightGreen,
@@ -68,31 +74,35 @@ class EnergyBillTile extends ConsumerWidget {
             ),
             textScaler: const TextScaler.linear(1.2),
           ),
-          body: SingleChildScrollView(
-            physics: const RangeMaintainingScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: AnimatedChart<double>(
-                height: 150,
-                duration: const Duration(seconds: 1),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SingleChildScrollView(
+              reverse: true,
+              scrollDirection: Axis.horizontal,
+              child: Chart<double>(
+                key: const ValueKey('energy_bill_chart'),
+                width: constraints.minWidth,
+                height: constraints.minHeight,
+                //duration: const Duration(seconds: 2),
                 state: ChartState<double>(
-                  behaviour: ChartBehaviour(
+                  behaviour: const ChartBehaviour(
                     scrollSettings: ScrollSettings(
-                      visibleItems: bills.length.clamp(1, 6).toDouble(),
+                      visibleItems: 6,
                     ),
                   ),
                   data: ChartData.fromList(sums
                       .map((e) => ChartItem<double>(e.toDouble()))
                       .toList()),
                   itemOptions: WidgetItemOptions(
+                    minBarWidth: minItemWidth,
+                    maxBarWidth: minItemWidth,
                     widgetItemBuilder: (data) {
                       final energy = bills.length > data.itemIndex
                           ? bills[data.itemIndex].energy.toEnergy()
                           : '-';
                       return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 3.0)
+                            .copyWith(top: 16),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(12),
@@ -141,14 +151,17 @@ class EnergyBillTile extends ConsumerWidget {
                     ),
                   ],
                   foregroundDecorations: [
+                    // ignore: deprecated_member_use
                     ValueDecoration(
                       textStyle: textStyle,
-                      hideZeroValues: false,
+                      hideZeroValues: true,
+                      alignment: Alignment.center,
                       labelGenerator: (item) {
                         return (item.max as num).toPrice('kr');
                       },
                       valueGenerator: (item) {
-                        return item.max ?? 0;
+                        // HACK: Adjust vertical alignment of text above bar
+                        return (item.max ?? 0) * 0.97;
                       },
                     ),
                   ],

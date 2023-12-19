@@ -259,11 +259,6 @@ extension TimeSeriesX on TimeSeries {
       // Replace existing point
       data[point] = value;
       coords[point] = {'ts': ts.millisecondsSinceEpoch};
-      if (false) {
-        debugPrint(
-          'record($name): REPLACE [$point](length:$count) $value @ $ts',
-        );
-      }
     }
 
     final next = TimeSeries(

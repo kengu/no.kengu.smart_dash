@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -102,7 +101,6 @@ class HistoryManager {
       });
 
   Future<void> _onHandle(FlowEvent event) => guard<void>(() async {
-        final tic = DateTime.now();
         final repo = ref.read(timeSeriesRepositoryProvider);
         final result = await repo.get(event.token);
         var history = result.isPresent
@@ -127,11 +125,6 @@ class HistoryManager {
               result.value,
             ));
           }
-        }
-        if (false) {
-          debugPrint(
-            '_onHandle():: [${DateTime.now().difference(tic).inMilliseconds}ms]',
-          );
         }
       }, task: 'HistoryManager::_onHandle');
 
