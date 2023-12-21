@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -57,7 +59,7 @@ class EnergyBillService {
       'was ${TimeScale.from(power.span).name}',
     );
 
-    final begin = power.indexAt(when);
+    final begin = max(0, power.indexAt(when));
 
     return power.fold<double>(
       (_, __, ___, inner) => inner.sum() / 60,
