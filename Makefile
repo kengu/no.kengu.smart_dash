@@ -48,6 +48,11 @@ build:
 	echo "Watch for buildable changes..."
 	dart pub run build_runner watch --delete-conflicting-outputs
 
+rebuild-android:
+	echo "Rebuilding android project..."
+	cd android
+	./gradlew clean build
+
 serve:
 	echo "Serving Serverpod locally..."
 	if command -v colima &> /dev/null; then colima start; fi
