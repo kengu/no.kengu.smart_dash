@@ -6,7 +6,7 @@ import 'package:smart_dash/feature/accounting/presentation/energy_bill_tile.dart
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/dashboard/presentation/smart_dash_board.dart';
+import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/analytics/presentation/energy_usage_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/hourly_electricity_price_tile.dart';
@@ -15,6 +15,7 @@ import 'package:smart_dash/feature/analytics/presentation/voltage_usage_tile.dar
 import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
+import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/widget/smart_dash_error_widget.dart';
@@ -113,8 +114,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                     child: SmartDashboard(
                       slotHeight: 270,
                       mobile: mobile(),
+                      tablet: tablet(),
                       desktop: desktop(),
-                      mobileSlotCount: 6,
+                      mobileSlotCount: 3,
+                      tabletSlotCount: 6,
                       desktopSlotCount: 12,
                       itemBuilder: (item) {
                         switch (item.identifier) {
@@ -154,6 +157,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                               area: area,
                               when: when,
                             );
+                          case 'weather_now':
+                            return WeatherNowTile(
+                              key: GlobalObjectKey(item),
+                              lat: 60.0802,
+                              lon: 8.8168,
+                            );
                         }
                         return Text(item.identifier);
                       },
@@ -166,79 +175,129 @@ class _HomePageState extends ConsumerState<HomePage> {
         );
   }
 
-  List<DashboardItem> desktop() => [
-        DashboardItem(
-          identifier: Tokens.energy.name,
-          width: 6,
-          height: 1,
-          minWidth: 1,
-        ),
-        DashboardItem(
-          identifier: Tokens.power.name,
-          startX: 6,
-          width: 6,
-          height: 1,
-          minWidth: 1,
-        ),
-        DashboardItem(
-          identifier: Tokens.voltage.name,
-          startY: 1,
-          width: 4,
-          height: 1,
-          minWidth: 1,
-        ),
-        DashboardItem(
-          identifier: 'price',
-          startY: 1,
-          startX: 4,
-          width: 4,
-          height: 1,
-          minWidth: 1,
-        ),
-        DashboardItem(
-          identifier: 'bill',
-          startY: 1,
-          startX: 8,
-          width: 4,
-          height: 1,
-          minWidth: 1,
-        ),
-      ];
-
   List<DashboardItem> mobile() => [
         DashboardItem(
-          identifier: Tokens.energy.name,
-          width: 6,
+          identifier: 'weather_now',
+          width: 3,
           height: 1,
-          minWidth: 1,
+          maxWidth: 3,
+          minWidth: 3,
+        ),
+        DashboardItem(
+          identifier: Tokens.energy.name,
+          width: 3,
+          height: 1,
+          minWidth: 3,
+          maxWidth: 3,
         ),
         DashboardItem(
           identifier: Tokens.power.name,
-          startY: 1,
-          width: 6,
+          width: 3,
           height: 1,
-          minWidth: 1,
+          minWidth: 3,
+          maxWidth: 3,
         ),
         DashboardItem(
           identifier: Tokens.voltage.name,
-          startY: 2,
-          width: 6,
+          width: 3,
           height: 1,
-          minWidth: 1,
+          minWidth: 3,
+          maxWidth: 3,
         ),
         DashboardItem(
           identifier: 'price',
-          startY: 3,
-          width: 6,
+          width: 3,
           height: 1,
-          minWidth: 1,
+          minWidth: 3,
+          maxWidth: 3,
         ),
         DashboardItem(
           identifier: 'bill',
-          startY: 4,
-          width: 6,
+          width: 3,
           height: 1,
-          minWidth: 1,
+          minWidth: 3,
+          maxWidth: 3,
         ),
       ];
 }
+
+List<DashboardItem> tablet() => [
+      DashboardItem(
+        identifier: 'weather_now',
+        width: 2,
+        height: 1,
+        maxWidth: 2,
+        minWidth: 2,
+      ),
+      DashboardItem(
+        identifier: Tokens.energy.name,
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: Tokens.power.name,
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: Tokens.voltage.name,
+        width: 2,
+        height: 1,
+        minWidth: 2,
+        maxWidth: 2,
+      ),
+      DashboardItem(
+        identifier: 'price',
+        width: 3,
+        height: 1,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: 'bill',
+        width: 3,
+        height: 1,
+        minWidth: 3,
+      ),
+    ];
+
+List<DashboardItem> desktop() => [
+      DashboardItem(
+        identifier: 'weather_now',
+        width: 3,
+        height: 1,
+        maxWidth: 3,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: Tokens.energy.name,
+        width: 5,
+        height: 1,
+        minWidth: 5,
+      ),
+      DashboardItem(
+        identifier: Tokens.power.name,
+        width: 5,
+        height: 1,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: Tokens.voltage.name,
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: 'price',
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: 'bill',
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+    ];

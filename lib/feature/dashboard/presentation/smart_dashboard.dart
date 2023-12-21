@@ -13,13 +13,21 @@ class SmartDashboard extends StatefulWidget {
     required this.desktop,
     required this.mobileSlotCount,
     required this.desktopSlotCount,
+    this.tablet = const [],
+    this.mobileLarge = const [],
+    this.tabletSlotCount = 0,
+    this.mobileLargeSlotCount = 0,
   });
 
   final double slotHeight;
   final int mobileSlotCount;
   final int desktopSlotCount;
+  final int tabletSlotCount;
+  final int mobileLargeSlotCount;
   final List<DashboardItem> mobile;
   final List<DashboardItem> desktop;
+  final List<DashboardItem> tablet;
+  final List<DashboardItem> mobileLarge;
   final DashboardItemBuilder itemBuilder;
 
   @override
@@ -41,9 +49,13 @@ class _SmartDashboardState extends State<SmartDashboard> {
     itemController = DashboardItemController.withDelegate(
       itemStorageDelegate: _SmartDashboardItemStorage(
         mobile: widget.mobile,
+        tablet: widget.tablet,
         desktop: widget.desktop,
+        mobileLarge: widget.mobileLarge,
+        tabletSlotCount: widget.tabletSlotCount,
         mobileSlotCount: widget.mobileSlotCount,
         desktopSlotCount: widget.desktopSlotCount,
+        mobileLargeSlotCount: widget.mobileLargeSlotCount,
       ),
     );
   }
@@ -59,7 +71,11 @@ class _SmartDashboardState extends State<SmartDashboard> {
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       mobile: _build(widget.mobileSlotCount),
+      tablet: widget.tablet.isEmpty ? null : _build(widget.tabletSlotCount),
       desktop: _build(widget.desktopSlotCount),
+      mobileLarge: widget.mobileLarge.isEmpty
+          ? null
+          : _build(widget.mobileLargeSlotCount),
     );
   }
 
@@ -99,12 +115,20 @@ class _SmartDashboardItemStorage extends DashboardItemStorageDelegate {
     required this.desktop,
     required this.mobileSlotCount,
     required this.desktopSlotCount,
+    this.tablet = const [],
+    this.mobileLarge = const [],
+    this.tabletSlotCount = 0,
+    this.mobileLargeSlotCount = 0,
   });
 
   final int mobileSlotCount;
   final int desktopSlotCount;
+  final int tabletSlotCount;
+  final int mobileLargeSlotCount;
   final List<DashboardItem> mobile;
   final List<DashboardItem> desktop;
+  final List<DashboardItem> tablet;
+  final List<DashboardItem> mobileLarge;
 
   @override
   bool get cacheItems => true;
@@ -116,8 +140,11 @@ class _SmartDashboardItemStorage extends DashboardItemStorageDelegate {
   FutureOr<List<DashboardItem>> getAllItems(int slotCount) {
     if (mobileSlotCount == slotCount) {
       return mobile;
-    }
-    if (desktopSlotCount == slotCount) {
+    } else if (mobileLargeSlotCount == slotCount) {
+      return mobileLarge;
+    } else if (tabletSlotCount == slotCount) {
+      return tablet;
+    } else if (desktopSlotCount == slotCount) {
       return desktop;
     }
     throw StateError('slotCount $slotCount not found');

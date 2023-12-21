@@ -170,7 +170,7 @@ class _$EnergyBillImpl extends _EnergyBill {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EnergyBillImpl &&

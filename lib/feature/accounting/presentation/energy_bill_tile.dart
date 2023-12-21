@@ -8,6 +8,7 @@ import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
+import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
@@ -35,11 +36,7 @@ class EnergyBillTile extends ConsumerWidget {
         final surfaceColor =
             Theme.of(context).navigationRailTheme.backgroundColor!;
         final lineColor = surfaceColor.lighten(0.05);
-        final legendTextColor = surfaceColor.lighten(0.2);
-        final textStyle = Theme.of(context)
-            .textTheme
-            .labelSmall!
-            .copyWith(color: legendTextColor);
+        final textStyle = getLegendTextStyle(context);
 
         final bills = snapshot.hasData ? snapshot.data! : <EnergyBill>[];
         final hourly = _toHourly(bills);

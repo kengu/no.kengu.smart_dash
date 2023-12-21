@@ -240,7 +240,7 @@ class _$SikomResponseDataImpl extends _SikomResponseData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomResponseDataImpl &&
@@ -481,7 +481,7 @@ class _$SikomResponseDataArrayObjectImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomResponseDataArrayObjectImpl &&

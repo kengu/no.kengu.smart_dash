@@ -128,7 +128,7 @@ class _$SikomDeviceImpl extends _SikomDevice {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomDeviceImpl &&
@@ -884,7 +884,7 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomDevicePropertiesImpl &&

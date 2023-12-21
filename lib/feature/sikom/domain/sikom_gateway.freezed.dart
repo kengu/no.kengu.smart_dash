@@ -177,7 +177,7 @@ class _$SikomGatewayImpl extends _SikomGateway {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomGatewayImpl &&
@@ -358,7 +358,7 @@ class _$SikomGatewayControllerImpl extends _SikomGatewayController {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomGatewayControllerImpl &&
@@ -523,7 +523,7 @@ class _$SikomGatewayPropertiesImpl extends _SikomGatewayProperties {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomGatewayPropertiesImpl &&
@@ -726,7 +726,7 @@ class _$SikomGatewayControllerPropertiesImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SikomGatewayControllerPropertiesImpl &&

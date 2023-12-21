@@ -46,7 +46,7 @@ info:
 
 build:
 	echo "Watch for buildable changes..."
-	flutter packages pub run build_runner watch --delete-conflicting-outputs
+	dart pub run build_runner watch --delete-conflicting-outputs
 
 serve:
 	echo "Serving Serverpod locally..."
