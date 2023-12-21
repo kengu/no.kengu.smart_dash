@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
@@ -32,6 +33,11 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
     if (Platform.isDesktop) {
       windowManager.addListener(this);
       _storePrefs();
+    } else {
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: [],
+      );
     }
   }
 
