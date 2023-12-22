@@ -45,3 +45,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 !/lib/backend/electricity_price/custom_lint.log
+
+android/key.properties
