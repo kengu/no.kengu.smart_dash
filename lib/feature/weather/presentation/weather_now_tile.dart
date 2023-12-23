@@ -35,10 +35,27 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
         final now = DateTime.now();
         final weather = _select(snapshot.data, now);
         if (weather == null) {
-          return ConstrainedBox(
+          return SmartDashTile(
+            title: 'Weather Now',
+            // TODO: Make location configurable
+            subTitle: 'Tindefjell',
             constraints: constraints,
-            child: const Center(
-              child: CircularProgressIndicator(),
+            leading: const Icon(
+              Icons.wb_sunny,
+              color: Colors.lightGreen,
+            ),
+            trailing: Text(
+              _toTemperature(weather?.data.instant),
+              style: const TextStyle(
+                color: Colors.lightGreen,
+                fontWeight: FontWeight.bold,
+              ),
+              textScaler: const TextScaler.linear(1.2),
+            ),
+            body: const Center(
+              child: CircularProgressIndicator(
+                color: Colors.lightGreen,
+              ),
             ),
           );
         }
@@ -49,6 +66,18 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
           // TODO: Make location configurable
           subTitle: 'Tindefjell',
           constraints: constraints,
+          leading: const Icon(
+            Icons.wb_sunny,
+            color: Colors.lightGreen,
+          ),
+          trailing: Text(
+            _toTemperature(instant),
+            style: const TextStyle(
+              color: Colors.lightGreen,
+              fontWeight: FontWeight.bold,
+            ),
+            textScaler: const TextScaler.linear(1.2),
+          ),
           body: Column(
             children: [
               Expanded(
@@ -165,18 +194,6 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
               )
             ],
           ),
-          leading: const Icon(
-            Icons.wb_sunny,
-            color: Colors.lightGreen,
-          ),
-          trailing: Text(
-            _toTemperature(instant),
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
-            ),
-            textScaler: const TextScaler.linear(1.2),
-          ),
         );
       },
     );
@@ -230,8 +247,8 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
     return step;
   }
 
-  String _toTemperature(WeatherInstant data) {
-    return '${data.details.airTemperature} °C';
+  String _toTemperature(WeatherInstant? data) {
+    return '${data?.details.airTemperature ?? '-'} °C';
   }
 
   Image _toSymbol(WeatherTimeStep step, double size) {
