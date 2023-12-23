@@ -16,6 +16,7 @@ import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
+import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/widget/smart_dash_error_widget.dart';
@@ -77,6 +78,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     return voltage;
   }
 
+  bool get isFullscreen => FullscreenState.watch(ref);
+
   @override
   void initState() {
     super.initState();
@@ -102,15 +105,21 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ? settings.value[SettingType.priceArea]!.value.toString()
                 : SettingType.priceArea.toStringValue();
             final when = DateTime(now.year, now.month, now.day);
+            final withHeader = !isFullscreen;
             return Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: withHeader
+                  ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
+                  : const EdgeInsets.all(16.0),
               child: Stack(
                 children: [
-                  const SmartDashHeader(
-                    title: 'Home',
-                  ),
+                  if (withHeader)
+                    const SmartDashHeader(
+                      title: 'Home',
+                    ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 56.0),
+                    padding: withHeader
+                        ? const EdgeInsets.only(top: 56.0)
+                        : const EdgeInsets.only(top: 0.0),
                     child: SmartDashboard(
                       slotHeight: 270,
                       mobile: mobile(),

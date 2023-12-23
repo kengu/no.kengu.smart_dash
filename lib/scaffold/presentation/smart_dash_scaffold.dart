@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/constant/pages.dart';
+import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
 import 'package:smart_dash/scaffold/presentation/smart_dash_menu.dart';
 import 'package:smart_dash/scaffold/presentation/smart_dash_navigation_bar.dart';
 import 'package:smart_dash/scaffold/presentation/smart_dash_navigation_rail.dart';
 import 'package:smart_dash/widget/responsive_widget.dart';
 import 'package:smart_dash/widget/smart_dash_toolbar.dart';
 
-class SmartDashScaffold extends StatelessWidget {
+class SmartDashScaffold extends ConsumerStatefulWidget {
   const SmartDashScaffold({
     super.key,
     required this.child,
@@ -19,89 +21,152 @@ class SmartDashScaffold extends StatelessWidget {
 
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  bool get isPage => Pages.indexOf(location) > -1;
+  @override
+  ConsumerState<SmartDashScaffold> createState() => _SmartDashScaffoldState();
+}
+
+class _SmartDashScaffoldState extends ConsumerState<SmartDashScaffold> {
+  bool get isPage => Pages.indexOf(widget.location) > -1;
+
+  bool get isFullscreen => FullscreenState.watch(ref);
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget(
-      // Scaffold with bottom navigation bar
-      mobile: Scaffold(
-        key: _scaffoldKey,
-        extendBodyBehindAppBar: true,
-        drawerEnableOpenDragGesture: true,
-        drawer: NavigationDrawer(
-          elevation: 8.0,
-          selectedIndex: -1,
-          onDestinationSelected: (index) {
-            Navigator.pop(context);
-          },
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 16,
-              ),
-              child: SmartDashMenuHeader(
-                closeOnAll: true,
-                leading: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onLongPress: () {
+        FullscreenState.notifier(ref).toggle();
+      },
+      child: ResponsiveWidget(
+        // Scaffold with bottom navigation bar
+        mobile: _MobileScaffold(
+          isPage: isPage,
+          location: widget.location,
+          withBottomBar: !isFullscreen,
+          withMenu: !isFullscreen && widget.withMenu,
+          scaffoldKey: SmartDashScaffold._scaffoldKey,
+          child: widget.child,
         ),
-        body: withMenu
-            ? StackedMenu(
-                scaffoldKey: _scaffoldKey,
-                child: Padding(
-                  padding: isPage
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.all(
-                          16.0,
-                        ),
-                  child: child,
-                ),
-              )
-            : Padding(
-                padding: isPage
-                    ? EdgeInsets.zero
-                    : const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                      ).copyWith(top: 24.0),
-                child: child,
-              ),
-        bottomNavigationBar: SmartDashNavigationBar(
-          location: location,
-        ),
-      ),
-      // Scaffold with navigation rail
-      desktop: Scaffold(
-        body: Row(
-          children: [
-            SmartDashNavigationRail(
-              location: location,
-            ),
-            Expanded(
-              child: Padding(
-                padding: isPage
-                    ? EdgeInsets.zero
-                    : const EdgeInsets.all(
-                        24.0,
-                      ),
-                child: child,
-              ),
-            ),
-          ],
+        // Scaffold with navigation rail
+        desktop: _DesktopScaffold(
+          widget: widget,
+          isPage: isPage,
         ),
       ),
     );
   }
 }
 
-class StackedMenu extends StatelessWidget {
-  const StackedMenu({
-    super.key,
+class _DesktopScaffold extends StatelessWidget {
+  const _DesktopScaffold({
+    required this.widget,
+    required this.isPage,
+  });
+
+  final SmartDashScaffold widget;
+  final bool isPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          SmartDashNavigationRail(
+            location: widget.location,
+          ),
+          Expanded(
+            child: Padding(
+              padding: isPage
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.all(
+                      24.0,
+                    ),
+              child: widget.child,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MobileScaffold extends StatelessWidget {
+  const _MobileScaffold({
+    required GlobalKey<ScaffoldState> scaffoldKey,
+    required this.isPage,
+    required this.child,
+    required this.location,
+    required this.withMenu,
+    required this.withBottomBar,
+  }) : _scaffoldKey = scaffoldKey;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  final bool isPage;
+  final Widget child;
+  final bool withMenu;
+  final bool withBottomBar;
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      extendBodyBehindAppBar: true,
+      drawerEnableOpenDragGesture: true,
+      drawer: NavigationDrawer(
+        elevation: 8.0,
+        selectedIndex: -1,
+        onDestinationSelected: (index) {
+          Navigator.pop(context);
+        },
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 16,
+            ),
+            child: SmartDashMenuHeader(
+              closeOnAll: true,
+              leading: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
+      ),
+      body: withMenu
+          ? _StackedMenu(
+              scaffoldKey: _scaffoldKey,
+              child: Padding(
+                padding: isPage
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.all(
+                        16.0,
+                      ),
+                child: child,
+              ),
+            )
+          : Padding(
+              padding: isPage
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ).copyWith(top: 24.0),
+              child: child,
+            ),
+      bottomNavigationBar: withBottomBar
+          ? SmartDashNavigationBar(
+              location: location,
+            )
+          : null,
+    );
+  }
+}
+
+class _StackedMenu extends StatelessWidget {
+  const _StackedMenu({
     required this.child,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) : _scaffoldKey = scaffoldKey;
