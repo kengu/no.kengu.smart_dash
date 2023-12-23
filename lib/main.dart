@@ -8,6 +8,9 @@ import 'package:window_manager/window_manager.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+const sentryDNS =
+    'https://49ed9a96f02544e1ab064eb451a5b01c@o288287.ingest.sentry.io/4504854610444288';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,8 +23,7 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://49ed9a96f02544e1ab064eb451a5b01c@o288287.ingest.sentry.io/4504854610444288';
+      options.dsn = sentryDNS;
       // Set tracesSampleRate to 1.0 to capture 100% of
       // transactions for performance monitoring.
       // We recommend adjusting this value in production.

@@ -7,7 +7,7 @@ part of 'electricity_price_repository.dart';
 // **************************************************************************
 
 String _$electricityPriceRepositoryHash() =>
-    r'cde666d191ff733a79b69abaeab0a2201a62605f';
+    r'e0d7a803dc9488da05fd9c1c76219cd0d04faa93';
 
 /// See also [electricityPriceRepository].
 @ProviderFor(electricityPriceRepository)

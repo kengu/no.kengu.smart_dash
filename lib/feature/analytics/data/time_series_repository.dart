@@ -164,5 +164,5 @@ class TimeSeriesRepository {
 
 @Riverpod(keepAlive: true)
 TimeSeriesRepository timeSeriesRepository(TimeSeriesRepositoryRef ref) {
-  return TimeSeriesRepository(ref, TimeSeriesDatabase());
+  return TimeSeriesRepository(ref, TimeSeriesDatabase(ref).autoDispose(ref));
 }

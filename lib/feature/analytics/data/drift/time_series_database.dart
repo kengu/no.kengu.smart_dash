@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/util/data/list.dart';
 import 'package:smart_dash/util/drift/connection.dart';
 
@@ -14,8 +15,9 @@ enum DataVectorType {
 }
 
 @DriftDatabase(include: {'time_series.drift'})
-class TimeSeriesDatabase extends _$TimeSeriesDatabase {
-  TimeSeriesDatabase() : super(connectDrift('time_series.sqlite'));
+class TimeSeriesDatabase extends _$TimeSeriesDatabase
+    with ConnectionDisposer<TimeSeriesDatabase> {
+  TimeSeriesDatabase(Ref ref) : super(connectDrift(ref, 'time_series.sqlite'));
 
   Future<void> deleteAll() async {
     await customStatement('PRAGMA foreign_keys = OFF');

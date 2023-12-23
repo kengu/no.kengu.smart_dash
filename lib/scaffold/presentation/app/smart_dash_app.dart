@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
 import 'package:smart_dash/scaffold/smart_dash_router.dart';
+import 'package:smart_dash/util/drift/connection.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -18,7 +19,7 @@ class SmartDashApp extends ConsumerStatefulWidget {
 }
 
 class _SmartDashAppState extends ConsumerState<SmartDashApp>
-    with WindowListener {
+    with WindowListener, WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
         details: details,
       );
     };*/
+    WidgetsBinding.instance.addObserver(this);
     if (Platform.isDesktop) {
       windowManager.addListener(this);
       _storePrefs();
@@ -47,6 +49,7 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
     if (Platform.isDesktop) {
       windowManager.removeListener(this);
     }
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -76,6 +79,18 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
       final size = await windowManager.getSize();
       await prefs.setDouble(SmartDashApp.propWindowSizeWidth, size.width);
       await prefs.setDouble(SmartDashApp.propWindowSizeHeight, size.height);
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.detached) {
+      // NOTE: This might fail to complete since the time
+      // left until application is killed is undefined, leaving
+      // the possibility of some connections still being open.
+      // If any transaction are pending, this will leave locks
+      // on tables when the application resumes again.
+      ref.read(connectionManagerProvider).dispose();
     }
   }
 }
