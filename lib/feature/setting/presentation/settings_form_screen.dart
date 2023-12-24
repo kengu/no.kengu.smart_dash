@@ -12,6 +12,7 @@ import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/dark_mode_tile.dart';
+import 'package:smart_dash/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/setting_switch_tile.dart';
 import 'package:smart_dash/widget/form/async_form_screen.dart';
 
@@ -80,6 +81,14 @@ class SettingTilesWidget extends StatelessWidget {
                       SettingSwitchTile(
                         type: SettingType.showSnackBar,
                         formControlName: SettingType.showSnackBar.name,
+                      )
+                    ],
+                  ),
+                  SettingsSection(
+                    title: const Text('Accounting'),
+                    tiles: [
+                      PriceAreaTile(
+                        formControlName: SettingType.priceArea.name,
                       )
                     ],
                   ),

@@ -48,7 +48,7 @@ class SettingsFormScreenController extends _$SettingsFormScreenController
       ref.read(settingRepositoryProvider.notifier).load();
 
   @override
-  Future<bool> save(SettingMap data) async {
-    return await ref.read(settingRepositoryProvider.notifier).save(data.values);
+  Future<bool> save(SettingMap data) {
+    return ref.read(settingRepositoryProvider.notifier).save(data.values);
   }
 }
