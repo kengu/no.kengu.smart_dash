@@ -90,7 +90,8 @@ class _AsyncSaveWidgetState<Query, Data>
   }
 
   void _initAutoCommitIfEnabled(WidgetRef ref, FormGroup formGroup) {
-    if (widget.autoSubmit && _autoSubmitSubscription == null) {
+    if (widget.autoSubmit) {
+      _autoSubmitSubscription?.cancel();
       _autoSubmitSubscription = ref
           .read(widget.provider.notifier)
           .autoSubmit(formGroup)

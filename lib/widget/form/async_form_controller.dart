@@ -30,23 +30,18 @@ mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
   FormGroup buildForm(Optional<Data> data);
 
   /// Subscribes to [FormGroup.valueChanges] stream
-  /// and submits every one automatically. Use [refresh]
-  /// to replace current subscription with a new one.
+  /// and submits every one automatically.
   /// Use [duration] (default 200 ms) to suppresses events
   /// with less inter-event spacing than given by [duration]
   /// Returns a stream of
   Stream<Data> autoSubmit(
     FormGroup formGroup, [
-    bool refresh = false,
     Duration duration = const Duration(milliseconds: 200),
   ]) {
-    bool dirty = _subscription == null || refresh;
-    if (dirty) {
-      _subscription?.cancel();
-      _subscription = formGroup.valueChanges.debounce(duration).listen((event) {
-        submit(event);
-      });
-    }
+    _subscription?.cancel();
+    _subscription = formGroup.valueChanges.debounce(duration).listen(
+          submit,
+        );
     return _autoSubmits.stream;
   }
 
@@ -66,7 +61,7 @@ mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
         return await save(data) ? Optional.of(data) : latest;
       });
       if (_shouldNotify) {
-        _autoSubmits.add(latest.value);
+        _autoSubmits.add(state.value!.value);
       }
     }
     // ignore: invalid_use_of_visible_for_overriding_member
