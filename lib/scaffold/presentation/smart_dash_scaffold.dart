@@ -51,6 +51,7 @@ class _SmartDashScaffoldState extends ConsumerState<SmartDashScaffold> {
         desktop: _DesktopScaffold(
           widget: widget,
           isPage: isPage,
+          withMenu: !isFullscreen,
         ),
       ),
     );
@@ -61,19 +62,22 @@ class _DesktopScaffold extends StatelessWidget {
   const _DesktopScaffold({
     required this.widget,
     required this.isPage,
+    required this.withMenu,
   });
 
   final SmartDashScaffold widget;
   final bool isPage;
+  final bool withMenu;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          SmartDashNavigationRail(
-            location: widget.location,
-          ),
+          if (withMenu)
+            SmartDashNavigationRail(
+              location: widget.location,
+            ),
           Expanded(
             child: Padding(
               padding: isPage
