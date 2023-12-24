@@ -34,7 +34,7 @@ class _SmartDashScaffoldState extends ConsumerState<SmartDashScaffold> {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onLongPressDown: (_) {
+      onLongPress: () {
         FullscreenState.notifier(ref).toggle();
       },
       child: ResponsiveWidget(
