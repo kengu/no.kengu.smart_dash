@@ -37,7 +37,7 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
         if (weather == null) {
           return SmartDashTile(
             title: 'Weather Now',
-            // TODO: Make location configurable
+            // TODO: Make location name configurable
             subTitle: 'Tindefjell',
             constraints: constraints,
             leading: const Icon(
@@ -60,7 +60,9 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
           );
         }
         final instant = weather.data.instant;
+        final next4h = weather.data.next1h;
         final meta = snapshot.data!.props.meta;
+        final airTemp = (instant.details.airTemperature ?? 0);
         return SmartDashTile(
           title: 'Weather Now',
           // TODO: Make location configurable
@@ -79,6 +81,8 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
             textScaler: const TextScaler.linear(1.2),
           ),
           body: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: ConstrainedBox(
@@ -86,6 +90,7 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _toSymbol(weather, 100),
                       Column(
@@ -126,6 +131,27 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
                               ),
                             ],
                           ),
+                          if (next4h != null) ...[
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.snowing,
+                                  color: legendColor,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _toPrecipitationAmount(next4h, airTemp),
+                                ),
+                                Text(
+                                  airTemp > 0 ? ' mm rain' : ' cm snow',
+                                  style: textStyle,
+                                )
+                              ],
+                            ),
+                          ],
                           const SizedBox(height: 8),
                           Row(
                             mainAxisSize: MainAxisSize.min,
@@ -197,6 +223,46 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
         );
       },
     );
+  }
+
+  String _toPrecipitationAmount(WeatherForecast next4h, double temp) {
+    if (temp > 0) {
+      return '${next4h.details.precipitationAmount?.toStringAsFixed(1)}';
+    }
+
+    final amountInMm = next4h.details.precipitationAmount ?? 0;
+    final ratioInCm = _calcSnowRatioInInches(temp) * 2.54 / 10;
+    return (amountInMm * ratioInCm).toStringAsFixed(1);
+  }
+
+  // From https://goodcalculators.com/rain-to-snow-calculator/
+  double _calcSnowRatioInInches(double temp) {
+    // 1 to -2
+    if (temp <= 1 && temp > -3) {
+      return 10;
+    }
+    // -3 to -7
+    else if (temp <= -3 && temp > -8) {
+      return 15;
+    }
+    // -7 to -9
+    else if (temp <= -7 && temp > -10) {
+      return 20;
+    }
+    // -10 to -12
+    else if (temp <= -10 && temp > -13) {
+      return 30;
+    }
+    // -13 to -18
+    else if (temp <= -13 && temp > -19) {
+      return 40;
+    }
+    // -18 to -29
+    else if (temp <= -18 && temp > -30) {
+      return 50;
+    }
+    // <-29
+    return 100;
   }
 
   Widget _buildForecast(

@@ -36,24 +36,21 @@ class SmartDashTile extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  dense: true,
-                  title: Text(
-                    title,
-                    textScaler: const TextScaler.linear(0.9),
-                  ),
-                  subtitle: Text(
-                    subTitle,
-                    style: TextStyle(color: subTitleColor),
-                    textScaler: const TextScaler.linear(0.85),
-                  ),
-                  minLeadingWidth: 8,
-                  style: ListTileStyle.drawer,
-                  leading: leading,
-                  trailing: trailing,
+              ListTile(
+                dense: true,
+                title: Text(
+                  title,
+                  textScaler: const TextScaler.linear(0.9),
                 ),
+                subtitle: Text(
+                  subTitle,
+                  style: TextStyle(color: subTitleColor),
+                  textScaler: const TextScaler.linear(0.85),
+                ),
+                minLeadingWidth: 8,
+                style: ListTileStyle.drawer,
+                leading: leading,
+                trailing: trailing,
               ),
               const Spacer(),
               Expanded(
