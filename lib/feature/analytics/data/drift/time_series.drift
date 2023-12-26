@@ -5,7 +5,7 @@ CREATE TABLE TimeSeriesTable (
     name TEXT NOT NULL,
     ts DATETIME NOT NULL,
     span INT NOT NULL,
-    UNIQUE (name)
+    UNIQUE (name, ts)
 );
 
 
@@ -13,23 +13,27 @@ CREATE TABLE DataVectorTable (
     id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
     idx INT NOT NULL,
     name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    ts DATETIME NOT NULL,
     data TEXT NOT NULL,
     type ENUMNAME(DataVectorType) NOT NULL,
-    UNIQUE (name, idx)
+    UNIQUE (name, ts, idx)
 
 );
 
 CREATE TABLE DataCoordsTable (
-    name TEXT NOT NULL PRIMARY KEY REFERENCES TimeSeriesTable (name),
+    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    ts DATETIME NOT NULL,
     data TEXT NOT NULL,
-    UNIQUE (name)
+    UNIQUE (name, ts)
 );
 
 CREATE TABLE DataDimsTable (
     id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    ts DATETIME NOT NULL,
     data TEXT NOT NULL,
-    UNIQUE (name)
+    UNIQUE (name, ts)
 );
 
 -- Queries
@@ -39,16 +43,16 @@ CREATE TABLE DataDimsTable (
  */
 
 -- Get time series with exact name match
-getFromExactName(:name AS TEXT): SELECT * FROM TimeSeriesTable WHERE name = :name;
+getFromExactName(:name AS TEXT, :ts AS DATETIME): SELECT * FROM TimeSeriesTable WHERE name = :name and ts = :ts;
 
 -- Get all data vectors referencing given TimeSeries id
-getVectorsFromName(:name AS TEXT): SELECT * FROM DataVectorTable WHERE name = :name;
+getVectorsFromName(:name AS TEXT, :ts AS DATETIME): SELECT * FROM DataVectorTable WHERE name = :name and ts = :ts;
 
 -- Get data coordinates referencing given TimeSeries id
-getCoordsFromName(:name AS TEXT): SELECT * FROM DataCoordsTable WHERE name = :name;
+getCoordsFromName(:name AS TEXT, :ts AS DATETIME): SELECT * FROM DataCoordsTable WHERE name = :name and ts = :ts;
 
 -- Get data dimensions referencing given TimeSeries id
-getDimsFromName(:name AS TEXT): SELECT * FROM DataDimsTable WHERE name = :name;
+getDimsFromName(:name AS TEXT, :ts AS DATETIME): SELECT * FROM DataDimsTable WHERE name = :name and ts = :ts;
 
 -- Insert time series with given name
 insertTimeSeries(:name,:ts,:span): INSERT INTO TimeSeriesTable(name, ts, span) VALUES(:name, :ts, :span);

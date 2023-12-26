@@ -20,34 +20,42 @@ class TimeSeriesRepository {
   Ref ref;
   TimeSeriesDatabase db;
 
-  Future<Optional<List<Token>>> getTokens() => guard(() async {
-        final result = await db.select(db.timeSeriesTable).get();
+  Future<Optional<List<Token>>> getTokens(DateTime when) => guard(() async {
+        final select = db.select(db.timeSeriesTable)
+          ..where((t) => t.ts.equals(when));
+        final result = await select.get();
         return Optional.of(result.map((t) => Tokens.from(t.name)).toList());
       });
 
-  Future<Optional<List<TimeSeries>>> getAll(List<Token> tokens) async {
-    return Optional.of(await _load(tokens));
+  Future<Optional<List<TimeSeries>>> getAll(
+      List<Token> tokens, DateTime when) async {
+    return Optional.of(await _load(tokens, when));
   }
 
-  Future<List<TimeSeries>> _load(List<Token> tokens) => guard(() async {
+  Future<List<TimeSeries>> _load(List<Token> tokens, DateTime when) =>
+      guard(() async {
         final select = db.select(db.timeSeriesTable);
         for (var token in tokens) {
-          select.where((t) => t.name.equals(token.name));
+          select.where((t) => t.name.equals(token.name) & t.ts.equals(when));
         }
         final result = await select.get();
-        return await Future.wait(result.map(_fetch));
+        return await Future.wait(result.map(
+          (data) => _fetch(data, when),
+        ));
       }, task: 'TimeSeriesRepository::_load()');
 
-  Future<Optional<TimeSeries>> get(Token token) => guard(() async {
-        final found = await db.getFromExactName(token.name).getSingleOrNull();
-        if (found == null) {
+  Future<Optional<TimeSeries>> get(Token token, DateTime when) =>
+      guard(() async {
+        final data =
+            await db.getFromExactName(token.name, when).getSingleOrNull();
+        if (data == null) {
           return const Optional.empty();
         }
-        return Optional.of(await _fetch(found));
+        return Optional.of(await _fetch(data, when));
       }, task: 'TimeSeriesRepository::get()');
 
-  Future<TimeSeries> _fetch(TimeSeriesTableData found) async {
-    final vectors = await db.getVectorsFromName(found.name).get();
+  Future<TimeSeries> _fetch(TimeSeriesTableData found, DateTime when) async {
+    final vectors = await db.getVectorsFromName(found.name, when).get();
     final data = vectors.map((v) {
       switch (v.type) {
         case DataVectorType.int:
@@ -56,8 +64,9 @@ class TimeSeriesRepository {
           return List.from(jsonDecode(v.data)).cast<double>();
       }
     }).toList();
-    final coords = await db.getCoordsFromName(found.name).getSingleOrNull();
-    final dims = await db.getDimsFromName(found.name).getSingleOrNull();
+    final coords =
+        await db.getCoordsFromName(found.name, when).getSingleOrNull();
+    final dims = await db.getDimsFromName(found.name, when).getSingleOrNull();
     return TimeSeries(
       name: found.name,
       offset: found.ts,
@@ -75,7 +84,9 @@ class TimeSeriesRepository {
 
   Future<bool> save(TimeSeries series) => guard(() {
         return db.transaction(() async {
-          final row = await db.getFromExactName(series.name).getSingleOrNull();
+          final row = await db
+              .getFromExactName(series.name, series.offset)
+              .getSingleOrNull();
           return row == null ? await _insert(series) : await _update(series);
         });
       }, task: 'TimeSeriesRepository::save()');
@@ -94,6 +105,7 @@ class TimeSeriesRepository {
             db.dataVectorTable,
             DataVectorTableCompanion(
               idx: Value(idx),
+              ts: Value(series.offset),
               name: Value(series.name),
               data: Value(jsonEncode(column)),
               type: Value(DataVectorType.from(column)),
@@ -104,12 +116,14 @@ class TimeSeriesRepository {
             db.dataCoordsTable,
             DataCoordsTableCompanion(
               name: Value(series.name),
+              ts: Value(series.offset),
               data: Value(jsonEncode(series.array.coords)),
             ));
         batch.insert(
             db.dataDimsTable,
             DataDimsTableCompanion(
               name: Value(series.name),
+              ts: Value(series.offset),
               data: Value(jsonEncode(series.array.dims)),
             ));
       });
@@ -125,7 +139,7 @@ class TimeSeriesRepository {
           ts: Value(series.offset),
           span: Value(series.span.inMicroseconds),
         ),
-        where: (t) => t.name.equals(series.name),
+        where: (t) => t.name.equals(series.name) & t.ts.equals(series.offset),
       );
       _updateVectors(series, batch);
       batch.update(
@@ -133,14 +147,14 @@ class TimeSeriesRepository {
         DataCoordsTableCompanion(
           data: Value(jsonEncode(series.array.coords)),
         ),
-        where: (t) => t.name.equals(series.name),
+        where: (t) => t.name.equals(series.name) & t.ts.equals(series.offset),
       );
       batch.update(
         db.dataDimsTable,
         DataDimsTableCompanion(
           data: Value(jsonEncode(series.array.dims)),
         ),
-        where: (t) => t.name.equals(series.name),
+        where: (t) => t.name.equals(series.name) & t.ts.equals(series.offset),
       );
     });
     return true;
@@ -154,7 +168,10 @@ class TimeSeriesRepository {
         DataVectorTableCompanion(
           data: Value(jsonEncode(column)),
         ),
-        where: (t) => t.name.equals(series.name) & t.idx.equals(idx),
+        where: (t) =>
+            t.name.equals(series.name) &
+            t.ts.equals(series.offset) &
+            t.idx.equals(idx),
       );
     }
   }

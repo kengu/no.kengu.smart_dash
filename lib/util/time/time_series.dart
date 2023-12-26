@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
@@ -227,8 +229,9 @@ extension TimeSeriesX on TimeSeries {
       if (delta > 1) {
         // Insert gaps between end and new point in history
         final padding = delta - 1;
-        data = data.padAt(count - 1, padding, pad);
-        coords = coords.padAt(count - 1, padding, {});
+        final minIdx = math.max(0, count - 1);
+        data = data.padAt(minIdx, padding, pad);
+        coords = coords.padAt(minIdx, padding, {});
         debugPrint(
           'record($name): PAD [$padding](length:${data.length}) $value @ $ts',
         );

@@ -74,7 +74,7 @@ class TimeSeriesTable extends Table
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {name},
+        {name, ts},
       ];
   @override
   TimeSeriesTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
@@ -97,7 +97,7 @@ class TimeSeriesTable extends Table
   }
 
   @override
-  List<String> get customConstraints => const ['UNIQUE(name)'];
+  List<String> get customConstraints => const ['UNIQUE(name, ts)'];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -276,6 +276,12 @@ class DataVectorTable extends Table
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES TimeSeriesTable(name)');
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+      'ts', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
@@ -290,7 +296,7 @@ class DataVectorTable extends Table
               $customConstraints: 'NOT NULL')
           .withConverter<DataVectorType>(DataVectorTable.$convertertype);
   @override
-  List<GeneratedColumn> get $columns => [id, idx, name, data, type];
+  List<GeneratedColumn> get $columns => [id, idx, name, ts, data, type];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -317,6 +323,11 @@ class DataVectorTable extends Table
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
+    }
     if (data.containsKey('data')) {
       context.handle(
           _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
@@ -331,7 +342,7 @@ class DataVectorTable extends Table
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {name, idx},
+        {name, ts, idx},
       ];
   @override
   DataVectorTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
@@ -343,6 +354,8 @@ class DataVectorTable extends Table
           .read(DriftSqlType.int, data['${effectivePrefix}idx'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      ts: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}ts'])!,
       data: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
       type: DataVectorTable.$convertertype.fromSql(attachedDatabase.typeMapping
@@ -358,7 +371,7 @@ class DataVectorTable extends Table
   static JsonTypeConverter2<DataVectorType, String, String> $convertertype =
       const EnumNameConverter<DataVectorType>(DataVectorType.values);
   @override
-  List<String> get customConstraints => const ['UNIQUE(name, idx)'];
+  List<String> get customConstraints => const ['UNIQUE(name, ts, idx)'];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -368,12 +381,14 @@ class DataVectorTableData extends DataClass
   final int id;
   final int idx;
   final String name;
+  final DateTime ts;
   final String data;
   final DataVectorType type;
   const DataVectorTableData(
       {required this.id,
       required this.idx,
       required this.name,
+      required this.ts,
       required this.data,
       required this.type});
   @override
@@ -382,6 +397,7 @@ class DataVectorTableData extends DataClass
     map['id'] = Variable<int>(id);
     map['idx'] = Variable<int>(idx);
     map['name'] = Variable<String>(name);
+    map['ts'] = Variable<DateTime>(ts);
     map['data'] = Variable<String>(data);
     {
       map['type'] =
@@ -397,6 +413,7 @@ class DataVectorTableData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       idx: serializer.fromJson<int>(json['idx']),
       name: serializer.fromJson<String>(json['name']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
       data: serializer.fromJson<String>(json['data']),
       type: DataVectorTable.$convertertype
           .fromJson(serializer.fromJson<String>(json['type'])),
@@ -409,6 +426,7 @@ class DataVectorTableData extends DataClass
       'id': serializer.toJson<int>(id),
       'idx': serializer.toJson<int>(idx),
       'name': serializer.toJson<String>(name),
+      'ts': serializer.toJson<DateTime>(ts),
       'data': serializer.toJson<String>(data),
       'type': serializer
           .toJson<String>(DataVectorTable.$convertertype.toJson(type)),
@@ -419,12 +437,14 @@ class DataVectorTableData extends DataClass
           {int? id,
           int? idx,
           String? name,
+          DateTime? ts,
           String? data,
           DataVectorType? type}) =>
       DataVectorTableData(
         id: id ?? this.id,
         idx: idx ?? this.idx,
         name: name ?? this.name,
+        ts: ts ?? this.ts,
         data: data ?? this.data,
         type: type ?? this.type,
       );
@@ -434,6 +454,7 @@ class DataVectorTableData extends DataClass
           ..write('id: $id, ')
           ..write('idx: $idx, ')
           ..write('name: $name, ')
+          ..write('ts: $ts, ')
           ..write('data: $data, ')
           ..write('type: $type')
           ..write(')'))
@@ -441,7 +462,7 @@ class DataVectorTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, idx, name, data, type);
+  int get hashCode => Object.hash(id, idx, name, ts, data, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -449,6 +470,7 @@ class DataVectorTableData extends DataClass
           other.id == this.id &&
           other.idx == this.idx &&
           other.name == this.name &&
+          other.ts == this.ts &&
           other.data == this.data &&
           other.type == this.type);
 }
@@ -457,12 +479,14 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
   final Value<int> id;
   final Value<int> idx;
   final Value<String> name;
+  final Value<DateTime> ts;
   final Value<String> data;
   final Value<DataVectorType> type;
   const DataVectorTableCompanion({
     this.id = const Value.absent(),
     this.idx = const Value.absent(),
     this.name = const Value.absent(),
+    this.ts = const Value.absent(),
     this.data = const Value.absent(),
     this.type = const Value.absent(),
   });
@@ -470,16 +494,19 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
     this.id = const Value.absent(),
     required int idx,
     required String name,
+    required DateTime ts,
     required String data,
     required DataVectorType type,
   })  : idx = Value(idx),
         name = Value(name),
+        ts = Value(ts),
         data = Value(data),
         type = Value(type);
   static Insertable<DataVectorTableData> custom({
     Expression<int>? id,
     Expression<int>? idx,
     Expression<String>? name,
+    Expression<DateTime>? ts,
     Expression<String>? data,
     Expression<String>? type,
   }) {
@@ -487,6 +514,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
       if (id != null) 'id': id,
       if (idx != null) 'idx': idx,
       if (name != null) 'name': name,
+      if (ts != null) 'ts': ts,
       if (data != null) 'data': data,
       if (type != null) 'type': type,
     });
@@ -496,12 +524,14 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
       {Value<int>? id,
       Value<int>? idx,
       Value<String>? name,
+      Value<DateTime>? ts,
       Value<String>? data,
       Value<DataVectorType>? type}) {
     return DataVectorTableCompanion(
       id: id ?? this.id,
       idx: idx ?? this.idx,
       name: name ?? this.name,
+      ts: ts ?? this.ts,
       data: data ?? this.data,
       type: type ?? this.type,
     );
@@ -519,6 +549,9 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
     if (data.present) {
       map['data'] = Variable<String>(data.value);
     }
@@ -535,6 +568,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
           ..write('id: $id, ')
           ..write('idx: $idx, ')
           ..write('name: $name, ')
+          ..write('ts: $ts, ')
           ..write('data: $data, ')
           ..write('type: $type')
           ..write(')'))
@@ -548,13 +582,25 @@ class DataCoordsTable extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DataCoordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints:
-          'NOT NULL PRIMARY KEY REFERENCES TimeSeriesTable(name)');
+      $customConstraints: 'NOT NULL REFERENCES TimeSeriesTable(name)');
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+      'ts', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
@@ -562,7 +608,7 @@ class DataCoordsTable extends Table
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [name, data];
+  List<GeneratedColumn> get $columns => [id, name, ts, data];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -574,11 +620,19 @@ class DataCoordsTable extends Table
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
     }
     if (data.containsKey('data')) {
       context.handle(
@@ -590,17 +644,21 @@ class DataCoordsTable extends Table
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {name};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {name},
+        {name, ts},
       ];
   @override
   DataCoordsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DataCoordsTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      ts: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}ts'])!,
       data: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
     );
@@ -612,20 +670,28 @@ class DataCoordsTable extends Table
   }
 
   @override
-  List<String> get customConstraints => const ['UNIQUE(name)'];
+  List<String> get customConstraints => const ['UNIQUE(name, ts)'];
   @override
   bool get dontWriteConstraints => true;
 }
 
 class DataCoordsTableData extends DataClass
     implements Insertable<DataCoordsTableData> {
+  final int id;
   final String name;
+  final DateTime ts;
   final String data;
-  const DataCoordsTableData({required this.name, required this.data});
+  const DataCoordsTableData(
+      {required this.id,
+      required this.name,
+      required this.ts,
+      required this.data});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
+    map['ts'] = Variable<DateTime>(ts);
     map['data'] = Variable<String>(data);
     return map;
   }
@@ -634,7 +700,9 @@ class DataCoordsTableData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DataCoordsTableData(
+      id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
       data: serializer.fromJson<String>(json['data']),
     );
   }
@@ -642,82 +710,104 @@ class DataCoordsTableData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'ts': serializer.toJson<DateTime>(ts),
       'data': serializer.toJson<String>(data),
     };
   }
 
-  DataCoordsTableData copyWith({String? name, String? data}) =>
+  DataCoordsTableData copyWith(
+          {int? id, String? name, DateTime? ts, String? data}) =>
       DataCoordsTableData(
+        id: id ?? this.id,
         name: name ?? this.name,
+        ts: ts ?? this.ts,
         data: data ?? this.data,
       );
   @override
   String toString() {
     return (StringBuffer('DataCoordsTableData(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('ts: $ts, ')
           ..write('data: $data')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(name, data);
+  int get hashCode => Object.hash(id, name, ts, data);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DataCoordsTableData &&
+          other.id == this.id &&
           other.name == this.name &&
+          other.ts == this.ts &&
           other.data == this.data);
 }
 
 class DataCoordsTableCompanion extends UpdateCompanion<DataCoordsTableData> {
+  final Value<int> id;
   final Value<String> name;
+  final Value<DateTime> ts;
   final Value<String> data;
-  final Value<int> rowid;
   const DataCoordsTableCompanion({
+    this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.ts = const Value.absent(),
     this.data = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   DataCoordsTableCompanion.insert({
+    this.id = const Value.absent(),
     required String name,
+    required DateTime ts,
     required String data,
-    this.rowid = const Value.absent(),
   })  : name = Value(name),
+        ts = Value(ts),
         data = Value(data);
   static Insertable<DataCoordsTableData> custom({
+    Expression<int>? id,
     Expression<String>? name,
+    Expression<DateTime>? ts,
     Expression<String>? data,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (ts != null) 'ts': ts,
       if (data != null) 'data': data,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   DataCoordsTableCompanion copyWith(
-      {Value<String>? name, Value<String>? data, Value<int>? rowid}) {
+      {Value<int>? id,
+      Value<String>? name,
+      Value<DateTime>? ts,
+      Value<String>? data}) {
     return DataCoordsTableCompanion(
+      id: id ?? this.id,
       name: name ?? this.name,
+      ts: ts ?? this.ts,
       data: data ?? this.data,
-      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
     if (data.present) {
       map['data'] = Variable<String>(data.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -725,9 +815,10 @@ class DataCoordsTableCompanion extends UpdateCompanion<DataCoordsTableData> {
   @override
   String toString() {
     return (StringBuffer('DataCoordsTableCompanion(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('data: $data, ')
-          ..write('rowid: $rowid')
+          ..write('ts: $ts, ')
+          ..write('data: $data')
           ..write(')'))
         .toString();
   }
@@ -752,6 +843,12 @@ class DataDimsTable extends Table
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES TimeSeriesTable(name)');
+  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
+  late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
+      'ts', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
@@ -759,7 +856,7 @@ class DataDimsTable extends Table
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [id, name, data];
+  List<GeneratedColumn> get $columns => [id, name, ts, data];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -779,6 +876,11 @@ class DataDimsTable extends Table
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('ts')) {
+      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
+    } else if (isInserting) {
+      context.missing(_tsMeta);
+    }
     if (data.containsKey('data')) {
       context.handle(
           _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
@@ -792,7 +894,7 @@ class DataDimsTable extends Table
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {name},
+        {name, ts},
       ];
   @override
   DataDimsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
@@ -802,6 +904,8 @@ class DataDimsTable extends Table
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      ts: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}ts'])!,
       data: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
     );
@@ -813,7 +917,7 @@ class DataDimsTable extends Table
   }
 
   @override
-  List<String> get customConstraints => const ['UNIQUE(name)'];
+  List<String> get customConstraints => const ['UNIQUE(name, ts)'];
   @override
   bool get dontWriteConstraints => true;
 }
@@ -822,14 +926,19 @@ class DataDimsTableData extends DataClass
     implements Insertable<DataDimsTableData> {
   final int id;
   final String name;
+  final DateTime ts;
   final String data;
   const DataDimsTableData(
-      {required this.id, required this.name, required this.data});
+      {required this.id,
+      required this.name,
+      required this.ts,
+      required this.data});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
+    map['ts'] = Variable<DateTime>(ts);
     map['data'] = Variable<String>(data);
     return map;
   }
@@ -840,6 +949,7 @@ class DataDimsTableData extends DataClass
     return DataDimsTableData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      ts: serializer.fromJson<DateTime>(json['ts']),
       data: serializer.fromJson<String>(json['data']),
     );
   }
@@ -849,14 +959,17 @@ class DataDimsTableData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'ts': serializer.toJson<DateTime>(ts),
       'data': serializer.toJson<String>(data),
     };
   }
 
-  DataDimsTableData copyWith({int? id, String? name, String? data}) =>
+  DataDimsTableData copyWith(
+          {int? id, String? name, DateTime? ts, String? data}) =>
       DataDimsTableData(
         id: id ?? this.id,
         name: name ?? this.name,
+        ts: ts ?? this.ts,
         data: data ?? this.data,
       );
   @override
@@ -864,54 +977,66 @@ class DataDimsTableData extends DataClass
     return (StringBuffer('DataDimsTableData(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('ts: $ts, ')
           ..write('data: $data')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, data);
+  int get hashCode => Object.hash(id, name, ts, data);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DataDimsTableData &&
           other.id == this.id &&
           other.name == this.name &&
+          other.ts == this.ts &&
           other.data == this.data);
 }
 
 class DataDimsTableCompanion extends UpdateCompanion<DataDimsTableData> {
   final Value<int> id;
   final Value<String> name;
+  final Value<DateTime> ts;
   final Value<String> data;
   const DataDimsTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.ts = const Value.absent(),
     this.data = const Value.absent(),
   });
   DataDimsTableCompanion.insert({
     this.id = const Value.absent(),
     required String name,
+    required DateTime ts,
     required String data,
   })  : name = Value(name),
+        ts = Value(ts),
         data = Value(data);
   static Insertable<DataDimsTableData> custom({
     Expression<int>? id,
     Expression<String>? name,
+    Expression<DateTime>? ts,
     Expression<String>? data,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (ts != null) 'ts': ts,
       if (data != null) 'data': data,
     });
   }
 
   DataDimsTableCompanion copyWith(
-      {Value<int>? id, Value<String>? name, Value<String>? data}) {
+      {Value<int>? id,
+      Value<String>? name,
+      Value<DateTime>? ts,
+      Value<String>? data}) {
     return DataDimsTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      ts: ts ?? this.ts,
       data: data ?? this.data,
     );
   }
@@ -925,6 +1050,9 @@ class DataDimsTableCompanion extends UpdateCompanion<DataDimsTableData> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (ts.present) {
+      map['ts'] = Variable<DateTime>(ts.value);
+    }
     if (data.present) {
       map['data'] = Variable<String>(data.value);
     }
@@ -936,6 +1064,7 @@ class DataDimsTableCompanion extends UpdateCompanion<DataDimsTableData> {
     return (StringBuffer('DataDimsTableCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('ts: $ts, ')
           ..write('data: $data')
           ..write(')'))
         .toString();
@@ -948,40 +1077,48 @@ abstract class _$TimeSeriesDatabase extends GeneratedDatabase {
   late final DataVectorTable dataVectorTable = DataVectorTable(this);
   late final DataCoordsTable dataCoordsTable = DataCoordsTable(this);
   late final DataDimsTable dataDimsTable = DataDimsTable(this);
-  Selectable<TimeSeriesTableData> getFromExactName(String name) {
-    return customSelect('SELECT * FROM TimeSeriesTable WHERE name = ?1',
+  Selectable<TimeSeriesTableData> getFromExactName(String name, DateTime ts) {
+    return customSelect(
+        'SELECT * FROM TimeSeriesTable WHERE name = ?1 AND ts = ?2',
         variables: [
-          Variable<String>(name)
+          Variable<String>(name),
+          Variable<DateTime>(ts)
         ],
         readsFrom: {
           timeSeriesTable,
         }).asyncMap(timeSeriesTable.mapFromRow);
   }
 
-  Selectable<DataVectorTableData> getVectorsFromName(String name) {
-    return customSelect('SELECT * FROM DataVectorTable WHERE name = ?1',
+  Selectable<DataVectorTableData> getVectorsFromName(String name, DateTime ts) {
+    return customSelect(
+        'SELECT * FROM DataVectorTable WHERE name = ?1 AND ts = ?2',
         variables: [
-          Variable<String>(name)
+          Variable<String>(name),
+          Variable<DateTime>(ts)
         ],
         readsFrom: {
           dataVectorTable,
         }).asyncMap(dataVectorTable.mapFromRow);
   }
 
-  Selectable<DataCoordsTableData> getCoordsFromName(String name) {
-    return customSelect('SELECT * FROM DataCoordsTable WHERE name = ?1',
+  Selectable<DataCoordsTableData> getCoordsFromName(String name, DateTime ts) {
+    return customSelect(
+        'SELECT * FROM DataCoordsTable WHERE name = ?1 AND ts = ?2',
         variables: [
-          Variable<String>(name)
+          Variable<String>(name),
+          Variable<DateTime>(ts)
         ],
         readsFrom: {
           dataCoordsTable,
         }).asyncMap(dataCoordsTable.mapFromRow);
   }
 
-  Selectable<DataDimsTableData> getDimsFromName(String name) {
-    return customSelect('SELECT * FROM DataDimsTable WHERE name = ?1',
+  Selectable<DataDimsTableData> getDimsFromName(String name, DateTime ts) {
+    return customSelect(
+        'SELECT * FROM DataDimsTable WHERE name = ?1 AND ts = ?2',
         variables: [
-          Variable<String>(name)
+          Variable<String>(name),
+          Variable<DateTime>(ts)
         ],
         readsFrom: {
           dataDimsTable,

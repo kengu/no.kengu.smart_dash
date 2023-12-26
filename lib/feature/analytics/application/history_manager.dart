@@ -85,28 +85,30 @@ class HistoryManager {
     }
   }
 
-  Stream<TimeSeries> all() async* {
+  Stream<TimeSeries> all([DateTime? when]) async* {
     final repo = ref.read(timeSeriesRepositoryProvider);
     for (final token in _tokens.keys) {
-      final result = await repo.get(token);
+      final result = await repo.get(token, toOffset(when));
       if (result.isPresent) {
         yield result.value;
       }
     }
   }
 
-  Future<Optional<TimeSeries>> get(Token token) => guard(() async {
+  Future<Optional<TimeSeries>> get(Token token, [DateTime? when]) =>
+      guard(() async {
         final repo = ref.read(timeSeriesRepositoryProvider);
-        return await repo.get(token);
+        return await repo.get(token, toOffset(when));
       });
 
   Future<void> _onHandle(FlowEvent event) => guard<void>(() async {
         final repo = ref.read(timeSeriesRepositoryProvider);
-        final result = await repo.get(event.token);
+        final offset = toOffset();
+        final result = await repo.get(event.token, offset);
         var history = result.isPresent
             ? result.value
             : TimeSeries(
-                offset: DateTime.now(),
+                offset: offset,
                 name: event.token.name,
                 span: TimeScale.minutes.to(),
                 array: DataArray.size(1, [event.token.toJson()]),
@@ -122,7 +124,7 @@ class HistoryManager {
             await repo.save(next);
             _controller.add(HistoryEvent(
               event.token,
-              result.value,
+              next,
             ));
           }
         }
@@ -148,6 +150,11 @@ class HistoryManager {
     throw UnsupportedError(
       'Unsupported value type ${value.runtimeType}',
     );
+  }
+
+  static DateTime toOffset([DateTime? when]) {
+    when ??= DateTime.now();
+    return DateTime(when.year, when.month, when.day);
   }
 }
 
