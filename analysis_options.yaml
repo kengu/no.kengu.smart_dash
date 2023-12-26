@@ -39,3 +39,4 @@ custom_lint:
   rules:
     # Explicitly disable one lint rule
     - avoid_build_context_in_providers: false
+    - avoid_manual_providers_as_generated_provider_dependency: false
