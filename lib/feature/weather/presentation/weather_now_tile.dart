@@ -8,7 +8,7 @@ import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.d
 import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 
-class WeatherNowTile<T extends num> extends ConsumerWidget {
+class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
   const WeatherNowTile({
     super.key,
     required this.lat,
@@ -18,23 +18,30 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
   final double lat;
   final double lon;
 
+  @override
+  ConsumerState<WeatherNowTile> createState() => _WeatherNowTileState();
+}
+
+class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
   static const constraints = BoxConstraints(
     minWidth: 270,
     minHeight: 180,
   );
 
+  int _selected = 0;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
-    final legendColor = surfaceColor.lighten(0.2);
-    final textStyle = getLegendTextStyle(context);
+  Widget build(BuildContext context) {
     final service = ref.watch(weatherServiceProvider);
     return FutureBuilder<Weather>(
-      future: service.getWeather(lat, lon),
+      future: service.getWeather(widget.lat, widget.lon),
       builder: (context, snapshot) {
         final now = DateTime.now();
         final weather = _select(snapshot.data, now);
-        if (weather == null) {
+        final details = _selected == 0
+            ? weather
+            : _select(snapshot.data, now.add(Duration(hours: _selected)));
+        if (details == null) {
           return SmartDashTile(
             title: 'Weather Now',
             // TODO: Make location name configurable
@@ -45,7 +52,7 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
               color: Colors.lightGreen,
             ),
             trailing: Text(
-              _toTemperature(weather?.data.instant),
+              _toTemperature(),
               style: const TextStyle(
                 color: Colors.lightGreen,
                 fontWeight: FontWeight.bold,
@@ -59,12 +66,8 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
             ),
           );
         }
-        final instant = weather.data.instant;
-        final next4h = weather.data.next1h;
-        final meta = snapshot.data!.props.meta;
-        final airTemp = (instant.details.airTemperature ?? 0);
         return SmartDashTile(
-          title: 'Weather Now',
+          title: 'Weather ${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
           subTitle: 'Tindefjell',
           constraints: constraints,
@@ -73,7 +76,7 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
             color: Colors.lightGreen,
           ),
           trailing: Text(
-            _toTemperature(instant),
+            _toTemperature(details.data.instant),
             style: const TextStyle(
               color: Colors.lightGreen,
               fontWeight: FontWeight.bold,
@@ -87,96 +90,9 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
               Expanded(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _toSymbol(weather, 100),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.air, color: legendColor),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${instant.details.windSpeed!.floor()}',
-                              ),
-                              if (instant.details.windSpeedOfGust != null)
-                                Text(
-                                  ' (${instant.details.windSpeedOfGust!.floor()})',
-                                  style: textStyle,
-                                ),
-                              Text(
-                                ' ${meta.units.windSpeed}',
-                                style: textStyle,
-                              ),
-                              const SizedBox(width: 4),
-                              Transform.rotate(
-                                angle: math.pi /
-                                    180 *
-                                    (instant.details.windFromDirection ?? 0.0),
-                                child:
-                                    const Icon(Icons.arrow_downward, size: 16),
-                              ),
-                              Text(
-                                ' ${Weather.toCompassDirection(
-                                  instant.details.windFromDirection,
-                                )}',
-                                style: textStyle,
-                              ),
-                            ],
-                          ),
-                          if (next4h != null) ...[
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.snowing,
-                                  color: legendColor,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  _toPrecipitationAmount(next4h, airTemp),
-                                ),
-                                Text(
-                                  airTemp > 0 ? ' mm rain' : ' cm snow',
-                                  style: textStyle,
-                                )
-                              ],
-                            ),
-                          ],
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              RotatedBox(
-                                quarterTurns: 1,
-                                child: Icon(
-                                  Icons.deblur,
-                                  color: legendColor,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${instant.details.cloudAreaFraction?.round()}',
-                              ),
-                              Text(
-                                ' ${meta.units.cloudAreaFraction} clouds',
-                                style: textStyle,
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: WeatherInstanceWidget(
+                    weather: details,
+                    meta: snapshot.data!.props.meta,
                   ),
                 ),
               ),
@@ -184,44 +100,244 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
               const Divider(),
               Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    const Spacer(),
-                    _buildForecast(
-                      snapshot.data,
-                      now: now,
-                      hours: 3,
-                      style: textStyle,
-                    ),
-                    const Spacer(),
-                    _buildForecast(
-                      snapshot.data,
-                      now: now,
-                      hours: 6,
-                      style: textStyle,
-                    ),
-                    const Spacer(),
-                    _buildForecast(
-                      snapshot.data,
-                      now: now,
-                      hours: 12,
-                      style: textStyle,
-                    ),
-                    const Spacer(),
-                    _buildForecast(
-                      snapshot.data,
-                      now: now,
-                      hours: 24,
-                      style: textStyle,
-                    ),
-                    const Spacer(),
-                  ],
+                child: SelectableForecastWidget(
+                  now: now,
+                  weather: snapshot.data,
+                  selected: _selected,
+                  onSelected: (index) => setState(() {
+                    _selected = _selected == index ? 0 : index;
+                  }),
                 ),
               )
             ],
           ),
         );
       },
+    );
+  }
+
+  String _toTemperature([WeatherInstant? data]) {
+    return '${data?.details.airTemperature ?? '-'} °C';
+  }
+}
+
+class SelectableForecastWidget extends StatelessWidget {
+  const SelectableForecastWidget({
+    super.key,
+    required this.now,
+    this.selected = 0,
+    required this.onSelected,
+    this.weather,
+  });
+
+  final DateTime now;
+  final Weather? weather;
+  final int selected;
+
+  final void Function(int index) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [3, 6, 12, 24]
+          .map((hours) => SelectableBoxWidget(
+                WeatherForecastWidget(
+                  weather,
+                  now: now,
+                  hours: hours,
+                ),
+                index: hours,
+                onSelected: onSelected,
+                isSelected: selected == hours,
+              ))
+          .toList() /*[
+            const Spacer(),
+            ConstrainedBox(
+              constraints: BoxConstraints.tight(
+                const Size.square(54),
+              ),
+              child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.red,
+                    ),
+                  ),
+                  child: WeatherForecastWidget(
+                    snapshot.data,
+                    now: now,
+                    hours: 3,
+                  )),
+            ),
+            const Spacer(),
+            WeatherForecastWidget(snapshot.data, now: now, hours: 6),
+            const Spacer(),
+            WeatherForecastWidget(snapshot.data, now: now, hours: 12),
+            const Spacer(),
+            WeatherForecastWidget(snapshot.data, now: now, hours: 4),
+            const Spacer(),
+          ]*/
+      ,
+    );
+  }
+}
+
+class SelectableBoxWidget extends StatelessWidget {
+  const SelectableBoxWidget(
+    this.child, {
+    super.key,
+    required this.index,
+    required this.onSelected,
+    this.isSelected = false,
+  });
+
+  final int index;
+  final Widget child;
+  final bool isSelected;
+
+  final void Function(int index) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onSelected(index);
+      },
+      child: isSelected
+          ? ConstrainedBox(
+              constraints: BoxConstraints.tight(
+                const Size.square(50),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Colors.lightGreen,
+                )),
+                child: child,
+              ),
+            )
+          : ConstrainedBox(
+              constraints: BoxConstraints.tight(
+                const Size.square(50),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: child,
+              ),
+            ),
+    );
+  }
+}
+
+class WeatherInstanceWidget extends StatelessWidget {
+  const WeatherInstanceWidget({
+    super.key,
+    required this.weather,
+    required this.meta,
+  });
+
+  final WeatherTimeStep weather;
+  final WeatherMeta meta;
+
+  @override
+  Widget build(BuildContext context) {
+    final next4h = weather.data.next1h;
+    final instant = weather.data.instant;
+    final airTemp = (instant.details.airTemperature ?? 0);
+    final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
+    final legendColor = surfaceColor.lighten(0.2);
+    final textStyle = getLegendTextStyle(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _toSymbol(weather, 120),
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.air, color: legendColor),
+                const SizedBox(width: 8),
+                Text(
+                  '${instant.details.windSpeed!.floor()}',
+                ),
+                if (instant.details.windSpeedOfGust != null)
+                  Text(
+                    ' (${instant.details.windSpeedOfGust!.floor()})',
+                    style: textStyle,
+                  ),
+                Text(
+                  ' ${meta.units.windSpeed}',
+                  style: textStyle,
+                ),
+                const SizedBox(width: 4),
+                Transform.rotate(
+                  angle: math.pi /
+                      180 *
+                      (instant.details.windFromDirection ?? 0.0),
+                  child: const Icon(Icons.arrow_downward, size: 16),
+                ),
+                Text(
+                  ' ${Weather.toCompassDirection(
+                    instant.details.windFromDirection,
+                  )}',
+                  style: textStyle,
+                ),
+              ],
+            ),
+            if (next4h != null) ...[
+              const SizedBox(height: 8),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.snowing,
+                    color: legendColor,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    _toPrecipitationAmount(next4h, airTemp),
+                  ),
+                  Text(
+                    airTemp > 0 ? ' mm rain' : ' cm snow',
+                    style: textStyle,
+                  )
+                ],
+              ),
+            ],
+            const SizedBox(height: 8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                RotatedBox(
+                  quarterTurns: 1,
+                  child: Icon(
+                    Icons.deblur,
+                    color: legendColor,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '${instant.details.cloudAreaFraction?.round()}',
+                ),
+                Text(
+                  ' ${meta.units.cloudAreaFraction} clouds',
+                  style: textStyle,
+                )
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -264,13 +380,30 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
     // <-29
     return 100;
   }
+}
 
-  Widget _buildForecast(
-    Weather? weather, {
-    required DateTime now,
-    required int hours,
-    required TextStyle style,
-  }) {
+Image _toSymbol(WeatherTimeStep step, double size) {
+  final code = step.data.next1h?.summary.symbolCode ?? '';
+  return Image.asset(
+    'assets/images/weather/$code.png',
+    width: size,
+  );
+}
+
+class WeatherForecastWidget extends StatelessWidget {
+  const WeatherForecastWidget(
+    this.weather, {
+    super.key,
+    required this.now,
+    required this.hours,
+  });
+
+  final DateTime now;
+  final int hours;
+  final Weather? weather;
+
+  @override
+  Widget build(BuildContext context) {
     final when = now.add(Duration(hours: hours));
     final forecast = _select(weather, when, false);
     final actual = forecast?.time.difference(now).inHours ?? hours;
@@ -278,71 +411,41 @@ class WeatherNowTile<T extends num> extends ConsumerWidget {
     return Column(
       children: [
         symbol,
-        Text('${actual}h', style: style),
+        Text(
+          '${actual}h',
+          style: getLegendTextStyle(context),
+        ),
       ],
     );
   }
+}
 
-  WeatherTimeStep? _select(Weather? weather,
-      [DateTime? now, bool closest = true]) {
-    WeatherTimeStep? step;
-    if (weather != null) {
-      final it = weather.props.timeseries.iterator;
-      if (it.moveNext()) {
-        step = it.current;
-        var looking = true;
-        now ??= DateTime.now().toUtc();
-        var delta = step.time.difference(now);
-        while (looking && it.moveNext()) {
-          if (closest) {
-            final next = it.current.time.difference(now).abs();
-            delta = delta.abs();
-            if (next < delta) {
-              step = it.current;
-              delta = next;
-            }
-            looking = delta.inMinutes >= 60;
-          } else {
-            if (looking = now.difference(step!.time).inMinutes > 0) {
-              step = it.current;
-            }
+WeatherTimeStep? _select(Weather? weather,
+    [DateTime? now, bool closest = true]) {
+  WeatherTimeStep? step;
+  if (weather != null) {
+    final it = weather.props.timeseries.iterator;
+    if (it.moveNext()) {
+      step = it.current;
+      var looking = true;
+      now ??= DateTime.now().toUtc();
+      var delta = step.time.difference(now);
+      while (looking && it.moveNext()) {
+        if (closest) {
+          final next = it.current.time.difference(now).abs();
+          delta = delta.abs();
+          if (next < delta) {
+            step = it.current;
+            delta = next;
+          }
+          looking = delta.inMinutes >= 60;
+        } else {
+          if (looking = now.difference(step!.time).inMinutes > 0) {
+            step = it.current;
           }
         }
       }
     }
-    return step;
   }
-
-  String _toTemperature(WeatherInstant? data) {
-    return '${data?.details.airTemperature ?? '-'} °C';
-  }
-
-  Image _toSymbol(WeatherTimeStep step, double size) {
-    final code = step.data.next1h?.summary.symbolCode ?? '';
-    return Image.asset(
-      'assets/images/weather/$code.png',
-      width: size,
-    );
-  }
-  /*
-  TimeSeries _prices(AsyncSnapshot<List<ElectricityPrice>> snapshot) {
-    final prices = snapshot.hasData
-        ? DataArray(
-            [snapshot.data!.map((e) => e.nokPerKwh).toList()],
-            coords: List.generate(
-              snapshot.data!.length,
-              (index) => {'hour': index},
-            ),
-            dims: [{}],
-          )
-        : DataArray.size(1, [{}]);
-    return TimeSeries(
-      name: 'price',
-      array: prices,
-      offset: when,
-      span: TimeScale.hours.to(),
-    );
-  }
-
-   */
+  return step;
 }
