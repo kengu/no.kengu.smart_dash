@@ -152,34 +152,7 @@ class SelectableForecastWidget extends StatelessWidget {
                 onSelected: onSelected,
                 isSelected: selected == hours,
               ))
-          .toList() /*[
-            const Spacer(),
-            ConstrainedBox(
-              constraints: BoxConstraints.tight(
-                const Size.square(54),
-              ),
-              child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.red,
-                    ),
-                  ),
-                  child: WeatherForecastWidget(
-                    snapshot.data,
-                    now: now,
-                    hours: 3,
-                  )),
-            ),
-            const Spacer(),
-            WeatherForecastWidget(snapshot.data, now: now, hours: 6),
-            const Spacer(),
-            WeatherForecastWidget(snapshot.data, now: now, hours: 12),
-            const Spacer(),
-            WeatherForecastWidget(snapshot.data, now: now, hours: 4),
-            const Spacer(),
-          ]*/
-      ,
+          .toList(),
     );
   }
 }
@@ -212,9 +185,13 @@ class SelectableBoxWidget extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                  color: Colors.lightGreen,
-                )),
+                  border: Border.all(
+                    color: Colors.lightGreen,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
                 child: child,
               ),
             )
@@ -348,7 +325,7 @@ class WeatherInstanceWidget extends StatelessWidget {
 
     final amountInMm = next4h.details.precipitationAmount ?? 0;
     final ratioInCm = _calcSnowRatioInInches(temp) * 2.54 / 10;
-    return (amountInMm * ratioInCm).toStringAsFixed(1);
+    return (amountInMm * ratioInCm).toStringAsFixed(0);
   }
 
   // From https://goodcalculators.com/rain-to-snow-calculator/
