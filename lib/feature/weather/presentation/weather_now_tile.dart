@@ -364,6 +364,7 @@ Image _toSymbol(WeatherTimeStep step, double size) {
   return Image.asset(
     'assets/images/weather/$code.png',
     width: size,
+    cacheWidth: size.toInt(),
   );
 }
 
