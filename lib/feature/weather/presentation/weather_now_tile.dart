@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
@@ -32,15 +33,33 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
   );
 
   int _selected = 0;
-
   final nf = NumberFormat("00");
+  Optional<Future<Weather>> _request = const Optional.empty();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWeather();
+  }
+
+  Future<Weather> _fetchWeather() {
+    final service = ref.watch(weatherServiceProvider);
+    if (_request.isEmpty) {
+      _request = Optional.of(
+        service.getWeather(widget.lat, widget.lon),
+      );
+    }
+    return _request.value;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.watch(weatherServiceProvider);
     return FutureBuilder<Weather>(
-      future: service.getWeather(widget.lat, widget.lon),
+      future: _fetchWeather(),
       builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          _request = const Optional.empty();
+        }
         final now = DateTime.now();
         final weather = _select(snapshot.data, now);
         final details = _selected == 0
