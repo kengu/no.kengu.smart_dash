@@ -21,11 +21,13 @@ enum DataVectorType {
 @DriftDatabase(include: {'time_series.drift'})
 class TimeSeriesDatabase extends _$TimeSeriesDatabase
     with
-        MigrationHelper<TimeSeriesDatabase>,
+        DatabaseHelper<TimeSeriesDatabase>,
         ConnectionDisposer<TimeSeriesDatabase> {
   TimeSeriesDatabase(DatabaseConnection super.cnn);
   @override
   int get schemaVersion => 2;
+
+  static DateTime toOffset(DateTime when) => when.toDate();
 
   @override
   MigrationStrategy get migration {
@@ -77,7 +79,7 @@ class TimeSeriesDatabase extends _$TimeSeriesDatabase
     from1To2: (m, schema) async {
       // Use default offset as default ts value in new columns
       final when = DateTime.now();
-      final offset = when.toDate();
+      final offset = toOffset(when);
 
       // In version 2, the following changes was made
       // 1. id column was deleted from TimeSeriesTable and replaced by PRIMARY KEY (name,ts)
@@ -137,7 +139,7 @@ class TimeSeriesDatabase extends _$TimeSeriesDatabase
             // NOTE: This assumes that there only exists one
             // timeseries for each name and ts date in current database.
             final name = row.name;
-            final ts = row.ts.toDate();
+            final ts = toOffset(row.ts);
             // Update ts with offset in timeseries, vectors, coords and dims table
             final results = await Future.wait([
               _setTs(

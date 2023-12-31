@@ -38,7 +38,7 @@ mixin ConnectionDisposer<T extends GeneratedDatabase> on GeneratedDatabase {
   }
 }
 
-mixin MigrationHelper<T extends GeneratedDatabase> on GeneratedDatabase {
+mixin DatabaseHelper<T extends GeneratedDatabase> on GeneratedDatabase {
   void logOnUpgrade(int from, int to) {
     if (kDebugMode) {
       debugPrint(

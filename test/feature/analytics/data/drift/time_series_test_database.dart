@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:smart_dash/feature/analytics/data/drift/time_series_database.dart';
-import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:test/test.dart';
 import 'package:drift_dev/api/migrations.dart';
@@ -73,7 +72,7 @@ void main() {
 
     final tsTable = await checkDb.select(checkDb.timeSeriesTable).get();
     expect(tsTable.first.name, 'test');
-    expect(tsTable.first.ts, offset.toDate());
+    expect(tsTable.first.ts, TimeSeriesDatabase.toOffset(offset));
     await checkDb.close();
   });
 }
