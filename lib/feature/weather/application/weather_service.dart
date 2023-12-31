@@ -24,7 +24,7 @@ class WeatherService {
         */
         final key = '$lat:$lon';
         final cached = cache[key];
-        if (cached?.isExpired == false) {
+        if (cached?.isOutdated == false) {
           return cache[key]!.data;
         }
 
@@ -34,10 +34,6 @@ class WeatherService {
           lon,
           cached?.lastModified,
         );
-        /*
-        if (weather.isNotEmpty) {
-          await repo.save(area, prices);
-        }*/
         cache[key] = weather;
 
         return weather.data;

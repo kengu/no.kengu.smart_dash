@@ -14,6 +14,10 @@ class WeatherResponse with _$WeatherResponse {
   }) = _WeatherResponse;
 
   bool get isExpired => DateTime.now().difference(expires).isNegative;
+  bool get isOutdated => isExpired || isPassedFirstInstant(DateTime.now(), 60);
+  bool isPassedFirstInstant(DateTime when, int minutes) =>
+      data.props.timeseries.isNotEmpty &&
+      data.props.timeseries.first.time.difference(when).inMinutes < -minutes;
 
   factory WeatherResponse.fromJson(Map<String, Object?> json) =>
       _$WeatherResponseFromJson(json);

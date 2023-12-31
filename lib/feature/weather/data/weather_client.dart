@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,7 @@ class WeatherClient {
         api.options.headers["if-modified-since"] = df.format(lastModified);
       }
       final response = await api.get(path /*'/2023/03-28_NO5.json'*/);
+      debugPrint('Fetched weather forecast: ${response.realUri}');
       return WeatherResponse.fromJson({
         'data': response.data,
         'expires': df
