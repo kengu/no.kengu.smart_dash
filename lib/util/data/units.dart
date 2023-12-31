@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:optional/optional.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/feature/flow/tokens.dart';
 
 extension UnitX on num {
   static const Map<int, String> upper = {
@@ -63,8 +65,14 @@ extension UnitX on num {
     final s = symbol(o, orderMin);
     final b = (o == 0 || s.isEmpty ? this : this / pow(10, o));
     final d = o.abs() < orderMin ? 0 : orderDigits;
-    return [b.toStringAsFixed(d), '$s$unit'].join(' ');
+    return [b.toStringAsFixed(d), '$s${_tokenUnitMap[unit] ?? unit}'].join(' ');
   }
+
+  static final _tokenUnitMap = {
+    Tokens.voltage.unit.name: 'V',
+    Tokens.power.unit.name: 'W',
+    Tokens.energy.unit.name: 'Wh'
+  };
 }
 
 extension UnitInListX<T extends num> on List<T> {

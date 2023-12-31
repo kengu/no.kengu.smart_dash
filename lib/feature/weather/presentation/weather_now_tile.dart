@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
-import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 

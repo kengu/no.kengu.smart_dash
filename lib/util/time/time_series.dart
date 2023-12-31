@@ -93,15 +93,18 @@ extension TimeSeriesX on TimeSeries {
 
   TimeSeries max<T extends num>({Duration? span, int begin = 0}) =>
       fold<T>(_max, span: span, begin: begin);
-  static T _max<T extends num>(_, __, ___, List<T> inside) => inside.max();
+  static T _max<T extends num>(_, __, T value, List<T> inside) =>
+      math.max(value, inside.max());
 
   TimeSeries min<T extends num>({Duration? span, int begin = 0}) =>
       fold<T>(_min, span: span, begin: begin);
-  static T _min<T extends num>(_, __, ___, List<T> inside) => inside.min();
+  static T _min<T extends num>(_, __, T value, List<T> inside) =>
+      math.min(value, inside.min());
 
   TimeSeries avg<T extends num>({Duration? span, int begin = 0}) =>
       fold<T>(_avg, span: span, begin: begin);
-  static T _avg<T extends num>(_, __, ___, List<T> inside) => inside.avg();
+  static T _avg<T extends num>(_, __, T value, List<T> inside) =>
+      ((value + inside.avg()) / 2) as T;
 
   TimeSeries sum<T extends num>({Duration? span, int begin = 0}) => fold<T>(
         _sum,

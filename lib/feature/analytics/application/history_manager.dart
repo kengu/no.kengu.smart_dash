@@ -46,6 +46,9 @@ class HistoryManager {
 
   StreamSubscription<FlowEvent>? _changes;
 
+  /// Get all tokens in manager
+  List<Token> get tokens => _tokens.keys.toList();
+
   /// Get stream of [HistoryEvent]s.
   Stream<HistoryEvent> get events => _controller.stream;
 
