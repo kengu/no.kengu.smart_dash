@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash/constant/pages.dart';
+import 'package:smart_dash/const/pages.dart';
 import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
 import 'package:smart_dash/scaffold/presentation/smart_dash_menu.dart';
 import 'package:smart_dash/scaffold/presentation/smart_dash_navigation_bar.dart';

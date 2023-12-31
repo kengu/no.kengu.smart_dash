@@ -1,27 +1,24 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-part of 'time_series_database.dart';
-
+// GENERATED CODE, DO NOT EDIT BY HAND.
 // ignore_for_file: type=lint
+//@dart=2.12
+import 'package:drift/drift.dart';
+
 class TimeSeriesTable extends Table
     with TableInfo<TimeSeriesTable, TimeSeriesTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   TimeSeriesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
   late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
       'ts', aliasedName, false,
       type: DriftSqlType.dateTime,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _spanMeta = const VerificationMeta('span');
   late final GeneratedColumn<int> span = GeneratedColumn<int>(
       'span', aliasedName, false,
       type: DriftSqlType.int,
@@ -34,32 +31,6 @@ class TimeSeriesTable extends Table
   @override
   String get actualTableName => $name;
   static const String $name = 'TimeSeriesTable';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<TimeSeriesTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('ts')) {
-      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
-    } else if (isInserting) {
-      context.missing(_tsMeta);
-    }
-    if (data.containsKey('span')) {
-      context.handle(
-          _spanMeta, span.isAcceptableOrUnknown(data['span']!, _spanMeta));
-    } else if (isInserting) {
-      context.missing(_spanMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {name, ts};
   @override
@@ -219,44 +190,37 @@ class DataVectorTable extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DataVectorTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _idxMeta = const VerificationMeta('idx');
   late final GeneratedColumn<int> idx = GeneratedColumn<int>(
       'idx', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
   late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
       'ts', aliasedName, false,
       type: DriftSqlType.dateTime,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  late final GeneratedColumnWithTypeConverter<DataVectorType, String> type =
-      GeneratedColumn<String>('type', aliasedName, false,
-              type: DriftSqlType.string,
-              requiredDuringInsert: true,
-              $customConstraints: 'NOT NULL')
-          .withConverter<DataVectorType>(DataVectorTable.$convertertype);
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns => [id, idx, name, ts, data, type];
   @override
@@ -264,42 +228,6 @@ class DataVectorTable extends Table
   @override
   String get actualTableName => $name;
   static const String $name = 'DataVectorTable';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<DataVectorTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('idx')) {
-      context.handle(
-          _idxMeta, idx.isAcceptableOrUnknown(data['idx']!, _idxMeta));
-    } else if (isInserting) {
-      context.missing(_idxMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('ts')) {
-      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
-    } else if (isInserting) {
-      context.missing(_tsMeta);
-    }
-    if (data.containsKey('data')) {
-      context.handle(
-          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
-    } else if (isInserting) {
-      context.missing(_dataMeta);
-    }
-    context.handle(_typeMeta, const VerificationResult.success());
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -320,8 +248,8 @@ class DataVectorTable extends Table
           .read(DriftSqlType.dateTime, data['${effectivePrefix}ts'])!,
       data: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
-      type: DataVectorTable.$convertertype.fromSql(attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!),
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -330,8 +258,6 @@ class DataVectorTable extends Table
     return DataVectorTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<DataVectorType, String, String> $convertertype =
-      const EnumNameConverter<DataVectorType>(DataVectorType.values);
   @override
   List<String> get customConstraints => const [
         'UNIQUE(name, ts, idx)',
@@ -348,7 +274,7 @@ class DataVectorTableData extends DataClass
   final String name;
   final DateTime ts;
   final String data;
-  final DataVectorType type;
+  final String type;
   const DataVectorTableData(
       {required this.id,
       required this.idx,
@@ -364,10 +290,7 @@ class DataVectorTableData extends DataClass
     map['name'] = Variable<String>(name);
     map['ts'] = Variable<DateTime>(ts);
     map['data'] = Variable<String>(data);
-    {
-      map['type'] =
-          Variable<String>(DataVectorTable.$convertertype.toSql(type));
-    }
+    map['type'] = Variable<String>(type);
     return map;
   }
 
@@ -380,8 +303,7 @@ class DataVectorTableData extends DataClass
       name: serializer.fromJson<String>(json['name']),
       ts: serializer.fromJson<DateTime>(json['ts']),
       data: serializer.fromJson<String>(json['data']),
-      type: DataVectorTable.$convertertype
-          .fromJson(serializer.fromJson<String>(json['type'])),
+      type: serializer.fromJson<String>(json['type']),
     );
   }
   @override
@@ -393,8 +315,7 @@ class DataVectorTableData extends DataClass
       'name': serializer.toJson<String>(name),
       'ts': serializer.toJson<DateTime>(ts),
       'data': serializer.toJson<String>(data),
-      'type': serializer
-          .toJson<String>(DataVectorTable.$convertertype.toJson(type)),
+      'type': serializer.toJson<String>(type),
     };
   }
 
@@ -404,7 +325,7 @@ class DataVectorTableData extends DataClass
           String? name,
           DateTime? ts,
           String? data,
-          DataVectorType? type}) =>
+          String? type}) =>
       DataVectorTableData(
         id: id ?? this.id,
         idx: idx ?? this.idx,
@@ -446,7 +367,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
   final Value<String> name;
   final Value<DateTime> ts;
   final Value<String> data;
-  final Value<DataVectorType> type;
+  final Value<String> type;
   const DataVectorTableCompanion({
     this.id = const Value.absent(),
     this.idx = const Value.absent(),
@@ -461,7 +382,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
     required String name,
     required DateTime ts,
     required String data,
-    required DataVectorType type,
+    required String type,
   })  : idx = Value(idx),
         name = Value(name),
         ts = Value(ts),
@@ -491,7 +412,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
       Value<String>? name,
       Value<DateTime>? ts,
       Value<String>? data,
-      Value<DataVectorType>? type}) {
+      Value<String>? type}) {
     return DataVectorTableCompanion(
       id: id ?? this.id,
       idx: idx ?? this.idx,
@@ -521,8 +442,7 @@ class DataVectorTableCompanion extends UpdateCompanion<DataVectorTableData> {
       map['data'] = Variable<String>(data.value);
     }
     if (type.present) {
-      map['type'] =
-          Variable<String>(DataVectorTable.$convertertype.toSql(type.value));
+      map['type'] = Variable<String>(type.value);
     }
     return map;
   }
@@ -547,26 +467,22 @@ class DataCoordsTable extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DataCoordsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
   late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
       'ts', aliasedName, false,
       type: DriftSqlType.dateTime,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
       type: DriftSqlType.string,
@@ -579,35 +495,6 @@ class DataCoordsTable extends Table
   @override
   String get actualTableName => $name;
   static const String $name = 'DataCoordsTable';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<DataCoordsTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('ts')) {
-      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
-    } else if (isInserting) {
-      context.missing(_tsMeta);
-    }
-    if (data.containsKey('data')) {
-      context.handle(
-          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
-    } else if (isInserting) {
-      context.missing(_dataMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -798,26 +685,22 @@ class DataDimsTable extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DataDimsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _tsMeta = const VerificationMeta('ts');
   late final GeneratedColumn<DateTime> ts = GeneratedColumn<DateTime>(
       'ts', aliasedName, false,
       type: DriftSqlType.dateTime,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _dataMeta = const VerificationMeta('data');
   late final GeneratedColumn<String> data = GeneratedColumn<String>(
       'data', aliasedName, false,
       type: DriftSqlType.string,
@@ -830,34 +713,6 @@ class DataDimsTable extends Table
   @override
   String get actualTableName => $name;
   static const String $name = 'DataDimsTable';
-  @override
-  VerificationContext validateIntegrity(Insertable<DataDimsTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('ts')) {
-      context.handle(_tsMeta, ts.isAcceptableOrUnknown(data['ts']!, _tsMeta));
-    } else if (isInserting) {
-      context.missing(_tsMeta);
-    }
-    if (data.containsKey('data')) {
-      context.handle(
-          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
-    } else if (isInserting) {
-      context.missing(_dataMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -1042,76 +897,18 @@ class DataDimsTableCompanion extends UpdateCompanion<DataDimsTableData> {
   }
 }
 
-abstract class _$TimeSeriesDatabase extends GeneratedDatabase {
-  _$TimeSeriesDatabase(QueryExecutor e) : super(e);
+class DatabaseAtV2 extends GeneratedDatabase {
+  DatabaseAtV2(QueryExecutor e) : super(e);
   late final TimeSeriesTable timeSeriesTable = TimeSeriesTable(this);
   late final DataVectorTable dataVectorTable = DataVectorTable(this);
   late final DataCoordsTable dataCoordsTable = DataCoordsTable(this);
   late final DataDimsTable dataDimsTable = DataDimsTable(this);
-  Selectable<TimeSeriesTableData> getFromExactName(String name, DateTime ts) {
-    return customSelect(
-        'SELECT * FROM TimeSeriesTable WHERE name = ?1 AND ts = ?2',
-        variables: [
-          Variable<String>(name),
-          Variable<DateTime>(ts)
-        ],
-        readsFrom: {
-          timeSeriesTable,
-        }).asyncMap(timeSeriesTable.mapFromRow);
-  }
-
-  Selectable<DataVectorTableData> getVectorsFromName(String name, DateTime ts) {
-    return customSelect(
-        'SELECT * FROM DataVectorTable WHERE name = ?1 AND ts = ?2',
-        variables: [
-          Variable<String>(name),
-          Variable<DateTime>(ts)
-        ],
-        readsFrom: {
-          dataVectorTable,
-        }).asyncMap(dataVectorTable.mapFromRow);
-  }
-
-  Selectable<DataCoordsTableData> getCoordsFromName(String name, DateTime ts) {
-    return customSelect(
-        'SELECT * FROM DataCoordsTable WHERE name = ?1 AND ts = ?2',
-        variables: [
-          Variable<String>(name),
-          Variable<DateTime>(ts)
-        ],
-        readsFrom: {
-          dataCoordsTable,
-        }).asyncMap(dataCoordsTable.mapFromRow);
-  }
-
-  Selectable<DataDimsTableData> getDimsFromName(String name, DateTime ts) {
-    return customSelect(
-        'SELECT * FROM DataDimsTable WHERE name = ?1 AND ts = ?2',
-        variables: [
-          Variable<String>(name),
-          Variable<DateTime>(ts)
-        ],
-        readsFrom: {
-          dataDimsTable,
-        }).asyncMap(dataDimsTable.mapFromRow);
-  }
-
-  Future<int> insertTimeSeries(String name, DateTime ts, int span) {
-    return customInsert(
-      'INSERT INTO TimeSeriesTable (name, ts, span) VALUES (?1, ?2, ?3)',
-      variables: [
-        Variable<String>(name),
-        Variable<DateTime>(ts),
-        Variable<int>(span)
-      ],
-      updates: {timeSeriesTable},
-    );
-  }
-
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [timeSeriesTable, dataVectorTable, dataCoordsTable, dataDimsTable];
+  @override
+  int get schemaVersion => 2;
 }

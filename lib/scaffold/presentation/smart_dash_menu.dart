@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gravatar/flutter_gravatar.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/constant/screens.dart';
+import 'package:smart_dash/const/screens.dart';
 import 'package:smart_dash/widget/smart_dash_toolbar.dart';
 
 class SmartDashMenu extends StatelessWidget {

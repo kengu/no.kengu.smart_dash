@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:smart_dash/constant/screens.dart';
+import 'package:smart_dash/const/screens.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/pairing/presentation/pair/new_devices_controller.dart';

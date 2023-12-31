@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry/sentry.dart';
 
 export 'connection_unsupported.dart'
     if (dart.library.ffi) 'connection_native.dart'
@@ -34,5 +35,35 @@ mixin ConnectionDisposer<T extends GeneratedDatabase> on GeneratedDatabase {
   T autoDispose(Ref ref) {
     ref.onDispose(close);
     return this as T;
+  }
+}
+
+mixin MigrationHelper<T extends GeneratedDatabase> on GeneratedDatabase {
+  void logOnUpgrade(int from, int to) {
+    if (kDebugMode) {
+      debugPrint(
+        '$T: Migration [v$from->v$to] started',
+      );
+    } else {
+      Sentry.captureMessage(
+        '$T: Migration [v$from->v$to] started',
+      );
+    }
+  }
+
+  void logHadUpgrade(OpeningDetails details, int modifications) {
+    if (kDebugMode) {
+      debugPrint(
+        '$T: Migration '
+        '[v${details.versionBefore}->v${details.versionNow}] '
+        'modified $modifications rows',
+      );
+    } else {
+      Sentry.captureMessage(
+        '$T: Migration '
+        '[v${details.versionBefore}->v${details.versionNow}] '
+        'modified $modifications rows',
+      );
+    }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/constant/screens.dart';
+import 'package:smart_dash/const/screens.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/details/paired_device_details_screen.dart';
 import 'package:smart_dash/feature/device/presentation/list/paired_device_screen.dart';

@@ -29,6 +29,9 @@ extension DateTimeX on DateTime {
       allowFromNow: allowFromNow,
     );
   }
+
+  /// Return DateTime with time set to 00:00:00
+  DateTime toDate() => DateTime(year, month, day);
 }
 
 class TimeAgoMessages implements LookupMessages {

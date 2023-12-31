@@ -1,39 +1,40 @@
 import 'time_series_database.dart';
 
 CREATE TABLE TimeSeriesTable (
-    id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     ts DATETIME NOT NULL,
     span INT NOT NULL,
-    UNIQUE (name, ts)
-);
+    PRIMARY KEY (name, ts)
+) WITHOUT ROWID;
 
 
 CREATE TABLE DataVectorTable (
     id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
     idx INT NOT NULL,
-    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    name TEXT NOT NULL,
     ts DATETIME NOT NULL,
     data TEXT NOT NULL,
     type ENUMNAME(DataVectorType) NOT NULL,
-    UNIQUE (name, ts, idx)
-
+    UNIQUE (name, ts, idx),
+    FOREIGN KEY(name, ts) REFERENCES TimeSeriesTable(name, ts)
 );
 
 CREATE TABLE DataCoordsTable (
     id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    name TEXT NOT NULL,
     ts DATETIME NOT NULL,
     data TEXT NOT NULL,
-    UNIQUE (name, ts)
+    UNIQUE (name, ts),
+    FOREIGN KEY(name, ts) REFERENCES TimeSeriesTable(name, ts)
 );
 
 CREATE TABLE DataDimsTable (
     id INT NOT NULL PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL REFERENCES TimeSeriesTable (name),
+    name TEXT NOT NULL,
     ts DATETIME NOT NULL,
     data TEXT NOT NULL,
-    UNIQUE (name, ts)
+    UNIQUE (name, ts),
+    FOREIGN KEY(name, ts) REFERENCES TimeSeriesTable(name, ts)
 );
 
 -- Queries

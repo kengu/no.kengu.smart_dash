@@ -10,6 +10,7 @@ import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash/util/drift/connection.dart';
 import 'package:smart_dash/util/guard.dart';
 
 part 'time_series_repository.g.dart';
@@ -181,5 +182,9 @@ class TimeSeriesRepository {
 
 @Riverpod(keepAlive: true)
 TimeSeriesRepository timeSeriesRepository(TimeSeriesRepositoryRef ref) {
-  return TimeSeriesRepository(ref, TimeSeriesDatabase(ref).autoDispose(ref));
+  return TimeSeriesRepository(
+      ref,
+      TimeSeriesDatabase(
+        connectDrift(ref, 'time_series.sqlite'),
+      ).autoDispose(ref));
 }

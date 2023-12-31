@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/constant/pages.dart';
-import 'package:smart_dash/constant/screens.dart';
+import 'package:smart_dash/const/pages.dart';
+import 'package:smart_dash/const/screens.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
 import 'package:smart_dash/feature/dashboard/presentation/home_page.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/constant/screens.dart';
+import 'package:smart_dash/const/screens.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/pairing/presentation/select/device_types_screen.dart';
 import 'package:smart_dash/feature/pairing/presentation/pair/new_devices_screen.dart';

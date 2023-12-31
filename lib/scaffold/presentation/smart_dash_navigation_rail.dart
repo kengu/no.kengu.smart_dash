@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/constant/pages.dart';
+import 'package:smart_dash/const/pages.dart';
 
 import 'smart_dash_menu.dart';
 

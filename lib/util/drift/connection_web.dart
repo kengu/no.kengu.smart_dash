@@ -38,3 +38,8 @@ DatabaseConnection connectDrift(
     ),
   );
 }
+
+Future<void> validateDatabaseSchema(GeneratedDatabase database) async {
+  // Unfortunately, validating database schemas only works for native platforms
+  // right now. TODO: As we also have migration tests, this is not a huge issue.
+}
