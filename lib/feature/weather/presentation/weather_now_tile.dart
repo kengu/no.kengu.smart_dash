@@ -96,7 +96,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               const Divider(),
               Padding(
                 padding: const EdgeInsets.all(4.0),
