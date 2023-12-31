@@ -2,9 +2,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 
@@ -13,10 +15,12 @@ class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
     super.key,
     required this.lat,
     required this.lon,
+    required this.place,
   });
 
   final double lat;
   final double lon;
+  final String place;
 
   @override
   ConsumerState<WeatherNowTile> createState() => _WeatherNowTileState();
@@ -29,6 +33,8 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
   );
 
   int _selected = 0;
+
+  final nf = NumberFormat("00");
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +50,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
         if (details == null) {
           return SmartDashTile(
             title: 'Weather Now',
-            // TODO: Make location name configurable
-            subTitle: 'Tindefjell',
+            subTitle: widget.place,
             constraints: constraints,
             leading: const Icon(
               Icons.wb_sunny,
@@ -69,7 +74,10 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
         return SmartDashTile(
           title: 'Weather ${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
-          subTitle: 'Tindefjell',
+//          subTitle: 'Tindefjell @ ${details.time}',
+          subTitle: 'Tindefjell @ '
+              '${nf.format(details.time.toLocal().hour)}:00'
+              ' ${details.time.toLocal().day == now.day ? 'today' : 'tomorrow'}',
           constraints: constraints,
           leading: const Icon(
             Icons.wb_sunny,

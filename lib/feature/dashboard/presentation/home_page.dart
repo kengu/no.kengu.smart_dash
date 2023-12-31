@@ -167,10 +167,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                               when: when,
                             );
                           case 'weather_now':
+                            // TODO: Make location name configurable
                             return WeatherNowTile(
                               key: GlobalObjectKey(item),
                               lat: 60.0802,
                               lon: 8.8168,
+                              place: 'Tindefjell',
                             );
                         }
                         return Text(item.identifier);
