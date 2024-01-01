@@ -20,10 +20,16 @@ extension NumListX<T extends num> on List<T> {
       isEmpty ? 0.cast<T>() : map((value) => value.cast<T>()).reduce(math.min);
   T max() =>
       isEmpty ? 0.cast<T>() : map((value) => value.cast<T>()).reduce(math.max);
-  T avg() => isEmpty
-      ? 0.cast<T>()
-      : map((value) => value.cast<T>())
-          .reduce((sum, next) => ((sum + next) / length).cast<T>());
+  T avg() {
+    if (isEmpty) {
+      return 0.cast<T>();
+    }
+    if (length == 1) {
+      return first;
+    }
+    return (sum() / length) as T;
+  }
+
   T sum() => isEmpty
       ? 0.cast<T>()
       : map((value) => value.cast<T>())

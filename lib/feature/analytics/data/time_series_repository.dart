@@ -23,39 +23,47 @@ class TimeSeriesRepository {
 
   static DateTime toOffset(DateTime when) => TimeSeriesDatabase.toOffset(when);
 
-  Future<Optional<List<Token>>> getTokens(DateTime when) => guard(() async {
-        final select = db.select(db.timeSeriesTable)
-          ..where((t) => t.ts.equals(when));
-        final result = await select.get();
-        return Optional.of(result.map((t) => Tokens.from(t.name)).toList());
-      });
+  Future<Optional<List<Token>>> getTokens(DateTime when) {
+    return guard(() async {
+      final select = db.select(db.timeSeriesTable)
+        ..where((t) => t.ts.equals(when));
+      final result = await select.get();
+      return Optional.of(
+        result.map((t) => Tokens.from(t.name)).toList(),
+      );
+    });
+  }
 
   Future<Optional<List<TimeSeries>>> getAll(
       List<Token> tokens, DateTime when) async {
     return Optional.of(await _load(tokens, when));
   }
 
-  Future<List<TimeSeries>> _load(List<Token> tokens, DateTime when) =>
-      guard(() async {
-        final select = db.select(db.timeSeriesTable);
-        for (var token in tokens) {
-          select.where((t) => t.name.equals(token.name) & t.ts.equals(when));
-        }
-        final result = await select.get();
-        return await Future.wait(result.map(
-          (data) => _fetch(data, when),
-        ));
-      }, task: 'TimeSeriesRepository::_load()');
+  Future<List<TimeSeries>> _load(List<Token> tokens, DateTime when) {
+    return guard(() async {
+      final select = db.select(db.timeSeriesTable);
+      for (var token in tokens) {
+        select.where(
+          (t) => t.name.equals(token.name) & t.ts.equals(when),
+        );
+      }
+      final result = await select.get();
+      return await Future.wait(result.map(
+        (data) => _fetch(data, when),
+      ));
+    }, task: 'TimeSeriesRepository::_load()');
+  }
 
-  Future<Optional<TimeSeries>> get(Token token, DateTime when) =>
-      guard(() async {
-        final data =
-            await db.getFromExactName(token.name, when).getSingleOrNull();
-        if (data == null) {
-          return const Optional.empty();
-        }
-        return Optional.of(await _fetch(data, when));
-      }, task: 'TimeSeriesRepository::get()');
+  Future<Optional<TimeSeries>> get(Token token, DateTime when) {
+    return guard(() async {
+      final data =
+          await db.getFromExactName(token.name, when).getSingleOrNull();
+      if (data == null) {
+        return const Optional.empty();
+      }
+      return Optional.of(await _fetch(data, when));
+    }, task: 'TimeSeriesRepository::get()');
+  }
 
   Future<TimeSeries> _fetch(TimeSeriesTableData found, DateTime when) async {
     final vectors = await db.getVectorsFromName(found.name, when).get();
@@ -85,19 +93,21 @@ class TimeSeriesRepository {
   List<JsonObject> _toJsonList(String? json) =>
       (json == null ? <JsonObject>[] : jsonDecode(json)).cast<JsonObject>();
 
-  Future<bool> save(TimeSeries series) => guard(() {
-        // Ensure that only date-based offsets are used
-        final offset = toOffset(series.offset);
-        return db.transaction(() async {
-          final row = await db
-              .getFromExactName(
-                series.name,
-                offset,
-              )
-              .getSingleOrNull();
-          return row == null ? await _insert(series) : await _update(series);
-        });
-      }, task: 'TimeSeriesRepository::save()');
+  Future<bool> save(TimeSeries series) {
+    return guard(() {
+      // Ensure that only date-based offsets are used
+      final offset = toOffset(series.offset);
+      return db.transaction(() async {
+        final row = await db
+            .getFromExactName(
+              series.name,
+              offset,
+            )
+            .getSingleOrNull();
+        return row == null ? await _insert(series) : await _update(series);
+      });
+    }, task: 'TimeSeriesRepository::save()');
+  }
 
   Future<bool> _insert(TimeSeries series) async {
     final offset = toOffset(series.offset);

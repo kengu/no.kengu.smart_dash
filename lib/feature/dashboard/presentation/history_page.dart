@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -5,9 +7,9 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
 import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/widget/smart_dash_error_widget.dart';
 
@@ -113,6 +115,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                           DataColumn(
                             label: Expanded(
                               child: Text(
+                                'Zeros',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
                                 'Min',
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
@@ -125,6 +135,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
+                            tooltip: 'Hourly Average',
                           ),
                           DataColumn(
                             label: Expanded(
@@ -137,55 +148,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         ],
                         rows: snapshot.hasData
                             ? snapshot.data!
-                                .map((e) => DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(Text(
-                                          e.value.name,
-                                        )),
-                                        DataCell(Text(
-                                          df.format(e.value.offset),
-                                        )),
-                                        DataCell(Text(
-                                          df.format(e.value.end),
-                                        )),
-                                        DataCell(Text(
-                                          e.value.length.toString(),
-                                        )),
-                                        DataCell(Text(
-                                          e.value.isEmpty
-                                              ? "0"
-                                              : e.value
-                                                  .min()
-                                                  .lastRow
-                                                  .first
-                                                  .format(e.value.array.dims
-                                                      .last['unit']!
-                                                      .toString()),
-                                        )),
-                                        DataCell(Text(
-                                          e.value.isEmpty
-                                              ? "0"
-                                              : e.value
-                                                  .avg()
-                                                  .lastRow
-                                                  .first
-                                                  .format(e.value.array.dims
-                                                      .last['unit']!
-                                                      .toString()),
-                                        )),
-                                        DataCell(Text(
-                                          e.value.isEmpty
-                                              ? "0"
-                                              : e.value
-                                                  .max()
-                                                  .lastRow
-                                                  .first
-                                                  .format(e.value.array.dims
-                                                      .last['unit']!
-                                                      .toString()),
-                                        ))
-                                      ],
-                                    ))
+                                .map((e) => _buildDataRow(e))
                                 .toList()
                             : <DataRow>[]),
                   ),
@@ -194,5 +157,39 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             ),
           );
         });
+  }
+
+  DataRow _buildDataRow(Optional<TimeSeries> e) {
+    final stats = e.value.stats(
+      span: TimeScale.hours.to(),
+    );
+    return DataRow(
+      cells: <DataCell>[
+        DataCell(Text(
+          e.value.name,
+        )),
+        DataCell(Text(
+          df.format(e.value.offset),
+        )),
+        DataCell(Text(
+          df.format(e.value.end),
+        )),
+        DataCell(Text(
+          e.value.length.toString(),
+        )),
+        DataCell(Text(
+          stats.zeros.last.toString(),
+        )),
+        DataCell(Text(
+          stats.isEmpty ? "0" : stats.min.last.format(stats.unit),
+        )),
+        DataCell(Text(
+          stats.isEmpty ? "0" : stats.avg.last.format(stats.unit),
+        )),
+        DataCell(Text(
+          stats.isEmpty ? "0" : stats.max.last.format(stats.unit),
+        ))
+      ],
+    );
   }
 }

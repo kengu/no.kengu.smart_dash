@@ -103,19 +103,43 @@ extension TimeSeriesX on TimeSeries {
   static T _min<T extends num>(_, __, T value, List<T> inside) =>
       math.min(value, inside.min());
 
-  TimeSeries avg<T extends num>({Duration? span, int begin = 0}) =>
-      fold<T>(_avg, span: span, begin: begin);
-  static T _avg<T extends num>(_, __, T value, List<T> inside) =>
-      ((value + inside.avg()) / 2) as T;
+  TimeSeries avg<T extends num>(
+      {Duration? span, int begin = 0, bool cum = true}) {
+    final series = fold<T>(cum ? _avgCum : _avg, span: span, begin: begin);
+    return series.length == 1 ? this : series;
+  }
 
-  TimeSeries sum<T extends num>({Duration? span, int begin = 0}) => fold<T>(
-        _sum,
+  static T _avg<T extends num>(_, __, ___, List<T> inside) => inside.avg();
+
+  static T _avgCum<T extends num>(_, int row, T value, List<T> inside) {
+    final int span = inside.length;
+    final int n = (row + 1) ~/ span;
+    // Calculating moving average, see https://math.stackexchange.com/a/106720
+    return (value + (inside.avg() - value) / n) as T;
+  }
+
+  TimeSeries sum<T extends num>(
+          {Duration? span, int begin = 0, bool cum = true}) =>
+      fold<T>(
+        cum ? _sumCum : _sum,
         span: span,
         begin: begin,
         initial: List<T>.generate(width, (index) => 0.cast<T>()),
       );
-  static T _sum<T extends num>(_, __, value, List<T> inside) =>
+  static T _sum<T extends num>(_, __, value, List<T> inside) => inside.sum();
+
+  static T _sumCum<T extends num>(_, __, value, List<T> inside) =>
       value + inside.sum();
+
+  TimeSeries zeros({Duration? span, int begin = 0}) => fold(
+        _zeros,
+        span: span,
+        begin: begin,
+        initial: List.generate(width, (index) => 0),
+      );
+  static int _zeros<T extends num>(_, __, int value, List<T> inside) =>
+      value + inside.where((e) => e == (0 as T)).length;
+
   TimeSeries group<T extends num>({Duration? span, int begin = 0}) => fold<T>(
         _group,
         span: span,
@@ -291,4 +315,56 @@ extension TimeSeriesX on TimeSeries {
     final time = offset.add(span);
     return time.format(clock: (when ?? end));
   }
+
+  TimeSeriesStatistics<T> stats<T extends num>(
+      {Duration? span, int begin = 0, bool cum = true}) {
+    if (isEmpty) {
+      return TimeSeriesStatistics.empty();
+    }
+    final zs = zeros(span: span, begin: begin).lastRow.cast<int>();
+    return TimeSeriesStatistics<T>(
+      zeros: zs,
+      count: zs.length,
+      unit: array.dims.last['unit']?.toString() ?? '',
+      min: min<T>(span: span, begin: begin).lastRow.cast<T>(),
+      max: max<T>(span: span, begin: begin).lastRow.cast<T>(),
+      avg: avg<T>(span: span, begin: begin, cum: cum).lastRow.cast<T>(),
+      sum: sum<T>(span: span, begin: begin, cum: cum).lastRow.cast<T>(),
+    );
+  }
+}
+
+class TimeSeriesStatistics<T extends num> {
+  const TimeSeriesStatistics({
+    required this.min,
+    required this.max,
+    required this.sum,
+    required this.avg,
+    required this.unit,
+    required this.count,
+    required this.zeros,
+  });
+
+  factory TimeSeriesStatistics.empty() => TimeSeriesStatistics<T>(
+        min: [],
+        max: [],
+        sum: [],
+        avg: [],
+        unit: '',
+        count: 0,
+        zeros: [],
+      );
+
+  bool get isEmpty => min.isEmpty;
+  bool get isNotEmpty => !isEmpty;
+
+  final int count;
+
+  final List<int> zeros;
+
+  final List<T> min;
+  final List<T> max;
+  final List<T> sum;
+  final List<T> avg;
+  final String unit;
 }
