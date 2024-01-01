@@ -43,7 +43,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
   }
 
   Future<Weather> _fetchWeather() {
-    final service = ref.watch(weatherServiceProvider);
+    final service = ref.read(weatherServiceProvider);
     if (_request.isEmpty) {
       _request = Optional.of(
         service.getWeather(widget.lat, widget.lon),
