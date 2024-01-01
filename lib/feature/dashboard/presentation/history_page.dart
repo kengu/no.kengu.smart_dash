@@ -5,6 +5,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
 import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/time/time_series.dart';
@@ -151,20 +152,38 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                                           e.value.length.toString(),
                                         )),
                                         DataCell(Text(
-                                          e.value.min().lastRow.first.format(e
-                                              .value.array.dims.last['unit']!
-                                              .toString()),
+                                          e.value.isEmpty
+                                              ? "0"
+                                              : e.value
+                                                  .min()
+                                                  .lastRow
+                                                  .first
+                                                  .format(e.value.array.dims
+                                                      .last['unit']!
+                                                      .toString()),
                                         )),
                                         DataCell(Text(
-                                          e.value.avg().lastRow.first.format(e
-                                              .value.array.dims.last['unit']!
-                                              .toString()),
+                                          e.value.isEmpty
+                                              ? "0"
+                                              : e.value
+                                                  .avg()
+                                                  .lastRow
+                                                  .first
+                                                  .format(e.value.array.dims
+                                                      .last['unit']!
+                                                      .toString()),
                                         )),
                                         DataCell(Text(
-                                          e.value.max().lastRow.first.format(e
-                                              .value.array.dims.last['unit']!
-                                              .toString()),
-                                        )),
+                                          e.value.isEmpty
+                                              ? "0"
+                                              : e.value
+                                                  .max()
+                                                  .lastRow
+                                                  .first
+                                                  .format(e.value.array.dims
+                                                      .last['unit']!
+                                                      .toString()),
+                                        ))
                                       ],
                                     ))
                                 .toList()
