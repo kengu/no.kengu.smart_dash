@@ -24,7 +24,7 @@ class WeatherService {
         */
         final key = '$lat:$lon';
         final cached = cache[key];
-        if (cached?.isOutdated == false) {
+        if (cached?.isExpired == false) {
           return cache[key]!.data;
         }
 

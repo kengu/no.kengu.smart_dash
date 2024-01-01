@@ -21,7 +21,7 @@ class WeatherClient {
       if (lastModified != null) {
         api.options.headers["if-modified-since"] = df.format(lastModified);
       }
-      final response = await api.get(path /*'/2023/03-28_NO5.json'*/);
+      final response = await api.get(path);
       debugPrint('Fetched weather forecast: ${response.realUri}');
       return WeatherResponse.fromJson({
         'data': response.data,

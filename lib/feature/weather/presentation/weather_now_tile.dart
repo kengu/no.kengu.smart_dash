@@ -34,7 +34,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
 
   int _selected = 0;
   final nf = NumberFormat("00");
-  Optional<Future<Weather>> _request = const Optional.empty();
+  Optional<(DateTime, Future<Weather>)> _request = const Optional.empty();
 
   @override
   void initState() {
@@ -43,13 +43,17 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
   }
 
   Future<Weather> _fetchWeather() {
-    final service = ref.read(weatherServiceProvider);
-    if (_request.isEmpty) {
+    if (_request.isEmpty ||
+        DateTime.now().difference(_request.value.$1).inMinutes > 5) {
+      final service = ref.read(weatherServiceProvider);
       _request = Optional.of(
-        service.getWeather(widget.lat, widget.lon),
+        (
+          DateTime.now(),
+          service.getWeather(widget.lat, widget.lon),
+        ),
       );
     }
-    return _request.value;
+    return _request.value.$2;
   }
 
   @override
@@ -57,9 +61,6 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
     return FutureBuilder<Weather>(
       future: _fetchWeather(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          _request = const Optional.empty();
-        }
         final now = DateTime.now();
         final weather = _select(snapshot.data, now);
         final details = _selected == 0

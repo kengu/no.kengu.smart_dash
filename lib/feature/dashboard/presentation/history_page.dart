@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,30 +19,33 @@ class HistoryPage extends ConsumerStatefulWidget {
 }
 
 class _HistoryPageState extends ConsumerState<HistoryPage> {
-  Optional<HistoryManager> _manager = const Optional.empty();
-  Optional<Future<List<Optional<TimeSeries>>>> _request =
-      const Optional.empty();
-
   final df = DateFormat('dd-MM-yyyy HH:mm');
+
+  Optional<(DateTime, Future<List<Optional<TimeSeries>>>)> _request =
+      const Optional.empty();
 
   bool get isFullscreen => FullscreenState.watch(ref);
 
   @override
   void initState() {
     super.initState();
-    _manager = Optional.of(ref.read(historyManagerProvider));
     _fetchTokens();
   }
 
   Future<List<Optional<TimeSeries>>> _fetchTokens() {
-    if (_request.isEmpty) {
+    if (_request.isEmpty ||
+        DateTime.now().difference(_request.value.$1).inMinutes > 5) {
+      final manager = ref.read(historyManagerProvider);
       _request = Optional.of(
-        Future.wait(
-          _manager.value.tokens.map(_manager.value.get).toList(),
+        (
+          DateTime.now(),
+          Future.wait(
+            manager.tokens.map(manager.get).toList(),
+          ),
         ),
       );
     }
-    return _request.value;
+    return _request.value.$2;
   }
 
   @override
