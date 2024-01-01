@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
 
 extension UnitX on num {

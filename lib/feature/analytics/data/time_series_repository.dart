@@ -106,7 +106,7 @@ class TimeSeriesRepository {
       offset,
       series.span.inMicroseconds,
     );
-    if (id > 0) {
+    if (id >= 0) {
       await db.batch((batch) {
         for (int idx = 0; idx < series.width; idx++) {
           final column = series[idx];

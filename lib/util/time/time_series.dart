@@ -30,15 +30,17 @@ extension TimeSeriesX on TimeSeries {
     bool head = true,
   }) {
     assert(max >= min, 'min is greater than max');
-    if (length < min) {
-      return _padHead<T>(
-        min,
-        pad,
-      );
-    }
-    if (max > min && length > max) {
-      // Clamp series to max length
-      return head ? _clampHead(max) : _clampTail(max);
+    if (width > 0) {
+      if (length < min) {
+        return _padHead<T>(
+          min,
+          pad,
+        );
+      }
+      if (max > min && length > max) {
+        // Clamp series to max length
+        return head ? _clampHead(max) : _clampTail(max);
+      }
     }
     return this;
   }
