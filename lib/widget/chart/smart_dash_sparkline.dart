@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
     super.key,
     required this.data,
     required this.showGrid,
+    this.kLine,
     this.lineMin,
     this.lineMax,
     this.minValue,
@@ -21,6 +23,8 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
     this.pointIndex,
     this.lineLabeler,
     this.lineSelector,
+    this.pointLabeler,
+    this.pointSelector,
     this.lineStep = 1,
     this.minWidth = 300.0,
     this.minHeight = 100.0,
@@ -36,9 +40,12 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
   final double minHeight;
   final double? minValue;
   final double? maxValue;
+  final List<String>? kLine;
   final PointsMode pointsMode;
   final bool Function(int index)? lineSelector;
   final String Function(double value)? lineLabeler;
+  final String Function(double value)? pointLabeler;
+  final bool Function(int index, String? kLine)? pointSelector;
 
   /// List of values to be represented by the sparkline.
   ///
@@ -70,13 +77,25 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
                   data: data.to<double>().toList(),
                   pointsMode: pointsMode,
                   pointIndex: pointIndex,
+                  pointLabel: pointLabeler,
+                  pointShown: pointSelector,
+                  pointsDraw: (canvas, points, kLine) {
+                    debugPrint(kLine);
+                    final isMinMax =
+                        const [Sparkline.kMax, Sparkline.kMin].contains(kLine);
+                    Paint pointsPaint = Paint()
+                      ..strokeWidth = 12.0
+                      ..strokeCap = StrokeCap.round
+                      ..color = isMinMax ? Colors.lightGreen : Colors.amber;
+                    canvas.drawPoints(PointMode.points, points, pointsPaint);
+                  },
+                  kLine: kLine,
                   lineWidth: 2.0,
-                  pointSize: 12.0,
                   sharpCorners: false,
                   enableThreshold: true,
                   thresholdSize: 0.05,
-                  pointColor: Colors.amber,
                   useCubicSmoothing: true,
+                  pointColor: Colors.amber,
                   cubicSmoothingFactor: 0.12,
                   fallbackWidth: minWidth,
                   fallbackHeight: minHeight,
@@ -140,10 +159,13 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
     required this.data,
     required this.showGrid,
     required Animation<List<T>> animation,
+    this.kLine,
     this.lineMin,
     this.lineMax,
     this.pointIndex,
     this.lineLabeler,
+    this.pointLabeler,
+    this.pointSelector,
     this.lineStep = 1,
     this.lineSelector,
     this.minWidth = 300.0,
@@ -161,15 +183,19 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
   final int? pointIndex;
   final double minWidth;
   final double minHeight;
+  final List<String>? kLine;
   final PointsMode pointsMode;
   final bool Function(int index)? lineSelector;
   final String Function(double value)? lineLabeler;
+  final String Function(double value)? pointLabeler;
+  final bool Function(int index, String? kLine)? pointSelector;
 
   @override
   Widget build(BuildContext context) {
     final animation = listenable as Animation<List<T>>;
     return SmartDashSparkline<T>(
       data: animation.value,
+      kLine: kLine,
       lineMin: lineMin,
       lineMax: lineMax,
       showGrid: showGrid,
@@ -180,6 +206,8 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
       pointIndex: pointIndex,
       lineLabeler: lineLabeler,
       lineSelector: lineSelector,
+      pointLabeler: pointLabeler,
+      pointSelector: pointSelector,
       minValue: data.min().toDouble(),
       maxValue: data.max().toDouble(),
     );

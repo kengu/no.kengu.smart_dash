@@ -164,10 +164,11 @@ packages:
   chart_sparkline:
     dependency: "direct main"
     description:
-      name: chart_sparkline
-      sha256: "380196fdc12feee87ab7854e2867d0a20d4d01cead234ffb47ba1ca2c8a8219c"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: b5546348e67f059d913eecec3a1462e7db307cde
+      url: "https://github.com/DISCOOS/chart_sparkline.git"
+    source: git
     version: "1.0.14"
   charts_painter:
     dependency: "direct main"

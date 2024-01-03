@@ -27,6 +27,7 @@ class HourlyElectricityPriceTile<T extends num> extends ConsumerWidget {
       builder: (context, snapshot) {
         final history = _prices(snapshot);
         final at = DateTime.now();
+        const kLine = ['min', 'max'];
         final now = history.indexNow(false);
         return SparklineTile<double>(
           key: const ValueKey('hourly_electricity_price'),
@@ -36,13 +37,16 @@ class HourlyElectricityPriceTile<T extends num> extends ConsumerWidget {
           lineMin: 1,
           lineMax: -1,
           lineStep: 3,
+          kLine: kLine,
           pointIndex: now,
           pointsMode: PointsMode.atIndex,
           leading: const Icon(
             Icons.attach_money,
             color: Colors.lightGreen,
           ),
-          valueBuilder: (data) => data.toPrice('kr', now),
+          valueBuilder: (data) => data.toPrice('kr'),
+          pointLabeler: (data) => data.toPrice('kr'),
+          pointSelector: (index, key) => index == now || kLine.contains(key),
           lineLabeler: (double index) => '${history.tsAt(index.ceil()).hour}',
         );
       },

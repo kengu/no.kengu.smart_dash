@@ -14,12 +14,15 @@ class SparklineTile<T extends num> extends StatelessWidget {
     required this.leading,
     required this.subTitle,
     required this.valueBuilder,
+    this.kLine,
     this.lineMin,
     this.lineMax,
     this.begin = 0,
     this.pointIndex,
     this.lineLabeler,
     this.lineStep = 1,
+    this.pointLabeler,
+    this.pointSelector,
     this.pointsMode = PointsMode.last,
   });
 
@@ -32,9 +35,12 @@ class SparklineTile<T extends num> extends StatelessWidget {
   final int? pointIndex;
   final String subTitle;
   final TimeSeries history;
+  final List<String>? kLine;
   final PointsMode pointsMode;
   final ValueBuilder<String, List<T>> valueBuilder;
   final String Function(double value)? lineLabeler;
+  final String Function(double value)? pointLabeler;
+  final bool Function(int index, String? kLine)? pointSelector;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +75,7 @@ class SparklineTile<T extends num> extends StatelessWidget {
             padding: const EdgeInsets.only(top: 0.0),
             child: AnimatedSmartDashSparkline(
               data: data,
+              kLine: kLine,
               minHeight: 130,
               showGrid: true,
               lineMin: lineMin,
@@ -78,6 +85,8 @@ class SparklineTile<T extends num> extends StatelessWidget {
               pointIndex: pointIndex,
               pointsMode: pointsMode,
               lineLabeler: lineLabeler,
+              pointLabeler: pointLabeler,
+              pointSelector: pointSelector,
             ),
           ),
         );
