@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/weather/data/weather_client.dart';
 import 'package:smart_dash/feature/weather/data/weather_response.dart';
@@ -14,14 +15,16 @@ class WeatherService {
 
   final Map<String, WeatherResponse> cache = {};
 
-  Future<Weather> getWeather(double lat, double lon) => guard(() async {
-        /*
-        final repo = ref.read(WeatherRepositoryProvider);
-        final cached = await repo.getPriceHourly(area, when);
-        if (cached.isPresent && cached.value.isNotEmpty) {
-          return cached.value;
-        }
-        */
+  Optional<(DateTime, Future<Weather>)> _request = const Optional.empty();
+
+  Optional<Weather> getCachedWeather(double lat, double lon) {
+    return Optional.ofNullable(cache['$lat:$lon']?.data);
+  }
+
+  Future<Weather> getWeather(double lat, double lon, Duration period) {
+    if (_request.isEmpty ||
+        DateTime.now().difference(_request.value.$1) > period) {
+      final future = guard(() async {
         final key = '$lat:$lon';
         final cached = cache[key];
         if (cached?.isExpired == false) {
@@ -38,6 +41,17 @@ class WeatherService {
 
         return weather.data;
       });
+      ;
+
+      _request = Optional.of(
+        (
+          DateTime.now(),
+          future,
+        ),
+      );
+    }
+    return _request.value.$2;
+  }
 }
 
 @Riverpod(keepAlive: true)

@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
@@ -16,11 +15,13 @@ class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
     required this.lat,
     required this.lon,
     required this.place,
+    this.period = const Duration(minutes: 5),
   });
 
   final double lat;
   final double lon;
   final String place;
+  final Duration period;
 
   @override
   ConsumerState<WeatherNowTile> createState() => _WeatherNowTileState();
@@ -34,32 +35,13 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
 
   int _selected = 0;
   final nf = NumberFormat("00");
-  Optional<(DateTime, Future<Weather>)> _request = const Optional.empty();
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchWeather();
-  }
-
-  Future<Weather> _fetchWeather() {
-    if (_request.isEmpty ||
-        DateTime.now().difference(_request.value.$1).inMinutes > 5) {
-      final service = ref.read(weatherServiceProvider);
-      _request = Optional.of(
-        (
-          DateTime.now(),
-          service.getWeather(widget.lat, widget.lon),
-        ),
-      );
-    }
-    return _request.value.$2;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final service = ref.watch(weatherServiceProvider);
     return FutureBuilder<Weather>(
-      future: _fetchWeather(),
+      future: service.getWeather(widget.lat, widget.lon, widget.period),
+      initialData: service.getCachedWeather(widget.lat, widget.lon).orElseNull,
       builder: (context, snapshot) {
         final now = DateTime.now();
         final weather = _select(snapshot.data, now);
