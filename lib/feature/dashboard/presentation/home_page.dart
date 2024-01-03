@@ -21,6 +21,7 @@ import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/widget/system_now_tile.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
@@ -174,6 +175,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                               lon: 8.8168,
                               place: 'Tindefjell',
                             );
+                          case 'system_now':
+                            return SystemNowTile(
+                              key: GlobalObjectKey(item),
+                            );
                         }
                         return Text(item.identifier);
                       },
@@ -229,6 +234,13 @@ class _HomePageState extends ConsumerState<HomePage> {
           minWidth: 2,
           maxWidth: 3,
         ),
+        DashboardItem(
+          identifier: 'system_now',
+          width: 2,
+          height: 1,
+          minWidth: 2,
+          maxWidth: 2,
+        ),
       ];
 }
 
@@ -271,6 +283,13 @@ List<DashboardItem> tablet() => [
         height: 1,
         minWidth: 3,
       ),
+      DashboardItem(
+        identifier: 'system_now',
+        width: 2,
+        height: 1,
+        maxWidth: 2,
+        minWidth: 2,
+      ),
     ];
 
 List<DashboardItem> desktop() => [
@@ -310,5 +329,12 @@ List<DashboardItem> desktop() => [
         width: 4,
         height: 1,
         minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: 'system_now',
+        width: 3,
+        height: 1,
+        maxWidth: 3,
+        minWidth: 3,
       ),
     ];

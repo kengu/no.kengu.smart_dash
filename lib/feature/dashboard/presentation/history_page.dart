@@ -149,6 +149,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         ],
                         rows: snapshot.hasData
                             ? snapshot.data!
+                                .where((e) => e.isPresent)
                                 .map((e) => _buildDataRow(e))
                                 .toList()
                             : <DataRow>[]),

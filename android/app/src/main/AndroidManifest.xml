@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="no.kengu.smart_dash">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
             android:label="smart_dash"
             android:name="${applicationName}"

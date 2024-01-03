@@ -31,6 +31,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    namespace "no.kengu.smart_dash"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -65,6 +66,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'no.kengu.smart_dash'
 }
 
 flutter {
@@ -73,4 +75,6 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2' // Use the latest version
+
 }

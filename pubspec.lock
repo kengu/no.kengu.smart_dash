@@ -49,6 +49,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  battery_indicator:
+    dependency: "direct main"
+    description:
+      name: battery_indicator
+      sha256: "2c9524abf529818afadb200d6ee1389204f2577c63d9ccbfd77bff923e907715"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  battery_plus:
+    dependency: transitive
+    description:
+      name: battery_plus
+      sha256: c9a3ee3122578e647815301b7d803643af73bffa50a9c27a5ff6f257124f8557
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6"
+  battery_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: battery_plus_platform_interface
+      sha256: "19fd8418a81aeb2dea8fb7026b1fdf56b6c6d319baf8d703fa0d13c1d5c7ba2f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -274,6 +298,14 @@ packages:
       url: "https://github.com/DISCOOS/dashboard.git"
     source: git
     version: "0.0.4"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      sha256: "365c771ac3b0e58845f39ec6deebc76e3276aa9922b0cc60840712094d9047ac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.10"
   dio:
     dependency: "direct main"
     description:
@@ -291,7 +323,7 @@ packages:
     source: hosted
     version: "2.14.1"
   drift_dev:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: drift_dev
       sha256: "50c14b8248d133d36b41c1b08ceed138be869b5b98ccaf3af16c9b88c7adc54e"
@@ -677,10 +709,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: e595b98692943b4881b219f0a9e3945118d3c16bd7e2813f98ec6e532d905f72
+      sha256: "477184d672607c0a3bf68fbbf601805f92ef79c82b64b4d6eb318cbca4c48668"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -713,6 +745,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      sha256: c15605cd28af66339f8eb6fbe0e541bfe2d1b72d5825efc6598f3e0a31b9ad27
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   platform:
     dependency: transitive
     description:
@@ -737,6 +777,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  pretty_bytes:
+    dependency: "direct main"
+    description:
+      name: pretty_bytes
+      sha256: "7631053feb43bef3cf700244758c021bf74a906fae6fa459684a142f9c2bbcd4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
   pub_semver:
     dependency: transitive
     description:
@@ -1141,6 +1189,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  upower:
+    dependency: transitive
+    description:
+      name: upower
+      sha256: cf042403154751180affa1d15614db7fa50234bc2373cd21c3db666c38543ebf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   uuid:
     dependency: transitive
     description:
@@ -1221,6 +1277,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      sha256: b015a8ad1c488f66851d762d3090a21c600e479dc75e68328c52774040cf9226
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.5.0"
   yaml:
     dependency: transitive
     description:
