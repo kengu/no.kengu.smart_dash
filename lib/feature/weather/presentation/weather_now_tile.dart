@@ -93,8 +93,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
         return SmartDashTile(
           title: 'Weather ${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
-//          subTitle: 'Tindefjell @ ${details.time}',
-          subTitle: 'Tindefjell @ '
+          subTitle: '${widget.place} @ '
               '${nf.format(details.time.toLocal().hour)}:00'
               ' ${details.time.toLocal().day == now.day ? 'today' : 'tomorrow'}',
           constraints: constraints,

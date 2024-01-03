@@ -3,7 +3,7 @@ import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.d
 
 TextStyle getLegendTextStyle(BuildContext context) {
   final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
-  final legendTextColor = surfaceColor.lighten(0.2);
+  final legendTextColor = surfaceColor.lighten(0.3);
   return Theme.of(context)
       .textTheme
       .labelSmall!

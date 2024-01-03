@@ -80,7 +80,6 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
                   pointLabel: pointLabeler,
                   pointShown: pointSelector,
                   pointsDraw: (canvas, points, kLine) {
-                    debugPrint(kLine);
                     final isMinMax =
                         const [Sparkline.kMax, Sparkline.kMin].contains(kLine);
                     Paint pointsPaint = Paint()
@@ -92,9 +91,9 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
                   kLine: kLine,
                   lineWidth: 2.0,
                   sharpCorners: false,
-                  enableThreshold: true,
                   thresholdSize: 0.05,
-                  useCubicSmoothing: true,
+                  enableThreshold: true,
+                  useCubicSmoothing: false,
                   pointColor: Colors.amber,
                   cubicSmoothingFactor: 0.12,
                   fallbackWidth: minWidth,

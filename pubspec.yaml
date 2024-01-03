@@ -36,6 +36,7 @@ dependencies:
   sqlite3: ^2.3.0
   sqlite3_flutter_libs: ^0.5.18
 
+  fl_chart: ^0.66.0
   go_router: ^13.0.0
   settings_ui: ^2.0.2
   dashboard: ^0.0.4
