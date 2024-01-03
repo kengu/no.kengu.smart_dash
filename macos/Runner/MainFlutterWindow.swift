@@ -33,6 +33,11 @@
 import Cocoa
 import Foundation
 import FlutterMacOS
+import SystemKit
+
+enum Info {
+ static var system = System()
+}
 
 class MainFlutterWindow: NSWindow {
   private let powerSource = PowerSource()
@@ -118,52 +123,20 @@ class MainFlutterWindow: NSWindow {
     super.awakeFromNib()
   }
 
+    
   private func getCpuUsage() -> [String: Double]? {
-    var totalUsage: Double = 0.0
 
-    var processorCount: natural_t = 0
-    var processorInfo: processor_info_array_t?
-    var processorMsgCount: mach_msg_type_number_t = 0
+    let usage = Info.system.usageCPU()
+    let totalLoad = (usage.system + usage.user);
 
-    let result = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &processorCount, &processorInfo, &processorMsgCount)
-
-    if result == KERN_SUCCESS {
-      let processorInfoSize = MemoryLayout<integer_t>.size * Int(processorMsgCount)
-      let processorInfoPointer = UnsafeBufferPointer(start: processorInfo, count: processorInfoSize)
-      let processorValues = Array(processorInfoPointer)
-
-      for i in 0..<Int(processorCount) {
-          let offset = Int(CPU_STATE_MAX * Int32(i))
-          let user = processorValues[offset + Int(CPU_STATE_USER)]
-          let system = processorValues[offset + Int(CPU_STATE_SYSTEM)]
-          let idle = processorValues[offset + Int(CPU_STATE_IDLE)]
-          let nice = processorValues[offset + Int(CPU_STATE_NICE)]
-          let total = Int(user + system + idle + nice)
-          if total > 0 {
-              totalUsage += Double(user + system + nice) / Double(total)
-          }
-      }
-
-      totalUsage /= Double(processorCount)
-
-      let deallocResult = vm_deallocate(mach_task_self_, vm_address_t(bitPattern: processorInfo), vm_size_t(processorMsgCount * UInt32(MemoryLayout<integer_t>.size)))
-      if deallocResult != KERN_SUCCESS {
-        print("Error deallocating processor info: \(deallocResult)")
-        return nil
-      }
-    } else {
-      print("Error getting processor info: \(result)")
-      return nil
-    }
-
-    guard let app = getAppCpuTime() else {
+    guard let appTime = getAppCpuTime() else {
       print("Error getting app cpu usage info")
       return nil
     }
 
-    let total = getTotalCpuTime()
+    let totalTime = getTotalCpuTime()
 
-    return ["total": totalUsage * 100.0, "app": Double(app) / total]
+    return ["total": totalLoad, "app": Double(appTime) / totalTime]
   }
 
   func getAppCpuTime() -> Double? {
@@ -202,8 +175,6 @@ class MainFlutterWindow: NSWindow {
       }
   }
 
-
-
   func getMemoryUsage() -> [String: Any]? {
     var stats: vm_statistics64 = vm_statistics64()
     var size = mach_msg_type_number_t(MemoryLayout<vm_statistics64>.stride / MemoryLayout<integer_t>.stride)
@@ -215,7 +186,6 @@ class MainFlutterWindow: NSWindow {
 
     if result == KERN_SUCCESS {
       let pageSize = vm_kernel_page_size
-      //let total = UInt(stats.free_count + stats.active_count + stats.inactive_count + stats.wire_count + stats.compressor_page_count) * pageSize
       let total = UInt(ProcessInfo.processInfo.physicalMemory);
       let free = total - UInt(stats.active_count + stats.wire_count + stats.compressor_page_count) * pageSize
       guard let app = self.getAppMemoryUsage() else {

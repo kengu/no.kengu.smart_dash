@@ -64,6 +64,7 @@ toolchain:
 		dart pub global activate pana
 		brew install act
 		brew install watch
+		brew install carthage
 		brew install docker docker-compose
 		brew install colima
 
@@ -78,6 +79,14 @@ toolchain:
 		ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
 		dart pub global activate serverpod_cli
+
+		# SystemKit is added to macos as framework for easy access to macos system info using (only needed initially)
+		# 1. > carthage update --use-xcframeworks --platform macOS
+		# 2. > Drag & Drop macos/Runner.xcworkspace/Carthage/Build/SystemKit.xcframework to XCode > Runner > General > Frameworks, Libraries, and Embedded Content
+
+		# See https://github.com/Carthage/Carthage?tab=readme-ov-file#running-a-project-that-uses-carthage
+		# If 'libarclite_macos.a' is missing on your macos machine, follow https://stackoverflow.com/a/75924853
+		carthage bootstrap
 
 		colima start
 	endif

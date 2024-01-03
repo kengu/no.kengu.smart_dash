@@ -75,6 +75,13 @@ class CpuPieChart extends StatelessWidget {
                   0.90,
                 ),
               ),
+              Text(
+                'Cpu is ${info.cpuIsHigh ? 'high' : 'healthy'}',
+                style: legendStyle,
+                textScaler: const TextScaler.linear(
+                  0.90,
+                ),
+              ),
             ],
           ),
         ),

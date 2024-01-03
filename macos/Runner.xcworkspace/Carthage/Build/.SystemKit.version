@@ -1,0 +1,12 @@
+{
+  "Mac" : [
+    {
+      "name" : "SystemKit",
+      "swiftToolchainVersion" : "5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)",
+      "hash" : "6876de7ec4d928c817aaa852653012c3179b98ad7ffb1617a98fc331e0ed5473",
+      "container" : "SystemKit.xcframework",
+      "identifier" : "macos-arm64_x86_64"
+    }
+  ],
+  "commitish" : "v0.0.12"
+}

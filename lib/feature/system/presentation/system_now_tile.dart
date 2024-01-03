@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/feature/system/application/system_info_service.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/system/model/system_info.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 import 'package:timeago/timeago.dart';
@@ -11,7 +12,7 @@ import 'mem_pie_chart.dart';
 class SystemNowTile extends ConsumerStatefulWidget {
   const SystemNowTile({
     super.key,
-    this.period = const Duration(seconds: 10),
+    this.period = const Duration(seconds: 5),
   });
 
   final Duration period;
@@ -28,15 +29,17 @@ class SystemNowTile extends ConsumerStatefulWidget {
 class _SystemNowTileState extends ConsumerState<SystemNowTile> {
   @override
   Widget build(BuildContext context) {
+    final timing = ref.watch(timingServiceProvider);
     final service = ref.watch(systemInfoServiceProvider);
-    return StreamBuilder<String>(
-      stream: service.getChargingEvents(),
-      builder: (context, event) {
+    return StreamBuilder<DateTime>(
+      stream: timing.events,
+      initialData: service.lastUpdated.orElseNull,
+      builder: (context, update) {
         return FutureBuilder<SystemInfo>(
             initialData: service.lastInfo.orElseNull,
             future: service.getSystemInfo(widget.period),
             builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
+              if (!snapshot.hasData) {
                 return const SmartDashTile(
                   title: 'System Now',
                   subTitle: 'Loading...',

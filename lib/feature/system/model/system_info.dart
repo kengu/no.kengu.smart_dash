@@ -20,4 +20,5 @@ class SystemInfo {
   int get memPressure =>
       memTotal > 0 ? ((memTotal - memFree) / memTotal * 100).round() : 0;
   bool get isAppUsage => cpuApp == cpuTotal;
+  bool get cpuIsHigh => cpuTotal > 95;
 }
