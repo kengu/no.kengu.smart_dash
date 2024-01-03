@@ -16,21 +16,24 @@ class SystemInfoService {
   static const _batteryChannel = MethodChannel('no.kengu.smart_dash/battery');
   static const _chargingChannel = EventChannel('no.kengu.smart_dash/charging');
 
+  Optional<DateTime> get lastUpdated => Optional.ofNullable(
+        _request.orElseNull?.$1,
+      );
+
+  Optional<SystemInfo> get lastInfo => Optional.ofNullable(_lastInfo);
+  SystemInfo? _lastInfo;
+
   Optional<(DateTime, Future<SystemInfo>)> _request = const Optional.empty();
-
-  Optional<DateTime> get lastUpdated =>
-      Optional.ofNullable(_request.orElseNull?.$1);
-
   Stream<String> getChargingEvents() =>
       _chargingChannel.receiveBroadcastStream().map((e) => e.toString());
 
-  Future<SystemInfo> getSystemInfo(Duration period) async {
+  Future<SystemInfo> getSystemInfo(Duration period) {
     if (_request.isEmpty ||
         DateTime.now().difference(_request.value.$1) > period) {
       info() async {
         final mem = await _getMemUsage();
         final cpu = await _getCpuUsage();
-        return SystemInfo(
+        return _lastInfo = SystemInfo(
           memApp: mem.$1,
           memFree: mem.$2,
           memTotal: mem.$3,
@@ -88,6 +91,12 @@ class SystemInfoService {
       return 100;
     }
   }
+}
+
+class SystemInfoResult {
+  SystemInfoResult(this.updated, this.info);
+  final DateTime updated;
+  final SystemInfo info;
 }
 
 @Riverpod(keepAlive: true)

@@ -33,6 +33,7 @@ class _SystemNowTileState extends ConsumerState<SystemNowTile> {
       stream: service.getChargingEvents(),
       builder: (context, event) {
         return FutureBuilder<SystemInfo>(
+            initialData: service.lastInfo.orElseNull,
             future: service.getSystemInfo(widget.period),
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
