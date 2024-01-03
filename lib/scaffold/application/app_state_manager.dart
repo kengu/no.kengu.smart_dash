@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/application/timing_service.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/sikom/application/sikom_driver.dart';

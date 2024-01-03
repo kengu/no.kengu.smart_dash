@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/analytics/application/timing_service.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/device/data/device_definition_repository.dart';
 import 'package:smart_dash/feature/device/domain/driver_definition.dart';
 import 'package:smart_dash/util/guard.dart';

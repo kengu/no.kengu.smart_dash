@@ -21,7 +21,7 @@ import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash/widget/system_now_tile.dart';
+import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
