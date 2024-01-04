@@ -20,13 +20,11 @@ class ElectricityPriceRepository {
     DateTime when,
   ) =>
       guard(() async {
-        final query = db.select(db.electricityPriceTable)
-          ..where(
-            (t) =>
-                t.area.equals(area) &
-                t.ts0.isBiggerOrEqualValue(when) &
-                t.ts1.isSmallerOrEqualValue(when),
-          );
+        final query = db.getFromExactNameAndDate(
+          area,
+          when,
+          when.add(const Duration(days: 1)),
+        );
         final result = await query.get();
         return Optional.of(result
             .map((p) => ElectricityPrice(

@@ -10,3 +10,13 @@ CREATE TABLE ElectricityPriceTable (
     area TEXT NOT NULL,
     UNIQUE (ts0, ts1,area)
 );
+
+-- Queries
+/*
+   After declaring your tables, you can put queries in here.
+   Just write the name of the query, a colon (:) and code for
+   the SQL query will generated for you
+ */
+
+-- Get time series with exact name match
+getFromExactNameAndDate(:area AS TEXT, :ts0 AS DATETIME, :ts1 AS DATETIME): SELECT * FROM ElectricityPriceTable WHERE area = :area AND ts0 BETWEEN :ts0 AND :ts1;

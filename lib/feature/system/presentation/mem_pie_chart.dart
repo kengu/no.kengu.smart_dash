@@ -30,6 +30,7 @@ class MemPieChart extends StatelessWidget {
           child: Transform.scale(
             scale: scale,
             child: PieChart(
+              swapAnimationDuration: const Duration(milliseconds: 500),
               PieChartData(
                 borderData: FlBorderData(
                   show: false,
@@ -41,7 +42,14 @@ class MemPieChart extends StatelessWidget {
                 // No space in the center
                 sections: [
                   PieChartSectionData(
-                    value: info.memUsed.toDouble(), // Used memory
+                    value: info.memApp.toDouble(), // Used memory
+                    showTitle: false,
+                    radius: 50,
+                    color: Colors.green.withOpacity(0.3),
+                  ),
+                  PieChartSectionData(
+                    value:
+                        (info.memUsed - info.memApp).toDouble(), // Used memory
                     showTitle: false,
                     radius: 50,
                     color: Colors.lightGreen.withOpacity(0.6),

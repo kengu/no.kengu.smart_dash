@@ -29,6 +29,7 @@ class CpuPieChart extends StatelessWidget {
           child: Transform.scale(
             scale: scale,
             child: PieChart(
+              swapAnimationDuration: const Duration(milliseconds: 500),
               PieChartData(
                 borderData: FlBorderData(
                   show: false,
@@ -40,7 +41,15 @@ class CpuPieChart extends StatelessWidget {
                 // No space in the center
                 sections: [
                   PieChartSectionData(
-                    value: info.cpuTotal, // Total load
+                    value: info.cpuApp, // App load
+                    showTitle: false,
+                    radius: 50,
+                    color: info.isAppUsage
+                        ? Colors.lightGreen.withOpacity(0.6)
+                        : Colors.green.withOpacity(0.3),
+                  ),
+                  PieChartSectionData(
+                    value: info.cpuTotal - (info.cpuApp ?? 0), // Total load
                     showTitle: false,
                     radius: 50,
                     color: Colors.lightGreen.withOpacity(0.6),
@@ -60,7 +69,7 @@ class CpuPieChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${info.cpuTotal.toStringAsFixed(1)} %',
+                '${(info.isAppUsage ? info.cpuApp ?? 0 : info.cpuAppPercentOfTotal).toStringAsFixed(1)} %',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),
@@ -68,13 +77,14 @@ class CpuPieChart extends StatelessWidget {
                   1.3,
                 ),
               ),
-              Text(
-                'total CPU load',
-                style: legendStyle,
-                textScaler: const TextScaler.linear(
-                  0.90,
+              if (!info.isAppUsage)
+                Text(
+                  'of ${info.cpuTotal.toStringAsFixed(1)} % CPU load',
+                  style: legendStyle,
+                  textScaler: const TextScaler.linear(
+                    0.90,
+                  ),
                 ),
-              ),
               Text(
                 'Cpu is ${info.cpuIsHigh ? 'high' : 'healthy'}',
                 style: legendStyle,

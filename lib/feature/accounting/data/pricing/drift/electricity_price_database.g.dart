@@ -373,6 +373,20 @@ abstract class _$ElectricityPriceDatabase extends GeneratedDatabase {
   _$ElectricityPriceDatabase(QueryExecutor e) : super(e);
   late final ElectricityPriceTable electricityPriceTable =
       ElectricityPriceTable(this);
+  Selectable<ElectricityPriceTableData> getFromExactNameAndDate(
+      String area, DateTime ts0, DateTime ts1) {
+    return customSelect(
+        'SELECT * FROM ElectricityPriceTable WHERE area = ?1 AND ts0 BETWEEN ?2 AND ?3',
+        variables: [
+          Variable<String>(area),
+          Variable<DateTime>(ts0),
+          Variable<DateTime>(ts1)
+        ],
+        readsFrom: {
+          electricityPriceTable,
+        }).asyncMap(electricityPriceTable.mapFromRow);
+  }
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

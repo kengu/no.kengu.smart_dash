@@ -94,22 +94,28 @@ class MainFlutterWindow: NSWindow {
     cpuInfoChannel.setMethodCallHandler { [weak self] (call, result) in
       switch call.method {
         case "getCpuUsage":
-            guard let usage = self?.getCpuUsage() else {
-              result(
-                FlutterError(
-                  code: "UNAVAILABLE",
-                  message: "CPU info unavailable",
-                  details: nil))
-              return
+            self?.getCpuUsage { cpuUsageData in
+              if let usage = cpuUsageData {
+                result(usage)
+              } else {
+                result(
+                  FlutterError(
+                    code: "UNAVAILABLE",
+                    message: "CPU info unavailable",
+                    details: nil
+                  )
+                )
+              }
             }
-            result(usage)
         case "getMemoryUsage":
             guard let usage = self?.getMemoryUsage() else {
               result(
                 FlutterError(
                   code: "UNAVAILABLE",
                   message: "Memory info unavailable",
-                  details: nil))
+                  details: nil
+                )
+              )
               return
             }
             result(usage)
@@ -124,40 +130,122 @@ class MainFlutterWindow: NSWindow {
   }
 
     
-  private func getCpuUsage() -> [String: Double]? {
-
+  private func getCpuUsage(completion: @escaping ([String: Double]?) -> Void) {
     let usage = Info.system.usageCPU()
     let totalLoad = (usage.system + usage.user);
-
-    guard let appTime = getAppCpuTime() else {
-      print("Error getting app cpu usage info")
-      return nil
-    }
-
-    let totalTime = getTotalCpuTime()
-
-    return ["total": totalLoad, "app": Double(appTime) / totalTime]
-  }
-
-  func getAppCpuTime() -> Double? {
-    var taskInfo = mach_task_basic_info()
-    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
-
-    let kerr = withUnsafeMutablePointer(to: &taskInfo) {
-      $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
-          task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+      
+    self.calcAppCpuUsage(overTime: 2) { cpuUsagePercentage in
+      if let cpuAppUsage = cpuUsagePercentage {
+          print("CPU Usage Percentage: \(cpuAppUsage)%")
+          completion(["total": totalLoad, "app": cpuAppUsage])
+      } else {
+          print("Failed to calculate CPU usage.")
+          completion(nil)
       }
     }
+  }
+    
+  func calcAppCpuUsage(overTime period: TimeInterval, completion: @escaping (Double?) -> Void) {
+    DispatchQueue.global(qos: .background).async {
+        
+        
+      guard let initialAppCpuTime = self.getAppCpuTime() else {
+        print("Failed to get initial app CPU time.")
+        return
+      }
+      guard let initialTotalCpuTime = self.getTotalCpuTime() else {
+        print("Failed to get initial total CPU time.")
+        return
+      }
 
-    if kerr == KERN_SUCCESS {
-      return Double(taskInfo.user_time.microseconds + taskInfo.system_time.microseconds) / 1_000_000.0 +
-             Double(taskInfo.user_time.seconds + taskInfo.system_time.seconds)
-    } else {
-      return nil
+      // Sleep for the specified period
+      Thread.sleep(forTimeInterval: period)
+
+      guard let finalAppCpuTime = self.getAppCpuTime() else {
+        print("Failed to get final app CPU time.")
+        return
+      }
+      guard let finalTotalCpuTime = self.getTotalCpuTime() else {
+        print("Failed to get final total CPU time.")
+        return
+      }
+
+      let deltaAppCpuTime = finalAppCpuTime - initialAppCpuTime
+      let deltaTotalCpuTime = finalTotalCpuTime - initialTotalCpuTime
+        
+        
+
+      let cpuAppUsagePercentage = deltaTotalCpuTime > 0 ? (deltaAppCpuTime / deltaTotalCpuTime) * 100.0 : nil
+      DispatchQueue.main.async {
+          completion(cpuAppUsagePercentage)
+      }
     }
   }
 
-  func getTotalCpuTime() -> Double {
+  // Adapted from https://stackoverflow.com/questions/8223348/get-cpu-usage-from-application-on-ios
+  func getAppCpuTime() -> Double? {
+      var kr: kern_return_t
+      var taskInfo = mach_task_basic_info()
+      var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+
+      kr = withUnsafeMutablePointer(to: &taskInfo) {
+          $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
+              task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+          }
+      }
+
+      guard kr == KERN_SUCCESS else {
+          return nil
+      }
+
+      var threadList: thread_act_array_t?
+      var threadCount: mach_msg_type_number_t = 0
+
+      kr = task_threads(mach_task_self_, &threadList, &threadCount)
+      if kr != KERN_SUCCESS {
+          return nil
+      }
+
+      var totIdle = 0.0
+      var totUser = 0.0
+      var totKernel = 0.0
+
+      if let threadList = threadList {
+          for j in 0..<Int(threadCount) {
+              var thInfo = thread_basic_info()
+              var threadInfoCount = mach_msg_type_number_t(THREAD_INFO_MAX)
+
+              kr = withUnsafeMutablePointer(to: &thInfo) {
+                  $0.withMemoryRebound(to: integer_t.self, capacity: Int(threadInfoCount)) {
+                      thread_info(threadList[j], thread_flavor_t(THREAD_BASIC_INFO), $0, &threadInfoCount)
+                  }
+              }
+
+              guard kr == KERN_SUCCESS else {
+                  break;
+              }
+
+              let threadBasicInfo = thInfo
+              if threadBasicInfo.flags & TH_FLAGS_IDLE == 0 {
+                  totUser += Double(threadBasicInfo.user_time.seconds) + Double(threadBasicInfo.user_time.microseconds) / 1_000_000.0
+                  totKernel += Double(threadBasicInfo.system_time.seconds) + Double(threadBasicInfo.system_time.microseconds) / 1_000_000.0
+              } else {
+                  totIdle += Double(threadBasicInfo.user_time.seconds) + Double(threadBasicInfo.user_time.microseconds) / 1_000_000.0 +
+                             Double(threadBasicInfo.system_time.seconds) + Double(threadBasicInfo.system_time.microseconds) / 1_000_000.0
+              }
+          }
+
+          kr = vm_deallocate(mach_task_self_, vm_address_t(bitPattern: threadList), vm_size_t(Int(threadCount) * MemoryLayout<thread_t>.stride))
+
+          assert(kr == KERN_SUCCESS)
+      }
+
+      return totIdle + totUser + totKernel
+  }
+
+  func getTotalCpuTime() -> Double? {
+      // arm64
+      let ticksPerSecond = sysconf(_SC_CLK_TCK)// 24000000
       var cpuLoad = host_cpu_load_info()
       var count = mach_msg_type_number_t(MemoryLayout<host_cpu_load_info>.size) / 4
 
@@ -168,10 +256,11 @@ class MainFlutterWindow: NSWindow {
       }
 
       if kerr == KERN_SUCCESS {
-          return Double(cpuLoad.cpu_ticks.0) + Double(cpuLoad.cpu_ticks.1) +
-            Double(cpuLoad.cpu_ticks.2) + Double(cpuLoad.cpu_ticks.3)
+          let totalTicks = Double(cpuLoad.cpu_ticks.0) + Double(cpuLoad.cpu_ticks.1) +
+              Double(cpuLoad.cpu_ticks.2) + Double(cpuLoad.cpu_ticks.3)
+          return totalTicks / Double(ticksPerSecond)
       } else {
-          return 0.0
+          return nil
       }
   }
 

@@ -40,7 +40,8 @@ CREATE TABLE DataDimsTable (
 -- Queries
 /*
    After declaring your tables, you can put queries in here.
-   Just write the name of the query, a colon (:) and the SQL qu
+   Just write the name of the query, a colon (:) and code for
+   the SQL query will generated for you
  */
 
 -- Get time series with exact name match
