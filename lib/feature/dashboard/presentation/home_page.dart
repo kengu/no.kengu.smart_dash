@@ -115,6 +115,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 children: [
                   if (withHeader)
                     const SmartDashHeader(
+                      key: GlobalObjectKey('home'),
                       title: 'Home',
                     ),
                   Padding(

@@ -83,7 +83,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
     final current = isDesktop;
     final dashboard = Dashboard(
       key: key,
-      slideToTop: true,
+      slideToTop: false,
       shrinkToPlace: true,
       absorbPointer: false,
       animateEverytime: true,
