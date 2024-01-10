@@ -139,7 +139,7 @@ drift-generate-tests:
 
 build:
 	echo "Watch for buildable changes..."
-	dart pub run build_runner watch --delete-conflicting-outputs
+	dart run build_runner watch --delete-conflicting-outputs
 
 android-rebuild:
 	echo "Rebuilding android project..."

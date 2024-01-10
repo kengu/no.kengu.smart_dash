@@ -15,7 +15,7 @@ extension NumX on num {
   }
 }
 
-extension NumListX<T extends num> on List<T> {
+extension NumIterableX<T extends num> on Iterable<T> {
   T min() =>
       isEmpty ? 0.cast<T>() : map((value) => value.cast<T>()).reduce(math.min);
   T max() =>
@@ -35,11 +35,13 @@ extension NumListX<T extends num> on List<T> {
       : map((value) => value.cast<T>())
           .reduce((prev, next) => (prev + next).cast());
 
+  Iterable<E> to<E extends num>() => map((d) => d.cast<E>());
+}
+
+extension NumListX<T extends num> on List<T> {
   int minAt() => isEmpty ? -1 : indexOf(min());
   int maxAt() => isEmpty ? -1 : indexOf(max());
 
   int lastMinAt() => isEmpty ? -1 : lastIndexOf(min());
   int lastMaxAt() => isEmpty ? -1 : lastIndexOf(max());
-
-  Iterable<E> to<E extends num>() => map((d) => d.cast<E>());
 }

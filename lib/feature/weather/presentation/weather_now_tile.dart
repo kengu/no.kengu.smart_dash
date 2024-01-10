@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 
@@ -72,6 +74,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
             ),
           );
         }
+        final index = snapshot.data!.props.timeseries.indexOf(details);
         return SmartDashTile(
           title: 'Weather ${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
@@ -99,8 +102,8 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: WeatherInstanceWidget(
-                    weather: details,
-                    meta: snapshot.data!.props.meta,
+                    index: index,
+                    weather: snapshot.data!,
                   ),
                 ),
               ),
@@ -219,17 +222,17 @@ class SelectableBoxWidget extends StatelessWidget {
 class WeatherInstanceWidget extends StatelessWidget {
   const WeatherInstanceWidget({
     super.key,
+    required this.index,
     required this.weather,
-    required this.meta,
   });
 
-  final WeatherTimeStep weather;
-  final WeatherMeta meta;
+  final int index;
+  final Weather weather;
 
   @override
   Widget build(BuildContext context) {
-    final next4h = weather.data.next1h;
-    final instant = weather.data.instant;
+    final step = weather.props.timeseries[index];
+    final instant = step.data.instant;
     final airTemp = (instant.details.airTemperature ?? 0);
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
     final legendColor = surfaceColor.lighten(0.2);
@@ -239,7 +242,7 @@ class WeatherInstanceWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _toSymbol(weather, 120),
+        _toSymbol(step, 120),
         Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +262,7 @@ class WeatherInstanceWidget extends StatelessWidget {
                     style: textStyle,
                   ),
                 Text(
-                  ' ${meta.units.windSpeed}',
+                  ' ${weather.props.meta.units.windSpeed}',
                   style: textStyle,
                 ),
                 const SizedBox(width: 4),
@@ -277,27 +280,25 @@ class WeatherInstanceWidget extends StatelessWidget {
                 ),
               ],
             ),
-            if (next4h != null) ...[
-              const SizedBox(height: 8),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.snowing,
-                    color: legendColor,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    _toPrecipitationAmount(next4h, airTemp),
-                  ),
-                  Text(
-                    airTemp > 0 ? ' mm rain' : ' cm snow',
-                    style: textStyle,
-                  )
-                ],
-              ),
-            ],
+            const SizedBox(height: 8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.snowing,
+                  color: legendColor,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _toPrecipitationAmount(airTemp),
+                ),
+                Text(
+                  '${airTemp > 0 ? ' mm rain' : ' cm snow'} next ${index}h',
+                  style: textStyle,
+                )
+              ],
+            ),
             const SizedBox(height: 8),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -315,7 +316,7 @@ class WeatherInstanceWidget extends StatelessWidget {
                   '${instant.details.cloudAreaFraction?.round()}',
                 ),
                 Text(
-                  ' ${meta.units.cloudAreaFraction} clouds',
+                  ' ${weather.props.meta.units.cloudAreaFraction} clouds',
                   style: textStyle,
                 )
               ],
@@ -326,14 +327,21 @@ class WeatherInstanceWidget extends StatelessWidget {
     );
   }
 
-  String _toPrecipitationAmount(WeatherForecast next4h, double temp) {
+  String _toPrecipitationAmount(double temp) {
+    final steps = weather.props.timeseries
+        .skip(max(0, index - 1))
+        .take(24)
+        .map((e) => e.data.next1h?.details.precipitationAmount ?? 0.0);
+
+    // Sum over next 24 from index
+    final amountInMm = steps.sum();
+
     if (temp > 0) {
-      return '${next4h.details.precipitationAmount?.toStringAsFixed(1)}';
+      return amountInMm.toStringAsFixed(1);
     }
 
-    final amountInMm = next4h.details.precipitationAmount ?? 0;
-    final ratioInCm = _calcSnowRatioInInches(temp) * 2.54 / 10;
-    return (amountInMm * ratioInCm).toStringAsFixed(0);
+    final ratioInCm = _calcSnowRatioInInches(temp) * 0.254;
+    return (amountInMm * ratioInCm).toStringAsFixed(1);
   }
 
   // From https://goodcalculators.com/rain-to-snow-calculator/

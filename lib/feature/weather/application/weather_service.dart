@@ -41,7 +41,6 @@ class WeatherService {
 
         return weather.data;
       });
-      ;
 
       _request = Optional.of(
         (
