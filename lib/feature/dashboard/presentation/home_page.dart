@@ -2,14 +2,14 @@ import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/accounting/presentation/energy_bill_tile.dart';
+import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/analytics/presentation/energy_usage_tile.dart';
-import 'package:smart_dash/feature/accounting/presentation/hourly_electricity_price_tile.dart';
+import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/analytics/presentation/power_usage_tile.dart';
 import 'package:smart_dash/feature/analytics/presentation/voltage_usage_tile.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
@@ -156,14 +156,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 event,
                               )),
                             );
-                          case 'price':
-                            return HourlyElectricityPriceTile(
+                          case 'price_hourly':
+                            return ElectricityPriceHourlyTile(
                               key: GlobalObjectKey(item),
                               area: area,
                               when: when,
                             );
-                          case 'bill':
-                            return EnergyBillTile(
+                          case 'bill_hourly':
+                            return EnergyBillHourlyTile(
                               key: GlobalObjectKey(item),
                               area: area,
                               when: when,
@@ -201,14 +201,14 @@ class _HomePageState extends ConsumerState<HomePage> {
           maxWidth: 2,
         ),
         DashboardItem(
-          identifier: 'bill',
+          identifier: 'bill_hourly',
           width: 3,
           height: 1,
           minWidth: 3,
           maxWidth: 3,
         ),
         DashboardItem(
-          identifier: 'price',
+          identifier: 'price_hourly',
           width: 3,
           height: 1,
           minWidth: 2,
@@ -273,13 +273,13 @@ List<DashboardItem> tablet() => [
         maxWidth: 2,
       ),
       DashboardItem(
-        identifier: 'price',
+        identifier: 'price_hourly',
         width: 3,
         height: 1,
         minWidth: 3,
       ),
       DashboardItem(
-        identifier: 'bill',
+        identifier: 'bill_hourly',
         width: 3,
         height: 1,
         minWidth: 3,
@@ -320,13 +320,13 @@ List<DashboardItem> desktop() => [
         minWidth: 4,
       ),
       DashboardItem(
-        identifier: 'price',
+        identifier: 'price_hourly',
         width: 4,
         height: 1,
         minWidth: 4,
       ),
       DashboardItem(
-        identifier: 'bill',
+        identifier: 'bill_hourly',
         width: 4,
         height: 1,
         minWidth: 4,

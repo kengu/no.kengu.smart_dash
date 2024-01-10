@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash/feature/accounting/domain/pricing/electricity_price.dart';
+import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/util/guard.dart';
 
 import 'electricity_price_response.dart';

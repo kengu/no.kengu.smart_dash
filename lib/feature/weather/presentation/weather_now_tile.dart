@@ -294,7 +294,7 @@ class WeatherInstanceWidget extends StatelessWidget {
                   _toPrecipitationAmount(airTemp),
                 ),
                 Text(
-                  '${airTemp > 0 ? ' mm rain' : ' cm snow'} next ${index}h',
+                  '${airTemp > 0 ? ' mm rain' : ' cm snow'} next ${index > 1 ? index : 24}h',
                   style: textStyle,
                 )
               ],

@@ -12,8 +12,8 @@ import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
-class EnergyBillTile extends ConsumerWidget {
-  const EnergyBillTile({
+class EnergyBillHourlyTile extends ConsumerWidget {
+  const EnergyBillHourlyTile({
     super.key,
     required this.when,
     required this.area,
@@ -173,7 +173,7 @@ class EnergyBillTile extends ConsumerWidget {
 
   TimeSeries _toHourly(List<EnergyBill> bills) {
     final prices = DataArray(
-      [bills.map((e) => e.inNok).toList()],
+      [bills.map((e) => e.inNok * e.vatRate).toList()],
       coords: List.generate(
         bills.length,
         (index) => {'hour': index},

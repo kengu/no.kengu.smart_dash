@@ -20,10 +20,12 @@ EnergyBill _$EnergyBillFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EnergyBill {
-  ElectricityPrice get base => throw _privateConstructorUsedError;
-  double get energy => throw _privateConstructorUsedError;
-  DateTime get begin => throw _privateConstructorUsedError;
+  int get vat => throw _privateConstructorUsedError;
   DateTime get end => throw _privateConstructorUsedError;
+  DateTime get begin => throw _privateConstructorUsedError;
+  double get energy => throw _privateConstructorUsedError;
+  ElectricityPrice get price => throw _privateConstructorUsedError;
+  ElectricityTariff get tariff => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,9 +40,15 @@ abstract class $EnergyBillCopyWith<$Res> {
       _$EnergyBillCopyWithImpl<$Res, EnergyBill>;
   @useResult
   $Res call(
-      {ElectricityPrice base, double energy, DateTime begin, DateTime end});
+      {int vat,
+      DateTime end,
+      DateTime begin,
+      double energy,
+      ElectricityPrice price,
+      ElectricityTariff tariff});
 
-  $ElectricityPriceCopyWith<$Res> get base;
+  $ElectricityPriceCopyWith<$Res> get price;
+  $ElectricityTariffCopyWith<$Res> get tariff;
 }
 
 /// @nodoc
@@ -56,36 +64,54 @@ class _$EnergyBillCopyWithImpl<$Res, $Val extends EnergyBill>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? base = null,
-    Object? energy = null,
-    Object? begin = null,
+    Object? vat = null,
     Object? end = null,
+    Object? begin = null,
+    Object? energy = null,
+    Object? price = null,
+    Object? tariff = null,
   }) {
     return _then(_value.copyWith(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as ElectricityPrice,
-      energy: null == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as double,
-      begin: null == begin
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      vat: null == vat
+          ? _value.vat
+          : vat // ignore: cast_nullable_to_non_nullable
+              as int,
       end: null == end
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      energy: null == energy
+          ? _value.energy
+          : energy // ignore: cast_nullable_to_non_nullable
+              as double,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as ElectricityPrice,
+      tariff: null == tariff
+          ? _value.tariff
+          : tariff // ignore: cast_nullable_to_non_nullable
+              as ElectricityTariff,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ElectricityPriceCopyWith<$Res> get base {
-    return $ElectricityPriceCopyWith<$Res>(_value.base, (value) {
-      return _then(_value.copyWith(base: value) as $Val);
+  $ElectricityPriceCopyWith<$Res> get price {
+    return $ElectricityPriceCopyWith<$Res>(_value.price, (value) {
+      return _then(_value.copyWith(price: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ElectricityTariffCopyWith<$Res> get tariff {
+    return $ElectricityTariffCopyWith<$Res>(_value.tariff, (value) {
+      return _then(_value.copyWith(tariff: value) as $Val);
     });
   }
 }
@@ -99,10 +125,17 @@ abstract class _$$EnergyBillImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ElectricityPrice base, double energy, DateTime begin, DateTime end});
+      {int vat,
+      DateTime end,
+      DateTime begin,
+      double energy,
+      ElectricityPrice price,
+      ElectricityTariff tariff});
 
   @override
-  $ElectricityPriceCopyWith<$Res> get base;
+  $ElectricityPriceCopyWith<$Res> get price;
+  @override
+  $ElectricityTariffCopyWith<$Res> get tariff;
 }
 
 /// @nodoc
@@ -116,28 +149,38 @@ class __$$EnergyBillImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? base = null,
-    Object? energy = null,
-    Object? begin = null,
+    Object? vat = null,
     Object? end = null,
+    Object? begin = null,
+    Object? energy = null,
+    Object? price = null,
+    Object? tariff = null,
   }) {
     return _then(_$EnergyBillImpl(
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as ElectricityPrice,
-      energy: null == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as double,
-      begin: null == begin
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      vat: null == vat
+          ? _value.vat
+          : vat // ignore: cast_nullable_to_non_nullable
+              as int,
       end: null == end
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      energy: null == energy
+          ? _value.energy
+          : energy // ignore: cast_nullable_to_non_nullable
+              as double,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as ElectricityPrice,
+      tariff: null == tariff
+          ? _value.tariff
+          : tariff // ignore: cast_nullable_to_non_nullable
+              as ElectricityTariff,
     ));
   }
 }
@@ -146,27 +189,33 @@ class __$$EnergyBillImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EnergyBillImpl extends _EnergyBill {
   const _$EnergyBillImpl(
-      {required this.base,
-      required this.energy,
+      {required this.vat,
+      required this.end,
       required this.begin,
-      required this.end})
+      required this.energy,
+      required this.price,
+      required this.tariff})
       : super._();
 
   factory _$EnergyBillImpl.fromJson(Map<String, dynamic> json) =>
       _$$EnergyBillImplFromJson(json);
 
   @override
-  final ElectricityPrice base;
+  final int vat;
   @override
-  final double energy;
+  final DateTime end;
   @override
   final DateTime begin;
   @override
-  final DateTime end;
+  final double energy;
+  @override
+  final ElectricityPrice price;
+  @override
+  final ElectricityTariff tariff;
 
   @override
   String toString() {
-    return 'EnergyBill(base: $base, energy: $energy, begin: $begin, end: $end)';
+    return 'EnergyBill(vat: $vat, end: $end, begin: $begin, energy: $energy, price: $price, tariff: $tariff)';
   }
 
   @override
@@ -174,15 +223,18 @@ class _$EnergyBillImpl extends _EnergyBill {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EnergyBillImpl &&
-            (identical(other.base, base) || other.base == base) &&
-            (identical(other.energy, energy) || other.energy == energy) &&
+            (identical(other.vat, vat) || other.vat == vat) &&
+            (identical(other.end, end) || other.end == end) &&
             (identical(other.begin, begin) || other.begin == begin) &&
-            (identical(other.end, end) || other.end == end));
+            (identical(other.energy, energy) || other.energy == energy) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.tariff, tariff) || other.tariff == tariff));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, base, energy, begin, end);
+  int get hashCode =>
+      Object.hash(runtimeType, vat, end, begin, energy, price, tariff);
 
   @JsonKey(ignore: true)
   @override
@@ -200,23 +252,29 @@ class _$EnergyBillImpl extends _EnergyBill {
 
 abstract class _EnergyBill extends EnergyBill {
   const factory _EnergyBill(
-      {required final ElectricityPrice base,
-      required final double energy,
+      {required final int vat,
+      required final DateTime end,
       required final DateTime begin,
-      required final DateTime end}) = _$EnergyBillImpl;
+      required final double energy,
+      required final ElectricityPrice price,
+      required final ElectricityTariff tariff}) = _$EnergyBillImpl;
   const _EnergyBill._() : super._();
 
   factory _EnergyBill.fromJson(Map<String, dynamic> json) =
       _$EnergyBillImpl.fromJson;
 
   @override
-  ElectricityPrice get base;
+  int get vat;
   @override
-  double get energy;
+  DateTime get end;
   @override
   DateTime get begin;
   @override
-  DateTime get end;
+  double get energy;
+  @override
+  ElectricityPrice get price;
+  @override
+  ElectricityTariff get tariff;
   @override
   @JsonKey(ignore: true)
   _$$EnergyBillImplCopyWith<_$EnergyBillImpl> get copyWith =>

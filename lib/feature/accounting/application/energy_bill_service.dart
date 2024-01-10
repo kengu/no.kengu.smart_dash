@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/accounting/application/electricity_price_service.dart';
 import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
+import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
@@ -23,6 +26,13 @@ class EnergyBillService {
   /// Get [EnergyBill] history per hour.
   Future<List<EnergyBill>> getBillHourly(String area, DateTime when) =>
       guard(() async {
+        final tariff = ElectricityTariff.fromJson(
+          jsonDecode(
+            await rootBundle.loadString(
+              'assets/data/electricity_tariff.json',
+            ),
+          ),
+        );
         final prices = await ref
             .read(electricityPriceServiceProvider)
             .getPriceHourly(area, when);
@@ -33,17 +43,25 @@ class EnergyBillService {
         if (history.isPresent) {
           final hourly = toEnergy(history.value, when);
 
+          var minEnergy = double.maxFinite;
+          var maxEnergy = double.minPositive;
+
           for (int i = 0; i < hourly.length; i++) {
             final ts = hourly.tsAt(i);
+            final energy = hourly.rowAt(i).first.toDouble();
+            minEnergy = min(minEnergy, energy);
+            maxEnergy = max(maxEnergy, energy);
             final price = prices.firstWhereOptional((p) =>
                 p.begin.millisecondsSinceEpoch <= ts.millisecondsSinceEpoch &&
                 p.end.millisecondsSinceEpoch >= ts.millisecondsSinceEpoch);
             if (price.isPresent) {
               bill.add(EnergyBill(
-                base: price.value,
-                energy: hourly.rowAt(i).first.toDouble(),
+                vat: 25,
                 begin: ts,
+                tariff: tariff,
+                price: price.value,
                 end: ts.add(hourly.span),
+                energy: hourly.rowAt(i).first.toDouble(),
               ));
             }
           }
