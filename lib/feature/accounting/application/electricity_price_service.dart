@@ -12,18 +12,32 @@ class ElectricityPriceService {
 
   final Ref ref;
 
+  final Map<String, Future<List<ElectricityPrice>>> cache = {};
+
   Future<List<ElectricityPrice>> getPriceHourly(String area, DateTime when) =>
       guard(() async {
+        // Try local db first
         final repo = ref.read(electricityPriceRepositoryProvider);
-        final cached = await repo.getPriceHourly(area, when);
-        if (cached.isPresent && cached.value.isNotEmpty) {
-          return cached.value;
+        final fetched = await repo.getPriceHourly(area, when);
+        if (fetched.isPresent && fetched.value.isNotEmpty) {
+          return fetched.value;
         }
+
+        // Check if a request is already opened
+        final key = '$area:$when';
+        final cached = cache[key];
+        if (cached != null) {
+          return cached;
+        }
+
+        // Create request and cache it to prevent race condition
         final client = ref.read(electricityPriceClientProvider);
-        final prices = await client.getPriceHourly(area, when);
+        cache[key] = client.getPriceHourly(area, when);
+        final prices = await cache[key]!;
         if (prices.isNotEmpty) {
           await repo.save(area, prices);
         }
+        cache.remove(key);
         return prices;
       });
 }
