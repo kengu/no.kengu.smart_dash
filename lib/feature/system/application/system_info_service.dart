@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/system/model/system_info.dart';
+import 'package:smart_dash/feature/system/domain/system_info.dart';
 
 part 'system_info_service.g.dart';
 

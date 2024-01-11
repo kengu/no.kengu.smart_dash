@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/energy_summary.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_property.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 
 part 'sikom_device.freezed.dart';
 part 'sikom_device.g.dart';

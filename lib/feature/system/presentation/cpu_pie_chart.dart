@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_dash/feature/system/model/system_info.dart';
+import 'package:smart_dash/feature/system/domain/system_info.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
 import 'package:smart_dash/util/widget.dart';
 

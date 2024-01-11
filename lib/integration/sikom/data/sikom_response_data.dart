@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_device.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_gateway.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 
 part 'sikom_response_data.freezed.dart';
 part 'sikom_response_data.g.dart';
@@ -12,7 +12,7 @@ class SikomResponseData with _$SikomResponseData {
     @JsonKey(name: 'bpapi_status') required String bpapiStatus,
     @JsonKey(name: 'bpapi_message') required String bpapiMessage,
     @JsonKey(name: 'bpapi_array')
-        List<SikomResponseDataArrayObject>? bpapiArray,
+    List<SikomResponseDataArrayObject>? bpapiArray,
     List<Object>? result,
     @JsonKey(name: 'scalar_result') Object? scalarResult,
     @JsonKey(name: 'device') SikomDevice? device,

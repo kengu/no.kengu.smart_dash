@@ -4,9 +4,9 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/service_credentials.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
-import 'package:smart_dash/feature/sikom/data/sikom_response.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_device.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_gateway.dart';
+import 'package:smart_dash/integration/sikom/data/sikom_response.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 import 'package:smart_dash/util/guard.dart';
 
 class SikomClient {

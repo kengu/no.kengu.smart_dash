@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash/feature/sikom/data/sikom_response_data.dart';
+import 'package:smart_dash/integration/sikom/data/sikom_response_data.dart';
 
 part 'sikom_response.freezed.dart';
 part 'sikom_response.g.dart';

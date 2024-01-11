@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_property.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 
 part 'sikom_gateway.freezed.dart';
 part 'sikom_gateway.g.dart';
@@ -41,7 +41,7 @@ class SikomGatewayController with _$SikomGatewayController {
   const SikomGatewayController._();
   const factory SikomGatewayController({
     @JsonKey(name: 'Properties')
-        required SikomGatewayControllerProperties properties,
+    required SikomGatewayControllerProperties properties,
   }) = _SikomGatewayController;
 
   factory SikomGatewayController.fromJson(Map<String, Object?> json) =>

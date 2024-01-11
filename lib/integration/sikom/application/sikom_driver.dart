@@ -7,11 +7,11 @@ import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/sikom/application/sikom_driver_flows.dart';
-import 'package:smart_dash/feature/sikom/data/sikom_client.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_device.dart';
-import 'package:smart_dash/feature/sikom/domain/sikom_gateway.dart';
-import 'package:smart_dash/feature/sikom/sikom.dart';
+import 'package:smart_dash/integration/sikom/application/sikom_driver_flows.dart';
+import 'package:smart_dash/integration/sikom/data/sikom_client.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
+import 'package:smart_dash/integration/sikom/sikom.dart';
 import 'package:smart_dash/util/guard.dart';
 
 part 'sikom_driver.g.dart';

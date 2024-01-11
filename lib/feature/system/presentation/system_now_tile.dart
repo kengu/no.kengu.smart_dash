@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/feature/system/application/system_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/feature/system/model/system_info.dart';
+import 'package:smart_dash/feature/system/domain/system_info.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 import 'package:timeago/timeago.dart';
 
