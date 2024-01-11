@@ -6,8 +6,34 @@ part of 'energy_bill.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EnergyBillImpl _$$EnergyBillImplFromJson(Map<String, dynamic> json) =>
-    _$EnergyBillImpl(
+_$EnergyBillMonthImpl _$$EnergyBillMonthImplFromJson(
+        Map<String, dynamic> json) =>
+    _$EnergyBillMonthImpl(
+      daily: (json['daily'] as List<dynamic>)
+          .map((e) => EnergyBillDay.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$EnergyBillMonthImplToJson(
+        _$EnergyBillMonthImpl instance) =>
+    <String, dynamic>{
+      'daily': instance.daily.map((e) => e.toJson()).toList(),
+    };
+
+_$EnergyBillDayImpl _$$EnergyBillDayImplFromJson(Map<String, dynamic> json) =>
+    _$EnergyBillDayImpl(
+      hourly: (json['hourly'] as List<dynamic>)
+          .map((e) => EnergyBillHour.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$EnergyBillDayImplToJson(_$EnergyBillDayImpl instance) =>
+    <String, dynamic>{
+      'hourly': instance.hourly.map((e) => e.toJson()).toList(),
+    };
+
+_$EnergyBillHourImpl _$$EnergyBillHourImplFromJson(Map<String, dynamic> json) =>
+    _$EnergyBillHourImpl(
       vat: json['vat'] as int,
       end: DateTime.parse(json['end'] as String),
       begin: DateTime.parse(json['begin'] as String),
@@ -17,7 +43,8 @@ _$EnergyBillImpl _$$EnergyBillImplFromJson(Map<String, dynamic> json) =>
           ElectricityTariff.fromJson(json['tariff'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$EnergyBillImplToJson(_$EnergyBillImpl instance) =>
+Map<String, dynamic> _$$EnergyBillHourImplToJson(
+        _$EnergyBillHourImpl instance) =>
     <String, dynamic>{
       'vat': instance.vat,
       'end': instance.end.toIso8601String(),

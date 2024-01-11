@@ -6,16 +6,115 @@ part 'energy_bill.freezed.dart';
 part 'energy_bill.g.dart';
 
 @freezed
-class EnergyBill with _$EnergyBill {
-  const EnergyBill._();
-  const factory EnergyBill({
+class EnergyBillMonth with _$EnergyBillMonth {
+  const EnergyBillMonth._();
+  const factory EnergyBillMonth({
+    required List<EnergyBillDay> daily,
+  }) = _EnergyBillMonth;
+
+  double get inNok {
+    return priceInNok + tariffInNok;
+  }
+
+  double get inEur {
+    return priceInEur + tariffInEur;
+  }
+
+  double get priceInNok {
+    return daily.fold(0, (sum, next) => sum + next.priceInNok);
+  }
+
+  double get priceInEur {
+    return daily.fold(0, (sum, next) => sum + next.priceInEur);
+  }
+
+  double get tariffInNok {
+    return daily.fold(0, (sum, next) => sum + next.tariffInNok);
+  }
+
+  double get tariffInEur {
+    return daily.fold(0, (sum, next) => sum + next.tariffInEur);
+  }
+
+  DateTime get end => daily.last.begin;
+
+  DateTime get begin => daily.first.begin;
+
+  Duration get span => daily.isNotEmpty ? end.difference(begin) : Duration.zero;
+
+  factory EnergyBillMonth.fromJson(Map<String, Object?> json) =>
+      _$EnergyBillMonthFromJson(json);
+}
+
+@freezed
+class EnergyBillDay with _$EnergyBillDay {
+  const EnergyBillDay._();
+  const factory EnergyBillDay({
+    required List<EnergyBillHour> hourly,
+  }) = _EnergyBillDay;
+
+  double get energy {
+    return hourly.fold(0, (sum, next) => sum + next.energy);
+  }
+
+  double get energyInKwh {
+    return hourly.fold(0, (sum, next) => sum + next.energyInKwh);
+  }
+
+  double get inNok {
+    return hourly.fold(0, (sum, next) => sum + next.inNok);
+  }
+
+  double get inNokIncVat {
+    return hourly.fold(0, (sum, next) => sum + next.inNokIncVat);
+  }
+
+  double get inEur {
+    return hourly.fold(0, (sum, next) => sum + next.inEur);
+  }
+
+  double get inEurIncVat {
+    return hourly.fold(0, (sum, next) => sum + next.inEurIncVat);
+  }
+
+  double get priceInNok {
+    return hourly.fold(0, (sum, next) => sum + next.priceInNok);
+  }
+
+  double get priceInEur {
+    return hourly.fold(0, (sum, next) => sum + next.priceInEur);
+  }
+
+  double get tariffInNok {
+    return hourly.fold(0, (sum, next) => sum + next.tariffInNok);
+  }
+
+  double get tariffInEur {
+    return hourly.fold(0, (sum, next) => sum + next.tariffInEur);
+  }
+
+  DateTime get end => hourly.last.begin;
+
+  DateTime get begin => hourly.first.begin;
+
+  Duration get span =>
+      hourly.isNotEmpty ? end.difference(begin) : Duration.zero;
+
+  factory EnergyBillDay.fromJson(Map<String, Object?> json) =>
+      _$EnergyBillDayFromJson(json);
+}
+
+@freezed
+class EnergyBillHour with _$EnergyBillHour {
+  const EnergyBillHour._();
+  const factory EnergyBillHour({
     required int vat,
     required DateTime end,
     required DateTime begin,
     required double energy,
     required ElectricityPrice price,
     required ElectricityTariff tariff,
-  }) = _EnergyBill;
+  }) = _EnergyBillHour;
 
   double get energyInKwh => energy / 1000;
 
@@ -25,8 +124,16 @@ class EnergyBill with _$EnergyBill {
     return priceInNok + tariffInNok;
   }
 
+  double get inNokIncVat {
+    return inNok * vatRate;
+  }
+
   double get inEur {
     return priceInEur + tariffInEur;
+  }
+
+  double get inEurIncVat {
+    return inEur * vatRate;
   }
 
   double get priceInNok {
@@ -50,10 +157,6 @@ class EnergyBill with _$EnergyBill {
     return tariffInNok * price.nokToEurRate;
   }
 
-  int get hours => end.difference(begin).inHours;
-
-  int get minutes => end.difference(begin).inMinutes;
-
-  factory EnergyBill.fromJson(Map<String, Object?> json) =>
-      _$EnergyBillFromJson(json);
+  factory EnergyBillHour.fromJson(Map<String, Object?> json) =>
+      _$EnergyBillHourFromJson(json);
 }

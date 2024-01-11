@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
+import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
@@ -168,6 +169,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                               area: area,
                               when: when,
                             );
+                          case 'bill_month':
+                            return EnergyBillMonthTile(
+                              key: GlobalObjectKey(item),
+                              area: area,
+                              when: when,
+                            );
                           case 'weather_now':
                             // TODO: Make location name configurable
                             return WeatherNowTile(
@@ -202,6 +209,13 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         DashboardItem(
           identifier: 'bill_hourly',
+          width: 3,
+          height: 1,
+          minWidth: 3,
+          maxWidth: 3,
+        ),
+        DashboardItem(
+          identifier: 'bill_month',
           width: 3,
           height: 1,
           minWidth: 3,
@@ -285,6 +299,12 @@ List<DashboardItem> tablet() => [
         minWidth: 3,
       ),
       DashboardItem(
+        identifier: 'bill_month',
+        width: 3,
+        height: 1,
+        minWidth: 3,
+      ),
+      DashboardItem(
         identifier: 'system_now',
         width: 2,
         height: 1,
@@ -327,6 +347,12 @@ List<DashboardItem> desktop() => [
       ),
       DashboardItem(
         identifier: 'bill_hourly',
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: 'bill_month',
         width: 4,
         height: 1,
         minWidth: 4,

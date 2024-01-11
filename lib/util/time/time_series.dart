@@ -154,6 +154,8 @@ extension TimeSeriesX on TimeSeries {
     int begin = 0,
     List<T>? initial,
   }) {
+    if (isEmpty) return this;
+
     final hSpan = span ?? this.span;
     final scaled = hSpan.to() != TimeScale.from(this.span);
 

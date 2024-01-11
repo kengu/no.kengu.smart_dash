@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:charts_painter/chart.dart';
+import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/accounting/application/energy_bill_service.dart';
 import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/util/widget.dart';
 import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
-class EnergyBillHourlyTile extends ConsumerWidget {
-  const EnergyBillHourlyTile({
+class EnergyBillMonthTile extends ConsumerWidget {
+  const EnergyBillMonthTile({
     super.key,
     required this.when,
     required this.area,
@@ -26,13 +27,15 @@ class EnergyBillHourlyTile extends ConsumerWidget {
 
   static const double minItemWidth = 72;
 
+  static final df = DateFormat('MMMM');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final service = ref.watch(
       energyBillServiceProvider,
     );
     return FutureBuilder(
-      future: service.getBillDay(area, when),
+      future: service.getBillMonth(area, when),
       builder: (context, snapshot) {
         final surfaceColor =
             Theme.of(context).navigationRailTheme.backgroundColor!;
@@ -40,14 +43,13 @@ class EnergyBillHourlyTile extends ConsumerWidget {
         final textStyle = getLegendTextStyle(context);
 
         final bill = Optional.ofNullable(snapshot.data);
-        final hourly = _toHourly(bill);
-        final details = bill.orElseNull?.hourly ?? [];
+        final daily = _toDaily(bill);
+        final details = bill.orElseNull?.daily ?? [];
 
         final at = DateTime.now();
-        final today = hourly.sum();
 
-        final total = today.lastRow.toPrice('kr');
-        final sums = hourly.isEmpty ? <double>[0] : hourly.firstColumn;
+        final sums = daily.isEmpty ? <double>[0] : daily.firstColumn;
+        final total = sums.sum().toPrice('kr', 0);
 
         final constraints = BoxConstraints(
           minWidth: 270,
@@ -56,9 +58,9 @@ class EnergyBillHourlyTile extends ConsumerWidget {
         ).normalize();
 
         return SmartDashTile(
-          key: const ValueKey('energy_bill_hourly'),
+          key: const ValueKey('energy_bill_month'),
           title: 'Energy Bill',
-          subTitle: 'Today @ ${at.hour} hours ($area)',
+          subTitle: 'Cost in ${df.format(at)}',
           constraints: constraints,
           leading: const Icon(
             Icons.summarize_outlined,
@@ -78,7 +80,7 @@ class EnergyBillHourlyTile extends ConsumerWidget {
               reverse: true,
               scrollDirection: Axis.horizontal,
               child: Chart<double>(
-                key: const ValueKey('energy_bill_hourly_chart'),
+                key: const ValueKey('energy_bill_month_chart'),
                 width: constraints.minWidth,
                 height: constraints.minHeight,
                 //duration: const Duration(seconds: 2),
@@ -140,11 +142,11 @@ class EnergyBillHourlyTile extends ConsumerWidget {
                       gridColor: lineColor,
                       textStyle: textStyle,
                       showVerticalGrid: false,
-                      endWithChartVertical: false,
                       showVerticalValues: true,
                       showHorizontalGrid: false,
+                      endWithChartVertical: false,
                       verticalAxisValueFromIndex: (index) {
-                        return "${hourly.tsAt(index, false).hour}";
+                        return "${daily.tsAt(index, false).day}";
                       },
                     ),
                   ],
@@ -172,23 +174,23 @@ class EnergyBillHourlyTile extends ConsumerWidget {
     );
   }
 
-  TimeSeries _toHourly(Optional<EnergyBillDay> bill) {
+  TimeSeries _toDaily(Optional<EnergyBillMonth> bill) {
     if (!bill.isPresent) {
       return TimeSeries(
         name: 'price',
         offset: when,
-        span: TimeScale.hours.to(),
+        span: TimeScale.days.to(),
         array: DataArray.empty([]),
       );
     }
     final details = [
-      bill.value.hourly.map((e) => e.inNokIncVat).toList(),
+      bill.value.daily.map((e) => e.inNokIncVat).toList(),
     ];
     final prices = DataArray(
       details,
       coords: List.generate(
-        bill.value.hourly.length,
-        (index) => {'hour': index},
+        bill.value.daily.length,
+        (index) => {'day': index},
       ),
       dims: [{}],
     );
@@ -196,7 +198,7 @@ class EnergyBillHourlyTile extends ConsumerWidget {
       name: 'price',
       array: prices,
       offset: bill.value.begin,
-      span: TimeScale.hours.to(),
+      span: TimeScale.days.to(),
     );
   }
 }
