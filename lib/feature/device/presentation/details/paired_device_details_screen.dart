@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/widget/load/async_load_screen.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
 import 'package:flutter_json_view/flutter_json_view.dart';
 
 import 'paired_device_details_controller.dart';

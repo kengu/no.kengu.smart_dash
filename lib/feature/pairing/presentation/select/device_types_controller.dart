@@ -2,7 +2,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/widget/load/async_load_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 
 part 'device_types_controller.g.dart';
 

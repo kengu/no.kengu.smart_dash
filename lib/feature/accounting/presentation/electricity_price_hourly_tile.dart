@@ -6,7 +6,7 @@ import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/widget/tile/sparkline_tile.dart';
+import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
 class ElectricityPriceHourlyTile<T extends num> extends ConsumerWidget {

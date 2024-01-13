@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/const/screens.dart';
-import 'package:smart_dash/widget/responsive_widget.dart';
+import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
 class SmartDashHeader extends StatelessWidget {
   const SmartDashHeader({

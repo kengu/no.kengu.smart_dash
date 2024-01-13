@@ -6,10 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/widget.dart';
-import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 
 class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
   const WeatherNowTile({

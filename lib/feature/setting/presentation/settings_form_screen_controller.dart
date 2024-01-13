@@ -3,8 +3,8 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
-import 'package:smart_dash/widget/form/async_form_controller.dart';
-import 'package:smart_dash/widget/load/async_load_controller.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 
 part 'settings_form_screen_controller.g.dart';
 

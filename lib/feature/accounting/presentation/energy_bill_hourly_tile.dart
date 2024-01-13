@@ -6,11 +6,11 @@ import 'package:smart_dash/feature/accounting/application/energy_bill_service.da
 import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/util/widget.dart';
-import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
 class EnergyBillHourlyTile extends ConsumerWidget {

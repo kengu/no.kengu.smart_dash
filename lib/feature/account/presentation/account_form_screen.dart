@@ -6,15 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
-import 'package:smart_dash/feature/account/domain/service_definition.dart';
+import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
-import 'package:smart_dash/feature/device/data/device_definition_repository.dart';
-import 'package:smart_dash/feature/device/domain/driver_definition.dart';
-import 'package:smart_dash/widget/form/field/smart_dash_text_field.dart';
-import 'package:smart_dash/widget/form/async_form_screen.dart';
-import 'package:smart_dash/widget/notice/notice_controller.dart';
-import 'package:smart_dash/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/integration/data/integration_repository.dart';
+import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
+import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 
 import 'account_form_screen_controller.dart';
 import 'field/service_field_group.dart';
@@ -30,7 +30,7 @@ class AccountFormScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.read(userRepositoryProvider).currentUser;
-    return ref.watch(driverDefinitionRepositoryProvider).when(
+    return ref.watch(integrationRepositoryProvider).when(
           data: (services) {
             return AsyncFormScreen<AccountQuery, Account>(
               title: 'Edit account',
@@ -66,7 +66,7 @@ class AccountFieldsWidget extends StatelessWidget {
     required this.services,
   });
 
-  final DriverDefinitionMap services;
+  final IntegrationMap services;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class AccountFieldsWidget extends StatelessWidget {
             },
           ),
           ReactiveFormArray<Object>(
-            formArrayName: AccountFormFields.services,
+            formArrayName: AccountFields.services,
             builder: (context, formArray, child) {
               return Column(
                 children: AccountFormScreenController.from(formArray)
@@ -122,7 +122,7 @@ class AddServiceMenuButton extends StatelessWidget {
     required this.services,
   });
 
-  final DriverDefinitionMap services;
+  final IntegrationMap services;
 
   final _popupMenuKey = GlobalKey<PopupMenuButtonState>();
 
@@ -136,7 +136,7 @@ class AddServiceMenuButton extends StatelessWidget {
               accountFormScreenControllerProvider.notifier,
             );
             final formArray = form.control(
-              AccountFormFields.services,
+              AccountFields.services,
             ) as FormArray;
             final uses = AccountFormScreenController.from(formArray).map(
               (e) => e.key,
@@ -168,7 +168,7 @@ class AddServiceMenuButton extends StatelessWidget {
               ),
               onSelected: (String service) {
                 formArray.add(controller.buildServiceFieldsForm(
-                  ServiceDefinition.fromDriver(
+                  ServiceConfig.fromDriver(
                     services[service]!,
                   ),
                 ));

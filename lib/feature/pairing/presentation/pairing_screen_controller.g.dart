@@ -7,12 +7,12 @@ part of 'pairing_screen_controller.dart';
 // **************************************************************************
 
 String _$pairingScreenControllerHash() =>
-    r'fc87b2dc407a15b38bfb79e1f6b42409742dbe9b';
+    r'ed27e23d688ea89983641d8d8673f9a259b8e36d';
 
 /// See also [PairingScreenController].
 @ProviderFor(PairingScreenController)
 final pairingScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
-    PairingScreenController, Optional<DriverDefinitionMap>>.internal(
+    PairingScreenController, Optional<IntegrationMap>>.internal(
   PairingScreenController.new,
   name: r'pairingScreenControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,6 +23,6 @@ final pairingScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$PairingScreenController
-    = AutoDisposeAsyncNotifier<Optional<DriverDefinitionMap>>;
+    = AutoDisposeAsyncNotifier<Optional<IntegrationMap>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

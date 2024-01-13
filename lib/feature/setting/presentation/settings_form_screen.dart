@@ -14,9 +14,9 @@ import 'package:smart_dash/feature/setting/presentation/settings_form_screen_con
 import 'package:smart_dash/feature/setting/presentation/tile/dark_mode_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/setting_switch_tile.dart';
-import 'package:smart_dash/widget/form/async_form_screen.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 
-import 'package:smart_dash/widget/notice/notice_controller.dart';
+import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 
 class SettingFormScreen extends ConsumerWidget {
   const SettingFormScreen({

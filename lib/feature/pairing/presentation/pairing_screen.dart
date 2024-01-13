@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/feature/pairing/presentation/pairing_screen_controller.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
-import 'package:smart_dash/feature/device/domain/driver_definition.dart';
-import 'package:smart_dash/widget/list/route_selector.dart';
-import 'package:smart_dash/widget/load/async_load_screen.dart';
+import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
 
 class PairingScreen extends ConsumerWidget {
   const PairingScreen({
@@ -17,7 +17,7 @@ class PairingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<PairingQuery, DriverDefinitionMap>(
+    return AsyncLoadScreen<PairingQuery, IntegrationMap>(
       title: 'Pairing services',
       onClose: () => context.go(location),
       query: PairingQuery(),
@@ -38,7 +38,7 @@ class PairingScreen extends ConsumerWidget {
             const Divider(),
             Expanded(
               flex: 1,
-              child: RouteSelectorList<DriverDefinition>(
+              child: RouteSelectorList<Integration>(
                 iconBuilder: (_, service, __) => Image.asset(
                   'assets/images/${service.image}',
                   fit: BoxFit.cover,

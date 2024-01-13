@@ -6,7 +6,7 @@ part of 'foscam_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$foscamServiceHash() => r'318a4a8f3d127ca4c7547da0b7cd04aa48300579';
+String _$foscamServiceHash() => r'2908eda47b524e94870580c520ef6cbbfd742299';
 
 /// See also [FoscamService].
 @ProviderFor(FoscamService)

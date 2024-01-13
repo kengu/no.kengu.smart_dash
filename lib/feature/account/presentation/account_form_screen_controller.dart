@@ -3,9 +3,10 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
-import 'package:smart_dash/feature/account/domain/service_definition.dart';
-import 'package:smart_dash/widget/form/async_form_controller.dart';
-import 'package:smart_dash/widget/load/async_load_controller.dart';
+import 'package:smart_dash/feature/account/domain/service_config.dart';
+import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 
 part 'account_form_screen_controller.g.dart';
 
@@ -19,27 +20,23 @@ class AccountQuery {
   final List<String> services;
 }
 
-class AccountFormFields {
-  static const String services = 'services';
-}
-
 @riverpod
 class AccountFormScreenController extends _$AccountFormScreenController
     with
         AsyncLoadController<AccountQuery, Account>,
         AsyncFormController<AccountQuery, Account> {
-  static List<ServiceDefinition> from(FormArray entries) =>
+  static List<ServiceConfig> from(FormArray entries) =>
       entries.value
           ?.whereType<Map<String, Object?>>()
-          .map((e) => ServiceDefinition.fromJson(e))
+          .map((e) => ServiceConfig.fromJson(e))
           .toList() ??
       [];
 
-  static int indexWhere(FormArray fromArray, ServiceDefinition service) {
+  static int indexWhere(FormArray fromArray, ServiceConfig service) {
     return fromArray.value!.indexWhere(
       (e) =>
-          e[ServiceFields.key] == service.key &&
-          e[ServiceFields.device] == service.device,
+          e[ServiceConfigFields.key] == service.key &&
+          e[ServiceConfigFields.device] == service.device,
     );
   }
 
@@ -57,38 +54,38 @@ class AccountFormScreenController extends _$AccountFormScreenController
         value: data.orElseNull?.lname,
         validators: [Validators.required],
       ),
-      AccountFormFields.services: FormArray<Object>([
+      AccountFields.services: FormArray<Object>([
         ...toServices(data).map(buildServiceFieldsForm),
       ]),
     });
   }
 
-  Set<ServiceDefinition> toServices(Optional<Account> data) {
+  Set<ServiceConfig> toServices(Optional<Account> data) {
     return data.isPresent
         ? query!.services.map(data.value.all).expand((e) => e.toList()).toSet()
         : {};
   }
 
-  FormGroup buildServiceFieldsForm(ServiceDefinition data) {
+  FormGroup buildServiceFieldsForm(ServiceConfig data) {
     return fb.group(<String, Object>{
       // Hidden fields
-      ServiceFields.key: FormControl<String>(
+      ServiceConfigFields.key: FormControl<String>(
         value: data.key,
       ),
-      ServiceFields.name: FormControl<String>(
+      ServiceConfigFields.name: FormControl<String>(
         value: data.name,
       ),
-      ServiceFields.fields: FormControl<List<String>>(
-        value: data.fields,
+      ServiceConfigFields.fields: FormControl<List<String>>(
+        value: data.fields.map((e) => e.name).toList(),
       ),
       // Rendered fields
-      if (data.fields.contains('device'))
-        ServiceFields.device: FormControl<String>(
+      if (data.fields.contains(ServiceField.device))
+        ServiceConfigFields.device: FormControl<String>(
           value: data.device,
           validators: [Validators.required],
         ),
-      if (data.fields.contains('host'))
-        ServiceFields.host: FormControl<String>(
+      if (data.fields.contains(ServiceField.host))
+        ServiceConfigFields.host: FormControl<String>(
           value: data.host,
           validators: [
             Validators.required,
@@ -100,26 +97,21 @@ class AccountFormScreenController extends _$AccountFormScreenController
             )
           ],
         ),
-      if (data.fields.contains('port'))
-        ServiceFields.port: FormControl<int>(
+      if (data.fields.contains(ServiceField.port))
+        ServiceConfigFields.port: FormControl<int>(
           value: data.port,
           validators: [
             Validators.required,
             Validators.number,
           ],
         ),
-      if (data.fields.contains('port'))
-        ServiceFields.device: FormControl<String>(
-          value: data.device,
-          validators: [Validators.required],
-        ),
-      if (data.fields.contains('username'))
-        ServiceFields.username: FormControl<String>(
+      if (data.fields.contains(ServiceField.username))
+        ServiceConfigFields.username: FormControl<String>(
           value: data.username,
           validators: [Validators.required],
         ),
-      if (data.fields.contains('password'))
-        ServiceFields.password: FormControl<String>(
+      if (data.fields.contains(ServiceField.password))
+        ServiceConfigFields.password: FormControl<String>(
           value: data.password,
           validators: [Validators.required],
         )

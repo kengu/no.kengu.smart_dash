@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
-import 'package:smart_dash/scaffold/presentation/app/smart_dash_app_theme_data.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
@@ -82,14 +83,33 @@ class _VideoCardState extends ConsumerState<CameraCard> {
                   Icons.video_camera_back_outlined,
                 ),
                 title: Text(cameraName),
-                subtitle: Text(
-                  'Motion Detection: '
-                  '${motionDetectEnabled ? 'yes' : 'no'} | '
-                  'Sensitivity: ${motionDetectSensitivity.name}',
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () => setState(() {}),
+                trailing: SizedBox(
+                  width: 250,
+                  height: 50,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          const Text('Motion Detection'),
+                          Transform.scale(
+                            scale: 0.75,
+                            child: CupertinoSwitch(
+                              value: motionDetectEnabled,
+                              // TODO: Find out how to use Theme.switchTheme using MaterialStateProperty
+                              activeColor: Colors.blueAccent,
+                              onChanged: (_) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.refresh),
+                        onPressed: () => setState(() {}),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

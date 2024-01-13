@@ -17,11 +17,11 @@ import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
-import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
+import 'package:smart_dash/core/application/fullscreen_state.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
-import 'package:smart_dash/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
 
 class HomePage extends ConsumerStatefulWidget {

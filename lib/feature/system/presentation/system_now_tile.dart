@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/feature/system/application/system_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/system/domain/system_info.dart';
-import 'package:smart_dash/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:timeago/timeago.dart';
 
 import 'cpu_pie_chart.dart';

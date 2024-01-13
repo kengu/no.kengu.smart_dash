@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/domain/service_definition.dart';
+import 'package:smart_dash/feature/account/domain/service_config.dart';
 
 part 'account.freezed.dart';
 part 'account.g.dart';
@@ -11,16 +11,16 @@ class Account with _$Account {
 
   const factory Account({
     required String userId,
-    required Set<ServiceDefinition> services,
+    required Set<ServiceConfig> services,
     String? fname,
     String? lname,
   }) = _Account;
 
   String get fullName => [fname, lname].whereType<String>().join(' ');
 
-  Optional<ServiceDefinition> first(String key) =>
+  Optional<ServiceConfig> first(String key) =>
       services.firstWhereOptional((c) => c.key == key);
-  List<ServiceDefinition> all(String key) =>
+  List<ServiceConfig> all(String key) =>
       services.where((c) => c.key == key).toList();
 
   factory Account.fromJson(Map<String, Object?> json) =>
@@ -31,4 +31,5 @@ class AccountFields {
   static const String userId = 'userId';
   static const String fname = 'fname';
   static const String lname = 'lname';
+  static const String services = 'services';
 }

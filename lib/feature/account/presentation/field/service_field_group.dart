@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:smart_dash/feature/account/domain/service_definition.dart';
-import 'package:smart_dash/feature/device/domain/driver_definition.dart';
-import 'package:smart_dash/widget/form/field/smart_dash_text_field.dart';
+import 'package:smart_dash/feature/account/domain/service_config.dart';
+import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 
 class ServiceFieldGroup extends StatefulWidget {
   const ServiceFieldGroup({
@@ -16,7 +16,7 @@ class ServiceFieldGroup extends StatefulWidget {
   final int index;
   final String service;
   final FormArray<Object> formArray;
-  final DriverDefinitionMap definitions;
+  final IntegrationMap definitions;
 
   @override
   State<ServiceFieldGroup> createState() => _ServiceFieldGroupState();
@@ -70,20 +70,20 @@ class _ServiceFieldGroupState extends State<ServiceFieldGroup> {
             },
           ),
         ),
-        if (service.fields.contains(ServiceFields.device)) ...[
+        if (service.fields.contains(ServiceField.device)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
-            formControlName: '${widget.index}.${ServiceFields.device}',
+            formControlName: '${widget.index}.${ServiceConfigFields.device}',
             labelText: 'Device',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter an device name',
             },
           ),
         ],
-        if (service.fields.contains(ServiceFields.host)) ...[
+        if (service.fields.contains(ServiceField.host)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
-            formControlName: '${widget.index}.${ServiceFields.host}',
+            formControlName: '${widget.index}.${ServiceConfigFields.host}',
             labelText: 'Host',
             validationMessages: {
               ValidationMessage.required: (_) =>
@@ -93,10 +93,10 @@ class _ServiceFieldGroupState extends State<ServiceFieldGroup> {
             },
           ),
         ],
-        if (service.fields.contains(ServiceFields.port)) ...[
+        if (service.fields.contains(ServiceField.port)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<int>(
-            formControlName: '${widget.index}.${ServiceFields.port}',
+            formControlName: '${widget.index}.${ServiceConfigFields.port}',
             labelText: 'Port',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter a host port',
@@ -104,20 +104,20 @@ class _ServiceFieldGroupState extends State<ServiceFieldGroup> {
             },
           ),
         ],
-        if (service.fields.contains(ServiceFields.username)) ...[
+        if (service.fields.contains(ServiceField.username)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
-            formControlName: '${widget.index}.${ServiceFields.username}',
+            formControlName: '${widget.index}.${ServiceConfigFields.username}',
             labelText: 'Username',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter an username',
             },
           ),
         ],
-        if (service.fields.contains(ServiceFields.password)) ...[
+        if (service.fields.contains(ServiceField.password)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
-            formControlName: '${widget.index}.${ServiceFields.password}',
+            formControlName: '${widget.index}.${ServiceConfigFields.password}',
             labelText: 'Password',
             obscureText: !_passwordVisible,
             validationMessages: {

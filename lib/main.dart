@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_dash/scaffold/application/app_state_manager.dart';
+import 'package:smart_dash/core/application/app_state_manager.dart';
 import 'package:smart_dash/util/platform.dart';
-import 'package:smart_dash/scaffold/presentation/app/smart_dash_app.dart';
+import 'package:smart_dash/core/presentation/smart_dash_app.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:sentry_flutter/sentry_flutter.dart';

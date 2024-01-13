@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_dash/widget/responsive_widget.dart';
+import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
 class SmartDashboard extends StatefulWidget {
   const SmartDashboard({

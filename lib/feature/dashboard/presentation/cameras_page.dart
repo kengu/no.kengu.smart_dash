@@ -10,7 +10,7 @@ import 'package:smart_dash/feature/camera/presentation/camera_card.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
-import 'package:smart_dash/scaffold/application/fullscreen_state.dart';
+import 'package:smart_dash/core/application/fullscreen_state.dart';
 
 class CamerasPage extends ConsumerStatefulWidget {
   const CamerasPage({super.key});

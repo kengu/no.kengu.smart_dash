@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
-import 'package:smart_dash/widget/load/async_load_screen.dart';
-import 'package:smart_dash/widget/list/route_selector.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
 
 import 'paired_device_controller.dart';
 

@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/const/screens.dart';
+import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/details/paired_device_details_screen.dart';
 import 'package:smart_dash/feature/device/presentation/list/paired_device_screen.dart';
-import 'package:smart_dash/scaffold/smart_dash_router.dart';
+import 'package:smart_dash/core/presentation/routes.dart';
 
 class DeviceScreens {
   static const home = '/device';
@@ -19,19 +19,19 @@ class DeviceScreens {
 }
 
 GoRoute buildDeviceRoutes() {
-  return SmartDashRoutes.buildGoRoute(
+  return Routes.buildGoRoute(
     path: DeviceScreens.home,
     child: PairedDeviceScreen(
-      location: SmartDashRoutes.lastLocation,
+      location: Routes.lastLocation,
     ),
     routes: [
       // Route to device type selection screen
-      SmartDashRoutes.buildGoRoute(
+      Routes.buildGoRoute(
         path: DeviceScreens.details,
         builder: (context, state) {
           return PairedDeviceDetailsScreen(
             deviceId: state.uri.queryParameters['id']!,
-            location: SmartDashRoutes.lastLocation,
+            location: Routes.lastLocation,
           );
         },
       ),

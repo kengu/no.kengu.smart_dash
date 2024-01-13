@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/feature/device/data/device_definition_repository.dart';
-import 'package:smart_dash/feature/device/domain/driver_definition.dart';
+import 'package:smart_dash/integration/data/integration_repository.dart';
+import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
 
 import 'device_driver.dart';
@@ -81,10 +81,10 @@ class DeviceDriverManager {
   }
 
   /// Get available device driver definitions
-  Future<Map<String, DriverDefinition>> getDefinitions() =>
-      ref.read(driverDefinitionRepositoryProvider.future);
+  Future<Map<String, Integration>> getDefinitions() =>
+      ref.read(integrationRepositoryProvider.future);
 
-  /// Get [DeviceDriver] for given [DriverDefinitionFields.key]
+  /// Get [DeviceDriver] for given [IntegrationFields.key]
   DeviceDriver getDriver(String key) {
     assert(
       exists(key),

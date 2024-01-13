@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/weather/data/weather_client.dart';
 import 'package:smart_dash/feature/weather/data/weather_response.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/future.dart';
 
 part 'weather_service.g.dart';
 
@@ -13,43 +13,27 @@ class WeatherService {
 
   final Ref ref;
 
-  final Map<String, WeatherResponse> cache = {};
-
-  Optional<(DateTime, Future<Weather>)> _request = const Optional.empty();
+  final _cache = FutureCache(prefix: '$WeatherService');
 
   Optional<Weather> getCachedWeather(double lat, double lon) {
-    return Optional.ofNullable(cache['$lat:$lon']?.data);
+    return Optional.ofNullable(
+      _cache.get<WeatherResponse>('$lat:$lon').orElseNull?.data,
+    );
   }
 
-  Future<Weather> getWeather(double lat, double lon, Duration period) {
-    if (_request.isEmpty ||
-        DateTime.now().difference(_request.value.$1) > period) {
-      final future = guard(() async {
-        final key = '$lat:$lon';
-        final cached = cache[key];
-        if (cached?.isExpired == false) {
-          return cache[key]!.data;
-        }
-
-        final client = ref.read(weatherClientProvider);
-        final weather = await client.getForecast(
-          lat,
-          lon,
-          cached?.lastModified,
-        );
-        cache[key] = weather;
-
-        return weather.data;
-      });
-
-      _request = Optional.of(
-        (
-          DateTime.now(),
-          future,
-        ),
+  Future<Weather> getWeather(double lat, double lon, Duration period) async {
+    final key = '$lat:$lon';
+    final response = await _cache.getOrFetch(key, () async {
+      final cached = _cache.get<WeatherResponse>(key);
+      final client = ref.read(weatherClientProvider);
+      final weather = await client.getForecast(
+        lat,
+        lon,
+        cached.orElseNull?.lastModified,
       );
-    }
-    return _request.value.$2;
+      return weather;
+    }, ttl: period);
+    return response.data;
   }
 }
 
