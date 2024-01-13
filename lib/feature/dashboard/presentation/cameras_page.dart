@@ -22,8 +22,6 @@ class CamerasPage extends ConsumerStatefulWidget {
 class _CameraPageState extends ConsumerState<CamerasPage> {
   final df = DateFormat('dd-MM-yyyy HH:mm');
 
-  Optional<(DateTime, Future<List<Camera>>)> _request = const Optional.empty();
-
   Timer? _refresh;
 
   bool get isFullscreen => FullscreenState.watch(ref);
@@ -31,7 +29,6 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   @override
   void initState() {
     super.initState();
-    _fetchCameras();
     _refresh = Timer.periodic(
       const Duration(seconds: 5),
       (timer) => setState(() {}),
@@ -42,20 +39,6 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   void dispose() {
     super.dispose();
     _refresh?.cancel();
-  }
-
-  Future<List<Camera>> _fetchCameras() {
-    if (_request.isEmpty ||
-        DateTime.now().difference(_request.value.$1).inMinutes > 5) {
-      final future = ref.read(foscamServiceProvider.notifier).getCameras();
-      _request = Optional.of(
-        (
-          DateTime.now(),
-          future,
-        ),
-      );
-    }
-    return _request.value.$2;
   }
 
   final items1 = [
@@ -112,17 +95,18 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _fetchCameras(),
+    return FutureBuilder<List<Camera>>(
+        initialData: ref
+            .read(foscamServiceProvider.notifier)
+            .getCachedCameras()
+            .orElseNull,
+        future: ref.read(foscamServiceProvider.notifier).getCameras(),
         builder: (context, snapshot) {
           final cameras = Map.fromEntries(
             (snapshot.hasData ? snapshot.data! : <Camera>[]).map(
               (e) => MapEntry(e.name, e),
             ),
           );
-          if (cameras.isNotEmpty) {
-            _request = const Optional.empty();
-          }
           return Padding(
             padding: !isFullscreen
                 ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)

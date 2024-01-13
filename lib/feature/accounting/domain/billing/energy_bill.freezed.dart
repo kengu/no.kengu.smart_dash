@@ -20,6 +20,7 @@ EnergyBillMonth _$EnergyBillMonthFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EnergyBillMonth {
+  DateTime get begin => throw _privateConstructorUsedError;
   List<EnergyBillDay> get daily => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +35,7 @@ abstract class $EnergyBillMonthCopyWith<$Res> {
           EnergyBillMonth value, $Res Function(EnergyBillMonth) then) =
       _$EnergyBillMonthCopyWithImpl<$Res, EnergyBillMonth>;
   @useResult
-  $Res call({List<EnergyBillDay> daily});
+  $Res call({DateTime begin, List<EnergyBillDay> daily});
 }
 
 /// @nodoc
@@ -50,9 +51,14 @@ class _$EnergyBillMonthCopyWithImpl<$Res, $Val extends EnergyBillMonth>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? begin = null,
     Object? daily = null,
   }) {
     return _then(_value.copyWith(
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       daily: null == daily
           ? _value.daily
           : daily // ignore: cast_nullable_to_non_nullable
@@ -69,7 +75,7 @@ abstract class _$$EnergyBillMonthImplCopyWith<$Res>
       __$$EnergyBillMonthImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<EnergyBillDay> daily});
+  $Res call({DateTime begin, List<EnergyBillDay> daily});
 }
 
 /// @nodoc
@@ -83,9 +89,14 @@ class __$$EnergyBillMonthImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? begin = null,
     Object? daily = null,
   }) {
     return _then(_$EnergyBillMonthImpl(
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       daily: null == daily
           ? _value._daily
           : daily // ignore: cast_nullable_to_non_nullable
@@ -97,13 +108,16 @@ class __$$EnergyBillMonthImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$EnergyBillMonthImpl extends _EnergyBillMonth {
-  const _$EnergyBillMonthImpl({required final List<EnergyBillDay> daily})
+  const _$EnergyBillMonthImpl(
+      {required this.begin, required final List<EnergyBillDay> daily})
       : _daily = daily,
         super._();
 
   factory _$EnergyBillMonthImpl.fromJson(Map<String, dynamic> json) =>
       _$$EnergyBillMonthImplFromJson(json);
 
+  @override
+  final DateTime begin;
   final List<EnergyBillDay> _daily;
   @override
   List<EnergyBillDay> get daily {
@@ -114,7 +128,7 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
 
   @override
   String toString() {
-    return 'EnergyBillMonth(daily: $daily)';
+    return 'EnergyBillMonth(begin: $begin, daily: $daily)';
   }
 
   @override
@@ -122,13 +136,14 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EnergyBillMonthImpl &&
+            (identical(other.begin, begin) || other.begin == begin) &&
             const DeepCollectionEquality().equals(other._daily, _daily));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_daily));
+  int get hashCode => Object.hash(
+      runtimeType, begin, const DeepCollectionEquality().hash(_daily));
 
   @JsonKey(ignore: true)
   @override
@@ -146,13 +161,16 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
 }
 
 abstract class _EnergyBillMonth extends EnergyBillMonth {
-  const factory _EnergyBillMonth({required final List<EnergyBillDay> daily}) =
-      _$EnergyBillMonthImpl;
+  const factory _EnergyBillMonth(
+      {required final DateTime begin,
+      required final List<EnergyBillDay> daily}) = _$EnergyBillMonthImpl;
   const _EnergyBillMonth._() : super._();
 
   factory _EnergyBillMonth.fromJson(Map<String, dynamic> json) =
       _$EnergyBillMonthImpl.fromJson;
 
+  @override
+  DateTime get begin;
   @override
   List<EnergyBillDay> get daily;
   @override
@@ -167,6 +185,7 @@ EnergyBillDay _$EnergyBillDayFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EnergyBillDay {
+  DateTime get begin => throw _privateConstructorUsedError;
   List<EnergyBillHour> get hourly => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -181,7 +200,7 @@ abstract class $EnergyBillDayCopyWith<$Res> {
           EnergyBillDay value, $Res Function(EnergyBillDay) then) =
       _$EnergyBillDayCopyWithImpl<$Res, EnergyBillDay>;
   @useResult
-  $Res call({List<EnergyBillHour> hourly});
+  $Res call({DateTime begin, List<EnergyBillHour> hourly});
 }
 
 /// @nodoc
@@ -197,9 +216,14 @@ class _$EnergyBillDayCopyWithImpl<$Res, $Val extends EnergyBillDay>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? begin = null,
     Object? hourly = null,
   }) {
     return _then(_value.copyWith(
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       hourly: null == hourly
           ? _value.hourly
           : hourly // ignore: cast_nullable_to_non_nullable
@@ -216,7 +240,7 @@ abstract class _$$EnergyBillDayImplCopyWith<$Res>
       __$$EnergyBillDayImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<EnergyBillHour> hourly});
+  $Res call({DateTime begin, List<EnergyBillHour> hourly});
 }
 
 /// @nodoc
@@ -230,9 +254,14 @@ class __$$EnergyBillDayImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? begin = null,
     Object? hourly = null,
   }) {
     return _then(_$EnergyBillDayImpl(
+      begin: null == begin
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       hourly: null == hourly
           ? _value._hourly
           : hourly // ignore: cast_nullable_to_non_nullable
@@ -244,13 +273,16 @@ class __$$EnergyBillDayImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$EnergyBillDayImpl extends _EnergyBillDay {
-  const _$EnergyBillDayImpl({required final List<EnergyBillHour> hourly})
+  const _$EnergyBillDayImpl(
+      {required this.begin, required final List<EnergyBillHour> hourly})
       : _hourly = hourly,
         super._();
 
   factory _$EnergyBillDayImpl.fromJson(Map<String, dynamic> json) =>
       _$$EnergyBillDayImplFromJson(json);
 
+  @override
+  final DateTime begin;
   final List<EnergyBillHour> _hourly;
   @override
   List<EnergyBillHour> get hourly {
@@ -261,7 +293,7 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
 
   @override
   String toString() {
-    return 'EnergyBillDay(hourly: $hourly)';
+    return 'EnergyBillDay(begin: $begin, hourly: $hourly)';
   }
 
   @override
@@ -269,13 +301,14 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EnergyBillDayImpl &&
+            (identical(other.begin, begin) || other.begin == begin) &&
             const DeepCollectionEquality().equals(other._hourly, _hourly));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_hourly));
+  int get hashCode => Object.hash(
+      runtimeType, begin, const DeepCollectionEquality().hash(_hourly));
 
   @JsonKey(ignore: true)
   @override
@@ -292,13 +325,16 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
 }
 
 abstract class _EnergyBillDay extends EnergyBillDay {
-  const factory _EnergyBillDay({required final List<EnergyBillHour> hourly}) =
-      _$EnergyBillDayImpl;
+  const factory _EnergyBillDay(
+      {required final DateTime begin,
+      required final List<EnergyBillHour> hourly}) = _$EnergyBillDayImpl;
   const _EnergyBillDay._() : super._();
 
   factory _EnergyBillDay.fromJson(Map<String, dynamic> json) =
       _$EnergyBillDayImpl.fromJson;
 
+  @override
+  DateTime get begin;
   @override
   List<EnergyBillHour> get hourly;
   @override

@@ -12,7 +12,7 @@ import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/util/data/num.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 
@@ -23,119 +23,113 @@ class EnergyBillService {
 
   final Ref ref;
 
-  final Map<String, Future<EnergyBillDay>> cacheDays = {};
-
-  final Map<String, Future<EnergyBillMonth>> cacheMonths = {};
-
-  final Map<String, Future<ElectricityTariff>> cacheTariffs = {};
+  final _cache = FutureCache(prefix: '$EnergyBillService');
 
   ElectricityPriceService get priceService =>
       ref.read(electricityPriceServiceProvider);
 
   HistoryManager get historyManager => ref.read(historyManagerProvider);
 
-  Future<ElectricityTariff> getTariff() async {
-    // Check if a request is already opened
-    const key = 'stannum';
-    final cached = cacheTariffs[key];
-    if (cached != null) {
-      return cached;
-    }
-    request() async {
-      return ElectricityTariff.fromJson(
-        jsonDecode(
-          await rootBundle.loadString(
-            'assets/data/electricity_tariff.json',
-          ),
+  /// Get current [ElectricityTariff].
+  Future<ElectricityTariff> getTariff({
+    Duration ttl = const Duration(seconds: 4),
+  }) async {
+    return _cache.getOrFetch(
+      'tariff',
+      () async => ElectricityTariff.fromJson(jsonDecode(
+        await rootBundle.loadString(
+          'assets/data/electricity_tariff.json',
         ),
-      );
-    }
-
-    cacheTariffs[key] = request();
-    final tariff = await cacheTariffs[key]!;
-    cacheTariffs.remove(key);
-    return tariff;
+      )),
+      ttl: ttl,
+    );
   }
 
-  /// Get hourly [EnergyBillHour] for month [when].
-  Future<EnergyBillMonth> getBillMonth(String area, DateTime when) async {
+  /// Get daily [EnergyBillDay] for month [when].
+  Future<EnergyBillMonth> getBillMonth(
+    String area,
+    DateTime when, {
+    Duration ttl = const Duration(seconds: 4),
+  }) async {
     final now = DateTime.now();
     const step = Duration(days: 1);
     final firstInMonth = DateTime(when.year, when.month, 1);
+    final key = 'month:$area:$firstInMonth';
 
-    // Check if a request is already opened
-    final key = '$area:$firstInMonth';
-    final cached = cacheMonths[key];
-    if (cached != null) {
-      return cached;
-    }
-
-    cacheMonths[key] = guard(() async {
-      final days = <EnergyBillDay>[];
-      DateTime next = firstInMonth;
-      while (next.month <= firstInMonth.month &&
-          !now.difference(next).isNegative) {
-        final bill = await getBillDay(area, next);
-        next = next.add(step);
-        days.add(bill);
-      }
-      return EnergyBillMonth(daily: days);
-    });
-
-    final bill = await cacheMonths[key]!;
-    cacheMonths.remove(key);
-    return bill;
+    return _cache.getOrFetch(
+      key,
+      () async {
+        final days = <EnergyBillDay>[];
+        DateTime next = firstInMonth;
+        while (next.month <= firstInMonth.month &&
+            !now.difference(next).isNegative) {
+          final bill = await getBillDay(area, next);
+          next = next.add(step);
+          days.add(bill);
+        }
+        return EnergyBillMonth(begin: firstInMonth, daily: days);
+      },
+      ttl: ttl,
+    );
   }
 
-  /// Get [EnergyBillHour] for day [when].
-  Future<EnergyBillDay> getBillDay(String area, DateTime when) async {
+  Optional<EnergyBillMonth> getCachedBillMonth(String area, DateTime when) {
+    final firstInMonth = DateTime(when.year, when.month, 1);
+    return _cache.get('month:$area:$firstInMonth');
+  }
+
+  /// Get hourly [EnergyBillHour] for month [when].
+  Future<EnergyBillDay> getBillDay(
+    String area,
+    DateTime when, {
+    Duration ttl = const Duration(seconds: 4),
+  }) async {
     final day = HistoryManager.toOffset(when);
 
     // Check if a request is already opened
-    final key = 'day:$area:$day';
-    final cached = cacheDays[key];
-    if (cached != null) {
-      return cached;
-    }
+    return _cache.getOrFetch(
+      'day:$area:$day',
+      () async {
+        final tariff = await getTariff();
+        final prices = await priceService.getPriceHourly(area, day);
+        final history = await historyManager.get(Tokens.power, when: day);
 
-    cacheDays[key] = guard(() async {
-      final tariff = await getTariff();
-      final prices = await priceService.getPriceHourly(area, day);
-      final history = await historyManager.get(Tokens.power, day);
+        final lines = <EnergyBillHour>[];
+        if (history.isPresent) {
+          final hourly = toEnergy(history.value, when);
 
-      final lines = <EnergyBillHour>[];
-      if (history.isPresent) {
-        final hourly = toEnergy(history.value, when);
+          var minEnergy = double.maxFinite;
+          var maxEnergy = double.minPositive;
 
-        var minEnergy = double.maxFinite;
-        var maxEnergy = double.minPositive;
-
-        for (int i = 0; i < hourly.length; i++) {
-          final ts = hourly.tsAt(i);
-          final energy = hourly.rowAt(i).first.toDouble();
-          minEnergy = min(minEnergy, energy);
-          maxEnergy = max(maxEnergy, energy);
-          final price = prices.firstWhereOptional((p) =>
-              p.begin.millisecondsSinceEpoch <= ts.millisecondsSinceEpoch &&
-              p.end.millisecondsSinceEpoch >= ts.millisecondsSinceEpoch);
-          if (price.isPresent) {
-            lines.add(EnergyBillHour(
-              vat: 25,
-              begin: ts,
-              tariff: tariff,
-              price: price.value,
-              end: ts.add(hourly.span),
-              energy: hourly.rowAt(i).first.toDouble(),
-            ));
+          for (int i = 0; i < hourly.length; i++) {
+            final ts = hourly.tsAt(i);
+            final energy = hourly.rowAt(i).first.toDouble();
+            minEnergy = min(minEnergy, energy);
+            maxEnergy = max(maxEnergy, energy);
+            final price = prices.firstWhereOptional((p) =>
+                p.begin.millisecondsSinceEpoch <= ts.millisecondsSinceEpoch &&
+                p.end.millisecondsSinceEpoch >= ts.millisecondsSinceEpoch);
+            if (price.isPresent) {
+              lines.add(EnergyBillHour(
+                vat: 25,
+                begin: ts,
+                tariff: tariff,
+                price: price.value,
+                end: ts.add(hourly.span),
+                energy: hourly.rowAt(i).first.toDouble(),
+              ));
+            }
           }
         }
-      }
-      return EnergyBillDay(hourly: lines);
-    });
+        return EnergyBillDay(begin: day, hourly: lines);
+      },
+      ttl: ttl,
+    );
+  }
 
-    final bill = await cacheDays[key]!;
-    cacheDays.remove(key);
-    return bill;
+  Optional<EnergyBillDay> getCachedBillDay(String area, DateTime when) {
+    final day = HistoryManager.toOffset(when);
+    return _cache.get('day:$area:$day');
   }
 
   /// Calculate energy = power * hour (power history is per minute)

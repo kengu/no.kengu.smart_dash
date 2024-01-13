@@ -36,17 +36,17 @@ class EnergyBillMonthTile extends ConsumerWidget {
     );
     return FutureBuilder(
       future: service.getBillMonth(area, when),
+      initialData: service.getCachedBillMonth(area, when).orElseNull,
       builder: (context, snapshot) {
         final surfaceColor =
             Theme.of(context).navigationRailTheme.backgroundColor!;
         final lineColor = surfaceColor.lighten(0.05);
         final textStyle = getLegendTextStyle(context);
 
+        final at = DateTime.now();
         final bill = Optional.ofNullable(snapshot.data);
         final daily = _toDaily(bill);
         final details = bill.orElseNull?.daily ?? [];
-
-        final at = DateTime.now();
 
         final sums = daily.isEmpty ? <double>[0] : daily.firstColumn;
         final total = sums.sum().toPrice('kr', 0);

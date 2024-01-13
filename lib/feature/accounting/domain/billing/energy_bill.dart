@@ -9,6 +9,7 @@ part 'energy_bill.g.dart';
 class EnergyBillMonth with _$EnergyBillMonth {
   const EnergyBillMonth._();
   const factory EnergyBillMonth({
+    required DateTime begin,
     required List<EnergyBillDay> daily,
   }) = _EnergyBillMonth;
 
@@ -36,9 +37,7 @@ class EnergyBillMonth with _$EnergyBillMonth {
     return daily.fold(0, (sum, next) => sum + next.tariffInEur);
   }
 
-  DateTime get end => daily.last.begin;
-
-  DateTime get begin => daily.first.begin;
+  DateTime get end => daily.isEmpty ? begin : daily.last.begin;
 
   Duration get span => daily.isNotEmpty ? end.difference(begin) : Duration.zero;
 
@@ -50,6 +49,7 @@ class EnergyBillMonth with _$EnergyBillMonth {
 class EnergyBillDay with _$EnergyBillDay {
   const EnergyBillDay._();
   const factory EnergyBillDay({
+    required DateTime begin,
     required List<EnergyBillHour> hourly,
   }) = _EnergyBillDay;
 
@@ -93,9 +93,7 @@ class EnergyBillDay with _$EnergyBillDay {
     return hourly.fold(0, (sum, next) => sum + next.tariffInEur);
   }
 
-  DateTime get end => hourly.last.begin;
-
-  DateTime get begin => hourly.first.begin;
+  DateTime get end => hourly.isEmpty ? begin : hourly.last.begin;
 
   Duration get span =>
       hourly.isNotEmpty ? end.difference(begin) : Duration.zero;

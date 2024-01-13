@@ -8,9 +8,21 @@ class FutureCache {
   final String prefix;
 
   final Map<String, dynamic> _results = {};
-  final Map<String, (DateTime, Future)> _requests = {};
+  final Map<String, (DateTime, Future?)> _requests = {};
+
+  bool contains(String key) {
+    final value = _results[key];
+    if (value is Optional) {
+      return value.isPresent;
+    }
+    return value != null;
+  }
 
   Optional<T> get<T>(String key) {
+    final value = _results[key];
+    if (value is Optional<T>) {
+      return value;
+    }
     return Optional<T>.ofNullable(_results[key]);
   }
 
@@ -25,8 +37,8 @@ class FutureCache {
   }) async {
     final now = DateTime.now();
     final cached = _requests[key];
-    if (cached != null && isExpired(now, cached, ttl)) {
-      return cached.$2 as Future<T>;
+    if (cached != null && !isExpired(now, cached.$1, ttl)) {
+      return cached.$2 ?? _results[key];
     }
 
     final request = guard(fetch);
@@ -35,6 +47,8 @@ class FutureCache {
     final result = await request;
 
     _results[key] = result;
+    _requests[key] = (now, null);
+
     if (ttl == Duration.zero) {
       _requests.remove(key);
       _results.remove(key);
@@ -43,6 +57,6 @@ class FutureCache {
     return result;
   }
 
-  bool isExpired(DateTime now, (DateTime, Future) cached, Duration ttl) =>
-      now.difference(cached.$1) < ttl;
+  bool isExpired(DateTime now, DateTime cached, Duration ttl) =>
+      now.difference(cached) > ttl;
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
@@ -21,31 +20,11 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   final df = DateFormat('dd-MM-yyyy HH:mm');
 
-  Optional<(DateTime, Future<List<Optional<TimeSeries>>>)> _request =
-      const Optional.empty();
-
   bool get isFullscreen => FullscreenState.watch(ref);
 
   @override
   void initState() {
     super.initState();
-    _fetchTokens();
-  }
-
-  Future<List<Optional<TimeSeries>>> _fetchTokens() {
-    if (_request.isEmpty ||
-        DateTime.now().difference(_request.value.$1).inMinutes > 5) {
-      final manager = ref.read(historyManagerProvider);
-      _request = Optional.of(
-        (
-          DateTime.now(),
-          Future.wait(
-            manager.tokens.map(manager.get).toList(),
-          ),
-        ),
-      );
-    }
-    return _request.value.$2;
   }
 
   @override
@@ -58,8 +37,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _build([HistoryEvent? event]) {
-    return FutureBuilder(
-        future: _fetchTokens(),
+    return FutureBuilder<List<TimeSeries>>(
+        future: ref
+            .read(historyManagerProvider)
+            .getAll(ttl: const Duration(minutes: 1)),
+        initialData: ref.read(historyManagerProvider).getCachedAll(),
         builder: (context, snapshot) {
           return Padding(
             padding: !isFullscreen
@@ -146,7 +128,6 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         ],
                         rows: snapshot.hasData
                             ? snapshot.data!
-                                .where((e) => e.isPresent)
                                 .map((e) => _buildDataRow(e))
                                 .toList()
                             : <DataRow>[]),
@@ -158,23 +139,23 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         });
   }
 
-  DataRow _buildDataRow(Optional<TimeSeries> e) {
-    final stats = e.value.stats(
+  DataRow _buildDataRow(TimeSeries series) {
+    final stats = series.stats(
       span: TimeScale.hours.to(),
     );
     return DataRow(
       cells: <DataCell>[
         DataCell(Text(
-          e.value.name,
+          series.name,
         )),
         DataCell(Text(
-          df.format(e.value.offset),
+          df.format(series.offset),
         )),
         DataCell(Text(
-          df.format(e.value.end),
+          df.format(series.end),
         )),
         DataCell(Text(
-          e.value.length.toString(),
+          series.length.toString(),
         )),
         DataCell(Text(
           stats.zeros.last.toString(),

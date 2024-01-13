@@ -29,7 +29,12 @@ class FoscamService extends _$FoscamService {
     });
   }
 
-  Future<List<Camera>> getCameras() async {
+  Optional<List<Camera>> getCachedCameras() {
+    return _cache.get<List<Camera>>('cameras');
+  }
+
+  Future<List<Camera>> getCameras(
+      {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('cameras', () async {
       final cameras = <Camera>[];
       for (var device in await _getConfigs()) {
@@ -39,7 +44,26 @@ class FoscamService extends _$FoscamService {
         client.api.close();
       }
       return cameras;
-    });
+    }, ttl: ttl);
+  }
+
+  Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
+    return _cache.get<CameraSnapshot>('snapshot:${device.name}');
+  }
+
+  Future<Optional<CameraSnapshot>> getSnapshot(Camera device,
+      {Duration ttl = const Duration(seconds: 4)}) async {
+    return _cache.getOrFetch('snapshot:${device.name}', () async {
+      final devices = await _getConfigs();
+      final found = devices.firstWhereOptional((e) => e.device == device.name);
+      if (found.isPresent) {
+        FoscamClient client = _newClient(found.value);
+        final snapshot = await client.getSnapshot();
+        client.api.close();
+        return snapshot;
+      }
+      return const Optional.empty();
+    }, ttl: ttl);
   }
 
   FoscamClient _newClient(ServiceConfig device) {
@@ -52,19 +76,5 @@ class FoscamService extends _$FoscamService {
       ),
     );
     return client;
-  }
-
-  Future<Optional<CameraSnapshot>> getSnapshot(Camera device) async {
-    return _cache.getOrFetch('snapshot:${device.name}', () async {
-      final devices = await _getConfigs();
-      final found = devices.firstWhereOptional((e) => e.device == device.name);
-      if (found.isPresent) {
-        FoscamClient client = _newClient(found.value);
-        final snapshot = await client.getSnapshot();
-        client.api.close();
-        return snapshot;
-      }
-      return const Optional.empty();
-    });
   }
 }

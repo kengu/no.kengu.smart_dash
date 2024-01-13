@@ -9,6 +9,7 @@ part of 'energy_bill.dart';
 _$EnergyBillMonthImpl _$$EnergyBillMonthImplFromJson(
         Map<String, dynamic> json) =>
     _$EnergyBillMonthImpl(
+      begin: DateTime.parse(json['begin'] as String),
       daily: (json['daily'] as List<dynamic>)
           .map((e) => EnergyBillDay.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17,11 +18,13 @@ _$EnergyBillMonthImpl _$$EnergyBillMonthImplFromJson(
 Map<String, dynamic> _$$EnergyBillMonthImplToJson(
         _$EnergyBillMonthImpl instance) =>
     <String, dynamic>{
+      'begin': instance.begin.toIso8601String(),
       'daily': instance.daily.map((e) => e.toJson()).toList(),
     };
 
 _$EnergyBillDayImpl _$$EnergyBillDayImplFromJson(Map<String, dynamic> json) =>
     _$EnergyBillDayImpl(
+      begin: DateTime.parse(json['begin'] as String),
       hourly: (json['hourly'] as List<dynamic>)
           .map((e) => EnergyBillHour.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29,6 +32,7 @@ _$EnergyBillDayImpl _$$EnergyBillDayImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$EnergyBillDayImplToJson(_$EnergyBillDayImpl instance) =>
     <String, dynamic>{
+      'begin': instance.begin.toIso8601String(),
       'hourly': instance.hourly.map((e) => e.toJson()).toList(),
     };
 

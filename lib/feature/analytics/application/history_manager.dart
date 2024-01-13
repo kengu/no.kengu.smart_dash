@@ -10,6 +10,7 @@ import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/tokens.dart';
+import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/stream.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
@@ -55,6 +56,8 @@ class HistoryManager {
   /// Check if [TimeSeries] for given [Token] exists
   bool exists(Token token) => _tokens.containsKey(token);
 
+  final _cache = FutureCache(prefix: '$HistoryManager');
+
   /// Start pumping history events by binding to device updates
   void bind() {
     assert(_changes == null, 'HistoryManager is started already');
@@ -98,11 +101,46 @@ class HistoryManager {
     }
   }
 
-  Future<Optional<TimeSeries>> get(Token token, [DateTime? when]) =>
-      guard(() async {
-        final repo = ref.read(timeSeriesRepositoryProvider);
-        return await repo.get(token, toOffset(when));
-      });
+  Future<List<TimeSeries>> getAll({
+    DateTime? when,
+    Duration ttl = const Duration(seconds: 4),
+  }) async {
+    final series = <TimeSeries>[];
+    for (final token in _tokens.keys) {
+      final result = await get(token, when: when, ttl: ttl);
+      if (result.isPresent) {
+        series.add(result.value);
+      }
+    }
+    return series;
+  }
+
+  List<TimeSeries> getCachedAll({DateTime? when}) {
+    final series = <TimeSeries>[];
+    for (final token in _tokens.keys) {
+      final result = getCached(token, when: when);
+      if (result.isPresent) {
+        series.add(result.value);
+      }
+    }
+    return series;
+  }
+
+  Future<Optional<TimeSeries>> get(
+    Token token, {
+    DateTime? when,
+    Duration ttl = const Duration(seconds: 4),
+  }) {
+    final key = 'token:${token.name}:$when';
+    return _cache.getOrFetch(key, () async {
+      final repo = ref.read(timeSeriesRepositoryProvider);
+      return await repo.get(token, toOffset(when));
+    }, ttl: ttl);
+  }
+
+  Optional<TimeSeries> getCached(Token token, {DateTime? when}) {
+    return _cache.get('token:${token.name}:$when');
+  }
 
   Future<void> _onHandle(FlowEvent event) => guard<void>(() async {
         final repo = ref.read(timeSeriesRepositoryProvider);

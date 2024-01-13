@@ -43,6 +43,18 @@ class _VideoCardState extends ConsumerState<CameraCard> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.camera.isPresent) {
+      _snapshot = Optional.ofNullable(ref
+          .read(foscamServiceProvider.notifier)
+          .getCachedSnapshot(widget.camera.value)
+          .orElseNull
+          ?.bytes);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: SizedBox(
