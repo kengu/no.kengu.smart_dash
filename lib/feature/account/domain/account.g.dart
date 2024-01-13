@@ -10,7 +10,7 @@ _$AccountImpl _$$AccountImplFromJson(Map<String, dynamic> json) =>
     _$AccountImpl(
       userId: json['userId'] as String,
       services: (json['services'] as List<dynamic>)
-          .map((e) => ServiceCredentials.fromJson(e as Map<String, dynamic>))
+          .map((e) => ServiceDefinition.fromJson(e as Map<String, dynamic>))
           .toSet(),
       fname: json['fname'] as String?,
       lname: json['lname'] as String?,

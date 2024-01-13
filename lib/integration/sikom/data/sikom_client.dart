@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
-import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+import 'package:smart_dash/feature/account/domain/service_definition.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/sikom/data/sikom_response.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
@@ -14,25 +14,26 @@ class SikomClient {
   final Dio api;
   final Ref ref;
 
-  static String toBasicAuth(ServiceCredentials credentials) =>
-      ServiceCredentials.toBasicAuth(
+  static String toBasicAuth(ServiceDefinition credentials) =>
+      ServiceDefinition.toBasicAuth(
         credentials.username,
         // Security-by-obscurity-V-
         '${credentials.password}!!!',
       );
 
-  Future<Optional<ServiceCredentials>> getCredentials() async {
+  Future<Optional<ServiceDefinition>> getCredentials() async {
     return guard(() async {
       final user = ref.read(userRepositoryProvider).currentUser;
       final account =
           await ref.read(accountRepositoryProvider).get(user.userId);
-      return account.value.lookup('sikom');
+      return account.value.first('sikom');
     });
   }
 
   Future<bool> verifyCredentials() async {
     return guard(() async {
-      Optional<ServiceCredentials> credentials = await getCredentials();
+      Optional<ServiceDefinition> credentials = await getCredentials();
+      if (!credentials.isPresent) return false;
       final response = await api.get('/VerifyCredentials',
           options: Options(headers: <String, String>{
             'authorization': toBasicAuth(credentials.value),
@@ -44,7 +45,8 @@ class SikomClient {
 
   Future<Optional<List<SikomGateway>>> getGateways() async {
     return guard(() async {
-      Optional<ServiceCredentials> credentials = await getCredentials();
+      Optional<ServiceDefinition> credentials = await getCredentials();
+      if (!credentials.isPresent) return const Optional.empty();
       final response = await api.get('/Gateway/All',
           options: Options(headers: <String, String>{
             'authorization': toBasicAuth(credentials.value),
@@ -85,7 +87,8 @@ class SikomClient {
     Iterable<String> ids = const [],
   }) async {
     return guard(() async {
-      Optional<ServiceCredentials> credentials = await getCredentials();
+      Optional<ServiceDefinition> credentials = await getCredentials();
+      if (!credentials.isPresent) return const Optional.empty();
       final query = ids.isEmpty ? 'All' : ids.join(',');
       final path = '/Device/$query${gateway == null ? '' : '/${gateway.id}'}';
       final response = await api.get(path,

@@ -1,6 +1,6 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+import 'package:smart_dash/feature/account/domain/service_definition.dart';
 import 'package:smart_dash/feature/device/data/device_definition_repository.dart';
 import 'package:smart_dash/feature/device/domain/driver_definition.dart';
 import 'package:smart_dash/widget/load/async_load_controller.dart';
@@ -22,7 +22,7 @@ class PairingScreenController extends _$PairingScreenController
     ));
   }
 
-  Future<void> authenticate(ServiceCredentials credentials) async {
+  Future<void> authenticate(ServiceDefinition credentials) async {
     // final user = ref.read(authRepositoryProvider).currentUser;
     // final account = await ref.read(accountRepositoryProvider).get(user.userId);
     // return Optional.of(

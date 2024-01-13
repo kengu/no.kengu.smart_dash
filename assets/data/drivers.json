@@ -3,19 +3,37 @@
     "key": "sikom",
     "name": "Sikom Living API",
     "image": "sikom.png",
-    "description": "Use account email and password"
+    "category": "Smart Home & IoT",
+    "description": "Enter account email and password",
+    "fields": ["username", "password"],
+    "instances": 1
   },
   {
     "key": "homey",
     "name": "Homey API",
     "image": "homey.png",
-    "description": "Use account email and password"
+    "category": "Smart Home & IoT",
+    "description": "Enter account email and password",
+    "fields": ["username", "password"],
+    "instances": 1
   },
   {
     "key": "home_assistant",
-    "image": "home_assistant.png",
     "name": "Home Assistant API",
-    "description": "Use account email and password"
+    "image": "home_assistant.png",
+    "category": "Smart Home & IoT",
+    "fields": ["username", "password"],
+    "description": "Enter account email and password",
+    "instances": 1
+  },
+  {
+    "key": "foscam",
+    "name": "Foscam CGI API",
+    "image": "foscam.png",
+    "category": "Security Cameras",
+    "description": "Enter camera information",
+    "fields": ["device", "host", "port", "username", "password"],
+    "instances": 4
   }
 ]
 

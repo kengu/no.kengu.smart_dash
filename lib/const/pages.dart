@@ -1,11 +1,13 @@
 class Pages {
   static const home = '/home';
   static const history = '/history';
+  static const cameras = '/cameras';
   static const notifications = '/notifications';
 
   static const List<String> locations = [
     Pages.home,
     Pages.history,
+    Pages.cameras,
     Pages.notifications,
   ];
 

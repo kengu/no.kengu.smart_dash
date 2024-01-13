@@ -57,8 +57,8 @@ class EnergyBillHourlyTile extends ConsumerWidget {
 
         return SmartDashTile(
           key: const ValueKey('energy_bill_hourly'),
-          title: 'Energy Bill',
-          subTitle: 'Today @ ${at.hour} hours ($area)',
+          title: 'Energy Bill Today',
+          subTitle: 'Last ${at.hour} hours ($area)',
           constraints: constraints,
           leading: const Icon(
             Icons.summarize_outlined,

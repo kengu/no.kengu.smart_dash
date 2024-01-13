@@ -21,7 +21,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Account {
   String get userId => throw _privateConstructorUsedError;
-  Set<ServiceCredentials> get services => throw _privateConstructorUsedError;
+  Set<ServiceDefinition> get services => throw _privateConstructorUsedError;
   String? get fname => throw _privateConstructorUsedError;
   String? get lname => throw _privateConstructorUsedError;
 
@@ -37,7 +37,7 @@ abstract class $AccountCopyWith<$Res> {
   @useResult
   $Res call(
       {String userId,
-      Set<ServiceCredentials> services,
+      Set<ServiceDefinition> services,
       String? fname,
       String? lname});
 }
@@ -68,7 +68,7 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
       services: null == services
           ? _value.services
           : services // ignore: cast_nullable_to_non_nullable
-              as Set<ServiceCredentials>,
+              as Set<ServiceDefinition>,
       fname: freezed == fname
           ? _value.fname
           : fname // ignore: cast_nullable_to_non_nullable
@@ -90,7 +90,7 @@ abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
   @useResult
   $Res call(
       {String userId,
-      Set<ServiceCredentials> services,
+      Set<ServiceDefinition> services,
       String? fname,
       String? lname});
 }
@@ -119,7 +119,7 @@ class __$$AccountImplCopyWithImpl<$Res>
       services: null == services
           ? _value._services
           : services // ignore: cast_nullable_to_non_nullable
-              as Set<ServiceCredentials>,
+              as Set<ServiceDefinition>,
       fname: freezed == fname
           ? _value.fname
           : fname // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ class __$$AccountImplCopyWithImpl<$Res>
 class _$AccountImpl extends _Account {
   const _$AccountImpl(
       {required this.userId,
-      required final Set<ServiceCredentials> services,
+      required final Set<ServiceDefinition> services,
       this.fname,
       this.lname})
       : _services = services,
@@ -148,9 +148,9 @@ class _$AccountImpl extends _Account {
 
   @override
   final String userId;
-  final Set<ServiceCredentials> _services;
+  final Set<ServiceDefinition> _services;
   @override
-  Set<ServiceCredentials> get services {
+  Set<ServiceDefinition> get services {
     if (_services is EqualUnmodifiableSetView) return _services;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_services);
@@ -199,7 +199,7 @@ class _$AccountImpl extends _Account {
 abstract class _Account extends Account {
   const factory _Account(
       {required final String userId,
-      required final Set<ServiceCredentials> services,
+      required final Set<ServiceDefinition> services,
       final String? fname,
       final String? lname}) = _$AccountImpl;
   const _Account._() : super._();
@@ -209,7 +209,7 @@ abstract class _Account extends Account {
   @override
   String get userId;
   @override
-  Set<ServiceCredentials> get services;
+  Set<ServiceDefinition> get services;
   @override
   String? get fname;
   @override

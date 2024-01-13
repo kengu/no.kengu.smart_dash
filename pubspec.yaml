@@ -15,6 +15,7 @@ dependencies:
     sdk: flutter
 
   dio: ^5.4.0
+  xml: ^6.5.0
   http: ^1.0.0
   path: ^1.8.3
   intl: ^0.18.1

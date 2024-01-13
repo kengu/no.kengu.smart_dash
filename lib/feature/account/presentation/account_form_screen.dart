@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
-import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+import 'package:smart_dash/feature/account/domain/service_definition.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/feature/device/data/device_definition_repository.dart';
 import 'package:smart_dash/feature/device/domain/driver_definition.dart';
@@ -17,7 +17,7 @@ import 'package:smart_dash/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/widget/smart_dash_progress_indicator.dart';
 
 import 'account_form_screen_controller.dart';
-import 'field/service_credentials_field_group.dart';
+import 'field/service_field_group.dart';
 
 class AccountFormScreen extends ConsumerWidget {
   const AccountFormScreen({
@@ -89,16 +89,19 @@ class AccountFieldsWidget extends StatelessWidget {
               ValidationMessage.required: (_) => 'Please enter lastname',
             },
           ),
-          ReactiveFormArray(
+          ReactiveFormArray<Object>(
             formArrayName: AccountFormFields.services,
             builder: (context, formArray, child) {
               return Column(
-                children: AccountFormScreenController.toServiceNames(formArray)
-                    .map((service) => ServiceCredentialsFieldGroup(
-                          service: service,
-                          formArray: formArray,
-                          definitions: services,
-                        ))
+                children: AccountFormScreenController.from(formArray)
+                    .map((e) => ServiceFieldGroup(
+                        service: e.key,
+                        formArray: formArray,
+                        definitions: services,
+                        index: AccountFormScreenController.indexWhere(
+                          formArray,
+                          e,
+                        )))
                     .toList(),
               );
             },
@@ -135,8 +138,22 @@ class AddServiceMenuButton extends StatelessWidget {
             final formArray = form.control(
               AccountFormFields.services,
             ) as FormArray;
-            final uses = AccountFormScreenController.toServiceNames(formArray);
-            final missing = services.keys.toSet()..removeWhere(uses.contains);
+            final uses = AccountFormScreenController.from(formArray).map(
+              (e) => e.key,
+            );
+            final instances = services.map(
+              (key, value) => MapEntry(key, value.instances),
+            );
+            final missing = services.keys.toSet()
+              ..removeWhere((key) {
+                if (uses.contains(key)) {
+                  if (instances.containsKey(key)) {
+                    instances[key] = instances[key]! - 1;
+                  }
+                }
+                return instances[key] == 0;
+              });
+
             return PopupMenuButton<String>(
               key: _popupMenuKey,
               position: PopupMenuPosition.over,
@@ -150,17 +167,19 @@ class AddServiceMenuButton extends StatelessWidget {
                 child: const Text('ADD SERVICE'),
               ),
               onSelected: (String service) {
-                formArray.add(controller.buildCredentialsForm(
-                  ServiceCredentials.fromService(
-                    service,
+                formArray.add(controller.buildServiceFieldsForm(
+                  ServiceDefinition.fromDriver(
+                    services[service]!,
                   ),
                 ));
               },
               itemBuilder: (BuildContext context) {
                 return missing
-                    .map((name) => PopupMenuItem<String>(
-                          value: name,
-                          child: Text(services[name]!.name),
+                    .map((key) => PopupMenuItem<String>(
+                          value: key,
+                          child: Text(
+                            "${services[key]!.name}${instances[key]! > 1 ? ' (${instances[key]} left)' : ''}",
+                          ),
                         ))
                     .toList();
               },

@@ -1,28 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pairing_screen_controller.dart';
+part of 'foscam_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pairingScreenControllerHash() =>
-    r'fc87b2dc407a15b38bfb79e1f6b42409742dbe9b';
+String _$foscamServiceHash() => r'318a4a8f3d127ca4c7547da0b7cd04aa48300579';
 
-/// See also [PairingScreenController].
-@ProviderFor(PairingScreenController)
-final pairingScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
-    PairingScreenController, Optional<DriverDefinitionMap>>.internal(
-  PairingScreenController.new,
-  name: r'pairingScreenControllerProvider',
+/// See also [FoscamService].
+@ProviderFor(FoscamService)
+final foscamServiceProvider =
+    AsyncNotifierProvider<FoscamService, Optional<FoscamResponse>>.internal(
+  FoscamService.new,
+  name: r'foscamServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$pairingScreenControllerHash,
+      : _$foscamServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PairingScreenController
-    = AutoDisposeAsyncNotifier<Optional<DriverDefinitionMap>>;
+typedef _$FoscamService = AsyncNotifier<Optional<FoscamResponse>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

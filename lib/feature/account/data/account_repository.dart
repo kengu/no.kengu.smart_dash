@@ -36,12 +36,16 @@ class AccountRepository {
   Future<List<Account>> _load() => guard(() async {
         final prefs = await SharedPreferences.getInstance();
         final result = prefs.getStringList(AccountRepository.key);
-        return result
-                ?.map(jsonDecode)
-                .whereType<Map<String, Object?>>()
-                .map(Account.fromJson)
-                .toList() ??
-            [];
+        try {
+          return result
+                  ?.map(jsonDecode)
+                  .whereType<Map<String, Object?>>()
+                  .map(Account.fromJson)
+                  .toList() ??
+              [];
+        } catch (e) {
+          return const [];
+        }
       });
 
   Future<bool> _setAll(List<Account> accounts) => guard(() async {

@@ -61,9 +61,6 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     return FutureBuilder(
         future: _fetchTokens(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            _request = const Optional.empty();
-          }
           return Padding(
             padding: !isFullscreen
                 ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)

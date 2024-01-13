@@ -334,12 +334,6 @@ List<DashboardItem> desktop() => [
         minWidth: 3,
       ),
       DashboardItem(
-        identifier: Tokens.voltage.name,
-        width: 4,
-        height: 1,
-        minWidth: 4,
-      ),
-      DashboardItem(
         identifier: 'price_hourly',
         width: 4,
         height: 1,
@@ -353,6 +347,12 @@ List<DashboardItem> desktop() => [
       ),
       DashboardItem(
         identifier: 'bill_month',
+        width: 4,
+        height: 1,
+        minWidth: 4,
+      ),
+      DashboardItem(
+        identifier: Tokens.voltage.name,
         width: 4,
         height: 1,
         minWidth: 4,

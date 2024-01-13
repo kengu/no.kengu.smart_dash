@@ -23,7 +23,10 @@ mixin _$DriverDefinition {
   String get key => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
+  int get instances => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  List<String> get fields => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +40,14 @@ abstract class $DriverDefinitionCopyWith<$Res> {
           DriverDefinition value, $Res Function(DriverDefinition) then) =
       _$DriverDefinitionCopyWithImpl<$Res, DriverDefinition>;
   @useResult
-  $Res call({String key, String name, String image, String description});
+  $Res call(
+      {String key,
+      String name,
+      String image,
+      int instances,
+      String category,
+      String description,
+      List<String> fields});
 }
 
 /// @nodoc
@@ -56,7 +66,10 @@ class _$DriverDefinitionCopyWithImpl<$Res, $Val extends DriverDefinition>
     Object? key = null,
     Object? name = null,
     Object? image = null,
+    Object? instances = null,
+    Object? category = null,
     Object? description = null,
+    Object? fields = null,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -71,10 +84,22 @@ class _$DriverDefinitionCopyWithImpl<$Res, $Val extends DriverDefinition>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      instances: null == instances
+          ? _value.instances
+          : instances // ignore: cast_nullable_to_non_nullable
+              as int,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      fields: null == fields
+          ? _value.fields
+          : fields // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -87,7 +112,14 @@ abstract class _$$DriverDefinitionImplCopyWith<$Res>
       __$$DriverDefinitionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String key, String name, String image, String description});
+  $Res call(
+      {String key,
+      String name,
+      String image,
+      int instances,
+      String category,
+      String description,
+      List<String> fields});
 }
 
 /// @nodoc
@@ -104,7 +136,10 @@ class __$$DriverDefinitionImplCopyWithImpl<$Res>
     Object? key = null,
     Object? name = null,
     Object? image = null,
+    Object? instances = null,
+    Object? category = null,
     Object? description = null,
+    Object? fields = null,
   }) {
     return _then(_$DriverDefinitionImpl(
       key: null == key
@@ -119,10 +154,22 @@ class __$$DriverDefinitionImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      instances: null == instances
+          ? _value.instances
+          : instances // ignore: cast_nullable_to_non_nullable
+              as int,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      fields: null == fields
+          ? _value._fields
+          : fields // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -134,7 +181,11 @@ class _$DriverDefinitionImpl implements _DriverDefinition {
       {required this.key,
       required this.name,
       required this.image,
-      required this.description});
+      required this.instances,
+      required this.category,
+      required this.description,
+      required final List<String> fields})
+      : _fields = fields;
 
   factory _$DriverDefinitionImpl.fromJson(Map<String, dynamic> json) =>
       _$$DriverDefinitionImplFromJson(json);
@@ -146,11 +197,22 @@ class _$DriverDefinitionImpl implements _DriverDefinition {
   @override
   final String image;
   @override
+  final int instances;
+  @override
+  final String category;
+  @override
   final String description;
+  final List<String> _fields;
+  @override
+  List<String> get fields {
+    if (_fields is EqualUnmodifiableListView) return _fields;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fields);
+  }
 
   @override
   String toString() {
-    return 'DriverDefinition(key: $key, name: $name, image: $image, description: $description)';
+    return 'DriverDefinition(key: $key, name: $name, image: $image, instances: $instances, category: $category, description: $description, fields: $fields)';
   }
 
   @override
@@ -161,13 +223,19 @@ class _$DriverDefinitionImpl implements _DriverDefinition {
             (identical(other.key, key) || other.key == key) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.image, image) || other.image == image) &&
+            (identical(other.instances, instances) ||
+                other.instances == instances) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other._fields, _fields));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, key, name, image, description);
+  int get hashCode => Object.hash(runtimeType, key, name, image, instances,
+      category, description, const DeepCollectionEquality().hash(_fields));
 
   @JsonKey(ignore: true)
   @override
@@ -189,7 +257,10 @@ abstract class _DriverDefinition implements DriverDefinition {
       {required final String key,
       required final String name,
       required final String image,
-      required final String description}) = _$DriverDefinitionImpl;
+      required final int instances,
+      required final String category,
+      required final String description,
+      required final List<String> fields}) = _$DriverDefinitionImpl;
 
   factory _DriverDefinition.fromJson(Map<String, dynamic> json) =
       _$DriverDefinitionImpl.fromJson;
@@ -201,7 +272,13 @@ abstract class _DriverDefinition implements DriverDefinition {
   @override
   String get image;
   @override
+  int get instances;
+  @override
+  String get category;
+  @override
   String get description;
+  @override
+  List<String> get fields;
   @override
   @JsonKey(ignore: true)
   _$$DriverDefinitionImplCopyWith<_$DriverDefinitionImpl> get copyWith =>

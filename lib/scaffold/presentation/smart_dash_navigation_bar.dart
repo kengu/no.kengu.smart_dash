@@ -45,6 +45,14 @@ class _SmartDashNavigationBarState extends State<SmartDashNavigationBar> {
           tooltip: 'History',
         ),
         NavigationDestination(
+          icon: Icon(
+            Icons.video_camera_back_outlined,
+          ),
+          selectedIcon: Icon(Icons.video_camera_back),
+          label: 'Cameras',
+          tooltip: 'Cameras',
+        ),
+        NavigationDestination(
           icon: Badge(
             child: Icon(
               Icons.notifications_none_outlined,

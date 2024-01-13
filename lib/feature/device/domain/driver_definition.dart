@@ -11,7 +11,10 @@ class DriverDefinition with _$DriverDefinition {
     required String key,
     required String name,
     required String image,
+    required int instances,
+    required String category,
     required String description,
+    required List<String> fields,
   }) = _DriverDefinition;
 
   factory DriverDefinition.fromJson(Map<String, Object?> json) =>
@@ -21,6 +24,9 @@ class DriverDefinition with _$DriverDefinition {
 class DriverDefinitionFields {
   static const String key = 'key';
   static const String name = 'name';
-  static const String image = 'name';
+  static const String image = 'image';
+  static const String fields = 'fields';
+  static const String category = 'category';
+  static const String instances = 'instances';
   static const String description = 'description';
 }

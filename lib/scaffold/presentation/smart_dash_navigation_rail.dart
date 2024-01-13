@@ -66,6 +66,13 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
           label: Text('History'),
         ),
         NavigationRailDestination(
+          icon: Icon(
+            Icons.video_camera_back_outlined,
+          ),
+          selectedIcon: Icon(Icons.video_camera_back),
+          label: Text('Cameras'),
+        ),
+        NavigationRailDestination(
           icon: Badge(
             child: Icon(
               Icons.notifications_none_outlined,

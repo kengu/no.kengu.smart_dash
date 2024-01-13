@@ -3,7 +3,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
-import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+import 'package:smart_dash/feature/account/domain/service_definition.dart';
 import 'package:smart_dash/widget/form/async_form_controller.dart';
 import 'package:smart_dash/widget/load/async_load_controller.dart';
 
@@ -28,16 +28,18 @@ class AccountFormScreenController extends _$AccountFormScreenController
     with
         AsyncLoadController<AccountQuery, Account>,
         AsyncFormController<AccountQuery, Account> {
-  static List<String> toServiceNames(FormArray<dynamic> entries) =>
+  static List<ServiceDefinition> from(FormArray entries) =>
       entries.value
-          ?.whereType<Map>()
-          .map((e) => e[ServiceFields.name] as String)
+          ?.whereType<Map<String, Object?>>()
+          .map((e) => ServiceDefinition.fromJson(e))
           .toList() ??
       [];
 
-  static int indexWhere(FormArray<dynamic> fromArray, String service) {
+  static int indexWhere(FormArray fromArray, ServiceDefinition service) {
     return fromArray.value!.indexWhere(
-      (e) => e[ServiceFields.name] == service,
+      (e) =>
+          e[ServiceFields.key] == service.key &&
+          e[ServiceFields.device] == service.device,
     );
   }
 
@@ -56,34 +58,71 @@ class AccountFormScreenController extends _$AccountFormScreenController
         validators: [Validators.required],
       ),
       AccountFormFields.services: FormArray<Object>([
-        ...toServices(data).map(buildCredentialsForm),
+        ...toServices(data).map(buildServiceFieldsForm),
       ]),
     });
   }
 
-  Set<ServiceCredentials> toServices(Optional<Account> data) {
+  Set<ServiceDefinition> toServices(Optional<Account> data) {
     return data.isPresent
-        ? query!.services
-            .map((service) => data.value.lookup(service))
-            .where((result) => result.isPresent)
-            .map((result) => result.value)
-            .toSet()
+        ? query!.services.map(data.value.all).expand((e) => e.toList()).toSet()
         : {};
   }
 
-  FormGroup buildCredentialsForm(ServiceCredentials data) {
+  FormGroup buildServiceFieldsForm(ServiceDefinition data) {
     return fb.group(<String, Object>{
+      // Hidden fields
+      ServiceFields.key: FormControl<String>(
+        value: data.key,
+      ),
       ServiceFields.name: FormControl<String>(
         value: data.name,
       ),
-      ServiceFields.username: FormControl<String>(
-        value: data.username,
-        validators: [Validators.required],
+      ServiceFields.fields: FormControl<List<String>>(
+        value: data.fields,
       ),
-      ServiceFields.password: FormControl<String>(
-        value: data.password,
-        validators: [Validators.required],
-      )
+      // Rendered fields
+      if (data.fields.contains('device'))
+        ServiceFields.device: FormControl<String>(
+          value: data.device,
+          validators: [Validators.required],
+        ),
+      if (data.fields.contains('host'))
+        ServiceFields.host: FormControl<String>(
+          value: data.host,
+          validators: [
+            Validators.required,
+            Validators.pattern(
+              r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}'
+              r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^'
+              r'(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+'
+              r'([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$',
+            )
+          ],
+        ),
+      if (data.fields.contains('port'))
+        ServiceFields.port: FormControl<int>(
+          value: data.port,
+          validators: [
+            Validators.required,
+            Validators.number,
+          ],
+        ),
+      if (data.fields.contains('port'))
+        ServiceFields.device: FormControl<String>(
+          value: data.device,
+          validators: [Validators.required],
+        ),
+      if (data.fields.contains('username'))
+        ServiceFields.username: FormControl<String>(
+          value: data.username,
+          validators: [Validators.required],
+        ),
+      if (data.fields.contains('password'))
+        ServiceFields.password: FormControl<String>(
+          value: data.password,
+          validators: [Validators.required],
+        )
     });
   }
 

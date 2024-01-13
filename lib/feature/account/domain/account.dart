@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+import 'package:smart_dash/feature/account/domain/service_definition.dart';
 
 part 'account.freezed.dart';
 part 'account.g.dart';
@@ -11,15 +11,17 @@ class Account with _$Account {
 
   const factory Account({
     required String userId,
-    required Set<ServiceCredentials> services,
+    required Set<ServiceDefinition> services,
     String? fname,
     String? lname,
   }) = _Account;
 
   String get fullName => [fname, lname].whereType<String>().join(' ');
 
-  Optional<ServiceCredentials> lookup(String service) =>
-      services.firstWhereOptional((c) => c.name == service);
+  Optional<ServiceDefinition> first(String key) =>
+      services.firstWhereOptional((c) => c.key == key);
+  List<ServiceDefinition> all(String key) =>
+      services.where((c) => c.key == key).toList();
 
   factory Account.fromJson(Map<String, Object?> json) =>
       _$AccountFromJson(json);

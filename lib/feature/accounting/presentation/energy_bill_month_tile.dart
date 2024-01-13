@@ -59,8 +59,8 @@ class EnergyBillMonthTile extends ConsumerWidget {
 
         return SmartDashTile(
           key: const ValueKey('energy_bill_month'),
-          title: 'Energy Bill',
-          subTitle: 'Cost in ${df.format(at)}',
+          title: 'Energy Bill ${df.format(at)}',
+          subTitle: 'Last ${at.day} days ($area)',
           constraints: constraints,
           leading: const Icon(
             Icons.summarize_outlined,

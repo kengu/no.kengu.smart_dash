@@ -3,7 +3,7 @@
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 // import 'package:smart_dash/feature/account/data/account_repository.dart';
 // import 'package:smart_dash/feature/account/domain/account.dart';
-// import 'package:smart_dash/feature/account/domain/service_credentials.dart';
+// import 'package:smart_dash/feature/account/domain/service_definition.dart';
 // import 'package:smart_dash/widget/async_form_controller.dart';
 // import 'package:smart_dash/widget/async_load_controller.dart';
 //
