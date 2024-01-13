@@ -8,6 +8,7 @@ part of 'camera.dart';
 
 _$CameraImpl _$$CameraImplFromJson(Map<String, dynamic> json) => _$CameraImpl(
       name: json['name'] as String,
+      service: json['service'] as String,
       motion: json['motion'] == null
           ? null
           : MotionDetectConfig.fromJson(json['motion'] as Map<String, dynamic>),
@@ -16,6 +17,7 @@ _$CameraImpl _$$CameraImplFromJson(Map<String, dynamic> json) => _$CameraImpl(
 Map<String, dynamic> _$$CameraImplToJson(_$CameraImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'service': instance.service,
       'motion': instance.motion?.toJson(),
     };
 

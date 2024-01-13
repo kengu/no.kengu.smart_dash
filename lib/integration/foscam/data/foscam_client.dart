@@ -31,6 +31,7 @@ class FoscamClient {
       final motion = await _build('getMotionDetectConfig').get(api);
       return Optional.ofNullable(switch (info.type) {
         FoscamResultType.success => Camera(
+            service: 'foscam',
             name: info.get('devName', ''),
             motion: MotionDetectConfig(
               enabled: motion.get('isEnable', false),

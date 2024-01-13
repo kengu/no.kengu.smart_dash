@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 
@@ -16,6 +17,17 @@ class IntegrationRepository extends _$IntegrationRepository {
       _drivers.addAll(await _load());
     }
     return _drivers;
+  }
+
+  Optional<IntegrationMap> supports(Iterable<String> features) {
+    return where((e) => e.features.any(features.contains));
+  }
+
+  Optional<IntegrationMap> where(bool Function(Integration element) test) {
+    if (!state.hasValue) const Optional.empty();
+    return Optional.of(Map.fromEntries(state.value!.entries.where(
+      (e) => test(e.value),
+    )));
   }
 
   static Future<IntegrationMap> _load() async {

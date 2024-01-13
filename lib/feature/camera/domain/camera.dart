@@ -10,6 +10,7 @@ class Camera with _$Camera {
   const Camera._();
   const factory Camera({
     @JsonKey(name: 'name') required String name,
+    @JsonKey(name: 'service') required String service,
     @JsonKey(name: 'motion') required MotionDetectConfig? motion,
   }) = _Camera;
 

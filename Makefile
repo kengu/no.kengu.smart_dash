@@ -23,11 +23,11 @@ storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)
 
 .PHONY: \
 	doctor toolchain configure drift-info drift-export drift-migration drift-generate-tests \
-	build serve stopupgrade action android-build android-install android-rebuild
+	build clean-build serve stopupgrade action android-build android-install android-rebuild
 
 .SILENT: \
 	doctor toolchain configure drift-info drift-export drift-migration drift-generate-tests \
-	build serve stop upgrade action android-build android-install android-rebuild
+	build clean-build serve stop upgrade action android-build android-install android-rebuild
 
 doctor:
 	echo "Doctor summary"
@@ -140,6 +140,10 @@ drift-generate-tests:
 build:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
+
+clean-build:
+	echo "Clean generated build..."
+	dart pub run build_runner clean
 
 android-rebuild:
 	echo "Rebuilding android project..."

@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
 
@@ -79,10 +78,6 @@ class DeviceDriverManager {
     _timing?.cancel();
     _timing = null;
   }
-
-  /// Get available device driver definitions
-  Future<Map<String, Integration>> getDefinitions() =>
-      ref.read(integrationRepositoryProvider.future);
 
   /// Get [DeviceDriver] for given [IntegrationFields.key]
   DeviceDriver getDriver(String key) {

@@ -1,18 +1,19 @@
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
     super.key,
+    required this.name,
     required this.camera,
   });
+
+  final String name;
 
   final Optional<Camera> camera;
 
@@ -21,9 +22,7 @@ class CameraCard extends ConsumerStatefulWidget {
 }
 
 class _VideoCardState extends ConsumerState<CameraCard> {
-  Optional<Uint8List> _snapshot = const Optional.empty();
-
-  String get cameraName => widget.camera.orElseNull?.name ?? '-';
+  String get cameraName => widget.camera.orElseNull?.name ?? widget.name;
 
   bool get motionDetectEnabled =>
       widget.camera.orElseNull?.motion?.enabled == true;
@@ -32,26 +31,14 @@ class _VideoCardState extends ConsumerState<CameraCard> {
       widget.camera.orElseNull?.motion?.sensitivity ??
       MotionDetectSensitivityLevel.low;
 
-  Future<Optional<Uint8List>> _fetchSnapshot() async {
+  Future<Optional<CameraSnapshot>> _fetchSnapshot() async {
     if (widget.camera.isPresent) {
       final snapshot = await ref
-          .read(foscamServiceProvider.notifier)
+          .read(cameraManagerProvider)
           .getSnapshot(widget.camera.value);
-      _snapshot = Optional.ofNullable(snapshot.orElseNull?.bytes);
+      return Optional.ofNullable(snapshot.orElseNull);
     }
-    return _snapshot;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.camera.isPresent) {
-      _snapshot = Optional.ofNullable(ref
-          .read(foscamServiceProvider.notifier)
-          .getCachedSnapshot(widget.camera.value)
-          .orElseNull
-          ?.bytes);
-    }
+    return const Optional.empty();
   }
 
   @override
@@ -68,9 +55,9 @@ class _VideoCardState extends ConsumerState<CameraCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: FutureBuilder<Optional<Uint8List>>(
-                    initialData: _snapshot,
+                child: FutureBuilder<Optional<CameraSnapshot>>(
                     future: _fetchSnapshot(),
+                    initialData: _fetchCachedSnapshot(),
                     builder: (context, snapshot) {
                       if (!(snapshot.hasData && snapshot.data!.isPresent)) {
                         return Container(
@@ -84,7 +71,7 @@ class _VideoCardState extends ConsumerState<CameraCard> {
                         );
                       }
                       return Image.memory(
-                        snapshot.data!.value,
+                        snapshot.data!.value.bytes,
                         fit: BoxFit.scaleDown,
                         gaplessPlayback: true,
                       );
@@ -116,10 +103,6 @@ class _VideoCardState extends ConsumerState<CameraCard> {
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: () => setState(() {}),
-                      ),
                     ],
                   ),
                 ),
@@ -129,5 +112,12 @@ class _VideoCardState extends ConsumerState<CameraCard> {
         ),
       ),
     );
+  }
+
+  Optional<CameraSnapshot> _fetchCachedSnapshot() {
+    if (!widget.camera.isPresent) return const Optional.empty();
+    return ref
+        .read(cameraManagerProvider)
+        .getCachedSnapshot(widget.camera.value);
   }
 }

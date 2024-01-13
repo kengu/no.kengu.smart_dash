@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 
 part 'camera_manager.g.dart';
@@ -27,18 +25,68 @@ class CameraManager {
         '${service.runtimeType}[key:${service.key}] registered');
   }
 
-  /// Get available device driver definitions
-  Future<Map<String, Integration>> getDefinitions() =>
-      ref.read(integrationRepositoryProvider.future);
+  void init() => getConfigs();
 
   /// Get [Camera] for given [IntegrationFields.key]
-  CameraService getService(String key) {
+  T getService<T extends CameraService>(String key) {
     assert(
       exists(key),
       'CameraService $key not found. '
       'Have you remembered to register it with the CameraManager?',
     );
-    return _services[key]!;
+    return _services[key] as T;
+  }
+
+  Optional<List<ServiceConfig>> getCachedConfigs() {
+    final configs = <ServiceConfig>[];
+    for (final service in _services.values) {
+      final cached = service.getCachedConfigs();
+      if (cached.isPresent) {
+        configs.addAll(cached.value);
+      }
+    }
+    return Optional.of(configs);
+  }
+
+  Future<List<ServiceConfig>> getConfigs(
+      {Duration ttl = const Duration(seconds: 4)}) async {
+    final configs = <ServiceConfig>[];
+    for (final service in _services.values) {
+      configs.addAll(await service.getConfigs(ttl: ttl));
+    }
+    return configs;
+  }
+
+  Optional<List<Camera>> getCachedCameras() {
+    final cameras = <Camera>[];
+    for (final service in _services.values) {
+      final cached = service.getCachedCameras();
+      if (cached.isPresent) {
+        cameras.addAll(cached.value);
+      }
+    }
+    return Optional.of(cameras);
+  }
+
+  Future<List<Camera>> getCameras(
+      {Duration ttl = const Duration(seconds: 4)}) async {
+    final cameras = <Camera>[];
+    for (final service in _services.values) {
+      cameras.addAll(await service.getCameras(ttl: ttl));
+    }
+    return cameras;
+  }
+
+  Future<Optional<CameraSnapshot>> getSnapshot(
+    Camera device, {
+    Duration ttl = const Duration(seconds: 4),
+  }) {
+    return getService(device.service).getSnapshot(device, ttl: ttl);
+  }
+
+  Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
+    final service = getService(device.service);
+    return service.getCachedSnapshot(device);
   }
 }
 

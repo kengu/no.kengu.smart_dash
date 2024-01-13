@@ -22,6 +22,8 @@ Camera _$CameraFromJson(Map<String, dynamic> json) {
 mixin _$Camera {
   @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'service')
+  String get service => throw _privateConstructorUsedError;
   @JsonKey(name: 'motion')
   MotionDetectConfig? get motion => throw _privateConstructorUsedError;
 
@@ -37,6 +39,7 @@ abstract class $CameraCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'name') String name,
+      @JsonKey(name: 'service') String service,
       @JsonKey(name: 'motion') MotionDetectConfig? motion});
 
   $MotionDetectConfigCopyWith<$Res>? get motion;
@@ -56,12 +59,17 @@ class _$CameraCopyWithImpl<$Res, $Val extends Camera>
   @override
   $Res call({
     Object? name = null,
+    Object? service = null,
     Object? motion = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      service: null == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
               as String,
       motion: freezed == motion
           ? _value.motion
@@ -92,6 +100,7 @@ abstract class _$$CameraImplCopyWith<$Res> implements $CameraCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'name') String name,
+      @JsonKey(name: 'service') String service,
       @JsonKey(name: 'motion') MotionDetectConfig? motion});
 
   @override
@@ -110,12 +119,17 @@ class __$$CameraImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? service = null,
     Object? motion = freezed,
   }) {
     return _then(_$CameraImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      service: null == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
               as String,
       motion: freezed == motion
           ? _value.motion
@@ -130,6 +144,7 @@ class __$$CameraImplCopyWithImpl<$Res>
 class _$CameraImpl extends _Camera {
   const _$CameraImpl(
       {@JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'service') required this.service,
       @JsonKey(name: 'motion') required this.motion})
       : super._();
 
@@ -140,12 +155,15 @@ class _$CameraImpl extends _Camera {
   @JsonKey(name: 'name')
   final String name;
   @override
+  @JsonKey(name: 'service')
+  final String service;
+  @override
   @JsonKey(name: 'motion')
   final MotionDetectConfig? motion;
 
   @override
   String toString() {
-    return 'Camera(name: $name, motion: $motion)';
+    return 'Camera(name: $name, service: $service, motion: $motion)';
   }
 
   @override
@@ -154,12 +172,13 @@ class _$CameraImpl extends _Camera {
         (other.runtimeType == runtimeType &&
             other is _$CameraImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.service, service) || other.service == service) &&
             (identical(other.motion, motion) || other.motion == motion));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, motion);
+  int get hashCode => Object.hash(runtimeType, name, service, motion);
 
   @JsonKey(ignore: true)
   @override
@@ -178,6 +197,7 @@ class _$CameraImpl extends _Camera {
 abstract class _Camera extends Camera {
   const factory _Camera(
           {@JsonKey(name: 'name') required final String name,
+          @JsonKey(name: 'service') required final String service,
           @JsonKey(name: 'motion') required final MotionDetectConfig? motion}) =
       _$CameraImpl;
   const _Camera._() : super._();
@@ -187,6 +207,9 @@ abstract class _Camera extends Camera {
   @override
   @JsonKey(name: 'name')
   String get name;
+  @override
+  @JsonKey(name: 'service')
+  String get service;
   @override
   @JsonKey(name: 'motion')
   MotionDetectConfig? get motion;
