@@ -31,4 +31,12 @@ abstract class CameraService {
   });
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device);
+
+  Future<Optional<MotionDetectConfig>> getMotionConfig(String name);
+
+  Future<Optional<MotionDetectConfig>> setMotionConfig(
+    String name, {
+    bool? enabled,
+    MotionDetectSensitivityLevel? sensitivity,
+  });
 }

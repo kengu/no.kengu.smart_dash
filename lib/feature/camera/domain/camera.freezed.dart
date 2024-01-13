@@ -225,9 +225,7 @@ MotionDetectConfig _$MotionDetectConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MotionDetectConfig {
-  @JsonKey(name: 'enabled')
   bool get enabled => throw _privateConstructorUsedError;
-  @JsonKey(name: 'sensitivity')
   MotionDetectSensitivityLevel get sensitivity =>
       throw _privateConstructorUsedError;
 
@@ -243,9 +241,7 @@ abstract class $MotionDetectConfigCopyWith<$Res> {
           MotionDetectConfig value, $Res Function(MotionDetectConfig) then) =
       _$MotionDetectConfigCopyWithImpl<$Res, MotionDetectConfig>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'enabled') bool enabled,
-      @JsonKey(name: 'sensitivity') MotionDetectSensitivityLevel sensitivity});
+  $Res call({bool enabled, MotionDetectSensitivityLevel sensitivity});
 }
 
 /// @nodoc
@@ -285,9 +281,7 @@ abstract class _$$MotionDetectConfigImplCopyWith<$Res>
       __$$MotionDetectConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'enabled') bool enabled,
-      @JsonKey(name: 'sensitivity') MotionDetectSensitivityLevel sensitivity});
+  $Res call({bool enabled, MotionDetectSensitivityLevel sensitivity});
 }
 
 /// @nodoc
@@ -321,18 +315,15 @@ class __$$MotionDetectConfigImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MotionDetectConfigImpl extends _MotionDetectConfig {
   const _$MotionDetectConfigImpl(
-      {@JsonKey(name: 'enabled') required this.enabled,
-      @JsonKey(name: 'sensitivity') required this.sensitivity})
+      {required this.enabled, required this.sensitivity})
       : super._();
 
   factory _$MotionDetectConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$MotionDetectConfigImplFromJson(json);
 
   @override
-  @JsonKey(name: 'enabled')
   final bool enabled;
   @override
-  @JsonKey(name: 'sensitivity')
   final MotionDetectSensitivityLevel sensitivity;
 
   @override
@@ -371,8 +362,7 @@ class _$MotionDetectConfigImpl extends _MotionDetectConfig {
 
 abstract class _MotionDetectConfig extends MotionDetectConfig {
   const factory _MotionDetectConfig(
-          {@JsonKey(name: 'enabled') required final bool enabled,
-          @JsonKey(name: 'sensitivity')
+          {required final bool enabled,
           required final MotionDetectSensitivityLevel sensitivity}) =
       _$MotionDetectConfigImpl;
   const _MotionDetectConfig._() : super._();
@@ -381,10 +371,8 @@ abstract class _MotionDetectConfig extends MotionDetectConfig {
       _$MotionDetectConfigImpl.fromJson;
 
   @override
-  @JsonKey(name: 'enabled')
   bool get enabled;
   @override
-  @JsonKey(name: 'sensitivity')
   MotionDetectSensitivityLevel get sensitivity;
   @override
   @JsonKey(ignore: true)

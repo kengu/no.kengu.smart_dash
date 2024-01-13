@@ -40,6 +40,14 @@ class FoscamResponse<T> {
       int.tryParse(parser.getElement(xml, name)) ?? ifEmpty;
 
   String set(String name, T value) => parser.setElement(xml, name, value);
+
+  Map<String, String> toJson() {
+    return Map.fromEntries(
+      xml.rootElement.children
+          .whereType<XmlElement>()
+          .map((e) => MapEntry(e.name.local, e.innerText)),
+    );
+  }
 }
 
 class NetParser {

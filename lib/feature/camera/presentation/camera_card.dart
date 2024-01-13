@@ -96,9 +96,17 @@ class _VideoCardState extends ConsumerState<CameraCard> {
                             scale: 0.75,
                             child: CupertinoSwitch(
                               value: motionDetectEnabled,
-                              // TODO: Find out how to use Theme.switchTheme using MaterialStateProperty
                               activeColor: Colors.blueAccent,
-                              onChanged: (_) {},
+                              onChanged: (enabled) {
+                                if (widget.camera.isPresent) {
+                                  ref
+                                      .read(cameraManagerProvider)
+                                      .setMotionConfig(
+                                        widget.camera.value,
+                                        enabled: enabled,
+                                      );
+                                }
+                              },
                             ),
                           ),
                         ],

@@ -8,6 +8,7 @@ import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/foscam/data/foscam_client.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash/util/guard.dart';
 
 part 'foscam_service.g.dart';
 
@@ -68,12 +69,10 @@ class FoscamService implements CameraService {
   Future<Optional<Camera>> getCamera(String name,
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('camera:$name', () async {
-      final devices = await getConfigs();
-      final found = devices.firstWhereOptional((e) => e.device == name);
-      if (found.isPresent) {
-        FoscamClient client = _newClient(found.value);
-        final camera = await client.getCamera();
-        client.api.close();
+      final client = await _newClient(name);
+      if (client.isPresent) {
+        final camera = await client.value.getCamera();
+        client.value.close();
         return camera;
       }
       return const Optional.empty();
@@ -89,12 +88,10 @@ class FoscamService implements CameraService {
   Future<Optional<CameraSnapshot>> getSnapshot(Camera device,
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('snapshot:${device.name}', () async {
-      final devices = await getConfigs();
-      final found = devices.firstWhereOptional((e) => e.device == device.name);
-      if (found.isPresent) {
-        FoscamClient client = _newClient(found.value);
-        final snapshot = await client.getSnapshot();
-        client.api.close();
+      final client = await _newClient(device.name);
+      if (client.isPresent) {
+        final snapshot = await client.value.getSnapshot();
+        client.value.close();
         return snapshot;
       }
       return const Optional.empty();
@@ -106,16 +103,60 @@ class FoscamService implements CameraService {
     return _cache.get<CameraSnapshot>('snapshot:${device.name}');
   }
 
-  FoscamClient _newClient(ServiceConfig device) {
-    final client = FoscamClient(
-      host: device.host!,
-      port: device.port!,
-      creds: FoscamCredentials(
-        username: device.username,
-        password: device.password,
-      ),
-    );
-    return client;
+  @override
+  Future<Optional<MotionDetectConfig>> getMotionConfig(String name) async {
+    // Ensure latest values are used (CGI commands replaces all values)
+    return guard(() async {
+      final client = await _newClient(name);
+      if (client.isPresent) {
+        final actual = await client.value.getMotionConfig();
+        client.value.close();
+        return actual;
+      }
+      return const Optional.empty();
+    });
+  }
+
+  @override
+  Future<Optional<MotionDetectConfig>> setMotionConfig(
+    String name, {
+    bool? enabled,
+    MotionDetectSensitivityLevel? sensitivity,
+  }) async {
+    // Ensure latest values are used (CGI commands replaces all values)
+    return guard(() async {
+      final result = await getMotionConfig(name);
+      if (result.isPresent) {
+        final now = result.value;
+        final next = now.copyWith(
+          enabled: enabled ?? now.enabled,
+          sensitivity: sensitivity ?? now.sensitivity,
+        );
+        final client = await _newClient(name);
+        if (client.isPresent) {
+          return client.value.setMotionConfig(name, next);
+        }
+      }
+      return result;
+    });
+  }
+
+  Future<Optional<FoscamClient>> _newClient(String name) async {
+    final devices = await getConfigs();
+    final found = devices.firstWhereOptional((e) => e.device == name);
+    if (found.isPresent) {
+      final device = found.value;
+      final client = FoscamClient(
+        host: device.host!,
+        port: device.port!,
+        creds: FoscamCredentials(
+          username: device.username,
+          password: device.password,
+        ),
+      );
+      return Optional.of(client);
+    }
+    return const Optional.empty();
   }
 }
 

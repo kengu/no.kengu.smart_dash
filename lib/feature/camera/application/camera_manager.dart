@@ -85,8 +85,25 @@ class CameraManager {
   }
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
-    final service = getService(device.service);
-    return service.getCachedSnapshot(device);
+    return getService(device.service).getCachedSnapshot(device);
+  }
+
+  Future<Optional<MotionDetectConfig>> getMotionConfig(Camera device) async {
+    return getService(device.service).getMotionConfig(
+      device.name,
+    );
+  }
+
+  Future<Optional<MotionDetectConfig>> setMotionConfig(
+    Camera device, {
+    bool? enabled,
+    MotionDetectSensitivityLevel? sensitivity,
+  }) async {
+    return getService(device.service).setMotionConfig(
+      device.name,
+      enabled: enabled,
+      sensitivity: sensitivity,
+    );
   }
 }
 

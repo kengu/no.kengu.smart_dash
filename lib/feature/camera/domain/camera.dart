@@ -26,8 +26,7 @@ class CameraSnapshot {
 class MotionDetectConfig with _$MotionDetectConfig {
   const MotionDetectConfig._();
   const factory MotionDetectConfig({
-    @JsonKey(name: 'enabled') required bool enabled,
-    @JsonKey(name: 'sensitivity')
+    required bool enabled,
     required MotionDetectSensitivityLevel sensitivity,
   }) = _MotionDetectConfig;
 
