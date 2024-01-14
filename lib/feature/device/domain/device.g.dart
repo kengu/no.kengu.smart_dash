@@ -9,6 +9,7 @@ part of 'device.dart';
 _$DeviceImpl _$$DeviceImplFromJson(Map<String, dynamic> json) => _$DeviceImpl(
       id: json['id'] as String,
       name: json['name'] as String,
+      service: json['service'] as String,
       type: json['type'] as String,
       data: json['data'] as Map<String, dynamic>,
       capabilities: (json['capabilities'] as List<dynamic>)
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'service': instance.service,
       'type': instance.type,
       'data': instance.data,
       'capabilities': instance.capabilities

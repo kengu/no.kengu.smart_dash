@@ -3,6 +3,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
+import 'package:smart_dash/integration/sikom/sikom.dart';
 
 part 'sikom_device.freezed.dart';
 part 'sikom_device.g.dart';
@@ -39,6 +40,7 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   Device toDevice() => Device(
         data: toJson(),
         id: properties.id,
+        service: Sikom.key,
         type: properties.type,
         name: properties.name,
         voltage: voltage,

@@ -128,10 +128,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                       mobile: mobile(),
                       tablet: tablet(),
                       desktop: desktop(),
-                      mobileSlotCount: 5,
+                      mobileSlotCount: 8,
                       tabletSlotCount: 6,
                       desktopSlotCount: 12,
-                      itemBuilder: (item) {
+                      itemBuilder: (slotsCount, item) {
                         switch (item.identifier) {
                           case 'energy':
                             return EnergyUsageTile<int>(
@@ -202,59 +202,59 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<DashboardItem> mobile() => [
         DashboardItem(
           identifier: 'weather_now',
-          width: 2,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 2,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: 'bill_hourly',
-          width: 3,
+          width: 8,
           height: 1,
-          minWidth: 3,
-          maxWidth: 3,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: 'bill_month',
-          width: 3,
+          width: 8,
           height: 1,
-          minWidth: 3,
-          maxWidth: 3,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: 'price_hourly',
-          width: 3,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 3,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: Tokens.energy.name,
-          width: 2,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 3,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: Tokens.voltage.name,
-          width: 2,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 2,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: Tokens.power.name,
-          width: 3,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 3,
+          minWidth: 8,
+          maxWidth: 8,
         ),
         DashboardItem(
           identifier: 'system_now',
-          width: 2,
+          width: 8,
           height: 1,
-          minWidth: 2,
-          maxWidth: 2,
+          minWidth: 8,
+          maxWidth: 8,
         ),
       ];
 }
@@ -306,10 +306,10 @@ List<DashboardItem> tablet() => [
       ),
       DashboardItem(
         identifier: 'system_now',
-        width: 2,
+        width: 3,
         height: 1,
-        maxWidth: 2,
-        minWidth: 2,
+        maxWidth: 3,
+        minWidth: 3,
       ),
     ];
 
@@ -359,9 +359,9 @@ List<DashboardItem> desktop() => [
       ),
       DashboardItem(
         identifier: 'system_now',
-        width: 3,
+        width: 4,
         height: 1,
-        maxWidth: 3,
+        maxWidth: 4,
         minWidth: 3,
       ),
     ];

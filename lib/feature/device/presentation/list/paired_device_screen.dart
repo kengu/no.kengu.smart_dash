@@ -37,7 +37,9 @@ class PairedDeviceScreen extends ConsumerWidget {
             Expanded(
               flex: 1,
               child: RouteSelectorList<Device>(
-                titleBuilder: (_, data, __) => Text(data.name),
+                titleBuilder: (_, data, __) => Text(
+                  '${data.name} (${data.service})',
+                ),
                 iconBuilder: (_, data, __) => const Icon(Icons.device_hub),
                 entries: data.isPresent ? data.value : [],
                 pathBuilder: (data) => DeviceScreens.toDevicesDetailsPath(

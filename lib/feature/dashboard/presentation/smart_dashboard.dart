@@ -4,6 +4,9 @@ import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
+typedef DashboardItemSlotBuilder<T extends DashboardItem> = Widget Function(
+    int slotCount, T item);
+
 class SmartDashboard extends StatefulWidget {
   const SmartDashboard({
     super.key,
@@ -28,7 +31,7 @@ class SmartDashboard extends StatefulWidget {
   final List<DashboardItem> desktop;
   final List<DashboardItem> tablet;
   final List<DashboardItem> mobileLarge;
-  final DashboardItemBuilder itemBuilder;
+  final DashboardItemSlotBuilder itemBuilder;
 
   @override
   State<SmartDashboard> createState() => _SmartDashboardState();
@@ -95,7 +98,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
         parent: AlwaysScrollableScrollPhysics(),
       ),
       slotHeight: widget.slotHeight,
-      itemBuilder: widget.itemBuilder,
+      itemBuilder: (item) => widget.itemBuilder(slotCount, item),
       dashboardItemController: itemController,
       errorPlaceholder: (e, s) => Text("$e , $s"),
     );

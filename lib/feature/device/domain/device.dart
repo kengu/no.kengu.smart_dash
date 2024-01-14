@@ -17,6 +17,9 @@ class Device with _$Device {
     /// Get the device's name
     required String name,
 
+    /// Get the device's service
+    required String service,
+
     /// Get the device's type
     required String type,
 

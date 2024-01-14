@@ -26,6 +26,9 @@ mixin _$Device {
   /// Get the device's name
   String get name => throw _privateConstructorUsedError;
 
+  /// Get the device's service
+  String get service => throw _privateConstructorUsedError;
+
   /// Get the device's type
   String get type => throw _privateConstructorUsedError;
 
@@ -58,6 +61,7 @@ abstract class $DeviceCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
+      String service,
       String type,
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
@@ -83,6 +87,7 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? service = null,
     Object? type = null,
     Object? data = null,
     Object? capabilities = null,
@@ -98,6 +103,10 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      service: null == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -149,6 +158,7 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
+      String service,
       String type,
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
@@ -173,6 +183,7 @@ class __$$DeviceImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? service = null,
     Object? type = null,
     Object? data = null,
     Object? capabilities = null,
@@ -188,6 +199,10 @@ class __$$DeviceImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      service: null == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -223,6 +238,7 @@ class _$DeviceImpl extends _Device {
   const _$DeviceImpl(
       {required this.id,
       required this.name,
+      required this.service,
       required this.type,
       required final Map<String, Object?> data,
       required final List<DeviceCapabilities> capabilities,
@@ -243,6 +259,10 @@ class _$DeviceImpl extends _Device {
   /// Get the device's name
   @override
   final String name;
+
+  /// Get the device's service
+  @override
+  final String service;
 
   /// Get the device's type
   @override
@@ -284,7 +304,7 @@ class _$DeviceImpl extends _Device {
 
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, energy: $energy, voltage: $voltage)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, energy: $energy, voltage: $voltage)';
   }
 
   @override
@@ -294,6 +314,7 @@ class _$DeviceImpl extends _Device {
             other is _$DeviceImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.service, service) || other.service == service) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             const DeepCollectionEquality()
@@ -310,6 +331,7 @@ class _$DeviceImpl extends _Device {
       runtimeType,
       id,
       name,
+      service,
       type,
       const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(_capabilities),
@@ -335,6 +357,7 @@ abstract class _Device extends Device {
   const factory _Device(
       {required final String id,
       required final String name,
+      required final String service,
       required final String type,
       required final Map<String, Object?> data,
       required final List<DeviceCapabilities> capabilities,
@@ -353,6 +376,10 @@ abstract class _Device extends Device {
 
   /// Get the device's name
   String get name;
+  @override
+
+  /// Get the device's service
+  String get service;
   @override
 
   /// Get the device's type

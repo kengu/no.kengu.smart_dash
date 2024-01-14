@@ -5,11 +5,11 @@ class Screens {
   static const account = '/account';
   static const settings = '/settings';
   static const pairing = PairingScreens.home;
-  static const device = DeviceScreens.home;
+  static const devices = DeviceScreens.home;
   static const camera = '/camera';
 
-  static const deviceListPaired = '$device/${DeviceScreens.listPaired}';
-  static const deviceDetails = '$device/${DeviceScreens.details}';
+  static const deviceListPaired = '$devices/${DeviceScreens.listPaired}';
+  static const deviceDetails = '$devices/${DeviceScreens.details}';
 
   static const pairingListDeviceTypes =
       '$pairing/${PairingScreens.listDeviceTypes}';
@@ -21,7 +21,7 @@ class Screens {
   static const List<String> locations = [
     Screens.account,
     Screens.settings,
-    Screens.device,
+    Screens.devices,
     Screens.deviceListPaired,
     Screens.deviceDetails,
     Screens.pairing,

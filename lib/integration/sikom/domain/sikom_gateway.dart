@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
+import 'package:smart_dash/integration/sikom/sikom.dart';
 
 part 'sikom_gateway.freezed.dart';
 part 'sikom_gateway.g.dart';
@@ -26,6 +27,7 @@ class SikomGateway with _$SikomGateway, DeviceMapper {
         type: type,
         data: toJson(),
         capabilities: [],
+        service: Sikom.key,
         lastUpdated: DateTime.now(),
         name: controller.properties.name,
       );

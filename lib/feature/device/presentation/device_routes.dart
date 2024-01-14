@@ -6,7 +6,7 @@ import 'package:smart_dash/feature/device/presentation/list/paired_device_screen
 import 'package:smart_dash/core/presentation/routes.dart';
 
 class DeviceScreens {
-  static const home = '/device';
+  static const home = '/device/home';
   static const listPaired = 'list/devices';
   static const details = 'details/device';
 
