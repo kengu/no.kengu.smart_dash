@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
+import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_card.dart';
+import 'package:smart_dash/feature/camera/presentation/camera_group_controls.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/core/application/fullscreen_state.dart';
@@ -20,18 +24,16 @@ class CamerasPage extends ConsumerStatefulWidget {
 class _CameraPageState extends ConsumerState<CamerasPage> {
   final df = DateFormat('dd-MM-yyyy HH:mm');
 
+  int _refreshRate = 5;
+
+  Optional<bool> _motionDetectEnabled = const Optional.empty();
+
   bool get isFullscreen => FullscreenState.watch(ref);
 
-  List<DashboardItem> _items(
-    AsyncSnapshot<List<ServiceConfig>> configs,
-  ) {
-    return configs.data!
-        .map((e) => DashboardItem(
-              width: 1,
-              height: 1,
-              identifier: e.device!,
-            ))
-        .toList();
+  @override
+  void initState() {
+    unawaited(_checkCameras());
+    super.initState();
   }
 
   @override
@@ -64,11 +66,27 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                     tabletSlotCount: 2,
                     desktopSlotCount: 3,
                     itemBuilder: (item) {
-                      return CameraCard(
-                          config: _toConfig(
-                        Optional.ofNullable(configs.data),
-                        item,
-                      ));
+                      switch (item.identifier) {
+                        case 'group':
+                          return CameraGroupControls(
+                            refreshRate: _refreshRate,
+                            motionDetectEnabled: _motionDetectEnabled,
+                            onChangedMotionDetect: _setMotionConfigs,
+                            onChangedRefreshRate: (int value) {
+                              setState(() {
+                                _refreshRate = value;
+                              });
+                            },
+                          );
+                        default:
+                          return CameraCard(
+                            period: Duration(seconds: _refreshRate),
+                            config: _toConfig(
+                              Optional.ofNullable(configs.data),
+                              item,
+                            ),
+                          );
+                      }
                     },
                   ),
                 ),
@@ -78,10 +96,56 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
         });
   }
 
+  List<DashboardItem> _items(
+    AsyncSnapshot<List<ServiceConfig>> configs,
+  ) {
+    return [
+      ...configs.data!.map(
+        (e) => DashboardItem(
+          width: 1,
+          height: 1,
+          identifier: e.device!,
+        ),
+      ),
+      DashboardItem(width: 1, height: 1, identifier: 'group'),
+    ];
+  }
+
   Optional<ServiceConfig> _toConfig(
       Optional<List<ServiceConfig>> configs, DashboardItem item) {
     return configs.isPresent
         ? configs.value.where((e) => e.device == item.identifier).firstOptional
         : const Optional.empty();
+  }
+
+  Future<void> _checkCameras() async {
+    final configs = await ref.read(cameraManagerProvider).getConfigs();
+    final cameras = await Future.wait(
+      configs.map((e) => ref.read(cameraManagerProvider).getCamera(e)),
+    );
+    if (mounted) {
+      setState(() {
+        _motionDetectEnabled = Optional.of(
+          cameras
+              .where((e) => e.isPresent)
+              .any((e) => e.value.motion?.enabled == true),
+        );
+      });
+    }
+  }
+
+  Future<Optional<bool>> _setMotionConfigs(bool enabled) async {
+    final motions = <Optional<MotionDetectConfig>>[];
+    final cameras = await ref.read(cameraManagerProvider).getCameras();
+    for (final camera in cameras) {
+      motions.add(await ref
+          .read(cameraManagerProvider)
+          .setMotionConfig(camera, enabled: enabled));
+      setState(() {});
+    }
+    _motionDetectEnabled = Optional.of(
+      motions.where((e) => e.isPresent).any((e) => e.value.enabled),
+    );
+    return _motionDetectEnabled;
   }
 }

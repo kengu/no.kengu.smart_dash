@@ -13,6 +13,8 @@ class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
     super.key,
     required this.config,
+    this.withMotionControl = false,
+    this.withRefreshControl = true,
     this.period = const Duration(seconds: 5),
   });
 
@@ -20,13 +22,17 @@ class CameraCard extends ConsumerStatefulWidget {
 
   final Duration period;
 
+  final bool withMotionControl;
+
+  final bool withRefreshControl;
+
   @override
   ConsumerState<CameraCard> createState() => _VideoCardState();
 }
 
 class _VideoCardState extends ConsumerState<CameraCard>
     with SingleTickerProviderStateMixin {
-  Timer? _refresh;
+  Timer? _timer;
 
   bool _isUpdating = false;
 
@@ -38,10 +44,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   @override
   void initState() {
-    _refresh = Timer.periodic(
-      widget.period,
-      (timer) => _showCircle(),
-    );
+    _startTimer();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -49,17 +52,33 @@ class _VideoCardState extends ConsumerState<CameraCard>
     super.initState();
   }
 
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(
+      widget.period,
+      (timer) => _showCircle(),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant CameraCard oldWidget) {
+    if (widget.period != oldWidget.period) {
+      _startTimer();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   void dispose() {
     super.dispose();
-    _refresh?.cancel();
+    _timer?.cancel();
     _controller.dispose();
   }
 
   void _showCircle() {
     setState(() => _isVisible = true);
     _controller.forward().then((_) {
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         _controller.reverse().then((_) {
           setState(() => _isVisible = false);
         });
@@ -70,107 +89,118 @@ class _VideoCardState extends ConsumerState<CameraCard>
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: SizedBox(
-        width: 600,
-        height: 400,
-        child: ClipRRect(
-          clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: FutureBuilder<Optional<CameraSnapshot>>(
-                    future: _fetchSnapshot(),
-                    initialData: _fetchCachedSnapshot(),
-                    builder: (context, snapshot) {
-                      if (!(snapshot.hasData && snapshot.data!.isPresent)) {
-                        return Container(
-                          color: Theme.of(context)
-                              .navigationRailTheme
-                              .backgroundColor!
-                              .lighten(0.05),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                      return Stack(
-                        children: [
-                          Image.memory(
-                            snapshot.data!.value.bytes,
-                            gaplessPlayback: true,
-                            isAntiAlias: true,
-                            cacheHeight: 600,
-                          ),
-                          if (_isVisible)
-                            Positioned(
-                              top: 20,
-                              right: 20,
-                              child: FadeTransition(
-                                opacity: _controller,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.5),
-                                    shape: BoxShape.circle,
-                                  ),
+      child: ClipRRect(
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: FutureBuilder<Optional<CameraSnapshot>>(
+                  future: _fetchSnapshot(),
+                  initialData: _fetchCachedSnapshot(),
+                  builder: (context, snapshot) {
+                    if (!(snapshot.hasData && snapshot.data!.isPresent)) {
+                      return Container(
+                        color: Theme.of(context)
+                            .navigationRailTheme
+                            .backgroundColor!
+                            .lighten(0.05),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    return Stack(
+                      children: [
+                        Image.memory(
+                          snapshot.data!.value.bytes,
+                          gaplessPlayback: true,
+                          isAntiAlias: true,
+                          cacheHeight: 600,
+                        ),
+                        if (_isVisible)
+                          Positioned(
+                            top: 20,
+                            right: 20,
+                            child: FadeTransition(
+                              opacity: _controller,
+                              child: Container(
+                                width: 16,
+                                height: 16,
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withOpacity(0.5),
+                                  shape: BoxShape.circle,
                                 ),
                               ),
                             ),
-                        ],
-                      );
-                    }),
+                          ),
+                      ],
+                    );
+                  }),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.video_camera_back_outlined,
               ),
-              ListTile(
-                leading: const Icon(
-                  Icons.video_camera_back_outlined,
-                ),
-                title: Tooltip(
-                  message: 'Updates ever ${widget.period.inSeconds}s',
-                  child: Text(
-                    widget.config.orElseNull?.device ?? 'Camera',
-                  ),
-                ),
-                trailing: SizedBox(
-                  width: 250,
-                  height: 50,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          const Text('Motion Detection'),
-                          FutureBuilder<Optional<Camera>>(
-                              initialData: _camera,
-                              future: _fetchCamera(),
-                              builder: (context, updating) {
-                                return Transform.scale(
-                                  scale: 0.75,
-                                  child: CupertinoSwitch(
-                                    value:
-                                        _camera.orElseNull?.motion?.enabled ==
-                                            true,
-                                    activeColor: Colors.blueAccent,
-                                    onChanged:
-                                        _isUpdating ? null : _setMotionConfig,
-                                  ),
-                                );
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
+              title: Tooltip(
+                message: 'Updates ever ${widget.period.inSeconds}s',
+                child: Text(
+                  widget.config.orElseNull?.device ?? 'Camera',
                 ),
               ),
-            ],
-          ),
+              trailing: SizedBox(
+                width: 250,
+                height: 50,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        const Text('Motion Detection'),
+                        FutureBuilder<Optional<Camera>>(
+                          initialData: _camera,
+                          future: _fetchCamera(),
+                          builder: (context, updating) {
+                            final state =
+                                _camera.orElseNull?.motion?.enabled == true;
+                            return widget.withMotionControl
+                                ? Transform.scale(
+                                    scale: 0.75,
+                                    child: CupertinoSwitch(
+                                      activeColor: Colors.blueAccent,
+                                      value: state,
+                                      onChanged:
+                                          _isUpdating ? null : _setMotionConfig,
+                                    ),
+                                  )
+                                : Text(' is ${state ? 'ON' : 'OFF'}');
+                          },
+                        ),
+                        if (widget.withRefreshControl)
+                          IconButton(
+                            icon: const Icon(Icons.refresh),
+                            onPressed: _refresh,
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _refresh() async {
+    await _fetchCamera();
+    if (mounted) {
+      setState(_showCircle);
+    }
   }
 
   Future<Optional<Camera>> _fetchCamera() async {
