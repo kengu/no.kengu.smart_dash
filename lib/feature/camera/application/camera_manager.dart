@@ -57,6 +57,12 @@ class CameraManager {
     return configs;
   }
 
+  Future<Optional<Camera>> getCamera(ServiceConfig config,
+      {Duration ttl = const Duration(seconds: 4)}) async {
+    assert(config.device != null, 'ServiceConfig.device is null');
+    return getService(config.key).getCamera(config.device!);
+  }
+
   Optional<List<Camera>> getCachedCameras() {
     final cameras = <Camera>[];
     for (final service in _services.values) {

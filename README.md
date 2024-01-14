@@ -5,9 +5,9 @@ A Smart Dashboard App for my personal use.
 ## Roadmap
 
  - [ ] Read and save historical data from the weather station
- - [ ] Integrate webcam for easy viewing in one place
+ - [x] Integrate webcam for easy viewing in one place
  - [ ] Implement support for Sikom buttons (and astro clocks)
- - [ ] Implement support for Sikom termostats
+ - [ ] Implement support for Sikom thermostats
  - [ ] Implement support for Sikom power controller
  - [ ] Implement support for editable control flows
  - [ ] Implement support for geocoder for address and reverse lookup

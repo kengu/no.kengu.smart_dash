@@ -66,8 +66,12 @@ class FoscamClient {
           params: params,
         ).exec(api);
 
+        // Return updated motion config if successfully applied
         return Optional.ofNullable(switch (next.type) {
-          FoscamResultType.success => fromResponse(next),
+          FoscamResultType.success => fromResponse(motion).copyWith(
+              enabled: config.enabled,
+              sensitivity: config.sensitivity,
+            ),
           _ => null,
         });
       }
@@ -160,7 +164,8 @@ class FoscamCommand {
 
         if (contentType?.contains('image/jpeg') == true) {
           debugPrint(
-              'Fetched camera image [$name][${response.statusCode}]: ${response.realUri}');
+            'Fetched camera image [$name][${response.statusCode}]: ${response.realUri}',
+          );
           return FoscamResponse(
             type: FoscamResultType.success,
             bytes: response.data,
@@ -169,7 +174,8 @@ class FoscamCommand {
 
         type = FoscamResponse.parser.getResult(response.data);
         debugPrint(
-            'Fetched camera data [$name][${response.statusCode}][${type.name}]: ${response.realUri}');
+          'Fetched camera data [$name][${response.statusCode}][${type.name}]: ${response.realUri}',
+        );
         if (type != FoscamResultType.invalidResponse) {
           return FoscamResponse(
             type: type,

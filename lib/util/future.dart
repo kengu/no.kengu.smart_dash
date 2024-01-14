@@ -26,6 +26,11 @@ class FutureCache {
     return Optional<T>.ofNullable(_results[key]);
   }
 
+  void set<T>(String key, Optional<T> value) {
+    _results[key] = value;
+    _requests[key] = (DateTime.now(), Future.value(value));
+  }
+
   Optional<DateTime> lastCached(String key) {
     return Optional.ofNullable(_requests[key]?.$1);
   }
@@ -38,7 +43,7 @@ class FutureCache {
     final now = DateTime.now();
     final cached = _requests[key];
     if (cached != null && !isExpired(now, cached.$1, ttl)) {
-      return cached.$2 ?? _results[key];
+      return _results[key] ?? cached.$2;
     }
 
     final request = guard(fetch);
@@ -47,7 +52,7 @@ class FutureCache {
     final result = await request;
 
     _results[key] = result;
-    _requests[key] = (now, null);
+    _requests[key] = (now, Future.value(result));
 
     if (ttl == Duration.zero) {
       _requests.remove(key);

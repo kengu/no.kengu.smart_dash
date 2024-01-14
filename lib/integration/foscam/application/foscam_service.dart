@@ -62,7 +62,7 @@ class FoscamService implements CameraService {
         if (camera.isPresent) cameras.add(camera.value);
       }
       return cameras;
-    });
+    }, ttl: Duration.zero);
   }
 
   @override
@@ -126,18 +126,27 @@ class FoscamService implements CameraService {
     // Ensure latest values are used (CGI commands replaces all values)
     return guard(() async {
       final result = await getMotionConfig(name);
-      if (result.isPresent) {
-        final now = result.value;
-        final next = now.copyWith(
-          enabled: enabled ?? now.enabled,
-          sensitivity: sensitivity ?? now.sensitivity,
-        );
-        final client = await _newClient(name);
-        if (client.isPresent) {
-          return client.value.setMotionConfig(name, next);
+      if (!result.isPresent) return result;
+      final now = result.value;
+      final next = now.copyWith(
+        enabled: enabled ?? now.enabled,
+        sensitivity: sensitivity ?? now.sensitivity,
+      );
+      final client = await _newClient(name);
+      if (client.isPresent) {
+        final update = await client.value.setMotionConfig(name, next);
+        if (update.isPresent) {
+          final camera = _cache.get<Camera>('camera:$name');
+          if (camera.isPresent) {
+            _cache.set<Camera>(
+              'camera:$name',
+              Optional.of(camera.value.copyWith(motion: update.value)),
+            );
+          }
         }
+        return update;
       }
-      return result;
+      return const Optional.empty();
     });
   }
 
