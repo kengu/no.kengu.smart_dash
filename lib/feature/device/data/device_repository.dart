@@ -32,6 +32,8 @@ class DeviceRepository {
                 ?.map(jsonDecode)
                 .whereType<JsonObject>()
                 .map(Device.fromJson)
+                // Remove duplicates just in case (
+                .toSet()
                 .toList() ??
             [];
       });
@@ -44,7 +46,7 @@ class DeviceRepository {
     unique.removeWhere(
       (device) => current.contains(device),
     );
-    final success = await _setAll(unique);
+    final success = await _setAll([...current, ...unique]);
     return success ? unique : [];
   }
 
