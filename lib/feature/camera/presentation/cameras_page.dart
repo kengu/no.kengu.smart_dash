@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
@@ -79,14 +81,18 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                             },
                           );
                         default:
+                          final config = _toConfig(
+                            Optional.ofNullable(configs.data),
+                            item,
+                          );
                           return CameraCard(
                             period: Duration(seconds: _refreshRate),
-                            cachedWidth: 1600,
+                            cachedWidth: 600,
                             fit: BoxFit.fitWidth,
-                            config: _toConfig(
-                              Optional.ofNullable(configs.data),
-                              item,
-                            ),
+                            config: config,
+                            onDoubleTap: () {
+                              context.go(Screens.camera, extra: config);
+                            },
                           );
                       }
                     },

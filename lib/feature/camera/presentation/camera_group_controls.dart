@@ -56,49 +56,52 @@ class _CameraGroupControlsState extends State<CameraGroupControls> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          ListTile(
-            title: const Text('Motion detection'),
-            trailing: Transform.scale(
-              scale: 0.8,
-              child: Tooltip(
-                message: _motionDetectEnabled.isPresent
-                    ? _motionDetectEnabled.value
-                        ? 'Turn OFF motion detection for cameras'
-                        : 'Turn ON motion detection for cameras'
-                    : 'Unavailable',
-                child: CupertinoSwitch(
-                  activeColor: Colors.blueAccent,
-                  value: _motionDetectEnabled.orElseNull ?? false,
-                  onChanged:
-                      _motionDetectEnabled.isPresent && !_updatingMotionConfig
-                          ? _onChangedMotionDetect
-                          : null,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('Motion detection'),
+              trailing: Transform.scale(
+                scale: 0.8,
+                child: Tooltip(
+                  message: _motionDetectEnabled.isPresent
+                      ? _motionDetectEnabled.value
+                          ? 'Turn OFF motion detection for cameras'
+                          : 'Turn ON motion detection for cameras'
+                      : 'Unavailable',
+                  child: CupertinoSwitch(
+                    activeColor: Colors.blueAccent,
+                    value: _motionDetectEnabled.orElseNull ?? false,
+                    onChanged:
+                        _motionDetectEnabled.isPresent && !_updatingMotionConfig
+                            ? _onChangedMotionDetect
+                            : null,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            title: const Text('Camera refresh rate'),
-            trailing: Tooltip(
-              message: 'Change refresh rate for all cameras',
-              child: DropdownButton<int>(
-                value: _refreshRate,
-                focusColor: Colors.transparent,
-                onChanged: _onChangedRefreshRate,
-                items: [
-                  ...widget.periods.map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text('${e}s'),
-                    ),
-                  )
-                ],
+            ListTile(
+              title: const Text('Camera refresh rate'),
+              trailing: Tooltip(
+                message: 'Change refresh rate for all cameras',
+                child: DropdownButton<int>(
+                  value: _refreshRate,
+                  focusColor: Colors.transparent,
+                  onChanged: _onChangedRefreshRate,
+                  items: [
+                    ...widget.periods.map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text('${e}s'),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

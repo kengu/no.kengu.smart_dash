@@ -32,12 +32,14 @@ class CameraScreen extends StatelessWidget {
             maxWidth: constraints.maxWidth,
             maxHeight: constraints.maxWidth / 1.68,
             child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
+              behavior: HitTestBehavior.translucent,
               onDoubleTap: () {
                 context.go(location);
               },
+              // Prevent doubleTaps to occur in CameraCard
               child: CameraCard(
                 config: config,
+                withVideoControl: true,
               ),
             ),
           ),

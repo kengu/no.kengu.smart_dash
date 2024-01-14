@@ -5,6 +5,9 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   battery_plus
   flutter_secure_storage_windows
+  media_kit_libs_windows_video
+  media_kit_video
+  screen_brightness_windows
   screen_retriever
   sentry_flutter
   sqlite3_flutter_libs
@@ -12,6 +15,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  media_kit_native_event_loop
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

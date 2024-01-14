@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/application/app_state_manager.dart';
 import 'package:smart_dash/util/platform.dart';
@@ -13,6 +14,7 @@ const sentryDNS =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MediaKit.ensureInitialized();
 
   // This is needed for riverpod error messages
   FlutterError.demangleStackTrace = (StackTrace stack) {
