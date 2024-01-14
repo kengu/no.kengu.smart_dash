@@ -81,6 +81,8 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                         default:
                           return CameraCard(
                             period: Duration(seconds: _refreshRate),
+                            cachedWidth: 1600,
+                            fit: BoxFit.fitWidth,
                             config: _toConfig(
                               Optional.ofNullable(configs.data),
                               item,

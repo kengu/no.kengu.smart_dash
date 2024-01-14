@@ -4,8 +4,9 @@ import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 class Screens {
   static const account = '/account';
   static const settings = '/settings';
-  static const device = DeviceScreens.home;
   static const pairing = PairingScreens.home;
+  static const device = DeviceScreens.home;
+  static const camera = '/camera';
 
   static const deviceListPaired = '$device/${DeviceScreens.listPaired}';
   static const deviceDetails = '$device/${DeviceScreens.details}';
@@ -26,6 +27,7 @@ class Screens {
     Screens.pairing,
     Screens.pairingListDeviceTypes,
     Screens.pairingListNewDevices,
+    Screens.camera,
   ];
 
   static String toPath(List<String> segments) => segments.join('/');

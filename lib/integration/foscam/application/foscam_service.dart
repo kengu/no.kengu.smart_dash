@@ -62,7 +62,7 @@ class FoscamService implements CameraService {
         if (camera.isPresent) cameras.add(camera.value);
       }
       return cameras;
-    }, ttl: Duration.zero);
+    }, ttl: ttl);
   }
 
   @override

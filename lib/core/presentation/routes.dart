@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_scaffold.dart';
+import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
+import 'package:smart_dash/feature/camera/presentation/camera_screen.dart';
 import 'package:smart_dash/feature/camera/presentation/cameras_page.dart';
 import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
 import 'package:smart_dash/core/presentation/pages/home_page.dart';
@@ -76,6 +79,14 @@ sealed class Routes {
             path: Pages.cameras,
             restorationId: _setLastLocation,
             child: const CamerasPage(),
+          ),
+          buildGoRoute(
+            path: Screens.camera,
+            builder: (context, state) => CameraScreen(
+                location: _lastLocation,
+                config: state.extra is Optional<ServiceConfig>
+                    ? state.extra as Optional<ServiceConfig>
+                    : const Optional.empty()),
           ),
           buildGoRoute(
             path: Pages.notifications,

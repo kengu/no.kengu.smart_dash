@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
@@ -13,6 +15,9 @@ class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
     super.key,
     required this.config,
+    this.fit,
+    this.cachedWidth,
+    this.cachedHeight,
     this.withMotionControl = false,
     this.withRefreshControl = true,
     this.period = const Duration(seconds: 5),
@@ -21,6 +26,12 @@ class CameraCard extends ConsumerStatefulWidget {
   final Optional<ServiceConfig> config;
 
   final Duration period;
+
+  final BoxFit? fit;
+
+  final int? cachedWidth;
+
+  final int? cachedHeight;
 
   final bool withMotionControl;
 
@@ -112,31 +123,38 @@ class _VideoCardState extends ConsumerState<CameraCard>
                         ),
                       );
                     }
-                    return Stack(
-                      children: [
-                        Image.memory(
-                          snapshot.data!.value.bytes,
-                          gaplessPlayback: true,
-                          isAntiAlias: true,
-                          cacheHeight: 600,
-                        ),
-                        if (_isVisible)
-                          Positioned(
-                            top: 20,
-                            right: 20,
-                            child: FadeTransition(
-                              opacity: _controller,
-                              child: Container(
-                                width: 16,
-                                height: 16,
-                                decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
-                                  shape: BoxShape.circle,
+                    return GestureDetector(
+                      onDoubleTap: () {
+                        context.go(Screens.camera, extra: widget.config);
+                      },
+                      child: Stack(
+                        children: [
+                          Image.memory(
+                            snapshot.data!.value.bytes,
+                            gaplessPlayback: true,
+                            isAntiAlias: true,
+                            fit: widget.fit,
+                            cacheWidth: widget.cachedWidth,
+                            cacheHeight: widget.cachedHeight,
+                          ),
+                          if (_isVisible)
+                            Positioned(
+                              top: 20,
+                              right: 20,
+                              child: FadeTransition(
+                                opacity: _controller,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.5),
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     );
                   }),
             ),
@@ -197,17 +215,17 @@ class _VideoCardState extends ConsumerState<CameraCard>
   }
 
   Future<void> _refresh() async {
-    await _fetchCamera();
+    await _fetchCamera(ttl: Duration.zero);
     if (mounted) {
       setState(_showCircle);
     }
   }
 
-  Future<Optional<Camera>> _fetchCamera() async {
+  Future<Optional<Camera>> _fetchCamera({Duration? ttl}) async {
     if (!widget.config.isPresent) return const Optional.empty();
-    _camera = await ref.read(cameraManagerProvider).getCamera(
-          widget.config.value,
-        );
+    _camera = await ref
+        .read(cameraManagerProvider)
+        .getCamera(widget.config.value, ttl: ttl);
     return _camera;
   }
 

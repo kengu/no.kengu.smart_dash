@@ -48,19 +48,23 @@ class CameraManager {
     return Optional.of(configs);
   }
 
-  Future<List<ServiceConfig>> getConfigs(
-      {Duration ttl = const Duration(seconds: 4)}) async {
+  Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
     final configs = <ServiceConfig>[];
     for (final service in _services.values) {
-      configs.addAll(await service.getConfigs(ttl: ttl));
+      configs.addAll(await service.getConfigs(
+        ttl: ttl ?? const Duration(seconds: 4),
+      ));
     }
     return configs;
   }
 
   Future<Optional<Camera>> getCamera(ServiceConfig config,
-      {Duration ttl = const Duration(seconds: 4)}) async {
+      {Duration? ttl}) async {
     assert(config.device != null, 'ServiceConfig.device is null');
-    return getService(config.key).getCamera(config.device!);
+    return getService(config.key).getCamera(
+      config.device!,
+      ttl: ttl ?? const Duration(seconds: 4),
+    );
   }
 
   Optional<List<Camera>> getCachedCameras() {
@@ -85,9 +89,12 @@ class CameraManager {
 
   Future<Optional<CameraSnapshot>> getSnapshot(
     Camera device, {
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) {
-    return getService(device.service).getSnapshot(device, ttl: ttl);
+    return getService(device.service).getSnapshot(
+      device,
+      ttl: ttl ?? const Duration(seconds: 4),
+    );
   }
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
