@@ -45,6 +45,9 @@ class SmartDashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: SafeArea(
         child: ResponsiveScreenViewWidget(
           toolbar: SmartDashToolbar(

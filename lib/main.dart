@@ -63,12 +63,11 @@ Future<void> _initOnDesktop() async {
     );
     WindowOptions windowOptions = WindowOptions(
       title: 'SmartDash',
-      skipTaskbar: false,
       size: size,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
       minimumSize: const Size(400, 600),
       maximumSize: const Size(2560, 1440),
-      backgroundColor: Colors.transparent,
-      titleBarStyle: TitleBarStyle.hidden,
     );
     await windowManager.ensureInitialized();
     await windowManager.waitUntilReadyToShow(windowOptions);

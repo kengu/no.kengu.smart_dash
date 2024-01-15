@@ -55,18 +55,23 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final settings = ref.watch(themeChangedProvider);
-        final brightness = ref.watch(platformBrightnessNotifierProvider);
-        return MaterialApp.router(
-          title: 'SmartDash',
-          restorationScopeId: 'app',
-          debugShowCheckedModeBanner: false,
-          routerConfig: Routes.router,
-          theme: SmartDashThemeData.build(settings, brightness),
-        );
-      },
+    return Padding(
+      padding: EdgeInsets.only(
+        top: Platform.isDesktop ? 0.0 : 0.0,
+      ),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final settings = ref.watch(themeChangedProvider);
+          final brightness = ref.watch(platformBrightnessNotifierProvider);
+          return MaterialApp.router(
+            title: 'SmartDash',
+            restorationScopeId: 'app',
+            debugShowCheckedModeBanner: false,
+            routerConfig: Routes.router,
+            theme: SmartDashThemeData.build(settings, brightness),
+          );
+        },
+      ),
     );
   }
 
