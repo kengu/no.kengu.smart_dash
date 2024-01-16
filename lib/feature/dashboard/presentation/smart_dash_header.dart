@@ -37,7 +37,12 @@ class SmartDashHeader extends StatelessWidget {
                   const PopupMenuItem<String>(
                     value: Screens.pairing,
                     child: ListTile(
-                      title: Text('ADD SERVICE'),
+                      title: Row(
+                        children: [
+                          Icon(Icons.add),
+                          Text('PAIR DEVICE'),
+                        ],
+                      ),
                       leading: Icon(Icons.device_unknown),
                     ),
                   ),
@@ -56,14 +61,24 @@ class SmartDashHeader extends StatelessWidget {
               onPressed: () {
                 context.go(Screens.pairing);
               },
-              child: const Text('ADD SERVICE'),
+              child: const Row(
+                children: [
+                  Icon(Icons.add),
+                  Text('PAIR DEVICE'),
+                ],
+              ),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
               onPressed: () {
                 context.go(Screens.devices);
               },
-              child: const Text('PAIRED DEVICES'),
+              child: const Row(
+                children: [
+                  Icon(Icons.list),
+                  Text('PAIRED DEVICES'),
+                ],
+              ),
             ),
           ]
         ],

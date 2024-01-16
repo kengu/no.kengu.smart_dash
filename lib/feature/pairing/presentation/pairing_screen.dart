@@ -18,7 +18,7 @@ class PairingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncLoadScreen<PairingQuery, IntegrationMap>(
-      title: 'Pairing services',
+      title: 'Pair device with device',
       onClose: () => context.go(location),
       query: PairingQuery(),
       provider: pairingScreenControllerProvider,
