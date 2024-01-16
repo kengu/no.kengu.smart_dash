@@ -331,17 +331,16 @@ class WeatherInstanceWidget extends StatelessWidget {
     final steps = weather.props.timeseries
         .skip(max(0, index - 1))
         .take(24)
-        .map((e) => e.data.next1h?.details.precipitationAmount ?? 0.0);
+        .map((e) => e.data.next1h?.details)
+        .where((e) => (e?.precipitationAmount ?? 0) > 0)
+        .map((e) {
+      final amountInMm = e?.precipitationAmount ?? 0.0;
+      final temp = min(e?.airTemperatureMax ?? 0, e?.airTemperatureMax ?? 0);
+      return amountInMm * (temp > 0 ? 1 : _calcSnowRatioInInches(temp) * 0.254);
+    });
 
     // Sum over next 24 from index
-    final amountInMm = steps.sum();
-
-    if (temp > 0) {
-      return amountInMm.toStringAsFixed(1);
-    }
-
-    final ratioInCm = _calcSnowRatioInInches(temp) * 0.254;
-    return (amountInMm * ratioInCm).toStringAsFixed(1);
+    return steps.sum().toStringAsFixed(1);
   }
 
   // From https://goodcalculators.com/rain-to-snow-calculator/
