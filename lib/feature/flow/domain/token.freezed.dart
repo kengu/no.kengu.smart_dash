@@ -120,9 +120,10 @@ class __$$TokenImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TokenImpl implements _Token {
+class _$TokenImpl extends _Token {
   const _$TokenImpl(
-      {required this.name, required this.type, required this.unit});
+      {required this.name, required this.type, required this.unit})
+      : super._();
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -172,11 +173,12 @@ class _$TokenImpl implements _Token {
   }
 }
 
-abstract class _Token implements Token {
+abstract class _Token extends Token {
   const factory _Token(
       {required final String name,
       required final TokenType type,
       required final TokenUnit unit}) = _$TokenImpl;
+  const _Token._() : super._();
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 

@@ -61,7 +61,6 @@ class SystemInfoService {
   Future<(int, int, int, bool)> _getMemUsage() async {
     try {
       final usage = await _loadChanel.invokeMethod('getMemoryUsage');
-      debugPrint(usage.toString());
 
       return (
         (usage['app'] ?? 0) as int,

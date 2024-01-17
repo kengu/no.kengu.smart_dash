@@ -6,7 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
-import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/stream.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -73,13 +72,13 @@ abstract class Flow {
 
   final String key;
 
-  bool when(Object event);
+  bool when(DriverEvent event);
 
   @visibleForOverriding
-  Stream<FlowEvent> evaluate(Object event);
+  Stream<FlowEvent> evaluate(DriverEvent event);
 
   /// Default method
-  Stream<FlowEvent> call(Object event) => evaluate(event);
+  Stream<FlowEvent> call(DriverEvent event) => evaluate(event);
 }
 
 class FlowEvent<T> {
@@ -88,10 +87,6 @@ class FlowEvent<T> {
   final T data;
   final Token token;
   final DateTime when;
-
-  bool get isPower => token.isPower;
-  bool get isEnergy => token.isEnergy;
-  bool get isVoltage => token.isVoltage;
 
   bool isDataType<E>() => this is FlowEvent<E>;
 
@@ -126,7 +121,7 @@ Stream<FlowEvent> flow(FlowRef ref) async* {
 @riverpod
 Stream<FlowEvent> power(PowerRef ref) async* {
   final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.isPower)) {
+  await for (final event in manager.events.where((e) => e.token.isPower)) {
     yield event;
   }
 }
@@ -134,7 +129,7 @@ Stream<FlowEvent> power(PowerRef ref) async* {
 @riverpod
 Stream<FlowEvent> energy(EnergyRef ref) async* {
   final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.isEnergy)) {
+  await for (final event in manager.events.where((e) => e.token.isEnergy)) {
     yield event;
   }
 }
@@ -142,7 +137,15 @@ Stream<FlowEvent> energy(EnergyRef ref) async* {
 @riverpod
 Stream<FlowEvent> voltage(VoltageRef ref) async* {
   final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.isVoltage)) {
+  await for (final event in manager.events.where((e) => e.token.isVoltage)) {
+    yield event;
+  }
+}
+
+Stream<FlowEvent> temperature(VoltageRef ref) async* {
+  final manager = ref.watch(flowManagerProvider);
+  await for (final event
+      in manager.events.where((e) => e.token.isTemperature)) {
     yield event;
   }
 }

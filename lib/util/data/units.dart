@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/flow/tokens.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 
 extension UnitX on num {
   static const Map<int, String> upper = {
@@ -64,23 +64,23 @@ extension UnitX on num {
     final s = symbol(o, orderMin);
     final b = (o == 0 || s.isEmpty ? this : this / pow(10, o));
     final d = o.abs() < orderMin ? 0 : orderDigits;
-    return [b.toStringAsFixed(d), '$s${_tokenUnitMap[unit] ?? unit}'].join(' ');
+    return [b.toStringAsFixed(d), '$s${TokenUnit.symbolOf(unit)}'].join(' ');
   }
-
-  static final _tokenUnitMap = {
-    Tokens.voltage.unit.name: 'V',
-    Tokens.power.unit.name: 'W',
-    Tokens.energy.unit.name: 'Wh'
-  };
 }
 
 extension UnitInListX<T extends num> on List<T> {
   String toPower([int? index, int fractionDigits = 2]) =>
-      format('W', index, fractionDigits);
+      format(TokenUnit.power.symbol, index, fractionDigits);
+
   String toEnergy([int? index, int fractionDigits = 2]) =>
-      format('Wh', index, fractionDigits);
+      format(TokenUnit.energy.symbol, index, fractionDigits);
+
   String toVoltage([int? index, int fractionDigits = 2]) =>
-      format('V', index, fractionDigits);
+      format(TokenUnit.voltage.symbol, index, fractionDigits);
+
+  String toTemperature([int? index, int fractionDigits = 2]) =>
+      format(TokenUnit.temperature.symbol, index, fractionDigits);
+
   String toPrice(String currency, [int? index, int fractionDigits = 2]) =>
       (isEmpty ? 0 : this[min(length - 1, index ?? length - 1)])
           .toPrice(currency, fractionDigits);

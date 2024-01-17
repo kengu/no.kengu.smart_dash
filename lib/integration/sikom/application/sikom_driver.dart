@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
@@ -17,8 +18,10 @@ import 'package:smart_dash/util/guard.dart';
 part 'sikom_driver.g.dart';
 
 class SikomDriver extends ThrottledDeviceDriver {
-  SikomDriver(super.ref)
+  SikomDriver(Ref ref)
       : super(
+          Sikom.key,
+          ref,
           trailing: true,
           throttle: const Duration(seconds: 5),
         );
@@ -28,9 +31,7 @@ class SikomDriver extends ThrottledDeviceDriver {
 
   @override
   void onRegisterFlows(FlowManager manager) {
-    manager.register(SikomPowerFlow());
-    manager.register(SikomEnergyFlow());
-    manager.register(SikomVoltageFlow());
+    manager.register(SikomFlow());
   }
 
   @override
@@ -55,18 +56,12 @@ class SikomDriver extends ThrottledDeviceDriver {
       return devices.isPresent
           ? devices.value
               .where((e) => Sikom.supportedTypes.contains(e.type))
-              .map((e) => DeviceDefinition(
-                    type: e.type.to(),
-                    name: _readableName(e),
-                  ))
+              .map((e) => e.toDeviceDefinition())
               .toSet()
               .toList()
           : <DeviceDefinition>[];
     });
   }
-
-  String _readableName(SikomDevice e) =>
-      Sikom.readableModelName[e.type] ?? e.model;
 
   Future<Optional<List<SikomGateway>>> getGateways() async {
     return guard(() async {

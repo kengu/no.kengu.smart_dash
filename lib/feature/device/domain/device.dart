@@ -71,11 +71,14 @@ class Device with _$Device {
     /// Get the timestamp for when device's was last updated
     required DateTime lastUpdated,
 
-    /// Get the device's energy consumption (default null)
-    EnergySummary? energy,
-
     /// Get device's measured voltage (default null)
     int? voltage,
+
+    /// Get device's measured temperature (default null)
+    int? temperature,
+
+    /// Get the device's energy consumption (default null)
+    EnergySummary? energy,
   }) = _Device;
 
   bool get hasPower => capabilities.hasPower;
@@ -111,11 +114,18 @@ enum DeviceCapabilities {
   voltage(
     'measure_voltage',
     'This flag implies that the device has voltage measurement capability',
+  ),
+
+  temperature(
+    'measure_temperature',
+    'This flag implies that the device has temperature measurement capability',
   );
 
   bool get hasPower => this == power;
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
+
+  bool get hasTemperature => this == temperature;
 
   const DeviceCapabilities(this.key, this.description);
 

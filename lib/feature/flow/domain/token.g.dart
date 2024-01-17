@@ -26,7 +26,8 @@ const _$TokenTypeEnumMap = {
 };
 
 const _$TokenUnitEnumMap = {
-  TokenUnit.volt: 'volt',
-  TokenUnit.watt: 'watt',
-  TokenUnit.wattHour: 'wattHour',
+  TokenUnit.voltage: 'voltage',
+  TokenUnit.energy: 'energy',
+  TokenUnit.power: 'power',
+  TokenUnit.temperature: 'temperature',
 };

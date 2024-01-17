@@ -1,11 +1,9 @@
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
@@ -13,13 +11,13 @@ import 'package:smart_dash/feature/analytics/presentation/energy_usage_tile.dart
 import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/analytics/presentation/power_usage_tile.dart';
 import 'package:smart_dash/feature/analytics/presentation/voltage_usage_tile.dart';
-import 'package:smart_dash/feature/flow/tokens.dart';
+import 'package:smart_dash/feature/device/presentation/tile/temperature_tile.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/core/application/fullscreen_state.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
@@ -35,49 +33,14 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   static const int size = 90;
-  TimeSeries energy = TimeSeries(
-      name: Tokens.energy.name,
-      offset: DateTime.now(),
-      span: TimeScale.minutes.to(),
-      array: DataArray.size(1, [
-        Tokens.energy.toJson(),
-      ]));
 
-  TimeSeries _energy(Optional<HistoryEvent> event) {
-    if (event.isPresent && event.value.isEnergy) {
-      energy = event.value.data.clamp(size, size, pad: 0);
+  final Map<Token, TimeSeries> _series = {};
+
+  TimeSeries _fetch(Token token, HistoryEvent? event) {
+    if (token == event?.token) {
+      return _series[token] = token.toTs(event);
     }
-    return energy;
-  }
-
-  TimeSeries power = TimeSeries(
-      name: Tokens.power.name,
-      offset: DateTime.now(),
-      span: TimeScale.minutes.to(),
-      array: DataArray.size(1, [
-        Tokens.power.toJson(),
-      ]));
-
-  TimeSeries _power(Optional<HistoryEvent> event) {
-    if (event.isPresent && event.value.isPower) {
-      power = event.value.data.clamp(size, size, pad: 0);
-    }
-    return power;
-  }
-
-  TimeSeries voltage = TimeSeries(
-      name: Tokens.voltage.name,
-      offset: DateTime.now(),
-      span: TimeScale.minutes.to(),
-      array: DataArray.size(1, [
-        Tokens.voltage.toJson(),
-      ]));
-
-  TimeSeries _voltage(Optional<HistoryEvent> event) {
-    if (event.isPresent && event.value.isVoltage) {
-      voltage = event.value.data.clamp(size, size, pad: 0);
-    }
-    return voltage;
+    return _series.putIfAbsent(token, () => token.emptyTs());
   }
 
   bool get isFullscreen => FullscreenState.watch(ref);
@@ -137,25 +100,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                             return EnergyUsageTile<int>(
                               key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
-                              history: _energy(Optional.ofNullable(
-                                event,
-                              )),
+                              history: _fetch(Tokens.energy, event),
                             );
                           case 'power':
                             return PowerUsageTile<int>(
                               key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
-                              history: _power(Optional.ofNullable(
-                                event,
-                              )),
+                              history: _fetch(Tokens.power, event),
                             );
                           case 'voltage':
                             return VoltageTile<int>(
                               key: GlobalObjectKey(item),
                               duration: TimeScale.minutes.to(size),
-                              history: _voltage(Optional.ofNullable(
-                                event,
-                              )),
+                              history: _fetch(Tokens.voltage, event),
+                            );
+                          case 'temperature':
+                            return TemperatureTile(
+                              key: GlobalObjectKey(item),
+                              duration: TimeScale.minutes.to(size),
+                              history: _fetch(Tokens.temperature, event),
                             );
                           case 'price_hourly':
                             return ElectricityPriceHourlyTile(
@@ -256,6 +219,13 @@ class _HomePageState extends ConsumerState<HomePage> {
           minWidth: 8,
           maxWidth: 8,
         ),
+        DashboardItem(
+          identifier: Tokens.temperature.name,
+          width: 8,
+          height: 1,
+          minWidth: 8,
+          maxWidth: 8,
+        ),
       ];
 }
 
@@ -311,6 +281,13 @@ List<DashboardItem> tablet() => [
         maxWidth: 3,
         minWidth: 3,
       ),
+      DashboardItem(
+        identifier: Tokens.temperature.name,
+        width: 3,
+        height: 1,
+        maxWidth: 3,
+        minWidth: 3,
+      ),
     ];
 
 List<DashboardItem> desktop() => [
@@ -359,6 +336,13 @@ List<DashboardItem> desktop() => [
       ),
       DashboardItem(
         identifier: 'system_now',
+        width: 4,
+        height: 1,
+        maxWidth: 4,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: Tokens.temperature.name,
         width: 4,
         height: 1,
         maxWidth: 4,

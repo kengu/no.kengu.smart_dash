@@ -27,7 +27,7 @@ class SikomGateway with _$SikomGateway, DeviceMapper {
   @override
   Device toDevice() => Device(
         id: '$id',
-        type: type.to(),
+        type: type.toDeviceType(),
         data: toJson(),
         capabilities: [],
         service: Sikom.key,

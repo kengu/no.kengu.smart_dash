@@ -10,7 +10,7 @@ import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/flow/tokens.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/time/time_scale.dart';

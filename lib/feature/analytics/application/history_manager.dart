@@ -4,16 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
-import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
-import 'package:smart_dash/feature/flow/tokens.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/stream.dart';
-import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/util/typedefs.dart';
 
@@ -28,6 +25,7 @@ typedef HistoryTokenMap = Map<Token, ValueBuilder<num, FlowEvent>>;
 /// * Power ([FlowEvent.type] is [Token.power])
 /// * Energy ([FlowEvent.type] is [Token.energy])
 /// * Voltage ([FlowEvent.type] is [Token.voltage])
+/// * Temperature ([FlowEvent.type] is [Token.temperature])
 ///
 class HistoryManager {
   HistoryManager(
@@ -146,14 +144,7 @@ class HistoryManager {
         final repo = ref.read(timeSeriesRepositoryProvider);
         final offset = toOffset();
         final result = await repo.get(event.token, offset);
-        var history = result.isPresent
-            ? result.value
-            : TimeSeries(
-                offset: offset,
-                name: event.token.name,
-                span: TimeScale.minutes.to(),
-                array: DataArray.size(1, [event.token.toJson()]),
-              );
+        var history = result.isPresent ? result.value : event.token.emptyTs();
         final builder = _tokens[event.token];
         if (builder != null) {
           final next = _record(
@@ -230,6 +221,7 @@ class HistoryEvent {
 HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref, {
       Tokens.power: (event) => event.data as int,
       Tokens.voltage: (event) => event.data as int,
+      Tokens.temperature: (event) => event.data as int,
       Tokens.energy: (event) => (event.data as EnergySummary).cumulativeToday,
     });
 

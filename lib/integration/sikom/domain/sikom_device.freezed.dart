@@ -223,7 +223,87 @@ mixin _$SikomDeviceProperties {
   SikomProperty? get cumulativeEnergyToday =>
       throw _privateConstructorUsedError;
   @JsonKey(name: 'ams_power_voltage')
-  SikomProperty? get powerVoltage => throw _privateConstructorUsedError;
+  SikomProperty? get powerVoltage =>
+      throw _privateConstructorUsedError; // Commanded mode of a switch. May differ from switch_state (actual relay-state) for instance
+// when under thermostat control. Now how (for thermostats) a value of 0 does not have a single meaning
+// (it may mean either "eco", "anti_freeze" and "off"). A value of 1 on the other hand is usually precise
+// (Meaning "on" if dumb switch and "comfort" if thermostat). Note that for products like
+// "ProductCode.CTMmTouchOne" this value should be ignored (considered irrelevant) when
+// "DeviceProperty.switch_thermostat_active" is 0. Same issues with "ProductCode.CTMmTouchDim"
+// and percent level == 99. See also "DeviceProperty.switch_reduction_mode" which explains (in plain text)
+// what is the precise meaning of 0 and 1.
+  @JsonKey(name: 'switch_mode')
+  SikomProperty? get switchMode =>
+      throw _privateConstructorUsedError; // Human-readable text explaining current "DeviceProperty.switch_mode" (off, eco, comfort, etc.)
+  @JsonKey(name: 'switch_readable_mode')
+  SikomProperty? get switchReadableMode =>
+      throw _privateConstructorUsedError; // The actual relay state of the switch (on / off)
+  @JsonKey(name: 'switch_state')
+  SikomProperty? get switchState =>
+      throw _privateConstructorUsedError; // The precise meaning of values 0 and 1 in "DeviceProperty.switch_mode".
+  @JsonKey(name: 'switch_reduction_mode')
+  SikomProperty? get switchReductionMode =>
+      throw _privateConstructorUsedError; // Eco / comfort active or not. If 0 then switch_mode 0 will usually mean "off" or "anti_freeze"
+// and 1 will not have any meaning. If 1 then switch_mode 0 will mean "eco" and 1 will mean "comfort".
+// Not relevant to set for some kind of thermostats (for instance SI-3, SI-4 or CTM mTouch One).
+// Not desired to set for other thermostats (because of danger of freezing water for instance).
+  @JsonKey(name: 'switch_thermostat_active')
+  SikomProperty? get switchThermostatActive =>
+      throw _privateConstructorUsedError; // Air temperature (inside). Note that will always be the most important temperature (the one used for controlling)
+// while "DeviceProperty.temperature_2" will be the secondary temperature. This is (pr Feb 2019) only relevant for
+// "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
+  @JsonKey(name: 'temperature')
+  SikomProperty? get temperature =>
+      throw _privateConstructorUsedError; // Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  @JsonKey(name: 'temperature_min')
+  SikomProperty? get temperatureMin =>
+      throw _privateConstructorUsedError; // Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  @JsonKey(name: 'temperature_max')
+  SikomProperty? get temperatureMax =>
+      throw _privateConstructorUsedError; // Thermostat temperature in switch_mode 'eco'
+  @JsonKey(name: 'temperature_eco')
+  SikomProperty? get temperatureEco =>
+      throw _privateConstructorUsedError; // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @JsonKey(name: 'temperature_eco_prlsa')
+  SikomProperty? get temperatureEcoAdjustment =>
+      throw _privateConstructorUsedError; // Thermostat temperature in switch_mode 'comfort'
+  @JsonKey(name: 'temperature_comfort')
+  SikomProperty? get temperatureComfort =>
+      throw _privateConstructorUsedError; // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @JsonKey(name: 'temperature_comfort_prlsa')
+  SikomProperty? get temperatureComfortAdjustment =>
+      throw _privateConstructorUsedError; // Tells whether the device is currently being regulated
+// or not (0 = not regulated 1 = import regulated 2 = export regulated)
+  @JsonKey(name: 'ams_regulated_state')
+  SikomProperty? get regulatedState =>
+      throw _privateConstructorUsedError; // The power (in W) that this device releases when regulated out, as estimated by
+// the system itself, compared to when regulated in (raw value, no PWM or other partial
+// regulation scheme accounted for). Will be a negative value (representing the power
+// "added" when the device is regulated out. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController is installed)
+  @JsonKey(name: 'ams_regulation_priority')
+  SikomProperty? get regulationPriority => throw _privateConstructorUsedError;
+  @JsonKey(name: 'estimated_reg_power')
+  SikomProperty? get estimatedRegulatedPower =>
+      throw _privateConstructorUsedError; // The power (in W) that this device draws when unregulated, as estimated by the system itself,
+// compared to when regulated out (raw value, no PWM or other partial regulation scheme accounted for).
+// Will be a positive value. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController)
+  @JsonKey(name: 'estimated_unreg_power')
+  SikomProperty? get estimatedUnregulatedPower =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -261,7 +341,30 @@ abstract class $SikomDevicePropertiesCopyWith<$Res> {
       SikomProperty? cumulativeEnergy,
       @JsonKey(name: 'ams_cumulative_plus_calculated_energy_today')
       SikomProperty? cumulativeEnergyToday,
-      @JsonKey(name: 'ams_power_voltage') SikomProperty? powerVoltage});
+      @JsonKey(name: 'ams_power_voltage') SikomProperty? powerVoltage,
+      @JsonKey(name: 'switch_mode') SikomProperty? switchMode,
+      @JsonKey(name: 'switch_readable_mode') SikomProperty? switchReadableMode,
+      @JsonKey(name: 'switch_state') SikomProperty? switchState,
+      @JsonKey(name: 'switch_reduction_mode')
+      SikomProperty? switchReductionMode,
+      @JsonKey(name: 'switch_thermostat_active')
+      SikomProperty? switchThermostatActive,
+      @JsonKey(name: 'temperature') SikomProperty? temperature,
+      @JsonKey(name: 'temperature_min') SikomProperty? temperatureMin,
+      @JsonKey(name: 'temperature_max') SikomProperty? temperatureMax,
+      @JsonKey(name: 'temperature_eco') SikomProperty? temperatureEco,
+      @JsonKey(name: 'temperature_eco_prlsa')
+      SikomProperty? temperatureEcoAdjustment,
+      @JsonKey(name: 'temperature_comfort') SikomProperty? temperatureComfort,
+      @JsonKey(name: 'temperature_comfort_prlsa')
+      SikomProperty? temperatureComfortAdjustment,
+      @JsonKey(name: 'ams_regulated_state') SikomProperty? regulatedState,
+      @JsonKey(name: 'ams_regulation_priority')
+      SikomProperty? regulationPriority,
+      @JsonKey(name: 'estimated_reg_power')
+      SikomProperty? estimatedRegulatedPower,
+      @JsonKey(name: 'estimated_unreg_power')
+      SikomProperty? estimatedUnregulatedPower});
 
   $SikomPropertyCopyWith<$Res> get vendorType;
   $SikomPropertyCopyWith<$Res> get bestEffortName;
@@ -281,6 +384,22 @@ abstract class $SikomDevicePropertiesCopyWith<$Res> {
   $SikomPropertyCopyWith<$Res>? get cumulativeEnergy;
   $SikomPropertyCopyWith<$Res>? get cumulativeEnergyToday;
   $SikomPropertyCopyWith<$Res>? get powerVoltage;
+  $SikomPropertyCopyWith<$Res>? get switchMode;
+  $SikomPropertyCopyWith<$Res>? get switchReadableMode;
+  $SikomPropertyCopyWith<$Res>? get switchState;
+  $SikomPropertyCopyWith<$Res>? get switchReductionMode;
+  $SikomPropertyCopyWith<$Res>? get switchThermostatActive;
+  $SikomPropertyCopyWith<$Res>? get temperature;
+  $SikomPropertyCopyWith<$Res>? get temperatureMin;
+  $SikomPropertyCopyWith<$Res>? get temperatureMax;
+  $SikomPropertyCopyWith<$Res>? get temperatureEco;
+  $SikomPropertyCopyWith<$Res>? get temperatureEcoAdjustment;
+  $SikomPropertyCopyWith<$Res>? get temperatureComfort;
+  $SikomPropertyCopyWith<$Res>? get temperatureComfortAdjustment;
+  $SikomPropertyCopyWith<$Res>? get regulatedState;
+  $SikomPropertyCopyWith<$Res>? get regulationPriority;
+  $SikomPropertyCopyWith<$Res>? get estimatedRegulatedPower;
+  $SikomPropertyCopyWith<$Res>? get estimatedUnregulatedPower;
 }
 
 /// @nodoc
@@ -315,6 +434,22 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     Object? cumulativeEnergy = freezed,
     Object? cumulativeEnergyToday = freezed,
     Object? powerVoltage = freezed,
+    Object? switchMode = freezed,
+    Object? switchReadableMode = freezed,
+    Object? switchState = freezed,
+    Object? switchReductionMode = freezed,
+    Object? switchThermostatActive = freezed,
+    Object? temperature = freezed,
+    Object? temperatureMin = freezed,
+    Object? temperatureMax = freezed,
+    Object? temperatureEco = freezed,
+    Object? temperatureEcoAdjustment = freezed,
+    Object? temperatureComfort = freezed,
+    Object? temperatureComfortAdjustment = freezed,
+    Object? regulatedState = freezed,
+    Object? regulationPriority = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
   }) {
     return _then(_value.copyWith(
       vendorType: null == vendorType
@@ -388,6 +523,70 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
       powerVoltage: freezed == powerVoltage
           ? _value.powerVoltage
           : powerVoltage // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchMode: freezed == switchMode
+          ? _value.switchMode
+          : switchMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchReadableMode: freezed == switchReadableMode
+          ? _value.switchReadableMode
+          : switchReadableMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchState: freezed == switchState
+          ? _value.switchState
+          : switchState // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchReductionMode: freezed == switchReductionMode
+          ? _value.switchReductionMode
+          : switchReductionMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchThermostatActive: freezed == switchThermostatActive
+          ? _value.switchThermostatActive
+          : switchThermostatActive // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureMin: freezed == temperatureMin
+          ? _value.temperatureMin
+          : temperatureMin // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureMax: freezed == temperatureMax
+          ? _value.temperatureMax
+          : temperatureMax // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureEco: freezed == temperatureEco
+          ? _value.temperatureEco
+          : temperatureEco // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureEcoAdjustment: freezed == temperatureEcoAdjustment
+          ? _value.temperatureEcoAdjustment
+          : temperatureEcoAdjustment // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureComfort: freezed == temperatureComfort
+          ? _value.temperatureComfort
+          : temperatureComfort // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureComfortAdjustment: freezed == temperatureComfortAdjustment
+          ? _value.temperatureComfortAdjustment
+          : temperatureComfortAdjustment // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      regulatedState: freezed == regulatedState
+          ? _value.regulatedState
+          : regulatedState // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      regulationPriority: freezed == regulationPriority
+          ? _value.regulationPriority
+          : regulationPriority // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
               as SikomProperty?,
     ) as $Val);
   }
@@ -603,6 +802,204 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
       return _then(_value.copyWith(powerVoltage: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get switchMode {
+    if (_value.switchMode == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.switchMode!, (value) {
+      return _then(_value.copyWith(switchMode: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get switchReadableMode {
+    if (_value.switchReadableMode == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.switchReadableMode!, (value) {
+      return _then(_value.copyWith(switchReadableMode: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get switchState {
+    if (_value.switchState == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.switchState!, (value) {
+      return _then(_value.copyWith(switchState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get switchReductionMode {
+    if (_value.switchReductionMode == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.switchReductionMode!, (value) {
+      return _then(_value.copyWith(switchReductionMode: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get switchThermostatActive {
+    if (_value.switchThermostatActive == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.switchThermostatActive!,
+        (value) {
+      return _then(_value.copyWith(switchThermostatActive: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperature {
+    if (_value.temperature == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperature!, (value) {
+      return _then(_value.copyWith(temperature: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureMin {
+    if (_value.temperatureMin == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureMin!, (value) {
+      return _then(_value.copyWith(temperatureMin: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureMax {
+    if (_value.temperatureMax == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureMax!, (value) {
+      return _then(_value.copyWith(temperatureMax: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureEco {
+    if (_value.temperatureEco == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureEco!, (value) {
+      return _then(_value.copyWith(temperatureEco: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureEcoAdjustment {
+    if (_value.temperatureEcoAdjustment == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureEcoAdjustment!,
+        (value) {
+      return _then(_value.copyWith(temperatureEcoAdjustment: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureComfort {
+    if (_value.temperatureComfort == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureComfort!, (value) {
+      return _then(_value.copyWith(temperatureComfort: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get temperatureComfortAdjustment {
+    if (_value.temperatureComfortAdjustment == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.temperatureComfortAdjustment!,
+        (value) {
+      return _then(
+          _value.copyWith(temperatureComfortAdjustment: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get regulatedState {
+    if (_value.regulatedState == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.regulatedState!, (value) {
+      return _then(_value.copyWith(regulatedState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get regulationPriority {
+    if (_value.regulationPriority == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.regulationPriority!, (value) {
+      return _then(_value.copyWith(regulationPriority: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get estimatedRegulatedPower {
+    if (_value.estimatedRegulatedPower == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.estimatedRegulatedPower!,
+        (value) {
+      return _then(_value.copyWith(estimatedRegulatedPower: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SikomPropertyCopyWith<$Res>? get estimatedUnregulatedPower {
+    if (_value.estimatedUnregulatedPower == null) {
+      return null;
+    }
+
+    return $SikomPropertyCopyWith<$Res>(_value.estimatedUnregulatedPower!,
+        (value) {
+      return _then(_value.copyWith(estimatedUnregulatedPower: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -638,7 +1035,30 @@ abstract class _$$SikomDevicePropertiesImplCopyWith<$Res>
       SikomProperty? cumulativeEnergy,
       @JsonKey(name: 'ams_cumulative_plus_calculated_energy_today')
       SikomProperty? cumulativeEnergyToday,
-      @JsonKey(name: 'ams_power_voltage') SikomProperty? powerVoltage});
+      @JsonKey(name: 'ams_power_voltage') SikomProperty? powerVoltage,
+      @JsonKey(name: 'switch_mode') SikomProperty? switchMode,
+      @JsonKey(name: 'switch_readable_mode') SikomProperty? switchReadableMode,
+      @JsonKey(name: 'switch_state') SikomProperty? switchState,
+      @JsonKey(name: 'switch_reduction_mode')
+      SikomProperty? switchReductionMode,
+      @JsonKey(name: 'switch_thermostat_active')
+      SikomProperty? switchThermostatActive,
+      @JsonKey(name: 'temperature') SikomProperty? temperature,
+      @JsonKey(name: 'temperature_min') SikomProperty? temperatureMin,
+      @JsonKey(name: 'temperature_max') SikomProperty? temperatureMax,
+      @JsonKey(name: 'temperature_eco') SikomProperty? temperatureEco,
+      @JsonKey(name: 'temperature_eco_prlsa')
+      SikomProperty? temperatureEcoAdjustment,
+      @JsonKey(name: 'temperature_comfort') SikomProperty? temperatureComfort,
+      @JsonKey(name: 'temperature_comfort_prlsa')
+      SikomProperty? temperatureComfortAdjustment,
+      @JsonKey(name: 'ams_regulated_state') SikomProperty? regulatedState,
+      @JsonKey(name: 'ams_regulation_priority')
+      SikomProperty? regulationPriority,
+      @JsonKey(name: 'estimated_reg_power')
+      SikomProperty? estimatedRegulatedPower,
+      @JsonKey(name: 'estimated_unreg_power')
+      SikomProperty? estimatedUnregulatedPower});
 
   @override
   $SikomPropertyCopyWith<$Res> get vendorType;
@@ -676,6 +1096,38 @@ abstract class _$$SikomDevicePropertiesImplCopyWith<$Res>
   $SikomPropertyCopyWith<$Res>? get cumulativeEnergyToday;
   @override
   $SikomPropertyCopyWith<$Res>? get powerVoltage;
+  @override
+  $SikomPropertyCopyWith<$Res>? get switchMode;
+  @override
+  $SikomPropertyCopyWith<$Res>? get switchReadableMode;
+  @override
+  $SikomPropertyCopyWith<$Res>? get switchState;
+  @override
+  $SikomPropertyCopyWith<$Res>? get switchReductionMode;
+  @override
+  $SikomPropertyCopyWith<$Res>? get switchThermostatActive;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperature;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureMin;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureMax;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureEco;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureEcoAdjustment;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureComfort;
+  @override
+  $SikomPropertyCopyWith<$Res>? get temperatureComfortAdjustment;
+  @override
+  $SikomPropertyCopyWith<$Res>? get regulatedState;
+  @override
+  $SikomPropertyCopyWith<$Res>? get regulationPriority;
+  @override
+  $SikomPropertyCopyWith<$Res>? get estimatedRegulatedPower;
+  @override
+  $SikomPropertyCopyWith<$Res>? get estimatedUnregulatedPower;
 }
 
 /// @nodoc
@@ -708,6 +1160,22 @@ class __$$SikomDevicePropertiesImplCopyWithImpl<$Res>
     Object? cumulativeEnergy = freezed,
     Object? cumulativeEnergyToday = freezed,
     Object? powerVoltage = freezed,
+    Object? switchMode = freezed,
+    Object? switchReadableMode = freezed,
+    Object? switchState = freezed,
+    Object? switchReductionMode = freezed,
+    Object? switchThermostatActive = freezed,
+    Object? temperature = freezed,
+    Object? temperatureMin = freezed,
+    Object? temperatureMax = freezed,
+    Object? temperatureEco = freezed,
+    Object? temperatureEcoAdjustment = freezed,
+    Object? temperatureComfort = freezed,
+    Object? temperatureComfortAdjustment = freezed,
+    Object? regulatedState = freezed,
+    Object? regulationPriority = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
   }) {
     return _then(_$SikomDevicePropertiesImpl(
       vendorType: null == vendorType
@@ -782,6 +1250,70 @@ class __$$SikomDevicePropertiesImplCopyWithImpl<$Res>
           ? _value.powerVoltage
           : powerVoltage // ignore: cast_nullable_to_non_nullable
               as SikomProperty?,
+      switchMode: freezed == switchMode
+          ? _value.switchMode
+          : switchMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchReadableMode: freezed == switchReadableMode
+          ? _value.switchReadableMode
+          : switchReadableMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchState: freezed == switchState
+          ? _value.switchState
+          : switchState // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchReductionMode: freezed == switchReductionMode
+          ? _value.switchReductionMode
+          : switchReductionMode // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      switchThermostatActive: freezed == switchThermostatActive
+          ? _value.switchThermostatActive
+          : switchThermostatActive // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureMin: freezed == temperatureMin
+          ? _value.temperatureMin
+          : temperatureMin // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureMax: freezed == temperatureMax
+          ? _value.temperatureMax
+          : temperatureMax // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureEco: freezed == temperatureEco
+          ? _value.temperatureEco
+          : temperatureEco // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureEcoAdjustment: freezed == temperatureEcoAdjustment
+          ? _value.temperatureEcoAdjustment
+          : temperatureEcoAdjustment // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureComfort: freezed == temperatureComfort
+          ? _value.temperatureComfort
+          : temperatureComfort // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      temperatureComfortAdjustment: freezed == temperatureComfortAdjustment
+          ? _value.temperatureComfortAdjustment
+          : temperatureComfortAdjustment // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      regulatedState: freezed == regulatedState
+          ? _value.regulatedState
+          : regulatedState // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      regulationPriority: freezed == regulationPriority
+          ? _value.regulationPriority
+          : regulationPriority // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
+              as SikomProperty?,
     ));
   }
 }
@@ -811,7 +1343,24 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
       this.cumulativeEnergy,
       @JsonKey(name: 'ams_cumulative_plus_calculated_energy_today')
       this.cumulativeEnergyToday,
-      @JsonKey(name: 'ams_power_voltage') this.powerVoltage})
+      @JsonKey(name: 'ams_power_voltage') this.powerVoltage,
+      @JsonKey(name: 'switch_mode') this.switchMode,
+      @JsonKey(name: 'switch_readable_mode') this.switchReadableMode,
+      @JsonKey(name: 'switch_state') this.switchState,
+      @JsonKey(name: 'switch_reduction_mode') this.switchReductionMode,
+      @JsonKey(name: 'switch_thermostat_active') this.switchThermostatActive,
+      @JsonKey(name: 'temperature') this.temperature,
+      @JsonKey(name: 'temperature_min') this.temperatureMin,
+      @JsonKey(name: 'temperature_max') this.temperatureMax,
+      @JsonKey(name: 'temperature_eco') this.temperatureEco,
+      @JsonKey(name: 'temperature_eco_prlsa') this.temperatureEcoAdjustment,
+      @JsonKey(name: 'temperature_comfort') this.temperatureComfort,
+      @JsonKey(name: 'temperature_comfort_prlsa')
+      this.temperatureComfortAdjustment,
+      @JsonKey(name: 'ams_regulated_state') this.regulatedState,
+      @JsonKey(name: 'ams_regulation_priority') this.regulationPriority,
+      @JsonKey(name: 'estimated_reg_power') this.estimatedRegulatedPower,
+      @JsonKey(name: 'estimated_unreg_power') this.estimatedUnregulatedPower})
       : super._();
 
   factory _$SikomDevicePropertiesImpl.fromJson(Map<String, dynamic> json) =>
@@ -877,10 +1426,105 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
   @override
   @JsonKey(name: 'ams_power_voltage')
   final SikomProperty? powerVoltage;
+// Commanded mode of a switch. May differ from switch_state (actual relay-state) for instance
+// when under thermostat control. Now how (for thermostats) a value of 0 does not have a single meaning
+// (it may mean either "eco", "anti_freeze" and "off"). A value of 1 on the other hand is usually precise
+// (Meaning "on" if dumb switch and "comfort" if thermostat). Note that for products like
+// "ProductCode.CTMmTouchOne" this value should be ignored (considered irrelevant) when
+// "DeviceProperty.switch_thermostat_active" is 0. Same issues with "ProductCode.CTMmTouchDim"
+// and percent level == 99. See also "DeviceProperty.switch_reduction_mode" which explains (in plain text)
+// what is the precise meaning of 0 and 1.
+  @override
+  @JsonKey(name: 'switch_mode')
+  final SikomProperty? switchMode;
+// Human-readable text explaining current "DeviceProperty.switch_mode" (off, eco, comfort, etc.)
+  @override
+  @JsonKey(name: 'switch_readable_mode')
+  final SikomProperty? switchReadableMode;
+// The actual relay state of the switch (on / off)
+  @override
+  @JsonKey(name: 'switch_state')
+  final SikomProperty? switchState;
+// The precise meaning of values 0 and 1 in "DeviceProperty.switch_mode".
+  @override
+  @JsonKey(name: 'switch_reduction_mode')
+  final SikomProperty? switchReductionMode;
+// Eco / comfort active or not. If 0 then switch_mode 0 will usually mean "off" or "anti_freeze"
+// and 1 will not have any meaning. If 1 then switch_mode 0 will mean "eco" and 1 will mean "comfort".
+// Not relevant to set for some kind of thermostats (for instance SI-3, SI-4 or CTM mTouch One).
+// Not desired to set for other thermostats (because of danger of freezing water for instance).
+  @override
+  @JsonKey(name: 'switch_thermostat_active')
+  final SikomProperty? switchThermostatActive;
+// Air temperature (inside). Note that will always be the most important temperature (the one used for controlling)
+// while "DeviceProperty.temperature_2" will be the secondary temperature. This is (pr Feb 2019) only relevant for
+// "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
+  @override
+  @JsonKey(name: 'temperature')
+  final SikomProperty? temperature;
+// Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  @override
+  @JsonKey(name: 'temperature_min')
+  final SikomProperty? temperatureMin;
+// Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  @override
+  @JsonKey(name: 'temperature_max')
+  final SikomProperty? temperatureMax;
+// Thermostat temperature in switch_mode 'eco'
+  @override
+  @JsonKey(name: 'temperature_eco')
+  final SikomProperty? temperatureEco;
+// (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @override
+  @JsonKey(name: 'temperature_eco_prlsa')
+  final SikomProperty? temperatureEcoAdjustment;
+// Thermostat temperature in switch_mode 'comfort'
+  @override
+  @JsonKey(name: 'temperature_comfort')
+  final SikomProperty? temperatureComfort;
+// (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @override
+  @JsonKey(name: 'temperature_comfort_prlsa')
+  final SikomProperty? temperatureComfortAdjustment;
+// Tells whether the device is currently being regulated
+// or not (0 = not regulated 1 = import regulated 2 = export regulated)
+  @override
+  @JsonKey(name: 'ams_regulated_state')
+  final SikomProperty? regulatedState;
+// The power (in W) that this device releases when regulated out, as estimated by
+// the system itself, compared to when regulated in (raw value, no PWM or other partial
+// regulation scheme accounted for). Will be a negative value (representing the power
+// "added" when the device is regulated out. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController is installed)
+  @override
+  @JsonKey(name: 'ams_regulation_priority')
+  final SikomProperty? regulationPriority;
+  @override
+  @JsonKey(name: 'estimated_reg_power')
+  final SikomProperty? estimatedRegulatedPower;
+// The power (in W) that this device draws when unregulated, as estimated by the system itself,
+// compared to when regulated out (raw value, no PWM or other partial regulation scheme accounted for).
+// Will be a positive value. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController)
+  @override
+  @JsonKey(name: 'estimated_unreg_power')
+  final SikomProperty? estimatedUnregulatedPower;
 
   @override
   String toString() {
-    return 'SikomDeviceProperties(vendorType: $vendorType, bestEffortName: $bestEffortName, latestUpdateFromDevice: $latestUpdateFromDevice, pushUpdateIntervalMinutes: $pushUpdateIntervalMinutes, dummy: $dummy, connection: $connection, gprsNetname: $gprsNetname, productCode: $productCode, modelName: $modelName, deviceType: $deviceType, deviceModel: $deviceModel, userDefinedName: $userDefinedName, deviceModelReadable: $deviceModelReadable, vendorAndDeviceModelReadable: $vendorAndDeviceModelReadable, currentPowerUsage: $currentPowerUsage, cumulativeEnergy: $cumulativeEnergy, cumulativeEnergyToday: $cumulativeEnergyToday, powerVoltage: $powerVoltage)';
+    return 'SikomDeviceProperties(vendorType: $vendorType, bestEffortName: $bestEffortName, latestUpdateFromDevice: $latestUpdateFromDevice, pushUpdateIntervalMinutes: $pushUpdateIntervalMinutes, dummy: $dummy, connection: $connection, gprsNetname: $gprsNetname, productCode: $productCode, modelName: $modelName, deviceType: $deviceType, deviceModel: $deviceModel, userDefinedName: $userDefinedName, deviceModelReadable: $deviceModelReadable, vendorAndDeviceModelReadable: $vendorAndDeviceModelReadable, currentPowerUsage: $currentPowerUsage, cumulativeEnergy: $cumulativeEnergy, cumulativeEnergyToday: $cumulativeEnergyToday, powerVoltage: $powerVoltage, switchMode: $switchMode, switchReadableMode: $switchReadableMode, switchState: $switchState, switchReductionMode: $switchReductionMode, switchThermostatActive: $switchThermostatActive, temperature: $temperature, temperatureMin: $temperatureMin, temperatureMax: $temperatureMax, temperatureEco: $temperatureEco, temperatureEcoAdjustment: $temperatureEcoAdjustment, temperatureComfort: $temperatureComfort, temperatureComfortAdjustment: $temperatureComfortAdjustment, regulatedState: $regulatedState, regulationPriority: $regulationPriority, estimatedRegulatedPower: $estimatedRegulatedPower, estimatedUnregulatedPower: $estimatedUnregulatedPower)';
   }
 
   @override
@@ -894,8 +1538,7 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
                 other.bestEffortName == bestEffortName) &&
             (identical(other.latestUpdateFromDevice, latestUpdateFromDevice) ||
                 other.latestUpdateFromDevice == latestUpdateFromDevice) &&
-            (identical(other.pushUpdateIntervalMinutes,
-                    pushUpdateIntervalMinutes) ||
+            (identical(other.pushUpdateIntervalMinutes, pushUpdateIntervalMinutes) ||
                 other.pushUpdateIntervalMinutes == pushUpdateIntervalMinutes) &&
             (identical(other.dummy, dummy) || other.dummy == dummy) &&
             (identical(other.connection, connection) ||
@@ -914,8 +1557,7 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
                 other.userDefinedName == userDefinedName) &&
             (identical(other.deviceModelReadable, deviceModelReadable) ||
                 other.deviceModelReadable == deviceModelReadable) &&
-            (identical(other.vendorAndDeviceModelReadable,
-                    vendorAndDeviceModelReadable) ||
+            (identical(other.vendorAndDeviceModelReadable, vendorAndDeviceModelReadable) ||
                 other.vendorAndDeviceModelReadable ==
                     vendorAndDeviceModelReadable) &&
             (identical(other.currentPowerUsage, currentPowerUsage) ||
@@ -925,31 +1567,77 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
             (identical(other.cumulativeEnergyToday, cumulativeEnergyToday) ||
                 other.cumulativeEnergyToday == cumulativeEnergyToday) &&
             (identical(other.powerVoltage, powerVoltage) ||
-                other.powerVoltage == powerVoltage));
+                other.powerVoltage == powerVoltage) &&
+            (identical(other.switchMode, switchMode) ||
+                other.switchMode == switchMode) &&
+            (identical(other.switchReadableMode, switchReadableMode) ||
+                other.switchReadableMode == switchReadableMode) &&
+            (identical(other.switchState, switchState) ||
+                other.switchState == switchState) &&
+            (identical(other.switchReductionMode, switchReductionMode) ||
+                other.switchReductionMode == switchReductionMode) &&
+            (identical(other.switchThermostatActive, switchThermostatActive) ||
+                other.switchThermostatActive == switchThermostatActive) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.temperatureMin, temperatureMin) ||
+                other.temperatureMin == temperatureMin) &&
+            (identical(other.temperatureMax, temperatureMax) ||
+                other.temperatureMax == temperatureMax) &&
+            (identical(other.temperatureEco, temperatureEco) ||
+                other.temperatureEco == temperatureEco) &&
+            (identical(other.temperatureEcoAdjustment, temperatureEcoAdjustment) ||
+                other.temperatureEcoAdjustment == temperatureEcoAdjustment) &&
+            (identical(other.temperatureComfort, temperatureComfort) ||
+                other.temperatureComfort == temperatureComfort) &&
+            (identical(other.temperatureComfortAdjustment, temperatureComfortAdjustment) ||
+                other.temperatureComfortAdjustment ==
+                    temperatureComfortAdjustment) &&
+            (identical(other.regulatedState, regulatedState) || other.regulatedState == regulatedState) &&
+            (identical(other.regulationPriority, regulationPriority) || other.regulationPriority == regulationPriority) &&
+            (identical(other.estimatedRegulatedPower, estimatedRegulatedPower) || other.estimatedRegulatedPower == estimatedRegulatedPower) &&
+            (identical(other.estimatedUnregulatedPower, estimatedUnregulatedPower) || other.estimatedUnregulatedPower == estimatedUnregulatedPower));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      vendorType,
-      bestEffortName,
-      latestUpdateFromDevice,
-      pushUpdateIntervalMinutes,
-      dummy,
-      connection,
-      gprsNetname,
-      productCode,
-      modelName,
-      deviceType,
-      deviceModel,
-      userDefinedName,
-      deviceModelReadable,
-      vendorAndDeviceModelReadable,
-      currentPowerUsage,
-      cumulativeEnergy,
-      cumulativeEnergyToday,
-      powerVoltage);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        vendorType,
+        bestEffortName,
+        latestUpdateFromDevice,
+        pushUpdateIntervalMinutes,
+        dummy,
+        connection,
+        gprsNetname,
+        productCode,
+        modelName,
+        deviceType,
+        deviceModel,
+        userDefinedName,
+        deviceModelReadable,
+        vendorAndDeviceModelReadable,
+        currentPowerUsage,
+        cumulativeEnergy,
+        cumulativeEnergyToday,
+        powerVoltage,
+        switchMode,
+        switchReadableMode,
+        switchState,
+        switchReductionMode,
+        switchThermostatActive,
+        temperature,
+        temperatureMin,
+        temperatureMax,
+        temperatureEco,
+        temperatureEcoAdjustment,
+        temperatureComfort,
+        temperatureComfortAdjustment,
+        regulatedState,
+        regulationPriority,
+        estimatedRegulatedPower,
+        estimatedUnregulatedPower
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -992,8 +1680,33 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
       final SikomProperty? cumulativeEnergy,
       @JsonKey(name: 'ams_cumulative_plus_calculated_energy_today')
       final SikomProperty? cumulativeEnergyToday,
-      @JsonKey(name: 'ams_power_voltage')
-      final SikomProperty? powerVoltage}) = _$SikomDevicePropertiesImpl;
+      @JsonKey(name: 'ams_power_voltage') final SikomProperty? powerVoltage,
+      @JsonKey(name: 'switch_mode') final SikomProperty? switchMode,
+      @JsonKey(name: 'switch_readable_mode')
+      final SikomProperty? switchReadableMode,
+      @JsonKey(name: 'switch_state') final SikomProperty? switchState,
+      @JsonKey(name: 'switch_reduction_mode')
+      final SikomProperty? switchReductionMode,
+      @JsonKey(name: 'switch_thermostat_active')
+      final SikomProperty? switchThermostatActive,
+      @JsonKey(name: 'temperature') final SikomProperty? temperature,
+      @JsonKey(name: 'temperature_min') final SikomProperty? temperatureMin,
+      @JsonKey(name: 'temperature_max') final SikomProperty? temperatureMax,
+      @JsonKey(name: 'temperature_eco') final SikomProperty? temperatureEco,
+      @JsonKey(name: 'temperature_eco_prlsa')
+      final SikomProperty? temperatureEcoAdjustment,
+      @JsonKey(name: 'temperature_comfort')
+      final SikomProperty? temperatureComfort,
+      @JsonKey(name: 'temperature_comfort_prlsa')
+      final SikomProperty? temperatureComfortAdjustment,
+      @JsonKey(name: 'ams_regulated_state') final SikomProperty? regulatedState,
+      @JsonKey(name: 'ams_regulation_priority')
+      final SikomProperty? regulationPriority,
+      @JsonKey(name: 'estimated_reg_power')
+      final SikomProperty? estimatedRegulatedPower,
+      @JsonKey(name: 'estimated_unreg_power')
+      final SikomProperty?
+          estimatedUnregulatedPower}) = _$SikomDevicePropertiesImpl;
   const _SikomDeviceProperties._() : super._();
 
   factory _SikomDeviceProperties.fromJson(Map<String, dynamic> json) =
@@ -1057,6 +1770,86 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
   @override
   @JsonKey(name: 'ams_power_voltage')
   SikomProperty? get powerVoltage;
+  @override // Commanded mode of a switch. May differ from switch_state (actual relay-state) for instance
+// when under thermostat control. Now how (for thermostats) a value of 0 does not have a single meaning
+// (it may mean either "eco", "anti_freeze" and "off"). A value of 1 on the other hand is usually precise
+// (Meaning "on" if dumb switch and "comfort" if thermostat). Note that for products like
+// "ProductCode.CTMmTouchOne" this value should be ignored (considered irrelevant) when
+// "DeviceProperty.switch_thermostat_active" is 0. Same issues with "ProductCode.CTMmTouchDim"
+// and percent level == 99. See also "DeviceProperty.switch_reduction_mode" which explains (in plain text)
+// what is the precise meaning of 0 and 1.
+  @JsonKey(name: 'switch_mode')
+  SikomProperty? get switchMode;
+  @override // Human-readable text explaining current "DeviceProperty.switch_mode" (off, eco, comfort, etc.)
+  @JsonKey(name: 'switch_readable_mode')
+  SikomProperty? get switchReadableMode;
+  @override // The actual relay state of the switch (on / off)
+  @JsonKey(name: 'switch_state')
+  SikomProperty? get switchState;
+  @override // The precise meaning of values 0 and 1 in "DeviceProperty.switch_mode".
+  @JsonKey(name: 'switch_reduction_mode')
+  SikomProperty? get switchReductionMode;
+  @override // Eco / comfort active or not. If 0 then switch_mode 0 will usually mean "off" or "anti_freeze"
+// and 1 will not have any meaning. If 1 then switch_mode 0 will mean "eco" and 1 will mean "comfort".
+// Not relevant to set for some kind of thermostats (for instance SI-3, SI-4 or CTM mTouch One).
+// Not desired to set for other thermostats (because of danger of freezing water for instance).
+  @JsonKey(name: 'switch_thermostat_active')
+  SikomProperty? get switchThermostatActive;
+  @override // Air temperature (inside). Note that will always be the most important temperature (the one used for controlling)
+// while "DeviceProperty.temperature_2" will be the secondary temperature. This is (pr Feb 2019) only relevant for
+// "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
+  @JsonKey(name: 'temperature')
+  SikomProperty? get temperature;
+  @override // Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  @JsonKey(name: 'temperature_min')
+  SikomProperty? get temperatureMin;
+  @override // Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  @JsonKey(name: 'temperature_max')
+  SikomProperty? get temperatureMax;
+  @override // Thermostat temperature in switch_mode 'eco'
+  @JsonKey(name: 'temperature_eco')
+  SikomProperty? get temperatureEco;
+  @override // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @JsonKey(name: 'temperature_eco_prlsa')
+  SikomProperty? get temperatureEcoAdjustment;
+  @override // Thermostat temperature in switch_mode 'comfort'
+  @JsonKey(name: 'temperature_comfort')
+  SikomProperty? get temperatureComfort;
+  @override // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+// has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
+// that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
+// upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
+// morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
+// value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
+// temperature_comfort.
+  @JsonKey(name: 'temperature_comfort_prlsa')
+  SikomProperty? get temperatureComfortAdjustment;
+  @override // Tells whether the device is currently being regulated
+// or not (0 = not regulated 1 = import regulated 2 = export regulated)
+  @JsonKey(name: 'ams_regulated_state')
+  SikomProperty? get regulatedState;
+  @override // The power (in W) that this device releases when regulated out, as estimated by
+// the system itself, compared to when regulated in (raw value, no PWM or other partial
+// regulation scheme accounted for). Will be a negative value (representing the power
+// "added" when the device is regulated out. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController is installed)
+  @JsonKey(name: 'ams_regulation_priority')
+  SikomProperty? get regulationPriority;
+  @override
+  @JsonKey(name: 'estimated_reg_power')
+  SikomProperty? get estimatedRegulatedPower;
+  @override // The power (in W) that this device draws when unregulated, as estimated by the system itself,
+// compared to when regulated out (raw value, no PWM or other partial regulation scheme accounted for).
+// Will be a positive value. Only relevant to set for devices which have
+// switch_mode (and when an ECOEnergyController)
+  @JsonKey(name: 'estimated_unreg_power')
+  SikomProperty? get estimatedUnregulatedPower;
   @override
   @JsonKey(ignore: true)
   _$$SikomDevicePropertiesImplCopyWith<_$SikomDevicePropertiesImpl>

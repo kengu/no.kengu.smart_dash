@@ -34,7 +34,7 @@ final flowProvider = AutoDisposeStreamProvider<FlowEvent>.internal(
 );
 
 typedef FlowRef = AutoDisposeStreamProviderRef<FlowEvent>;
-String _$powerHash() => r'7998e9fd05b91d9f9ac2f5f0275a382d0473cdf7';
+String _$powerHash() => r'51022f0ef5528179705e5a6efad36c9ebcb84c43';
 
 /// See also [power].
 @ProviderFor(power)
@@ -48,7 +48,7 @@ final powerProvider = AutoDisposeStreamProvider<FlowEvent>.internal(
 );
 
 typedef PowerRef = AutoDisposeStreamProviderRef<FlowEvent>;
-String _$energyHash() => r'7dc534c0fdef43698c780061ab19e24241fb2190';
+String _$energyHash() => r'7a71c217b1b22a1701e02c47e86e96b57288510d';
 
 /// See also [energy].
 @ProviderFor(energy)
@@ -62,7 +62,7 @@ final energyProvider = AutoDisposeStreamProvider<FlowEvent>.internal(
 );
 
 typedef EnergyRef = AutoDisposeStreamProviderRef<FlowEvent>;
-String _$voltageHash() => r'f57efed27c9ebaf08e7d67774e3467472238b774';
+String _$voltageHash() => r'bb62cf2c9a4a07f648be245d58b8b1d2b66e5642';
 
 /// See also [voltage].
 @ProviderFor(voltage)

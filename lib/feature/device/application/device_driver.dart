@@ -13,13 +13,13 @@ import 'package:stream_transform/stream_transform.dart';
 /// paired [Device]s. Methods prefixed with "on" are only meant to be
 /// overridden by subclassed and not part of any public api.
 abstract class DeviceDriver {
-  DeviceDriver(this.ref);
+  DeviceDriver(this.key, this.ref) : _lastUpdated = DriverUpdatedEvent.now(key);
 
   @protected
   final Ref ref;
 
   /// Get [DeviceDriver] identifier
-  String get key;
+  final String key;
 
   /// Set to true after [onInit] has completed
   bool _initializing = false;
@@ -28,7 +28,7 @@ abstract class DeviceDriver {
   final Completer<void> _readyCompleter = Completer();
 
   /// Updated after each [onUpdate] has completed
-  DriverUpdatedEvent _lastUpdated = DriverUpdatedEvent.now();
+  DriverUpdatedEvent _lastUpdated;
 
   /// Check if this driver is ready ([DeviceDriver.onInit] has been run).
   bool get isReady => _readyCompleter.isCompleted;
@@ -115,6 +115,13 @@ abstract class DeviceDriver {
   }
 }
 
+class DriverEvent {
+  final String key;
+  final DateTime last;
+  final DateTime when;
+  DriverEvent(this.key, this.last, this.when);
+}
+
 /// This class stores facts about each
 /// [DeviceDriver.onUpdate] outcome. You can use
 /// [DriverUpdatedEvent.last] (updated) and
@@ -122,11 +129,14 @@ abstract class DeviceDriver {
 /// to reason about the device state freshness. The duration
 /// since last update and when this event was emitted is calculated
 /// by the convenience getter [DriverUpdatedEvent.duration]
-class DriverUpdatedEvent {
-  DriverUpdatedEvent(this.last, this.when, this.devices);
+class DriverUpdatedEvent extends DriverEvent {
+  DriverUpdatedEvent(
+    super.key,
+    super.when,
+    super.last,
+    this.devices,
+  );
 
-  final DateTime last;
-  final DateTime when;
   final List<Device> devices;
 
   Duration get duration => when.difference(last);
@@ -135,13 +145,15 @@ class DriverUpdatedEvent {
   Optional<Device> get first =>
       devices.isEmpty ? const Optional.empty() : Optional.of(devices.first);
 
-  factory DriverUpdatedEvent.now([List<Device> devices = const []]) {
+  factory DriverUpdatedEvent.now(String key,
+      [List<Device> devices = const []]) {
     final when = DateTime.now();
-    return DriverUpdatedEvent(when, when, devices);
+    return DriverUpdatedEvent(key, when, when, devices);
   }
 
   factory DriverUpdatedEvent.from(DriverUpdatedEvent event) {
-    return DriverUpdatedEvent(event.when, DateTime.now(), event.devices);
+    return DriverUpdatedEvent(
+        event.key, event.when, DateTime.now(), event.devices);
   }
 
   @override
@@ -166,6 +178,7 @@ class DriverUpdatedEvent {
 /// about throttle configuration.
 abstract class ThrottledDeviceDriver extends DeviceDriver {
   ThrottledDeviceDriver(
+    super.key,
     super.ref, {
     required this.throttle,
     required this.trailing,
@@ -255,6 +268,7 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
 /// by the convenience getter [DriverUpdatedEvent.duration]
 class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
   ThrottledDriverUpdatedEvent(
+    super.key,
     super.last,
     super.when,
     super.devices,
@@ -265,6 +279,7 @@ class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
   factory ThrottledDriverUpdatedEvent.now(DriverUpdatedEvent last,
       [List<Device> devices = const []]) {
     return ThrottledDriverUpdatedEvent(
+      last.key,
       last.last,
       DateTime.now(),
       devices,
@@ -278,6 +293,7 @@ class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
         ? event.last
         : event.when;
     return ThrottledDriverUpdatedEvent(
+      event.key,
       last,
       DateTime.now(),
       event.devices,

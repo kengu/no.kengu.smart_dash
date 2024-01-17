@@ -42,11 +42,14 @@ mixin _$Device {
   /// Get the timestamp for when device's was last updated
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
-  /// Get the device's energy consumption (default null)
-  EnergySummary? get energy => throw _privateConstructorUsedError;
-
   /// Get device's measured voltage (default null)
   int? get voltage => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
+  int? get temperature => throw _privateConstructorUsedError;
+
+  /// Get the device's energy consumption (default null)
+  EnergySummary? get energy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -66,8 +69,9 @@ abstract class $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
       DateTime lastUpdated,
-      EnergySummary? energy,
-      int? voltage});
+      int? voltage,
+      int? temperature,
+      EnergySummary? energy});
 
   $EnergySummaryCopyWith<$Res>? get energy;
 }
@@ -92,8 +96,9 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
-    Object? energy = freezed,
     Object? voltage = freezed,
+    Object? temperature = freezed,
+    Object? energy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -124,14 +129,18 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      energy: freezed == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as EnergySummary?,
       voltage: freezed == voltage
           ? _value.voltage
           : voltage // ignore: cast_nullable_to_non_nullable
               as int?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as int?,
+      energy: freezed == energy
+          ? _value.energy
+          : energy // ignore: cast_nullable_to_non_nullable
+              as EnergySummary?,
     ) as $Val);
   }
 
@@ -163,8 +172,9 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
       DateTime lastUpdated,
-      EnergySummary? energy,
-      int? voltage});
+      int? voltage,
+      int? temperature,
+      EnergySummary? energy});
 
   @override
   $EnergySummaryCopyWith<$Res>? get energy;
@@ -188,8 +198,9 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
-    Object? energy = freezed,
     Object? voltage = freezed,
+    Object? temperature = freezed,
+    Object? energy = freezed,
   }) {
     return _then(_$DeviceImpl(
       id: null == id
@@ -220,14 +231,18 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      energy: freezed == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as EnergySummary?,
       voltage: freezed == voltage
           ? _value.voltage
           : voltage // ignore: cast_nullable_to_non_nullable
               as int?,
+      temperature: freezed == temperature
+          ? _value.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as int?,
+      energy: freezed == energy
+          ? _value.energy
+          : energy // ignore: cast_nullable_to_non_nullable
+              as EnergySummary?,
     ));
   }
 }
@@ -243,8 +258,9 @@ class _$DeviceImpl extends _Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapabilities> capabilities,
       required this.lastUpdated,
-      this.energy,
-      this.voltage})
+      this.voltage,
+      this.temperature,
+      this.energy})
       : _data = data,
         _capabilities = capabilities,
         super._();
@@ -294,17 +310,21 @@ class _$DeviceImpl extends _Device {
   @override
   final DateTime lastUpdated;
 
-  /// Get the device's energy consumption (default null)
-  @override
-  final EnergySummary? energy;
-
   /// Get device's measured voltage (default null)
   @override
   final int? voltage;
 
+  /// Get device's measured temperature (default null)
+  @override
+  final int? temperature;
+
+  /// Get the device's energy consumption (default null)
+  @override
+  final EnergySummary? energy;
+
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, energy: $energy, voltage: $voltage)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, voltage: $voltage, temperature: $temperature, energy: $energy)';
   }
 
   @override
@@ -321,8 +341,10 @@ class _$DeviceImpl extends _Device {
                 .equals(other._capabilities, _capabilities) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
-            (identical(other.energy, energy) || other.energy == energy) &&
-            (identical(other.voltage, voltage) || other.voltage == voltage));
+            (identical(other.voltage, voltage) || other.voltage == voltage) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.energy, energy) || other.energy == energy));
   }
 
   @JsonKey(ignore: true)
@@ -336,8 +358,9 @@ class _$DeviceImpl extends _Device {
       const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(_capabilities),
       lastUpdated,
-      energy,
-      voltage);
+      voltage,
+      temperature,
+      energy);
 
   @JsonKey(ignore: true)
   @override
@@ -362,8 +385,9 @@ abstract class _Device extends Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapabilities> capabilities,
       required final DateTime lastUpdated,
-      final EnergySummary? energy,
-      final int? voltage}) = _$DeviceImpl;
+      final int? voltage,
+      final int? temperature,
+      final EnergySummary? energy}) = _$DeviceImpl;
   const _Device._() : super._();
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
@@ -398,12 +422,16 @@ abstract class _Device extends Device {
   DateTime get lastUpdated;
   @override
 
-  /// Get the device's energy consumption (default null)
-  EnergySummary? get energy;
-  @override
-
   /// Get device's measured voltage (default null)
   int? get voltage;
+  @override
+
+  /// Get device's measured temperature (default null)
+  int? get temperature;
+  @override
+
+  /// Get the device's energy consumption (default null)
+  EnergySummary? get energy;
   @override
   @JsonKey(ignore: true)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>

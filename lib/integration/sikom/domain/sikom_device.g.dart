@@ -86,6 +86,68 @@ _$SikomDevicePropertiesImpl _$$SikomDevicePropertiesImplFromJson(
           ? null
           : SikomProperty.fromJson(
               json['ams_power_voltage'] as Map<String, dynamic>),
+      switchMode: json['switch_mode'] == null
+          ? null
+          : SikomProperty.fromJson(json['switch_mode'] as Map<String, dynamic>),
+      switchReadableMode: json['switch_readable_mode'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['switch_readable_mode'] as Map<String, dynamic>),
+      switchState: json['switch_state'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['switch_state'] as Map<String, dynamic>),
+      switchReductionMode: json['switch_reduction_mode'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['switch_reduction_mode'] as Map<String, dynamic>),
+      switchThermostatActive: json['switch_thermostat_active'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['switch_thermostat_active'] as Map<String, dynamic>),
+      temperature: json['temperature'] == null
+          ? null
+          : SikomProperty.fromJson(json['temperature'] as Map<String, dynamic>),
+      temperatureMin: json['temperature_min'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_min'] as Map<String, dynamic>),
+      temperatureMax: json['temperature_max'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_max'] as Map<String, dynamic>),
+      temperatureEco: json['temperature_eco'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_eco'] as Map<String, dynamic>),
+      temperatureEcoAdjustment: json['temperature_eco_prlsa'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_eco_prlsa'] as Map<String, dynamic>),
+      temperatureComfort: json['temperature_comfort'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_comfort'] as Map<String, dynamic>),
+      temperatureComfortAdjustment: json['temperature_comfort_prlsa'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['temperature_comfort_prlsa'] as Map<String, dynamic>),
+      regulatedState: json['ams_regulated_state'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['ams_regulated_state'] as Map<String, dynamic>),
+      regulationPriority: json['ams_regulation_priority'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['ams_regulation_priority'] as Map<String, dynamic>),
+      estimatedRegulatedPower: json['estimated_reg_power'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['estimated_reg_power'] as Map<String, dynamic>),
+      estimatedUnregulatedPower: json['estimated_unreg_power'] == null
+          ? null
+          : SikomProperty.fromJson(
+              json['estimated_unreg_power'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SikomDevicePropertiesImplToJson(
@@ -113,4 +175,21 @@ Map<String, dynamic> _$$SikomDevicePropertiesImplToJson(
       'ams_cumulative_plus_calculated_energy_today':
           instance.cumulativeEnergyToday?.toJson(),
       'ams_power_voltage': instance.powerVoltage?.toJson(),
+      'switch_mode': instance.switchMode?.toJson(),
+      'switch_readable_mode': instance.switchReadableMode?.toJson(),
+      'switch_state': instance.switchState?.toJson(),
+      'switch_reduction_mode': instance.switchReductionMode?.toJson(),
+      'switch_thermostat_active': instance.switchThermostatActive?.toJson(),
+      'temperature': instance.temperature?.toJson(),
+      'temperature_min': instance.temperatureMin?.toJson(),
+      'temperature_max': instance.temperatureMax?.toJson(),
+      'temperature_eco': instance.temperatureEco?.toJson(),
+      'temperature_eco_prlsa': instance.temperatureEcoAdjustment?.toJson(),
+      'temperature_comfort': instance.temperatureComfort?.toJson(),
+      'temperature_comfort_prlsa':
+          instance.temperatureComfortAdjustment?.toJson(),
+      'ams_regulated_state': instance.regulatedState?.toJson(),
+      'ams_regulation_priority': instance.regulationPriority?.toJson(),
+      'estimated_reg_power': instance.estimatedRegulatedPower?.toJson(),
+      'estimated_unreg_power': instance.estimatedUnregulatedPower?.toJson(),
     };
