@@ -1,25 +1,25 @@
+import 'domain/sikom_device.dart';
+
 class Sikom {
   static const key = 'sikom';
 
   static const supportedTypes = [
-    'Controller',
-    'ECOAstroSwitch',
-    'WirelessThermostat',
-    'WirelessDetector',
-    'ECOEnergyController',
-    'EGR',
-    'Group',
-    'EaseeHome'
+    SikomDeviceType.controller,
+    SikomDeviceType.astroSwitch,
+    SikomDeviceType.thermostat,
+    SikomDeviceType.detector,
+    SikomDeviceType.ecoEnergyController,
+    SikomDeviceType.onOffRelay,
+    SikomDeviceType.group,
   ];
 
   static const readableModelName = {
-    'Controller': 'Central Control Unit',
-    'ECOAstroSwitch': 'Astro Switch',
-    'WirelessThermostat': 'Wireless Thermostat',
-    'WirelessDetector': 'Wireless Detector',
-    'ECOEnergyController': 'Energy Controller',
-    'EGR': 'Echo Relay',
-    'Group': 'Device Group',
-    'EaseeHome': 'Easee Home',
+    SikomDeviceType.controller: 'Central Control Unit',
+    SikomDeviceType.astroSwitch: 'Astro Switch',
+    SikomDeviceType.thermostat: 'Wireless Thermostat',
+    SikomDeviceType.detector: 'Wireless Detector',
+    SikomDeviceType.ecoEnergyController: 'Energy Controller',
+    SikomDeviceType.onOffRelay: 'On / Off Relay',
+    SikomDeviceType.group: 'Device Group',
   };
 }

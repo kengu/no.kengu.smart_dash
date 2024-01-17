@@ -30,7 +30,7 @@ mixin _$Device {
   String get service => throw _privateConstructorUsedError;
 
   /// Get the device's type
-  String get type => throw _privateConstructorUsedError;
+  DeviceType get type => throw _privateConstructorUsedError;
 
   /// Get the device's data object (is unmodifiable)
   Map<String, Object?> get data => throw _privateConstructorUsedError;
@@ -62,7 +62,7 @@ abstract class $DeviceCopyWith<$Res> {
       {String id,
       String name,
       String service,
-      String type,
+      DeviceType type,
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
       DateTime lastUpdated,
@@ -111,7 +111,7 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DeviceType,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -159,7 +159,7 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       {String id,
       String name,
       String service,
-      String type,
+      DeviceType type,
       Map<String, Object?> data,
       List<DeviceCapabilities> capabilities,
       DateTime lastUpdated,
@@ -207,7 +207,7 @@ class __$$DeviceImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DeviceType,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -266,7 +266,7 @@ class _$DeviceImpl extends _Device {
 
   /// Get the device's type
   @override
-  final String type;
+  final DeviceType type;
 
   /// Get the device's data object (is unmodifiable)
   final Map<String, Object?> _data;
@@ -358,7 +358,7 @@ abstract class _Device extends Device {
       {required final String id,
       required final String name,
       required final String service,
-      required final String type,
+      required final DeviceType type,
       required final Map<String, Object?> data,
       required final List<DeviceCapabilities> capabilities,
       required final DateTime lastUpdated,
@@ -383,7 +383,7 @@ abstract class _Device extends Device {
   @override
 
   /// Get the device's type
-  String get type;
+  DeviceType get type;
   @override
 
   /// Get the device's data object (is unmodifiable)

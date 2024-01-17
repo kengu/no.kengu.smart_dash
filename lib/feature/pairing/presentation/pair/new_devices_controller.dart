@@ -8,10 +8,10 @@ part 'new_devices_controller.g.dart';
 
 class NewDevicesQuery {
   NewDevicesQuery({
-    required this.deviceType,
+    required this.type,
     required this.serviceKey,
   });
-  final String deviceType;
+  final DeviceType type;
   final String serviceKey;
 }
 
@@ -28,7 +28,7 @@ class NewDevicesScreenController extends _$NewDevicesScreenController
         );
     return Optional.of(
       await driver.getNewDevices(
-        query!.deviceType,
+        query!.type,
       ),
     );
   }

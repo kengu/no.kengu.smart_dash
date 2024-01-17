@@ -7,7 +7,7 @@ part of 'new_devices_controller.dart';
 // **************************************************************************
 
 String _$newDevicesScreenControllerHash() =>
-    r'a102b33985be4eb1ee5e056578778c668695f190';
+    r'0b24b8b0028da51e05c65d55c716eff051571035';
 
 /// See also [NewDevicesScreenController].
 @ProviderFor(NewDevicesScreenController)

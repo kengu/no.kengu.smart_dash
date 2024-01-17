@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 
@@ -19,12 +20,14 @@ class SikomGateway with _$SikomGateway, DeviceMapper {
   }) = _SikomGateway;
 
   /// Get gateway type
-  String get type => properties.gatewayType.value;
+  SikomDeviceType get type => SikomDeviceType.fromNativeType(
+        properties.gatewayType.value,
+      );
 
   @override
   Device toDevice() => Device(
         id: '$id',
-        type: type,
+        type: type.to(),
         data: toJson(),
         capabilities: [],
         service: Sikom.key,

@@ -14,12 +14,12 @@ class NewDevicesScreen extends ConsumerStatefulWidget {
   const NewDevicesScreen({
     super.key,
     required this.location,
-    required this.deviceType,
+    required this.type,
     required this.serviceKey,
   });
 
   final String location;
-  final String deviceType;
+  final DeviceType type;
   final String serviceKey;
 
   @override
@@ -69,7 +69,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
         return AsyncLoadScreen<NewDevicesQuery, List<Device>>(
           title: _buildTitle(),
           query: NewDevicesQuery(
-            deviceType: widget.deviceType,
+            type: widget.type,
             serviceKey: widget.serviceKey,
           ),
           actions: [

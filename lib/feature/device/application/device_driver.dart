@@ -85,7 +85,7 @@ abstract class DeviceDriver {
   /// Use [DeviceDefinition.type] or
   /// [Device.id]s for a filtered response
   Future<List<Device>> getAllDevices({
-    String? type,
+    DeviceType type = DeviceType.any,
     Iterable<String> ids = const [],
   });
 
@@ -108,7 +108,7 @@ abstract class DeviceDriver {
   }
 
   /// Get list of all new [Device]s (available but not paired)
-  Future<List<Device>> getNewDevices([String? type]) async {
+  Future<List<Device>> getNewDevices([DeviceType type = DeviceType.any]) async {
     final available = await getAllDevices(type: type);
     final paired = await ref.read(deviceRepositoryProvider).getAll();
     return available.where((device) => !paired.value.contains(device)).toList();

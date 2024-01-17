@@ -51,12 +51,12 @@ class SikomDriver extends ThrottledDeviceDriver {
   Future<List<DeviceDefinition>> getDeviceDefinitions() {
     return guard(() async {
       final client = ref.read(sikomClientProvider);
-      final devices = await client.getSikomDevices();
+      final devices = await client.getAllDevices();
       return devices.isPresent
           ? devices.value
               .where((e) => Sikom.supportedTypes.contains(e.type))
               .map((e) => DeviceDefinition(
-                    type: e.type,
+                    type: e.type.to(),
                     name: _readableName(e),
                   ))
               .toSet()
@@ -77,7 +77,7 @@ class SikomDriver extends ThrottledDeviceDriver {
 
   @override
   Future<List<Device>> getAllDevices({
-    String? type,
+    DeviceType type = DeviceType.any,
     Iterable<String> ids = const [],
   }) async {
     return guard(() async {
@@ -89,7 +89,7 @@ class SikomDriver extends ThrottledDeviceDriver {
           final result = await client.getDevices(
             gateway,
             ids: ids,
-            type: type,
+            type: SikomDeviceType.fromDeviceType(type),
           );
           if (result.isPresent) {
             devices.addAll(result.value.map(

@@ -64,25 +64,23 @@ class SikomClient {
 
   Future<Optional<List<SikomDevice>>> getDevices(
     SikomGateway gateway, {
-    String? type,
     Iterable<String> ids = const [],
+    SikomDeviceType type = SikomDeviceType.any,
   }) async {
     return guard(() async {
-      final devices = await getSikomDevices(
-        gateway: gateway,
+      final devices = await getAllDevices(
         ids: ids,
+        gateway: gateway,
       );
       return Optional.of(
         devices.isPresent
-            ? devices.value
-                .where((d) => type == null || d.type == type)
-                .toList()
+            ? devices.value.where((d) => type.isAny || d.type == type).toList()
             : [],
       );
     });
   }
 
-  Future<Optional<List<SikomDevice>>> getSikomDevices({
+  Future<Optional<List<SikomDevice>>> getAllDevices({
     SikomGateway? gateway,
     Iterable<String> ids = const [],
   }) async {
@@ -95,6 +93,7 @@ class SikomClient {
           options: Options(headers: <String, String>{
             'authorization': toBasicAuth(credentials.value),
           }));
+      //debugPrint(jsonEncode(response.data));
       final result = SikomResponse.fromJson(response.data);
       if (result.isArray) {
         final devices = result.data.bpapiArray!

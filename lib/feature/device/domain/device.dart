@@ -4,6 +4,45 @@ import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 part 'device.freezed.dart';
 part 'device.g.dart';
 
+enum DeviceType {
+  /// Any supported device type
+  any,
+
+  /// Device controller (gateway)
+  controller,
+
+  /// Astro (tri-)state switch (off/on/auto)
+  astroSwitch,
+
+  /// Thermostat
+  thermostat,
+
+  /// Detector (on/off)
+  detector,
+
+  /// Energy controller
+  energyController,
+
+  /// On / Off relay
+  onOffRelay,
+
+  /// Device group
+  group,
+
+  /// Program
+  program,
+
+  /// Device unknown to SmartDash
+  unknown;
+
+  bool get isAny => this == any;
+
+  static DeviceType from(String? name) {
+    return values.firstWhere((e) => e.name == name,
+        orElse: () => DeviceType.any);
+  }
+}
+
 /// The [Device] class is a representation of a
 /// device paired with SmartDash
 @freezed
@@ -21,7 +60,7 @@ class Device with _$Device {
     required String service,
 
     /// Get the device's type
-    required String type,
+    required DeviceType type,
 
     /// Get the device's data object (is unmodifiable)
     required Map<String, Object?> data,

@@ -8,6 +8,84 @@ import 'package:smart_dash/integration/sikom/sikom.dart';
 part 'sikom_device.freezed.dart';
 part 'sikom_device.g.dart';
 
+/// Supported Sikom Device types
+enum SikomDeviceType {
+  /// Any supported sikom device type
+  any(''),
+
+  /// Sikom controller (gateway)
+  controller('Controller'),
+
+  /// Sikom astro tri-state switch (off/on/auto)
+  astroSwitch('AstroSwitch'),
+
+  /// Sikom wireless thermostat
+  thermostat('Thermostat'),
+
+  /// Sikom wireless smoke detector (on/off)
+  detector('Detector'),
+
+  /// Sikom energy controller
+  ecoEnergyController('ECOAMS'),
+
+  /// Sikom power relay
+  onOffRelay('OnOffRelay'),
+
+  /// Sikom device group (max eight devices)
+  group('Group'),
+
+  /// Sikom program (week schedule for device/group)
+  program('Program'),
+
+  /// Device unknown to SmartDash
+  unknown('');
+
+  const SikomDeviceType(this.name);
+
+  final String name;
+
+  bool get isAny => this == any;
+
+  /// Get [SikomDeviceType] from [SikomDeviceProperties.deviceType] OR [SikomDeviceProperties.vendorType]
+  static fromNativeType(String name) => switch (name) {
+        'Controller' => SikomDeviceType.controller,
+        'AstroSwitch' => SikomDeviceType.astroSwitch,
+        'Thermostat' => SikomDeviceType.thermostat,
+        'Detector' => SikomDeviceType.detector,
+        'ECOAMS' => SikomDeviceType.ecoEnergyController,
+        'OnOffRelay' => SikomDeviceType.onOffRelay,
+        'Group' => SikomDeviceType.group,
+        'Program' => SikomDeviceType.program,
+        _ => SikomDeviceType.unknown
+      };
+
+  static SikomDeviceType fromDeviceType(DeviceType type) => switch (type) {
+        DeviceType.any => SikomDeviceType.any,
+        DeviceType.controller => SikomDeviceType.controller,
+        DeviceType.astroSwitch => SikomDeviceType.astroSwitch,
+        DeviceType.thermostat => SikomDeviceType.thermostat,
+        DeviceType.detector => SikomDeviceType.detector,
+        DeviceType.energyController => SikomDeviceType.ecoEnergyController,
+        DeviceType.onOffRelay => SikomDeviceType.onOffRelay,
+        DeviceType.group => SikomDeviceType.group,
+        DeviceType.program => SikomDeviceType.program,
+        _ => SikomDeviceType.unknown
+      };
+
+  DeviceType to() => switch (this) {
+        SikomDeviceType.any => DeviceType.any,
+        SikomDeviceType.controller => DeviceType.controller,
+        SikomDeviceType.astroSwitch => DeviceType.astroSwitch,
+        SikomDeviceType.thermostat => DeviceType.thermostat,
+        SikomDeviceType.detector => DeviceType.detector,
+        SikomDeviceType.ecoEnergyController => DeviceType.energyController,
+        SikomDeviceType.onOffRelay => DeviceType.onOffRelay,
+        SikomDeviceType.group => DeviceType.group,
+        SikomDeviceType.program => DeviceType.program,
+        _ => DeviceType.unknown,
+      };
+}
+
 /// The [SikomDevice] class is a representation of
 /// a gateway between a group of Sikom devices and
 /// Sikom API.
@@ -25,7 +103,7 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   String get name => properties.name;
 
   /// Get device's type
-  String get type => properties.type;
+  SikomDeviceType get type => properties.type;
 
   /// Get device's model name
   String get model => properties.model;
@@ -41,8 +119,8 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         data: toJson(),
         id: properties.id,
         service: Sikom.key,
-        type: properties.type,
         name: properties.name,
+        type: properties.type.to(),
         voltage: voltage,
         energy: toEnergy(),
         lastUpdated: properties.lastUpdated.isPresent
@@ -127,10 +205,11 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
   /// Get human-readable device name
   String get name => (userDefinedName ?? bestEffortName).value;
 
-  /// Get human-readable gateway device name
-  String get type => (deviceModel ?? productCode ?? vendorType).value;
+  /// Get device type name
+  SikomDeviceType get type => SikomDeviceType.fromNativeType(
+      (deviceType ?? productCode ?? vendorType).value);
 
-  /// Get human-readable gateway device name
+  /// Get device model name
   String get model => (deviceModelReadable ??
           deviceModel ??
           deviceType ??

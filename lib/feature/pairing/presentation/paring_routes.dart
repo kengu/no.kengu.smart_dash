@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/pairing/presentation/select/device_types_screen.dart';
 import 'package:smart_dash/feature/pairing/presentation/pair/new_devices_screen.dart';
@@ -21,7 +22,7 @@ class PairingScreens {
         path: Screens.pairingListNewDevices,
         queryParameters: {
           'key': serviceKey,
-          'type': definition.type,
+          'type': definition.type.name,
         },
       ).toString();
 
@@ -62,8 +63,8 @@ GoRoute buildParingRoutes() {
             builder: (context, ref, child) {
               return NewDevicesScreen(
                 serviceKey: state.uri.queryParameters['key']!,
-                deviceType: state.uri.queryParameters['type']!,
                 location: Routes.lastLocation,
+                type: DeviceType.from(state.uri.queryParameters['type']!),
               );
             },
           );
