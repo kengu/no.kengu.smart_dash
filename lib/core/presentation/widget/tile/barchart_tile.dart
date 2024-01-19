@@ -4,10 +4,11 @@ import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/widget.dart';
 
-class EnergyBillTile extends StatelessWidget {
-  const EnergyBillTile({
+class BarChartTile extends StatelessWidget {
+  const BarChartTile({
     super.key,
-    required this.sums,
+    required this.icon,
+    required this.items,
     required this.title,
     required this.total,
     required this.subtitle,
@@ -19,8 +20,9 @@ class EnergyBillTile extends StatelessWidget {
 
   final String title;
   final String total;
+  final IconData icon;
   final String subtitle;
-  final List<double> sums;
+  final List<double> items;
   final double minItemWidth;
   final String Function(double value) itemLabelBuilder;
   final String Function(int itemIndex) itemValueBuilder;
@@ -35,15 +37,15 @@ class EnergyBillTile extends StatelessWidget {
     final constraints = BoxConstraints(
       minWidth: 270,
       minHeight: 180,
-      maxWidth: (minItemWidth + 6) * sums.length,
+      maxWidth: (minItemWidth + 6) * items.length,
     ).normalize();
 
     return SmartDashTile(
       title: title,
       subTitle: subtitle,
       constraints: constraints,
-      leading: const Icon(
-        Icons.summarize_outlined,
+      leading: Icon(
+        icon,
         color: Colors.lightGreen,
       ),
       trailing: Text(
@@ -70,7 +72,7 @@ class EnergyBillTile extends StatelessWidget {
                 ),
               ),
               data: ChartData.fromList(
-                sums.map((e) => ChartItem<double>(e.toDouble())).toList(),
+                items.map((e) => ChartItem<double>(e.toDouble())).toList(),
               ),
               itemOptions: WidgetItemOptions(
                 minBarWidth: minItemWidth,

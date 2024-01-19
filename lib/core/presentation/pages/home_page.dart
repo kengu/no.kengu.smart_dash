@@ -139,7 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 case 'temperature':
                                   return TemperatureTile(
                                     title: 'Temperature',
-                                    subtitle: 'Last hour',
+                                    subtitle: 'Last $size minutes',
                                     key: GlobalObjectKey(item),
                                     duration: TimeScale.minutes.to(size),
                                     history: _fetch(item, tokens, event),

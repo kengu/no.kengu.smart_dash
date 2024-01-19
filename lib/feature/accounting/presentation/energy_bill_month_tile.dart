@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/widget/tile/barchart_tile.dart';
 import 'package:smart_dash/feature/accounting/application/energy_bill_service.dart';
 import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
@@ -10,8 +11,6 @@ import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/util/data/units.dart';
-
-import 'energy_bill_tile.dart';
 
 class EnergyBillMonthTile extends ConsumerWidget {
   const EnergyBillMonthTile({
@@ -35,9 +34,10 @@ class EnergyBillMonthTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final at = DateTime.now();
     if (!power.isPresent) {
-      return EnergyBillTile(
+      return BarChartTile(
         total: '-',
-        sums: const [0],
+        items: const [0],
+        icon: CupertinoIcons.sum,
         title: 'Energy Bill Today',
         subtitle: 'Last ${at.hour} hours ($area)',
         minItemWidth: minItemWidth,
@@ -55,11 +55,12 @@ class EnergyBillMonthTile extends ConsumerWidget {
         final bill = Optional.ofNullable(snapshot.data);
         final daily = _toDaily(bill);
         final details = bill.orElseNull?.daily ?? [];
-        return EnergyBillTile(
+        return BarChartTile(
+          icon: CupertinoIcons.sum,
           title: 'Energy Bill Today',
           subtitle: 'Last ${at.hour} hours ($area)',
           minItemWidth: minItemWidth,
-          sums:
+          items:
               daily.isNotEmpty ? daily.firstColumn.cast<double>() : <double>[0],
           total: daily.sum().lastRow.toPrice('kr', fractionDigits: 0),
           axisLabelBuilder: (axisIndex) =>
