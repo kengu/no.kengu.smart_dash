@@ -93,13 +93,13 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   @override
   void dispose() {
-    super.dispose();
     _snapshotTimer?.cancel();
     if (isVideoPlaying) {
       unawaited(_videoPlayer.stop());
     }
     _videoPlayer.dispose();
     _animController.dispose();
+    super.dispose();
   }
 
   @override
@@ -290,7 +290,6 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   Future<void> _stopVideo() async {
     if (isVideoPlaying) {
-      debugPrint(_videoPlayer.state.track.video.title);
       await _videoPlayer.stop();
       _startSnapshots();
       setState(() {});

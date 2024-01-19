@@ -93,7 +93,6 @@ class SikomClient {
           options: Options(headers: <String, String>{
             'authorization': toBasicAuth(credentials.value),
           }));
-      //debugPrint(jsonEncode(response.data));
       final result = SikomResponse.fromJson(response.data);
       if (result.isArray) {
         final devices = result.data.bpapiArray!

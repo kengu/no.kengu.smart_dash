@@ -47,6 +47,7 @@ class EnergyBillService {
 
   /// Get daily [EnergyBillDay] for month [when].
   Future<EnergyBillMonth> getBillMonth(
+    Token power,
     String area,
     DateTime when, {
     Duration ttl = const Duration(seconds: 4),
@@ -54,16 +55,14 @@ class EnergyBillService {
     final now = DateTime.now();
     const step = Duration(days: 1);
     final firstInMonth = DateTime(when.year, when.month, 1);
-    final key = 'month:$area:$firstInMonth';
-
     return _cache.getOrFetch(
-      key,
+      _toCacheKey(power, area, 'month', firstInMonth),
       () async {
         final days = <EnergyBillDay>[];
         DateTime next = firstInMonth;
         while (next.month <= firstInMonth.month &&
             !now.difference(next).isNegative) {
-          final bill = await getBillDay(area, next);
+          final bill = await getBillDay(power, area, next);
           next = next.add(step);
           days.add(bill);
         }
@@ -73,13 +72,20 @@ class EnergyBillService {
     );
   }
 
-  Optional<EnergyBillMonth> getCachedBillMonth(String area, DateTime when) {
+  Optional<EnergyBillMonth> getCachedBillMonth(
+    Token power,
+    String area,
+    DateTime when,
+  ) {
     final firstInMonth = DateTime(when.year, when.month, 1);
-    return _cache.get('month:$area:$firstInMonth');
+    return _cache.get(
+      _toCacheKey(power, area, 'month', firstInMonth),
+    );
   }
 
   /// Get hourly [EnergyBillHour] for month [when].
   Future<EnergyBillDay> getBillDay(
+    Token power,
     String area,
     DateTime when, {
     Duration ttl = const Duration(seconds: 4),
@@ -88,11 +94,11 @@ class EnergyBillService {
 
     // Check if a request is already opened
     return _cache.getOrFetch(
-      'day:$area:$day',
+      _toCacheKey(power, area, 'day', day),
       () async {
         final tariff = await getTariff();
         final prices = await priceService.getPriceHourly(area, day);
-        final history = await historyManager.get(Tokens.power, when: day);
+        final history = await historyManager.get(power, when: day);
 
         final lines = <EnergyBillHour>[];
         if (history.isPresent) {
@@ -127,9 +133,15 @@ class EnergyBillService {
     );
   }
 
-  Optional<EnergyBillDay> getCachedBillDay(String area, DateTime when) {
+  Optional<EnergyBillDay> getCachedBillDay(
+      Token power, String area, DateTime when) {
     final day = HistoryManager.toOffset(when);
-    return _cache.get('day:$area:$day');
+    return _cache.get(_toCacheKey(power, area, 'day', day));
+  }
+
+  String _toCacheKey(Token token, String area, String period, DateTime when) {
+    assert(token.isPower, 'Token must have unit [power]');
+    return '${token.name}:$period:$area:$when';
   }
 
   /// Calculate energy = power * hour (power history is per minute)

@@ -44,7 +44,6 @@ class PriceAreaTile extends AbstractSettingsTile {
               ),
             );
             if (selected != null) {
-              debugPrint(selected);
               field.control.value = Setting(
                 name: SettingType.priceArea.name,
                 value: selected,

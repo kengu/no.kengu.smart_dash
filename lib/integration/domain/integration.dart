@@ -23,13 +23,28 @@ class Integration with _$Integration {
 }
 
 class IntegrationFields {
+  /// Service key
   static const String key = 'key';
+
+  /// Service name
   static const String name = 'name';
+
+  /// Service image
   static const String image = 'image';
+
+  /// Service fields
   static const String fields = 'fields';
+
+  /// Service category
   static const String category = 'category';
+
+  /// Service features
   static const String features = 'features';
+
+  /// Maximum number of instances of this service
   static const String instances = 'instances';
+
+  /// Service description
   static const String description = 'description';
 }
 

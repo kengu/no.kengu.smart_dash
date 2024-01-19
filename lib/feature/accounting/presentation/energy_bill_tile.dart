@@ -39,7 +39,6 @@ class EnergyBillTile extends StatelessWidget {
     ).normalize();
 
     return SmartDashTile(
-      key: const ValueKey('energy_bill_hourly'),
       title: title,
       subTitle: subtitle,
       constraints: constraints,
@@ -61,7 +60,6 @@ class EnergyBillTile extends StatelessWidget {
           reverse: true,
           scrollDirection: Axis.horizontal,
           child: Chart<double>(
-            key: const ValueKey('energy_bill_hourly_chart'),
             width: constraints.minWidth,
             height: constraints.minHeight,
             //duration: const Duration(seconds: 2),

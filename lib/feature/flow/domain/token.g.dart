@@ -8,6 +8,7 @@ part of 'token.dart';
 
 _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       name: json['name'] as String,
+      tag: json['tag'] as String,
       type: $enumDecode(_$TokenTypeEnumMap, json['type']),
       unit: $enumDecode(_$TokenUnitEnumMap, json['unit']),
     );
@@ -15,14 +16,14 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
 Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'tag': instance.tag,
       'type': _$TokenTypeEnumMap[instance.type]!,
       'unit': _$TokenUnitEnumMap[instance.unit]!,
     };
 
 const _$TokenTypeEnumMap = {
-  TokenType.bool: 'bool',
-  TokenType.number: 'number',
-  TokenType.string: 'string',
+  TokenType.int: 'int',
+  TokenType.double: 'double',
 };
 
 const _$TokenUnitEnumMap = {

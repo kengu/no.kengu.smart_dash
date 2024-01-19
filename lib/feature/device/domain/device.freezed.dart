@@ -36,8 +36,7 @@ mixin _$Device {
   Map<String, Object?> get data => throw _privateConstructorUsedError;
 
   /// The device's capabilities array
-  List<DeviceCapabilities> get capabilities =>
-      throw _privateConstructorUsedError;
+  List<DeviceCapability> get capabilities => throw _privateConstructorUsedError;
 
   /// Get the timestamp for when device's was last updated
   DateTime get lastUpdated => throw _privateConstructorUsedError;
@@ -67,7 +66,7 @@ abstract class $DeviceCopyWith<$Res> {
       String service,
       DeviceType type,
       Map<String, Object?> data,
-      List<DeviceCapabilities> capabilities,
+      List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       int? voltage,
       int? temperature,
@@ -124,7 +123,7 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       capabilities: null == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<DeviceCapabilities>,
+              as List<DeviceCapability>,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -170,7 +169,7 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       String service,
       DeviceType type,
       Map<String, Object?> data,
-      List<DeviceCapabilities> capabilities,
+      List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       int? voltage,
       int? temperature,
@@ -226,7 +225,7 @@ class __$$DeviceImplCopyWithImpl<$Res>
       capabilities: null == capabilities
           ? _value._capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<DeviceCapabilities>,
+              as List<DeviceCapability>,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -256,7 +255,7 @@ class _$DeviceImpl extends _Device {
       required this.service,
       required this.type,
       required final Map<String, Object?> data,
-      required final List<DeviceCapabilities> capabilities,
+      required final List<DeviceCapability> capabilities,
       required this.lastUpdated,
       this.voltage,
       this.temperature,
@@ -296,11 +295,11 @@ class _$DeviceImpl extends _Device {
   }
 
   /// The device's capabilities array
-  final List<DeviceCapabilities> _capabilities;
+  final List<DeviceCapability> _capabilities;
 
   /// The device's capabilities array
   @override
-  List<DeviceCapabilities> get capabilities {
+  List<DeviceCapability> get capabilities {
     if (_capabilities is EqualUnmodifiableListView) return _capabilities;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_capabilities);
@@ -383,7 +382,7 @@ abstract class _Device extends Device {
       required final String service,
       required final DeviceType type,
       required final Map<String, Object?> data,
-      required final List<DeviceCapabilities> capabilities,
+      required final List<DeviceCapability> capabilities,
       required final DateTime lastUpdated,
       final int? voltage,
       final int? temperature,
@@ -415,7 +414,7 @@ abstract class _Device extends Device {
   @override
 
   /// The device's capabilities array
-  List<DeviceCapabilities> get capabilities;
+  List<DeviceCapability> get capabilities;
   @override
 
   /// Get the timestamp for when device's was last updated

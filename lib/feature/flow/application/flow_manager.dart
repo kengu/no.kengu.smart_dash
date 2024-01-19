@@ -8,6 +8,7 @@ import 'package:smart_dash/feature/device/application/device_driver_manager.dart
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/stream.dart';
+import 'package:smart_dash/util/type.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'flow_manager.g.dart';
@@ -82,13 +83,22 @@ abstract class Flow {
 }
 
 class FlowEvent<T> {
-  FlowEvent(this.token, this.data, this.when);
+  FlowEvent(this.token, this.data, this.when) {
+    assert(
+      token.isType(data),
+      'Token type [${token.type}] does not match data type [$type]',
+    );
+  }
 
   final T data;
   final Token token;
   final DateTime when;
 
-  bool isDataType<E>() => this is FlowEvent<E>;
+  Type get type => typeOf<T>();
+
+  bool isNumber() => this.data is num;
+
+  bool isType<E>() => this is FlowEvent<E>;
 
   @override
   bool operator ==(Object other) =>

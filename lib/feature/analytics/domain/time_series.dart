@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
+import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/time/date_time.dart';
+import 'package:smart_dash/util/time/time_scale.dart';
 
 part 'time_series.freezed.dart';
 part 'time_series.g.dart';
@@ -93,4 +95,18 @@ class TimeSeries with _$TimeSeries {
 
   factory TimeSeries.fromJson(Map<String, Object?> json) =>
       _$TimeSeriesFromJson(json);
+
+  static TimeSeries empty(
+    String name, {
+    int size = 1,
+    DateTime? offset,
+    Duration? span,
+    List<JsonObject> dims = const [],
+  }) =>
+      TimeSeries(
+        name: name,
+        offset: offset ?? DateTime.now(),
+        span: span ?? TimeScale.minutes.to(),
+        array: DataArray.size(1, dims),
+      );
 }

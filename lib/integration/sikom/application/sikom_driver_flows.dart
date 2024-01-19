@@ -1,6 +1,4 @@
 import 'package:smart_dash/feature/device/application/device_driver.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 
@@ -11,32 +9,32 @@ class SikomFlow extends Flow {
   Stream<FlowEvent> evaluate(DriverEvent event) async* {
     if (event is DriverUpdatedEvent) {
       for (final device in event.devices) {
-        for (final capability in device.capabilities) {
-          switch (capability) {
-            case DeviceCapabilities.energy:
-              yield FlowEvent<EnergySummary>(
-                Tokens.energy,
-                device.energy ?? EnergySummary.empty(),
+        for (final token in device.toTokens()) {
+          switch (token.unit) {
+            case TokenUnit.energy:
+              yield FlowEvent<int>(
+                token,
+                device.energy?.cumulativeToday ?? 0,
                 device.energy?.lastUpdated ?? device.lastUpdated,
               );
               break;
-            case DeviceCapabilities.power:
+            case TokenUnit.power:
               yield FlowEvent<int>(
-                Tokens.power,
+                token,
                 device.energy?.currentPower ?? 0,
                 device.lastUpdated,
               );
               break;
-            case DeviceCapabilities.voltage:
+            case TokenUnit.voltage:
               yield FlowEvent<int>(
-                Tokens.voltage,
+                token,
                 device.voltage ?? 0,
                 device.lastUpdated,
               );
               break;
-            case DeviceCapabilities.temperature:
+            case TokenUnit.temperature:
               yield FlowEvent<int>(
-                Tokens.temperature,
+                token,
                 device.temperature ?? 0,
                 device.lastUpdated,
               );

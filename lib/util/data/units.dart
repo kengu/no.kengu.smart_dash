@@ -69,23 +69,27 @@ extension UnitX on num {
 }
 
 extension UnitInListX<T extends num> on List<T> {
-  String toPower([int? index, int fractionDigits = 2]) =>
-      format(TokenUnit.power.symbol, index, fractionDigits);
+  String toPower({int? index, int fractionDigits = 2}) =>
+      format(TokenUnit.power.symbol,
+          index: index, fractionDigits: fractionDigits);
 
-  String toEnergy([int? index, int fractionDigits = 2]) =>
-      format(TokenUnit.energy.symbol, index, fractionDigits);
+  String toEnergy({int? index, int fractionDigits = 2}) =>
+      format(TokenUnit.energy.symbol,
+          index: index, fractionDigits: fractionDigits);
 
-  String toVoltage([int? index, int fractionDigits = 2]) =>
-      format(TokenUnit.voltage.symbol, index, fractionDigits);
+  String toVoltage({int? index, int fractionDigits = 2}) =>
+      format(TokenUnit.voltage.symbol,
+          index: index, fractionDigits: fractionDigits);
 
-  String toTemperature([int? index, int fractionDigits = 2]) =>
-      format(TokenUnit.temperature.symbol, index, fractionDigits);
+  String toTemperature({int? index, int fractionDigits = 2}) =>
+      format(TokenUnit.temperature.symbol,
+          index: index, fractionDigits: fractionDigits);
 
-  String toPrice(String currency, [int? index, int fractionDigits = 2]) =>
+  String toPrice(String currency, {int? index, int fractionDigits = 2}) =>
       (isEmpty ? 0 : this[min(length - 1, index ?? length - 1)])
           .toPrice(currency, fractionDigits);
 
-  String format(String unit, [int? index, int fractionDigits = 2]) {
+  String format(String unit, {int? index, int fractionDigits = 2}) {
     final raw = isEmpty ? 0 : this[index ?? length - 1];
     return raw.format(unit, fractionDigits);
   }

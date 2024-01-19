@@ -129,10 +129,10 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
             ? properties.lastUpdated.value
             : DateTime.now(),
         capabilities: [
-          if (properties.hasPower) DeviceCapabilities.power,
-          if (properties.hasEnergy) DeviceCapabilities.energy,
-          if (properties.hasVoltage) DeviceCapabilities.voltage,
-          if (properties.hasTemperature) DeviceCapabilities.temperature,
+          if (properties.hasPower) DeviceCapability.power,
+          if (properties.hasEnergy) DeviceCapability.energy,
+          if (properties.hasVoltage) DeviceCapability.voltage,
+          if (properties.hasTemperature) DeviceCapability.temperature,
         ],
       );
 

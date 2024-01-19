@@ -20,8 +20,11 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Token {
-  /// Get token name
+  /// Get name
   String get name => throw _privateConstructorUsedError;
+
+  /// Get tag
+  String get tag => throw _privateConstructorUsedError;
 
   /// Get token type
   TokenType get type => throw _privateConstructorUsedError;
@@ -39,7 +42,7 @@ abstract class $TokenCopyWith<$Res> {
   factory $TokenCopyWith(Token value, $Res Function(Token) then) =
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
-  $Res call({String name, TokenType type, TokenUnit unit});
+  $Res call({String name, String tag, TokenType type, TokenUnit unit});
 }
 
 /// @nodoc
@@ -56,6 +59,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   @override
   $Res call({
     Object? name = null,
+    Object? tag = null,
     Object? type = null,
     Object? unit = null,
   }) {
@@ -63,6 +67,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -83,7 +91,7 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       __$$TokenImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, TokenType type, TokenUnit unit});
+  $Res call({String name, String tag, TokenType type, TokenUnit unit});
 }
 
 /// @nodoc
@@ -98,6 +106,7 @@ class __$$TokenImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? tag = null,
     Object? type = null,
     Object? unit = null,
   }) {
@@ -105,6 +114,10 @@ class __$$TokenImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -122,15 +135,22 @@ class __$$TokenImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenImpl extends _Token {
   const _$TokenImpl(
-      {required this.name, required this.type, required this.unit})
+      {required this.name,
+      required this.tag,
+      required this.type,
+      required this.unit})
       : super._();
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
 
-  /// Get token name
+  /// Get name
   @override
   final String name;
+
+  /// Get tag
+  @override
+  final String tag;
 
   /// Get token type
   @override
@@ -142,7 +162,7 @@ class _$TokenImpl extends _Token {
 
   @override
   String toString() {
-    return 'Token(name: $name, type: $type, unit: $unit)';
+    return 'Token(name: $name, tag: $tag, type: $type, unit: $unit)';
   }
 
   @override
@@ -151,13 +171,14 @@ class _$TokenImpl extends _Token {
         (other.runtimeType == runtimeType &&
             other is _$TokenImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.unit, unit) || other.unit == unit));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, type, unit);
+  int get hashCode => Object.hash(runtimeType, name, tag, type, unit);
 
   @JsonKey(ignore: true)
   @override
@@ -176,6 +197,7 @@ class _$TokenImpl extends _Token {
 abstract class _Token extends Token {
   const factory _Token(
       {required final String name,
+      required final String tag,
       required final TokenType type,
       required final TokenUnit unit}) = _$TokenImpl;
   const _Token._() : super._();
@@ -184,8 +206,12 @@ abstract class _Token extends Token {
 
   @override
 
-  /// Get token name
+  /// Get name
   String get name;
+  @override
+
+  /// Get tag
+  String get tag;
   @override
 
   /// Get token type

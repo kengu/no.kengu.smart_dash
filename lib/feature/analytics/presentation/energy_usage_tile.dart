@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/util/time/duration.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/units.dart';
 
 class EnergyUsageTile<T extends num> extends StatelessWidget {
@@ -16,18 +16,19 @@ class EnergyUsageTile<T extends num> extends StatelessWidget {
   });
 
   final Duration duration;
-  final TimeSeries history;
+  final Optional<TimeSeries> history;
 
   @override
   Widget build(BuildContext context) {
-    final from = history.end.subtract(duration);
-    final begin = max(0, history.indexAt(from));
+    final usage = history.orElseNull ?? TimeSeries.empty('energy_usage');
+    final from = usage.end.subtract(duration);
+    final begin = max(0, usage.indexAt(from));
     return SparklineTile<int>(
-      key: const ValueKey(Tokens.energy),
+      key: ValueKey(usage.name),
       title: 'Energy Usage',
       subTitle: 'Last 90 minutes',
       begin: begin,
-      history: history,
+      history: usage,
       lineMin: 1,
       lineStep: duration.nice(4).steps(),
       leading: const Icon(
@@ -35,7 +36,7 @@ class EnergyUsageTile<T extends num> extends StatelessWidget {
         color: Colors.lightGreen,
       ),
       valueBuilder: (data) => data.toEnergy(),
-      lineLabeler: (index) => history.tsAgo(begin + index.toInt()),
+      lineLabeler: (index) => usage.tsAgo(begin + index.toInt()),
     );
   }
 }

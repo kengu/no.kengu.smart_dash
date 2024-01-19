@@ -8,28 +8,32 @@ import 'package:smart_dash/util/time/time_series.dart';
 part 'token.freezed.dart';
 part 'token.g.dart';
 
-sealed class Tokens {
+sealed class Tokens1 {
   static const power = Token(
+    tag: 'power',
     name: 'power',
-    type: TokenType.number,
+    type: TokenType.int,
     unit: TokenUnit.power,
   );
 
   static const energy = Token(
+    tag: 'energy',
     name: 'energy',
-    type: TokenType.number,
+    type: TokenType.int,
     unit: TokenUnit.energy,
   );
 
   static const voltage = Token(
+    tag: 'voltage',
     name: 'voltage',
-    type: TokenType.number,
+    type: TokenType.int,
     unit: TokenUnit.voltage,
   );
 
   static const temperature = Token(
+    tag: 'temperature',
     name: 'temperature',
-    type: TokenType.number,
+    type: TokenType.int,
     unit: TokenUnit.temperature,
   );
 
@@ -43,15 +47,17 @@ sealed class Tokens {
   static Token from(String name) => system.firstWhere((t) => t.name == name);
 }
 
-/// The [Token] class is a representation of
-/// typed variables.
+/// The [Token] class is a representation of typed variables.
 @freezed
 class Token with _$Token {
   const Token._();
 
   const factory Token({
-    /// Get token name
+    /// Get name
     required String name,
+
+    /// Get tag
+    required String tag,
 
     /// Get token type
     required TokenType type,
@@ -59,6 +65,11 @@ class Token with _$Token {
     /// Get token unit
     required TokenUnit unit,
   }) = _Token;
+
+  bool isType<T>(T data) => switch (type) {
+        TokenType.int => data is int,
+        TokenType.double => data is double,
+      };
 
   TimeSeries emptyTs([Duration? span]) => TimeSeries(
         name: name,
@@ -80,9 +91,8 @@ class Token with _$Token {
 }
 
 enum TokenType {
-  bool,
-  number,
-  string,
+  int,
+  double;
 }
 
 enum TokenUnit {
@@ -109,5 +119,4 @@ extension TokenX on Token {
   bool get isEnergy => unit == TokenUnit.energy;
   bool get isVoltage => unit == TokenUnit.voltage;
   bool get isTemperature => unit == TokenUnit.temperature;
-  bool get isSystemToken => Tokens.isSystemToken(this);
 }

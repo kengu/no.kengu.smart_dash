@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/energy_summary.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 
 part 'device.freezed.dart';
 part 'device.g.dart';
@@ -66,7 +67,7 @@ class Device with _$Device {
     required Map<String, Object?> data,
 
     /// The device's capabilities array
-    required List<DeviceCapabilities> capabilities,
+    required List<DeviceCapability> capabilities,
 
     /// Get the timestamp for when device's was last updated
     required DateTime lastUpdated,
@@ -84,6 +85,39 @@ class Device with _$Device {
   bool get hasPower => capabilities.hasPower;
   bool get hasEnergy => capabilities.hasEnergy;
   bool get hasVoltage => capabilities.hasVoltage;
+  bool get hasTemperature => capabilities.hasTemperature;
+
+  List<Token> toTokens() => capabilities
+      .map((e) => switch (e) {
+            DeviceCapability.power => Token(
+                tag: e.name,
+                type: TokenType.int,
+                name: _toTokenName(e),
+                unit: TokenUnit.power,
+              ),
+            DeviceCapability.energy => Token(
+                tag: e.name,
+                type: TokenType.int,
+                name: _toTokenName(e),
+                unit: TokenUnit.energy,
+              ),
+            DeviceCapability.voltage => Token(
+                tag: e.name,
+                type: TokenType.int,
+                name: _toTokenName(e),
+                unit: TokenUnit.voltage,
+              ),
+            DeviceCapability.temperature => Token(
+                tag: e.name,
+                type: TokenType.int,
+                name: _toTokenName(e),
+                unit: TokenUnit.temperature,
+              ),
+          })
+      .toList();
+
+  String _toTokenName(DeviceCapability e) =>
+      [e.variable, service, 'Device', id].join(':');
 
   factory Device.fromJson(Map<String, Object?> json) => _$DeviceFromJson(json);
 }
@@ -93,15 +127,16 @@ mixin DeviceMapper {
   Map<String, Object?> toJson();
 }
 
-extension DeviceCapabilitiesX on List<DeviceCapabilities> {
+extension DeviceCapabilityX on List<DeviceCapability> {
   bool get hasPower => any((c) => c.hasPower);
   bool get hasEnergy => any((c) => c.hasEnergy);
   bool get hasVoltage => any((c) => c.hasVoltage);
+  bool get hasTemperature => any((c) => c.hasTemperature);
 }
 
 /// Copied from https://apps-sdk-v3.developer.homey.app/tutorial-device-capabilities.html
 /// TODO: Make my own capability definitions
-enum DeviceCapabilities {
+enum DeviceCapability {
   energy(
     'meter_energy',
     'This flag implies that the device has power measurement capability',
@@ -124,11 +159,9 @@ enum DeviceCapabilities {
   bool get hasPower => this == power;
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
-
   bool get hasTemperature => this == temperature;
 
-  const DeviceCapabilities(this.key, this.description);
-
-  final String key;
+  const DeviceCapability(this.variable, this.description);
+  final String variable;
   final String description;
 }

@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/drift/time_series_database.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
+import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/drift/connection.dart';
@@ -22,14 +23,18 @@ class TimeSeriesRepository {
 
   static DateTime toOffset(DateTime when) => TimeSeriesDatabase.toOffset(when);
 
-  Future<Optional<List<Token>>> getTokens(DateTime when) {
+  Future<List<Token>> getTokens() {
     return guard(() async {
-      final select = db.select(db.timeSeriesTable)
-        ..where((t) => t.ts.equals(when));
-      final result = await select.get();
-      return Optional.of(
-        result.map((t) => Tokens.from(t.name)).toList(),
-      );
+      final paired = await ref.read(deviceRepositoryProvider).getAll();
+      if (!paired.isPresent) {
+        return [];
+      }
+
+      final tokens = paired.value.map((e) => e.toTokens()).fold(
+        <Token>[],
+        (tokens, e) => tokens..addAll(e),
+      ).toList();
+      return tokens;
     });
   }
 
