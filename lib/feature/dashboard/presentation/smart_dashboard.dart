@@ -4,33 +4,22 @@ import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
+import 'package:smart_dash/util/data/json.dart';
+
 typedef DashboardItemSlotBuilder<T extends DashboardItem> = Widget Function(
     int slotCount, T item);
 
 class SmartDashboard extends StatefulWidget {
   const SmartDashboard({
     super.key,
+    required this.storage,
     required this.slotHeight,
     required this.itemBuilder,
-    required this.mobile,
-    required this.desktop,
-    required this.mobileSlotCount,
-    required this.desktopSlotCount,
-    this.tablet = const [],
-    this.mobileLarge = const [],
-    this.tabletSlotCount = 0,
-    this.mobileLargeSlotCount = 0,
   });
 
   final double slotHeight;
-  final int mobileSlotCount;
-  final int desktopSlotCount;
-  final int tabletSlotCount;
-  final int mobileLargeSlotCount;
-  final List<DashboardItem> mobile;
-  final List<DashboardItem> desktop;
-  final List<DashboardItem> tablet;
-  final List<DashboardItem> mobileLarge;
+
+  final SmartDashboardItemStorage storage;
   final DashboardItemSlotBuilder itemBuilder;
 
   @override
@@ -50,16 +39,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
   void initState() {
     super.initState();
     itemController = DashboardItemController.withDelegate(
-      itemStorageDelegate: _SmartDashboardItemStorage(
-        mobile: widget.mobile,
-        tablet: widget.tablet,
-        desktop: widget.desktop,
-        mobileLarge: widget.mobileLarge,
-        tabletSlotCount: widget.tabletSlotCount,
-        mobileSlotCount: widget.mobileSlotCount,
-        desktopSlotCount: widget.desktopSlotCount,
-        mobileLargeSlotCount: widget.mobileLargeSlotCount,
-      ),
+      itemStorageDelegate: widget.storage,
     );
   }
 
@@ -73,12 +53,14 @@ class _SmartDashboardState extends State<SmartDashboard> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      mobile: _build(widget.mobileSlotCount),
-      tablet: widget.tablet.isEmpty ? null : _build(widget.tabletSlotCount),
-      desktop: _build(widget.desktopSlotCount),
-      mobileLarge: widget.mobileLarge.isEmpty
+      mobile: _build(widget.storage.mobileSlotCount),
+      tablet: widget.storage.tablet.isEmpty
           ? null
-          : _build(widget.mobileLargeSlotCount),
+          : _build(widget.storage.tabletSlotCount),
+      desktop: _build(widget.storage.desktopSlotCount),
+      mobileLarge: widget.storage.mobileLarge.isEmpty
+          ? null
+          : _build(widget.storage.mobileLargeSlotCount),
     );
   }
 
@@ -102,7 +84,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
       dashboardItemController: itemController,
       errorPlaceholder: (e, s) => Text("$e , $s"),
     );
-    isDesktop = slotCount == widget.desktopSlotCount;
+    isDesktop = slotCount == widget.storage.desktopSlotCount;
     if (isDesktop != current &&
         scrollController.hasClients &&
         scrollController.position.hasContentDimensions) {
@@ -112,8 +94,8 @@ class _SmartDashboardState extends State<SmartDashboard> {
   }
 }
 
-class _SmartDashboardItemStorage extends DashboardItemStorageDelegate {
-  _SmartDashboardItemStorage({
+class SmartDashboardItemStorage extends DashboardItemStorageDelegate {
+  SmartDashboardItemStorage({
     required this.mobile,
     required this.desktop,
     required this.mobileSlotCount,
@@ -139,8 +121,24 @@ class _SmartDashboardItemStorage extends DashboardItemStorageDelegate {
   @override
   bool get layoutsBySlotCount => true;
 
+  JsonObject toJson() {
+    return {
+      'mobile': _toMap(mobileSlotCount, mobile),
+      'tablet': _toMap(tabletSlotCount, tablet),
+      'desktop': _toMap(desktopSlotCount, desktop),
+      'mobileLarge': _toMap(mobileLargeSlotCount, mobileLarge),
+    };
+  }
+
+  Map<String, Object> _toMap(int slotCount, List<DashboardItem> items) {
+    return {
+      'slotsCount': slotCount,
+      'items': items.map((e) => e.toMap()).toList(),
+    };
+  }
+
   @override
-  FutureOr<List<DashboardItem>> getAllItems(int slotCount) {
+  FutureOr<List<DashboardItem>> getAllItems(int slotCount) async {
     if (mobileSlotCount == slotCount) {
       return mobile;
     } else if (mobileLargeSlotCount == slotCount) {

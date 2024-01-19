@@ -61,12 +61,14 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                       : const EdgeInsets.only(top: 0.0),
                   child: SmartDashboard(
                     slotHeight: 380,
-                    mobile: _items(configs),
-                    tablet: _items(configs),
-                    desktop: _items(configs),
-                    mobileSlotCount: 1,
-                    tabletSlotCount: 2,
-                    desktopSlotCount: 3,
+                    storage: SmartDashboardItemStorage(
+                      mobile: _items(configs),
+                      tablet: _items(configs),
+                      desktop: _items(configs),
+                      mobileSlotCount: 1,
+                      tabletSlotCount: 2,
+                      desktopSlotCount: 3,
+                    ),
                     itemBuilder: (slotsCount, item) {
                       switch (item.identifier) {
                         case 'group':

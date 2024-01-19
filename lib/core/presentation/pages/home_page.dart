@@ -46,16 +46,26 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     return Optional.of(
       token == event?.token
-          ? _series[token] = token.toTs(event)
+          ? _series[token] = token.toTs(event, size)
           : _series.putIfAbsent(token, () => token.emptyTs()),
     );
   }
 
   bool get isFullscreen => FullscreenState.watch(ref);
 
+  late final SmartDashboardItemStorage storage;
+
   @override
   void initState() {
     super.initState();
+    storage = SmartDashboardItemStorage(
+      mobile: _mobile(),
+      tablet: _tablet(),
+      desktop: _desktop(),
+      mobileSlotCount: 8,
+      tabletSlotCount: 6,
+      desktopSlotCount: 12,
+    );
     ref.read(historyManagerProvider).pump();
   }
 
@@ -105,12 +115,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               : const EdgeInsets.only(top: 0.0),
                           child: SmartDashboard(
                             slotHeight: 270,
-                            mobile: _mobile(),
-                            tablet: _tablet(),
-                            desktop: _desktop(),
-                            mobileSlotCount: 8,
-                            tabletSlotCount: 6,
-                            desktopSlotCount: 12,
+                            storage: storage,
                             itemBuilder: (slotsCount, item) {
                               switch (item.identifier) {
                                 case 'energy':
@@ -133,6 +138,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   );
                                 case 'temperature':
                                   return TemperatureTile(
+                                    title: 'Temperature',
+                                    subtitle: 'Last hour',
                                     key: GlobalObjectKey(item),
                                     duration: TimeScale.minutes.to(size),
                                     history: _fetch(item, tokens, event),
@@ -186,6 +193,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Map<String, Token> _map(AsyncSnapshot<List<Token>> snapshot) {
     return Map.fromEntries(
       (snapshot.hasData ? snapshot.data! : <Token>[]).map(
+        // Use Token tag which devices set to
         (e) => MapEntry(e.tag, e),
       ),
     );

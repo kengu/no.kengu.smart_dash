@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -286,7 +287,7 @@ class WeatherInstanceWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
-                  Icons.snowing,
+                  airTemp > 0 ? CupertinoIcons.drop : Icons.snowing,
                   color: legendColor,
                 ),
                 const SizedBox(width: 8),
