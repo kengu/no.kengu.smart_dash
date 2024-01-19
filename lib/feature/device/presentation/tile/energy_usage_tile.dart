@@ -8,8 +8,8 @@ import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
-class VoltageTile<T extends num> extends StatelessWidget {
-  const VoltageTile({
+class EnergyUsageTile<T extends num> extends StatelessWidget {
+  const EnergyUsageTile({
     super.key,
     required this.history,
     required this.duration,
@@ -20,13 +20,13 @@ class VoltageTile<T extends num> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usage = history.orElseNull ?? TimeSeries.empty('voltage');
+    final usage = history.orElseNull ?? TimeSeries.empty('energy_usage');
     final from = usage.end.subtract(duration);
     final begin = max(0, usage.indexAt(from));
     return SparklineTile<int>(
       key: ValueKey(usage.name),
-      title: 'Voltage',
-      subTitle: 'Last hour',
+      title: 'Energy Usage',
+      subTitle: 'Last ${duration.inMinutes} minutes',
       begin: begin,
       history: usage,
       lineMin: 1,
@@ -35,7 +35,7 @@ class VoltageTile<T extends num> extends StatelessWidget {
         Icons.electric_bolt,
         color: Colors.lightGreen,
       ),
-      valueBuilder: (data) => data.toVoltage(),
+      valueBuilder: (data) => data.toEnergy(),
       lineLabeler: (index) => usage.tsAgo(begin + index.toInt()),
     );
   }

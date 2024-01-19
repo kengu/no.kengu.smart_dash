@@ -91,24 +91,28 @@ class Device with _$Device {
       .map((e) => switch (e) {
             DeviceCapability.power => Token(
                 tag: e.name,
+                label: name,
                 type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.power,
               ),
             DeviceCapability.energy => Token(
                 tag: e.name,
+                label: name,
                 type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.energy,
               ),
             DeviceCapability.voltage => Token(
                 tag: e.name,
+                label: name,
                 type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.voltage,
               ),
             DeviceCapability.temperature => Token(
                 tag: e.name,
+                label: name,
                 type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.temperature,

@@ -26,8 +26,6 @@ class EnergyBillMonthTile extends ConsumerWidget {
 
   final Optional<Token> power;
 
-  static const double minItemWidth = 72;
-
   static final df = DateFormat('MMMM');
 
   @override
@@ -40,10 +38,9 @@ class EnergyBillMonthTile extends ConsumerWidget {
         icon: CupertinoIcons.sum,
         title: 'Energy Bill Today',
         subtitle: 'Last ${at.hour} hours ($area)',
-        minItemWidth: minItemWidth,
         axisLabelBuilder: (axisIndex) => '',
         itemValueBuilder: (itemIndex) => '-',
-        itemLabelBuilder: (item) => '- kr',
+        itemLabelBuilder: (index, item) => '- kr',
       );
     }
     final service = ref.watch(energyBillServiceProvider);
@@ -59,7 +56,6 @@ class EnergyBillMonthTile extends ConsumerWidget {
           icon: CupertinoIcons.sum,
           title: 'Energy Bill Today',
           subtitle: 'Last ${at.hour} hours ($area)',
-          minItemWidth: minItemWidth,
           items:
               daily.isNotEmpty ? daily.firstColumn.cast<double>() : <double>[0],
           total: daily.sum().lastRow.toPrice('kr', fractionDigits: 0),
@@ -68,7 +64,7 @@ class EnergyBillMonthTile extends ConsumerWidget {
           itemValueBuilder: (itemIndex) => details.length > itemIndex
               ? details[itemIndex].energy.toEnergy()
               : '-',
-          itemLabelBuilder: (value) => value.toPrice('kr'),
+          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr'),
         );
       },
     );

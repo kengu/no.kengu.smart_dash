@@ -8,44 +8,7 @@ import 'package:smart_dash/util/time/time_series.dart';
 part 'token.freezed.dart';
 part 'token.g.dart';
 
-sealed class Tokens1 {
-  static const power = Token(
-    tag: 'power',
-    name: 'power',
-    type: TokenType.int,
-    unit: TokenUnit.power,
-  );
-
-  static const energy = Token(
-    tag: 'energy',
-    name: 'energy',
-    type: TokenType.int,
-    unit: TokenUnit.energy,
-  );
-
-  static const voltage = Token(
-    tag: 'voltage',
-    name: 'voltage',
-    type: TokenType.int,
-    unit: TokenUnit.voltage,
-  );
-
-  static const temperature = Token(
-    tag: 'temperature',
-    name: 'temperature',
-    type: TokenType.int,
-    unit: TokenUnit.temperature,
-  );
-
-  static const system = [energy, power, voltage, temperature];
-
-  static bool isSystemToken(Token token) => system.contains(token);
-
-  static int indexOfSystemToken(String name) =>
-      system.indexWhere((t) => t.name == name);
-
-  static Token from(String name) => system.firstWhere((t) => t.name == name);
-}
+typedef TokenMap = Map<String, Token>;
 
 /// The [Token] class is a representation of typed variables.
 @freezed
@@ -53,11 +16,14 @@ class Token with _$Token {
   const Token._();
 
   const factory Token({
-    /// Get name
+    /// Get token tag
+    required String tag,
+
+    /// Get token name
     required String name,
 
-    /// Get tag
-    required String tag,
+    /// Get token label
+    required String label,
 
     /// Get token type
     required TokenType type,
@@ -97,8 +63,8 @@ enum TokenType {
 
 enum TokenUnit {
   voltage('V'),
-  energy('W'),
-  power('Wh'),
+  energy('Wh'),
+  power('W'),
   temperature('°C');
 
   bool get isPower => this == power;

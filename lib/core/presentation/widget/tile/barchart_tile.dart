@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/util/widget.dart';
 
-class BarChartTile extends StatelessWidget {
+class BarChartTile<T extends num> extends StatelessWidget {
   const BarChartTile({
     super.key,
     required this.icon,
@@ -12,21 +14,28 @@ class BarChartTile extends StatelessWidget {
     required this.title,
     required this.total,
     required this.subtitle,
-    required this.minItemWidth,
     required this.itemValueBuilder,
     required this.itemLabelBuilder,
     required this.axisLabelBuilder,
+    this.minItemWidth = 72,
+    this.hideZeroValues = true,
+    this.chartMargin = defaultChartMargin,
   });
+
+  static const defaultChartMargin =
+      EdgeInsets.only(left: 3.0, right: 3.0, top: 16, bottom: 4.0);
 
   final String title;
   final String total;
+  final List<T> items;
   final IconData icon;
   final String subtitle;
-  final List<double> items;
   final double minItemWidth;
-  final String Function(double value) itemLabelBuilder;
+  final bool hideZeroValues;
+  final EdgeInsets chartMargin;
   final String Function(int itemIndex) itemValueBuilder;
   final String Function(int axisIndex) axisLabelBuilder;
+  final String Function(int index, ChartItem<T> item) itemLabelBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +48,8 @@ class BarChartTile extends StatelessWidget {
       minHeight: 180,
       maxWidth: (minItemWidth + 6) * items.length,
     ).normalize();
+
+    int valueIndex = 0;
 
     return SmartDashTile(
       title: title,
@@ -61,27 +72,25 @@ class BarChartTile extends StatelessWidget {
         child: SingleChildScrollView(
           reverse: true,
           scrollDirection: Axis.horizontal,
-          child: Chart<double>(
+          child: Chart<T>(
             width: constraints.minWidth,
             height: constraints.minHeight,
-            //duration: const Duration(seconds: 2),
-            state: ChartState<double>(
+            state: ChartState<T>(
               behaviour: const ChartBehaviour(
                 scrollSettings: ScrollSettings(
                   visibleItems: 6,
                 ),
               ),
               data: ChartData.fromList(
-                items.map((e) => ChartItem<double>(e.toDouble())).toList(),
+                items.map((e) => ChartItem<T>(e.toDouble())).toList(),
               ),
               itemOptions: WidgetItemOptions(
                 minBarWidth: minItemWidth,
                 maxBarWidth: minItemWidth,
                 widgetItemBuilder: (data) {
-                  final energy = itemValueBuilder(data.itemIndex);
+                  final value = itemValueBuilder(data.itemIndex);
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 3.0)
-                        .copyWith(top: 16, bottom: 4.0),
+                    margin: chartMargin,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(12),
@@ -103,10 +112,14 @@ class BarChartTile extends StatelessWidget {
                             top: 8.0,
                             left: 0.0,
                             right: 0.0,
-                            child: Text(
-                              energy,
-                              style: textStyle,
-                              textAlign: TextAlign.center,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              child: Text(
+                                value,
+                                style: textStyle,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ],
@@ -121,9 +134,9 @@ class BarChartTile extends StatelessWidget {
                   gridColor: lineColor,
                   textStyle: textStyle,
                   showVerticalGrid: false,
-                  endWithChartVertical: false,
                   showVerticalValues: true,
                   showHorizontalGrid: false,
+                  endWithChartVertical: false,
                   verticalAxisValueFromIndex: axisLabelBuilder,
                 ),
               ],
@@ -131,15 +144,14 @@ class BarChartTile extends StatelessWidget {
                 // ignore: deprecated_member_use
                 ValueDecoration(
                   textStyle: textStyle,
-                  hideZeroValues: true,
                   alignment: Alignment.center,
+                  hideZeroValues: hideZeroValues,
                   valueGenerator: (item) {
                     // HACK: Adjust vertical alignment of text above bar
-                    return (item.max ?? 0) * 0.97;
+                    return max(1, item.max ?? 0) * 0.97;
                   },
-                  labelGenerator: (item) => itemLabelBuilder(
-                    item.max as double,
-                  ),
+                  labelGenerator: (item) =>
+                      itemLabelBuilder(valueIndex++, item as ChartItem<T>),
                 ),
               ],
             ),

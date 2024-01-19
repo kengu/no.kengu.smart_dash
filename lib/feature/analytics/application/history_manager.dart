@@ -150,39 +150,71 @@ class HistoryManager {
     return _cache.get('token:${token.name}:$when');
   }
 
-  Future<void> _onHandle(FlowEvent event) => guard<void>(
-        () async {
-          final repo = ref.read(timeSeriesRepositoryProvider);
-          final offset = toOffset();
-          final result = await repo.get(event.token, offset);
-          var history = result.isPresent ? result.value : event.token.emptyTs();
-          final next = switch (event.type) {
-            const (int) => history.record<int>(
-                event.data as int,
-                event.when,
-                pad: 0,
-                max: maxLength,
-              ),
-            const (double) => history.record<double>(
-                event.data as double,
-                event.when,
-                pad: 0,
-                max: maxLength,
-              ),
-            _ => throw UnsupportedError(
-                'History manager does not handle [${event.type}]',
-              ),
-          };
-          if (next != history) {
-            await repo.save(next);
-            _controller.add(HistoryEvent(
-              event.token,
-              next,
-            ));
-          }
-        },
-        task: 'HistoryManager::_onHandle',
-      );
+  Future<List<TimeSeries>> where(
+    Function(Token e) compare, {
+    DateTime? when,
+    Duration ttl = const Duration(seconds: 4),
+  }) async {
+    final series = <TimeSeries>[];
+    for (final token in await loadTokens()) {
+      if (compare(token)) {
+        final result = await get(token, when: when, ttl: ttl);
+        if (result.isPresent) {
+          series.add(result.value);
+        }
+      }
+    }
+    return series;
+  }
+
+  List<TimeSeries> whereCached(Function(Token e) compare, {DateTime? when}) {
+    final series = <TimeSeries>[];
+    for (final token in tokens) {
+      if (compare(token)) {
+        final result = getCached(token, when: when);
+        if (result.isPresent) {
+          series.add(result.value);
+        }
+      }
+    }
+    return series;
+  }
+
+  Future<void> _onHandle(FlowEvent event) {
+    return guard<void>(
+      () async {
+        final repo = ref.read(timeSeriesRepositoryProvider);
+        final offset = toOffset();
+        final result = await repo.get(event.token, offset);
+        var history = result.isPresent ? result.value : event.token.emptyTs();
+        final next = switch (event.type) {
+          const (int) => history.record<int>(
+              event.data as int,
+              event.when,
+              pad: 0,
+              max: maxLength,
+            ),
+          const (double) => history.record<double>(
+              event.data as double,
+              event.when,
+              pad: 0,
+              max: maxLength,
+            ),
+          _ => throw UnsupportedError(
+              'History manager does not handle [${event.type}]',
+            ),
+        };
+        if (next != history) {
+          await repo.save(next);
+          _controller.add(HistoryEvent(
+            event.token,
+            next,
+          ));
+        }
+      },
+      task: 'HistoryManager::_onHandle',
+    );
+  }
 
   static DateTime toOffset([DateTime? when]) {
     when ??= DateTime.now();

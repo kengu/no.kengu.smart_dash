@@ -52,9 +52,14 @@ extension UnitX on num {
     return o.abs() < min ? '' : (o >= 0 ? upper[o] : lower[o]) ?? '';
   }
 
-  String toPower([int fractionDigits = 2]) => format('W', fractionDigits);
-  String toEnergy([int fractionDigits = 2]) => format('Wh', fractionDigits);
-  String toVoltage([int fractionDigits = 2]) => format('V', fractionDigits);
+  String toPower([int fractionDigits = 2]) =>
+      format(TokenUnit.power.symbol, fractionDigits);
+  String toEnergy([int fractionDigits = 2]) =>
+      format(TokenUnit.energy.symbol, fractionDigits);
+  String toVoltage([int fractionDigits = 2]) =>
+      format(TokenUnit.voltage.symbol, fractionDigits);
+  String toTemperature([int fractionDigits = 2]) =>
+      format(TokenUnit.temperature.symbol, fractionDigits);
   String toPrice(String currency, [int fractionDigits = 2]) {
     return '${toStringAsFixed(fractionDigits)} $currency';
   }

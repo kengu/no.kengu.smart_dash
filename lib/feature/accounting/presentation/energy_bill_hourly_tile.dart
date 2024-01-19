@@ -25,8 +25,6 @@ class EnergyBillHourlyTile extends ConsumerWidget {
 
   final Optional<Token> power;
 
-  static const double minItemWidth = 72;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final at = DateTime.now();
@@ -37,10 +35,9 @@ class EnergyBillHourlyTile extends ConsumerWidget {
         icon: CupertinoIcons.sum,
         title: 'Energy Bill Today',
         subtitle: 'Last ${at.hour} hours ($area)',
-        minItemWidth: minItemWidth,
         axisLabelBuilder: (axisIndex) => '',
         itemValueBuilder: (itemIndex) => '-',
-        itemLabelBuilder: (item) => '- kr',
+        itemLabelBuilder: (index, item) => '- kr',
       );
     }
     final service = ref.watch(energyBillServiceProvider);
@@ -55,7 +52,6 @@ class EnergyBillHourlyTile extends ConsumerWidget {
           icon: CupertinoIcons.sum,
           title: 'Energy Bill Today',
           subtitle: 'Last ${at.hour} hours ($area)',
-          minItemWidth: minItemWidth,
           items: hourly.isNotEmpty
               ? hourly.firstColumn.cast<double>()
               : <double>[0],
@@ -65,7 +61,7 @@ class EnergyBillHourlyTile extends ConsumerWidget {
           itemValueBuilder: (itemIndex) => details.length > itemIndex
               ? details[itemIndex].energy.toEnergy()
               : '-',
-          itemLabelBuilder: (value) => value.toPrice('kr'),
+          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr'),
         );
       },
     );

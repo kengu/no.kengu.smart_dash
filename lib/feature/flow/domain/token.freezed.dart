@@ -20,11 +20,14 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Token {
-  /// Get name
+  /// Get token tag
+  String get tag => throw _privateConstructorUsedError;
+
+  /// Get token name
   String get name => throw _privateConstructorUsedError;
 
-  /// Get tag
-  String get tag => throw _privateConstructorUsedError;
+  /// Get token label
+  String get label => throw _privateConstructorUsedError;
 
   /// Get token type
   TokenType get type => throw _privateConstructorUsedError;
@@ -42,7 +45,8 @@ abstract class $TokenCopyWith<$Res> {
   factory $TokenCopyWith(Token value, $Res Function(Token) then) =
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
-  $Res call({String name, String tag, TokenType type, TokenUnit unit});
+  $Res call(
+      {String tag, String name, String label, TokenType type, TokenUnit unit});
 }
 
 /// @nodoc
@@ -58,19 +62,24 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? tag = null,
+    Object? name = null,
+    Object? label = null,
     Object? type = null,
     Object? unit = null,
   }) {
     return _then(_value.copyWith(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -91,7 +100,8 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       __$$TokenImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String tag, TokenType type, TokenUnit unit});
+  $Res call(
+      {String tag, String name, String label, TokenType type, TokenUnit unit});
 }
 
 /// @nodoc
@@ -105,19 +115,24 @@ class __$$TokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? tag = null,
+    Object? name = null,
+    Object? label = null,
     Object? type = null,
     Object? unit = null,
   }) {
     return _then(_$TokenImpl(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -135,8 +150,9 @@ class __$$TokenImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenImpl extends _Token {
   const _$TokenImpl(
-      {required this.name,
-      required this.tag,
+      {required this.tag,
+      required this.name,
+      required this.label,
       required this.type,
       required this.unit})
       : super._();
@@ -144,13 +160,17 @@ class _$TokenImpl extends _Token {
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
 
-  /// Get name
+  /// Get token tag
+  @override
+  final String tag;
+
+  /// Get token name
   @override
   final String name;
 
-  /// Get tag
+  /// Get token label
   @override
-  final String tag;
+  final String label;
 
   /// Get token type
   @override
@@ -162,7 +182,7 @@ class _$TokenImpl extends _Token {
 
   @override
   String toString() {
-    return 'Token(name: $name, tag: $tag, type: $type, unit: $unit)';
+    return 'Token(tag: $tag, name: $name, label: $label, type: $type, unit: $unit)';
   }
 
   @override
@@ -170,15 +190,16 @@ class _$TokenImpl extends _Token {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenImpl &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.label, label) || other.label == label) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.unit, unit) || other.unit == unit));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, tag, type, unit);
+  int get hashCode => Object.hash(runtimeType, tag, name, label, type, unit);
 
   @JsonKey(ignore: true)
   @override
@@ -196,8 +217,9 @@ class _$TokenImpl extends _Token {
 
 abstract class _Token extends Token {
   const factory _Token(
-      {required final String name,
-      required final String tag,
+      {required final String tag,
+      required final String name,
+      required final String label,
       required final TokenType type,
       required final TokenUnit unit}) = _$TokenImpl;
   const _Token._() : super._();
@@ -206,12 +228,16 @@ abstract class _Token extends Token {
 
   @override
 
-  /// Get name
+  /// Get token tag
+  String get tag;
+  @override
+
+  /// Get token name
   String get name;
   @override
 
-  /// Get tag
-  String get tag;
+  /// Get token label
+  String get label;
   @override
 
   /// Get token type

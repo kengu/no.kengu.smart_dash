@@ -8,10 +8,11 @@ import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
-import 'package:smart_dash/feature/analytics/presentation/energy_usage_tile.dart';
+import 'package:smart_dash/feature/device/presentation/tile/energy_usage_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
-import 'package:smart_dash/feature/analytics/presentation/power_usage_tile.dart';
-import 'package:smart_dash/feature/analytics/presentation/voltage_usage_tile.dart';
+import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dart';
+import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
+import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_tile.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
@@ -136,13 +137,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     duration: TimeScale.minutes.to(size),
                                     history: _fetch(item, tokens, event),
                                   );
-                                case 'temperature':
+                                case 'temperature1':
                                   return TemperatureTile(
-                                    title: 'Temperature',
+                                    title: tokens.containsKey(item.identifier)
+                                        ? tokens[item.identifier]!.label
+                                        : 'Temperature',
                                     subtitle: 'Last $size minutes',
                                     key: GlobalObjectKey(item),
                                     duration: TimeScale.minutes.to(size),
                                     history: _fetch(item, tokens, event),
+                                  );
+                                case 'temperature':
+                                  return TemperatureListTile(
+                                    title: 'Temperatures Now',
+                                    subtitle: 'Last $size minutes',
+                                    key: GlobalObjectKey(item),
+                                    duration: TimeScale.minutes.to(size),
                                   );
                                 case 'price_hourly':
                                   return ElectricityPriceHourlyTile(
@@ -190,7 +200,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         );
   }
 
-  Map<String, Token> _map(AsyncSnapshot<List<Token>> snapshot) {
+  TokenMap _map(AsyncSnapshot<List<Token>> snapshot) {
     return Map.fromEntries(
       (snapshot.hasData ? snapshot.data! : <Token>[]).map(
         // Use Token tag which devices set to
