@@ -292,10 +292,10 @@ class WeatherInstanceWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  _toPrecipitationAmount(airTemp),
+                  _toPrecipitationAmount(),
                 ),
                 Text(
-                  '${airTemp > 0 ? ' mm rain' : ' cm snow'} next ${index > 1 ? index : 24}h',
+                  '${airTemp > 0 ? ' mm rain' : ' cm snow'} next ${index - 1 > 1 ? (index - 1) : 24}h',
                   style: textStyle,
                 )
               ],
@@ -328,10 +328,10 @@ class WeatherInstanceWidget extends StatelessWidget {
     );
   }
 
-  String _toPrecipitationAmount(double temp) {
+  String _toPrecipitationAmount() {
+    final hours = max(0, index - 1);
     final steps = weather.props.timeseries
-        .skip(max(0, index - 1))
-        .take(24)
+        .take(hours)
         .map((e) => e.data.next1h?.details)
         .where((e) => (e?.precipitationAmount ?? 0) > 0)
         .map((e) {
