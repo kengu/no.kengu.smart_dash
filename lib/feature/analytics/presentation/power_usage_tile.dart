@@ -26,7 +26,7 @@ class PowerUsageTile<T extends num> extends StatelessWidget {
     return SparklineTile<int>(
       key: ValueKey(usage.name),
       title: 'Power',
-      subTitle: 'Last hour',
+      subTitle: 'Last ${duration.inMinutes} minutes',
       begin: begin,
       history: usage,
       lineMin: 1,
