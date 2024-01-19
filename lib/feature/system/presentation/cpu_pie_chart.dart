@@ -69,7 +69,7 @@ class CpuPieChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${(info.isAppUsage ? info.cpuApp ?? 0 : info.cpuAppPercentOfTotal).toStringAsFixed(1)} %',
+                '${(info.isAppUsage ? info.cpuApp ?? 0 : info.cpuAppPercentOfTotal).toStringAsFixed(0)} %',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),
@@ -79,7 +79,7 @@ class CpuPieChart extends StatelessWidget {
               ),
               if (!info.isAppUsage)
                 Text(
-                  'of ${info.cpuTotal.toStringAsFixed(1)} % CPU load',
+                  'of ${info.cpuTotal.toStringAsFixed(0)} % CPU load',
                   style: legendStyle,
                   textScaler: const TextScaler.linear(
                     0.90,
