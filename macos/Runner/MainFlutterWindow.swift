@@ -136,7 +136,6 @@ class MainFlutterWindow: NSWindow {
       
     self.calcAppCpuUsage(overTime: 2) { cpuUsagePercentage in
       if let cpuAppUsage = cpuUsagePercentage {
-          print("CPU Usage Percentage: \(cpuAppUsage)%")
           completion(["total": totalLoad, "app": cpuAppUsage])
       } else {
           print("Failed to calculate CPU usage.")
