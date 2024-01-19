@@ -24,7 +24,7 @@ dependencies:
   window_manager: ^0.3.7
 
   logging: ^1.2.0
-  strings: ^2.0.3
+  strings: ^3.0.0
   timeago: ^3.6.0
   optional: ^6.1.0+1
   pretty_bytes: ^6.1.0
@@ -60,13 +60,14 @@ dependencies:
   freezed_annotation: ^2.4.1
   riverpod_annotation: ^3.0.0-dev.3
 
-  restoration_web_plugin:
-    path: plugins/restoration_web_plugin
-
   sentry: ^7.14.0
   sentry_flutter: ^7.14.0
 
   stack_trace: ^1.11.1
+
+  restoration_web_plugin:
+    path: plugins/restoration_web_plugin
+
 
 dev_dependencies:
   flutter_test:
