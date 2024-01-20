@@ -12,8 +12,8 @@ part 'device_repository.g.dart';
 class DeviceRepository {
   static const key = 'devices';
 
-  Future<Optional<List<Device>>> getAll() async {
-    return Optional.of(await _load());
+  Future<List<Device>> getAll() async {
+    return await _load();
   }
 
   Future<Optional<Device>> get(String id) async {
@@ -23,6 +23,16 @@ class DeviceRepository {
         : devices.firstWhereOptional(
             (device) => device.id == id,
           );
+  }
+
+  Future<List<Device>> where(Function(Device e) compare) async {
+    final devices = <Device>[];
+    for (final device in await getAll()) {
+      if (compare(device)) {
+        devices.add(device);
+      }
+    }
+    return devices;
   }
 
   Future<List<Device>> _load() => guard(() async {
@@ -48,6 +58,17 @@ class DeviceRepository {
     );
     final success = await _setAll([...current, ...unique]);
     return success ? unique : [];
+  }
+
+  /// Attempt to add all given devices to
+  /// repository. Returns list of actual removed devices.
+  Future<List<Device>> removeAll(Iterable<Device> devices) async {
+    final current = await _load();
+    current.removeWhere(
+      (device) => devices.contains(device),
+    );
+    final success = await _setAll(current);
+    return success ? current : [];
   }
 
   Future<bool> _setAll(List<Device> devices) => guard(() async {

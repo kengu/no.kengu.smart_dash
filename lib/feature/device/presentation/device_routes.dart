@@ -21,6 +21,7 @@ class DeviceScreens {
 GoRoute buildDeviceRoutes() {
   return Routes.buildGoRoute(
     path: DeviceScreens.home,
+    restorationId: Routes.setLastLocation,
     child: PairedDeviceScreen(
       location: Routes.lastLocation,
     ),
@@ -31,7 +32,7 @@ GoRoute buildDeviceRoutes() {
         builder: (context, state) {
           return PairedDeviceDetailsScreen(
             deviceId: state.uri.queryParameters['id']!,
-            location: Routes.lastLocation,
+            location: DeviceScreens.home,
           );
         },
       ),

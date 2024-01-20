@@ -21,7 +21,7 @@ sealed class Routes {
 
   static String _lastLocation = Pages.home;
 
-  static String _setLastLocation(GoRouterState state) {
+  static String setLastLocation(GoRouterState state) {
     return _lastLocation = state.uri.toString();
   }
 
@@ -67,17 +67,17 @@ sealed class Routes {
           // (path to each rail/menu/bottom destinations)
           buildGoRoute(
             path: Pages.home,
-            restorationId: _setLastLocation,
+            restorationId: setLastLocation,
             child: const HomePage(),
           ),
           buildGoRoute(
             path: Pages.history,
-            restorationId: _setLastLocation,
+            restorationId: setLastLocation,
             child: const HistoryPage(),
           ),
           buildGoRoute(
             path: Pages.cameras,
-            restorationId: _setLastLocation,
+            restorationId: setLastLocation,
             child: const CamerasPage(),
           ),
           buildGoRoute(
@@ -90,7 +90,7 @@ sealed class Routes {
           ),
           buildGoRoute(
             path: Pages.notifications,
-            restorationId: _setLastLocation,
+            restorationId: setLastLocation,
             child: const DetailsView(
               title: 'Notifications',
               route: Pages.home,

@@ -152,7 +152,8 @@ Stream<FlowEvent> voltage(VoltageRef ref) async* {
   }
 }
 
-Stream<FlowEvent> temperature(VoltageRef ref) async* {
+@riverpod
+Stream<FlowEvent> temperature(TemperatureRef ref) async* {
   final manager = ref.watch(flowManagerProvider);
   await for (final event
       in manager.events.where((e) => e.token.isTemperature)) {

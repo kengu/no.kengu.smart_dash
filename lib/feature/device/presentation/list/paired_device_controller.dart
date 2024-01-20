@@ -18,6 +18,6 @@ class PairedDeviceScreenController extends _$PairedDeviceScreenController
 
   @override
   Future<Optional<List<Device>>> load() async {
-    return ref.read(deviceRepositoryProvider).getAll();
+    return Optional.of(await ref.read(deviceRepositoryProvider).getAll());
   }
 }

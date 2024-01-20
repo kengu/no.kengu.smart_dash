@@ -9,6 +9,8 @@ import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import 'device_service.dart';
+
 /// This class manages all Device instances, which represent all
 /// paired [Device]s. Methods prefixed with "on" are only meant to be
 /// overridden by subclassed and not part of any public api.
@@ -27,8 +29,11 @@ abstract class DeviceDriver {
   /// Completer tracking completion of [onInit]
   final Completer<void> _readyCompleter = Completer();
 
-  /// Updated after each [onUpdate] has completed
+  /// It updated after each [onUpdate] has completed
   DriverUpdatedEvent _lastUpdated;
+
+  /// Check when driver last updated devices.
+  DriverUpdatedEvent get lastUpdated => _lastUpdated;
 
   /// Check if this driver is ready ([DeviceDriver.onInit] has been run).
   bool get isReady => _readyCompleter.isCompleted;
@@ -66,8 +71,9 @@ abstract class DeviceDriver {
   @protected
   Future<void> onPaired(List<Device> devices) async {}
 
-  /// Check when driver updated devices
-  DriverUpdatedEvent get lastUpdated => _lastUpdated;
+  /// This method is called after given devices was unpaired
+  @protected
+  Future<void> onUnPaired(List<Device> devices) async {}
 
   /// This method is called when device states should be updated.
   /// The driver is responsible to determine which devices that
@@ -92,27 +98,40 @@ abstract class DeviceDriver {
   /// Get list of all known [Device] definitions
   Future<List<DeviceDefinition>> getDeviceDefinitions();
 
-  /// Attempt to add all given devices to
-  /// repository. Returns list of actual added devices.
+  /// Attempt to pair with list of devices.
+  /// Only devices that belongs to this service [key] is paired
   Future<List<Device>> pairAll(List<Device> devices) async {
+    final supported = devices.where((e) => e.service == key);
     final repo = ref.read(deviceRepositoryProvider);
-    final unique = await repo.addAll(devices);
+    final unique = await repo.addAll(supported);
     await onPaired(unique);
     return unique;
   }
 
+  /// Attempt to unpair with list of devices.
+  /// Only devices that belongs to this service [key] is unpaired
+  Future<List<Device>> unpairAll(List<Device> devices) async {
+    final supported = devices.where((e) => e.service == key);
+    final repo = ref.read(deviceRepositoryProvider);
+    final unique = await repo.removeAll(supported);
+    await onUnPaired(unique);
+    return unique;
+  }
+
   /// Get list of all paired [Device]s
-  Future<List<Device>> getPairedDevices([String? type]) async {
-    final paired = await ref.read(deviceRepositoryProvider).getAll();
-    return paired.isPresent ? paired.value : [];
+  Future<List<Device>> getPairedDevices(
+      [DeviceType type = DeviceType.any]) async {
+    final devices = await ref.read(deviceServiceProvider).getAll();
+    return devices
+        .where((e) => type.isAny || e.type == type || e.service == key)
+        .toList();
   }
 
   /// Get list of all new [Device]s (available but not paired)
   Future<List<Device>> getNewDevices([DeviceType type = DeviceType.any]) async {
     final available = await getAllDevices(type: type);
     final devices = await ref.read(deviceRepositoryProvider).getAll();
-    final paired =
-        devices.isPresent ? devices.value.map((e) => e.name) : <String>[];
+    final paired = devices.map((e) => e.name);
     if (paired.isEmpty) return available;
     return available.where((device) => !paired.contains(device.name)).toList();
   }
