@@ -5,6 +5,7 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
 import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
+import 'package:smart_dash/feature/device/presentation/utils.dart';
 
 import 'paired_device_controller.dart';
 
@@ -40,7 +41,9 @@ class PairedDeviceScreen extends ConsumerWidget {
                 titleBuilder: (_, data, __) => Text(
                   '${data.name} (${data.service})',
                 ),
-                iconBuilder: (_, data, __) => const Icon(Icons.device_hub),
+                iconBuilder: (_, device, __) => Icon(
+                  toIconData(device),
+                ),
                 entries: data.isPresent ? data.value : [],
                 pathBuilder: (data) => DeviceScreens.toDevicesDetailsPath(
                   data,
