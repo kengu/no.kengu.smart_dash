@@ -329,16 +329,26 @@ class WeatherInstanceWidget extends StatelessWidget {
   }
 
   String _toPrecipitationAmount() {
-    final hours = index == 0 ? 24 : index;
+    final hours = index <= 1 ? 24 : index;
     final steps = weather.props.timeseries
         .take(hours)
         .map((e) => e.data.next1h?.details)
-        .where((e) => (e?.precipitationAmount ?? 0) > 0)
-        .map((e) {
-      final amountInMm = e?.precipitationAmount ?? 0.0;
-      final temp = min(e?.airTemperatureMax ?? 0, e?.airTemperatureMax ?? 0);
-      return amountInMm * (temp > 0 ? 1 : _calcSnowRatioInInches(temp) * 0.254);
-    });
+        .whereType<WeatherForecastDetails>()
+        .where((e) => (e.precipitationAmount ?? 0) > 0)
+        .map(
+      (e) {
+        final amountInMm = e.precipitationAmount ?? 0.0;
+        final hasMinTemp = e.airTemperatureMin != null;
+        final hasMaxTemp = e.airTemperatureMax != null;
+        final minTemp = hasMinTemp ? e.airTemperatureMin! : 0.0;
+        final maxTemp = hasMaxTemp ? e.airTemperatureMax! : 0.0;
+        final temp = hasMinTemp && hasMinTemp
+            ? min(minTemp, maxTemp)
+            : min(minTemp, maxTemp);
+        return amountInMm *
+            (temp > 0 ? 1 : _calcSnowRatioInInches(temp) * 0.254);
+      },
+    );
 
     // Sum over next 24 from index
     return steps.sum().toStringAsFixed(1);
