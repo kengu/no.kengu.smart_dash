@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:charts_painter/chart.dart';
@@ -39,6 +40,13 @@ class BarChartTile<T extends num> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // HACK: Chart does not handle values below 1 well
+    const valuePadding = 1.5;
+
+    if (items.isEmpty) {
+      return const CircularProgressIndicator();
+    }
+
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
     final lineColor = surfaceColor.lighten(0.05);
     final textStyle = getLegendTextStyle(context);
@@ -82,18 +90,20 @@ class BarChartTile<T extends num> extends StatelessWidget {
                 ),
               ),
               data: ChartData.fromList(
-                items.map((e) => ChartItem<T>(e.toDouble())).toList(),
+                items
+                    .map((e) => ChartItem<T>(e.toDouble() + valuePadding))
+                    .toList(),
+                axisMax: 10,
               ),
               itemOptions: WidgetItemOptions(
                 minBarWidth: minItemWidth,
                 maxBarWidth: minItemWidth,
                 widgetItemBuilder: (data) {
-                  final value = itemValueBuilder(data.itemIndex);
                   return Container(
                     margin: chartMargin,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12),
+                        top: Radius.circular(0),
                       ),
                     ),
                     foregroundDecoration: BoxDecoration(
@@ -102,28 +112,24 @@ class BarChartTile<T extends num> extends StatelessWidget {
                       ),
                       color: Colors.lightGreen.withOpacity(0.6),
                     ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 8.0,
-                            left: 0.0,
-                            right: 0.0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              child: Text(
-                                value,
-                                style: textStyle,
-                                textAlign: TextAlign.center,
-                              ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 8.0,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2.0,
+                            ),
+                            child: Text(
+                              itemValueBuilder(data.itemIndex),
+                              style: textStyle,
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },
@@ -138,6 +144,7 @@ class BarChartTile<T extends num> extends StatelessWidget {
                   showHorizontalGrid: false,
                   endWithChartVertical: false,
                   verticalAxisValueFromIndex: axisLabelBuilder,
+                  verticalValuesPadding: const EdgeInsets.only(top: 4.0),
                 ),
               ],
               foregroundDecorations: [
@@ -148,10 +155,18 @@ class BarChartTile<T extends num> extends StatelessWidget {
                   hideZeroValues: hideZeroValues,
                   valueGenerator: (item) {
                     // HACK: Adjust vertical alignment of text above bar
-                    return max(1, item.max ?? 0) * 0.97;
+                    return max(1, (item.max ?? 0) * 0.97);
                   },
-                  labelGenerator: (item) =>
-                      itemLabelBuilder(valueIndex++, item as ChartItem<T>),
+                  labelGenerator: (item) => itemLabelBuilder(
+                    (valueIndex++) % items.length,
+                    ChartItem<T>(
+                      item.max == null ? null : item.max! - valuePadding,
+                      min: item.min,
+                      value: item.value == null
+                          ? null
+                          : item.value! - valuePadding,
+                    ),
+                  ),
                 ),
               ],
             ),

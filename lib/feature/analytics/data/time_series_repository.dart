@@ -26,11 +26,7 @@ class TimeSeriesRepository {
   Future<List<Token>> getTokens() {
     return guard(() async {
       final paired = await ref.read(deviceRepositoryProvider).getAll();
-      if (!paired.isPresent) {
-        return [];
-      }
-
-      final tokens = paired.value.map((e) => e.toTokens()).fold(
+      final tokens = paired.map((e) => e.toTokens()).fold(
         <Token>[],
         (tokens, e) => tokens..addAll(e),
       ).toList();

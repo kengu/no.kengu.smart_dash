@@ -32,7 +32,7 @@ class EnergyBillMonthTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final at = DateTime.now();
     if (!power.isPresent) {
-      return BarChartTile(
+      return BarChartTile<double>(
         total: '-',
         items: const [0],
         icon: CupertinoIcons.sum,
@@ -52,7 +52,7 @@ class EnergyBillMonthTile extends ConsumerWidget {
         final bill = Optional.ofNullable(snapshot.data);
         final daily = _toDaily(bill);
         final details = bill.orElseNull?.daily ?? [];
-        return BarChartTile(
+        return BarChartTile<double>(
           icon: CupertinoIcons.sum,
           title: 'Energy Bill Today',
           subtitle: 'Last ${at.hour} hours ($area)',
