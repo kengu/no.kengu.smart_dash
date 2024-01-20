@@ -329,7 +329,7 @@ class WeatherInstanceWidget extends StatelessWidget {
   }
 
   String _toPrecipitationAmount() {
-    final hours = index == 0 ? 24 : max(0, index - 1);
+    final hours = index == 0 ? 24 : index;
     final steps = weather.props.timeseries
         .take(hours)
         .map((e) => e.data.next1h?.details)
