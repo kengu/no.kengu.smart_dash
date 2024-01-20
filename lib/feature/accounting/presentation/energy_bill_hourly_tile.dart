@@ -57,11 +57,11 @@ class EnergyBillHourlyTile extends ConsumerWidget {
               : <double>[0],
           total: hourly.sum().lastRow.toPrice('kr', fractionDigits: 0),
           axisLabelBuilder: (axisIndex) =>
-              "${hourly.tsAt(axisIndex, false).hour}",
+              "${hourly.tsAt(axisIndex, false).hour + 1}h",
           itemValueBuilder: (itemIndex) => details.length > itemIndex
               ? details[itemIndex].energy.toEnergy()
               : '-',
-          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr'),
+          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr', 0),
         );
       },
     );

@@ -36,7 +36,7 @@ class EnergyBillMonthTile extends ConsumerWidget {
         total: '-',
         items: const [0],
         icon: CupertinoIcons.sum,
-        title: 'Energy Bill Today',
+        title: 'Energy Bill ${df.format(at)}',
         subtitle: 'Last ${at.hour} hours ($area)',
         axisLabelBuilder: (axisIndex) => '',
         itemValueBuilder: (itemIndex) => '-',
@@ -54,17 +54,17 @@ class EnergyBillMonthTile extends ConsumerWidget {
         final details = bill.orElseNull?.daily ?? [];
         return BarChartTile<double>(
           icon: CupertinoIcons.sum,
-          title: 'Energy Bill Today',
+          title: 'Energy Bill ${df.format(at)}',
           subtitle: 'Last ${at.hour} hours ($area)',
           items:
               daily.isNotEmpty ? daily.firstColumn.cast<double>() : <double>[0],
           total: daily.sum().lastRow.toPrice('kr', fractionDigits: 0),
           axisLabelBuilder: (axisIndex) =>
-              "${daily.tsAt(axisIndex, false).hour}",
+              '${daily.tsAt(axisIndex, false).day}d',
           itemValueBuilder: (itemIndex) => details.length > itemIndex
               ? details[itemIndex].energy.toEnergy()
               : '-',
-          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr'),
+          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr', 0),
         );
       },
     );
