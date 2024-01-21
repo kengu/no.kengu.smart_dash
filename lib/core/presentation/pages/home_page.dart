@@ -361,10 +361,10 @@ List<DashboardItem> _tablet() => [
       ),
       DashboardItem(
         identifier: 'snow_now',
-        width: 2,
+        width: 3,
         height: 1,
-        maxWidth: 2,
-        minWidth: 2,
+        maxWidth: 3,
+        minWidth: 3,
       ),
     ];
 
@@ -435,9 +435,9 @@ List<DashboardItem> _desktop() => [
       ),
       DashboardItem(
         identifier: 'snow_now',
-        width: 3,
+        width: 4,
         height: 1,
-        maxWidth: 3,
+        maxWidth: 4,
         minWidth: 3,
       ),
     ];

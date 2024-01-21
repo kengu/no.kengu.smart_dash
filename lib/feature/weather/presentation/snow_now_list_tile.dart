@@ -21,7 +21,7 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
 
   final constraints = const BoxConstraints(
     minWidth: 270,
-    maxWidth: 400,
+    maxWidth: 800,
     minHeight: 180,
   );
 
@@ -41,7 +41,7 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
 
   @override
   Widget build(BuildContext context) {
-    final trailingTextStyle = Theme.of(context).textTheme.labelMedium;
+    final trailingTextStyle = Theme.of(context).textTheme.labelLarge;
     return FutureBuilder<Optional<List<SnowState>>>(
       future: _getStates(),
       initialData: service.getStatesCached(),
@@ -72,13 +72,10 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
                   .map((e) => ListTile(
                         leading: const Icon(Icons.line_axis),
                         title: Text(e.location),
-                        subtitle: Text(
-                          '${e.equivalent} kg/m² @ ${e.elevation} m',
-                        ),
-                        trailing: Text(
-                          '${e.depth} cm',
-                          style: trailingTextStyle,
-                        ),
+                        subtitle:
+                            Text('${e.equivalent} kg/m² @ ${e.elevation} m'),
+                        trailing:
+                            Text('${e.depth} cm', style: trailingTextStyle),
                       ))
                   .toList(),
             ),
@@ -93,8 +90,10 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
     if (states.isPresent) {
       // Start timer that fires after earliest next state update time
       final nextUpdate = SnowState.toEarliestNextUpdate(states.value);
+      final refresh =
+          nextUpdate.add(const Duration(seconds: 1)).difference(DateTime.now());
       _timer?.cancel();
-      _timer = Timer(nextUpdate.difference(DateTime.now()), () async {
+      _timer = Timer(refresh, () async {
         setState(() {});
       });
     }

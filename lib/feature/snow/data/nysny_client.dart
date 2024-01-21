@@ -98,41 +98,46 @@ class NySnyClient {
           ?.map(
             (data) => SnowState(
               location: data['Sted'] as String,
-              depth: int.parse(
-                _get(
-                  data,
-                  'Snødybde',
-                  split: ' cm',
+              depth: _parse(
+                data,
+                field: 'Snødybde',
+                split: ' cm',
+                parse: int.parse,
+                defaultValue: 0,
+              ),
+              elevation: _parse(
+                data,
+                field: 'moh',
+                parse: int.parse,
+                defaultValue: 0,
+              ),
+              equivalent: _parse(
+                data,
+                field: 'kg pr m2',
+                split: ' kg/m2',
+                parse: int.parse,
+                defaultValue: 0,
+              ),
+              temperature: _parse(
+                data,
+                field: 'Luft',
+                split: '°C',
+                match: ',',
+                replace: '.',
+                parse: double.parse,
+                defaultValue: 0,
+              ),
+              lastUpdated: _parse(
+                data,
+                field: 'Tid',
+                parse: df.parse,
+                defaultValue: DateTime.fromMillisecondsSinceEpoch(
+                  0,
                 ),
-              ),
-              elevation: int.parse(
-                _get(data, 'moh'),
-              ),
-              equivalent: int.parse(
-                _get(
-                  data,
-                  'kg pr m2',
-                  split: ' kg/m2',
-                ),
-              ),
-              temperature: double.parse(
-                _get(
-                  data,
-                  'Luft',
-                  split: '°C',
-                  match: ',',
-                  replace: '.',
-                ),
-              ),
-              lastUpdated: df
-                  .parse(
-                    _get(data, 'Tid'),
-                  )
-                  .copyWith(year: now.year),
+              ).copyWith(year: now.year),
               nextUpdate: df
                   .parse(
-                    '${mf.format(now)}'
-                    ' ${_get(data, 'Neste lesing')}',
+                    '${mf.format(now)} ${data['Neste lesing']}',
                   )
                   .copyWith(year: now.year),
             ),
@@ -141,16 +146,29 @@ class NySnyClient {
     });
   }
 
-  String _get(JsonObject data, String field,
-      {String? split, String? match, String? replace}) {
+  T _parse<T>(
+    JsonObject data, {
+    required String field,
+    required T defaultValue,
+    required T Function(String value) parse,
+    String? split,
+    String? match,
+    String? replace,
+  }) {
     final value = data[field] as String;
     final first = split == null ? value : value.split(split)[0];
-    return match == null
+    final item = match == null
         ? first
         : first.replaceAll(
             match,
             replace!,
           );
+
+    try {
+      return parse(item);
+    } catch (e) {
+      return defaultValue;
+    }
   }
 }
 
