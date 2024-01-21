@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +25,8 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
     minHeight: 180,
   );
 
+  Timer? _timer;
+
   @override
   void initState() {
     service = ref.read(snowServiceProvider);
@@ -30,10 +34,16 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final trailingTextStyle = Theme.of(context).textTheme.labelMedium;
     return FutureBuilder<Optional<List<SnowState>>>(
-      future: service.getStates(),
+      future: _getStates(),
       initialData: service.getStatesCached(),
       builder: (context, snapshot) {
         final states =
@@ -76,5 +86,19 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
         );
       },
     );
+  }
+
+  Future<Optional<List<SnowState>>> _getStates() async {
+    final states = await service.getStates();
+    if (states.isPresent) {
+      // Start timer that fires after earliest next state update time
+      final nextUpdate = SnowState.toEarliestNextUpdate(states.value);
+      _timer?.cancel();
+      _timer = Timer(nextUpdate.difference(DateTime.now()), () async {
+        setState(() {});
+      });
+    }
+
+    return states;
   }
 }
