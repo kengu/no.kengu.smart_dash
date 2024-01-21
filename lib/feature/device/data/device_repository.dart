@@ -48,31 +48,36 @@ class DeviceRepository {
             [];
       });
 
-  /// Attempt to add all given devices to
+  /// Attempt to sett all given devices to
   /// repository. Returns list of actual added devices.
-  Future<List<Device>> addAll(Iterable<Device> devices) async {
+  Future<List<Device>> setAll(Iterable<Device> devices) async {
     final current = await _load();
-    final unique = devices.toSet().toList();
-    unique.removeWhere(
-      (device) => current.contains(device),
+    final unique = devices.toSet();
+    final currentIds = current.map((e) => Identity.of(e));
+    final removedIds = unique
+        .where((e) => currentIds.contains(Identity.of(e)))
+        .map((e) => Identity.of(e));
+    current.removeWhere(
+      (e) => removedIds.contains(Identity.of(e)),
     );
-    final success = await _setAll([...current, ...unique]);
-    return success ? unique : [];
+    final success = await _setAll([...unique, ...current]);
+    return [if (success) ...unique];
   }
 
-  /// Attempt to add all given devices to
+  /// Attempt to remove all given devices from
   /// repository. Returns list of actual removed devices.
   Future<List<Device>> removeAll(Iterable<Device> devices) async {
     final current = await _load();
-    final ids = current.map((e) => Identity.of(e));
-    final existed = devices.where(
-      (e) => ids.contains(Identity.of(e)),
-    );
+    final unique = devices.toSet();
+    final currentIds = current.map((e) => Identity.of(e));
+    final removedIds = unique
+        .where((e) => currentIds.contains(Identity.of(e)))
+        .map((e) => Identity.of(e));
     current.removeWhere(
-      (e) => ids.contains(Identity.of(e)),
+      (e) => removedIds.contains(Identity.of(e)),
     );
     final success = await _setAll(current);
-    return [if (success) ...existed];
+    return [if (success) ...unique];
   }
 
   Future<bool> _setAll(List<Device> devices) => guard(() async {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -98,6 +99,8 @@ class DeviceDriverManager {
         'after ${event.duration.inSeconds} sec.',
       );
       _updatedController.add(event);
+      // Update devices
+      await ref.read(deviceRepositoryProvider).setAll(event.devices);
     }
   }
 

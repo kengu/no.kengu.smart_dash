@@ -103,7 +103,7 @@ abstract class DeviceDriver {
   Future<List<Device>> pairAll(List<Device> devices) async {
     final supported = devices.where((e) => e.service == key);
     final repo = ref.read(deviceRepositoryProvider);
-    final unique = await repo.addAll(supported);
+    final unique = await repo.setAll(supported);
     await onPaired(unique);
     return unique;
   }
