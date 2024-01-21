@@ -14,29 +14,36 @@ class SikomFlow extends Flow {
             case TokenUnit.energy:
               yield FlowEvent<int>(
                 token,
-                device.energy?.cumulativeToday ?? 0,
-                device.energy?.lastUpdated ?? device.lastUpdated,
+                device.electric?.cumulativeToday ?? 0,
+                device.electric?.lastUpdated ?? device.lastUpdated,
               );
               break;
             case TokenUnit.power:
               yield FlowEvent<int>(
                 token,
-                device.energy?.currentPower ?? 0,
-                device.lastUpdated,
+                device.electric?.currentPower ?? 0,
+                device.electric?.lastUpdated ?? device.lastUpdated,
               );
               break;
             case TokenUnit.voltage:
               yield FlowEvent<int>(
                 token,
-                device.voltage ?? 0,
-                device.lastUpdated,
+                device.electric?.voltage ?? 0,
+                device.electric?.lastUpdated ?? device.lastUpdated,
               );
               break;
             case TokenUnit.temperature:
-              yield FlowEvent<int>(
+              yield FlowEvent<double>(
                 token,
-                device.temperature ?? 0,
+                device.temperature ?? 0.0,
                 device.lastUpdated,
+              );
+              break;
+            case TokenUnit.onOff:
+              yield FlowEvent<bool>(
+                token,
+                device.onOff?.state ?? false,
+                device.onOff?.lastUpdated ?? device.lastUpdated,
               );
               break;
           }

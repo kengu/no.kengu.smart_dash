@@ -11,15 +11,17 @@ import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart
 import 'package:smart_dash/feature/device/presentation/tile/energy_usage_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dart';
+import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/device/presentation/tile/temperature_tile.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
+import 'package:smart_dash/feature/weather/presentation/snow_now_list_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/core/application/fullscreen_state.dart';
+import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
@@ -137,20 +139,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     duration: TimeScale.minutes.to(size),
                                     history: _fetch(item, tokens, event),
                                   );
-                                case 'temperature1':
-                                  return TemperatureTile(
-                                    title: tokens.containsKey(item.identifier)
-                                        ? tokens[item.identifier]!.label
-                                        : 'Temperature',
-                                    subtitle: 'Last $size minutes',
-                                    key: GlobalObjectKey(item),
-                                    duration: TimeScale.minutes.to(size),
-                                    history: _fetch(item, tokens, event),
-                                  );
                                 case 'temperature':
                                   return TemperatureListTile(
                                     title: 'Temperatures Now',
                                     subtitle: 'Last $size minutes',
+                                    key: GlobalObjectKey(item),
+                                    duration: TimeScale.minutes.to(size),
+                                  );
+                                case 'onOff':
+                                  return SwitchOnOffListTile(
+                                    title: 'Switches Now',
+                                    subtitle:
+                                        'Last updated ${DateTime.now().format()}',
                                     key: GlobalObjectKey(item),
                                     duration: TimeScale.minutes.to(size),
                                   );
@@ -182,6 +182,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     lon: 8.8168,
                                     place: 'Tindefjell',
                                   );
+                                case 'snow_now':
+                                  // TODO: Make location name configurable
+                                  return const SnowNowListTile();
                                 case 'system_now':
                                   return SystemNowTile(
                                     key: GlobalObjectKey(item),
@@ -273,6 +276,20 @@ class _HomePageState extends ConsumerState<HomePage> {
           minWidth: 8,
           maxWidth: 8,
         ),
+        DashboardItem(
+          identifier: DeviceCapability.onOff.name,
+          width: 8,
+          height: 1,
+          minWidth: 8,
+          maxWidth: 8,
+        ),
+        DashboardItem(
+          identifier: 'snow_now',
+          width: 8,
+          height: 1,
+          minWidth: 8,
+          maxWidth: 8,
+        ),
       ];
 }
 
@@ -335,6 +352,20 @@ List<DashboardItem> _tablet() => [
         maxWidth: 3,
         minWidth: 3,
       ),
+      DashboardItem(
+        identifier: DeviceCapability.onOff.name,
+        width: 3,
+        height: 1,
+        maxWidth: 3,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: 'snow_now',
+        width: 2,
+        height: 1,
+        maxWidth: 2,
+        minWidth: 2,
+      ),
     ];
 
 List<DashboardItem> _desktop() => [
@@ -393,6 +424,20 @@ List<DashboardItem> _desktop() => [
         width: 4,
         height: 1,
         maxWidth: 4,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: DeviceCapability.onOff.name,
+        width: 4,
+        height: 1,
+        maxWidth: 4,
+        minWidth: 3,
+      ),
+      DashboardItem(
+        identifier: 'snow_now',
+        width: 3,
+        height: 1,
+        maxWidth: 3,
         minWidth: 3,
       ),
     ];

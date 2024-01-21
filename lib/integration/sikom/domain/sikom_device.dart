@@ -2,7 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/device/domain/energy_summary.dart';
+import 'package:smart_dash/feature/device/domain/electric_state.dart';
+import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 
@@ -112,23 +113,21 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   /// Check if device is real
   bool get isReal => properties.dummy == null;
 
-  /// Get voltage (-1 if not found)
-  int get voltage => toInt(properties.powerVoltage, -1);
-
   @override
   Device toDevice() => Device(
         data: toJson(),
         id: properties.id,
         service: Sikom.key,
         name: properties.name,
+        onOff: toSwitchState(),
+        electric: toElectricState(),
         type: properties.type.toDeviceType(),
-        voltage: voltage,
-        energy: toEnergy(),
-        temperature: properties.temperature?.toInt(),
+        temperature: properties.temperature?.toDouble(),
         lastUpdated: properties.lastUpdated.isPresent
             ? properties.lastUpdated.value
             : DateTime.now(),
         capabilities: [
+          if (properties.hasOnOff) DeviceCapability.onOff,
           if (properties.hasPower) DeviceCapability.power,
           if (properties.hasEnergy) DeviceCapability.energy,
           if (properties.hasVoltage) DeviceCapability.voltage,
@@ -141,16 +140,49 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         name: Sikom.readableModelName[type] ?? model,
       );
 
-  EnergySummary? toEnergy() => hasEnergy
-      ? EnergySummary(
-          cumulative: toInt(properties.cumulativeEnergy, -1),
-          currentPower: toInt(properties.currentPowerUsage, -1),
-          cumulativeToday: toInt(properties.cumulativeEnergyToday, -1),
+  ElectricState? toElectricState() => hasEnergy || hasVoltage || hasPower
+      ? ElectricState(
+          voltage: properties.powerVoltage?.toInt(),
+          cumulative: properties.cumulativeEnergy?.toInt(),
+          currentPower: properties.currentPowerUsage?.toInt(),
+          cumulativeToday: properties.cumulativeEnergyToday?.toInt(),
           lastUpdated: properties.lastUpdated.isPresent
               ? properties.lastUpdated.value
               : DateTime.now(),
         )
       : null;
+
+  SwitchState? toSwitchState() {
+    if (!hasOnOff) return null;
+
+    // Only set if device is a Thermostat
+    final isThermostatActive = properties.switchThermostatActive?.toInt();
+    final onMode = (switch (isThermostatActive) {
+      1 => SwitchMode.comfort,
+      _ => SwitchMode.on,
+    });
+    final offModeName = properties.switchReductionMode?.value ??
+        (switch (isThermostatActive) {
+          0 => 'eco',
+          _ => 'off',
+        });
+    final offMode = SwitchMode.values.firstWhere(
+      (e) => e.name == offModeName,
+      orElse: () => SwitchMode.off,
+    );
+    return SwitchState(
+      onMode: onMode,
+      offMode: offMode,
+      state: properties.switchState!.toInt() == 1,
+      mode: properties.switchMode?.toInt() == 0 ? offMode : onMode,
+      lastUpdated: properties.lastUpdated.isPresent
+          ? properties.lastUpdated.value
+          : DateTime.now(),
+    );
+  }
+
+  /// Check if device is a onoff switch
+  bool get hasOnOff => properties.hasOnOff;
 
   /// Check if device reports current power usage
   bool get hasPower => properties.hasPower;
@@ -163,14 +195,6 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
 
   /// Check if device reports temperature
   bool get hasTemperature => properties.hasTemperature;
-
-  static int toInt(SikomProperty? property, [int undefined = 0]) =>
-      property == null ? undefined : int.tryParse(property.value) ?? undefined;
-
-  static double toDouble(SikomProperty? property, [double undefined = 0]) =>
-      property == null
-          ? undefined
-          : double.tryParse(property.value) ?? undefined;
 
   factory SikomDevice.fromJson(Map<String, Object?> json) =>
       _$SikomDeviceFromJson(json);
@@ -298,6 +322,8 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
           productCode ??
           vendorType)
       .value;
+
+  bool get hasOnOff => switchState != null;
 
   /// Check if device reports current power usage
   bool get hasPower => currentPowerUsage != null;
