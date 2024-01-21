@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash/feature/device/domain/energy_summary.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
+
+import 'electric_state.dart';
+import 'switch_state.dart';
 
 part 'device.freezed.dart';
 part 'device.g.dart';
@@ -72,16 +74,17 @@ class Device with _$Device {
     /// Get the timestamp for when device's was last updated
     required DateTime lastUpdated,
 
-    /// Get device's measured voltage (default null)
-    int? voltage,
-
     /// Get device's measured temperature (default null)
-    int? temperature,
+    double? temperature,
 
-    /// Get the device's energy consumption (default null)
-    EnergySummary? energy,
+    /// Get the device's electric state information (default null)
+    ElectricState? electric,
+
+    /// Get the device's switch state information (default null)
+    SwitchState? onOff,
   }) = _Device;
 
+  bool get hasOnOff => capabilities.hasOnOff;
   bool get hasPower => capabilities.hasPower;
   bool get hasEnergy => capabilities.hasEnergy;
   bool get hasVoltage => capabilities.hasVoltage;
@@ -92,38 +95,65 @@ class Device with _$Device {
             DeviceCapability.power => Token(
                 tag: e.name,
                 label: name,
-                type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.power,
+                type: DeviceCapability.power.type,
               ),
             DeviceCapability.energy => Token(
                 tag: e.name,
                 label: name,
-                type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.energy,
+                type: DeviceCapability.energy.type,
               ),
             DeviceCapability.voltage => Token(
                 tag: e.name,
                 label: name,
-                type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.voltage,
+                type: DeviceCapability.voltage.type,
               ),
             DeviceCapability.temperature => Token(
                 tag: e.name,
                 label: name,
-                type: TokenType.int,
                 name: _toTokenName(e),
                 unit: TokenUnit.temperature,
+                type: DeviceCapability.temperature.type,
+              ),
+            DeviceCapability.onOff => Token(
+                tag: e.name,
+                label: name,
+                name: _toTokenName(e),
+                unit: TokenUnit.onOff,
+                type: DeviceCapability.onOff.type,
               ),
           })
       .toList();
 
   String _toTokenName(DeviceCapability e) =>
-      [e.variable, service, 'Device', id].join(':');
+      [e.variable, service, 'device', id].join(':');
 
   factory Device.fromJson(Map<String, Object?> json) => _$DeviceFromJson(json);
+}
+
+@freezed
+class Identity with _$Identity {
+  const Identity._();
+
+  const factory Identity({
+    required String deviceId,
+    required String test,
+    required String serviceKey,
+  }) = _Identity;
+
+  factory Identity.fromJson(Map<String, Object?> json) =>
+      _$IdentityFromJson(json);
+
+  factory Identity.of(Device device) => Identity(
+        deviceId: device.id,
+        test: '1',
+        serviceKey: device.service,
+      );
 }
 
 mixin DeviceMapper {
@@ -132,6 +162,7 @@ mixin DeviceMapper {
 }
 
 extension DeviceCapabilityX on List<DeviceCapability> {
+  bool get hasOnOff => any((c) => c.hasOnOff);
   bool get hasPower => any((c) => c.hasPower);
   bool get hasEnergy => any((c) => c.hasEnergy);
   bool get hasVoltage => any((c) => c.hasVoltage);
@@ -143,29 +174,41 @@ extension DeviceCapabilityX on List<DeviceCapability> {
 enum DeviceCapability {
   energy(
     'meter_energy',
-    'This flag implies that the device has power measurement capability',
+    'This implies that the device has power measurement capability',
+    TokenType.int,
   ),
   power(
     'measure_power',
-    'This flag implies that the device has power measurement capability',
+    'This implies that the device has power measurement capability',
+    TokenType.int,
   ),
 
   voltage(
     'measure_voltage',
-    'This flag implies that the device has voltage measurement capability',
+    'This implies that the device has voltage measurement capability',
+    TokenType.int,
   ),
 
   temperature(
     'measure_temperature',
-    'This flag implies that the device has temperature measurement capability',
+    'This implies that the device has temperature measurement capability',
+    TokenType.double,
+  ),
+
+  onOff(
+    'onoff',
+    'This implies that the device has on/off switch capability',
+    TokenType.bool,
   );
 
+  bool get hasOnOff => this == onOff;
   bool get hasPower => this == power;
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
   bool get hasTemperature => this == temperature;
 
-  const DeviceCapability(this.variable, this.description);
+  const DeviceCapability(this.variable, this.description, this.type);
+  final TokenType type;
   final String variable;
   final String description;
 }

@@ -16,12 +16,12 @@ class DeviceRepository {
     return await _load();
   }
 
-  Future<Optional<Device>> get(String id) async {
+  Future<Optional<Device>> get(Identity id) async {
     final devices = await _load();
     return devices.isEmpty
         ? const Optional.empty()
         : devices.firstWhereOptional(
-            (device) => device.id == id,
+            (device) => Identity.of(device) == id,
           );
   }
 
@@ -64,11 +64,15 @@ class DeviceRepository {
   /// repository. Returns list of actual removed devices.
   Future<List<Device>> removeAll(Iterable<Device> devices) async {
     final current = await _load();
+    final ids = current.map((e) => Identity.of(e));
+    final existed = devices.where(
+      (e) => ids.contains(Identity.of(e)),
+    );
     current.removeWhere(
-      (device) => devices.contains(device),
+      (e) => ids.contains(Identity.of(e)),
     );
     final success = await _setAll(current);
-    return success ? current : [];
+    return [if (success) ...existed];
   }
 
   Future<bool> _setAll(List<Device> devices) => guard(() async {

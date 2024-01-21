@@ -45,6 +45,7 @@ const _$ServiceFieldEnumMap = {
 };
 
 const _$IntegrationFeatureEnumMap = {
+  IntegrationFeature.data: 'data',
   IntegrationFeature.device: 'device',
   IntegrationFeature.camera: 'camera',
 };

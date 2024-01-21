@@ -31,6 +31,13 @@ class FutureCache {
     _requests[key] = (DateTime.now(), Future.value(value));
   }
 
+  void setTTL(String key, DateTime when) {
+    if (_requests.containsKey(key)) {
+      final item = _requests[key]!;
+      _requests[key] = (when, item.$2);
+    }
+  }
+
   Optional<DateTime> lastCached(String key) {
     return Optional.ofNullable(_requests[key]?.$1);
   }

@@ -25,7 +25,7 @@ class DeviceService {
   }
 
   /// Get [Device] with given [id] stored locally
-  Future<Optional<Device>> get(String id, {Duration ttl = Duration.zero}) {
+  Future<Optional<Device>> get(Identity id, {Duration ttl = Duration.zero}) {
     return _cache.getOrFetch(
       'get:$id',
       () => ref.read(deviceRepositoryProvider).get(id),

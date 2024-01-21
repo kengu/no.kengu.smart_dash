@@ -34,7 +34,7 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
         final devices =
             (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
         final values = devices.map((e) => (e.temperature ?? 0)).toList();
-        return BarChartTile<int>(
+        return BarChartTile<double>(
           title: 'Temperatures Now',
           icon: CupertinoIcons.thermometer,
           subtitle: 'Last updated ${DateTime.now().hour}h',
@@ -48,7 +48,7 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
           itemValueBuilder: (itemIndex) => devices[itemIndex].name,
           itemLabelBuilder: (index, item) {
             return devices[index].temperature == null
-                ? 'Off'
+                ? devices[index].onOff?.mode.name ?? 'Off'
                 : (item.max ?? 0).toTemperature();
           },
         );

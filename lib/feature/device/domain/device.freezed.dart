@@ -41,14 +41,14 @@ mixin _$Device {
   /// Get the timestamp for when device's was last updated
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
-  /// Get device's measured voltage (default null)
-  int? get voltage => throw _privateConstructorUsedError;
-
   /// Get device's measured temperature (default null)
-  int? get temperature => throw _privateConstructorUsedError;
+  double? get temperature => throw _privateConstructorUsedError;
 
-  /// Get the device's energy consumption (default null)
-  EnergySummary? get energy => throw _privateConstructorUsedError;
+  /// Get the device's electric state information (default null)
+  ElectricState? get electric => throw _privateConstructorUsedError;
+
+  /// Get the device's switch state information (default null)
+  SwitchState? get onOff => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -68,11 +68,12 @@ abstract class $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
-      int? voltage,
-      int? temperature,
-      EnergySummary? energy});
+      double? temperature,
+      ElectricState? electric,
+      SwitchState? onOff});
 
-  $EnergySummaryCopyWith<$Res>? get energy;
+  $ElectricStateCopyWith<$Res>? get electric;
+  $SwitchStateCopyWith<$Res>? get onOff;
 }
 
 /// @nodoc
@@ -95,9 +96,9 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
-    Object? voltage = freezed,
     Object? temperature = freezed,
-    Object? energy = freezed,
+    Object? electric = freezed,
+    Object? onOff = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -128,30 +129,42 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      voltage: freezed == voltage
-          ? _value.voltage
-          : voltage // ignore: cast_nullable_to_non_nullable
-              as int?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as int?,
-      energy: freezed == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as EnergySummary?,
+              as double?,
+      electric: freezed == electric
+          ? _value.electric
+          : electric // ignore: cast_nullable_to_non_nullable
+              as ElectricState?,
+      onOff: freezed == onOff
+          ? _value.onOff
+          : onOff // ignore: cast_nullable_to_non_nullable
+              as SwitchState?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $EnergySummaryCopyWith<$Res>? get energy {
-    if (_value.energy == null) {
+  $ElectricStateCopyWith<$Res>? get electric {
+    if (_value.electric == null) {
       return null;
     }
 
-    return $EnergySummaryCopyWith<$Res>(_value.energy!, (value) {
-      return _then(_value.copyWith(energy: value) as $Val);
+    return $ElectricStateCopyWith<$Res>(_value.electric!, (value) {
+      return _then(_value.copyWith(electric: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SwitchStateCopyWith<$Res>? get onOff {
+    if (_value.onOff == null) {
+      return null;
+    }
+
+    return $SwitchStateCopyWith<$Res>(_value.onOff!, (value) {
+      return _then(_value.copyWith(onOff: value) as $Val);
     });
   }
 }
@@ -171,12 +184,14 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
-      int? voltage,
-      int? temperature,
-      EnergySummary? energy});
+      double? temperature,
+      ElectricState? electric,
+      SwitchState? onOff});
 
   @override
-  $EnergySummaryCopyWith<$Res>? get energy;
+  $ElectricStateCopyWith<$Res>? get electric;
+  @override
+  $SwitchStateCopyWith<$Res>? get onOff;
 }
 
 /// @nodoc
@@ -197,9 +212,9 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
-    Object? voltage = freezed,
     Object? temperature = freezed,
-    Object? energy = freezed,
+    Object? electric = freezed,
+    Object? onOff = freezed,
   }) {
     return _then(_$DeviceImpl(
       id: null == id
@@ -230,18 +245,18 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      voltage: freezed == voltage
-          ? _value.voltage
-          : voltage // ignore: cast_nullable_to_non_nullable
-              as int?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as int?,
-      energy: freezed == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as EnergySummary?,
+              as double?,
+      electric: freezed == electric
+          ? _value.electric
+          : electric // ignore: cast_nullable_to_non_nullable
+              as ElectricState?,
+      onOff: freezed == onOff
+          ? _value.onOff
+          : onOff // ignore: cast_nullable_to_non_nullable
+              as SwitchState?,
     ));
   }
 }
@@ -257,9 +272,9 @@ class _$DeviceImpl extends _Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapability> capabilities,
       required this.lastUpdated,
-      this.voltage,
       this.temperature,
-      this.energy})
+      this.electric,
+      this.onOff})
       : _data = data,
         _capabilities = capabilities,
         super._();
@@ -309,21 +324,21 @@ class _$DeviceImpl extends _Device {
   @override
   final DateTime lastUpdated;
 
-  /// Get device's measured voltage (default null)
-  @override
-  final int? voltage;
-
   /// Get device's measured temperature (default null)
   @override
-  final int? temperature;
+  final double? temperature;
 
-  /// Get the device's energy consumption (default null)
+  /// Get the device's electric state information (default null)
   @override
-  final EnergySummary? energy;
+  final ElectricState? electric;
+
+  /// Get the device's switch state information (default null)
+  @override
+  final SwitchState? onOff;
 
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, voltage: $voltage, temperature: $temperature, energy: $energy)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, temperature: $temperature, electric: $electric, onOff: $onOff)';
   }
 
   @override
@@ -340,10 +355,11 @@ class _$DeviceImpl extends _Device {
                 .equals(other._capabilities, _capabilities) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
-            (identical(other.voltage, voltage) || other.voltage == voltage) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
-            (identical(other.energy, energy) || other.energy == energy));
+            (identical(other.electric, electric) ||
+                other.electric == electric) &&
+            (identical(other.onOff, onOff) || other.onOff == onOff));
   }
 
   @JsonKey(ignore: true)
@@ -357,9 +373,9 @@ class _$DeviceImpl extends _Device {
       const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(_capabilities),
       lastUpdated,
-      voltage,
       temperature,
-      energy);
+      electric,
+      onOff);
 
   @JsonKey(ignore: true)
   @override
@@ -384,9 +400,9 @@ abstract class _Device extends Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapability> capabilities,
       required final DateTime lastUpdated,
-      final int? voltage,
-      final int? temperature,
-      final EnergySummary? energy}) = _$DeviceImpl;
+      final double? temperature,
+      final ElectricState? electric,
+      final SwitchState? onOff}) = _$DeviceImpl;
   const _Device._() : super._();
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
@@ -421,18 +437,193 @@ abstract class _Device extends Device {
   DateTime get lastUpdated;
   @override
 
-  /// Get device's measured voltage (default null)
-  int? get voltage;
-  @override
-
   /// Get device's measured temperature (default null)
-  int? get temperature;
+  double? get temperature;
   @override
 
-  /// Get the device's energy consumption (default null)
-  EnergySummary? get energy;
+  /// Get the device's electric state information (default null)
+  ElectricState? get electric;
+  @override
+
+  /// Get the device's switch state information (default null)
+  SwitchState? get onOff;
   @override
   @JsonKey(ignore: true)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Identity _$IdentityFromJson(Map<String, dynamic> json) {
+  return _Identity.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Identity {
+  String get deviceId => throw _privateConstructorUsedError;
+  String get test => throw _privateConstructorUsedError;
+  String get serviceKey => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $IdentityCopyWith<Identity> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IdentityCopyWith<$Res> {
+  factory $IdentityCopyWith(Identity value, $Res Function(Identity) then) =
+      _$IdentityCopyWithImpl<$Res, Identity>;
+  @useResult
+  $Res call({String deviceId, String test, String serviceKey});
+}
+
+/// @nodoc
+class _$IdentityCopyWithImpl<$Res, $Val extends Identity>
+    implements $IdentityCopyWith<$Res> {
+  _$IdentityCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? deviceId = null,
+    Object? test = null,
+    Object? serviceKey = null,
+  }) {
+    return _then(_value.copyWith(
+      deviceId: null == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String,
+      test: null == test
+          ? _value.test
+          : test // ignore: cast_nullable_to_non_nullable
+              as String,
+      serviceKey: null == serviceKey
+          ? _value.serviceKey
+          : serviceKey // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$IdentityImplCopyWith<$Res>
+    implements $IdentityCopyWith<$Res> {
+  factory _$$IdentityImplCopyWith(
+          _$IdentityImpl value, $Res Function(_$IdentityImpl) then) =
+      __$$IdentityImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String deviceId, String test, String serviceKey});
+}
+
+/// @nodoc
+class __$$IdentityImplCopyWithImpl<$Res>
+    extends _$IdentityCopyWithImpl<$Res, _$IdentityImpl>
+    implements _$$IdentityImplCopyWith<$Res> {
+  __$$IdentityImplCopyWithImpl(
+      _$IdentityImpl _value, $Res Function(_$IdentityImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? deviceId = null,
+    Object? test = null,
+    Object? serviceKey = null,
+  }) {
+    return _then(_$IdentityImpl(
+      deviceId: null == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String,
+      test: null == test
+          ? _value.test
+          : test // ignore: cast_nullable_to_non_nullable
+              as String,
+      serviceKey: null == serviceKey
+          ? _value.serviceKey
+          : serviceKey // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IdentityImpl extends _Identity {
+  const _$IdentityImpl(
+      {required this.deviceId, required this.test, required this.serviceKey})
+      : super._();
+
+  factory _$IdentityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IdentityImplFromJson(json);
+
+  @override
+  final String deviceId;
+  @override
+  final String test;
+  @override
+  final String serviceKey;
+
+  @override
+  String toString() {
+    return 'Identity(deviceId: $deviceId, test: $test, serviceKey: $serviceKey)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IdentityImpl &&
+            (identical(other.deviceId, deviceId) ||
+                other.deviceId == deviceId) &&
+            (identical(other.test, test) || other.test == test) &&
+            (identical(other.serviceKey, serviceKey) ||
+                other.serviceKey == serviceKey));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, deviceId, test, serviceKey);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$IdentityImplCopyWith<_$IdentityImpl> get copyWith =>
+      __$$IdentityImplCopyWithImpl<_$IdentityImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IdentityImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Identity extends Identity {
+  const factory _Identity(
+      {required final String deviceId,
+      required final String test,
+      required final String serviceKey}) = _$IdentityImpl;
+  const _Identity._() : super._();
+
+  factory _Identity.fromJson(Map<String, dynamic> json) =
+      _$IdentityImpl.fromJson;
+
+  @override
+  String get deviceId;
+  @override
+  String get test;
+  @override
+  String get serviceKey;
+  @override
+  @JsonKey(ignore: true)
+  _$$IdentityImplCopyWith<_$IdentityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

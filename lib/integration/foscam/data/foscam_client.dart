@@ -10,13 +10,13 @@ class FoscamClient {
   FoscamClient({
     required String host,
     required int port,
-    required this.creds,
+    required this.credentials,
   }) : api = Dio(BaseOptions(headers: {}, baseUrl: 'http://$host:$port'))
           // Process json in the background
           ..transformer = BackgroundTransformer();
 
   final Dio api;
-  final FoscamCredentials creds;
+  final FoscamCredentials credentials;
 
   Future<bool> verifyCredentials() async {
     return guard(() async {
@@ -101,7 +101,7 @@ class FoscamClient {
   }) =>
       FoscamCommand(
         command,
-        creds: creds,
+        creds: credentials,
         params: params,
         responseType: type,
       );

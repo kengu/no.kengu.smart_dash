@@ -26,7 +26,7 @@ class SikomClient {
       final user = ref.read(userRepositoryProvider).currentUser;
       final account =
           await ref.read(accountRepositoryProvider).get(user.userId);
-      return account.value.first('sikom');
+      return account.value.firstWhere('sikom');
     });
   }
 

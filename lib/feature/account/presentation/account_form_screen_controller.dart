@@ -62,7 +62,10 @@ class AccountFormScreenController extends _$AccountFormScreenController
 
   Set<ServiceConfig> toServices(Optional<Account> data) {
     return data.isPresent
-        ? query!.services.map(data.value.all).expand((e) => e.toList()).toSet()
+        ? query!.services
+            .map(data.value.where)
+            .expand((e) => e.toList())
+            .toSet()
         : {};
   }
 

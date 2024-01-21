@@ -16,11 +16,13 @@ _$DeviceImpl _$$DeviceImplFromJson(Map<String, dynamic> json) => _$DeviceImpl(
           .map((e) => $enumDecode(_$DeviceCapabilityEnumMap, e))
           .toList(),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
-      voltage: json['voltage'] as int?,
-      temperature: json['temperature'] as int?,
-      energy: json['energy'] == null
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      electric: json['electric'] == null
           ? null
-          : EnergySummary.fromJson(json['energy'] as Map<String, dynamic>),
+          : ElectricState.fromJson(json['electric'] as Map<String, dynamic>),
+      onOff: json['onOff'] == null
+          ? null
+          : SwitchState.fromJson(json['onOff'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
@@ -34,9 +36,9 @@ Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
           .map((e) => _$DeviceCapabilityEnumMap[e]!)
           .toList(),
       'lastUpdated': instance.lastUpdated.toIso8601String(),
-      'voltage': instance.voltage,
       'temperature': instance.temperature,
-      'energy': instance.energy?.toJson(),
+      'electric': instance.electric?.toJson(),
+      'onOff': instance.onOff?.toJson(),
     };
 
 const _$DeviceTypeEnumMap = {
@@ -57,4 +59,19 @@ const _$DeviceCapabilityEnumMap = {
   DeviceCapability.power: 'power',
   DeviceCapability.voltage: 'voltage',
   DeviceCapability.temperature: 'temperature',
+  DeviceCapability.onOff: 'onOff',
 };
+
+_$IdentityImpl _$$IdentityImplFromJson(Map<String, dynamic> json) =>
+    _$IdentityImpl(
+      deviceId: json['deviceId'] as String,
+      test: json['test'] as String,
+      serviceKey: json['serviceKey'] as String,
+    );
+
+Map<String, dynamic> _$$IdentityImplToJson(_$IdentityImpl instance) =>
+    <String, dynamic>{
+      'deviceId': instance.deviceId,
+      'test': instance.test,
+      'serviceKey': instance.serviceKey,
+    };

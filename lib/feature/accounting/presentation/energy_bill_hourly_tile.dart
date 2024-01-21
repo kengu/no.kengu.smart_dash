@@ -61,7 +61,7 @@ class EnergyBillHourlyTile extends ConsumerWidget {
           itemValueBuilder: (itemIndex) => details.length > itemIndex
               ? details[itemIndex].energy.toEnergy()
               : '-',
-          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr', 0),
+          itemLabelBuilder: (index, item) => (item.max ?? 0).toPrice('kr', 1),
         );
       },
     );

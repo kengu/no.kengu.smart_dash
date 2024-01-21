@@ -25,12 +25,14 @@ Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
 
 const _$TokenTypeEnumMap = {
   TokenType.int: 'int',
+  TokenType.bool: 'bool',
   TokenType.double: 'double',
 };
 
 const _$TokenUnitEnumMap = {
-  TokenUnit.voltage: 'voltage',
-  TokenUnit.energy: 'energy',
+  TokenUnit.onOff: 'onOff',
   TokenUnit.power: 'power',
+  TokenUnit.energy: 'energy',
+  TokenUnit.voltage: 'voltage',
   TokenUnit.temperature: 'temperature',
 };

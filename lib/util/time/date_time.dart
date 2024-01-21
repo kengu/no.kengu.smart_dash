@@ -19,9 +19,13 @@ extension DateTimeX on DateTime {
   String format({
     DateTime? clock,
     String locale = 'en',
+    String prefixAgo = '-',
     bool allowFromNow = false,
   }) {
-    timeago.setLocaleMessages(locale, TimeAgoMessages(this));
+    timeago.setLocaleMessages(
+      locale,
+      TimeAgoMessages(this, prefixAgo),
+    );
     return timeago.format(
       this,
       clock: clock,
@@ -35,12 +39,14 @@ extension DateTimeX on DateTime {
 }
 
 class TimeAgoMessages implements LookupMessages {
-  const TimeAgoMessages(this.now);
+  const TimeAgoMessages(this.now, String prefixAgo) : _prefixAgo = prefixAgo;
 
   final DateTime now;
 
+  final String _prefixAgo;
+
   @override
-  String prefixAgo() => '-';
+  String prefixAgo() => _prefixAgo;
   @override
   String prefixFromNow() => '';
   @override

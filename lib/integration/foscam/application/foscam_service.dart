@@ -35,7 +35,7 @@ class FoscamService implements CameraService {
       final account = await ref.read(accountRepositoryProvider).get(
             user.userId,
           );
-      return account.value.all('foscam');
+      return account.value.where(key);
     }, ttl: ttl);
   }
 
@@ -158,7 +158,7 @@ class FoscamService implements CameraService {
       final client = FoscamClient(
         host: device.host!,
         port: device.port!,
-        creds: FoscamCredentials(
+        credentials: FoscamCredentials(
           username: device.username,
           password: device.password,
         ),

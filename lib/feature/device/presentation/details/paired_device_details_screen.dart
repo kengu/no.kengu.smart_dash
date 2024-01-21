@@ -13,12 +13,12 @@ import 'paired_device_details_controller.dart';
 class PairedDeviceDetailsScreen extends ConsumerStatefulWidget {
   const PairedDeviceDetailsScreen({
     super.key,
-    required this.deviceId,
+    required this.identity,
     required this.location,
   });
 
-  final String deviceId;
   final String location;
+  final Identity identity;
 
   @override
   ConsumerState<PairedDeviceDetailsScreen> createState() =>
@@ -34,7 +34,7 @@ class _PairedDeviceDetailsScreenState
     return AsyncLoadScreen<PairedDeviceDetailsQuery, Device>(
       title: 'Paired device',
       onClose: () => context.go(widget.location),
-      query: PairedDeviceDetailsQuery(widget.deviceId),
+      query: PairedDeviceDetailsQuery(widget.identity),
       provider: pairedDeviceDetailsScreenControllerProvider,
       actions: [
         if (_undeleteable)
@@ -47,7 +47,14 @@ class _PairedDeviceDetailsScreenState
           )
         else
           ElevatedButton(
-            onPressed: () => _unpair(context),
+            onPressed: () async {
+              final unpaired = await _unpair(context);
+              if (unpaired) {
+                setState(() {
+                  context.go(widget.location);
+                });
+              }
+            },
             child: const Tooltip(
               message: 'Unpair device',
               child: Icon(Icons.delete),
@@ -94,8 +101,8 @@ class _PairedDeviceDetailsScreenState
     );
   }
 
-  void _unpair(BuildContext context) {
-    final unpair = showDialog(
+  Future<bool> _unpair(BuildContext context) async {
+    final unpair = await showDialog(
       context: context,
       useRootNavigator: true,
       barrierDismissible: true,
@@ -116,27 +123,20 @@ class _PairedDeviceDetailsScreenState
         ],
       ),
     );
-    handle() async {
-      if (await unpair) {
-        final result =
-            await ref.read(deviceRepositoryProvider).get(widget.deviceId);
-        if (result.isPresent) {
-          final device = result.value;
-          final driver = ref.read(deviceDriverManagerProvider).getDriver(
-                device.service,
-              );
-          final unpaired = await driver.unpairAll([device]);
-          setState(() {
-            if (unpaired.contains(device)) {
-              context.go(widget.location);
-            } else {
-              _undeleteable = true;
-            }
-          });
-        }
+    if (unpair) {
+      final result = await ref.read(deviceRepositoryProvider).get(
+            widget.identity,
+          );
+      if (result.isPresent) {
+        final device = result.value;
+        final driver = ref.read(deviceDriverManagerProvider).getDriver(
+              device.service,
+            );
+        final unpaired = await driver.unpairAll([device]);
+        return unpaired.contains(device);
       }
+      _undeleteable = true;
     }
-
-    handle();
+    return false;
   }
 }

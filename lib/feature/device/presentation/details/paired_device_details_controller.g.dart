@@ -7,7 +7,7 @@ part of 'paired_device_details_controller.dart';
 // **************************************************************************
 
 String _$pairedDeviceDetailsScreenControllerHash() =>
-    r'4348ae6360ebf5b68236ccf2d9e24a318049c947';
+    r'883c04a9986ec7a884d422b4434e1c8e3ba22fa0';
 
 /// See also [PairedDeviceDetailsScreenController].
 @ProviderFor(PairedDeviceDetailsScreenController)

@@ -34,6 +34,7 @@ class Token with _$Token {
 
   bool isType<T>(T data) => switch (type) {
         TokenType.int => data is int,
+        TokenType.bool => data is bool,
         TokenType.double => data is double,
       };
 
@@ -58,15 +59,18 @@ class Token with _$Token {
 
 enum TokenType {
   int,
+  bool,
   double;
 }
 
 enum TokenUnit {
-  voltage('V'),
-  energy('Wh'),
+  onOff(''),
   power('W'),
+  energy('Wh'),
+  voltage('V'),
   temperature('°C');
 
+  bool get isOnOff => this == onOff;
   bool get isPower => this == power;
   bool get isEnergy => this == energy;
   bool get isVoltage => this == voltage;
@@ -81,6 +85,7 @@ enum TokenUnit {
 }
 
 extension TokenX on Token {
+  bool get isOnOff => unit == TokenUnit.onOff;
   bool get isPower => unit == TokenUnit.power;
   bool get isEnergy => unit == TokenUnit.energy;
   bool get isVoltage => unit == TokenUnit.voltage;

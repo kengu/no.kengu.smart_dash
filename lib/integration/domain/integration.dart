@@ -57,6 +57,7 @@ enum ServiceField {
 }
 
 enum IntegrationFeature {
+  data,
   device,
   camera,
 }

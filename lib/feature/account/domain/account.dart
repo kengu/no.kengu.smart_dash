@@ -18,9 +18,10 @@ class Account with _$Account {
 
   String get fullName => [fname, lname].whereType<String>().join(' ');
 
-  Optional<ServiceConfig> first(String key) =>
+  Optional<ServiceConfig> firstWhere(String key) =>
       services.firstWhereOptional((c) => c.key == key);
-  List<ServiceConfig> all(String key) =>
+
+  List<ServiceConfig> where(String key) =>
       services.where((c) => c.key == key).toList();
 
   factory Account.fromJson(Map<String, Object?> json) =>

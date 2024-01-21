@@ -8,10 +8,10 @@ part 'paired_device_details_controller.g.dart';
 
 class PairedDeviceDetailsQuery {
   PairedDeviceDetailsQuery(
-    this.deviceId,
+    this.id,
   );
 
-  final String deviceId;
+  final Identity id;
 }
 
 @riverpod
@@ -23,6 +23,6 @@ class PairedDeviceDetailsScreenController
 
   @override
   Future<Optional<Device>> load() async {
-    return ref.read(deviceRepositoryProvider).get(query!.deviceId);
+    return ref.read(deviceRepositoryProvider).get(query!.id);
   }
 }

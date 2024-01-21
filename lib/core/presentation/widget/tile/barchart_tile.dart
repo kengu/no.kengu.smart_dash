@@ -4,6 +4,7 @@ import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/widget.dart';
 
 class BarChartTile<T extends num> extends StatelessWidget {
@@ -40,12 +41,9 @@ class BarChartTile<T extends num> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // HACK: Chart does not handle values below 1 well
-    const valuePadding = 1.5;
+    final valuePadding = items.max() < 1.0 ? 1.0 : 1.5;
 
-    if (items.isEmpty) {
-      return const CircularProgressIndicator();
-    }
-
+    final foregroundColor = Colors.lightGreen.withOpacity(0.6);
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
     final lineColor = surfaceColor.lighten(0.05);
     final textStyle = getLegendTextStyle(context);
@@ -74,104 +72,125 @@ class BarChartTile<T extends num> extends StatelessWidget {
         ),
         textScaler: const TextScaler.linear(1.2),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: SingleChildScrollView(
-          reverse: true,
-          scrollDirection: Axis.horizontal,
-          child: Chart<T>(
-            width: constraints.minWidth,
-            height: constraints.minHeight,
-            state: ChartState<T>(
-              behaviour: const ChartBehaviour(
-                scrollSettings: ScrollSettings(
-                  visibleItems: 6,
-                ),
-              ),
-              data: ChartData.fromList(
-                items
-                    .map((e) => ChartItem<T>(e.toDouble() + valuePadding))
-                    .toList(),
-                axisMax: 10,
-              ),
-              itemOptions: WidgetItemOptions(
-                minBarWidth: minItemWidth,
-                maxBarWidth: minItemWidth,
-                widgetItemBuilder: (data) {
-                  return Container(
-                    margin: chartMargin,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(0),
-                      ),
-                    ),
-                    foregroundDecoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12),
-                      ),
-                      color: Colors.lightGreen.withOpacity(0.6),
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 8.0,
-                          left: 0.0,
-                          right: 0.0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 2.0,
-                            ),
-                            child: Text(
-                              itemValueBuilder(data.itemIndex),
-                              style: textStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              backgroundDecorations: [
-                GridDecoration(
-                  verticalAxisStep: 1,
-                  gridColor: lineColor,
-                  textStyle: textStyle,
-                  showVerticalGrid: false,
-                  showVerticalValues: true,
-                  showHorizontalGrid: false,
-                  endWithChartVertical: false,
-                  verticalAxisValueFromIndex: axisLabelBuilder,
-                  verticalValuesPadding: const EdgeInsets.only(top: 4.0),
-                ),
-              ],
-              foregroundDecorations: [
-                // ignore: deprecated_member_use
-                ValueDecoration(
-                  textStyle: textStyle,
-                  alignment: Alignment.center,
-                  hideZeroValues: hideZeroValues,
-                  valueGenerator: (item) {
-                    // HACK: Adjust vertical alignment of text above bar
-                    return max(1, (item.max ?? 0) * 0.97);
-                  },
-                  labelGenerator: (item) => itemLabelBuilder(
-                    (valueIndex++) % items.length,
-                    ChartItem<T>(
-                      item.max == null ? null : item.max! - valuePadding,
-                      min: item.min,
-                      value: item.value == null
-                          ? null
-                          : item.value! - valuePadding,
-                    ),
+      body: items.isEmpty
+          ? Stack(
+              children: [
+                Center(
+                  child: Text(
+                    'No data',
+                    style: textStyle,
                   ),
                 ),
               ],
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SingleChildScrollView(
+                reverse: true,
+                scrollDirection: Axis.horizontal,
+                child: Chart<T>(
+                  width: constraints.minWidth,
+                  height: constraints.minHeight,
+                  state: ChartState<T>(
+                    behaviour: const ChartBehaviour(
+                      scrollSettings: ScrollSettings(
+                        visibleItems: 6,
+                      ),
+                    ),
+                    data: ChartData.fromList(
+                      items
+                          .map((e) => ChartItem<T>(
+                                e.toDouble() + valuePadding,
+                                value: e,
+                              ))
+                          .toList(),
+                      axisMax: 10,
+                    ),
+                    itemOptions: WidgetItemOptions(
+                      minBarWidth: minItemWidth,
+                      maxBarWidth: minItemWidth,
+                      widgetItemBuilder: (data) {
+                        return Container(
+                          margin: chartMargin,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(0),
+                            ),
+                          ),
+                          foregroundDecoration: BoxDecoration(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12),
+                            ),
+                            color: foregroundColor,
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 8.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 2.0,
+                                  ),
+                                  child: Text(
+                                    itemValueBuilder(data.itemIndex),
+                                    style: textStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    backgroundDecorations: [
+                      GridDecoration(
+                        verticalAxisStep: 1,
+                        gridColor: lineColor,
+                        textStyle: textStyle,
+                        showVerticalGrid: false,
+                        showVerticalValues: true,
+                        showHorizontalGrid: false,
+                        endWithChartVertical: false,
+                        verticalAxisValueFromIndex: axisLabelBuilder,
+                        verticalValuesPadding: const EdgeInsets.only(top: 4.0),
+                      ),
+                    ],
+                    foregroundDecorations: [
+                      // ignore: deprecated_member_use
+                      ValueDecoration(
+                        textStyle: textStyle,
+                        alignment: Alignment.center,
+                        hideZeroValues: hideZeroValues,
+                        valueGenerator: (item) {
+                          // HACK: Adjust vertical alignment of text above bar
+                          return max(1, (item.max ?? 0) * 0.97);
+                        },
+                        labelGenerator: (item) {
+                          if (hideZeroValues && item.value == 0) return '';
+                          return itemLabelBuilder(
+                            (valueIndex++) % items.length,
+                            ChartItem<T>(
+                              item.max == null
+                                  ? null
+                                  : item.max! - valuePadding,
+                              min: item.min == null
+                                  ? null
+                                  : item.min! - valuePadding,
+                              value: item.value == null
+                                  ? null
+                                  : item.value! - valuePadding,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

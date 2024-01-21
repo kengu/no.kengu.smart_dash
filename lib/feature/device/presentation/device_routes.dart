@@ -13,9 +13,10 @@ class DeviceScreens {
   static String toDevicesDetailsPath(
     Device device,
   ) =>
-      Uri(path: Screens.deviceDetails, queryParameters: {
-        'id': device.id,
-      }).toString();
+      Uri(
+        path: Screens.deviceDetails,
+        queryParameters: Identity.of(device).toJson(),
+      ).toString();
 }
 
 GoRoute buildDeviceRoutes() {
@@ -31,7 +32,9 @@ GoRoute buildDeviceRoutes() {
         path: DeviceScreens.details,
         builder: (context, state) {
           return PairedDeviceDetailsScreen(
-            deviceId: state.uri.queryParameters['id']!,
+            identity: Identity.fromJson(
+              state.uri.queryParameters,
+            ),
             location: DeviceScreens.home,
           );
         },

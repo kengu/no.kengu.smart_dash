@@ -38,6 +38,16 @@
     "description": "Enter camera information",
     "fields": ["device", "host", "port", "username", "password"],
     "instances": 4
+  },
+  {
+    "key": "nysny",
+    "name": "NySny Web",
+    "image": "nysny.png",
+    "category": "Weather Services",
+    "features": ["data"],
+    "description": "Enter account information",
+    "fields": ["username", "password"],
+    "instances": 1
   }
 ]
 
