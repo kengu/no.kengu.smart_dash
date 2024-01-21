@@ -127,10 +127,11 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
             : DateTime.now(),
         capabilities: [
           if (properties.hasOnOff) DeviceCapability.onOff,
-          if (properties.hasPower) DeviceCapability.power,
           if (properties.hasEnergy) DeviceCapability.energy,
           if (properties.hasVoltage) DeviceCapability.voltage,
           if (properties.hasTemperature) DeviceCapability.temperature,
+          if (properties.hasPower || properties.hasEstimatedPower)
+            DeviceCapability.power,
         ],
       );
 
@@ -139,12 +140,15 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         name: Sikom.readableModelName[type] ?? model,
       );
 
-  ElectricState? toElectricState() => hasEnergy || hasVoltage || hasPower
+  ElectricState? toElectricState() => hasElectricState
       ? ElectricState(
           voltage: properties.powerVoltage?.toInt(),
           cumulative: properties.cumulativeEnergy?.toInt(),
           currentPower: properties.currentPowerUsage?.toInt(),
           cumulativeToday: properties.cumulativeEnergyToday?.toInt(),
+          estimatedRegulatedPower: properties.estimatedRegulatedPower?.toInt(),
+          estimatedUnregulatedPower:
+              properties.estimatedUnregulatedPower?.toInt(),
           lastUpdated: properties.lastUpdated.isPresent
               ? properties.lastUpdated.value
               : DateTime.now(),
@@ -187,11 +191,18 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   /// Check if device reports current power usage
   bool get hasPower => properties.hasPower;
 
+  /// Check if device estimates current power usage
+  bool get hasEstimatedPower => properties.hasEstimatedPower;
+
   /// Check if device reports cumulative energy usage
   bool get hasEnergy => properties.hasEnergy;
 
   /// Check if device reports power voltage
   bool get hasVoltage => properties.hasVoltage;
+
+  /// Check if device have electric state properties
+  bool get hasElectricState =>
+      hasEnergy || hasVoltage || hasPower || hasEstimatedPower;
 
   /// Check if device reports temperature
   bool get hasTemperature => properties.hasTemperature;
@@ -327,6 +338,9 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
 
   /// Check if device reports current power usage
   bool get hasPower => currentPowerUsage != null;
+
+  /// Check if device estimates current power usage
+  bool get hasEstimatedPower => estimatedRegulatedPower != null;
 
   /// Check if device reports cumulative energy usage
   bool get hasEnergy => cumulativeEnergy != null;

@@ -26,6 +26,12 @@ mixin _$ElectricState {
   /// Last measured power usage (watt)
   int? get currentPower => throw _privateConstructorUsedError;
 
+  /// Last estimated regulated power usage reduction (in negative watts)
+  int? get estimatedRegulatedPower => throw _privateConstructorUsedError;
+
+  /// Last estimated unregulated power usage (watt)
+  int? get estimatedUnregulatedPower => throw _privateConstructorUsedError;
+
   /// Energy accumulated from start (in watt/h, default null)
   int? get cumulative => throw _privateConstructorUsedError;
 
@@ -50,6 +56,8 @@ abstract class $ElectricStateCopyWith<$Res> {
   $Res call(
       {int? voltage,
       int? currentPower,
+      int? estimatedRegulatedPower,
+      int? estimatedUnregulatedPower,
       int? cumulative,
       int? cumulativeToday,
       DateTime lastUpdated});
@@ -70,6 +78,8 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
   $Res call({
     Object? voltage = freezed,
     Object? currentPower = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
     Object? cumulative = freezed,
     Object? cumulativeToday = freezed,
     Object? lastUpdated = null,
@@ -82,6 +92,14 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
       currentPower: freezed == currentPower
           ? _value.currentPower
           : currentPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
               as int?,
       cumulative: freezed == cumulative
           ? _value.cumulative
@@ -110,6 +128,8 @@ abstract class _$$ElectricStateImplCopyWith<$Res>
   $Res call(
       {int? voltage,
       int? currentPower,
+      int? estimatedRegulatedPower,
+      int? estimatedUnregulatedPower,
       int? cumulative,
       int? cumulativeToday,
       DateTime lastUpdated});
@@ -128,6 +148,8 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
   $Res call({
     Object? voltage = freezed,
     Object? currentPower = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
     Object? cumulative = freezed,
     Object? cumulativeToday = freezed,
     Object? lastUpdated = null,
@@ -140,6 +162,14 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
       currentPower: freezed == currentPower
           ? _value.currentPower
           : currentPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
               as int?,
       cumulative: freezed == cumulative
           ? _value.cumulative
@@ -159,13 +189,16 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ElectricStateImpl implements _ElectricState {
+class _$ElectricStateImpl extends _ElectricState {
   const _$ElectricStateImpl(
       {this.voltage,
       this.currentPower,
+      this.estimatedRegulatedPower,
+      this.estimatedUnregulatedPower,
       this.cumulative,
       this.cumulativeToday,
-      required this.lastUpdated});
+      required this.lastUpdated})
+      : super._();
 
   factory _$ElectricStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$ElectricStateImplFromJson(json);
@@ -177,6 +210,14 @@ class _$ElectricStateImpl implements _ElectricState {
   /// Last measured power usage (watt)
   @override
   final int? currentPower;
+
+  /// Last estimated regulated power usage reduction (in negative watts)
+  @override
+  final int? estimatedRegulatedPower;
+
+  /// Last estimated unregulated power usage (watt)
+  @override
+  final int? estimatedUnregulatedPower;
 
   /// Energy accumulated from start (in watt/h, default null)
   @override
@@ -192,7 +233,7 @@ class _$ElectricStateImpl implements _ElectricState {
 
   @override
   String toString() {
-    return 'ElectricState(voltage: $voltage, currentPower: $currentPower, cumulative: $cumulative, cumulativeToday: $cumulativeToday, lastUpdated: $lastUpdated)';
+    return 'ElectricState(voltage: $voltage, currentPower: $currentPower, estimatedRegulatedPower: $estimatedRegulatedPower, estimatedUnregulatedPower: $estimatedUnregulatedPower, cumulative: $cumulative, cumulativeToday: $cumulativeToday, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -203,6 +244,12 @@ class _$ElectricStateImpl implements _ElectricState {
             (identical(other.voltage, voltage) || other.voltage == voltage) &&
             (identical(other.currentPower, currentPower) ||
                 other.currentPower == currentPower) &&
+            (identical(
+                    other.estimatedRegulatedPower, estimatedRegulatedPower) ||
+                other.estimatedRegulatedPower == estimatedRegulatedPower) &&
+            (identical(other.estimatedUnregulatedPower,
+                    estimatedUnregulatedPower) ||
+                other.estimatedUnregulatedPower == estimatedUnregulatedPower) &&
             (identical(other.cumulative, cumulative) ||
                 other.cumulative == cumulative) &&
             (identical(other.cumulativeToday, cumulativeToday) ||
@@ -213,8 +260,15 @@ class _$ElectricStateImpl implements _ElectricState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, voltage, currentPower,
-      cumulative, cumulativeToday, lastUpdated);
+  int get hashCode => Object.hash(
+      runtimeType,
+      voltage,
+      currentPower,
+      estimatedRegulatedPower,
+      estimatedUnregulatedPower,
+      cumulative,
+      cumulativeToday,
+      lastUpdated);
 
   @JsonKey(ignore: true)
   @override
@@ -230,13 +284,16 @@ class _$ElectricStateImpl implements _ElectricState {
   }
 }
 
-abstract class _ElectricState implements ElectricState {
+abstract class _ElectricState extends ElectricState {
   const factory _ElectricState(
       {final int? voltage,
       final int? currentPower,
+      final int? estimatedRegulatedPower,
+      final int? estimatedUnregulatedPower,
       final int? cumulative,
       final int? cumulativeToday,
       required final DateTime lastUpdated}) = _$ElectricStateImpl;
+  const _ElectricState._() : super._();
 
   factory _ElectricState.fromJson(Map<String, dynamic> json) =
       _$ElectricStateImpl.fromJson;
@@ -249,6 +306,14 @@ abstract class _ElectricState implements ElectricState {
 
   /// Last measured power usage (watt)
   int? get currentPower;
+  @override
+
+  /// Last estimated regulated power usage reduction (in negative watts)
+  int? get estimatedRegulatedPower;
+  @override
+
+  /// Last estimated unregulated power usage (watt)
+  int? get estimatedUnregulatedPower;
   @override
 
   /// Energy accumulated from start (in watt/h, default null)
