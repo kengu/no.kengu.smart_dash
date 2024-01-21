@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
@@ -85,26 +86,34 @@ class SikomClient {
     Iterable<String> ids = const [],
   }) async {
     return guard(() async {
+      final devices = <SikomDevice>[];
       Optional<ServiceConfig> credentials = await getCredentials();
       if (!credentials.isPresent) return const Optional.empty();
-      final query = ids.isEmpty ? 'All' : ids.join(',');
-      final path = '/Device/$query${gateway == null ? '' : '/${gateway.id}'}';
-      final response = await api.get(path,
+      // Ensure maximum 20 devices per request
+      final queries = ids.isEmpty
+          ? ['All']
+          : ids.slices(20).map((slice) => slice.join(',')).toList();
+      for (final query in queries) {
+        final path = '/Device/$query${gateway == null ? '' : '/${gateway.id}'}';
+        final response = await api.get(
+          path,
           options: Options(headers: <String, String>{
-            'authorization': toBasicAuth(credentials.value),
-          }));
-      final result = SikomResponse.fromJson(response.data);
-      if (result.isArray) {
-        final devices = result.data.bpapiArray!
-            .map((e) => e.device)
-            .whereType<SikomDevice>()
-            .where((e) => e.isReal)
-            .toList();
-        return Optional.ofNullable(devices);
+            'authorization': toBasicAuth(credentials.value)
+          }),
+        );
+        final result = SikomResponse.fromJson(response.data);
+        if (result.isArray) {
+          devices.addAll(
+            result.data.bpapiArray!
+                .map((e) => e.device)
+                .whereType<SikomDevice>()
+                .where((e) => e.isReal),
+          );
+        } else if (result.isDevice) {
+          devices.add(result.data.device!);
+        }
       }
-      return Optional.of(
-        result.isDevice ? [result.data.device!] : [],
-      );
+      return Optional.ofNullable(devices);
     });
   }
 }

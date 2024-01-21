@@ -48,7 +48,6 @@ enum SikomDeviceType {
 
   bool get isAny => this == any;
 
-  /// Get [SikomDeviceType] from [SikomDeviceProperties.deviceType] OR [SikomDeviceProperties.vendorType]
   static fromNativeType(String name) => switch (name) {
         'Controller' => SikomDeviceType.controller,
         'AstroSwitch' => SikomDeviceType.astroSwitch,
@@ -159,7 +158,8 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
     final isThermostatActive = properties.switchThermostatActive?.toInt();
     final onMode = (switch (isThermostatActive) {
       1 => SwitchMode.comfort,
-      _ => SwitchMode.on,
+      _ =>
+        type == SikomDeviceType.thermostat ? SwitchMode.comfort : SwitchMode.on,
     });
     final offModeName = properties.switchReductionMode?.value ??
         (switch (isThermostatActive) {

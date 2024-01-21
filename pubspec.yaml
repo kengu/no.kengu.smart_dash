@@ -28,6 +28,7 @@ dependencies:
   strings: ^3.0.0
   timeago: ^3.6.0
   optional: ^6.1.0+1
+  collection: ^1.18.0
   pretty_bytes: ^6.1.0
   stream_transform: ^2.1.0
   battery_indicator: ^0.1.2
