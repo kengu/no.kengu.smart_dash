@@ -196,7 +196,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     );
                                   case 'snow_now':
                                     return const SnowNowTile(
-                                      location: 'Skirvedalen(Tinn)',
+                                      location: 'Skirvedalen',
                                     );
                                   case 'snow_now_list':
                                     return const SnowNowListTile();

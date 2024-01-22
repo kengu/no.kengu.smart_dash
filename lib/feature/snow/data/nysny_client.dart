@@ -92,6 +92,8 @@ class NySnyClient {
     return const Optional.empty();
   }
 
+  final regex = RegExp(r'\(.*?\)');
+
   Future<List<SnowState>?> _map(Iterable<JsonObject>? states) {
     // Wrap in guard to catch nysny.no field
     // name changes and report it to sentry
@@ -100,7 +102,13 @@ class NySnyClient {
       return Future.value(states
           ?.map(
             (data) => SnowState(
-              location: data['Sted'] as String,
+              location: _parse(
+                data,
+                field: 'Sted',
+                match: regex,
+                replace: '',
+                defaultValue: '-',
+              ),
               depth: _parse(
                 data,
                 field: 'Snødybde',
@@ -153,9 +161,9 @@ class NySnyClient {
     JsonObject data, {
     required String field,
     required T defaultValue,
-    required T Function(String value) parse,
+    T Function(String value)? parse,
     String? split,
-    String? match,
+    Pattern? match,
     String? replace,
   }) {
     final value = data[field] as String;
@@ -168,7 +176,7 @@ class NySnyClient {
           );
 
     try {
-      return parse(item);
+      return parse == null ? item as T : parse(item);
     } catch (e) {
       return defaultValue;
     }
