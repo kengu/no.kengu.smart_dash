@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
@@ -46,16 +47,7 @@ class SnowService {
   Future<Optional<SnowState>> getState(String location, {Duration? ttl}) async {
     final config = await getConfig();
     if (!config.isPresent) return const Optional.empty();
-    final states = await _cache.getOrFetch(
-      'states',
-      NySnyClient(
-          _api,
-          NySnyCredentials(
-            email: config.value.username,
-            password: config.value.password,
-          )).getStates,
-      ttl: ttl,
-    );
+    final states = await getStates(ttl: ttl);
     if (states.isPresent) {
       return states.value.firstWhereOptional((e) => e.location == location);
     }
@@ -85,13 +77,19 @@ class SnowService {
             email: config.value.username,
             password: config.value.password,
           )).getStates,
-      ttl: ttl,
+      ttl: ttl?.clamp(
+        const Duration(minutes: 5),
+        const Duration(days: 1),
+      ),
     );
 
     if (states.isPresent) {
       _cache.setTTL(
         'states',
-        SnowState.toEarliestNextUpdate(states.value),
+        SnowState.toEarliestNextUpdate(
+          states.value,
+          limit: const Duration(minutes: 5),
+        ),
       );
     }
     return states;

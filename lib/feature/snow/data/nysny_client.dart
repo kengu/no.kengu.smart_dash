@@ -70,6 +70,8 @@ class NySnyClient {
             return json;
           }).toList();
 
+          debugPrint('Fetched snow state: ${tableResponse.realUri}');
+
           return Optional.ofNullable(
             await _map(
               states?.where((e) => e['Snødybde'] != 'Ikke kjøpt'),
@@ -77,14 +79,15 @@ class NySnyClient {
           );
         } else {
           debugPrint(
-            'Failed to load the table page: ${tableResponse.statusCode}',
+            'Failed to load snow state from table: [${tableResponse.statusCode}] ${tableResponse.realUri}',
           );
         }
       } else {
-        debugPrint('Login failed: ${loginResponse.statusCode}');
+        debugPrint(
+            'Snow state login failed: [${loginResponse.statusCode}] ${loginResponse.realUri}');
       }
     } catch (e) {
-      debugPrint('An error occurred: $e');
+      debugPrint('Fetching snow state error occurred: $e');
     }
     return const Optional.empty();
   }

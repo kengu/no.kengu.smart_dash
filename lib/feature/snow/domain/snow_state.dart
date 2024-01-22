@@ -43,7 +43,7 @@ class SnowState with _$SnowState {
   }
 
   static DateTime toEarliestNextUpdate(List<SnowState> states,
-      {Duration limit = const Duration(minutes: 1)}) {
+      {Duration limit = const Duration(minutes: 5)}) {
     final now = DateTime.now();
     final earliest = DateTime.now().add(const Duration(days: 1));
     final next = DateTime.fromMillisecondsSinceEpoch(
