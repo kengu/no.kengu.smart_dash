@@ -43,6 +43,33 @@ class SnowService {
     }, ttl: ttl);
   }
 
+  Future<Optional<SnowState>> getState(String location, {Duration? ttl}) async {
+    final config = await getConfig();
+    if (!config.isPresent) return const Optional.empty();
+    final states = await _cache.getOrFetch(
+      'states',
+      NySnyClient(
+          _api,
+          NySnyCredentials(
+            email: config.value.username,
+            password: config.value.password,
+          )).getStates,
+      ttl: ttl,
+    );
+    if (states.isPresent) {
+      return states.value.firstWhereOptional((e) => e.location == location);
+    }
+    return const Optional.empty();
+  }
+
+  Optional<SnowState> getStateCached(String location) {
+    final states = _cache.get<List<SnowState>>('states');
+    if (states.isPresent) {
+      return states.value.firstWhereOptional((e) => e.location == location);
+    }
+    return const Optional.empty();
+  }
+
   Optional<List<SnowState>> getStatesCached() {
     return _cache.get('states');
   }

@@ -19,7 +19,8 @@ import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.d
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
-import 'package:smart_dash/feature/weather/presentation/snow_now_list_tile.dart';
+import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
+import 'package:smart_dash/feature/snow/presentation/snow_now_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/core/application/fullscreen_state.dart';
 import 'package:smart_dash/util/time/date_time.dart';
@@ -194,7 +195,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       place: 'Tindefjell',
                                     );
                                   case 'snow_now':
-                                    // TODO: Make location name configurable
+                                    return const SnowNowTile(
+                                      location: 'Skirvedalen(Tinn)',
+                                    );
+                                  case 'snow_now_list':
                                     return const SnowNowListTile();
                                   case 'system_now':
                                     return SystemNowTile(
