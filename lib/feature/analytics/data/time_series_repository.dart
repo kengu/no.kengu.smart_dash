@@ -25,6 +25,7 @@ class TimeSeriesRepository {
 
   Future<List<Token>> getTokens() {
     return guard(() async {
+      // TODO: Improve tokens lookup, this processes to much data. Store tokens in sqlite table? I think so!
       final paired = await ref.read(deviceRepositoryProvider).getAll();
       final tokens = paired.map((e) => e.toTokens()).fold(
         <Token>[],

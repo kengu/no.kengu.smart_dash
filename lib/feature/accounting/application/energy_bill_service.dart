@@ -13,6 +13,7 @@ import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 
@@ -32,7 +33,7 @@ class EnergyBillService {
 
   /// Get current [ElectricityTariff].
   Future<ElectricityTariff> getTariff({
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) async {
     return _cache.getOrFetch(
       'tariff',
@@ -45,50 +46,12 @@ class EnergyBillService {
     );
   }
 
-  /// Get daily [EnergyBillDay] for month [when].
-  Future<EnergyBillMonth> getBillMonth(
-    Token power,
-    String area,
-    DateTime when, {
-    Duration ttl = const Duration(seconds: 4),
-  }) async {
-    final now = DateTime.now();
-    const step = Duration(days: 1);
-    final firstInMonth = DateTime(when.year, when.month, 1);
-    return _cache.getOrFetch(
-      _toCacheKey(power, area, 'month', firstInMonth),
-      () async {
-        final days = <EnergyBillDay>[];
-        DateTime next = firstInMonth;
-        while (next.month <= firstInMonth.month &&
-            !now.difference(next).isNegative) {
-          final bill = await getBillDay(power, area, next);
-          next = next.add(step);
-          days.add(bill);
-        }
-        return EnergyBillMonth(begin: firstInMonth, daily: days);
-      },
-      ttl: ttl,
-    );
-  }
-
-  Optional<EnergyBillMonth> getCachedBillMonth(
-    Token power,
-    String area,
-    DateTime when,
-  ) {
-    final firstInMonth = DateTime(when.year, when.month, 1);
-    return _cache.get(
-      _toCacheKey(power, area, 'month', firstInMonth),
-    );
-  }
-
   /// Get hourly [EnergyBillHour] for month [when].
   Future<EnergyBillDay> getBillDay(
     Token power,
     String area,
     DateTime when, {
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) async {
     final day = HistoryManager.toOffset(when);
 
@@ -98,7 +61,7 @@ class EnergyBillService {
       () async {
         final tariff = await getTariff();
         final prices = await priceService.getPriceHourly(area, day);
-        final history = await historyManager.get(power, when: day);
+        final history = await historyManager.get(power, when: day, ttl: ttl);
 
         final lines = <EnergyBillHour>[];
         if (history.isPresent) {
@@ -158,6 +121,52 @@ class EnergyBillService {
       (_, __, ___, inner) => inner.sum() / 60,
       span: TimeScale.hours.to(),
       begin: begin,
+    );
+  }
+
+  /// Get daily [EnergyBillDay] for month [when].
+  Future<EnergyBillMonth> getBillMonth(
+    Token power,
+    String area,
+    DateTime when, {
+    Duration? ttl,
+    bool ttlOnAll = false,
+  }) async {
+    final now = DateTime.now();
+    const step = Duration(days: 1);
+    final firstInMonth = when.firstInMonth;
+    return _cache.getOrFetch(
+      _toCacheKey(power, area, 'month', firstInMonth),
+      () async {
+        final days = <EnergyBillDay>[];
+        DateTime next = firstInMonth;
+        while (next.month <= firstInMonth.month &&
+            !now.difference(next).isNegative) {
+          // Always apply given ttl if last day in month is today.
+          // When ttl is given this is a  reasonable behavior, as
+          // today typically has power history updates since last
+          // cached result, that now needs to be processed and new
+          // daily bill calculated for. If a complete update of all
+          // calculations is needed because one or more daily power
+          // histories have changed, ttlOnAll must be true.
+          final ttlDay = ttlOnAll ? ttl : (next.day == now.day ? ttl : null);
+          final bill = await getBillDay(power, area, next, ttl: ttlDay);
+          next = next.add(step);
+          days.add(bill);
+        }
+        return EnergyBillMonth(begin: firstInMonth, daily: days);
+      },
+      ttl: ttl,
+    );
+  }
+
+  Optional<EnergyBillMonth> getCachedBillMonth(
+    Token power,
+    String area,
+    DateTime when,
+  ) {
+    return _cache.get(
+      _toCacheKey(power, area, 'month', when.firstInMonth),
     );
   }
 }

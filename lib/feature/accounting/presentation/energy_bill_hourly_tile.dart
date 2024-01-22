@@ -7,6 +7,7 @@ import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/util/data/units.dart';
@@ -42,7 +43,9 @@ class EnergyBillHourlyTile extends ConsumerWidget {
     }
     final service = ref.watch(energyBillServiceProvider);
     return FutureBuilder(
-      future: service.getBillDay(power.value, area, when),
+      future: service.getBillDay(power.value, area, when,
+          // Update bill today every 4 seconds when is this month
+          ttl: when.isToday ? const Duration(seconds: 1) : null),
       initialData: service.getCachedBillDay(power.value, area, when).orElseNull,
       builder: (context, snapshot) {
         final bill = Optional.ofNullable(snapshot.data);

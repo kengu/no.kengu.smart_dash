@@ -26,7 +26,7 @@ class HistoryManager {
   final Ref ref;
   final int maxLength;
   final Duration limit = const Duration(seconds: 5);
-  final Duration delay = const Duration(milliseconds: 200);
+  final Duration delay = const Duration(milliseconds: 50);
   final StreamController<HistoryEvent> _controller =
       StreamController.broadcast();
 
@@ -35,32 +35,6 @@ class HistoryManager {
 
   /// Get stream of [HistoryEvent]s.
   Stream<HistoryEvent> get events => _controller.stream;
-
-  /// Check if [TimeSeries] for given [Token] exists
-  bool exists(Token token) => tokens.contains(token);
-
-  /// Get all tokens loaded in manager
-  List<Token> get tokens =>
-      _cache.get<Map<String, Token>>('tokens').firstOrNull?.values.toList() ??
-      <Token>[];
-
-  /// Load current tokens from storage
-  Future<List<Token>> loadTokens() async {
-    return (await _loadTokens()).values.toList();
-  }
-
-  Future<Map<String, Token>> _loadTokens() async {
-    return _cache.getOrFetch<Map<String, Token>>(
-      'tokens',
-      () async {
-        final tokens = await ref.read(timeSeriesRepositoryProvider).getTokens();
-        return Map.fromEntries(tokens.map(
-          (e) => MapEntry(e.name, e),
-        ));
-      },
-      ttl: const Duration(milliseconds: 150),
-    );
-  }
 
   StreamSubscription<FlowEvent>? _changes;
 
@@ -81,40 +55,44 @@ class HistoryManager {
   }
 
   /// Pump current [HistoryEvent]s
-  Future<void> pump() async {
+  Future<void> pump(
+      {List<Token> tokens = const [], DateTime? when, Duration? ttl}) async {
+    // Get current tokens
+    final all = await getTokens(ttl);
+    final stream = Stream.fromIterable(all)
+        .where((e) => tokens.isEmpty || tokens.contains(e));
     // NOTE: We should not add events too fast to stream for
     // overall performance reasons. And StreamProviders only
     // sees last event when events are added more frequently
     // than 60 fps (less than 17 milliseconds between each event).
-    await for (final history in all().delayed(delay)) {
+    await for (final token in stream.delayed(delay)) {
       // Process list of flow events in order of completion
-      final cached = _cache.get<Map<String, Token>>('tokens');
-      final tokens = cached.isPresent ? cached.value : await _loadTokens();
-      final token = tokens[history.name];
-      assert(token != null, 'Token for history [${history.name}] not found');
-      _controller.add(HistoryEvent(
-        token!,
-        history,
-      ));
-    }
-  }
-
-  Stream<TimeSeries> all([DateTime? when]) async* {
-    final repo = ref.read(timeSeriesRepositoryProvider);
-    for (final token in await loadTokens()) {
-      final result = await repo.get(token, toOffset(when));
-      if (result.isPresent) {
-        yield result.value;
+      final history = await get(token, when: when, ttl: ttl);
+      if (history.isPresent) {
+        _controller.add(HistoryEvent(
+          token,
+          history.value,
+        ));
       }
     }
   }
 
+  /// Load current tokens from storage
+  Future<List<Token>> getTokens([Duration? ttl]) async {
+    return _cache.getOrFetch('tokens', () async {
+      return await ref.read(timeSeriesRepositoryProvider).getTokens();
+    }, ttl: ttl);
+  }
+
+  /// Get all tokens loaded in manager
+  Optional<List<Token>> getTokensCached() => _cache.get('tokens');
+
   Future<List<TimeSeries>> getAll({
     DateTime? when,
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) async {
     final series = <TimeSeries>[];
-    for (final token in await loadTokens()) {
+    for (final token in await getTokens()) {
       final result = await get(token, when: when, ttl: ttl);
       if (result.isPresent) {
         series.add(result.value);
@@ -125,7 +103,7 @@ class HistoryManager {
 
   List<TimeSeries> getCachedAll({DateTime? when}) {
     final series = <TimeSeries>[];
-    for (final token in tokens) {
+    for (final token in getTokensCached().orElseNull ?? []) {
       final result = getCached(token, when: when);
       if (result.isPresent) {
         series.add(result.value);
@@ -137,26 +115,28 @@ class HistoryManager {
   Future<Optional<TimeSeries>> get(
     Token token, {
     DateTime? when,
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) {
-    final key = 'token:${token.name}:$when';
+    final offset = toOffset(when);
+    final key = 'token:${token.name}:$offset';
     return _cache.getOrFetch(key, () async {
       final repo = ref.read(timeSeriesRepositoryProvider);
-      return await repo.get(token, toOffset(when));
+      return await repo.get(token, offset);
     }, ttl: ttl);
   }
 
   Optional<TimeSeries> getCached(Token token, {DateTime? when}) {
-    return _cache.get('token:${token.name}:$when');
+    final offset = toOffset(when);
+    return _cache.get('token:${token.name}:$offset');
   }
 
   Future<List<TimeSeries>> where(
     Function(Token e) compare, {
     DateTime? when,
-    Duration ttl = const Duration(seconds: 4),
+    Duration? ttl,
   }) async {
     final series = <TimeSeries>[];
-    for (final token in await loadTokens()) {
+    for (final token in await getTokens()) {
       if (compare(token)) {
         final result = await get(token, when: when, ttl: ttl);
         if (result.isPresent) {
@@ -169,7 +149,7 @@ class HistoryManager {
 
   List<TimeSeries> whereCached(Function(Token e) compare, {DateTime? when}) {
     final series = <TimeSeries>[];
-    for (final token in tokens) {
+    for (final token in getTokensCached().orElseNull ?? []) {
       if (compare(token)) {
         final result = getCached(token, when: when);
         if (result.isPresent) {
@@ -178,6 +158,25 @@ class HistoryManager {
       }
     }
     return series;
+  }
+
+  Stream<TimeSeries> stream(Token token) {
+    return _controller.stream.where((e) => e.token == token).map((e) => e.data);
+  }
+
+  Stream<TimeSeries> streamAll() {
+    return _controller.stream.map((e) => e.data);
+  }
+
+  Stream<TimeSeries> streamWhere(Function(Token e) compare,
+      {DateTime? when}) async* {
+    final repo = ref.read(timeSeriesRepositoryProvider);
+    for (final token in await getTokens()) {
+      final result = await repo.get(token, toOffset(when));
+      if (result.isPresent) {
+        yield result.value;
+      }
+    }
   }
 
   Future<void> _onHandle(FlowEvent event) {
@@ -228,9 +227,11 @@ class HistoryEvent {
   final Token token;
   final TimeSeries data;
 
+  bool get isOnOff => token.isOnOff;
   bool get isPower => token.isPower;
   bool get isEnergy => token.isEnergy;
   bool get isVoltage => token.isVoltage;
+  bool get isTemperature => token.isTemperature;
 
   @override
   bool operator ==(Object other) =>
@@ -253,33 +254,23 @@ class HistoryEvent {
 HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref);
 
 @riverpod
-Stream<HistoryEvent> history(HistoryRef ref) async* {
-  final manager = ref.watch(historyManagerProvider);
-  await for (final event in manager.events) {
-    yield event;
-  }
+Stream<HistoryEvent> history(HistoryRef ref, [List<Token> tokens = const []]) {
+  return ref.watch(historyManagerProvider).events.where(
+        (e) => tokens.isEmpty || tokens.contains(e.token),
+      );
 }
 
 @riverpod
-Stream<HistoryEvent> powerHistory(PowerHistoryRef ref) async* {
-  final manager = ref.watch(historyManagerProvider);
-  await for (final event in manager.events.where((e) => e.isPower)) {
-    yield event;
-  }
+Stream<HistoryEvent> powerHistory(PowerHistoryRef ref) {
+  return ref.watch(historyManagerProvider).events.where((e) => e.isPower);
 }
 
 @riverpod
-Stream<HistoryEvent> energyHistory(EnergyHistoryRef ref) async* {
-  final manager = ref.watch(historyManagerProvider);
-  await for (final event in manager.events.where((e) => e.isEnergy)) {
-    yield event;
-  }
+Stream<HistoryEvent> energyHistory(EnergyHistoryRef ref) {
+  return ref.watch(historyManagerProvider).events.where((e) => e.isEnergy);
 }
 
 @riverpod
-Stream<HistoryEvent> voltageHistory(VoltageHistoryRef ref) async* {
-  final manager = ref.watch(historyManagerProvider);
-  await for (final event in manager.events.where((e) => e.isVoltage)) {
-    yield event;
-  }
+Stream<HistoryEvent> voltageHistory(VoltageHistoryRef ref) {
+  return ref.watch(historyManagerProvider).events.where((e) => e.isVoltage);
 }

@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/future.dart';
 
 part 'device_service.g.dart';
@@ -25,7 +24,8 @@ class DeviceService {
   }
 
   /// Get [Device] with given [id] stored locally
-  Future<Optional<Device>> get(Identity id, {Duration ttl = Duration.zero}) {
+  Future<Optional<Device>> get(Identity id,
+      {Duration? ttl = const Duration(seconds: 5)}) {
     return _cache.getOrFetch(
       'get:$id',
       () => ref.read(deviceRepositoryProvider).get(id),
@@ -39,32 +39,7 @@ class DeviceService {
   }
 
   /// Get all [Device]s stored locally
-  Future<List<Token>> getTokens({Duration ttl = Duration.zero}) async {
-    final devices = await _cache.getOrFetch(
-      'all',
-      () => ref.read(deviceRepositoryProvider).getAll(),
-      ttl: ttl,
-    );
-    final tokens = devices
-        .map((e) => e.toTokens())
-        .fold(<Token>[], (tokens, token) => tokens..addAll(token));
-    return tokens;
-  }
-
-  List<Token> getTokensCached() {
-    final tokens = <Token>[];
-    final devices = _cache.get<List<Device>>('all');
-    if (devices.isPresent) {
-      tokens.addAll(devices.value.map((e) => e.toTokens()).fold<List<Token>>(
-        <Token>[],
-        (items, token) => items..addAll(token),
-      ));
-    }
-    return tokens;
-  }
-
-  /// Get all [Device]s stored locally
-  Future<List<Device>> getAll({Duration ttl = Duration.zero}) {
+  Future<List<Device>> getAll({Duration? ttl = const Duration(seconds: 5)}) {
     return _cache.getOrFetch(
       'all',
       () => ref.read(deviceRepositoryProvider).getAll(),
@@ -78,7 +53,7 @@ class DeviceService {
   }
 
   Future<List<Device>> where(Function(Device e) compare,
-      {Duration ttl = Duration.zero}) async {
+      {Duration? ttl = const Duration(seconds: 5)}) async {
     return _cache.getOrFetch(
       'where',
       () => ref.read(deviceRepositoryProvider).where(compare),

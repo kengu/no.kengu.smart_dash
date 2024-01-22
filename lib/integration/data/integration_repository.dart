@@ -4,10 +4,11 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/util/data/json.dart';
 
 part 'integration_repository.g.dart';
 
-@Riverpod(keepAlive: false /* Keep result to minimize lookup */)
+@Riverpod(keepAlive: true)
 class IntegrationRepository extends _$IntegrationRepository {
   static final _drivers = <String, Integration>{};
 
@@ -35,9 +36,8 @@ class IntegrationRepository extends _$IntegrationRepository {
         .loadString('assets/data/integrations.json')
         .then((json) => jsonDecode(json)) as List;
     return {
-      for (final e in services
-          .map((e) => e as Map<String, Object?>)
-          .map(Integration.fromJson))
+      for (final e
+          in services.map((e) => e as JsonObject).map(Integration.fromJson))
         e.key: e,
     };
   }

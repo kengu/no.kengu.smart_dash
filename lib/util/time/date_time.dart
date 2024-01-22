@@ -2,6 +2,53 @@ import 'package:timeago/timeago.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 extension DateTimeX on DateTime {
+  bool get isThisSecond {
+    final now = DateTime.now();
+    return now.year == year &&
+        now.month == month &&
+        now.day == day &&
+        now.hour == hour &&
+        now.minute == minute &&
+        now.second == second;
+  }
+
+  bool get isThisMinute {
+    final now = DateTime.now();
+    return now.year == year &&
+        now.month == month &&
+        now.day == day &&
+        now.minute == minute &&
+        now.hour == hour;
+  }
+
+  bool get isThisHour {
+    final now = DateTime.now();
+    return now.year == year &&
+        now.month == month &&
+        now.day == day &&
+        now.hour == hour;
+  }
+
+  /// Check if this [DateTime] is today
+  bool get isToday {
+    final now = DateTime.now();
+    return now.year == year && now.month == month && now.day == day;
+  }
+
+  /// Check if this [DateTime] is this month
+  bool get isThisMonth {
+    final now = DateTime.now();
+    return now.year == year && now.month == month;
+  }
+
+  /// Check if this [DateTime] is this month
+  bool get isThisYear {
+    return DateTime.now().year == year;
+  }
+
+  /// Get first day of this [DateTime] month
+  DateTime get firstInMonth => DateTime(year, month, 1);
+
   /// Get [DateTime] at coordinate position given by [index]
   DateTime tsAt(int index, Duration duration, [bool end = true]) =>
       add(Duration(

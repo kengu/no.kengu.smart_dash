@@ -26,6 +26,7 @@ class AppStateManager {
 
     // Pumping timing events
     container.read(timingServiceProvider).start();
+    container.read(historyManagerProvider).pump();
 
     debugPrint('AppStateManager: Initialized');
     return container;

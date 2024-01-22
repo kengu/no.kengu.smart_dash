@@ -29,7 +29,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(historyProvider).when(
+    return ref.watch(historyProvider()).when(
           data: _build,
           loading: _build,
           error: SmartDashErrorWidget.from,

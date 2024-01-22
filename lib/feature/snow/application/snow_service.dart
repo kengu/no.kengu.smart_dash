@@ -47,9 +47,7 @@ class SnowService {
     return _cache.get('states');
   }
 
-  Future<Optional<List<SnowState>>> getStates({
-    Duration ttl = const Duration(minutes: 5),
-  }) async {
+  Future<Optional<List<SnowState>>> getStates({Duration? ttl}) async {
     final config = await getConfig();
     if (!config.isPresent) return const Optional.empty();
     final states = await _cache.getOrFetch(
@@ -62,6 +60,7 @@ class SnowService {
           )).getStates,
       ttl: ttl,
     );
+
     if (states.isPresent) {
       _cache.setTTL(
         'states',
