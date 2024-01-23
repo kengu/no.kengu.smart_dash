@@ -33,6 +33,8 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
       builder: (context, snapshot) {
         final devices =
             (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
+        devices
+            .sort((a, b) => a.temperature?.compareTo(b.temperature ?? 0) ?? 0);
         final values = devices.map((e) => (e.temperature ?? 0)).toList();
         return BarChartTile<double>(
           title: 'Temperatures Now',
