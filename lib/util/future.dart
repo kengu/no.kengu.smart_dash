@@ -21,24 +21,30 @@ class FutureCache {
   Optional<T> get<T>(String key) {
     final value = _results[key];
     if (value is Optional<T>) {
-      //debugPrint('get($prefix:$key)=>FOUND');
       return value;
     }
-    //debugPrint('get($prefix:$key)=>EMPTY');
     return Optional<T>.ofNullable(_results[key]);
   }
 
-  void set<T>(String key, Optional<T> value) {
+  Optional<T> set<T>(String key, Optional<T> value) {
     _results[key] = value;
     _requests[key] = (DateTime.now(), Future.value(value));
-    //debugPrint('set($prefix:$key)');
+    return value;
+  }
+
+  Optional<T> setIfExists<T>(String key, T Function(T value) set) {
+    if (_results.containsKey(key)) {
+      final next = set(_results[key]);
+      _results[key] = next;
+      _requests[key] = (DateTime.now(), Future.value(next));
+    }
+    return const Optional.empty();
   }
 
   void setTTL(String key, DateTime when) {
     if (_requests.containsKey(key)) {
       final item = _requests[key]!;
       _requests[key] = (when, item.$2);
-      //debugPrint('setTTL($prefix:$key)');
     }
   }
 
@@ -69,9 +75,6 @@ class FutureCache {
       _requests.remove(key);
       _results.remove(key);
     }
-
-    //debugPrint('getOrFetch($prefix:$key,$ttl)');
-
     return result;
   }
 

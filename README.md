@@ -19,6 +19,9 @@ A Smart Dashboard App for my personal use.
 
 - Refactor refresh of camera information and snapshot using timing service and streams
 - Use package [image_compare](https://pub.dev/packages/image_compare) to detect movement locally by inspection of snapshot streams
+- Use package [zwave](https://pub.dev/packages/zwave) on rpi4 to read from
+  [z-wave 3-phase power meter](https://www.eldirekte.no/aeotec-strom-maler-3fas-60a-z-wave/cat-p/c/p10637336)
+
 
 # Developing
  

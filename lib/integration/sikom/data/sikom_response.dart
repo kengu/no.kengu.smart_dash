@@ -25,6 +25,9 @@ class SikomResponse with _$SikomResponse {
   /// Check if response [data] is scalar result [scalarResult]
   bool get isScalar => data.scalarResult != null;
 
+  /// Check if response [data] has ok result in [bpapiStatus]
+  bool get isOk => data.bpapiStatus == 'ok';
+
   factory SikomResponse.fromJson(Map<String, Object?> json) =>
       _$SikomResponseFromJson(json);
 }

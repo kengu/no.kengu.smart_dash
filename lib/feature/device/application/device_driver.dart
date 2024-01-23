@@ -87,6 +87,9 @@ abstract class DeviceDriver {
   @protected
   Future<void> onUnInit() async {}
 
+  /// Get list of all known [Device] definitions
+  Future<List<DeviceDefinition>> getDeviceDefinitions();
+
   /// Get list of all available [Device]s.
   /// Use [DeviceDefinition.type] or
   /// [Device.id]s for a filtered response
@@ -94,9 +97,6 @@ abstract class DeviceDriver {
     DeviceType type = DeviceType.any,
     Iterable<String> ids = const [],
   });
-
-  /// Get list of all known [Device] definitions
-  Future<List<DeviceDefinition>> getDeviceDefinitions();
 
   /// Attempt to pair with list of devices.
   /// Only devices that belongs to this service [key] is paired
@@ -135,6 +135,10 @@ abstract class DeviceDriver {
     if (paired.isEmpty) return available;
     return available.where((device) => !paired.contains(device.name)).toList();
   }
+
+  /// Set device properties of given device.
+  /// Returns true if succeeded
+  Future<bool> setDevice(Device device);
 }
 
 class DriverEvent {

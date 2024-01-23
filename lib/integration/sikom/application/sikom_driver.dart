@@ -12,6 +12,7 @@ import 'package:smart_dash/integration/sikom/application/sikom_driver_flows.dart
 import 'package:smart_dash/integration/sikom/data/sikom_client.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 import 'package:smart_dash/util/guard.dart';
 
@@ -24,7 +25,7 @@ class SikomDriver extends ThrottledDeviceDriver {
           ref,
           trailing: true,
           // TODO Make throttle configurable
-          throttle: const Duration(seconds: 90),
+          throttle: const Duration(seconds: 5),
         );
 
   @override
@@ -95,6 +96,25 @@ class SikomDriver extends ThrottledDeviceDriver {
         }
       }
       return devices;
+    });
+  }
+
+  @override
+  Future<bool> setDevice(Device device) async {
+    return guard(() async {
+      final applied = <SikomProperty>{};
+      final client = ref.read(sikomClientProvider);
+      final devices = await client.getAllDevices(ids: [device.id]);
+      if (devices.isPresent) {
+        final current = devices.value.first;
+        final diff = current.diff(device);
+        for (final it in diff) {
+          final result = await client.setDeviceProperty(device.id, it);
+          if (result.isPresent) applied.add(it);
+        }
+        return applied.length == diff.length;
+      }
+      return false;
     });
   }
 }

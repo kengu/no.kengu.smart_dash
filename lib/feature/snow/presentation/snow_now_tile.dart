@@ -79,7 +79,7 @@ class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
                 ? ListView(children: [
                     ListTile(
                       leading: const Icon(CupertinoIcons.gauge),
-                      title: Text('Equivalent', style: textStyle),
+                      title: Text('Weight', style: textStyle),
                       trailing:
                           Text('${snow!.equivalent} kg/m²', style: textStyle),
                     ),

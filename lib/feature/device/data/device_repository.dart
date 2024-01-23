@@ -25,16 +25,6 @@ class DeviceRepository {
           );
   }
 
-  Future<List<Device>> where(Function(Device e) compare) async {
-    final devices = <Device>[];
-    for (final device in await getAll()) {
-      if (compare(device)) {
-        devices.add(device);
-      }
-    }
-    return devices;
-  }
-
   Future<List<Device>> _load() => guard(() async {
         final prefs = await SharedPreferences.getInstance();
         final result = prefs.getStringList(DeviceRepository.key);

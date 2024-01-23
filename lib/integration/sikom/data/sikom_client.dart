@@ -9,6 +9,7 @@ import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/sikom/data/sikom_response.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
+import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/util/guard.dart';
 
 class SikomClient {
@@ -41,7 +42,8 @@ class SikomClient {
             'authorization': toBasicAuth(credentials.value),
           }));
       debugPrint(
-          'Verified Sikom credentials: [${response.statusCode}] ${response.realUri}');
+        'Verified Sikom credentials: [${response.statusCode}] ${response.realUri}',
+      );
       final result = SikomResponse.fromJson(response.data);
       return result.data.scalarResult == 'True';
     });
@@ -57,7 +59,8 @@ class SikomClient {
           }));
       final result = SikomResponse.fromJson(response.data);
       debugPrint(
-          'Fetched Sikom Gateways: [${response.statusCode}] ${response.realUri}');
+        'Fetched Sikom Gateways: [${response.statusCode}] ${response.realUri}',
+      );
       final gateways = result.isArray
           ? result.data.bpapiArray!
               .map((e) => e.gateway)
@@ -107,7 +110,8 @@ class SikomClient {
           }),
         );
         debugPrint(
-            'Fetched Sikom Devices: [${response.statusCode}] ${response.realUri}');
+          'Fetched Sikom Devices: [${response.statusCode}] ${response.realUri}',
+        );
         final result = SikomResponse.fromJson(response.data);
         if (result.isArray) {
           devices.addAll(
@@ -121,6 +125,74 @@ class SikomClient {
         }
       }
       return Optional.ofNullable(devices);
+    });
+  }
+
+  Future<Optional<String>> getDevicePropertyValue(
+      String id, String name) async {
+    return guard(() async {
+      Optional<ServiceConfig> credentials = await getCredentials();
+      if (!credentials.isPresent) return const Optional.empty();
+      final path = '/Device/$id/Property/$name/Value/';
+      final response = await api.get(
+        path,
+        options: Options(headers: <String, String>{
+          'authorization': toBasicAuth(credentials.value)
+        }),
+      );
+
+      final result = SikomResponse.fromJson(response.data);
+      final value = result.data.scalarResult.toString();
+      debugPrint(
+        'Fetched Sikom Property: [${response.statusCode}] ${response.realUri}[$value]',
+      );
+      return Optional.ofNullable(value);
+    });
+  }
+
+  Future<Optional<SikomProperty>> setDeviceProperty(
+      String id, SikomProperty property) async {
+    return guard(() async {
+      Optional<ServiceConfig> credentials = await getCredentials();
+      if (!credentials.isPresent) return const Optional.empty();
+      final path = '/Device/$id/AddProperty/${property.name}/${property.value}';
+      final response = await api.get(
+        path,
+        options: Options(headers: <String, String>{
+          'authorization': toBasicAuth(credentials.value)
+        }),
+      );
+      debugPrint(
+        'Applied Sikom Property: [${response.statusCode}] ${response.realUri}',
+      );
+
+      final result = SikomResponse.fromJson(response.data);
+      if (result.isOk) {
+        final first = await Future.delayed(
+          const Duration(milliseconds: 100),
+          () => getDevicePropertyValue(id, property.name),
+        );
+        if (first.orElseNull == property.value) {
+          return Optional.of(property);
+        }
+
+        int attempt = 0;
+        do {
+          // Retry until every 500 until success or maximum attempt is reached
+          final check = await Future.delayed(
+            const Duration(milliseconds: 500),
+            () => getDevicePropertyValue(id, property.name),
+          );
+          if (check.orElseNull == property.value) {
+            return Optional.of(property);
+          }
+          attempt++;
+        } while (attempt < 20);
+        debugPrint(
+          'Applied Sikom Property: [${response.statusCode}] ${response.realUri}[failed after 20 attempts]',
+        );
+      }
+      return const Optional.empty();
     });
   }
 }

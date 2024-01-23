@@ -142,7 +142,6 @@ class Identity with _$Identity {
 
   const factory Identity({
     required String deviceId,
-    required String test,
     required String serviceKey,
   }) = _Identity;
 
@@ -151,7 +150,6 @@ class Identity with _$Identity {
 
   factory Identity.of(Device device) => Identity(
         deviceId: device.id,
-        test: '1',
         serviceKey: device.service,
       );
 }

@@ -37,7 +37,7 @@ class _SwitchOnOffListTileListTileState
       builder: (context, snapshot) {
         final devices =
             (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
-
+        devices.sort((a, b) => a.name.compareTo(b.name));
         return SmartDashTile(
           title: widget.title,
           subTitle: widget.subtitle,
@@ -70,19 +70,28 @@ class _SwitchOnOffListTileListTileState
                   ],
                 )
               : ListView(
-                  children: devices.map((e) => _buildListTile(e)).toList(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: devices
+                      .map(
+                        (device) => SwitchOnOffTile(
+                          device: device,
+                          enabled: true,
+                          onSelected: (newMode) => _apply(device, newMode),
+                        ),
+                      )
+                      .toList(),
                 ),
         );
       },
     );
   }
 
-  Widget _buildListTile(Device device) {
-    return SwitchOnOffTile(
-      device: device,
-      enabled: true,
-      onSelected: (newMode) => Future.value(false),
-    );
+  Future<bool> _apply(Device device, SwitchMode newMode) async {
+    final result = await ref
+        .read(deviceServiceProvider)
+        .set(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
+    return result.isPresent;
   }
 }
 
@@ -106,6 +115,7 @@ class SwitchOnOffTile extends StatefulWidget {
 
 class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
   bool _enabled = true;
+  bool _errorState = false;
   Set<SwitchMode> _segmentedButtonSelection = {};
 
   @override
@@ -133,26 +143,33 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
   @override
   Widget build(BuildContext context) {
     final legendTextStyle = getLegendTextStyle(context);
+    final titleTextStyle = Theme.of(context).textTheme.labelSmall;
+
     return ListTile(
       leading: Icon(toIconData(widget.device)),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(widget.device.name),
+          Text(
+            widget.device.name,
+            style: titleTextStyle,
+          ),
           if (widget.device.onOff!.state)
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (widget.device.hasPower)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Text(
-                      (widget.device.electric?.estimatedPower ?? 0).toPower(),
+                      (widget.device.electric
+                              ?.getEstimatedPower(false)
+                              ?.toPower() ??
+                          '-'),
                       style: legendTextStyle,
-                      textScaler: const TextScaler.linear(1.2),
                     ),
                   ),
-                const Icon(Icons.electric_bolt),
+                const Icon(Icons.electric_bolt, size: 16),
               ],
             ),
         ],
@@ -161,18 +178,39 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: 220,
+            width: 170,
             child: SegmentedButton<SwitchMode>(
-              showSelectedIcon: true,
+              showSelectedIcon: false,
               emptySelectionAllowed: false,
               multiSelectionEnabled: false,
               selected: _segmentedButtonSelection,
-              // Disable segments when selection is ongoing
-              onSelectionChanged: _enabled ? _onSelectionChanged : null,
+              onSelectionChanged: _onSelectionChanged,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return null;
+                  }
+                  if (states.contains(MaterialState.selected)) {
+                    return _errorState
+                        ? Colors.red.withOpacity(0.6)
+                        : Theme.of(context).colorScheme.secondaryContainer;
+                  }
+                  return null;
+                }),
+              ),
               segments: _modes().map((SwitchMode mode) {
                 return ButtonSegment<SwitchMode>(
                   value: mode,
-                  label: Text(mode.name),
+                  enabled: _enabled,
+                  tooltip:
+                      _errorState && _segmentedButtonSelection.contains(mode)
+                          ? 'Unable to apply ${mode.name} mode'
+                          : null,
+                  label: Text(
+                    mode.name,
+                    textScaler: const TextScaler.linear(0.8),
+                  ),
                 );
               }).toList(),
             ),
@@ -181,7 +219,7 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
             Padding(
               padding: const EdgeInsets.only(top: 0.0),
               child: SizedBox(
-                width: 190,
+                width: 120,
                 child: LinearProgressIndicator(
                   minHeight: 1,
                   color: Colors.lightGreen.withOpacity(0.6),
@@ -199,10 +237,12 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
       _segmentedButtonSelection = _setMode();
     });
     update() async {
-      _enabled = await widget.onSelected(newSelection.first);
-      if (_enabled && mounted) {
+      final success = await widget.onSelected(newSelection.first);
+      if (mounted) {
         setState(() {
-          _segmentedButtonSelection = newSelection;
+          _enabled = true;
+          _errorState = !success;
+          _segmentedButtonSelection = success ? newSelection : _setMode();
         });
       }
     }

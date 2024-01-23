@@ -65,13 +65,11 @@ const _$DeviceCapabilityEnumMap = {
 _$IdentityImpl _$$IdentityImplFromJson(Map<String, dynamic> json) =>
     _$IdentityImpl(
       deviceId: json['deviceId'] as String,
-      test: json['test'] as String,
       serviceKey: json['serviceKey'] as String,
     );
 
 Map<String, dynamic> _$$IdentityImplToJson(_$IdentityImpl instance) =>
     <String, dynamic>{
       'deviceId': instance.deviceId,
-      'test': instance.test,
       'serviceKey': instance.serviceKey,
     };

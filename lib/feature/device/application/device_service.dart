@@ -33,6 +33,37 @@ class DeviceService {
     );
   }
 
+  /// Set [Device] properties and store
+  /// changes locally if successfully applied
+  Future<Optional<Device>> set(Device device,
+      {Duration? ttl = const Duration(seconds: 5)}) async {
+    final id = Identity.of(device);
+    return _cache.getOrFetch(
+      'set:$id',
+      () async {
+        final service =
+            ref.read(deviceDriverManagerProvider).getDriver(device.service);
+        final success = await service.setDevice(device);
+        if (success) {
+          await ref.read(deviceRepositoryProvider).setAll([device]);
+          // Update caches
+          _cache.setIfExists<List<Device>>(
+            'all',
+            (all) => all
+              ..removeWhere((e) => e.id == device.id)
+              ..add(device),
+          );
+          return _cache.set(
+            'get:$id',
+            Optional.of(device),
+          );
+        }
+        return const Optional.empty();
+      },
+      ttl: ttl,
+    );
+  }
+
   /// Get [Device] with given [id] stored in cache
   Optional<Device> getCached(String id) {
     return _cache.get('get:$id');
@@ -54,15 +85,27 @@ class DeviceService {
 
   Future<List<Device>> where(Function(Device e) compare,
       {Duration? ttl = const Duration(seconds: 5)}) async {
-    return _cache.getOrFetch(
-      'where',
-      () => ref.read(deviceRepositoryProvider).where(compare),
-      ttl: ttl,
-    );
+    final devices = <Device>[];
+    for (final device in await getAll()) {
+      if (compare(device)) {
+        devices.add(device);
+      }
+    }
+    return devices;
   }
 
   Optional<List<Device>> whereCached(Function(Device e) compare) {
-    return _cache.get('where');
+    final cached = getAllCached();
+    if (cached.isPresent) {
+      final devices = <Device>[];
+      for (final device in cached.value) {
+        if (compare(device)) {
+          devices.add(device);
+        }
+      }
+      return Optional.of(devices);
+    }
+    return const Optional.empty();
   }
 }
 

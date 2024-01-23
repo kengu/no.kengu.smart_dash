@@ -18,8 +18,10 @@ class FlowManager {
 
   final Ref ref;
   final _flows = <String, Flow>{};
+  // TODO Make limit configurable
   final Duration limit = const Duration(seconds: 5);
-  final Duration delay = const Duration(milliseconds: 200);
+  // TODO Make delay configurable
+  final Duration delay = const Duration(milliseconds: 50);
   final StreamController<FlowEvent> _controller = StreamController.broadcast();
 
   StreamSubscription<DriverUpdatedEvent>? _updates;

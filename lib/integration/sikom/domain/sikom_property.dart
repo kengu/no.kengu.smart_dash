@@ -22,6 +22,9 @@ class SikomProperty with _$SikomProperty {
   factory SikomProperty.fromJson(Map<String, Object?> json) =>
       _$SikomPropertyFromJson(json);
 
+  bool? toBool() => value == "1";
+
   int? toInt() => int.tryParse(value);
+
   double? toDouble() => double.tryParse(value);
 }

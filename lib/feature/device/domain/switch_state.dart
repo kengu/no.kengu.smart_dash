@@ -41,4 +41,16 @@ class SwitchState with _$SwitchState {
       _$SwitchStateFromJson(json);
 }
 
-enum SwitchMode { off, eco, on, comfort, antiFreeze }
+enum SwitchMode {
+  off,
+  eco,
+  on,
+  comfort,
+  antiFreeze;
+
+  static const offModes = [
+    SwitchMode.off,
+    SwitchMode.eco,
+    SwitchMode.antiFreeze
+  ];
+}

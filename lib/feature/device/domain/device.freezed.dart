@@ -460,7 +460,6 @@ Identity _$IdentityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Identity {
   String get deviceId => throw _privateConstructorUsedError;
-  String get test => throw _privateConstructorUsedError;
   String get serviceKey => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -474,7 +473,7 @@ abstract class $IdentityCopyWith<$Res> {
   factory $IdentityCopyWith(Identity value, $Res Function(Identity) then) =
       _$IdentityCopyWithImpl<$Res, Identity>;
   @useResult
-  $Res call({String deviceId, String test, String serviceKey});
+  $Res call({String deviceId, String serviceKey});
 }
 
 /// @nodoc
@@ -491,17 +490,12 @@ class _$IdentityCopyWithImpl<$Res, $Val extends Identity>
   @override
   $Res call({
     Object? deviceId = null,
-    Object? test = null,
     Object? serviceKey = null,
   }) {
     return _then(_value.copyWith(
       deviceId: null == deviceId
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
-              as String,
-      test: null == test
-          ? _value.test
-          : test // ignore: cast_nullable_to_non_nullable
               as String,
       serviceKey: null == serviceKey
           ? _value.serviceKey
@@ -519,7 +513,7 @@ abstract class _$$IdentityImplCopyWith<$Res>
       __$$IdentityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String deviceId, String test, String serviceKey});
+  $Res call({String deviceId, String serviceKey});
 }
 
 /// @nodoc
@@ -534,17 +528,12 @@ class __$$IdentityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? deviceId = null,
-    Object? test = null,
     Object? serviceKey = null,
   }) {
     return _then(_$IdentityImpl(
       deviceId: null == deviceId
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
-              as String,
-      test: null == test
-          ? _value.test
-          : test // ignore: cast_nullable_to_non_nullable
               as String,
       serviceKey: null == serviceKey
           ? _value.serviceKey
@@ -557,8 +546,7 @@ class __$$IdentityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$IdentityImpl extends _Identity {
-  const _$IdentityImpl(
-      {required this.deviceId, required this.test, required this.serviceKey})
+  const _$IdentityImpl({required this.deviceId, required this.serviceKey})
       : super._();
 
   factory _$IdentityImpl.fromJson(Map<String, dynamic> json) =>
@@ -567,13 +555,11 @@ class _$IdentityImpl extends _Identity {
   @override
   final String deviceId;
   @override
-  final String test;
-  @override
   final String serviceKey;
 
   @override
   String toString() {
-    return 'Identity(deviceId: $deviceId, test: $test, serviceKey: $serviceKey)';
+    return 'Identity(deviceId: $deviceId, serviceKey: $serviceKey)';
   }
 
   @override
@@ -583,14 +569,13 @@ class _$IdentityImpl extends _Identity {
             other is _$IdentityImpl &&
             (identical(other.deviceId, deviceId) ||
                 other.deviceId == deviceId) &&
-            (identical(other.test, test) || other.test == test) &&
             (identical(other.serviceKey, serviceKey) ||
                 other.serviceKey == serviceKey));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, deviceId, test, serviceKey);
+  int get hashCode => Object.hash(runtimeType, deviceId, serviceKey);
 
   @JsonKey(ignore: true)
   @override
@@ -609,7 +594,6 @@ class _$IdentityImpl extends _Identity {
 abstract class _Identity extends Identity {
   const factory _Identity(
       {required final String deviceId,
-      required final String test,
       required final String serviceKey}) = _$IdentityImpl;
   const _Identity._() : super._();
 
@@ -618,8 +602,6 @@ abstract class _Identity extends Identity {
 
   @override
   String get deviceId;
-  @override
-  String get test;
   @override
   String get serviceKey;
   @override

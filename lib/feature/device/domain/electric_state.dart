@@ -32,9 +32,10 @@ class ElectricState with _$ElectricState {
   }) = _ElectricState;
 
   /// Last estimated power usage (watt)
-  int? get estimatedPower =>
+  int? getEstimatedPower(bool regulated) =>
       estimatedRegulatedPower != null || estimatedUnregulatedPower != null
-          ? (estimatedUnregulatedPower ?? 0) - (estimatedRegulatedPower ?? 0)
+          ? (estimatedUnregulatedPower ?? 0) +
+              (regulated ? (estimatedRegulatedPower ?? 0) : 0)
           : null;
 
   static ElectricState empty() => ElectricState(

@@ -97,6 +97,9 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
     @JsonKey(name: 'Properties') required SikomDeviceProperties properties,
   }) = _SikomDevice;
 
+  factory SikomDevice.fromJson(Map<String, Object?> json) =>
+      _$SikomDeviceFromJson(json);
+
   /// Get device's  id
   String get id => properties.id;
 
@@ -111,6 +114,28 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
 
   /// Check if device is real
   bool get isReal => properties.dummy == null;
+
+  /// Check if device is a onoff switch
+  bool get hasOnOff => properties.hasOnOff;
+
+  /// Check if device reports current power usage
+  bool get hasPower => properties.hasPower;
+
+  /// Check if device estimates current power usage
+  bool get hasEstimatedPower => properties.hasEstimatedPower;
+
+  /// Check if device reports cumulative energy usage
+  bool get hasEnergy => properties.hasEnergy;
+
+  /// Check if device reports power voltage
+  bool get hasVoltage => properties.hasVoltage;
+
+  /// Check if device have electric state properties
+  bool get hasElectricState =>
+      hasEnergy || hasVoltage || hasPower || hasEstimatedPower;
+
+  /// Check if device reports temperature
+  bool get hasTemperature => properties.hasTemperature;
 
   @override
   Device toDevice() => Device(
@@ -185,30 +210,27 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
     );
   }
 
-  /// Check if device is a onoff switch
-  bool get hasOnOff => properties.hasOnOff;
+  /// Get list of modifiable properties
+  Set<SikomProperty> get modifiable => {
+        if (hasOnOff) properties.switchMode!,
+      };
 
-  /// Check if device reports current power usage
-  bool get hasPower => properties.hasPower;
-
-  /// Check if device estimates current power usage
-  bool get hasEstimatedPower => properties.hasEstimatedPower;
-
-  /// Check if device reports cumulative energy usage
-  bool get hasEnergy => properties.hasEnergy;
-
-  /// Check if device reports power voltage
-  bool get hasVoltage => properties.hasVoltage;
-
-  /// Check if device have electric state properties
-  bool get hasElectricState =>
-      hasEnergy || hasVoltage || hasPower || hasEstimatedPower;
-
-  /// Check if device reports temperature
-  bool get hasTemperature => properties.hasTemperature;
-
-  factory SikomDevice.fromJson(Map<String, Object?> json) =>
-      _$SikomDeviceFromJson(json);
+  /// Get diffs between this and given device
+  Set<SikomProperty> diff(Device device) {
+    final changed = <SikomProperty>{};
+    if (Identity.of(device) == Identity(deviceId: id, serviceKey: Sikom.key)) {
+      for (final it in modifiable) {
+        final prop = switch (it.name) {
+          'switch_mode' => it.copyWith(
+              value:
+                  SwitchMode.offModes.contains(device.onOff?.mode) ? '0' : '1'),
+          _ => null
+        };
+        if (prop != null) changed.add(prop);
+      }
+    }
+    return changed;
+  }
 }
 
 /// The [SikomDeviceProperties] class is a
