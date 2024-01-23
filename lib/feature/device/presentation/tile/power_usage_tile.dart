@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
@@ -30,12 +31,14 @@ class PowerUsageTile<T extends num> extends StatelessWidget {
       begin: begin,
       history: usage,
       lineMin: 1,
+      kLine: const [Sparkline.kMin, Sparkline.kMax],
       lineStep: duration.nice(4).steps(),
       leading: const Icon(
         Icons.electric_bolt,
         color: Colors.lightGreen,
       ),
       valueBuilder: (data) => data.toPower(),
+      pointLabeler: (data) => data.toPower(0),
       lineLabeler: (index) => usage.tsAgo(begin + index.toInt()),
     );
   }
