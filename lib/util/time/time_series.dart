@@ -241,60 +241,90 @@ extension TimeSeriesX on TimeSeries {
   TimeSeries record<T extends num>(
     T value,
     DateTime ts, {
+    int index = 0,
     int min = 1,
     int max = 1,
-    required T pad,
+    T? pad,
   }) {
-    var ts0 = offset;
+    var begin = offset;
 
     // Define array components for next time series
-    var count = length;
     var coords = array.coords.toList();
-    var data = isEmpty ? <T>[] : this[0].toList().cast<T>();
+    var data = isEmpty ? <T>[] : this[index].toList().cast<T>();
 
-    // Lookup index relative to current offset
-    final point = ts0.indexAt(ts, span);
+    // Lookup point index relative to current offset
+    final point = begin.indexAt(ts, span, true);
 
-    if (point >= count) {
-      final delta = point - count;
-      if (delta > 1) {
-        // Insert gaps between end and new point in history
-        final padding = delta - 1;
-        final minIdx = math.max(0, count - 1);
-        data = data.padAt(minIdx, padding, pad);
-        coords = coords.padAt(minIdx, padding, {});
-        debugPrint(
-          'record($name): PAD [$padding](length:${data.length}) $value @ $ts',
-        );
-      }
-      // Add point to end
-      data.add(value);
-      coords.add({'ts': ts.millisecondsSinceEpoch});
-      count = data.length;
+    // Within [offset,end]?
+    if (point >= 0 && point < length) {
+      /*
       debugPrint(
-        'record($name): APPEND [${count - 1}](length:$count) $value @ $ts',
+        'record($name): REPLACE [$point][1](length:${data.length}) ${data[point]} <- $value @ $ts ',
       );
-    } else if (point < 0) {
-      final delta = point.abs();
-      if (delta > 1) {
-        // Insert gaps between point and first
-        data = data.padAt(0, delta - 1, pad);
-        coords = coords.padAt(0, delta - 1, {});
-      }
-      // Append to head of time series
-      ts0 = tsAt(delta - 1);
-      data.insert(delta - 1, value);
-      coords.insert(delta - 1, {'ts': ts.millisecondsSinceEpoch});
-      count = data.length;
-      debugPrint(
-        'record($name): APPEND [${delta - 1}](length:$count) $value @ $ts',
-      );
-    } else {
-      // Replace existing point
+      */
+
+      // Replace existing point (index is within [offset,end])
       data[point] = value;
       coords[point] = {'ts': ts.millisecondsSinceEpoch};
+
+      return _next<T>(begin, data, coords, min, max, pad, value);
     }
 
+    // After [offset,end]?
+    if (point >= length) {
+      final delta = point - length;
+
+      if (delta > 1) {
+        // Insert padding values between (after) end and new value
+        final padding = delta;
+        final padFrom = length;
+        data = data.padAt(padFrom, padding, pad ?? value);
+        coords = coords.padAt(padFrom, padding, {});
+        debugPrint(
+          'record($name): PAD [$padFrom][$padding](length:${data.length}) ${pad ?? value}'
+          ' @ $ts [$end](+${ts.difference(end).inSeconds} s)',
+        );
+      }
+
+      // Addend point to end (tail) of timeseries
+      data.add(value);
+      coords.add({'ts': ts.millisecondsSinceEpoch});
+      debugPrint(
+        'record($name): APPEND [${data.length - 1}][1](length:${data.length}) $value'
+        ' @ $ts [$end](+${ts.difference(end).inSeconds} s)',
+      );
+
+      return _next<T>(begin, data, coords, min, max, pad, value);
+    }
+
+    // Always Before [offset,end]!
+    final delta = point.abs();
+
+    if (delta > 1) {
+      // Insert padding values before offset and new start (head) value
+      final padding = delta - 1;
+      data = data.padAt(0, padding, pad ?? value);
+      coords = coords.padAt(0, padding, {});
+      debugPrint(
+        'record($name): PAD [$point][$padding](length:${data.length}) ${pad ?? value}'
+        ' @ $ts [$end](${ts.difference(end).inSeconds} s)',
+      );
+    }
+
+    // Prepend to start (head) of timeseries
+    begin = tsAt(point + 1);
+    data.insert(0, value);
+    coords.insert(0, {'ts': ts.millisecondsSinceEpoch});
+    debugPrint(
+      'record($name): PREPEND [0][1](length:${data.length}) $value '
+      '@ $ts [$offset](${ts.difference(offset).inSeconds} s)',
+    );
+
+    return _next<T>(begin, data, coords, min, max, pad, value);
+  }
+
+  TimeSeries _next<T extends num>(DateTime ts0, List<T> data,
+      List<Map<String, Object?>> coords, int min, int max, T? pad, T value) {
     final next = TimeSeries(
       name: name,
       span: span,
@@ -306,7 +336,7 @@ extension TimeSeriesX on TimeSeries {
       ),
     );
 
-    return next.clamp<T>(min, max, pad: pad, head: true);
+    return next.clamp<T>(min, max, pad: pad ?? value, head: true);
   }
 
   /// Formats [TimeSeries.tsAt] to a fuzzy time like

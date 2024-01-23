@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:optional/optional.dart';
 
 import 'guard.dart';

@@ -25,7 +25,9 @@ class HistoryManager {
 
   final Ref ref;
   final int maxLength;
+  // TODO Make limit configurable
   final Duration limit = const Duration(seconds: 5);
+  // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
   final StreamController<HistoryEvent> _controller =
       StreamController.broadcast();
@@ -179,36 +181,45 @@ class HistoryManager {
     }
   }
 
+  /// Handle event in a time-orderly only manner.
+  /// Discards events that happened before last
+  /// element in history
   Future<void> _onHandle(FlowEvent event) {
     return guard<void>(
       () async {
-        final repo = ref.read(timeSeriesRepositoryProvider);
         final offset = toOffset();
+        final repo = ref.read(timeSeriesRepositoryProvider);
         final result = await repo.get(event.token, offset);
-        var history = result.isPresent ? result.value : event.token.emptyTs();
-        final next = switch (event.type) {
-          const (int) => history.record<int>(
-              event.data as int,
-              event.when,
-              pad: 0,
-              max: maxLength,
-            ),
-          const (double) => history.record<double>(
-              event.data as double,
-              event.when,
-              pad: 0,
-              max: maxLength,
-            ),
-          _ => throw UnsupportedError(
-              'History manager does not handle [${event.type}]',
-            ),
-        };
-        if (next != history) {
-          await repo.save(next);
-          _controller.add(HistoryEvent(
-            event.token,
-            next,
-          ));
+
+        // Create new history for offset if not found in repo
+        final history = result.isPresent
+            ? result.value
+            : event.token.emptyTs(offset: offset);
+
+        // Has event happened passed end of history?
+        if (event.when.difference(history.end) > history.span) {
+          final next = switch (event.type) {
+            const (int) => history.record<int>(
+                event.data as int,
+                event.when,
+                max: maxLength,
+              ),
+            const (double) => history.record<double>(
+                event.data as double,
+                event.when,
+                max: maxLength,
+              ),
+            _ => throw UnsupportedError(
+                'History manager does not handle [${event.type}]',
+              ),
+          };
+          if (next != history) {
+            await repo.save(next);
+            _controller.add(HistoryEvent(
+              event.token,
+              next,
+            ));
+          }
         }
       },
       task: 'HistoryManager::_onHandle',

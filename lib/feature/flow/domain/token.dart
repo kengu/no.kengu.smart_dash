@@ -38,9 +38,9 @@ class Token with _$Token {
         TokenType.double => data is double,
       };
 
-  TimeSeries emptyTs([Duration? span]) => TimeSeries(
+  TimeSeries emptyTs({DateTime? offset, Duration? span}) => TimeSeries(
         name: name,
-        offset: DateTime.now(),
+        offset: offset ?? DateTime.now(),
         span: span ?? TimeScale.minutes.to(),
         array: DataArray.size(1, [
           toJson(),

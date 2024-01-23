@@ -95,7 +95,7 @@ class DeviceDriverManager {
     final event = await driver.onUpdate();
     if (_shouldProcess(event)) {
       debugPrint(
-        'DeviceDriverManager: result from ${driver.key} '
+        'DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
         'after ${event.duration.inSeconds} sec.',
       );
       _updatedController.add(event);

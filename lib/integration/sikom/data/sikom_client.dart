@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
@@ -39,6 +40,8 @@ class SikomClient {
           options: Options(headers: <String, String>{
             'authorization': toBasicAuth(credentials.value),
           }));
+      debugPrint(
+          'Verified Sikom credentials: [${response.statusCode}] ${response.realUri}');
       final result = SikomResponse.fromJson(response.data);
       return result.data.scalarResult == 'True';
     });
@@ -53,6 +56,8 @@ class SikomClient {
             'authorization': toBasicAuth(credentials.value),
           }));
       final result = SikomResponse.fromJson(response.data);
+      debugPrint(
+          'Fetched Sikom Gateways: [${response.statusCode}] ${response.realUri}');
       final gateways = result.isArray
           ? result.data.bpapiArray!
               .map((e) => e.gateway)
@@ -101,6 +106,8 @@ class SikomClient {
             'authorization': toBasicAuth(credentials.value)
           }),
         );
+        debugPrint(
+            'Fetched Sikom Devices: [${response.statusCode}] ${response.realUri}');
         final result = SikomResponse.fromJson(response.data);
         if (result.isArray) {
           devices.addAll(

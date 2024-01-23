@@ -29,10 +29,20 @@ extension DateTimeX on DateTime {
         now.hour == hour;
   }
 
+  bool get isYesterday {
+    final now = DateTime.now();
+    return now.year == year && now.month == month && now.day - 1 == day;
+  }
+
   /// Check if this [DateTime] is today
   bool get isToday {
     final now = DateTime.now();
     return now.year == year && now.month == month && now.day == day;
+  }
+
+  bool get isTomorrow {
+    final now = DateTime.now();
+    return now.year == year && now.month == month && now.day + 1 == day;
   }
 
   /// Check if this [DateTime] is this month

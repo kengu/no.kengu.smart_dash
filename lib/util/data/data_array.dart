@@ -47,10 +47,9 @@ extension DataArrayX on DataArray {
         data[i].toList()..removeRange(start, end),
       );
     }
-    return DataArray(
-      array,
-      dims: dims,
-      coords: coords.toList()..removeRange(start, end),
-    );
+    return DataArray(array, dims: dims, coords: [
+      if (coords.length > start && coords.length >= end)
+        ...coords.toList()..removeRange(start, end),
+    ]);
   }
 }

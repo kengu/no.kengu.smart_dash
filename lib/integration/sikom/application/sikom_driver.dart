@@ -23,7 +23,8 @@ class SikomDriver extends ThrottledDeviceDriver {
           Sikom.key,
           ref,
           trailing: true,
-          throttle: const Duration(seconds: 5),
+          // TODO Make throttle configurable
+          throttle: const Duration(seconds: 90),
         );
 
   @override
