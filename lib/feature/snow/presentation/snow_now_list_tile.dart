@@ -71,9 +71,14 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
               children: states
                   .map((e) => ListTile(
                         leading: const Icon(Icons.line_axis),
-                        title: Text(e.location),
-                        subtitle:
-                            Text('${e.equivalent} kg/m² @ ${e.elevation} m'),
+                        title: Text(
+                          e.location,
+                          textScaler: const TextScaler.linear(0.8),
+                        ),
+                        subtitle: Text(
+                          '${e.equivalent} kg/m² @ ${e.elevation} m',
+                          textScaler: const TextScaler.linear(0.7),
+                        ),
                         trailing:
                             Text('${e.depth} cm', style: trailingTextStyle),
                       ))

@@ -24,7 +24,6 @@ class SnowNowTile extends ConsumerStatefulWidget {
 
 class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
   late final SnowService service;
-
   final df = DateFormat('d.MM.yyyy HH:mm');
   final hf = DateFormat('HH:mm');
 
@@ -50,7 +49,7 @@ class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.labelSmall;
+    final textStyle = Theme.of(context).textTheme.labelMedium;
     return FutureBuilder<Optional<SnowState>>(
       future: _getState(),
       initialData: service.getStateCached(widget.location),
