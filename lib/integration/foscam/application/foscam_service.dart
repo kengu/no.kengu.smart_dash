@@ -28,8 +28,7 @@ class FoscamService implements CameraService {
   }
 
   @override
-  Future<List<ServiceConfig>> getConfigs(
-      {Duration ttl = const Duration(seconds: 4)}) async {
+  Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
     return _cache.getOrFetch('configs', () async {
       final user = ref.read(userRepositoryProvider).currentUser;
       final account = await ref.read(accountRepositoryProvider).get(
@@ -53,8 +52,7 @@ class FoscamService implements CameraService {
   }
 
   @override
-  Future<List<Camera>> getCameras(
-      {Duration ttl = const Duration(seconds: 4)}) async {
+  Future<List<Camera>> getCameras({Duration? ttl}) async {
     return _cache.getOrFetch('cameras', () async {
       final cameras = <Camera>[];
       for (var service in await getConfigs()) {
@@ -66,8 +64,7 @@ class FoscamService implements CameraService {
   }
 
   @override
-  Future<Optional<Camera>> getCamera(String name,
-      {Duration ttl = const Duration(seconds: 4)}) async {
+  Future<Optional<Camera>> getCamera(String name, {Duration? ttl}) async {
     return _cache.getOrFetch('camera:$name', () async {
       final client = await _newClient(name);
       if (client.isPresent) {
@@ -86,7 +83,7 @@ class FoscamService implements CameraService {
 
   @override
   Future<Optional<CameraSnapshot>> getSnapshot(Camera device,
-      {Duration ttl = const Duration(seconds: 4)}) async {
+      {Duration? ttl}) async {
     return _cache.getOrFetch('snapshot:${device.name}', () async {
       final client = await _newClient(device.name);
       if (client.isPresent) {

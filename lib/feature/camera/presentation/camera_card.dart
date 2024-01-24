@@ -316,10 +316,11 @@ class _VideoCardState extends ConsumerState<CameraCard>
   }
 
   Future<Optional<CameraSnapshot>> _fetchSnapshot() async {
-    await _fetchCamera();
+    await _fetchCamera(ttl: widget.period);
     if (!_camera.isPresent) return const Optional.empty();
     return ref.read(cameraManagerProvider).getSnapshot(
           _camera.value,
+          ttl: widget.period,
         );
   }
 

@@ -51,9 +51,7 @@ class CameraManager {
   Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
     final configs = <ServiceConfig>[];
     for (final service in _services.values) {
-      configs.addAll(await service.getConfigs(
-        ttl: ttl ?? const Duration(seconds: 4),
-      ));
+      configs.addAll(await service.getConfigs(ttl: ttl));
     }
     return configs;
   }
@@ -63,7 +61,7 @@ class CameraManager {
     assert(config.device != null, 'ServiceConfig.device is null');
     return getService(config.key).getCamera(
       config.device!,
-      ttl: ttl ?? const Duration(seconds: 4),
+      ttl: ttl,
     );
   }
 
@@ -78,8 +76,7 @@ class CameraManager {
     return Optional.of(cameras);
   }
 
-  Future<List<Camera>> getCameras(
-      {Duration ttl = const Duration(seconds: 4)}) async {
+  Future<List<Camera>> getCameras({Duration? ttl}) async {
     final cameras = <Camera>[];
     for (final service in _services.values) {
       cameras.addAll(await service.getCameras(ttl: ttl));
@@ -91,10 +88,7 @@ class CameraManager {
     Camera device, {
     Duration? ttl,
   }) {
-    return getService(device.service).getSnapshot(
-      device,
-      ttl: ttl ?? const Duration(seconds: 4),
-    );
+    return getService(device.service).getSnapshot(device, ttl: ttl);
   }
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device) {

@@ -131,7 +131,9 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   Future<void> _checkCameras() async {
     final configs = await ref.read(cameraManagerProvider).getConfigs();
     final cameras = await Future.wait(
-      configs.map((e) => ref.read(cameraManagerProvider).getCamera(e)),
+      configs.map((e) => ref
+          .read(cameraManagerProvider)
+          .getCamera(e, ttl: Duration(seconds: _refreshRate))),
     );
     if (mounted) {
       setState(() {
@@ -146,7 +148,9 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   Future<Optional<bool>> _setMotionConfigs(bool enabled) async {
     final motions = <Optional<MotionDetectConfig>>[];
-    final cameras = await ref.read(cameraManagerProvider).getCameras();
+    final cameras = await ref
+        .read(cameraManagerProvider)
+        .getCameras(ttl: Duration(seconds: _refreshRate));
     for (final camera in cameras) {
       motions.add(await ref
           .read(cameraManagerProvider)

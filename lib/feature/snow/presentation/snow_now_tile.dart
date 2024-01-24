@@ -24,7 +24,7 @@ class SnowNowTile extends ConsumerStatefulWidget {
 
 class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
   late final SnowService service;
-  final df = DateFormat('d.MM.yyyy HH:mm');
+  final df = DateFormat('d. MMM. yyyy HH:mm');
   final hf = DateFormat('HH:mm');
 
   final constraints = const BoxConstraints(
@@ -117,9 +117,10 @@ class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
     final state = await service.getState(widget.location);
     if (state.isPresent) {
       // Start timer that fires after earliest next state update time
+      final now = DateTime.now();
       final nextUpdate = state.value.nextUpdate;
-      final refresh =
-          nextUpdate.add(const Duration(seconds: 1)).difference(DateTime.now());
+      final time = nextUpdate.difference(now).isNegative ? now : nextUpdate;
+      final refresh = time.add(const Duration(seconds: 1)).difference(now);
       _timer?.cancel();
       _timer = Timer(refresh, () async {
         setState(() {});
