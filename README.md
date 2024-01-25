@@ -6,9 +6,9 @@ A Smart Dashboard App for my personal use.
 
 - [ ] Read and save historical data from the weather station
 - [x] Integrate webcam for easy viewing in one place
-- [ ] Implement support for Sikom buttons (and astro clocks)
-- [ ] Implement support for Sikom thermostats
-- [ ] Implement support for Sikom power controller
+- [x] Implement support for Sikom buttons (and astro clocks)
+- [x] Implement support for Sikom thermostats
+- [x] Implement support for Sikom power controller
 - [ ] Implement support for editable control flows
 - [ ] Implement support for geocoder for address and reverse lookup
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 
@@ -24,20 +24,16 @@ A Smart Dashboard App for my personal use.
 
 
 # Developing
+
+Configure development environment (MacOS only for now)
+```bash
+make configure
+```
+
  
 Start automatic code generation with
 ```bash
-make watch
-```
-
-Start serving Appwrite backend with 
-```bash
-make up
-```
-
-Stop serving Appwrite backend with
-```bash
-make stop
+make build
 ```
 
 Analyze Drift files
@@ -54,3 +50,20 @@ Drift Schema tools
 ```bash
 dart run drift_dev schema dump path/to/databases.dart schema.json
 ```
+
+Export Drift Schema (prepare for migration)
+```bash
+make drift-export
+```
+
+Generate Drift migration (from exported schema)
+```bash
+make drift-migration
+```
+
+Generate Drift migration tests
+```bash
+make drift-generate-tests
+```
+
+

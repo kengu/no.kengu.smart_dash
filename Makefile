@@ -20,14 +20,15 @@ endif
 storeFile = "$$(grep "storeFile" android/key.properties | cut -d'=' -f2)"
 storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)"
 
-
 .PHONY: \
-	doctor toolchain configure drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stopupgrade action android-build android-install android-rebuild
+	doctor configure drift-info drift-export drift-migration drift-generate-tests \
+	build clean-build serve stopupgrade action android-configure android-build \
+	android-install android-rebuild \
 
 .SILENT: \
-	doctor toolchain configure drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stop upgrade action android-build android-install android-rebuild
+	doctor toolchain drift-info drift-export drift-migration drift-generate-tests \
+	build clean-build serve stop upgrade action android-configure android-build \
+	android-install android-rebuild \
 
 doctor:
 	echo "Doctor summary"
@@ -51,7 +52,7 @@ endif
 		then echo "[✓] Upload key $(storeFile) found."; \
 		else echo >&2 "[x] Upload key $(storeFile) NOT found > run 'make configure'"; fi; \
 
-toolchain:
+configure:
 	echo "Configuring developer environment..."
 	echo "$(OSNAME) detected"
 
@@ -90,21 +91,6 @@ toolchain:
 
 		colima start
 	endif
-
-configure:
-	echo "Initialize Android configuration..."; \
-	read -p "> Enter path to upload key: " path; \
-	if [ -f $$path ]; then \
-		read -p "> Enter upload keystore password: " pwd; \
-		echo "storePassword=$$pwd" > android/key.properties; \
-		echo "keyPassword=$$pwd" >> android/key.properties; \
-		echo "keyAlias=upload" >> android/key.properties; \
-		echo "storeFile=$$path" >> android/key.properties; \
-		echo "> Initializing fastlane..."; cd android; fastlane init; \
-		echp "[✓] Android configuration complete.";
-	else; \
-		echo "[x] Android upload key $$path NOT FOUND, Skipping."; \
-	fi;
 
 drift-info:
 	echo "Analyzing Drift"
@@ -145,6 +131,21 @@ clean-build:
 	echo "Clean generated build..."
 	dart pub run build_runner clean
 
+android-configure:
+	echo "Initialize Android configuration..."; \
+	read -p "> Enter path to upload key: " path; \
+	if [ -f $$path ]; then \
+		read -p "> Enter upload keystore password: " pwd; \
+		echo "storePassword=$$pwd" > android/key.properties; \
+		echo "keyPassword=$$pwd" >> android/key.properties; \
+		echo "keyAlias=upload" >> android/key.properties; \
+		echo "storeFile=$$path" >> android/key.properties; \
+		echo "> Initializing fastlane..."; cd android; fastlane init; \
+		echp "[✓] Android configuration complete.";
+	else; \
+		echo "[x] Android upload key $$path NOT FOUND, Skipping."; \
+	fi;
+
 android-rebuild:
 	echo "Rebuilding android project..."
 	cd android && ./gradlew clean build
@@ -163,15 +164,6 @@ android-install:
 	adb devices; \
 	read -p "> Select device id: " id; \
 	bundletool install-apks --apks=build/app/outputs/smartdash.apks --device-id $$id;
-
-serve:
-	echo "Serving Serverpod locally..."
-	if command -v colima &> /dev/null; then colima start; fi
-	#cd lib/backend && docker compose up -d --remove-orphans
-
-stop:
-	echo "Stopping Serverpod locally..."
-	#cd lib/backend && docker compose stop
 
 upgrade:
 	echo "Updating packages..."
