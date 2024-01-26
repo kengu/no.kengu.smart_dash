@@ -90,12 +90,12 @@ class _SwitchOnOffListTileListTileState
   Future<bool> _apply(Device device, SwitchMode newMode) async {
     final result = await ref
         .read(deviceServiceProvider)
-        .set(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
+        .update(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
     return result.isPresent;
   }
 }
 
-class SwitchOnOffTile extends StatefulWidget {
+class SwitchOnOffTile extends ConsumerStatefulWidget {
   const SwitchOnOffTile({
     super.key,
     required this.device,
@@ -110,18 +110,17 @@ class SwitchOnOffTile extends StatefulWidget {
   final Future<bool> Function(SwitchMode newMode) onSelected;
 
   @override
-  State<SwitchOnOffTile> createState() => _SwitchOnOffTileState();
+  ConsumerState<SwitchOnOffTile> createState() => _SwitchOnOffTileState();
 }
 
-class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
-  bool _enabled = true;
+class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
+  bool _updating = false;
   bool _errorState = false;
   Set<SwitchMode> _segmentedButtonSelection = {};
 
   @override
   void initState() {
     _setMode();
-    _enabled = widget.enabled;
     super.initState();
   }
 
@@ -134,9 +133,6 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
     if (oldWidget.device != widget.device) {
       _setMode();
     }
-    if (oldWidget.enabled != widget.enabled) {
-      _enabled = widget.enabled;
-    }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -145,102 +141,119 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
     final legendTextStyle = getLegendTextStyle(context);
     final titleTextStyle = Theme.of(context).textTheme.labelSmall;
 
-    return ListTile(
-      leading: Icon(toIconData(widget.device)),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            widget.device.name,
-            style: titleTextStyle,
-          ),
-          if (widget.device.onOff!.state)
-            Row(
-              mainAxisSize: MainAxisSize.min,
+    return StreamBuilder<DeviceEvent>(
+        stream: ref
+            .watch(deviceServiceProvider)
+            .stream
+            .where((e) => e.isDevice(widget.device)),
+        builder: (context, snapshot) {
+          final event = snapshot.data;
+          final device = event?.device ?? widget.device;
+          final updating = event is DeviceUpdatePending || _updating;
+          if (updating || event is DeviceUpdateCompleted) {
+            debugPrint(
+              'Snapshot: Device[id:${snapshot.data?.device.id}], DeviceEvent[type:${event?.runtimeType}]',
+            );
+          }
+          return ListTile(
+            leading: Icon(toIconData(device)),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (widget.device.hasPower)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Text(
-                      (widget.device.electric
-                              ?.getEstimatedPower(false)
-                              ?.toPower() ??
-                          '-'),
-                      style: legendTextStyle,
-                    ),
+                Text(
+                  device.name,
+                  style: titleTextStyle,
+                ),
+                if (device.onOff!.state)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (device.hasPower)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Text(
+                            (device.electric
+                                    ?.getEstimatedPower(false)
+                                    ?.toPower() ??
+                                '-'),
+                            style: legendTextStyle,
+                          ),
+                        ),
+                      const Icon(Icons.electric_bolt, size: 16),
+                    ],
                   ),
-                const Icon(Icons.electric_bolt, size: 16),
               ],
             ),
-        ],
-      ),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 170,
-            child: SegmentedButton<SwitchMode>(
-              showSelectedIcon: false,
-              emptySelectionAllowed: false,
-              multiSelectionEnabled: false,
-              selected: _segmentedButtonSelection,
-              onSelectionChanged: _onSelectionChanged,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return null;
-                  }
-                  if (states.contains(MaterialState.selected)) {
-                    return _errorState
-                        ? Colors.red.withOpacity(0.6)
-                        : Theme.of(context).colorScheme.secondaryContainer;
-                  }
-                  return null;
-                }),
-              ),
-              segments: _modes().map((SwitchMode mode) {
-                return ButtonSegment<SwitchMode>(
-                  value: mode,
-                  enabled: _enabled,
-                  tooltip:
-                      _errorState && _segmentedButtonSelection.contains(mode)
-                          ? 'Unable to apply ${mode.name} mode'
-                          : null,
-                  label: Text(
-                    mode.name,
-                    textScaler: const TextScaler.linear(0.8),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 170,
+                  child: SegmentedButton<SwitchMode>(
+                    showSelectedIcon: false,
+                    emptySelectionAllowed: false,
+                    multiSelectionEnabled: false,
+                    selected: _segmentedButtonSelection,
+                    onSelectionChanged: _onSelectionChanged,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return null;
+                        }
+                        if (states.contains(MaterialState.selected)) {
+                          return _errorState
+                              ? Colors.red.withOpacity(0.6)
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer;
+                        }
+                        return null;
+                      }),
+                    ),
+                    segments: _modes(device).map((SwitchMode mode) {
+                      return ButtonSegment<SwitchMode>(
+                        value: mode,
+                        enabled: !updating,
+                        tooltip: _errorState &&
+                                _segmentedButtonSelection.contains(mode)
+                            ? 'Unable to apply ${mode.name} mode'
+                            : null,
+                        label: Text(
+                          mode.name,
+                          textScaler: const TextScaler.linear(0.8),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
-            ),
-          ),
-          if (!_enabled && widget.enabled)
-            Padding(
-              padding: const EdgeInsets.only(top: 0.0),
-              child: SizedBox(
-                width: 120,
-                child: LinearProgressIndicator(
-                  minHeight: 1,
-                  color: Colors.lightGreen.withOpacity(0.6),
                 ),
-              ),
+                if (updating && widget.enabled)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0.0),
+                    child: SizedBox(
+                      width: 120,
+                      child: LinearProgressIndicator(
+                        minHeight: 1,
+                        color: Colors.lightGreen.withOpacity(0.6),
+                      ),
+                    ),
+                  ),
+              ],
             ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   void _onSelectionChanged(Set<SwitchMode> newSelection) {
     setState(() {
-      _enabled = false;
+      _updating = true;
       _segmentedButtonSelection = _setMode();
     });
     update() async {
       final success = await widget.onSelected(newSelection.first);
       if (mounted) {
         setState(() {
-          _enabled = true;
+          _updating = false;
           _errorState = !success;
           _segmentedButtonSelection = success ? newSelection : _setMode();
         });
@@ -250,10 +263,10 @@ class _SwitchOnOffTileState extends State<SwitchOnOffTile> {
     update();
   }
 
-  List<SwitchMode> _modes() {
+  List<SwitchMode> _modes(Device device) {
     return [
-      widget.device.onOff!.offMode,
-      widget.device.onOff!.onMode,
+      device.onOff!.offMode,
+      device.onOff!.onMode,
     ];
   }
 }

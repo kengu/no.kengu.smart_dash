@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 
 part 'dashboard.freezed.dart';
@@ -8,6 +9,8 @@ typedef DashboardMap = Map<String, Dashboard>;
 
 @freezed
 class Dashboard with _$Dashboard {
+  const Dashboard._();
+
   const factory Dashboard({
     required String key,
     required String title,
@@ -19,6 +22,12 @@ class Dashboard with _$Dashboard {
     required List<DashboardItem> tablet,
     required List<DashboardItem> desktop,
   }) = _Dashboard;
+
+  Optional<Token> get(String name) {
+    return tokens.firstWhereOptional(
+      (e) => e.name == name,
+    );
+  }
 
   factory Dashboard.fromJson(Map<String, Object?> json) =>
       _$DashboardFromJson(json);

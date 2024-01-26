@@ -1,11 +1,9 @@
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/data/dashboard_repository.dart';
 import 'package:smart_dash/feature/dashboard/domain/dashboard.dart' as m;
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
@@ -16,7 +14,6 @@ import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dar
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
@@ -29,51 +26,17 @@ import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({
     super.key,
+    this.size = 90,
   });
 
-  @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  static const int size = 90;
-
-  final Map<Token, TimeSeries> _series = {};
-
-  Optional<TimeSeries> _fetchHistory(
-      DashboardItem item, List<Token> tokens, HistoryEvent? event) {
-    final token = tokens.firstWhereOptional((e) => e.name == item.identifier);
-    if (!token.isPresent) {
-      return const Optional.empty();
-    }
-    return Optional.of(
-      token.value == event?.token
-          ? _series[token.value] = token.value.toTs(event, size)
-          : _series.putIfAbsent(token.value, () {
-              final cached =
-                  manager.getCached(token.value, when: DateTime.now());
-              return cached.isPresent ? cached.value : token.value.emptyTs();
-            }),
-    );
-  }
-
-  bool get isFullscreen => FullscreenState.watch(ref);
-
-  HistoryManager get manager => ref.read(historyManagerProvider);
+  final int size;
 
   @override
-  Widget build(BuildContext context) {
-    return ref.watch(historyProvider()).when(
-          data: _build,
-          loading: _build,
-          error: SmartDashErrorWidget.from,
-        );
-  }
-
-  Widget _build([HistoryEvent? event]) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFullscreen = FullscreenState.watch(ref);
     return ref.watch(settingsFormScreenControllerProvider).when(
           error: SmartDashErrorWidget.from,
           loading: SmartDashProgressIndicator.new,
@@ -129,23 +92,29 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   case 'meter_energy:sikom:device:541905':
                                     return EnergyUsageTile<int>(
                                       key: GlobalObjectKey(item),
+                                      size: size,
                                       duration: TimeScale.minutes.to(size),
-                                      history: _fetchHistory(
-                                          item, home.tokens, event),
+                                      energy: home.get(
+                                        'meter_energy:sikom:device:541905',
+                                      ),
                                     );
                                   case 'measure_power:sikom:device:541905':
                                     return PowerUsageTile<int>(
                                       key: GlobalObjectKey(item),
+                                      size: size,
                                       duration: TimeScale.minutes.to(size),
-                                      history: _fetchHistory(
-                                          item, home.tokens, event),
+                                      power: home.get(
+                                        'measure_power:sikom:device:541905',
+                                      ),
                                     );
                                   case 'measure_voltage:sikom:device:541905':
                                     return VoltageTile<int>(
                                       key: GlobalObjectKey(item),
+                                      size: size,
                                       duration: TimeScale.minutes.to(size),
-                                      history: _fetchHistory(
-                                          item, home.tokens, event),
+                                      voltage: home.get(
+                                        'measure_voltage:sikom:device:541905',
+                                      ),
                                     );
                                   case 'temperature':
                                     return TemperatureListTile(
@@ -171,18 +140,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   case 'bill_hourly':
                                     return EnergyBillHourlyTile(
                                       key: GlobalObjectKey(item),
-                                      power: home.tokens.firstWhereOptional((e) =>
-                                          e.name ==
-                                          'measure_power:sikom:device:541905'),
+                                      power: home.get(
+                                        'measure_power:sikom:device:541905',
+                                      ),
                                       area: area,
                                       when: when,
                                     );
                                   case 'bill_month':
                                     return EnergyBillMonthTile(
                                       key: GlobalObjectKey(item),
-                                      power: home.tokens.firstWhereOptional((e) =>
-                                          e.name ==
-                                          'measure_power:sikom:device:541905'),
+                                      power: home.get(
+                                        'measure_power:sikom:device:541905',
+                                      ),
                                       area: area,
                                       when: when,
                                     );

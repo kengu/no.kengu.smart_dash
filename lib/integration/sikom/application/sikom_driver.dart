@@ -100,7 +100,7 @@ class SikomDriver extends ThrottledDeviceDriver {
   }
 
   @override
-  Future<bool> setDevice(Device device) async {
+  Future<bool> updateDevice(Device device) async {
     return guard(() async {
       final applied = <SikomProperty>{};
       final client = ref.read(sikomClientProvider);

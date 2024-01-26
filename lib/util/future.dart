@@ -55,6 +55,7 @@ class FutureCache {
   Future<T> getOrFetch<T>(
     String key,
     Future<T> Function() fetch, {
+    void Function(T data)? onResult,
     Duration? ttl = Duration.zero,
   }) async {
     final now = DateTime.now();
@@ -75,6 +76,9 @@ class FutureCache {
       _requests.remove(key);
       _results.remove(key);
     }
+
+    if (onResult != null) onResult(result);
+
     return result;
   }
 

@@ -21,7 +21,7 @@ final historyManagerProvider = Provider<HistoryManager>.internal(
 );
 
 typedef HistoryManagerRef = ProviderRef<HistoryManager>;
-String _$historyHash() => r'7ab87cd4e01267bf76258fca1a716a7d766fdb78';
+String _$historyHash() => r'94f849990d4487901b6b1a2caf219becdb19e3fd';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -69,10 +69,10 @@ class HistoryFamily extends Family {
 
   /// See also [history].
   HistoryProvider call([
-    List<Token> tokens = const [],
+    Token? token,
   ]) {
     return HistoryProvider(
-      tokens,
+      token,
     );
   }
 
@@ -82,7 +82,7 @@ class HistoryFamily extends Family {
     covariant HistoryProvider provider,
   ) {
     return call(
-      provider.tokens,
+      provider.token,
     );
   }
 
@@ -112,11 +112,11 @@ class _$HistoryFamilyOverride implements FamilyOverride {
 class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
   /// See also [history].
   HistoryProvider([
-    List<Token> tokens = const [],
+    Token? token,
   ]) : this._internal(
           (ref) => history(
             ref as HistoryRef,
-            tokens,
+            token,
           ),
           from: historyProvider,
           name: r'historyProvider',
@@ -126,7 +126,7 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
                   : _$historyHash,
           dependencies: HistoryFamily._dependencies,
           allTransitiveDependencies: HistoryFamily._allTransitiveDependencies,
-          tokens: tokens,
+          token: token,
         );
 
   HistoryProvider._internal(
@@ -136,10 +136,10 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.tokens,
+    required this.token,
   }) : super.internal();
 
-  final List<Token> tokens;
+  final Token? token;
 
   @override
   Override overrideWith(
@@ -154,14 +154,14 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        tokens: tokens,
+        token: token,
       ),
     );
   }
 
   @override
-  (List<Token>,) get argument {
-    return (tokens,);
+  (Token?,) get argument {
+    return (token,);
   }
 
   @override
@@ -179,27 +179,27 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
       allTransitiveDependencies: allTransitiveDependencies,
       debugGetCreateSourceHash: debugGetCreateSourceHash,
       from: from,
-      tokens: tokens,
+      token: token,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is HistoryProvider && other.tokens == tokens;
+    return other is HistoryProvider && other.token == token;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, tokens.hashCode);
+    hash = _SystemHash.combine(hash, token.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin HistoryRef on AutoDisposeStreamProviderRef<HistoryEvent> {
-  /// The parameter `tokens` of this provider.
-  List<Token> get tokens;
+  /// The parameter `token` of this provider.
+  Token? get token;
 }
 
 class _HistoryProviderElement
@@ -207,10 +207,10 @@ class _HistoryProviderElement
   _HistoryProviderElement(super.provider);
 
   @override
-  List<Token> get tokens => (origin as HistoryProvider).tokens;
+  Token? get token => (origin as HistoryProvider).token;
 }
 
-String _$powerHistoryHash() => r'bcfbc7d0e2b9667121eaeabfc5efd0148db3a587';
+String _$powerHistoryHash() => r'9713f50750a2a2c9d7c02c692302d1f044f60b03';
 
 /// See also [powerHistory].
 @ProviderFor(powerHistory)
@@ -224,7 +224,7 @@ final powerHistoryProvider = AutoDisposeStreamProvider<HistoryEvent>.internal(
 );
 
 typedef PowerHistoryRef = AutoDisposeStreamProviderRef<HistoryEvent>;
-String _$energyHistoryHash() => r'1512b4bbd654c0c8b860014f057a3e56c8010354';
+String _$energyHistoryHash() => r'abd78d3ecbdb3a71524dbf75c4c781222f32c7fd';
 
 /// See also [energyHistory].
 @ProviderFor(energyHistory)
@@ -239,7 +239,7 @@ final energyHistoryProvider = AutoDisposeStreamProvider<HistoryEvent>.internal(
 );
 
 typedef EnergyHistoryRef = AutoDisposeStreamProviderRef<HistoryEvent>;
-String _$voltageHistoryHash() => r'dd39d697f6ccf63e4d3a1dc8fa0aa1af5a9d82c6';
+String _$voltageHistoryHash() => r'15df348c9e659e8a5c867646f46a1f854e58fc89';
 
 /// See also [voltageHistory].
 @ProviderFor(voltageHistory)

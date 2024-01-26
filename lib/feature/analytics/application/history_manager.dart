@@ -25,8 +25,6 @@ class HistoryManager {
 
   final Ref ref;
   final int maxLength;
-  // TODO Make limit configurable
-  final Duration limit = const Duration(seconds: 5);
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
   final StreamController<HistoryEvent> _controller =
@@ -265,23 +263,27 @@ class HistoryEvent {
 HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref);
 
 @riverpod
-Stream<HistoryEvent> history(HistoryRef ref, [List<Token> tokens = const []]) {
+Stream<HistoryEvent> history(HistoryRef ref, [Token? token]) {
+  ref.read(historyManagerProvider).pump();
   return ref.watch(historyManagerProvider).events.where(
-        (e) => tokens.isEmpty || tokens.contains(e.token),
+        (e) => token == null || e.token == token,
       );
 }
 
 @riverpod
 Stream<HistoryEvent> powerHistory(PowerHistoryRef ref) {
+  ref.read(historyManagerProvider).pump();
   return ref.watch(historyManagerProvider).events.where((e) => e.isPower);
 }
 
 @riverpod
 Stream<HistoryEvent> energyHistory(EnergyHistoryRef ref) {
+  ref.read(historyManagerProvider).pump();
   return ref.watch(historyManagerProvider).events.where((e) => e.isEnergy);
 }
 
 @riverpod
 Stream<HistoryEvent> voltageHistory(VoltageHistoryRef ref) {
+  ref.read(historyManagerProvider).pump();
   return ref.watch(historyManagerProvider).events.where((e) => e.isVoltage);
 }

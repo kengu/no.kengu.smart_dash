@@ -22,7 +22,7 @@ final deviceDriverManagerProvider = Provider<DeviceDriverManager>.internal(
 );
 
 typedef DeviceDriverManagerRef = ProviderRef<DeviceDriverManager>;
-String _$driverUpdatedHash() => r'46f55d442ef793dae158ca5c09b811180181f5c4';
+String _$driverUpdatedHash() => r'6ec2814a60719a36c4d5868b399919265657e5f8';
 
 /// See also [driverUpdated].
 @ProviderFor(driverUpdated)

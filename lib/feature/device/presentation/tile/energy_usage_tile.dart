@@ -1,28 +1,55 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
+import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/time/duration.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
 
-class EnergyUsageTile<T extends num> extends StatelessWidget {
-  const EnergyUsageTile({
+class EnergyUsageTile<T extends num> extends ConsumerWidget {
+  EnergyUsageTile({
     super.key,
-    required this.history,
+    required this.size,
+    required this.energy,
     required this.duration,
-  });
+  }) {
+    assert(
+      energy.orElseNull?.isEnergy == true,
+      'Only token with '
+      'unit [${TokenUnit.energy.name}] expected, found'
+      'unit [${energy.orElseNull?.unit.name}]',
+    );
+  }
+
+  final int size;
 
   final Duration duration;
-  final Optional<TimeSeries> history;
+
+  final Optional<Token> energy;
 
   @override
-  Widget build(BuildContext context) {
-    final usage = history.orElseNull ?? TimeSeries.empty('energy_usage');
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(historyProvider(energy.orElseNull)).when(
+          data: _build,
+          loading: _build,
+          error: SmartDashErrorWidget.from,
+        );
+  }
+
+  Widget _build([HistoryEvent? event]) {
+    //debugPrint('energy_usage_tile[${energy.orElseNull?.name}][$event]');
+    final usage = energy.orElseNull?.toTs(event, size) ??
+        TimeSeries.empty('energy_usage');
+
     final from = usage.end.subtract(duration);
     final begin = max(0, usage.indexAt(from));
+
     return SparklineTile<int>(
       key: ValueKey(usage.name),
       title: 'Energy Usage',
@@ -30,11 +57,11 @@ class EnergyUsageTile<T extends num> extends StatelessWidget {
       begin: begin,
       history: usage,
       lineMin: 1,
-      lineStep: duration.nice(4).steps(),
       leading: const Icon(
         Icons.electric_bolt,
         color: Colors.lightGreen,
       ),
+      lineStep: duration.nice(4).steps(),
       valueBuilder: (data) => data.toEnergy(),
       lineLabeler: (index) => usage.tsAgo(begin + index.toInt()),
     );

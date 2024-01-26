@@ -100,7 +100,7 @@ class DeviceDriverManager {
       );
       _updatedController.add(event);
       // Update devices
-      await ref.read(deviceRepositoryProvider).setAll(event.devices);
+      await ref.read(deviceRepositoryProvider).updateAll(event.devices);
     }
   }
 
@@ -116,9 +116,5 @@ DeviceDriverManager deviceDriverManager(DeviceDriverManagerRef ref) =>
     DeviceDriverManager(ref);
 
 @riverpod
-Stream<DriverUpdatedEvent> driverUpdated(DriverUpdatedRef ref) async* {
-  final manager = ref.watch(deviceDriverManagerProvider);
-  await for (final event in manager.updated) {
-    yield event;
-  }
-}
+Stream<DriverUpdatedEvent> driverUpdated(DriverUpdatedRef ref) =>
+    ref.watch(deviceDriverManagerProvider).updated;

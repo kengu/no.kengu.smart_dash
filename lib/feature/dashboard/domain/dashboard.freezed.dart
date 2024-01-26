@@ -201,7 +201,7 @@ class __$$DashboardImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DashboardImpl implements _Dashboard {
+class _$DashboardImpl extends _Dashboard {
   const _$DashboardImpl(
       {required this.key,
       required this.title,
@@ -215,7 +215,8 @@ class _$DashboardImpl implements _Dashboard {
       : _tokens = tokens,
         _mobile = mobile,
         _tablet = tablet,
-        _desktop = desktop;
+        _desktop = desktop,
+        super._();
 
   factory _$DashboardImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardImplFromJson(json);
@@ -314,7 +315,7 @@ class _$DashboardImpl implements _Dashboard {
   }
 }
 
-abstract class _Dashboard implements Dashboard {
+abstract class _Dashboard extends Dashboard {
   const factory _Dashboard(
       {required final String key,
       required final String title,
@@ -325,6 +326,7 @@ abstract class _Dashboard implements Dashboard {
       required final List<DashboardItem> mobile,
       required final List<DashboardItem> tablet,
       required final List<DashboardItem> desktop}) = _$DashboardImpl;
+  const _Dashboard._() : super._();
 
   factory _Dashboard.fromJson(Map<String, dynamic> json) =
       _$DashboardImpl.fromJson;
