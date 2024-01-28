@@ -65,9 +65,14 @@ class HomePage extends ConsumerWidget {
                           .map((e) => e.toJson())
                           .map((e) => DashboardItem.fromMap(e))
                           .toList(),
-                      mobileSlotCount: 8,
-                      tabletSlotCount: 6,
-                      desktopSlotCount: 12,
+                      mobileLarge: home.mobileLarge
+                          .map((e) => e.toJson())
+                          .map((e) => DashboardItem.fromMap(e))
+                          .toList(),
+                      mobileSlotCount: home.mobileSlotCount,
+                      tabletSlotCount: home.tabletSlotCount,
+                      desktopSlotCount: home.desktopSlotCount,
+                      mobileLargeSlotCount: home.mobileLargeSlotCount,
                     );
                     return Padding(
                       padding: withHeader

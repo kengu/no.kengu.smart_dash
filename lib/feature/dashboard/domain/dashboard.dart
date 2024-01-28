@@ -18,9 +18,11 @@ class Dashboard with _$Dashboard {
     required int mobileSlotCount,
     required int tabletSlotCount,
     required int desktopSlotCount,
+    required int mobileLargeSlotCount,
     required List<DashboardItem> mobile,
     required List<DashboardItem> tablet,
     required List<DashboardItem> desktop,
+    required List<DashboardItem> mobileLarge,
   }) = _Dashboard;
 
   Optional<Token> get(String name) {

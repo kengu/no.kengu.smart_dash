@@ -16,6 +16,7 @@ _$DashboardImpl _$$DashboardImplFromJson(Map<String, dynamic> json) =>
       mobileSlotCount: json['mobileSlotCount'] as int,
       tabletSlotCount: json['tabletSlotCount'] as int,
       desktopSlotCount: json['desktopSlotCount'] as int,
+      mobileLargeSlotCount: json['mobileLargeSlotCount'] as int,
       mobile: (json['mobile'] as List<dynamic>)
           .map((e) => DashboardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23,6 +24,9 @@ _$DashboardImpl _$$DashboardImplFromJson(Map<String, dynamic> json) =>
           .map((e) => DashboardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       desktop: (json['desktop'] as List<dynamic>)
+          .map((e) => DashboardItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mobileLarge: (json['mobileLarge'] as List<dynamic>)
           .map((e) => DashboardItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -35,9 +39,11 @@ Map<String, dynamic> _$$DashboardImplToJson(_$DashboardImpl instance) =>
       'mobileSlotCount': instance.mobileSlotCount,
       'tabletSlotCount': instance.tabletSlotCount,
       'desktopSlotCount': instance.desktopSlotCount,
+      'mobileLargeSlotCount': instance.mobileLargeSlotCount,
       'mobile': instance.mobile.map((e) => e.toJson()).toList(),
       'tablet': instance.tablet.map((e) => e.toJson()).toList(),
       'desktop': instance.desktop.map((e) => e.toJson()).toList(),
+      'mobileLarge': instance.mobileLarge.map((e) => e.toJson()).toList(),
     };
 
 _$DashboardItemImpl _$$DashboardItemImplFromJson(Map<String, dynamic> json) =>

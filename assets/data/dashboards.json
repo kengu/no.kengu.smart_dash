@@ -2,9 +2,10 @@
   {
     "key": "home",
     "title": "Home",
-    "mobileSlotCount": 6,
-    "tabletSlotCount": 8,
+    "mobileSlotCount": 4,
+    "tabletSlotCount": 6,
     "desktopSlotCount": 12,
+    "mobileLargeSlotCount": 5,
     "tokens": [
       {
         "tag": "energy",
@@ -28,7 +29,245 @@
         "unit": "voltage"
       }
     ],
-
+    "mobile": [
+      {
+        "item_id": "weather_now",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "bill_hourly",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "bill_month",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "price_hourly",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "meter_energy:sikom:device:541905",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_voltage:sikom:device:541905",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_power:sikom:device:541905",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "system_now",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "temperature",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "onOff",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "snow_now",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "snow_now_list",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      }
+    ],
+    "mobileLarge": [
+      {
+        "item_id": "weather_now",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "meter_energy:sikom:device:541905",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "measure_power:sikom:device:541905",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "measure_voltage:sikom:device:541905",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "price_hourly",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "bill_hourly",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "bill_month",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "system_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "temperature",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "onOff",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "snow_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "snow_now_list",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      }
+    ],
     "tablet": [
       {
         "item_id": "weather_now",
@@ -143,128 +382,6 @@
           "min_W": 3,
           "min_H": 1,
           "max_W": 3
-        }
-      }
-    ],
-    "mobile": [
-      {
-        "item_id": "weather_now",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "bill_hourly",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "bill_month",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "price_hourly",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "meter_energy:sikom:device:541905",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "measure_voltage:sikom:device:541905",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "measure_power:sikom:device:541905",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "system_now",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "temperature",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "onOff",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "snow_now",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
-        }
-      },
-      {
-        "item_id": "snow_now_list",
-        "layout": {
-          "w": 8,
-          "h": 1,
-          "min_W": 8,
-          "min_H": 1,
-          "max_W": 8
         }
       }
     ],

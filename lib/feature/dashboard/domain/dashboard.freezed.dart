@@ -26,9 +26,11 @@ mixin _$Dashboard {
   int get mobileSlotCount => throw _privateConstructorUsedError;
   int get tabletSlotCount => throw _privateConstructorUsedError;
   int get desktopSlotCount => throw _privateConstructorUsedError;
+  int get mobileLargeSlotCount => throw _privateConstructorUsedError;
   List<DashboardItem> get mobile => throw _privateConstructorUsedError;
   List<DashboardItem> get tablet => throw _privateConstructorUsedError;
   List<DashboardItem> get desktop => throw _privateConstructorUsedError;
+  List<DashboardItem> get mobileLarge => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,9 +50,11 @@ abstract class $DashboardCopyWith<$Res> {
       int mobileSlotCount,
       int tabletSlotCount,
       int desktopSlotCount,
+      int mobileLargeSlotCount,
       List<DashboardItem> mobile,
       List<DashboardItem> tablet,
-      List<DashboardItem> desktop});
+      List<DashboardItem> desktop,
+      List<DashboardItem> mobileLarge});
 }
 
 /// @nodoc
@@ -72,9 +76,11 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     Object? mobileSlotCount = null,
     Object? tabletSlotCount = null,
     Object? desktopSlotCount = null,
+    Object? mobileLargeSlotCount = null,
     Object? mobile = null,
     Object? tablet = null,
     Object? desktop = null,
+    Object? mobileLarge = null,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -101,6 +107,10 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
           ? _value.desktopSlotCount
           : desktopSlotCount // ignore: cast_nullable_to_non_nullable
               as int,
+      mobileLargeSlotCount: null == mobileLargeSlotCount
+          ? _value.mobileLargeSlotCount
+          : mobileLargeSlotCount // ignore: cast_nullable_to_non_nullable
+              as int,
       mobile: null == mobile
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -112,6 +122,10 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
       desktop: null == desktop
           ? _value.desktop
           : desktop // ignore: cast_nullable_to_non_nullable
+              as List<DashboardItem>,
+      mobileLarge: null == mobileLarge
+          ? _value.mobileLarge
+          : mobileLarge // ignore: cast_nullable_to_non_nullable
               as List<DashboardItem>,
     ) as $Val);
   }
@@ -132,9 +146,11 @@ abstract class _$$DashboardImplCopyWith<$Res>
       int mobileSlotCount,
       int tabletSlotCount,
       int desktopSlotCount,
+      int mobileLargeSlotCount,
       List<DashboardItem> mobile,
       List<DashboardItem> tablet,
-      List<DashboardItem> desktop});
+      List<DashboardItem> desktop,
+      List<DashboardItem> mobileLarge});
 }
 
 /// @nodoc
@@ -154,9 +170,11 @@ class __$$DashboardImplCopyWithImpl<$Res>
     Object? mobileSlotCount = null,
     Object? tabletSlotCount = null,
     Object? desktopSlotCount = null,
+    Object? mobileLargeSlotCount = null,
     Object? mobile = null,
     Object? tablet = null,
     Object? desktop = null,
+    Object? mobileLarge = null,
   }) {
     return _then(_$DashboardImpl(
       key: null == key
@@ -183,6 +201,10 @@ class __$$DashboardImplCopyWithImpl<$Res>
           ? _value.desktopSlotCount
           : desktopSlotCount // ignore: cast_nullable_to_non_nullable
               as int,
+      mobileLargeSlotCount: null == mobileLargeSlotCount
+          ? _value.mobileLargeSlotCount
+          : mobileLargeSlotCount // ignore: cast_nullable_to_non_nullable
+              as int,
       mobile: null == mobile
           ? _value._mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -194,6 +216,10 @@ class __$$DashboardImplCopyWithImpl<$Res>
       desktop: null == desktop
           ? _value._desktop
           : desktop // ignore: cast_nullable_to_non_nullable
+              as List<DashboardItem>,
+      mobileLarge: null == mobileLarge
+          ? _value._mobileLarge
+          : mobileLarge // ignore: cast_nullable_to_non_nullable
               as List<DashboardItem>,
     ));
   }
@@ -209,13 +235,16 @@ class _$DashboardImpl extends _Dashboard {
       required this.mobileSlotCount,
       required this.tabletSlotCount,
       required this.desktopSlotCount,
+      required this.mobileLargeSlotCount,
       required final List<DashboardItem> mobile,
       required final List<DashboardItem> tablet,
-      required final List<DashboardItem> desktop})
+      required final List<DashboardItem> desktop,
+      required final List<DashboardItem> mobileLarge})
       : _tokens = tokens,
         _mobile = mobile,
         _tablet = tablet,
         _desktop = desktop,
+        _mobileLarge = mobileLarge,
         super._();
 
   factory _$DashboardImpl.fromJson(Map<String, dynamic> json) =>
@@ -239,6 +268,8 @@ class _$DashboardImpl extends _Dashboard {
   final int tabletSlotCount;
   @override
   final int desktopSlotCount;
+  @override
+  final int mobileLargeSlotCount;
   final List<DashboardItem> _mobile;
   @override
   List<DashboardItem> get mobile {
@@ -263,9 +294,17 @@ class _$DashboardImpl extends _Dashboard {
     return EqualUnmodifiableListView(_desktop);
   }
 
+  final List<DashboardItem> _mobileLarge;
+  @override
+  List<DashboardItem> get mobileLarge {
+    if (_mobileLarge is EqualUnmodifiableListView) return _mobileLarge;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_mobileLarge);
+  }
+
   @override
   String toString() {
-    return 'Dashboard(key: $key, title: $title, tokens: $tokens, mobileSlotCount: $mobileSlotCount, tabletSlotCount: $tabletSlotCount, desktopSlotCount: $desktopSlotCount, mobile: $mobile, tablet: $tablet, desktop: $desktop)';
+    return 'Dashboard(key: $key, title: $title, tokens: $tokens, mobileSlotCount: $mobileSlotCount, tabletSlotCount: $tabletSlotCount, desktopSlotCount: $desktopSlotCount, mobileLargeSlotCount: $mobileLargeSlotCount, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
   }
 
   @override
@@ -282,9 +321,13 @@ class _$DashboardImpl extends _Dashboard {
                 other.tabletSlotCount == tabletSlotCount) &&
             (identical(other.desktopSlotCount, desktopSlotCount) ||
                 other.desktopSlotCount == desktopSlotCount) &&
+            (identical(other.mobileLargeSlotCount, mobileLargeSlotCount) ||
+                other.mobileLargeSlotCount == mobileLargeSlotCount) &&
             const DeepCollectionEquality().equals(other._mobile, _mobile) &&
             const DeepCollectionEquality().equals(other._tablet, _tablet) &&
-            const DeepCollectionEquality().equals(other._desktop, _desktop));
+            const DeepCollectionEquality().equals(other._desktop, _desktop) &&
+            const DeepCollectionEquality()
+                .equals(other._mobileLarge, _mobileLarge));
   }
 
   @JsonKey(ignore: true)
@@ -297,9 +340,11 @@ class _$DashboardImpl extends _Dashboard {
       mobileSlotCount,
       tabletSlotCount,
       desktopSlotCount,
+      mobileLargeSlotCount,
       const DeepCollectionEquality().hash(_mobile),
       const DeepCollectionEquality().hash(_tablet),
-      const DeepCollectionEquality().hash(_desktop));
+      const DeepCollectionEquality().hash(_desktop),
+      const DeepCollectionEquality().hash(_mobileLarge));
 
   @JsonKey(ignore: true)
   @override
@@ -323,9 +368,11 @@ abstract class _Dashboard extends Dashboard {
       required final int mobileSlotCount,
       required final int tabletSlotCount,
       required final int desktopSlotCount,
+      required final int mobileLargeSlotCount,
       required final List<DashboardItem> mobile,
       required final List<DashboardItem> tablet,
-      required final List<DashboardItem> desktop}) = _$DashboardImpl;
+      required final List<DashboardItem> desktop,
+      required final List<DashboardItem> mobileLarge}) = _$DashboardImpl;
   const _Dashboard._() : super._();
 
   factory _Dashboard.fromJson(Map<String, dynamic> json) =
@@ -344,11 +391,15 @@ abstract class _Dashboard extends Dashboard {
   @override
   int get desktopSlotCount;
   @override
+  int get mobileLargeSlotCount;
+  @override
   List<DashboardItem> get mobile;
   @override
   List<DashboardItem> get tablet;
   @override
   List<DashboardItem> get desktop;
+  @override
+  List<DashboardItem> get mobileLarge;
   @override
   @JsonKey(ignore: true)
   _$$DashboardImplCopyWith<_$DashboardImpl> get copyWith =>
