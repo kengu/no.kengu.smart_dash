@@ -1,6 +1,13 @@
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/material.dart';
 
+enum ResponsiveType {
+  mobile,
+  mobileLarge,
+  tablet,
+  desktop,
+}
+
 class ResponsiveWidget extends StatelessWidget {
   final Widget mobile;
   final Widget? mobileLarge;
@@ -30,25 +37,37 @@ class ResponsiveWidget extends StatelessWidget {
   static bool isMobile(BuildContext context) =>
       getWindowType(context) <= AdaptiveWindowType.xsmall;
 
-  static bool isMobileLarge(BuildContext context) =>
-      getWindowType(context) <= AdaptiveWindowType.small;
+  static bool isMobileLarge(BuildContext context) {
+    final type = getWindowType(context);
+    return type > AdaptiveWindowType.xsmall && type <= AdaptiveWindowType.small;
+  }
 
-  static bool isTablet(BuildContext context) =>
-      getWindowType(context) <= AdaptiveWindowType.medium;
+  static bool isTablet(BuildContext context) {
+    final type = getWindowType(context);
+    return type > AdaptiveWindowType.small && type <= AdaptiveWindowType.medium;
+  }
 
   static bool isDesktop(BuildContext context) =>
       getWindowType(context) >= AdaptiveWindowType.large;
 
+  static ResponsiveType toType(BuildContext context) {
+    if (isDesktop(context)) {
+      return ResponsiveType.desktop;
+    } else if (isMobileLarge(context)) {
+      return ResponsiveType.mobileLarge;
+    } else if (isTablet(context)) {
+      return ResponsiveType.tablet;
+    }
+    return ResponsiveType.mobile;
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (isDesktop(context)) {
-      return desktop;
-    } else if (isMobileLarge(context)) {
-      return (mobileLarge ?? mobile);
-    } else if (isTablet(context)) {
-      return tablet ?? desktop;
-    }
-
-    return mobile;
+    return switch (toType(context)) {
+      ResponsiveType.mobile => mobile,
+      ResponsiveType.desktop => desktop,
+      ResponsiveType.tablet => tablet ?? desktop,
+      ResponsiveType.mobileLarge => mobileLarge ?? mobile,
+    };
   }
 }

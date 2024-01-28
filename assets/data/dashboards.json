@@ -155,28 +155,19 @@
       {
         "item_id": "weather_now",
         "layout": {
-          "w": 2,
+          "w": 3,
           "h": 1,
-          "min_W": 2,
+          "min_W": 3,
           "min_H": 1,
-          "max_W": 2
+          "max_W": 3
         }
       },
       {
         "item_id": "meter_energy:sikom:device:541905",
         "layout": {
-          "w": 3,
+          "w": 2,
           "h": 1,
-          "min_W": 3,
-          "min_H": 1
-        }
-      },
-      {
-        "item_id": "measure_power:sikom:device:541905",
-        "layout": {
-          "w": 3,
-          "h": 1,
-          "min_W": 3,
+          "min_W": 2,
           "min_H": 1
         }
       },
@@ -191,30 +182,41 @@
         }
       },
       {
-        "item_id": "price_hourly",
+        "item_id": "measure_power:sikom:device:541905",
         "layout": {
           "w": 3,
           "h": 1,
           "min_W": 3,
+          "min_H": 1
+        }
+      },
+      {
+        "item_id": "price_hourly",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
           "min_H": 1
         }
       },
       {
         "item_id": "bill_hourly",
         "layout": {
-          "w": 3,
+          "w": 5,
           "h": 1,
-          "min_W": 3,
-          "min_H": 1
+          "min_W": 5,
+          "min_H": 1,
+          "max_W": 5
         }
       },
       {
         "item_id": "bill_month",
         "layout": {
-          "w": 3,
+          "w": 5,
           "h": 1,
-          "min_W": 3,
-          "min_H": 1
+          "min_W": 5,
+          "min_H": 1,
+          "max_W": 5
         }
       },
       {
@@ -230,29 +232,29 @@
       {
         "item_id": "temperature",
         "layout": {
-          "w": 3,
+          "w": 5,
           "h": 1,
-          "min_W": 3,
+          "min_W": 5,
           "min_H": 1,
-          "max_W": 3
+          "max_W": 5
         }
       },
       {
         "item_id": "onOff",
         "layout": {
-          "w": 3,
+          "w": 5,
           "h": 1,
-          "min_W": 3,
+          "min_W": 5,
           "min_H": 1,
-          "max_W": 3
+          "max_W": 5
         }
       },
       {
         "item_id": "snow_now",
         "layout": {
-          "w": 3,
+          "w": 2,
           "h": 1,
-          "min_W": 3,
+          "min_W": 2,
           "min_H": 1,
           "max_W": 3
         }

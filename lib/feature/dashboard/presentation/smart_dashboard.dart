@@ -7,7 +7,7 @@ import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/util/data/json.dart';
 
 typedef DashboardItemSlotBuilder<T extends DashboardItem> = Widget Function(
-    int slotCount, T item);
+    ResponsiveType type, int slotCount, T item);
 
 class SmartDashboard extends StatefulWidget {
   const SmartDashboard({
@@ -15,10 +15,11 @@ class SmartDashboard extends StatefulWidget {
     required this.storage,
     required this.slotHeight,
     required this.itemBuilder,
+    this.cacheSlotCount = 10,
   });
 
   final double slotHeight;
-
+  final int cacheSlotCount;
   final SmartDashboardItemStorage storage;
   final DashboardItemSlotBuilder itemBuilder;
 
@@ -32,8 +33,6 @@ class _SmartDashboardState extends State<SmartDashboard> {
   final key = GlobalKey();
 
   final scrollController = ScrollController();
-
-  bool isDesktop = true;
 
   @override
   void initState() {
@@ -53,20 +52,31 @@ class _SmartDashboardState extends State<SmartDashboard> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      mobile: _build(widget.storage.mobileSlotCount),
-      tablet: widget.storage.tablet.isEmpty
-          ? null
-          : _build(widget.storage.tabletSlotCount),
-      desktop: _build(widget.storage.desktopSlotCount),
-      mobileLarge: widget.storage.mobileLarge.isEmpty
-          ? null
-          : _build(widget.storage.mobileLargeSlotCount),
+      mobile: _build(
+        ResponsiveType.mobile,
+        widget.storage.mobileSlotCount,
+      ),
+      tablet: widget.storage.tablet.isNotEmpty
+          ? _build(
+              ResponsiveType.tablet,
+              widget.storage.tabletSlotCount,
+            )
+          : null,
+      desktop: _build(
+        ResponsiveType.desktop,
+        widget.storage.desktopSlotCount,
+      ),
+      mobileLarge: widget.storage.mobileLarge.isNotEmpty
+          ? _build(
+              ResponsiveType.mobileLarge,
+              widget.storage.mobileLargeSlotCount,
+            )
+          : null,
     );
   }
 
-  Dashboard<DashboardItem> _build(int slotCount) {
-    final current = isDesktop;
-    final dashboard = Dashboard(
+  Dashboard<DashboardItem> _build(ResponsiveType type, int slotCount) {
+    return Dashboard(
       key: key,
       slideToTop: false,
       shrinkToPlace: true,
@@ -80,17 +90,11 @@ class _SmartDashboardState extends State<SmartDashboard> {
         parent: AlwaysScrollableScrollPhysics(),
       ),
       slotHeight: widget.slotHeight,
-      itemBuilder: (item) => widget.itemBuilder(slotCount, item),
+      cacheExtend: widget.slotHeight * widget.cacheSlotCount,
+      itemBuilder: (item) => widget.itemBuilder(type, slotCount, item),
       dashboardItemController: itemController,
       errorPlaceholder: (e, s) => Text("$e , $s"),
     );
-    isDesktop = slotCount == widget.storage.desktopSlotCount;
-    if (isDesktop != current &&
-        scrollController.hasClients &&
-        scrollController.position.hasContentDimensions) {
-      scrollController.jumpTo(0);
-    }
-    return dashboard;
   }
 }
 

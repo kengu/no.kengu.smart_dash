@@ -69,7 +69,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                       tabletSlotCount: 2,
                       desktopSlotCount: 3,
                     ),
-                    itemBuilder: (slotsCount, item) {
+                    itemBuilder: (type, slotsCount, item) {
                       switch (item.identifier) {
                         case 'group':
                           return CameraGroupControls(

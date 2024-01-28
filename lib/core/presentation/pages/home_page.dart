@@ -92,7 +92,7 @@ class HomePage extends ConsumerWidget {
                             child: SmartDashboard(
                               slotHeight: 270,
                               storage: storage,
-                              itemBuilder: (slotsCount, item) {
+                              itemBuilder: (type, slotsCount, item) {
                                 switch (item.identifier) {
                                   case 'meter_energy:sikom:device:541905':
                                     return EnergyUsageTile<int>(
