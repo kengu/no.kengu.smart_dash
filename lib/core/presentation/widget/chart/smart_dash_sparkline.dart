@@ -72,8 +72,8 @@ class SmartDashSparkline<T extends num> extends StatelessWidget {
               child: Opacity(
                 opacity: 0.9,
                 child: Sparkline(
-                  max: maxValue,
                   min: minValue,
+                  max: maxValue,
                   data: data.to<double>().toList(),
                   pointsMode: pointsMode,
                   pointIndex: pointIndex,
@@ -161,6 +161,8 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
     this.kLine,
     this.lineMin,
     this.lineMax,
+    this.maxValue,
+    this.minValue,
     this.pointIndex,
     this.lineLabeler,
     this.pointLabeler,
@@ -182,6 +184,8 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
   final int? pointIndex;
   final double minWidth;
   final double minHeight;
+  final double? minValue;
+  final double? maxValue;
   final List<String>? kLine;
   final PointsMode pointsMode;
   final bool Function(int index)? lineSelector;
@@ -197,8 +201,8 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
       kLine: kLine,
       lineMin: lineMin,
       lineMax: lineMax,
-      showGrid: showGrid,
       lineStep: lineStep,
+      showGrid: showGrid,
       minWidth: minWidth,
       minHeight: minHeight,
       pointsMode: pointsMode,
@@ -207,8 +211,8 @@ class AnimatedSmartDashSparkline<T extends num> extends AnimatedWidget {
       lineSelector: lineSelector,
       pointLabeler: pointLabeler,
       pointSelector: pointSelector,
-      minValue: data.min().toDouble(),
-      maxValue: data.max().toDouble(),
+      minValue: minValue ?? data.min().toDouble(),
+      maxValue: maxValue ?? data.max().toDouble(),
     );
   }
 }
