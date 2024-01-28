@@ -1,5 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+     Internet access permissions.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+      Media access permissions.
+      Android 13 or higher.
+      https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions
+      -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!--
+      Storage access permissions.
+      Android 12 or lower.
+      -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
+            android:largeHeap="true"
             android:label="smart_dash"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher">
@@ -30,4 +48,5 @@
                 android:name="flutterEmbedding"
                 android:value="2"/>
     </application>
+
 </manifest>
