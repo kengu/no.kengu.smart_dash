@@ -24,6 +24,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   String _filter = '';
 
+  final Set<TimeSeries> _series = {};
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<TimeSeries>>(
@@ -34,14 +36,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         builder: (context, snapshot) {
           final data = _where(snapshot);
           return ref.watch(historyProvider()).when(
-                data: (_) => _build(data),
+                data: (e) => _build(_update(e)),
                 loading: () => _build(data),
                 error: SmartDashErrorWidget.from,
               );
         });
   }
 
-  Widget _build(List<TimeSeries> data) {
+  Widget _build(Set<TimeSeries> data) {
     return Padding(
       padding: !isFullscreen
           ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
@@ -152,11 +154,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
-  List<TimeSeries> _where(AsyncSnapshot<List<TimeSeries>> snapshot) {
+  Set<TimeSeries> _where(AsyncSnapshot<List<TimeSeries>> snapshot) {
     final data = snapshot.hasData ? snapshot.data! : <TimeSeries>[];
-    return data
-        .where((e) => _filter.isEmpty || e.name.contains(_filter))
-        .toList();
+    return _series
+      ..clear()
+      ..addAll(
+        data.where((e) => _filter.isEmpty || e.name.contains(_filter)).toList(),
+      );
+  }
+
+  Set<TimeSeries> _update(HistoryEvent e) {
+    return _series
+      ..remove(e.data)
+      ..add(e.data);
   }
 
   DataRow _buildDataRow(TimeSeries series) {

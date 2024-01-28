@@ -6,7 +6,7 @@ A Smart Dashboard App for my personal use.
 
 - [ ] Read and save historical data from the weather station
 - [x] Integrate webcam for easy viewing in one place
-- [x] Implement support for Sikom buttons (and astro clocks)
+- [x] Implement support for Sikom buttons (and astro switch)
 - [x] Implement support for Sikom thermostats
 - [x] Implement support for Sikom power controller
 - [ ] Implement support for editable control flows

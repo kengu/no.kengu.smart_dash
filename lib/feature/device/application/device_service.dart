@@ -72,8 +72,9 @@ class DeviceService {
   Future<Optional<Device>> update(Device device,
       {Duration? ttl = const Duration(seconds: 5)}) async {
     final id = Identity.of(device);
+    final key = 'set:$id';
     return _cache.getOrFetch(
-      'set:$id',
+      key,
       () async {
         final service =
             ref.read(deviceDriverManagerProvider).getDriver(device.service);
@@ -94,7 +95,7 @@ class DeviceService {
             DeviceUpdateCompleted(device),
           );
           return _cache.set(
-            'get:$id',
+            key,
             Optional.of(device),
           );
         }
@@ -131,7 +132,7 @@ class DeviceService {
   Future<List<Device>> where(Function(Device e) compare,
       {Duration? ttl = const Duration(seconds: 5)}) async {
     final devices = <Device>[];
-    for (final device in await getAll()) {
+    for (final device in await getAll(ttl: ttl)) {
       if (compare(device)) {
         devices.add(device);
       }

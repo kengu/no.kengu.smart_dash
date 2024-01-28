@@ -28,6 +28,8 @@ class SwitchOnOffListTile extends ConsumerStatefulWidget {
 
 class _SwitchOnOffListTileListTileState
     extends ConsumerState<SwitchOnOffListTile> {
+  final Set<Device> _devices = {};
+
   @override
   Widget build(BuildContext context) {
     final service = ref.read(deviceServiceProvider);
@@ -35,56 +37,73 @@ class _SwitchOnOffListTileListTileState
       future: service.where((e) => e.hasOnOff),
       initialData: service.whereCached((e) => e.hasOnOff).orElseNull,
       builder: (context, snapshot) {
-        final devices =
-            (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
-        devices.sort((a, b) => a.name.compareTo(b.name));
-        return SmartDashTile(
-          title: widget.title,
-          subTitle: widget.subtitle,
-          constraints: BoxConstraints(
-            minWidth: 270,
-            minHeight: 180,
-            maxWidth: (72.0 + 6) * devices.length,
-          ).normalize(),
-          leading: const Icon(
-            CupertinoIcons.arrow_swap,
-            color: Colors.lightGreen,
-          ),
-          trailing: Text(
-            '${devices.length} switches',
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
-            ),
-            textScaler: const TextScaler.linear(1.2),
-          ),
-          body: devices.isEmpty
-              ? Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        'No data',
-                        style: getLegendTextStyle(context),
-                      ),
-                    ),
-                  ],
-                )
-              : ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  children: devices
-                      .map(
-                        (device) => SwitchOnOffTile(
-                          device: device,
-                          enabled: true,
-                          onSelected: (newMode) => _apply(device, newMode),
-                        ),
-                      )
-                      .toList(),
-                ),
-        );
+        _cache(snapshot);
+        return StreamBuilder<DeviceEvent>(
+            stream: service.stream.where((e) => e.device.hasOnOff),
+            builder: (context, snapshot) {
+              return _build(_update(
+                snapshot,
+              ));
+            });
       },
     );
+  }
+
+  SmartDashTile _build(Set<Device> devices) {
+    return SmartDashTile(
+      title: widget.title,
+      subTitle: widget.subtitle,
+      constraints: BoxConstraints(
+        minWidth: 270,
+        minHeight: 180,
+        maxWidth: (72.0 + 6) * devices.length,
+      ).normalize(),
+      leading: const Icon(
+        CupertinoIcons.arrow_swap,
+        color: Colors.lightGreen,
+      ),
+      trailing: Text(
+        '${devices.length} switches',
+        style: const TextStyle(
+          color: Colors.lightGreen,
+          fontWeight: FontWeight.bold,
+        ),
+        textScaler: const TextScaler.linear(1.2),
+      ),
+      body: devices.isEmpty
+          ? Stack(
+              children: [
+                Center(
+                  child: Text(
+                    'No data',
+                    style: getLegendTextStyle(context),
+                  ),
+                ),
+              ],
+            )
+          : ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: devices
+                  .map(
+                    (device) => SwitchOnOffTile(
+                      device: device,
+                      enabled: true,
+                      onSelected: (newMode) => _apply(device, newMode),
+                    ),
+                  )
+                  .toList(),
+            ),
+    );
+  }
+
+  Set<Device> _cache(AsyncSnapshot<List<Device>> snapshot) {
+    final data =
+        (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
+    data.sort((a, b) => a.name.compareTo(b.name));
+    return _devices
+      ..clear()
+      ..addAll(data);
   }
 
   Future<bool> _apply(Device device, SwitchMode newMode) async {
@@ -92,6 +111,27 @@ class _SwitchOnOffListTileListTileState
         .read(deviceServiceProvider)
         .update(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
     return result.isPresent;
+  }
+
+  Set<Device> _update(AsyncSnapshot<DeviceEvent> snapshot) {
+    if (snapshot.hasData) {
+      bool sort = true;
+      final device = snapshot.data!.device;
+      debugPrint('SwitchOnOffListTile::_update(${device.name})');
+      final list = _devices.toList();
+      final id = Identity.of(device);
+      final index = list.indexWhere((e) => Identity.of(e) == id);
+      if (index > -1) {
+        sort = list[index].name != device.name;
+        list[index] = device;
+      } else {
+        list.add(device);
+      }
+      if (sort) {
+        list.sort((a, b) => a.name.compareTo(b.name));
+      }
+    }
+    return _devices;
   }
 }
 
