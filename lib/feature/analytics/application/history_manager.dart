@@ -118,7 +118,7 @@ class HistoryManager {
     Duration? ttl,
   }) {
     final offset = toOffset(when);
-    final key = 'token:${token.name}:$offset';
+    final key = _tokenCacheKey(token.name, offset);
     return _cache.getOrFetch(key, () async {
       final repo = ref.read(timeSeriesRepositoryProvider);
       return await repo.get(token, offset);
@@ -127,7 +127,9 @@ class HistoryManager {
 
   Optional<TimeSeries> getCached(Token token, {DateTime? when}) {
     final offset = toOffset(when);
-    return _cache.get('token:${token.name}:$offset');
+    return _cache.get(
+      _tokenCacheKey(token.name, offset),
+    );
   }
 
   Future<List<TimeSeries>> where(
@@ -179,6 +181,10 @@ class HistoryManager {
     }
   }
 
+  String _tokenCacheKey(String name, DateTime offset) {
+    return 'token:$name:$offset';
+  }
+
   /// Handle event in a time-orderly only manner.
   /// Discards events that happened before last
   /// element in history
@@ -213,6 +219,12 @@ class HistoryManager {
           };
           if (next != history) {
             await repo.save(next);
+            // Keep result for cached lookups
+            _cache.setIfExists<TimeSeries>(
+              _tokenCacheKey(next.name, offset),
+              (_) => next,
+            );
+            // Notify listeners
             _controller.add(HistoryEvent(
               event.token,
               next,
@@ -262,28 +274,10 @@ class HistoryEvent {
 @Riverpod(keepAlive: true)
 HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref);
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<HistoryEvent> history(HistoryRef ref, [Token? token]) {
-  ref.read(historyManagerProvider).pump();
+//  ref.read(historyManagerProvider).pump();
   return ref.watch(historyManagerProvider).events.where(
         (e) => token == null || e.token == token,
       );
-}
-
-@riverpod
-Stream<HistoryEvent> powerHistory(PowerHistoryRef ref) {
-  ref.read(historyManagerProvider).pump();
-  return ref.watch(historyManagerProvider).events.where((e) => e.isPower);
-}
-
-@riverpod
-Stream<HistoryEvent> energyHistory(EnergyHistoryRef ref) {
-  ref.read(historyManagerProvider).pump();
-  return ref.watch(historyManagerProvider).events.where((e) => e.isEnergy);
-}
-
-@riverpod
-Stream<HistoryEvent> voltageHistory(VoltageHistoryRef ref) {
-  ref.read(historyManagerProvider).pump();
-  return ref.watch(historyManagerProvider).events.where((e) => e.isVoltage);
 }

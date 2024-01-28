@@ -15,6 +15,7 @@ import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/platform.dart';
 
 part 'sikom_driver.g.dart';
 
@@ -24,8 +25,10 @@ class SikomDriver extends ThrottledDeviceDriver {
           Sikom.key,
           ref,
           trailing: true,
-          // TODO Make throttle configurable
-          throttle: const Duration(seconds: 30),
+          throttle: Duration(
+            // TODO Make throttle configurable
+            seconds: Platform.isDesktop ? 5 : 30,
+          ),
         );
 
   @override

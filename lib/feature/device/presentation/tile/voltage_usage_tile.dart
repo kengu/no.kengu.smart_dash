@@ -45,7 +45,7 @@ class VoltageTile<T extends num> extends ConsumerWidget {
   }
 
   Widget _build([HistoryEvent? event]) {
-    debugPrint('voltage_usage_tile[${voltage.orElseNull?.name}][$event]');
+//    debugPrint('voltage_usage_tile[${voltage.orElseNull?.name}][$event]');
     final usage = voltage.orElseNull?.toTs(event, size) ??
         TimeSeries.empty('voltage_usage');
 

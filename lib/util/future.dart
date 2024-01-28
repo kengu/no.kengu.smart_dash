@@ -33,12 +33,21 @@ class FutureCache {
   }
 
   Optional<T> setIfExists<T>(String key, T Function(T value) set) {
-    if (_results.containsKey(key)) {
-      final next = set(_results[key]);
-      _results[key] = next;
+    T? next;
+    final current = _results[key];
+    final isOptional = current is Optional;
+    if (current != null) {
+      if (isOptional && current.isPresent) {
+        next = set(current.value);
+      } else if (current is T) {
+        next = set(current);
+      }
+    }
+    if (next != null) {
+      _results[key] = isOptional ? Optional.of(next) : next;
       _requests[key] = (DateTime.now(), Future.value(next));
     }
-    return const Optional.empty();
+    return Optional.ofNullable(next);
   }
 
   void setTTL(String key, DateTime when) {
@@ -80,6 +89,11 @@ class FutureCache {
     if (onResult != null) onResult(result);
 
     return result;
+  }
+
+  void flush(String key) {
+    _results.remove(key);
+    _requests.remove(key);
   }
 
   bool isExpired(DateTime now, DateTime cached, Duration? ttl) =>

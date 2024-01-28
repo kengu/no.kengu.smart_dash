@@ -21,7 +21,7 @@ final historyManagerProvider = Provider<HistoryManager>.internal(
 );
 
 typedef HistoryManagerRef = ProviderRef<HistoryManager>;
-String _$historyHash() => r'94f849990d4487901b6b1a2caf219becdb19e3fd';
+String _$historyHash() => r'66ccd77231b2f539d495002e2ece5df7f003c66b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -109,7 +109,7 @@ class _$HistoryFamilyOverride implements FamilyOverride {
 }
 
 /// See also [history].
-class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
+class HistoryProvider extends StreamProvider<HistoryEvent> {
   /// See also [history].
   HistoryProvider([
     Token? token,
@@ -165,7 +165,7 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
   }
 
   @override
-  AutoDisposeStreamProviderElement<HistoryEvent> createElement() {
+  StreamProviderElement<HistoryEvent> createElement() {
     return _HistoryProviderElement(this);
   }
 
@@ -197,62 +197,17 @@ class HistoryProvider extends AutoDisposeStreamProvider<HistoryEvent> {
   }
 }
 
-mixin HistoryRef on AutoDisposeStreamProviderRef<HistoryEvent> {
+mixin HistoryRef on StreamProviderRef<HistoryEvent> {
   /// The parameter `token` of this provider.
   Token? get token;
 }
 
-class _HistoryProviderElement
-    extends AutoDisposeStreamProviderElement<HistoryEvent> with HistoryRef {
+class _HistoryProviderElement extends StreamProviderElement<HistoryEvent>
+    with HistoryRef {
   _HistoryProviderElement(super.provider);
 
   @override
   Token? get token => (origin as HistoryProvider).token;
 }
-
-String _$powerHistoryHash() => r'9713f50750a2a2c9d7c02c692302d1f044f60b03';
-
-/// See also [powerHistory].
-@ProviderFor(powerHistory)
-final powerHistoryProvider = AutoDisposeStreamProvider<HistoryEvent>.internal(
-  powerHistory,
-  name: r'powerHistoryProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$powerHistoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef PowerHistoryRef = AutoDisposeStreamProviderRef<HistoryEvent>;
-String _$energyHistoryHash() => r'abd78d3ecbdb3a71524dbf75c4c781222f32c7fd';
-
-/// See also [energyHistory].
-@ProviderFor(energyHistory)
-final energyHistoryProvider = AutoDisposeStreamProvider<HistoryEvent>.internal(
-  energyHistory,
-  name: r'energyHistoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$energyHistoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef EnergyHistoryRef = AutoDisposeStreamProviderRef<HistoryEvent>;
-String _$voltageHistoryHash() => r'15df348c9e659e8a5c867646f46a1f854e58fc89';
-
-/// See also [voltageHistory].
-@ProviderFor(voltageHistory)
-final voltageHistoryProvider = AutoDisposeStreamProvider<HistoryEvent>.internal(
-  voltageHistory,
-  name: r'voltageHistoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$voltageHistoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef VoltageHistoryRef = AutoDisposeStreamProviderRef<HistoryEvent>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
