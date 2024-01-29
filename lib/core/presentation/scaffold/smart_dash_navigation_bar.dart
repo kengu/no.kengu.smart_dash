@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
@@ -29,6 +30,7 @@ class _SmartDashNavigationBarState extends State<SmartDashNavigationBar> {
       onDestinationSelected: (int index) {
         context.go(Pages.locations[index]);
       },
+      // TODO: build nav bar destinations from shared source
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
@@ -38,11 +40,11 @@ class _SmartDashNavigationBarState extends State<SmartDashNavigationBar> {
         ),
         NavigationDestination(
           icon: Icon(
-            Icons.history_outlined,
+            CupertinoIcons.rectangle_3_offgrid,
           ),
-          selectedIcon: Icon(Icons.history),
-          label: 'History',
-          tooltip: 'History',
+          selectedIcon: Icon(CupertinoIcons.rectangle_3_offgrid_fill),
+          label: 'Rooms',
+          tooltip: 'Rooms',
         ),
         NavigationDestination(
           icon: Icon(
@@ -51,6 +53,14 @@ class _SmartDashNavigationBarState extends State<SmartDashNavigationBar> {
           selectedIcon: Icon(Icons.video_camera_back),
           label: 'Cameras',
           tooltip: 'Cameras',
+        ),
+        NavigationDestination(
+          icon: Icon(
+            Icons.history_outlined,
+          ),
+          selectedIcon: Icon(Icons.history),
+          label: 'History',
+          tooltip: 'History',
         ),
         NavigationDestination(
           icon: Badge(

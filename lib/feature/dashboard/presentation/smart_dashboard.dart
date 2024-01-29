@@ -36,10 +36,10 @@ class _SmartDashboardState extends State<SmartDashboard> {
 
   @override
   void initState() {
-    super.initState();
     itemController = DashboardItemController.withDelegate(
       itemStorageDelegate: widget.storage,
     );
+    super.initState();
   }
 
   @override
