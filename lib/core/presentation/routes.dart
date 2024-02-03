@@ -12,6 +12,7 @@ import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
 import 'package:smart_dash/core/presentation/pages/home_page.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
+import 'package:smart_dash/feature/room/presentation/rooms_page.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/page_view.dart';
 
@@ -71,14 +72,19 @@ sealed class Routes {
             child: const HomePage(),
           ),
           buildGoRoute(
-            path: Pages.history,
+            path: Pages.rooms,
             restorationId: setLastLocation,
-            child: const HistoryPage(),
+            child: const RoomsPage(),
           ),
           buildGoRoute(
             path: Pages.cameras,
             restorationId: setLastLocation,
             child: const CamerasPage(),
+          ),
+          buildGoRoute(
+            path: Pages.history,
+            restorationId: setLastLocation,
+            child: const HistoryPage(),
           ),
           buildGoRoute(
             path: Screens.camera,

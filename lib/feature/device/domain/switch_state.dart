@@ -48,6 +48,12 @@ enum SwitchMode {
   comfort,
   antiFreeze;
 
+  bool get isOn => this == on;
+  bool get isOff => this == off;
+  bool get isEco => this == eco;
+  bool get isComfort => this == comfort;
+  bool get isAntiFreeze => this == antiFreeze;
+
   static const offModes = [
     SwitchMode.off,
     SwitchMode.eco,

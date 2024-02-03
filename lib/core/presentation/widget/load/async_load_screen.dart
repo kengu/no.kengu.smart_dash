@@ -45,7 +45,7 @@ class AsyncLoadScreen<Query, Data> extends StatelessWidget {
   /// Called when an error have occurred
   final ErrorCallback? onError;
 
-  /// Builder called when [Data] returns from [value].
+  /// Builder called when [Data] returns from [angle].
   final AsyncLoadWidgetBuilder<Data> builder;
 
   /// A provider of [AsyncValue] of type [Data] fetched async

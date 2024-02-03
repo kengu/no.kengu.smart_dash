@@ -106,7 +106,7 @@ class DeviceService {
   }
 
   /// Get [Device] with given [id] stored in cache
-  Optional<Device> getCached(String id) {
+  Optional<Device> getCached(Identity id) {
     return _cache.get('get:$id');
   }
 

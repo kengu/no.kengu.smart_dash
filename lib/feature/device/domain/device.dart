@@ -95,43 +95,44 @@ class Device with _$Device {
             DeviceCapability.power => Token(
                 tag: e.name,
                 label: name,
-                name: _toTokenName(e),
                 unit: TokenUnit.power,
                 type: DeviceCapability.power.type,
+                name: Device.toTokenName(this, e),
               ),
             DeviceCapability.energy => Token(
                 tag: e.name,
                 label: name,
-                name: _toTokenName(e),
                 unit: TokenUnit.energy,
                 type: DeviceCapability.energy.type,
+                name: Device.toTokenName(this, e),
               ),
             DeviceCapability.voltage => Token(
                 tag: e.name,
                 label: name,
-                name: _toTokenName(e),
                 unit: TokenUnit.voltage,
                 type: DeviceCapability.voltage.type,
+                name: Device.toTokenName(this, e),
               ),
             DeviceCapability.temperature => Token(
                 tag: e.name,
                 label: name,
-                name: _toTokenName(e),
                 unit: TokenUnit.temperature,
                 type: DeviceCapability.temperature.type,
+                name: Device.toTokenName(this, e),
               ),
             DeviceCapability.onOff => Token(
                 tag: e.name,
                 label: name,
-                name: _toTokenName(e),
                 unit: TokenUnit.onOff,
                 type: DeviceCapability.onOff.type,
+                name: Device.toTokenName(this, e),
               ),
           })
       .toList();
 
-  String _toTokenName(DeviceCapability e) =>
-      [e.variable, service, 'device', id].join(':');
+  static String toTokenName(Device device, DeviceCapability e) {
+    return [e.variable, device.service, 'device', device.id].join(':');
+  }
 
   factory Device.fromJson(Map<String, Object?> json) => _$DeviceFromJson(json);
 }
@@ -152,6 +153,15 @@ class Identity with _$Identity {
         deviceId: device.id,
         serviceKey: device.service,
       );
+
+  static Identity fromToken(Token token) {
+    final parts = token.name.split(':');
+    assert(parts.length == 4, 'Token name ${token.name} is not a device');
+    return Identity(
+      deviceId: parts[3],
+      serviceKey: parts[1],
+    );
+  }
 }
 
 mixin DeviceMapper {

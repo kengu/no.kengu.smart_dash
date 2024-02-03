@@ -192,10 +192,10 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: Text(
-                            (device.electric
+                            device.electric
                                     ?.getEstimatedPower(false)
                                     ?.toPower() ??
-                                '-'),
+                                '-',
                             style: legendTextStyle,
                           ),
                         ),

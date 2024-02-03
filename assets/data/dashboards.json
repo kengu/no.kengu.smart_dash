@@ -514,15 +514,15 @@
     "tokens": [
       {
         "tag": "power",
-        "name": "measure_power:sikom:device:541905",
-        "label": "Effektstyring",
+        "name": "measure_temperature:sikom:device:540242",
+        "label": "Vaskerom",
         "type": "int",
         "unit": "power"
       }
     ],
     "mobile": [
       {
-        "item_id": "measure_power:sikom:device:541905",
+        "item_id": "measure_temperature:sikom:device:540242",
         "layout": {
           "w": 4,
           "h": 1,
@@ -534,7 +534,7 @@
     ],
     "mobileLarge": [
       {
-        "item_id": "measure_power:sikom:device:541905",
+        "item_id": "measure_temperature:sikom:device:540242",
         "layout": {
           "w": 3,
           "h": 1,
@@ -546,7 +546,7 @@
     ],
     "tablet": [
       {
-        "item_id": "measure_power:sikom:device:541905",
+        "item_id": "measure_temperature:sikom:device:540242",
         "layout": {
           "w": 3,
           "h": 1,
@@ -558,13 +558,14 @@
     ],
     "desktop": [
       {
-        "item_id": "measure_power:sikom:device:541905",
+        "item_id": "measure_temperature:sikom:device:540242",
         "layout": {
-          "w": 6,
-          "h": 1,
-          "min_W": 6,
-          "min_H": 1,
-          "max_W": 6
+          "w": 2,
+          "h": 2,
+          "min_W": 2,
+          "min_H": 2,
+          "max_W": 2,
+          "max_H": 2
         }
       }
     ]
