@@ -33,28 +33,26 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
     const max = 25.0;
     const comfort = 21.0;
     return StreamBuilder<DeviceEvent>(
-        stream: ref.watch(deviceServiceProvider).stream.where((e) =>
-            widget.device.isPresent &&
-            e.isDevice(
-              widget.device.value,
-            )),
+        stream: ref.watch(deviceServiceProvider).stream.where(
+            (e) => widget.device.isPresent && e.isDevice(widget.device.value)),
         builder: (context, snapshot) {
           final device = snapshot.data?.device ?? widget.device.orElseNull;
           final enabled = widget.enabled || device != null;
           final mode = device?.onOff?.mode ?? SwitchMode.off;
           final actual = device?.temperature ?? 0;
           final target = switch (mode) {
-            SwitchMode.off => 0,
+            SwitchMode.off => 0.0,
             SwitchMode.eco => eco,
             SwitchMode.on => actual,
             SwitchMode.comfort => comfort,
             SwitchMode.antiFreeze => actual,
           };
-          final values = [target, actual, 15, max];
+          final values = [actual];
           return SmartKnob(
-            value: actual,
+            value: target,
             minValue: eco,
             maxValue: max,
+            onValueChanged: enabled ? _onUpdate : null,
             sections: [
               SmartKnobSectionData(
                 value: actual,
@@ -106,5 +104,9 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
             },
           );
         });
+  }
+
+  Future<void> _onUpdate(value) async {
+    debugPrint('target: $value');
   }
 }

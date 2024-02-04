@@ -20,27 +20,11 @@ class RoomsPage extends ConsumerWidget {
         pageItemBuilder: (rooms, type, slotsCount, item) {
           switch (item.identifier) {
             case 'measure_temperature:sikom:device:540242':
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  ThermostatTile(
-                    subTitle: 'Tindefjell',
-                    thermostat: rooms.get(
-                      item.identifier,
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('ON'),
-                        Text('OFF'),
-                      ],
-                    ),
-                  )
-                ],
+              return ThermostatTile(
+                subTitle: 'Tindefjell',
+                thermostat: rooms.get(
+                  item.identifier,
+                ),
               );
             default:
               return Text(item.identifier);

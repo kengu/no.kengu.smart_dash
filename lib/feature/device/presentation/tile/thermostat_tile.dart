@@ -6,6 +6,7 @@ import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/knob/thermostat_knob.dart';
+import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/widget.dart';
@@ -35,7 +36,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
       builder: (context, snapshot) {
         final device = snapshot.data;
         return SmartDashTile(
-          title: device?.value.name ?? 'Thermostat',
+          title: device?.orElseNull?.name ?? 'Thermostat',
           subTitle: widget.subTitle,
           constraints: const BoxConstraints(
             maxWidth: 270,
@@ -47,7 +48,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
             color: Colors.lightGreen,
           ),
           trailing: Text(
-            device?.value.temperature?.toTemperature() ?? '0',
+            device?.orElseNull?.temperature?.toTemperature() ?? '0',
             style: const TextStyle(
               color: Colors.lightGreen,
               fontWeight: FontWeight.bold,
@@ -55,7 +56,17 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
             textScaler: const TextScaler.linear(1.2),
           ),
           body: device != null
-              ? ThermostatKnob(device: device)
+              ? Column(
+                  children: [
+                    ThermostatKnob(
+                      device: device,
+                    ),
+                    SwitchOnOffButton(
+                      device: device.value,
+                      onSelected: (mode) async => (false, mode),
+                    )
+                  ],
+                )
               : Stack(
                   children: [
                     Center(

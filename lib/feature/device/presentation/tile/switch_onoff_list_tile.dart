@@ -138,31 +138,6 @@ class SwitchOnOffTile extends ConsumerStatefulWidget {
 }
 
 class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
-  bool _updating = false;
-  bool _errorState = false;
-  Set<SwitchMode> _segmentedButtonSelection = {};
-
-  @override
-  void initState() {
-    _setMode();
-    super.initState();
-  }
-
-  Set<SwitchMode> _setMode() {
-    return _segmentedButtonSelection = {
-      widget.updating ?? widget.device.onOff!.mode
-    };
-  }
-
-  @override
-  void didUpdateWidget(covariant SwitchOnOffTile oldWidget) {
-    if (!_updating &&
-        oldWidget.device.onOff?.mode != widget.device.onOff?.mode) {
-      _setMode();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
   @override
   Widget build(BuildContext context) {
     final legendTextStyle = getLegendTextStyle(context);
@@ -204,64 +179,118 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
                   ),
               ],
             ),
-            trailing: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 170,
-                  child: SegmentedButton<SwitchMode>(
-                    showSelectedIcon: false,
-                    emptySelectionAllowed: false,
-                    multiSelectionEnabled: false,
-                    selected: _segmentedButtonSelection,
-                    onSelectionChanged: _onSelectionChanged,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return null;
-                        }
-                        if (states.contains(MaterialState.selected)) {
-                          return _errorState
-                              ? Colors.red.withOpacity(0.6)
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer;
-                        }
-                        return null;
-                      }),
-                    ),
-                    segments: _modes(device).map((SwitchMode mode) {
-                      return ButtonSegment<SwitchMode>(
-                        value: mode,
-                        enabled: !_updating,
-                        tooltip: _errorState &&
-                                _segmentedButtonSelection.contains(mode)
-                            ? 'Unable to apply ${mode.name} mode'
-                            : null,
-                        label: Text(
-                          mode.name,
-                          textScaler: const TextScaler.linear(0.8),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                if (_updating && widget.enabled)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: SizedBox(
-                      width: 120,
-                      child: LinearProgressIndicator(
-                        minHeight: 1,
-                        color: Colors.lightGreen.withOpacity(0.6),
-                      ),
-                    ),
-                  ),
-              ],
+            trailing: SwitchOnOffButton(
+              device: device,
+              onSelected: widget.onSelected,
+              enabled: widget.enabled,
+              updating: widget.updating,
             ),
           );
         });
+  }
+}
+
+class SwitchOnOffButton extends ConsumerStatefulWidget {
+  const SwitchOnOffButton({
+    super.key,
+    required this.device,
+    required this.onSelected,
+    this.enabled = true,
+    this.updating,
+  });
+
+  final bool enabled;
+  final Device device;
+  final SwitchMode? updating;
+
+  final Future<(bool, SwitchMode)> Function(SwitchMode newMode) onSelected;
+
+  @override
+  ConsumerState<SwitchOnOffButton> createState() => _SwitchOnOffButtonState();
+}
+
+class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
+  bool _updating = false;
+  bool _errorState = false;
+  Set<SwitchMode> _segmentedButtonSelection = {};
+
+  @override
+  void initState() {
+    _setMode();
+    super.initState();
+  }
+
+  Set<SwitchMode> _setMode() {
+    return _segmentedButtonSelection = {
+      widget.updating ?? widget.device.onOff!.mode
+    };
+  }
+
+  @override
+  void didUpdateWidget(covariant SwitchOnOffButton oldWidget) {
+    if (!_updating &&
+        oldWidget.device.onOff?.mode != widget.device.onOff?.mode) {
+      _setMode();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 170,
+          child: SegmentedButton<SwitchMode>(
+            showSelectedIcon: false,
+            emptySelectionAllowed: false,
+            multiSelectionEnabled: false,
+            selected: _segmentedButtonSelection,
+            onSelectionChanged: _onSelectionChanged,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return null;
+                }
+                if (states.contains(MaterialState.selected)) {
+                  return _errorState
+                      ? Colors.red.withOpacity(0.6)
+                      : Theme.of(context).colorScheme.secondaryContainer;
+                }
+                return null;
+              }),
+            ),
+            segments: _modes(widget.device).map((SwitchMode mode) {
+              return ButtonSegment<SwitchMode>(
+                value: mode,
+                enabled: !_updating,
+                tooltip: _errorState && _segmentedButtonSelection.contains(mode)
+                    ? 'Unable to apply ${mode.name} mode'
+                    : null,
+                label: Text(
+                  mode.name,
+                  textScaler: const TextScaler.linear(0.8),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        if (_updating && widget.enabled)
+          Padding(
+            padding: const EdgeInsets.only(top: 0.0),
+            child: SizedBox(
+              width: 120,
+              child: LinearProgressIndicator(
+                minHeight: 1,
+                color: Colors.lightGreen.withOpacity(0.6),
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   void _onSelectionChanged(Set<SwitchMode> newSelection) {
