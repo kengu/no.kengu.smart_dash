@@ -86,8 +86,14 @@ configure:
 		# 2. > Drag & Drop macos/Runner.xcworkspace/Carthage/Build/SystemKit.xcframework to XCode > Runner > General > Frameworks, Libraries, and Embedded Content
 
 		# See https://github.com/Carthage/Carthage?tab=readme-ov-file#running-a-project-that-uses-carthage
-		# If 'libarclite_macos.a' is missing on your macos machine, follow https://stackoverflow.com/a/75924853
 		carthage bootstrap
+
+		# TROUBLESHOOTING build failures
+		# 1. If 'libarclite_macos.a' is missing on your macos machine,
+ 		#	 --> follow https://stackoverflow.com/a/75924853
+		# 2. If you get error "cannot load module 'SystemKit' built with SDK 'macosx14.2' when using SDK 'macosx13.3'"
+		#    --> carthage update --use-xcframeworks --platform macOS
+
 
 		colima start
 	endif

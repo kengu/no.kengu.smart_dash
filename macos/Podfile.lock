@@ -120,10 +120,10 @@ SPEC CHECKSUMS:
   SentryPrivate: 2f0c9ba4c3fc993f70eab6ca95673509561e0085
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqlite3: f307b6291c4db7b5086c38d6237446b98a738581
-  sqlite3_flutter_libs: 6b9913d8fbb718e5ebf23658aa6934a0fb509c0f
+  sqlite3_flutter_libs: 99faab9e1162628569681a3e5a09eae844eac8a5
   wakelock_plus: 4783562c9a43d209c458cb9b30692134af456269
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.0
