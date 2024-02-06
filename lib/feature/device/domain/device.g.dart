@@ -23,6 +23,9 @@ _$DeviceImpl _$$DeviceImplFromJson(Map<String, dynamic> json) => _$DeviceImpl(
       onOff: json['onOff'] == null
           ? null
           : SwitchState.fromJson(json['onOff'] as Map<String, dynamic>),
+      thermostat: json['thermostat'] == null
+          ? null
+          : Thermostat.fromJson(json['thermostat'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
@@ -39,6 +42,7 @@ Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
       'temperature': instance.temperature,
       'electric': instance.electric?.toJson(),
       'onOff': instance.onOff?.toJson(),
+      'thermostat': instance.thermostat?.toJson(),
     };
 
 const _$DeviceTypeEnumMap = {
@@ -58,8 +62,9 @@ const _$DeviceCapabilityEnumMap = {
   DeviceCapability.energy: 'energy',
   DeviceCapability.power: 'power',
   DeviceCapability.voltage: 'voltage',
-  DeviceCapability.temperature: 'temperature',
   DeviceCapability.onOff: 'onOff',
+  DeviceCapability.temperature: 'temperature',
+  DeviceCapability.targetTemperature: 'targetTemperature',
 };
 
 _$IdentityImpl _$$IdentityImplFromJson(Map<String, dynamic> json) =>

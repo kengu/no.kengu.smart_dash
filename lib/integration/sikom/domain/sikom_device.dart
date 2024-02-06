@@ -1,9 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/device/domain/electric_state.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
+import 'package:smart_dash/feature/device/domain/thermostat.dart';
+import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 
@@ -137,6 +140,9 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   /// Check if device reports temperature
   bool get hasTemperature => properties.hasTemperature;
 
+  /// Check if device is a thermostat
+  bool get isThermostat => properties.isThermostat;
+
   @override
   Device toDevice() => Device(
         data: toJson(),
@@ -144,12 +150,10 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         service: Sikom.key,
         name: properties.name,
         onOff: toSwitchState(),
+        thermostat: toThermostat(),
         electric: toElectricState(),
         type: properties.type.toDeviceType(),
         temperature: properties.temperature?.toDouble(),
-        lastUpdated: properties.lastUpdated.isPresent
-            ? properties.lastUpdated.value
-            : DateTime.now(),
         capabilities: [
           if (properties.hasOnOff) DeviceCapability.onOff,
           if (properties.hasEnergy) DeviceCapability.energy,
@@ -158,6 +162,9 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
           if (properties.hasPower || properties.hasEstimatedPower)
             DeviceCapability.power,
         ],
+        lastUpdated: properties.lastUpdated.isPresent
+            ? properties.lastUpdated.value
+            : DateTime.now(),
       );
 
   DeviceDefinition toDeviceDefinition() => DeviceDefinition(
@@ -165,25 +172,37 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         name: Sikom.readableModelName[type] ?? model,
       );
 
-  ElectricState? toElectricState() => hasElectricState
-      ? ElectricState(
-          voltage: properties.powerVoltage?.toInt(),
-          cumulative: properties.cumulativeEnergy?.toInt(),
-          currentPower: properties.currentPowerUsage?.toInt(),
-          cumulativeToday: properties.cumulativeEnergyToday?.toInt(),
-          estimatedRegulatedPower: properties.estimatedRegulatedPower?.toInt(),
-          estimatedUnregulatedPower:
-              properties.estimatedUnregulatedPower?.toInt(),
-          lastUpdated: properties.lastUpdated.isPresent
-              ? properties.lastUpdated.value
-              : DateTime.now(),
-        )
-      : null;
+  ElectricState? toElectricState() {
+    if (!hasElectricState) return null;
 
-  SwitchState? toSwitchState() {
-    if (!hasOnOff) return null;
+    final last = SikomDeviceProperties.latestUpdate([
+      properties.switchMode,
+      properties.cumulativeEnergy,
+      properties.currentPowerUsage,
+      properties.regulatedState,
+      properties.cumulativeEnergyToday,
+      properties.estimatedRegulatedPower,
+      properties.estimatedUnregulatedPower,
+    ]);
 
-    // Only set if device is a Thermostat
+    final when = last.orElseNull ??
+        (properties.lastUpdated.isPresent
+            ? properties.lastUpdated.value
+            : DateTime.now());
+
+    return ElectricState(
+      lastUpdated: when,
+      voltage: properties.powerVoltage?.toInt(),
+      cumulative: properties.cumulativeEnergy?.toInt(),
+      currentPower: properties.currentPowerUsage?.toInt(),
+      isPowerRegulated: properties.regulatedState?.toBool(),
+      cumulativeToday: properties.cumulativeEnergyToday?.toInt(),
+      estimatedRegulatedPower: properties.estimatedRegulatedPower?.toInt(),
+      estimatedUnregulatedPower: properties.estimatedUnregulatedPower?.toInt(),
+    );
+  }
+
+  (SwitchMode on, SwitchMode off) _toSwitchModes() {
     final isThermostatActive = properties.switchThermostatActive?.toInt();
     final onMode = (switch (isThermostatActive) {
       1 => SwitchMode.comfort,
@@ -199,20 +218,70 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
       (e) => e.name == offModeName,
       orElse: () => SwitchMode.off,
     );
+    return (onMode, offMode);
+  }
+
+  SwitchState? toSwitchState() {
+    if (!hasOnOff) return null;
+
+    // Only set if device is a Thermostat
+    final (onMode, offMode) = _toSwitchModes();
+    final when = properties.switchMode?.created ??
+        (properties.lastUpdated.isPresent
+            ? properties.lastUpdated.value
+            : DateTime.now());
     return SwitchState(
       onMode: onMode,
       offMode: offMode,
+      lastUpdated: when,
       state: properties.switchState!.toInt() == 1,
       mode: properties.switchMode?.toInt() == 0 ? offMode : onMode,
-      lastUpdated: properties.lastUpdated.isPresent
-          ? properties.lastUpdated.value
-          : DateTime.now(),
+    );
+  }
+
+  Thermostat? toThermostat() {
+    if (!isThermostat) return null;
+    final (onMode, offMode) = _toSwitchModes();
+    final mode = properties.switchMode?.toInt() == 0 ? offMode : onMode;
+
+    final last = SikomDeviceProperties.latestUpdate([
+      properties.temperatureMin,
+      properties.temperatureMax,
+      properties.temperatureEco,
+      properties.temperatureComfort,
+      properties.temperatureEcoAdjustment,
+      properties.temperatureComfortAdjustment,
+    ]);
+
+    final when = last.orElseNull ??
+        (properties.lastUpdated.isPresent
+            ? properties.lastUpdated.value
+            : DateTime.now());
+
+    return Thermostat(
+      lastUpdated: when,
+      temperatureTarget: mode == SwitchMode.comfort
+          ? properties.temperatureComfort?.toDouble()
+          : properties.temperatureEco?.toDouble(),
+      temperatureMin: properties.temperatureMin?.toDouble(),
+      temperatureMax: properties.temperatureMax?.toDouble(),
+      temperatureEco: properties.temperatureEco?.toDouble(),
+      temperatureComfort: properties.temperatureComfort?.toDouble(),
+      temperatureEcoAdjustment: properties.temperatureEcoAdjustment?.toDouble(),
+      temperatureComfortAdjustment:
+          properties.temperatureComfortAdjustment?.toDouble(),
     );
   }
 
   /// Get list of modifiable properties
   Set<SikomProperty> get modifiable => {
         if (hasOnOff) properties.switchMode!,
+        if (isThermostat) ...[
+          properties.temperatureMin!,
+          properties.temperatureMax!,
+          properties.temperatureEco!,
+          properties.temperatureComfort!,
+        ],
       };
 
   /// Get diffs between this and given device
@@ -293,9 +362,9 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
     // while "DeviceProperty.temperature_2" will be the secondary temperature. This is (pr Feb 2019) only relevant for
     // "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
     @JsonKey(name: 'temperature') SikomProperty? temperature,
-    // Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+    // Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
     @JsonKey(name: 'temperature_min') SikomProperty? temperatureMin,
-    // Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+    // Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
     @JsonKey(name: 'temperature_max') SikomProperty? temperatureMax,
     // Thermostat temperature in switch_mode 'eco'
     @JsonKey(name: 'temperature_eco') SikomProperty? temperatureEco,
@@ -373,12 +442,21 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
   /// Check if device reports temperature voltage
   bool get hasTemperature => temperature != null;
 
+  /// Check if device is a thermostat
+  bool get isThermostat => switchThermostatActive != null;
+
   /// Parse [DateTime] from [latestUpdateFromDevice]
   Optional<DateTime> get lastUpdated => Optional.ofNullable(
         latestUpdateFromDevice != null
             ? DateTime.tryParse(latestUpdateFromDevice!.value)
             : null,
       );
+
   factory SikomDeviceProperties.fromJson(Map<String, Object?> json) =>
       _$SikomDevicePropertiesFromJson(json);
+
+  static Optional<DateTime> latestUpdate(List<SikomProperty?> props) {
+    final ts = props.map((e) => e?.created).whereNotNull().toList();
+    return ts.isEmpty ? const Optional.empty() : Optional.of(ts.max);
+  }
 }

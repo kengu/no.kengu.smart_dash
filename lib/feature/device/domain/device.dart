@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:smart_dash/feature/device/domain/thermostat.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 
 import 'electric_state.dart';
@@ -82,53 +83,10 @@ class Device with _$Device {
 
     /// Get the device's switch state information (default null)
     SwitchState? onOff,
+
+    /// Get the device's thermostat information (default null)
+    Thermostat? thermostat,
   }) = _Device;
-
-  bool get hasOnOff => capabilities.hasOnOff;
-  bool get hasPower => capabilities.hasPower;
-  bool get hasEnergy => capabilities.hasEnergy;
-  bool get hasVoltage => capabilities.hasVoltage;
-  bool get hasTemperature => capabilities.hasTemperature;
-
-  List<Token> toTokens() => capabilities
-      .map((e) => switch (e) {
-            DeviceCapability.power => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.power,
-                type: DeviceCapability.power.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.energy => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.energy,
-                type: DeviceCapability.energy.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.voltage => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.voltage,
-                type: DeviceCapability.voltage.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.temperature => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.temperature,
-                type: DeviceCapability.temperature.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.onOff => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.onOff,
-                type: DeviceCapability.onOff.type,
-                name: Device.toTokenName(this, e),
-              ),
-          })
-      .toList();
 
   static String toTokenName(Device device, DeviceCapability e) {
     return [e.variable, device.service, 'device', device.id].join(':');
@@ -169,14 +127,6 @@ mixin DeviceMapper {
   Map<String, Object?> toJson();
 }
 
-extension DeviceCapabilityX on List<DeviceCapability> {
-  bool get hasOnOff => any((c) => c.hasOnOff);
-  bool get hasPower => any((c) => c.hasPower);
-  bool get hasEnergy => any((c) => c.hasEnergy);
-  bool get hasVoltage => any((c) => c.hasVoltage);
-  bool get hasTemperature => any((c) => c.hasTemperature);
-}
-
 /// Copied from https://apps-sdk-v3.developer.homey.app/tutorial-device-capabilities.html
 /// TODO: Make my own capability definitions
 enum DeviceCapability {
@@ -185,6 +135,7 @@ enum DeviceCapability {
     'This implies that the device has power measurement capability',
     TokenType.int,
   ),
+
   power(
     'measure_power',
     'This implies that the device has power measurement capability',
@@ -197,16 +148,22 @@ enum DeviceCapability {
     TokenType.int,
   ),
 
+  onOff(
+    'switch_mode',
+    'This implies that the device has on/off switch capability',
+    TokenType.bool,
+  ),
+
   temperature(
     'measure_temperature',
     'This implies that the device has temperature measurement capability',
     TokenType.double,
   ),
 
-  onOff(
-    'onoff',
-    'This implies that the device has on/off switch capability',
-    TokenType.bool,
+  targetTemperature(
+    'target_temperature',
+    'This implies that the device has the ability to regulate temperature',
+    TokenType.double,
   );
 
   bool get hasOnOff => this == onOff;
@@ -214,9 +171,75 @@ enum DeviceCapability {
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
   bool get hasTemperature => this == temperature;
+  bool get hasTargetTemperature => this == DeviceCapability.targetTemperature;
 
   const DeviceCapability(this.variable, this.description, this.type);
   final TokenType type;
   final String variable;
   final String description;
+}
+
+extension DeviceCapabilityX on List<DeviceCapability> {
+  bool get hasOnOff => any((c) => c.hasOnOff);
+  bool get hasPower => any((c) => c.hasPower);
+  bool get hasEnergy => any((c) => c.hasEnergy);
+  bool get hasVoltage => any((c) => c.hasVoltage);
+  bool get hasTemperature => any((c) => c.hasTemperature);
+  bool get hasTargetTemperature => any((c) => c.hasTargetTemperature);
+}
+
+extension DeviceX on Device {
+  bool get hasOnOff => capabilities.hasOnOff;
+  bool get hasPower => capabilities.hasPower;
+  bool get hasEnergy => capabilities.hasEnergy;
+  bool get hasVoltage => capabilities.hasVoltage;
+  bool get hasTemperature => capabilities.hasTemperature;
+  bool get hasTargetTemperature => capabilities.hasTargetTemperature;
+
+  List<Token> toTokens() => capabilities
+      .map((e) => switch (e) {
+            DeviceCapability.power => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.power,
+                type: DeviceCapability.power.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.energy => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.energy,
+                type: DeviceCapability.energy.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.voltage => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.voltage,
+                type: DeviceCapability.voltage.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.onOff => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.onOff,
+                type: DeviceCapability.onOff.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.temperature => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.temperature,
+                type: DeviceCapability.temperature.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.targetTemperature => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.temperature,
+                type: DeviceCapability.targetTemperature.type,
+                name: Device.toTokenName(this, e),
+              ),
+          })
+      .toList();
 }

@@ -42,9 +42,9 @@ class SwitchState with _$SwitchState {
 }
 
 enum SwitchMode {
+  on,
   off,
   eco,
-  on,
   comfort,
   antiFreeze;
 

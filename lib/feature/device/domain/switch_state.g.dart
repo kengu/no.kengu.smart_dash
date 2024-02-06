@@ -25,9 +25,9 @@ Map<String, dynamic> _$$SwitchStateImplToJson(_$SwitchStateImpl instance) =>
     };
 
 const _$SwitchModeEnumMap = {
+  SwitchMode.on: 'on',
   SwitchMode.off: 'off',
   SwitchMode.eco: 'eco',
-  SwitchMode.on: 'on',
   SwitchMode.comfort: 'comfort',
   SwitchMode.antiFreeze: 'antiFreeze',
 };

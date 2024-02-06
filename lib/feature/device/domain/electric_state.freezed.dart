@@ -26,17 +26,20 @@ mixin _$ElectricState {
   /// Last measured power usage (watt)
   int? get currentPower => throw _privateConstructorUsedError;
 
-  /// Last estimated regulated power usage reduction (in negative watts)
-  int? get estimatedRegulatedPower => throw _privateConstructorUsedError;
-
-  /// Last estimated unregulated power usage (watt)
-  int? get estimatedUnregulatedPower => throw _privateConstructorUsedError;
-
   /// Energy accumulated from start (in watt/h, default null)
   int? get cumulative => throw _privateConstructorUsedError;
 
   /// Energy accumulated from midnight (in watt/h, default null)
   int? get cumulativeToday => throw _privateConstructorUsedError;
+
+  /// Flag indicating that power is currently regulated (up or down)
+  bool? get isPowerRegulated => throw _privateConstructorUsedError;
+
+  /// Last estimated regulated power usage reduction (in negative watts)
+  int? get estimatedRegulatedPower => throw _privateConstructorUsedError;
+
+  /// Last estimated unregulated power usage (watt)
+  int? get estimatedUnregulatedPower => throw _privateConstructorUsedError;
 
   /// [DateTime] timestamp of when data was updated last
   DateTime get lastUpdated => throw _privateConstructorUsedError;
@@ -56,10 +59,11 @@ abstract class $ElectricStateCopyWith<$Res> {
   $Res call(
       {int? voltage,
       int? currentPower,
-      int? estimatedRegulatedPower,
-      int? estimatedUnregulatedPower,
       int? cumulative,
       int? cumulativeToday,
+      bool? isPowerRegulated,
+      int? estimatedRegulatedPower,
+      int? estimatedUnregulatedPower,
       DateTime lastUpdated});
 }
 
@@ -78,10 +82,11 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
   $Res call({
     Object? voltage = freezed,
     Object? currentPower = freezed,
-    Object? estimatedRegulatedPower = freezed,
-    Object? estimatedUnregulatedPower = freezed,
     Object? cumulative = freezed,
     Object? cumulativeToday = freezed,
+    Object? isPowerRegulated = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
     Object? lastUpdated = null,
   }) {
     return _then(_value.copyWith(
@@ -93,14 +98,6 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
           ? _value.currentPower
           : currentPower // ignore: cast_nullable_to_non_nullable
               as int?,
-      estimatedRegulatedPower: freezed == estimatedRegulatedPower
-          ? _value.estimatedRegulatedPower
-          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
-              as int?,
-      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
-          ? _value.estimatedUnregulatedPower
-          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
-              as int?,
       cumulative: freezed == cumulative
           ? _value.cumulative
           : cumulative // ignore: cast_nullable_to_non_nullable
@@ -108,6 +105,18 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
       cumulativeToday: freezed == cumulativeToday
           ? _value.cumulativeToday
           : cumulativeToday // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isPowerRegulated: freezed == isPowerRegulated
+          ? _value.isPowerRegulated
+          : isPowerRegulated // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
               as int?,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
@@ -128,10 +137,11 @@ abstract class _$$ElectricStateImplCopyWith<$Res>
   $Res call(
       {int? voltage,
       int? currentPower,
-      int? estimatedRegulatedPower,
-      int? estimatedUnregulatedPower,
       int? cumulative,
       int? cumulativeToday,
+      bool? isPowerRegulated,
+      int? estimatedRegulatedPower,
+      int? estimatedUnregulatedPower,
       DateTime lastUpdated});
 }
 
@@ -148,10 +158,11 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
   $Res call({
     Object? voltage = freezed,
     Object? currentPower = freezed,
-    Object? estimatedRegulatedPower = freezed,
-    Object? estimatedUnregulatedPower = freezed,
     Object? cumulative = freezed,
     Object? cumulativeToday = freezed,
+    Object? isPowerRegulated = freezed,
+    Object? estimatedRegulatedPower = freezed,
+    Object? estimatedUnregulatedPower = freezed,
     Object? lastUpdated = null,
   }) {
     return _then(_$ElectricStateImpl(
@@ -163,14 +174,6 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
           ? _value.currentPower
           : currentPower // ignore: cast_nullable_to_non_nullable
               as int?,
-      estimatedRegulatedPower: freezed == estimatedRegulatedPower
-          ? _value.estimatedRegulatedPower
-          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
-              as int?,
-      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
-          ? _value.estimatedUnregulatedPower
-          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
-              as int?,
       cumulative: freezed == cumulative
           ? _value.cumulative
           : cumulative // ignore: cast_nullable_to_non_nullable
@@ -178,6 +181,18 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
       cumulativeToday: freezed == cumulativeToday
           ? _value.cumulativeToday
           : cumulativeToday // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isPowerRegulated: freezed == isPowerRegulated
+          ? _value.isPowerRegulated
+          : isPowerRegulated // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      estimatedRegulatedPower: freezed == estimatedRegulatedPower
+          ? _value.estimatedRegulatedPower
+          : estimatedRegulatedPower // ignore: cast_nullable_to_non_nullable
+              as int?,
+      estimatedUnregulatedPower: freezed == estimatedUnregulatedPower
+          ? _value.estimatedUnregulatedPower
+          : estimatedUnregulatedPower // ignore: cast_nullable_to_non_nullable
               as int?,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
@@ -193,10 +208,11 @@ class _$ElectricStateImpl extends _ElectricState {
   const _$ElectricStateImpl(
       {this.voltage,
       this.currentPower,
-      this.estimatedRegulatedPower,
-      this.estimatedUnregulatedPower,
       this.cumulative,
       this.cumulativeToday,
+      this.isPowerRegulated,
+      this.estimatedRegulatedPower,
+      this.estimatedUnregulatedPower,
       required this.lastUpdated})
       : super._();
 
@@ -211,14 +227,6 @@ class _$ElectricStateImpl extends _ElectricState {
   @override
   final int? currentPower;
 
-  /// Last estimated regulated power usage reduction (in negative watts)
-  @override
-  final int? estimatedRegulatedPower;
-
-  /// Last estimated unregulated power usage (watt)
-  @override
-  final int? estimatedUnregulatedPower;
-
   /// Energy accumulated from start (in watt/h, default null)
   @override
   final int? cumulative;
@@ -227,13 +235,25 @@ class _$ElectricStateImpl extends _ElectricState {
   @override
   final int? cumulativeToday;
 
+  /// Flag indicating that power is currently regulated (up or down)
+  @override
+  final bool? isPowerRegulated;
+
+  /// Last estimated regulated power usage reduction (in negative watts)
+  @override
+  final int? estimatedRegulatedPower;
+
+  /// Last estimated unregulated power usage (watt)
+  @override
+  final int? estimatedUnregulatedPower;
+
   /// [DateTime] timestamp of when data was updated last
   @override
   final DateTime lastUpdated;
 
   @override
   String toString() {
-    return 'ElectricState(voltage: $voltage, currentPower: $currentPower, estimatedRegulatedPower: $estimatedRegulatedPower, estimatedUnregulatedPower: $estimatedUnregulatedPower, cumulative: $cumulative, cumulativeToday: $cumulativeToday, lastUpdated: $lastUpdated)';
+    return 'ElectricState(voltage: $voltage, currentPower: $currentPower, cumulative: $cumulative, cumulativeToday: $cumulativeToday, isPowerRegulated: $isPowerRegulated, estimatedRegulatedPower: $estimatedRegulatedPower, estimatedUnregulatedPower: $estimatedUnregulatedPower, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -244,16 +264,18 @@ class _$ElectricStateImpl extends _ElectricState {
             (identical(other.voltage, voltage) || other.voltage == voltage) &&
             (identical(other.currentPower, currentPower) ||
                 other.currentPower == currentPower) &&
+            (identical(other.cumulative, cumulative) ||
+                other.cumulative == cumulative) &&
+            (identical(other.cumulativeToday, cumulativeToday) ||
+                other.cumulativeToday == cumulativeToday) &&
+            (identical(other.isPowerRegulated, isPowerRegulated) ||
+                other.isPowerRegulated == isPowerRegulated) &&
             (identical(
                     other.estimatedRegulatedPower, estimatedRegulatedPower) ||
                 other.estimatedRegulatedPower == estimatedRegulatedPower) &&
             (identical(other.estimatedUnregulatedPower,
                     estimatedUnregulatedPower) ||
                 other.estimatedUnregulatedPower == estimatedUnregulatedPower) &&
-            (identical(other.cumulative, cumulative) ||
-                other.cumulative == cumulative) &&
-            (identical(other.cumulativeToday, cumulativeToday) ||
-                other.cumulativeToday == cumulativeToday) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated));
   }
@@ -264,10 +286,11 @@ class _$ElectricStateImpl extends _ElectricState {
       runtimeType,
       voltage,
       currentPower,
-      estimatedRegulatedPower,
-      estimatedUnregulatedPower,
       cumulative,
       cumulativeToday,
+      isPowerRegulated,
+      estimatedRegulatedPower,
+      estimatedUnregulatedPower,
       lastUpdated);
 
   @JsonKey(ignore: true)
@@ -288,10 +311,11 @@ abstract class _ElectricState extends ElectricState {
   const factory _ElectricState(
       {final int? voltage,
       final int? currentPower,
-      final int? estimatedRegulatedPower,
-      final int? estimatedUnregulatedPower,
       final int? cumulative,
       final int? cumulativeToday,
+      final bool? isPowerRegulated,
+      final int? estimatedRegulatedPower,
+      final int? estimatedUnregulatedPower,
       required final DateTime lastUpdated}) = _$ElectricStateImpl;
   const _ElectricState._() : super._();
 
@@ -308,20 +332,24 @@ abstract class _ElectricState extends ElectricState {
   int? get currentPower;
   @override
 
-  /// Last estimated regulated power usage reduction (in negative watts)
-  int? get estimatedRegulatedPower;
-  @override
-
-  /// Last estimated unregulated power usage (watt)
-  int? get estimatedUnregulatedPower;
-  @override
-
   /// Energy accumulated from start (in watt/h, default null)
   int? get cumulative;
   @override
 
   /// Energy accumulated from midnight (in watt/h, default null)
   int? get cumulativeToday;
+  @override
+
+  /// Flag indicating that power is currently regulated (up or down)
+  bool? get isPowerRegulated;
+  @override
+
+  /// Last estimated regulated power usage reduction (in negative watts)
+  int? get estimatedRegulatedPower;
+  @override
+
+  /// Last estimated unregulated power usage (watt)
+  int? get estimatedUnregulatedPower;
   @override
 
   /// [DateTime] timestamp of when data was updated last

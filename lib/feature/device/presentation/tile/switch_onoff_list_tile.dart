@@ -8,6 +8,7 @@ import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/feature/device/presentation/utils.dart';
 import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/widget.dart';
+import 'package:strings/strings.dart';
 
 class SwitchOnOffListTile extends ConsumerStatefulWidget {
   const SwitchOnOffListTile({
@@ -167,9 +168,7 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: Text(
-                            device.electric
-                                    ?.getEstimatedPower(false)
-                                    ?.toPower() ??
+                            device.electric?.getEstimatedPower()?.toPower() ??
                                 '-',
                             style: legendTextStyle,
                           ),
@@ -181,9 +180,9 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
             ),
             trailing: SwitchOnOffButton(
               device: device,
-              onSelected: widget.onSelected,
               enabled: widget.enabled,
               updating: widget.updating,
+              onSelected: widget.onSelected,
             ),
           );
         });
@@ -195,13 +194,15 @@ class SwitchOnOffButton extends ConsumerStatefulWidget {
     super.key,
     required this.device,
     required this.onSelected,
-    this.enabled = true,
     this.updating,
+    this.enabled = true,
+    this.showSelectedIcon = false,
   });
 
   final bool enabled;
   final Device device;
   final SwitchMode? updating;
+  final bool showSelectedIcon;
 
   final Future<(bool, SwitchMode)> Function(SwitchMode newMode) onSelected;
 
@@ -238,16 +239,16 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 170,
+          width: widget.showSelectedIcon ? 200 : 170,
           child: SegmentedButton<SwitchMode>(
-            showSelectedIcon: false,
             emptySelectionAllowed: false,
             multiSelectionEnabled: false,
             selected: _segmentedButtonSelection,
+            showSelectedIcon: widget.showSelectedIcon,
             onSelectionChanged: _onSelectionChanged,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith(
@@ -271,7 +272,7 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
                     ? 'Unable to apply ${mode.name} mode'
                     : null,
                 label: Text(
-                  mode.name,
+                  mode.name.toCapitalised(),
                   textScaler: const TextScaler.linear(0.8),
                 ),
               );

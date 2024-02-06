@@ -15,28 +15,33 @@ class ElectricState with _$ElectricState {
     /// Last measured power usage (watt)
     int? currentPower,
 
-    /// Last estimated regulated power usage reduction (in negative watts)
-    int? estimatedRegulatedPower,
-
-    /// Last estimated unregulated power usage (watt)
-    int? estimatedUnregulatedPower,
-
     /// Energy accumulated from start (in watt/h, default null)
     int? cumulative,
 
     /// Energy accumulated from midnight (in watt/h, default null)
     int? cumulativeToday,
 
+    /// Flag indicating that power is currently regulated (up or down)
+    bool? isPowerRegulated,
+
+    /// Last estimated regulated power usage reduction (in negative watts)
+    int? estimatedRegulatedPower,
+
+    /// Last estimated unregulated power usage (watt)
+    int? estimatedUnregulatedPower,
+
     /// [DateTime] timestamp of when data was updated last
     required DateTime lastUpdated,
   }) = _ElectricState;
 
   /// Last estimated power usage (watt)
-  int? getEstimatedPower(bool regulated) =>
-      estimatedRegulatedPower != null || estimatedUnregulatedPower != null
-          ? (estimatedUnregulatedPower ?? 0) +
-              (regulated ? (estimatedRegulatedPower ?? 0) : 0)
-          : null;
+  int? getEstimatedPower([bool? regulated]) {
+    regulated ??= isPowerRegulated ?? false;
+    return estimatedRegulatedPower != null || estimatedUnregulatedPower != null
+        ? (estimatedUnregulatedPower ?? 0) +
+            (regulated ? (estimatedRegulatedPower ?? 0) : 0)
+        : null;
+  }
 
   static ElectricState empty() => ElectricState(
         lastUpdated: DateTime.fromMillisecondsSinceEpoch(0),

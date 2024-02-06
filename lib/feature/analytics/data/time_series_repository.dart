@@ -8,6 +8,7 @@ import 'package:smart_dash/feature/analytics/data/drift/time_series_database.dar
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/drift/connection.dart';

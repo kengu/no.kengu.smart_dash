@@ -38,14 +38,15 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
         builder: (context, snapshot) {
           final device = snapshot.data?.device ?? widget.device.orElseNull;
           final enabled = widget.enabled || device != null;
-          final mode = device?.onOff?.mode ?? SwitchMode.off;
           final actual = device?.temperature ?? 0;
+          final thermostat = device?.thermostat;
+          final mode = device?.onOff?.mode ?? SwitchMode.off;
           final target = switch (mode) {
-            SwitchMode.off => 0.0,
-            SwitchMode.eco => eco,
             SwitchMode.on => actual,
-            SwitchMode.comfort => comfort,
             SwitchMode.antiFreeze => actual,
+            SwitchMode.off => thermostat?.temperatureEco ?? 0.0,
+            SwitchMode.eco => thermostat?.temperatureEco ?? eco,
+            SwitchMode.comfort => thermostat?.temperatureComfort ?? comfort,
           };
           final values = [actual];
           return SmartKnob(
@@ -88,9 +89,7 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
                           ),
                           const SizedBox.square(dimension: 4),
                           Text(
-                            device?.electric
-                                    ?.getEstimatedPower(false)
-                                    ?.toPower() ??
+                            device?.electric?.getEstimatedPower()?.toPower() ??
                                 '-',
                             textScaler: const TextScaler.linear(0.8),
                           ),

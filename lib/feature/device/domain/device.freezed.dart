@@ -50,6 +50,9 @@ mixin _$Device {
   /// Get the device's switch state information (default null)
   SwitchState? get onOff => throw _privateConstructorUsedError;
 
+  /// Get the device's thermostat information (default null)
+  Thermostat? get thermostat => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DeviceCopyWith<Device> get copyWith => throw _privateConstructorUsedError;
@@ -70,10 +73,12 @@ abstract class $DeviceCopyWith<$Res> {
       DateTime lastUpdated,
       double? temperature,
       ElectricState? electric,
-      SwitchState? onOff});
+      SwitchState? onOff,
+      Thermostat? thermostat});
 
   $ElectricStateCopyWith<$Res>? get electric;
   $SwitchStateCopyWith<$Res>? get onOff;
+  $ThermostatCopyWith<$Res>? get thermostat;
 }
 
 /// @nodoc
@@ -99,6 +104,7 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? temperature = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
+    Object? thermostat = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -141,6 +147,10 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.onOff
           : onOff // ignore: cast_nullable_to_non_nullable
               as SwitchState?,
+      thermostat: freezed == thermostat
+          ? _value.thermostat
+          : thermostat // ignore: cast_nullable_to_non_nullable
+              as Thermostat?,
     ) as $Val);
   }
 
@@ -167,6 +177,18 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       return _then(_value.copyWith(onOff: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ThermostatCopyWith<$Res>? get thermostat {
+    if (_value.thermostat == null) {
+      return null;
+    }
+
+    return $ThermostatCopyWith<$Res>(_value.thermostat!, (value) {
+      return _then(_value.copyWith(thermostat: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -186,12 +208,15 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       DateTime lastUpdated,
       double? temperature,
       ElectricState? electric,
-      SwitchState? onOff});
+      SwitchState? onOff,
+      Thermostat? thermostat});
 
   @override
   $ElectricStateCopyWith<$Res>? get electric;
   @override
   $SwitchStateCopyWith<$Res>? get onOff;
+  @override
+  $ThermostatCopyWith<$Res>? get thermostat;
 }
 
 /// @nodoc
@@ -215,6 +240,7 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? temperature = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
+    Object? thermostat = freezed,
   }) {
     return _then(_$DeviceImpl(
       id: null == id
@@ -257,6 +283,10 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.onOff
           : onOff // ignore: cast_nullable_to_non_nullable
               as SwitchState?,
+      thermostat: freezed == thermostat
+          ? _value.thermostat
+          : thermostat // ignore: cast_nullable_to_non_nullable
+              as Thermostat?,
     ));
   }
 }
@@ -274,7 +304,8 @@ class _$DeviceImpl extends _Device {
       required this.lastUpdated,
       this.temperature,
       this.electric,
-      this.onOff})
+      this.onOff,
+      this.thermostat})
       : _data = data,
         _capabilities = capabilities,
         super._();
@@ -336,9 +367,13 @@ class _$DeviceImpl extends _Device {
   @override
   final SwitchState? onOff;
 
+  /// Get the device's thermostat information (default null)
+  @override
+  final Thermostat? thermostat;
+
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, temperature: $temperature, electric: $electric, onOff: $onOff)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, temperature: $temperature, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
   }
 
   @override
@@ -359,7 +394,9 @@ class _$DeviceImpl extends _Device {
                 other.temperature == temperature) &&
             (identical(other.electric, electric) ||
                 other.electric == electric) &&
-            (identical(other.onOff, onOff) || other.onOff == onOff));
+            (identical(other.onOff, onOff) || other.onOff == onOff) &&
+            (identical(other.thermostat, thermostat) ||
+                other.thermostat == thermostat));
   }
 
   @JsonKey(ignore: true)
@@ -375,7 +412,8 @@ class _$DeviceImpl extends _Device {
       lastUpdated,
       temperature,
       electric,
-      onOff);
+      onOff,
+      thermostat);
 
   @JsonKey(ignore: true)
   @override
@@ -402,7 +440,8 @@ abstract class _Device extends Device {
       required final DateTime lastUpdated,
       final double? temperature,
       final ElectricState? electric,
-      final SwitchState? onOff}) = _$DeviceImpl;
+      final SwitchState? onOff,
+      final Thermostat? thermostat}) = _$DeviceImpl;
   const _Device._() : super._();
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
@@ -447,6 +486,10 @@ abstract class _Device extends Device {
 
   /// Get the device's switch state information (default null)
   SwitchState? get onOff;
+  @override
+
+  /// Get the device's thermostat information (default null)
+  Thermostat? get thermostat;
   @override
   @JsonKey(ignore: true)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>

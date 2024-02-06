@@ -254,10 +254,10 @@ mixin _$SikomDeviceProperties {
 // "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
   @JsonKey(name: 'temperature')
   SikomProperty? get temperature =>
-      throw _privateConstructorUsedError; // Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+      throw _privateConstructorUsedError; // Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
   @JsonKey(name: 'temperature_min')
   SikomProperty? get temperatureMin =>
-      throw _privateConstructorUsedError; // Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+      throw _privateConstructorUsedError; // Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
   @JsonKey(name: 'temperature_max')
   SikomProperty? get temperatureMax =>
       throw _privateConstructorUsedError; // Thermostat temperature in switch_mode 'eco'
@@ -1462,11 +1462,11 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
   @override
   @JsonKey(name: 'temperature')
   final SikomProperty? temperature;
-// Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+// Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
   @override
   @JsonKey(name: 'temperature_min')
   final SikomProperty? temperatureMin;
-// Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+// Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
   @override
   @JsonKey(name: 'temperature_max')
   final SikomProperty? temperatureMax;
@@ -1800,10 +1800,10 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
 // "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
   @JsonKey(name: 'temperature')
   SikomProperty? get temperature;
-  @override // Maximum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  @override // Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
   @JsonKey(name: 'temperature_min')
   SikomProperty? get temperatureMin;
-  @override // Minimum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  @override // Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
   @JsonKey(name: 'temperature_max')
   SikomProperty? get temperatureMax;
   @override // Thermostat temperature in switch_mode 'eco'
