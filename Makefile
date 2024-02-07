@@ -171,6 +171,26 @@ android-install:
 	read -p "> Select device id: " id; \
 	bundletool install-apks --apks=build/app/outputs/smartdash.apks --device-id $$id;
 
+macos-carthage-repair:
+	echo "Repairing MacOSX setup"; \
+	cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/
+	sudo mkdir arc
+	cd arc
+	sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .
+	sudo chmod +x *
+
+macos-carthage-update:
+	cd macos
+	pod update
+	cd Runner.xcworkspace/
+	carthage bootstrap
+
+macos-carthage-boostrap:
+	cd macos
+	pod update
+	cd Runner.xcworkspace/
+	carthage update --use-xcframeworks --platform macOS
+
 upgrade:
 	echo "Updating packages..."
 	flutter pub upgrade --major-versions
