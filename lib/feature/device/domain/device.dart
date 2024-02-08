@@ -5,6 +5,10 @@ import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'electric_state.dart';
 import 'switch_state.dart';
 
+export 'package:smart_dash/feature/device/domain/electric_state.dart';
+export 'package:smart_dash/feature/device/domain/thermostat.dart';
+export 'package:smart_dash/feature/flow/domain/token.dart';
+
 part 'device.freezed.dart';
 part 'device.g.dart';
 

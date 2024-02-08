@@ -1,7 +1,6 @@
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 
 class SikomFlow extends Flow {
   SikomFlow() : super('sikom');

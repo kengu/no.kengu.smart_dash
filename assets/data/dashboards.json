@@ -514,15 +514,185 @@
     "tokens": [
       {
         "tag": "power",
+        "name": "measure_temperature:sikom:device:540241",
+        "label": "Gang",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
         "name": "measure_temperature:sikom:device:540242",
         "label": "Vaskerom",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540243",
+        "label": "Bad forside",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540244",
+        "label": "Stue/spisestue",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540319",
+        "label": "Bad bakside",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540320",
+        "label": "Soverom gjester",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540321",
+        "label": "Soverom Ella",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540322",
+        "label": "Soverom foreldre",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540323",
+        "label": "Hems Emil",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540324",
+        "label": "Hems Noah",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:541890",
+        "label": "Bod",
         "type": "int",
         "unit": "power"
       }
     ],
     "mobile": [
       {
+        "item_id": "measure_temperature:sikom:device:540241",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
         "item_id": "measure_temperature:sikom:device:540242",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540243",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540244",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540320",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540321",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540322",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540323",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540324",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:541890",
         "layout": {
           "w": 4,
           "h": 1,
@@ -542,6 +712,106 @@
           "min_H": 1,
           "max_W": 3
         }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540242",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540243",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540244",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540320",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540321",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540322",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540323",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540324",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
       }
     ],
     "tablet": [
@@ -554,11 +824,221 @@
           "min_H": 1,
           "max_W": 2
         }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540242",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540243",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540244",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540320",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540321",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540322",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540323",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540324",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 2,
+          "h": 1,
+          "min_W": 2,
+          "min_H": 1,
+          "max_W": 2
+        }
       }
     ],
     "desktop": [
       {
         "item_id": "measure_temperature:sikom:device:540242",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540242",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540243",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540244",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540320",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540321",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540322",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540323",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540324",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:541890",
         "layout": {
           "w": 3,
           "h": 2,

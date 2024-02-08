@@ -158,9 +158,20 @@ class SikomClient {
       final path = '/Device/$id/AddProperty/${property.name}/${property.value}';
       final response = await api.get(
         path,
-        options: Options(headers: <String, String>{
-          'authorization': toBasicAuth(credentials.value)
-        }),
+        options: Options(
+          headers: <String, String>{
+            'authorization': toBasicAuth(credentials.value)
+          },
+          validateStatus: (status) {
+            final success = status != null && status < 400;
+            if (!success) {
+              debugPrint(
+                'Applied Sikom Property failed: [$status] $path',
+              );
+            }
+            return success;
+          },
+        ),
       );
       debugPrint(
         'Applied Sikom Property: [${response.statusCode}] ${response.realUri}',

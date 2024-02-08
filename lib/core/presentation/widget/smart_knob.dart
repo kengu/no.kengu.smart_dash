@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash/util/widget.dart';
 
 typedef SmartKnobValueBuilder = Widget Function(double value);
 
@@ -10,19 +11,25 @@ class SmartKnob extends StatefulWidget {
     super.key,
     double? value,
     this.size = 150,
+    this.knobColor,
     this.valueBuilder,
+    this.onValueChanged,
+    this.enabled = true,
+    this.updating = false,
     this.tickLabelBuilder,
     required this.minValue,
     required this.maxValue,
-    this.onValueChanged,
     this.sections = const [],
   }) : value = value ?? minValue;
 
   final double size;
   final double value;
+  final bool enabled;
+  final bool updating;
   final List<SmartKnobSectionData> sections;
   final double minValue;
   final double maxValue;
+  final Color? knobColor;
   final ValueSetter<double>? onValueChanged;
   final SmartKnobValueBuilder? valueBuilder;
   final SmartKnobTickLabelBuilder? tickLabelBuilder;
@@ -38,9 +45,9 @@ class SmartKnobState extends State<SmartKnob> {
 
   double _angle = 0.0;
 
-  late SmartKnobValueBuilder _valueBuilder;
+  late MaterialColor _knobColor;
 
-  bool get isEnabled => widget.onValueChanged != null;
+  late SmartKnobValueBuilder _valueBuilder;
 
   @override
   void initState() {
@@ -57,9 +64,9 @@ class SmartKnobState extends State<SmartKnob> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      // TODO: Fix this
       width: widget.size + 100,
-      height: widget.size + 120,
-      child: isEnabled
+      child: widget.enabled
           ? GestureDetector(
               onTapUp: (details) => _onUpdate(details.globalPosition, true),
               onPanUpdate: (details) =>
@@ -80,20 +87,21 @@ class SmartKnobState extends State<SmartKnob> {
         clipBehavior: Clip.antiAlias,
         alignment: Alignment.center,
         children: [
-          CustomPaint(
-            painter: KnobSectionPainter(
-              minAngle: pi,
-              color: widget.sections.first.color,
-              angle: _toAngle(
-                widget.sections.first.value,
-                _range,
+          if (widget.sections.isNotEmpty)
+            CustomPaint(
+              painter: KnobSectionPainter(
+                minAngle: pi,
+                color: widget.sections.first.color,
+                angle: _toAngle(
+                  widget.sections.first.value,
+                  _range,
+                ),
+              ), // Adjust the radius as needed
+              child: SizedBox(
+                width: widget.size - 18,
+                height: widget.size - 18,
               ),
-            ), // Adjust the radius as needed
-            child: SizedBox(
-              width: widget.size - 18,
-              height: widget.size - 18,
             ),
-          ),
           CustomPaint(
             painter: SmartKnobTicksPainter(
               minAngle: pi,
@@ -105,8 +113,9 @@ class SmartKnobState extends State<SmartKnob> {
               numberOfTicks: _range.toInt(),
               tickLabelBuilder: _tickLabelBuilder(),
               selectAngles: [
-                _toAngle(_value, _range) + 2 * pi,
-                _toAngle(widget.sections.first.value, _range) + 2 * pi,
+                if (widget.enabled) _toAngle(_value, _range) + 2 * pi,
+                if (widget.sections.isNotEmpty)
+                  _toAngle(widget.sections.first.value, _range) + 2 * pi,
               ],
             ), // Adjust the radius as needed
             child: SizedBox(
@@ -128,22 +137,23 @@ class SmartKnobState extends State<SmartKnob> {
             color: Colors.blue,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             borderRadius: BorderRadius.all(
-              Radius.circular(widget.size + 8),
+              Radius.circular(widget.size + 24),
             ),
             child: Container(
               width: widget.size - 16,
               height: widget.size - 16,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.lightGreen.shade600,
+                color: _knobColor.shade600,
               ),
               alignment: Alignment.center,
             ),
           ),
           CustomPaint(
-            foregroundPainter: isEnabled
+            foregroundPainter: widget.enabled
                 ? SmartKnobIndicatorPainter(
                     _angle,
+                    color: widget.knobColor,
                   )
                 : null,
             child: Padding(
@@ -153,13 +163,21 @@ class SmartKnobState extends State<SmartKnob> {
                 height: widget.size - 32,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.lightGreen.shade700,
+                  color: _knobColor.shade700,
                 ),
                 alignment: Alignment.center,
               ),
             ),
           ),
           _valueBuilder(_value),
+          if (widget.updating)
+            SizedBox(
+              width: widget.size - 32,
+              height: widget.size - 32,
+              child: CircularProgressIndicator(
+                color: _knobColor,
+              ),
+            ),
         ],
       ),
     );
@@ -176,6 +194,12 @@ class SmartKnobState extends State<SmartKnob> {
       _value,
       _range,
     );
+    final primaryColor = widget.knobColor ?? Colors.lightGreen;
+    _knobColor = widget.enabled
+        ? primaryColor is MaterialColor
+            ? primaryColor
+            : toMaterial(primaryColor)
+        : Colors.grey;
   }
 
   double _toAngle(double value, double range) {
@@ -211,7 +235,12 @@ class SmartKnobState extends State<SmartKnob> {
     angle = _snapTo(angle);
 
     if (angle >= 0) {
-      angle = angle > pi / 2 ? -pi : 0;
+      if (notify) {
+        final steps = pi / _range;
+        angle = _snapTo(angle > pi / 2 ? _angle - steps : _angle + steps);
+      } else {
+        angle = angle > pi / 2 ? -pi : 0;
+      }
     }
 
     if (_angle != angle) {
@@ -224,7 +253,7 @@ class SmartKnobState extends State<SmartKnob> {
   }
 
   void _notify() {
-    if (widget.onValueChanged != null) {
+    if (widget.enabled && widget.onValueChanged != null) {
       widget.onValueChanged!(_value);
     }
   }
@@ -261,16 +290,17 @@ class SmartKnobSectionData {
 }
 
 class SmartKnobIndicatorPainter extends CustomPainter {
-  final double angle;
+  SmartKnobIndicatorPainter(this.angle, {this.color});
 
-  SmartKnobIndicatorPainter(this.angle);
+  final double angle;
+  final Color? color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final Offset center = Offset(size.width / 2, size.height / 2);
     final double radius = size.width / 2;
     final Paint paint = Paint()
-      ..color = Colors.white54
+      ..color = color ?? Colors.white54
       ..style = PaintingStyle.fill;
 
     // Calculate the position of the indicator dot on the edge of the circle

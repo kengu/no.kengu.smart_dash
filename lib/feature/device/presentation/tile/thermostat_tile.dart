@@ -8,7 +8,6 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/feature/device/presentation/knob/thermostat_knob.dart';
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/widget.dart';
 
@@ -28,7 +27,7 @@ class ThermostatTile extends ConsumerStatefulWidget {
 
 class _ThermostatTileState extends ConsumerState<ThermostatTile> {
   Optional<Device> _device = const Optional.empty();
-  Optional<SwitchMode> _updating = const Optional.empty();
+  Optional<Device> _updating = const Optional.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,6 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
           constraints: const BoxConstraints(
             maxWidth: 330,
             minWidth: 330,
-            minHeight: 330,
           ).normalize(),
           leading: const Icon(
             CupertinoIcons.thermometer,
@@ -61,16 +59,29 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
           ),
           body: device.isPresent
               ? Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     ThermostatKnob(
                       device: device,
+                      enabled: device.isPresent,
+                      updating: _updating.orElseNull?.getTargetTemperature(),
+                      onValueChanged: (newValue) => _applyTarget(
+                        device.value,
+                        newValue,
+                      ),
+                    ),
+                    const SizedBox.square(
+                      dimension: 24,
                     ),
                     SwitchOnOffButton(
-                      enabled: true,
                       device: device.value,
                       showSelectedIcon: true,
-                      updating: _updating.orElseNull,
-                      onSelected: (newMode) => _apply(device.value, newMode),
+                      enabled: device.isPresent && !_updating.isPresent,
+                      updating: _updating.orElseNull?.onOff?.mode,
+                      onSelected: (newMode) => _applyMode(
+                        device.value,
+                        newMode,
+                      ),
                     )
                   ],
                 )
@@ -93,15 +104,44 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
     return _device = snapshot.hasData ? snapshot.data! : const Optional.empty();
   }
 
-  Future<(bool, SwitchMode)> _apply(Device device, SwitchMode newMode) async {
-    _updating = Optional.of(newMode);
-    _device = await ref
-        .read(deviceServiceProvider)
-        .update(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
-    _updating = const Optional.empty();
+  Future<(bool, SwitchMode)> _applyMode(
+      Device device, SwitchMode newMode) async {
+    final next = (_updating.orElseNull ?? device).setSwitchNode(
+      newMode,
+    );
+    setState(() {
+      _updating = Optional.of(next);
+    });
+    _device = await ref.read(deviceServiceProvider).update(next);
+    if (mounted) {
+      setState(() {
+        _updating = const Optional.empty();
+      });
+    }
     return (
       _device.isPresent,
       _device.isPresent ? _device.value.onOff!.mode : device.onOff!.mode,
+    );
+  }
+
+  Future<(bool, double)> _applyTarget(Device device, double newValue) async {
+    final next = (_updating.orElseNull ?? device).setTargetTemperature(
+      newValue,
+    );
+    setState(() {
+      _updating = Optional.of(next);
+    });
+    _device = await ref.read(deviceServiceProvider).update(next);
+    if (mounted) {
+      setState(() {
+        _updating = const Optional.empty();
+      });
+    }
+    return (
+      _device.isPresent,
+      (_device.isPresent
+          ? _device.value.getTargetTemperature()
+          : device.getTargetTemperature())!,
     );
   }
 }

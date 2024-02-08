@@ -129,36 +129,3 @@ Stream<FlowEvent> flow(FlowRef ref) async* {
     yield event;
   }
 }
-
-@riverpod
-Stream<FlowEvent> power(PowerRef ref) async* {
-  final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.token.isPower)) {
-    yield event;
-  }
-}
-
-@riverpod
-Stream<FlowEvent> energy(EnergyRef ref) async* {
-  final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.token.isEnergy)) {
-    yield event;
-  }
-}
-
-@riverpod
-Stream<FlowEvent> voltage(VoltageRef ref) async* {
-  final manager = ref.watch(flowManagerProvider);
-  await for (final event in manager.events.where((e) => e.token.isVoltage)) {
-    yield event;
-  }
-}
-
-@riverpod
-Stream<FlowEvent> temperature(TemperatureRef ref) async* {
-  final manager = ref.watch(flowManagerProvider);
-  await for (final event
-      in manager.events.where((e) => e.token.isTemperature)) {
-    yield event;
-  }
-}

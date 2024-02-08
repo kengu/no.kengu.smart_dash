@@ -8,7 +8,6 @@ part of 'thermostat.dart';
 
 _$ThermostatImpl _$$ThermostatImplFromJson(Map<String, dynamic> json) =>
     _$ThermostatImpl(
-      temperatureTarget: (json['temperatureTarget'] as num?)?.toDouble(),
       temperatureMin: (json['temperatureMin'] as num?)?.toDouble(),
       temperatureMax: (json['temperatureMax'] as num?)?.toDouble(),
       temperatureEco: (json['temperatureEco'] as num?)?.toDouble(),
@@ -22,7 +21,6 @@ _$ThermostatImpl _$$ThermostatImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ThermostatImplToJson(_$ThermostatImpl instance) =>
     <String, dynamic>{
-      'temperatureTarget': instance.temperatureTarget,
       'temperatureMin': instance.temperatureMin,
       'temperatureMax': instance.temperatureMax,
       'temperatureEco': instance.temperatureEco,

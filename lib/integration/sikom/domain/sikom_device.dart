@@ -3,10 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/device/domain/electric_state.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
-import 'package:smart_dash/feature/device/domain/thermostat.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
 
@@ -161,6 +158,7 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
           if (properties.hasTemperature) DeviceCapability.temperature,
           if (properties.hasPower || properties.hasEstimatedPower)
             DeviceCapability.power,
+          if (properties.isThermostat) DeviceCapability.targetTemperature,
         ],
         lastUpdated: properties.lastUpdated.isPresent
             ? properties.lastUpdated.value
@@ -241,9 +239,6 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
 
   Thermostat? toThermostat() {
     if (!isThermostat) return null;
-    final (onMode, offMode) = _toSwitchModes();
-    final mode = properties.switchMode?.toInt() == 0 ? offMode : onMode;
-
     final last = SikomDeviceProperties.latestUpdate([
       properties.temperatureMin,
       properties.temperatureMax,
@@ -260,9 +255,6 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
 
     return Thermostat(
       lastUpdated: when,
-      temperatureTarget: mode == SwitchMode.comfort
-          ? properties.temperatureComfort?.toDouble()
-          : properties.temperatureEco?.toDouble(),
       temperatureMin: properties.temperatureMin?.toDouble(),
       temperatureMax: properties.temperatureMax?.toDouble(),
       temperatureEco: properties.temperatureEco?.toDouble(),
@@ -293,9 +285,15 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
           'switch_mode' => it.copyWith(
               value:
                   SwitchMode.offModes.contains(device.onOff?.mode) ? '0' : '1'),
+          'temperature_eco' => it.copyWith(
+              value: device.thermostat!.temperatureEco!.toInt().toString(),
+            ),
+          'temperature_comfort' => it.copyWith(
+              value: device.thermostat!.temperatureComfort!.toInt().toString(),
+            ),
           _ => null
         };
-        if (prop != null) changed.add(prop);
+        if (prop != null && it.value != prop.value) changed.add(prop);
       }
     }
     return changed;

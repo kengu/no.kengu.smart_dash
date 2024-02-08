@@ -16,19 +16,14 @@ class RoomsPage extends ConsumerWidget {
     return SmartDashboardPage(
         name: 'rooms',
         title: 'Rooms',
-        slotHeight: 270,
+        slotHeight: 200,
         pageItemBuilder: (rooms, type, slotsCount, item) {
-          switch (item.identifier) {
-            case 'measure_temperature:sikom:device:540242':
-              return ThermostatTile(
-                subTitle: 'Tindefjell',
-                thermostat: rooms.get(
-                  item.identifier,
-                ),
-              );
-            default:
-              return Text(item.identifier);
-          }
+          return ThermostatTile(
+            subTitle: 'Tindefjell',
+            thermostat: rooms.get(
+              item.identifier,
+            ),
+          );
         });
   }
 }

@@ -12,7 +12,7 @@ part of 'thermostat.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Thermostat _$ThermostatFromJson(Map<String, dynamic> json) {
   return _Thermostat.fromJson(json);
@@ -20,9 +20,6 @@ Thermostat _$ThermostatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Thermostat {
-  /// Thermostat target temperature when switched on
-  double? get temperatureTarget => throw _privateConstructorUsedError;
-
   /// Minimum allowed temperature (default null)
   double? get temperatureMin => throw _privateConstructorUsedError;
 
@@ -60,8 +57,7 @@ abstract class $ThermostatCopyWith<$Res> {
       _$ThermostatCopyWithImpl<$Res, Thermostat>;
   @useResult
   $Res call(
-      {double? temperatureTarget,
-      double? temperatureMin,
+      {double? temperatureMin,
       double? temperatureMax,
       double? temperatureEco,
       double? temperatureComfort,
@@ -83,7 +79,6 @@ class _$ThermostatCopyWithImpl<$Res, $Val extends Thermostat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? temperatureTarget = freezed,
     Object? temperatureMin = freezed,
     Object? temperatureMax = freezed,
     Object? temperatureEco = freezed,
@@ -93,10 +88,6 @@ class _$ThermostatCopyWithImpl<$Res, $Val extends Thermostat>
     Object? lastUpdated = null,
   }) {
     return _then(_value.copyWith(
-      temperatureTarget: freezed == temperatureTarget
-          ? _value.temperatureTarget
-          : temperatureTarget // ignore: cast_nullable_to_non_nullable
-              as double?,
       temperatureMin: freezed == temperatureMin
           ? _value.temperatureMin
           : temperatureMin // ignore: cast_nullable_to_non_nullable
@@ -138,8 +129,7 @@ abstract class _$$ThermostatImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double? temperatureTarget,
-      double? temperatureMin,
+      {double? temperatureMin,
       double? temperatureMax,
       double? temperatureEco,
       double? temperatureComfort,
@@ -159,7 +149,6 @@ class __$$ThermostatImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? temperatureTarget = freezed,
     Object? temperatureMin = freezed,
     Object? temperatureMax = freezed,
     Object? temperatureEco = freezed,
@@ -169,10 +158,6 @@ class __$$ThermostatImplCopyWithImpl<$Res>
     Object? lastUpdated = null,
   }) {
     return _then(_$ThermostatImpl(
-      temperatureTarget: freezed == temperatureTarget
-          ? _value.temperatureTarget
-          : temperatureTarget // ignore: cast_nullable_to_non_nullable
-              as double?,
       temperatureMin: freezed == temperatureMin
           ? _value.temperatureMin
           : temperatureMin // ignore: cast_nullable_to_non_nullable
@@ -209,8 +194,7 @@ class __$$ThermostatImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ThermostatImpl extends _Thermostat {
   const _$ThermostatImpl(
-      {this.temperatureTarget,
-      this.temperatureMin,
+      {this.temperatureMin,
       this.temperatureMax,
       this.temperatureEco,
       this.temperatureComfort,
@@ -221,10 +205,6 @@ class _$ThermostatImpl extends _Thermostat {
 
   factory _$ThermostatImpl.fromJson(Map<String, dynamic> json) =>
       _$$ThermostatImplFromJson(json);
-
-  /// Thermostat target temperature when switched on
-  @override
-  final double? temperatureTarget;
 
   /// Minimum allowed temperature (default null)
   @override
@@ -258,7 +238,7 @@ class _$ThermostatImpl extends _Thermostat {
 
   @override
   String toString() {
-    return 'Thermostat(temperatureTarget: $temperatureTarget, temperatureMin: $temperatureMin, temperatureMax: $temperatureMax, temperatureEco: $temperatureEco, temperatureComfort: $temperatureComfort, temperatureEcoAdjustment: $temperatureEcoAdjustment, temperatureComfortAdjustment: $temperatureComfortAdjustment, lastUpdated: $lastUpdated)';
+    return 'Thermostat(temperatureMin: $temperatureMin, temperatureMax: $temperatureMax, temperatureEco: $temperatureEco, temperatureComfort: $temperatureComfort, temperatureEcoAdjustment: $temperatureEcoAdjustment, temperatureComfortAdjustment: $temperatureComfortAdjustment, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -266,8 +246,6 @@ class _$ThermostatImpl extends _Thermostat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ThermostatImpl &&
-            (identical(other.temperatureTarget, temperatureTarget) ||
-                other.temperatureTarget == temperatureTarget) &&
             (identical(other.temperatureMin, temperatureMin) ||
                 other.temperatureMin == temperatureMin) &&
             (identical(other.temperatureMax, temperatureMax) ||
@@ -291,7 +269,6 @@ class _$ThermostatImpl extends _Thermostat {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      temperatureTarget,
       temperatureMin,
       temperatureMax,
       temperatureEco,
@@ -316,8 +293,7 @@ class _$ThermostatImpl extends _Thermostat {
 
 abstract class _Thermostat extends Thermostat {
   const factory _Thermostat(
-      {final double? temperatureTarget,
-      final double? temperatureMin,
+      {final double? temperatureMin,
       final double? temperatureMax,
       final double? temperatureEco,
       final double? temperatureComfort,
@@ -329,10 +305,6 @@ abstract class _Thermostat extends Thermostat {
   factory _Thermostat.fromJson(Map<String, dynamic> json) =
       _$ThermostatImpl.fromJson;
 
-  @override
-
-  /// Thermostat target temperature when switched on
-  double? get temperatureTarget;
   @override
 
   /// Minimum allowed temperature (default null)

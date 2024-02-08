@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'device.dart';
+
 part 'switch_state.freezed.dart';
 part 'switch_state.g.dart';
 
@@ -59,4 +61,22 @@ enum SwitchMode {
     SwitchMode.eco,
     SwitchMode.antiFreeze
   ];
+}
+
+extension SwitchStateX on Device {
+  /// Get [SwitchMode].
+  SwitchMode? getSwitchMode() {
+    if (!hasOnOff) return null;
+    return onOff?.mode;
+  }
+
+  /// Set [SwitchMode].
+  Device setSwitchNode(SwitchMode newValue) {
+    if (!hasOnOff) return this;
+    return copyWith(
+      onOff: onOff!.copyWith(
+        mode: newValue,
+      ),
+    );
+  }
 }

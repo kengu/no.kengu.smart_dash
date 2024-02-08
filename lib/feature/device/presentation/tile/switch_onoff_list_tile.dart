@@ -105,7 +105,7 @@ class _SwitchOnOffListTileListTileState
     _updating[id] = newMode;
     final result = await ref
         .read(deviceServiceProvider)
-        .update(device.copyWith(onOff: device.onOff!.copyWith(mode: newMode)));
+        .update(device.setSwitchNode(newMode));
     _updating.remove(id);
     if (result.isPresent) {
       final id = Identity.of(device);
@@ -221,16 +221,10 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
     super.initState();
   }
 
-  Set<SwitchMode> _setMode() {
-    return _segmentedButtonSelection = {
-      widget.updating ?? widget.device.onOff!.mode
-    };
-  }
-
   @override
   void didUpdateWidget(covariant SwitchOnOffButton oldWidget) {
     if (!_updating &&
-        oldWidget.device.onOff?.mode != widget.device.onOff?.mode) {
+        oldWidget.device.getSwitchMode() != widget.device.getSwitchMode()) {
       _setMode();
     }
     super.didUpdateWidget(oldWidget);
@@ -267,7 +261,7 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
             segments: _modes(widget.device).map((SwitchMode mode) {
               return ButtonSegment<SwitchMode>(
                 value: mode,
-                enabled: !_updating,
+                enabled: widget.enabled && !_updating,
                 tooltip: _errorState && _segmentedButtonSelection.contains(mode)
                     ? 'Unable to apply ${mode.name} mode'
                     : null,
@@ -294,17 +288,24 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
     );
   }
 
+  Set<SwitchMode> _setMode() {
+    return _segmentedButtonSelection = {
+      widget.updating ?? widget.device.onOff!.mode
+    };
+  }
+
   void _onSelectionChanged(Set<SwitchMode> newSelection) {
     setState(() {
       _updating = true;
     });
     update() async {
+      final current = _segmentedButtonSelection.first;
       final (success, mode) = await widget.onSelected(newSelection.first);
       if (mounted) {
         setState(() {
           _updating = false;
           _errorState = !success;
-          _segmentedButtonSelection = {mode};
+          _segmentedButtonSelection = {success ? mode : current};
         });
       }
     }
