@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/util/typedefs.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
@@ -14,7 +13,7 @@ typedef AsyncLoadWidgetBuilder<Data> = Widget Function(
   Widget? child,
 );
 
-/// [ReactiveForm] wrapped with [Scaffold].
+/// Widget for async load of data matching given query.
 class AsyncLoadWidget<Query, Data> extends ConsumerWidget {
   const AsyncLoadWidget({
     super.key,
