@@ -542,6 +542,13 @@
       },
       {
         "tag": "power",
+        "name": "measure_temperature:sikom:device:541890",
+        "label": "Bod",
+        "type": "int",
+        "unit": "power"
+      },
+      {
+        "tag": "power",
         "name": "measure_temperature:sikom:device:540319",
         "label": "Bad bakside",
         "type": "int",
@@ -581,26 +588,9 @@
         "label": "Hems Noah",
         "type": "int",
         "unit": "power"
-      },
-      {
-        "tag": "power",
-        "name": "measure_temperature:sikom:device:541890",
-        "label": "Bod",
-        "type": "int",
-        "unit": "power"
       }
     ],
     "mobile": [
-      {
-        "item_id": "measure_temperature:sikom:device:540241",
-        "layout": {
-          "w": 4,
-          "h": 2,
-          "min_W": 4,
-          "min_H": 1,
-          "max_W": 4
-        }
-      },
       {
         "item_id": "measure_temperature:sikom:device:540242",
         "layout": {
@@ -632,7 +622,27 @@
         }
       },
       {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 4,
+          "h": 2,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
         "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 4,
+          "h": 2,
+          "min_W": 4,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540241",
         "layout": {
           "w": 4,
           "h": 2,
@@ -683,16 +693,6 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540324",
-        "layout": {
-          "w": 4,
-          "h": 2,
-          "min_W": 4,
-          "min_H": 1,
-          "max_W": 4
-        }
-      },
-      {
-        "item_id": "measure_temperature:sikom:device:541890",
         "layout": {
           "w": 4,
           "h": 2,
@@ -744,6 +744,16 @@
         }
       },
       {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
         "item_id": "measure_temperature:sikom:device:540319",
         "layout": {
           "w": 3,
@@ -795,16 +805,6 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540324",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 3,
-          "min_H": 1,
-          "max_W": 3
-        }
-      },
-      {
-        "item_id": "measure_temperature:sikom:device:541890",
         "layout": {
           "w": 3,
           "h": 2,
@@ -856,6 +856,16 @@
         }
       },
       {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3
+        }
+      },
+      {
         "item_id": "measure_temperature:sikom:device:540319",
         "layout": {
           "w": 3,
@@ -911,16 +921,6 @@
           "w": 3,
           "h": 2,
           "min_W": 2,
-          "min_H": 2,
-          "max_W": 3
-        }
-      },
-      {
-        "item_id": "measure_temperature:sikom:device:541890",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 3,
           "min_H": 2,
           "max_W": 3
         }
@@ -972,6 +972,17 @@
         }
       },
       {
+        "item_id": "measure_temperature:sikom:device:541890",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
         "item_id": "measure_temperature:sikom:device:540319",
         "layout": {
           "w": 3,
@@ -1028,17 +1039,6 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540324",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 3,
-          "min_H": 2,
-          "max_W": 3,
-          "max_H": 2
-        }
-      },
-      {
-        "item_id": "measure_temperature:sikom:device:541890",
         "layout": {
           "w": 3,
           "h": 2,

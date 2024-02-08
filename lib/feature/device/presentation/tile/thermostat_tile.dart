@@ -139,9 +139,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
     }
     return (
       _device.isPresent,
-      (_device.isPresent
-          ? _device.value.getTargetTemperature()
-          : device.getTargetTemperature())!,
+      (_device.orElseNull ?? device).getTargetTemperature()!,
     );
   }
 }
