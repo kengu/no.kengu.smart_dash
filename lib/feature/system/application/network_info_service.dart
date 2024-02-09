@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
 import 'package:network_tools_flutter/network_tools_flutter.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash/util/guard.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'network_info_service.g.dart';
 
@@ -20,11 +23,16 @@ class NetworkInfoService {
 
   final Ref ref;
 
+  // TODO: Make configurable
+  final period = const Duration(minutes: 5);
+
   final _cache = FutureCache(prefix: '$NetworkInfoService');
 
   final _devices = <NetworkDeviceInfo>{};
   final _events = StreamController<NetworkDeviceEvent>.broadcast();
   final _states = StreamController<List<NetworkDeviceInfo>>.broadcast();
+
+  StreamSubscription<DateTime>? _timing;
 
   List<NetworkDeviceInfo> get devicesCached => _devices.toList();
 
@@ -34,11 +42,30 @@ class NetworkInfoService {
 
   Optional<DateTime> get lastUpdated => _cache.lastCached('discover');
 
-  Future<List<NetworkDeviceInfo>> init() async {
+  /// Start listing to timing events for periodic discovery
+  void bind() async {
+    assert(
+      _timing == null,
+      'DeviceDriverManager is already bound to timing service',
+    );
+
+    _timing = ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(period)
+        .listen((_) => _discover(period));
+  }
+
+  /// Stop listing to timing events.
+  void unbind() {
+    _timing?.cancel();
+    _timing = null;
+  }
+
+  void init() async {
     final state =
         await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
     _devices.addAll(state.values);
-    return _devices.toList();
   }
 
   Future<Optional<NetworkInfo>> getNetworkInfo({
@@ -93,21 +120,24 @@ class NetworkInfoService {
   Stream<List<NetworkDeviceInfo>> discover({
     Duration ttl = Duration.zero,
   }) async* {
-    await _cache.getOrFetch('discover', () async {
+    await _discover(ttl);
+    await for (final states in _states.stream) {
+      yield states;
+    }
+  }
+
+  Future<void> _discover(Duration ttl) {
+    return _cache.getOrFetch('_discover', () async {
       final interface = await NetInterface.localInterface();
       if (interface == null) {
-        return null;
+        return;
       }
       final address = interface.ipAddress;
       String subnet = address.substring(0, address.lastIndexOf('.'));
       final result = HostScanner.getAllPingableDevicesAsync(subnet);
       unawaited(_update(result));
-      return result;
+      return;
     }, ttl: ttl);
-
-    await for (final states in _states.stream) {
-      yield states;
-    }
   }
 
   Future<List<NetworkDeviceInfo>> _update(Stream<ActiveHost>? result) async {

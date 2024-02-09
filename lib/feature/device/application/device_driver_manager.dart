@@ -59,16 +59,15 @@ class DeviceDriverManager {
       _drivers.isNotEmpty,
       'Remember to register drivers before starting the manager',
     );
-    assert(_timing == null, 'DeviceDriverManager is started already');
+    assert(
+      _timing == null,
+      'DeviceDriverManager is already bound to timing service',
+    );
 
-    _timing = ref.read(timingServiceProvider).events.listen((event) {
-      // TODO: Add error handling.
-      guard<void>(
-        () => Future.wait(_ready(true).map(
-          _onUpdate,
-        )),
-      );
-    });
+    _timing = ref
+        .read(timingServiceProvider)
+        .events
+        .listen((_) => Future.wait(_ready(true).map(_onUpdate)));
   }
 
   /// Stop pumping update events by unbinding from global
@@ -90,18 +89,24 @@ class DeviceDriverManager {
     return _drivers[key] as DeviceDriver;
   }
 
-  Future<void> _onUpdate(DeviceDriver driver) async {
-    // ignore: invalid_use_of_protected_member
-    final event = await driver.onUpdate();
-    if (_shouldProcess(event)) {
-      debugPrint(
-        'DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
-        'after ${event.duration.inSeconds} sec.',
-      );
-      _updatedController.add(event);
-      // Update devices
-      await ref.read(deviceRepositoryProvider).updateAll(event.devices);
-    }
+  Future<void> _onUpdate(DeviceDriver driver) {
+    return guard<void>(
+      () async {
+        // ignore: invalid_use_of_protected_member
+        final event = await driver.onUpdate();
+        if (_shouldProcess(event)) {
+          debugPrint(
+            'DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
+            'after ${event.duration.inSeconds} sec.',
+          );
+          _updatedController.add(event);
+          // Update devices
+          await ref.read(deviceRepositoryProvider).updateAll(event.devices);
+        }
+      },
+      task: '_onUpdate',
+      name: 'DeviceDriverManager',
+    );
   }
 
   bool _shouldProcess(DriverUpdatedEvent event) =>

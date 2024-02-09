@@ -54,7 +54,9 @@ class FlowManager {
     _updates = null;
   }
 
-  Future<void> _onTrigger(DriverUpdatedEvent event) => guard<void>(() async {
+  Future<void> _onTrigger(DriverUpdatedEvent event) {
+    return guard<void>(
+      () async {
         for (final evaluate in _flows.values.where(
           (flow) => flow.when(event),
         )) {
@@ -67,7 +69,11 @@ class FlowManager {
             _controller.add(event);
           }
         }
-      });
+      },
+      task: '_onTrigger',
+      name: 'FlowManager',
+    );
+  }
 }
 
 abstract class Flow {

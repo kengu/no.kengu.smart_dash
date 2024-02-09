@@ -56,25 +56,31 @@ class HistoryManager {
 
   /// Pump current [HistoryEvent]s
   Future<void> pump(
-      {List<Token> tokens = const [], DateTime? when, Duration? ttl}) async {
-    // Get current tokens
-    final all = await getTokens(ttl);
-    final stream = Stream.fromIterable(all)
-        .where((e) => tokens.isEmpty || tokens.contains(e));
-    // NOTE: We should not add events too fast to stream for
-    // overall performance reasons. And StreamProviders only
-    // sees last event when events are added more frequently
-    // than 60 fps (less than 17 milliseconds between each event).
-    await for (final token in stream.delayed(delay)) {
-      // Process list of flow events in order of completion
-      final history = await get(token, when: when, ttl: ttl);
-      if (history.isPresent) {
-        _controller.add(HistoryEvent(
-          token,
-          history.value,
-        ));
-      }
-    }
+      {List<Token> tokens = const [], DateTime? when, Duration? ttl}) {
+    return guard(
+      () async {
+        // Get current tokens
+        final all = await getTokens(ttl);
+        final stream = Stream.fromIterable(all)
+            .where((e) => tokens.isEmpty || tokens.contains(e));
+        // NOTE: We should not add events too fast to stream for
+        // overall performance reasons. And StreamProviders only
+        // sees last event when events are added more frequently
+        // than 60 fps (less than 17 milliseconds between each event).
+        await for (final token in stream.delayed(delay)) {
+          // Process list of flow events in order of completion
+          final history = await get(token, when: when, ttl: ttl);
+          if (history.isPresent) {
+            _controller.add(HistoryEvent(
+              token,
+              history.value,
+            ));
+          }
+        }
+      },
+      task: 'pump',
+      name: 'HistoryManager',
+    );
   }
 
   /// Load current tokens from storage
@@ -232,7 +238,8 @@ class HistoryManager {
           }
         }
       },
-      task: 'HistoryManager::_onHandle',
+      task: '_onHandle',
+      name: 'HistoryManager',
     );
   }
 

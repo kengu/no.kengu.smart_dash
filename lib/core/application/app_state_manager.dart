@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
@@ -15,20 +13,24 @@ class AppStateManager {
   AppStateManager(this.container);
   final ProviderContainer container;
   ProviderContainer init() {
-    // Register services with managers
+    // Bind services with dependencies
     container.read(flowManagerProvider).bind();
     container.read(historyManagerProvider).bind();
+    container.read(networkInfoServiceProvider)
+      ..init()
+      ..bind();
+
+    // Register services with managers
     container.read(deviceDriverManagerProvider)
       ..register(container.read(sikomDriverProvider))
       ..init()
       ..bind();
 
-    unawaited(container.read(networkInfoServiceProvider).init());
     container.read(cameraManagerProvider)
       ..register(container.read(foscamServiceProvider))
       ..init();
 
-    // Pumping timing events
+    // Start pumping events
     container.read(timingServiceProvider).start();
     container.read(historyManagerProvider).pump();
 
