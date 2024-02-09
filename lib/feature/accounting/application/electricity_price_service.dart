@@ -4,7 +4,7 @@ import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_cli
 import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_repository.dart';
 import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/util/future.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/time/date_time.dart';
 
 part 'electricity_price_service.g.dart';
 
@@ -15,30 +15,31 @@ class ElectricityPriceService {
 
   final _cache = FutureCache(prefix: '$ElectricityPriceService');
 
-  Future<List<ElectricityPrice>> getPriceHourly(String area, DateTime when) =>
-      guard(() async {
-        // Try local db first
-        final repo = ref.read(electricityPriceRepositoryProvider);
-        final fetched = await repo.getPriceHourly(area, when);
-        if (fetched.isPresent && fetched.value.isNotEmpty) {
-          return fetched.value;
-        }
-
-        final key = '$area:$when';
-        return _cache.getOrFetch(key, () async {
-          final client = ref.read(electricityPriceClientProvider);
-          final prices = await client.getPriceHourly(area, when);
-          if (prices.isNotEmpty) {
-            await repo.save(area, prices);
-          }
-          return prices;
-        });
-      });
+  Future<List<ElectricityPrice>> getPriceHourly(
+    String area,
+    DateTime when, {
+    Duration ttl = const Duration(minutes: 1),
+  }) {
+    final day = when.toDateOnly();
+    final key = '$area:$day';
+    return _cache.getOrFetch(key, () async {
+      // Try local db first
+      final repo = ref.read(electricityPriceRepositoryProvider);
+      final fetched = await repo.getPriceHourly(area, when);
+      if (fetched.isPresent && fetched.value.isNotEmpty) {
+        return fetched.value;
+      }
+      final client = ref.read(electricityPriceClientProvider);
+      final prices = await client.getPriceHourly(area, when);
+      if (prices.isNotEmpty) {
+        await repo.save(area, prices);
+      }
+      return prices;
+    }, ttl: ttl);
+  }
 }
 
 @Riverpod(keepAlive: true)
 ElectricityPriceService electricityPriceService(
         ElectricityPriceServiceRef ref) =>
-    ElectricityPriceService(
-      ref,
-    );
+    ElectricityPriceService(ref);

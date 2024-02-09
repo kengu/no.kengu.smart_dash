@@ -59,6 +59,8 @@ dependencies:
   media_kit_libs_video: ^1.0.4
   media_kit_libs_android_video: ^1.3.6
 
+  network_tools_flutter: ^1.0.5
+
   json_annotation: ^4.8.1
   freezed_annotation: ^2.4.1
   riverpod_annotation: ^3.0.0-dev.3
@@ -95,6 +97,8 @@ dependency_overrides:
     git:
       url: https://github.com/DISCOOS/chart_sparkline.git
       ref: master
+  network_tools:
+    path: ../network_tools
 
 flutter:
 

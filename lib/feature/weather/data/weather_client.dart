@@ -22,7 +22,20 @@ class WeatherClient {
       if (lastModified != null) {
         api.options.headers["if-modified-since"] = df.format(lastModified);
       }
-      final response = await api.get(path);
+      final response = await api.get(
+        path,
+        options: Options(
+          validateStatus: (status) {
+            final success = status != null && status < 400;
+            if (!success) {
+              debugPrint(
+                'Fetching weather forecast failed: [$status] $path',
+              );
+            }
+            return success;
+          },
+        ),
+      );
       debugPrint('Fetched weather forecast: ${response.realUri}');
       return WeatherResponse.fromJson({
         'data': response.data,

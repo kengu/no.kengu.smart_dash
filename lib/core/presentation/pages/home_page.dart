@@ -14,6 +14,7 @@ import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_tile.dart';
+import 'package:smart_dash/feature/system/presentation/network_now_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
@@ -129,6 +130,12 @@ class HomePage extends ConsumerWidget {
                     return SystemNowTile(
                       key: GlobalObjectKey(item),
                     );
+                  case 'network_now':
+                    return NetworkNowTile(
+                      key: GlobalObjectKey(item),
+                    );
+/*
+*/
                   default:
                     return Text(item.identifier);
                 }

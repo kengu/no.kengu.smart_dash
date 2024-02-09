@@ -1,20 +1,20 @@
-class SystemInfo {
-  SystemInfo({
-    required this.cpuApp,
-    required this.cpuTotal,
-    required this.memApp,
-    required this.memFree,
-    required this.memTotal,
-    required this.memIsLow,
-    required this.batteryLevel,
-  });
-  final int memApp;
-  final int memFree;
-  final int memTotal;
-  final bool memIsLow;
-  final double? cpuApp;
-  final double cpuTotal;
-  final double batteryLevel;
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'system_info.freezed.dart';
+
+@freezed
+class SystemInfo with _$SystemInfo {
+  const SystemInfo._();
+
+  const factory SystemInfo({
+    required double? cpuApp,
+    required double cpuTotal,
+    required int memApp,
+    required int memFree,
+    required int memTotal,
+    required bool memIsLow,
+    required double batteryLevel,
+  }) = _SystemInfo;
 
   int get memUsed => memTotal - memFree;
   int get memPressure =>

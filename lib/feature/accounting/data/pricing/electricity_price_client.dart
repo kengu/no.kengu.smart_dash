@@ -15,9 +15,22 @@ class ElectricityPriceClient {
       String area, DateTime when) async {
     return guard(() async {
       final path = '/${when.year}/'
-          '${when.month < 9 ? '0${when.month}' : when.month}-'
-          '${when.day < 9 ? '0${when.day}' : when.day}_$area.json';
-      final response = await api.get(path /*'/2023/03-28_NO5.json'*/);
+          '${when.month < 10 ? '0${when.month}' : when.month}-'
+          '${when.day < 10 ? '0${when.day}' : when.day}_$area.json';
+      final response = await api.get(
+        path /*'/2023/03-28_NO5.json'*/,
+        options: Options(
+          validateStatus: (status) {
+            final success = status != null && status < 400;
+            if (!success) {
+              debugPrint(
+                'Fetching electricity prices for [$when] failed: [$status] $path',
+              );
+            }
+            return success;
+          },
+        ),
+      );
       debugPrint('Fetched electricity prices for [$when]: ${response.realUri}');
       return ElectricityPriceResponse.fromJson(
         {'data': response.data},

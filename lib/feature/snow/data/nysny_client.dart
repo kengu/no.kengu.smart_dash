@@ -47,6 +47,15 @@ class NySnyClient {
           '/table.php',
           options: Options(
             headers: {'Cookie': cookie},
+            validateStatus: (status) {
+              final success = status != null && status < 400;
+              if (!success) {
+                debugPrint(
+                  'Fetching NySny table failed: [$status] /table.php',
+                );
+              }
+              return success;
+            },
           ),
         );
 

@@ -27,7 +27,7 @@ class TimeSeriesDatabase extends _$TimeSeriesDatabase
   @override
   int get schemaVersion => 2;
 
-  static DateTime toOffset(DateTime when) => when.toDate();
+  static DateTime toOffset(DateTime when) => when.toDateOnly();
 
   @override
   MigrationStrategy get migration {

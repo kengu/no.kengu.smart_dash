@@ -38,9 +38,20 @@ class SikomClient {
       Optional<ServiceConfig> credentials = await getCredentials();
       if (!credentials.isPresent) return false;
       final response = await api.get('/VerifyCredentials',
-          options: Options(headers: <String, String>{
-            'authorization': toBasicAuth(credentials.value),
-          }));
+          options: Options(
+            headers: <String, String>{
+              'authorization': toBasicAuth(credentials.value),
+            },
+            validateStatus: (status) {
+              final success = status != null && status < 400;
+              if (!success) {
+                debugPrint(
+                  'Sikom request failed: [$status] /VerifyCredentials',
+                );
+              }
+              return success;
+            },
+          ));
       debugPrint(
         'Verified Sikom credentials: [${response.statusCode}] ${response.realUri}',
       );
@@ -54,9 +65,20 @@ class SikomClient {
       Optional<ServiceConfig> credentials = await getCredentials();
       if (!credentials.isPresent) return const Optional.empty();
       final response = await api.get('/Gateway/All',
-          options: Options(headers: <String, String>{
-            'authorization': toBasicAuth(credentials.value),
-          }));
+          options: Options(
+            headers: <String, String>{
+              'authorization': toBasicAuth(credentials.value),
+            },
+            validateStatus: (status) {
+              final success = status != null && status < 400;
+              if (!success) {
+                debugPrint(
+                  'Sikom request failed: [$status] /Gateway/All',
+                );
+              }
+              return success;
+            },
+          ));
       final result = SikomResponse.fromJson(response.data);
       debugPrint(
         'Fetched Sikom Gateways: [${response.statusCode}] ${response.realUri}',
@@ -105,9 +127,20 @@ class SikomClient {
         final path = '/Device/$query${gateway == null ? '' : '/${gateway.id}'}';
         final response = await api.get(
           path,
-          options: Options(headers: <String, String>{
-            'authorization': toBasicAuth(credentials.value)
-          }),
+          options: Options(
+            headers: <String, String>{
+              'authorization': toBasicAuth(credentials.value)
+            },
+            validateStatus: (status) {
+              final success = status != null && status < 400;
+              if (!success) {
+                debugPrint(
+                  'Sikom request failed: [$status] $path',
+                );
+              }
+              return success;
+            },
+          ),
         );
         debugPrint(
           'Fetched Sikom Devices: [${response.statusCode}] ${response.realUri}',
@@ -136,9 +169,20 @@ class SikomClient {
       final path = '/Device/$id/Property/$name/Value/';
       final response = await api.get(
         path,
-        options: Options(headers: <String, String>{
-          'authorization': toBasicAuth(credentials.value)
-        }),
+        options: Options(
+          headers: <String, String>{
+            'authorization': toBasicAuth(credentials.value)
+          },
+          validateStatus: (status) {
+            final success = status != null && status < 400;
+            if (!success) {
+              debugPrint(
+                'Sikom request failed: [$status] $path',
+              );
+            }
+            return success;
+          },
+        ),
       );
 
       final result = SikomResponse.fromJson(response.data);
@@ -166,7 +210,7 @@ class SikomClient {
             final success = status != null && status < 400;
             if (!success) {
               debugPrint(
-                'Applied Sikom Property failed: [$status] $path',
+                'Sikom request failed: [$status] $path',
               );
             }
             return success;

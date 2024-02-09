@@ -268,6 +268,16 @@
           "min_H": 1,
           "max_W": 3
         }
+      },
+      {
+        "item_id": "network_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
       }
     ],
     "tablet": [
@@ -385,6 +395,16 @@
           "min_H": 1,
           "max_W": 3
         }
+      },
+      {
+        "item_id": "network_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
       }
     ],
     "desktop": [
@@ -494,6 +514,16 @@
       },
       {
         "item_id": "snow_now_list",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "network_now",
         "layout": {
           "w": 4,
           "h": 1,
@@ -714,16 +744,6 @@
         }
       },
       {
-        "item_id": "measure_temperature:sikom:device:540242",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 3,
-          "min_H": 1,
-          "max_W": 3
-        }
-      },
-      {
         "item_id": "measure_temperature:sikom:device:540243",
         "layout": {
           "w": 3,
@@ -755,6 +775,16 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540241",
         "layout": {
           "w": 3,
           "h": 2,
@@ -826,16 +856,6 @@
         }
       },
       {
-        "item_id": "measure_temperature:sikom:device:540242",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 2,
-          "min_H": 2,
-          "max_W": 3
-        }
-      },
-      {
         "item_id": "measure_temperature:sikom:device:540243",
         "layout": {
           "w": 3,
@@ -867,6 +887,16 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 2,
+          "min_H": 2,
+          "max_W": 3
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540241",
         "layout": {
           "w": 3,
           "h": 2,
@@ -939,17 +969,6 @@
         }
       },
       {
-        "item_id": "measure_temperature:sikom:device:540242",
-        "layout": {
-          "w": 3,
-          "h": 2,
-          "min_W": 3,
-          "min_H": 2,
-          "max_W": 3,
-          "max_H": 2
-        }
-      },
-      {
         "item_id": "measure_temperature:sikom:device:540243",
         "layout": {
           "w": 3,
@@ -984,6 +1003,17 @@
       },
       {
         "item_id": "measure_temperature:sikom:device:540319",
+        "layout": {
+          "w": 3,
+          "h": 2,
+          "min_W": 3,
+          "min_H": 2,
+          "max_W": 3,
+          "max_H": 2
+        }
+      },
+      {
+        "item_id": "measure_temperature:sikom:device:540241",
         "layout": {
           "w": 3,
           "h": 2,

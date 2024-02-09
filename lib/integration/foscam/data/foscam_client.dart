@@ -155,10 +155,26 @@ class FoscamCommand {
         final query = _toQuery();
         final uri = Uri.parse('$baseUrl${query.isEmpty ? '' : '&$query'}');
         final url = uri.toString();
+        validateStatus(status) {
+          final success = status != null && status < 400;
+          if (!success) {
+            debugPrint(
+              'Foscam request failed: [$status] $url',
+            );
+          }
+          return success;
+        }
 
         final response = await (responseType == null
-            ? api.get(url)
-            : api.get(url, options: Options(responseType: responseType)));
+            ? api.get(url,
+                options: Options(
+                  validateStatus: validateStatus,
+                ))
+            : api.get(url,
+                options: Options(
+                  responseType: responseType,
+                  validateStatus: validateStatus,
+                )));
 
         final contentType = response.headers['content-type'];
 

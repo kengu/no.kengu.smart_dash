@@ -266,6 +266,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  csv:
+    dependency: transitive
+    description:
+      name: csv
+      sha256: "63ed2871dd6471193dffc52c0e6c76fb86269c00244d244297abbb355c84a86e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -298,6 +306,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.14"
+  dart_ping:
+    dependency: transitive
+    description:
+      name: dart_ping
+      sha256: "2f5418d0a5c64e53486caaac78677b25725b1e13c33c5be834ce874ea18bd24f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.1"
+  dart_ping_ios:
+    dependency: transitive
+    description:
+      name: dart_ping_ios
+      sha256: "17df1b369331ec6c30a91a51db64ac8feed47fad71e444208de06edf2a22415f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   dart_style:
     dependency: transitive
     description:
@@ -363,6 +387,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fake_http_client:
+    dependency: transitive
+    description:
+      name: fake_http_client
+      sha256: "4d9be8662a5424f04b95f616f5af9d8041744ad018e5c93f6583e6cf2d3f502d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   ffi:
     dependency: transitive
     description:
@@ -408,6 +440,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  flutter_icmp_ping:
+    dependency: transitive
+    description:
+      name: flutter_icmp_ping
+      sha256: de9633cf65a8c733fae29d08a35d3d4b343620cd1d13e1bfa88eccf56696d896
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.3"
+  flutter_isolate:
+    dependency: transitive
+    description:
+      name: flutter_isolate
+      sha256: "994ddec596da4ca12ca52154fd59404077584643eb7e3f1008a55fda9fe0b76b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   flutter_json_view:
     dependency: "direct main"
     description:
@@ -522,6 +570,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  get_it:
+    dependency: transitive
+    description:
+      name: get_it
+      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.7"
   glob:
     dependency: transitive
     description:
@@ -594,6 +650,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.6"
+  injectable:
+    dependency: transitive
+    description:
+      name: injectable
+      sha256: cd3c422e13270c81f64ab73c80406b2b2ed563fe59d0ff2093eb7eee63d0bbeb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
   intl:
     dependency: "direct main"
     description:
@@ -762,6 +826,29 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  multicast_dns:
+    dependency: transitive
+    description:
+      name: multicast_dns
+      sha256: "316cc47a958d4bd3c67bd238fe8b44fdfb6133bad89cb191c0c3bd3edb14e296"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2+6"
+  network_tools:
+    dependency: "direct overridden"
+    description:
+      path: "../network_tools"
+      relative: true
+    source: path
+    version: "4.0.4"
+  network_tools_flutter:
+    dependency: "direct main"
+    description:
+      name: network_tools_flutter
+      sha256: "668600fe0bf6dfd00cd901a3c37a9c0d82b99f98b2caa025390544891762ed1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   node_preamble:
     dependency: transitive
     description:
@@ -906,6 +993,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  process_run:
+    dependency: transitive
+    description:
+      name: process_run
+      sha256: cad2c57a34f8313a4182e34e31e0b2f12972eef3d0930cdc7ab3240bb8cad380
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.1+3"
   pub_semver:
     dependency: transitive
     description:
@@ -1057,6 +1152,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.9"
+  sembast:
+    dependency: transitive
+    description:
+      name: sembast
+      sha256: "9a9f0c7aca07043fef857b8b365f41592e48832b61462292699b57978e241c11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.0"
   sentry:
     dependency: "direct main"
     description:
@@ -1214,14 +1317,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  sprintf:
-    dependency: transitive
-    description:
-      name: sprintf
-      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   sqlite3:
     dependency: "direct main"
     description:
@@ -1402,10 +1497,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: cd210a09f7c18cbe5a02511718e0334de6559871052c90a90c0cca46a4aa81c8
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.3"
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:

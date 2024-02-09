@@ -92,7 +92,7 @@ extension DateTimeX on DateTime {
   }
 
   /// Return DateTime with time set to 00:00:00
-  DateTime toDate() => DateTime(year, month, day);
+  DateTime toDateOnly() => DateTime(year, month, day);
 }
 
 class TimeAgoMessages implements LookupMessages {

@@ -73,7 +73,11 @@ class FutureCache {
       return _results[key] ?? cached.$2;
     }
 
-    final request = guard(fetch);
+    final request = guard(
+      fetch,
+      task: 'getOrFetch',
+      name: '$prefix:$key',
+    );
     _requests[key] = (now, request);
 
     final result = await request;

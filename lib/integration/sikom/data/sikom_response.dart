@@ -16,7 +16,7 @@ class SikomResponse with _$SikomResponse {
     @JsonKey(name: 'RecursionLimit') int? recursionLimit,
   }) = _SikomResponse;
 
-  /// Check if response [data] is a [devices]
+  /// Check if response [data] is a [events]
   bool get isDevice => data.device != null;
 
   /// Check if response [data] is a [bpapiArray]

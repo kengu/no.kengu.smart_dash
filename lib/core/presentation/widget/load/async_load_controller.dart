@@ -43,7 +43,7 @@ mixin AsyncLoadController<Query, Data>
   @override
   @mustCallSuper
   FutureOr<Optional<Data>> build() async {
-    await _delegate.build(this, load);
+    await _delegate.build(load);
     return _delegate.latest;
   }
 }
@@ -112,7 +112,6 @@ class AsyncNotifierDelegate<Data, Query> {
   /// not called within given [timeout] (default is 100ms).
   /// {@endtemplate}
   FutureOr<Optional<Data>> build(
-    AutoDisposeAsyncNotifier<Optional<Data>> notifier,
     Future<Optional<Data>> Function() load, {
     Duration timeout = const Duration(milliseconds: 10000),
   }) async {
