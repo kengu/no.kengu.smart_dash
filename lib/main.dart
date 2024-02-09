@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,7 +21,10 @@ void main() async {
   MediaKit.ensureInitialized();
   await initializeDateFormatting('nb_NO');
   final appDocDirectory = await getApplicationDocumentsDirectory();
-  await configureNetworkTools(appDocDirectory.path, enableDebugging: true);
+  await configureNetworkTools(
+    appDocDirectory.path,
+    enableDebugging: !kReleaseMode,
+  );
 
   // This is needed for riverpod error messages
   FlutterError.demangleStackTrace = (StackTrace stack) {
@@ -35,7 +39,7 @@ void main() async {
       // Set tracesSampleRate to 1.0 to capture 100% of
       // transactions for performance monitoring.
       // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
+      options.tracesSampleRate = kReleaseMode ? 0.1 : 1.0;
     },
     appRunner: () async {
       // Initialize desktop-specific capabilities
