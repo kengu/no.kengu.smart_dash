@@ -179,9 +179,11 @@ mixin _$NetworkDeviceInfo {
   String get hostId => throw _privateConstructorUsedError;
   String get ipAddress => throw _privateConstructorUsedError;
   String get deviceName => throw _privateConstructorUsedError;
+  bool get isAvailable => throw _privateConstructorUsedError;
   String? get hostName => throw _privateConstructorUsedError;
   String? get macAddress => throw _privateConstructorUsedError;
   String? get vendorName => throw _privateConstructorUsedError;
+  DateTime? get aliveWhen => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -199,9 +201,11 @@ abstract class $NetworkDeviceInfoCopyWith<$Res> {
       {String hostId,
       String ipAddress,
       String deviceName,
+      bool isAvailable,
       String? hostName,
       String? macAddress,
-      String? vendorName});
+      String? vendorName,
+      DateTime? aliveWhen});
 }
 
 /// @nodoc
@@ -220,9 +224,11 @@ class _$NetworkDeviceInfoCopyWithImpl<$Res, $Val extends NetworkDeviceInfo>
     Object? hostId = null,
     Object? ipAddress = null,
     Object? deviceName = null,
+    Object? isAvailable = null,
     Object? hostName = freezed,
     Object? macAddress = freezed,
     Object? vendorName = freezed,
+    Object? aliveWhen = freezed,
   }) {
     return _then(_value.copyWith(
       hostId: null == hostId
@@ -237,6 +243,10 @@ class _$NetworkDeviceInfoCopyWithImpl<$Res, $Val extends NetworkDeviceInfo>
           ? _value.deviceName
           : deviceName // ignore: cast_nullable_to_non_nullable
               as String,
+      isAvailable: null == isAvailable
+          ? _value.isAvailable
+          : isAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
       hostName: freezed == hostName
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
@@ -249,6 +259,10 @@ class _$NetworkDeviceInfoCopyWithImpl<$Res, $Val extends NetworkDeviceInfo>
           ? _value.vendorName
           : vendorName // ignore: cast_nullable_to_non_nullable
               as String?,
+      aliveWhen: freezed == aliveWhen
+          ? _value.aliveWhen
+          : aliveWhen // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -265,9 +279,11 @@ abstract class _$$NetworkDeviceInfoImplCopyWith<$Res>
       {String hostId,
       String ipAddress,
       String deviceName,
+      bool isAvailable,
       String? hostName,
       String? macAddress,
-      String? vendorName});
+      String? vendorName,
+      DateTime? aliveWhen});
 }
 
 /// @nodoc
@@ -284,9 +300,11 @@ class __$$NetworkDeviceInfoImplCopyWithImpl<$Res>
     Object? hostId = null,
     Object? ipAddress = null,
     Object? deviceName = null,
+    Object? isAvailable = null,
     Object? hostName = freezed,
     Object? macAddress = freezed,
     Object? vendorName = freezed,
+    Object? aliveWhen = freezed,
   }) {
     return _then(_$NetworkDeviceInfoImpl(
       hostId: null == hostId
@@ -301,6 +319,10 @@ class __$$NetworkDeviceInfoImplCopyWithImpl<$Res>
           ? _value.deviceName
           : deviceName // ignore: cast_nullable_to_non_nullable
               as String,
+      isAvailable: null == isAvailable
+          ? _value.isAvailable
+          : isAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
       hostName: freezed == hostName
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
@@ -313,6 +335,10 @@ class __$$NetworkDeviceInfoImplCopyWithImpl<$Res>
           ? _value.vendorName
           : vendorName // ignore: cast_nullable_to_non_nullable
               as String?,
+      aliveWhen: freezed == aliveWhen
+          ? _value.aliveWhen
+          : aliveWhen // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -324,9 +350,11 @@ class _$NetworkDeviceInfoImpl extends _NetworkDeviceInfo {
       {required this.hostId,
       required this.ipAddress,
       required this.deviceName,
+      required this.isAvailable,
       this.hostName,
       this.macAddress,
-      this.vendorName})
+      this.vendorName,
+      this.aliveWhen})
       : super._();
 
   factory _$NetworkDeviceInfoImpl.fromJson(Map<String, dynamic> json) =>
@@ -339,15 +367,19 @@ class _$NetworkDeviceInfoImpl extends _NetworkDeviceInfo {
   @override
   final String deviceName;
   @override
+  final bool isAvailable;
+  @override
   final String? hostName;
   @override
   final String? macAddress;
   @override
   final String? vendorName;
+  @override
+  final DateTime? aliveWhen;
 
   @override
   String toString() {
-    return 'NetworkDeviceInfo(hostId: $hostId, ipAddress: $ipAddress, deviceName: $deviceName, hostName: $hostName, macAddress: $macAddress, vendorName: $vendorName)';
+    return 'NetworkDeviceInfo(hostId: $hostId, ipAddress: $ipAddress, deviceName: $deviceName, isAvailable: $isAvailable, hostName: $hostName, macAddress: $macAddress, vendorName: $vendorName, aliveWhen: $aliveWhen)';
   }
 
   @override
@@ -360,18 +392,22 @@ class _$NetworkDeviceInfoImpl extends _NetworkDeviceInfo {
                 other.ipAddress == ipAddress) &&
             (identical(other.deviceName, deviceName) ||
                 other.deviceName == deviceName) &&
+            (identical(other.isAvailable, isAvailable) ||
+                other.isAvailable == isAvailable) &&
             (identical(other.hostName, hostName) ||
                 other.hostName == hostName) &&
             (identical(other.macAddress, macAddress) ||
                 other.macAddress == macAddress) &&
             (identical(other.vendorName, vendorName) ||
-                other.vendorName == vendorName));
+                other.vendorName == vendorName) &&
+            (identical(other.aliveWhen, aliveWhen) ||
+                other.aliveWhen == aliveWhen));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, hostId, ipAddress, deviceName,
-      hostName, macAddress, vendorName);
+      isAvailable, hostName, macAddress, vendorName, aliveWhen);
 
   @JsonKey(ignore: true)
   @override
@@ -393,9 +429,11 @@ abstract class _NetworkDeviceInfo extends NetworkDeviceInfo {
       {required final String hostId,
       required final String ipAddress,
       required final String deviceName,
+      required final bool isAvailable,
       final String? hostName,
       final String? macAddress,
-      final String? vendorName}) = _$NetworkDeviceInfoImpl;
+      final String? vendorName,
+      final DateTime? aliveWhen}) = _$NetworkDeviceInfoImpl;
   const _NetworkDeviceInfo._() : super._();
 
   factory _NetworkDeviceInfo.fromJson(Map<String, dynamic> json) =
@@ -408,11 +446,15 @@ abstract class _NetworkDeviceInfo extends NetworkDeviceInfo {
   @override
   String get deviceName;
   @override
+  bool get isAvailable;
+  @override
   String? get hostName;
   @override
   String? get macAddress;
   @override
   String? get vendorName;
+  @override
+  DateTime? get aliveWhen;
   @override
   @JsonKey(ignore: true)
   _$$NetworkDeviceInfoImplCopyWith<_$NetworkDeviceInfoImpl> get copyWith =>

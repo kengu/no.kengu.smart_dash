@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,8 +10,8 @@ import 'package:smart_dash/feature/system/data/network_device_info_repository.da
 import 'package:smart_dash/feature/system/domain/network_info.dart';
 import 'package:network_tools_flutter/network_tools_flutter.dart';
 import 'package:smart_dash/util/future.dart';
-import 'package:smart_dash/util/guard.dart';
 import 'package:stream_transform/stream_transform.dart';
+import 'package:strings/strings.dart';
 
 part 'network_info_service.g.dart';
 
@@ -24,17 +26,18 @@ class NetworkInfoService {
   final Ref ref;
 
   // TODO: Make configurable
-  final period = const Duration(minutes: 5);
+  final liveCheck = const Duration(minutes: 1);
+  final fullCheck = const Duration(minutes: 5);
 
   final _cache = FutureCache(prefix: '$NetworkInfoService');
 
-  final _devices = <NetworkDeviceInfo>{};
+  final _devices = <String, NetworkDeviceInfo>{};
   final _events = StreamController<NetworkDeviceEvent>.broadcast();
   final _states = StreamController<List<NetworkDeviceInfo>>.broadcast();
 
   StreamSubscription<DateTime>? _timing;
 
-  List<NetworkDeviceInfo> get devicesCached => _devices.toList();
+  List<NetworkDeviceInfo> get devicesCached => [..._devices.values];
 
   Stream<NetworkDeviceEvent> get events => _events.stream;
 
@@ -52,8 +55,18 @@ class NetworkInfoService {
     _timing = ref
         .read(timingServiceProvider)
         .events
-        .throttle(period)
-        .listen((_) => _discover(period));
+        .throttle(liveCheck)
+        .listen((e) => _discover(_needFullScan(e, fullCheck)));
+
+    if (kDebugMode) {
+      _events.stream.listen(
+        (e) => debugPrint(
+          '----------------------------\n'
+          '$NetworkInfoService >> ${e.runtimeType}::${e.data.ipAddress}\n'
+          '----------------------------',
+        ),
+      );
+    }
   }
 
   /// Stop listing to timing events.
@@ -65,16 +78,20 @@ class NetworkInfoService {
   void init() async {
     final state =
         await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
-    _devices.addAll(state.values);
+    _devices.addAll(state);
   }
 
   Future<Optional<NetworkInfo>> getNetworkInfo({
+    bool fullScan = true,
     Duration ttl = const Duration(seconds: 10),
   }) {
     return _cache.getOrFetch('info', () async {
       final local = await getLocalDevice();
       if (local.isPresent) {
-        final hosts = await getAvailableDevices();
+        final hosts = await getAvailableDevices(
+          fullScan: fullScan,
+          ttl: ttl,
+        );
         return Optional.of(NetworkInfo(
           devices: hosts,
           local: local.value,
@@ -93,6 +110,7 @@ class NetworkInfoService {
         return const Optional.empty();
       }
       final device = NetworkDeviceInfo(
+        isAvailable: true,
         ipAddress: interface.ipAddress,
         deviceName: interface.ipAddress,
         hostId: interface.hostId.toString(),
@@ -102,99 +120,160 @@ class NetworkInfoService {
   }
 
   Future<List<NetworkDeviceInfo>> getAvailableDevices({
+    bool fullScan = true,
     Duration ttl = Duration.zero,
-  }) async {
-    return await _cache.getOrFetch('available', () async {
+  }) {
+    return _cache.getOrFetch('available', () async {
       final interface = await NetInterface.localInterface();
+      final state = ref.read(networkDeviceInfoRepositoryProvider);
       if (interface == null) {
-        final state = ref.read(networkDeviceInfoRepositoryProvider);
         return state.valueOrNull?.values.toList() ?? [];
       }
       final address = interface.ipAddress;
-      String subnet = address.substring(0, address.lastIndexOf('.'));
-      final result = HostScanner.getAllPingableDevicesAsync(subnet);
+      final subnet = address.substring(0, address.lastIndexOf('.'));
+      final result = HostScanner.getAllPingableDevicesAsync(
+        subnet,
+        hostIds: _toHostIds(fullScan, state),
+      );
       return _update(result);
     }, ttl: ttl);
   }
 
+  DateTime? _lastFullScan;
+
+  bool _needFullScan(DateTime e, Duration max) {
+    if (_lastFullScan == null) return true;
+    return e.difference(_lastFullScan!) > max;
+  }
+
+  List<int> _toHostIds(bool fullScan, AsyncValue<NetworkDeviceInfoMap> state) {
+    if (fullScan || _lastFullScan == null) _lastFullScan = DateTime.now();
+    final hostIds = fullScan
+        ? <int>[]
+        : state.valueOrNull?.values
+                .map((e) => e.hostId)
+                .where((e) => e.isNumeric())
+                .map(int.parse)
+                .toList() ??
+            <int>[];
+    return hostIds;
+  }
+
   Stream<List<NetworkDeviceInfo>> discover({
+    bool fullScan = true,
     Duration ttl = Duration.zero,
   }) async* {
-    await _discover(ttl);
+    await _discover(fullScan, ttl);
     await for (final states in _states.stream) {
       yield states;
     }
   }
 
-  Future<void> _discover(Duration ttl) {
+  Future<void> _discover(bool fullScan, [Duration ttl = Duration.zero]) {
     return _cache.getOrFetch('_discover', () async {
       final interface = await NetInterface.localInterface();
       if (interface == null) {
         return;
       }
       final address = interface.ipAddress;
+      final hostIds = _toHostIds(
+        fullScan,
+        ref.read(networkDeviceInfoRepositoryProvider),
+      );
       String subnet = address.substring(0, address.lastIndexOf('.'));
-      final result = HostScanner.getAllPingableDevicesAsync(subnet);
+      if (kDebugMode) {
+        final left = (fullCheck -
+                DateTime.now().difference(_lastFullScan ?? DateTime.now()))
+            .inMinutes;
+        debugPrint(
+          '----------------------------\n'
+          '$NetworkInfoService >> Scan ${fullScan ? 'All' : 'IsAlive: [${hostIds.join(',')}], full scan in $left min'}\n'
+          '----------------------------',
+        );
+      }
+      final result = HostScanner.getAllPingableDevicesAsync(
+        subnet,
+        hostIds: hostIds,
+      );
       unawaited(_update(result));
       return;
     }, ttl: ttl);
   }
 
   Future<List<NetworkDeviceInfo>> _update(Stream<ActiveHost>? result) async {
-    final available = <NetworkDeviceInfo>[];
+    final pingable = <NetworkDeviceInfo>[];
     if (result != null) {
-      final state = Map.of(
-        ref.read(networkDeviceInfoRepositoryProvider).value ??
-            NetworkDeviceInfoMap(),
-      );
+      final oldState = ref.read(networkDeviceInfoRepositoryProvider).value ??
+          NetworkDeviceInfoMap();
+      final newState = Map.of(oldState);
+
+      // Wait for discovery progress
       await for (final it in result) {
         _cache.setTTL('devices', DateTime.now());
-        NetworkDeviceInfo device = await _toDevice(it);
-        available.add(device);
+        NetworkDeviceInfo next = await _toDevice(it);
 
-        final added = _devices.add(device);
-        if (!state.containsKey(device.hostId)) {
-          _events.add(NetworkDeviceAdded(device));
+        pingable.add(next);
+
+        final prev = newState[next.hostId];
+        final isNew = prev == null;
+        _devices[next.hostId] = next;
+        newState[next.hostId] = next;
+
+        if (isNew) {
+          _events.add(NetworkDeviceAdded(next));
+        } else if (next.isAvailable && !prev.isAvailable) {
+          _events.add(NetworkDeviceOnline(next));
+        } else if (!next.isAvailable && prev.isAvailable) {
+          _events.add(NetworkDeviceOffline(next));
         }
 
-        state[device.hostId] = device;
-        if (added) {
-          _states.add(_devices.toList());
-        }
+        _states.add(_devices.values.toList());
       }
 
       // Cleanup
-      final missing = state.values.where((e) => !available.contains(e));
+      final ids = pingable.map((e) => e.hostId).toSet();
+      final missing = oldState.keys.where((e) => !ids.contains(e));
       for (final it in missing) {
+        newState.remove(it);
         _devices.remove(it);
-        state.remove(it.hostId);
       }
 
       await ref
           .read(networkDeviceInfoRepositoryProvider.notifier)
-          .save(state.values);
+          .save(newState.values);
 
-      _events.addStream(Stream.fromIterable(missing.map(
-        NetworkDeviceRemoved.new,
-      )));
+      // Notify if devices are missing
+      if (missing.isNotEmpty) {
+        _events.addStream(
+          Stream.fromIterable(
+            missing
+                .map((e) => _devices[e])
+                .whereNotNull()
+                .map((NetworkDeviceRemoved.new)),
+          ),
+        );
 
-      _states.add(state.values.toList());
+        _states.add(newState.values.toList());
+      }
     }
-    return available;
+    return pingable;
   }
 
   Future<NetworkDeviceInfo> _toDevice(ActiveHost it) async {
     final vendor = await it.vendor;
-    final hostName = await it.hostName;
     final arpData = await it.arpData;
+    final hostName = await it.hostName;
     final deviceName = await it.deviceName;
+    final isAvailable = it.pingData.response != null;
     return NetworkDeviceInfo(
       hostId: it.hostId,
       hostName: hostName,
       ipAddress: it.address,
       deviceName: deviceName,
+      isAvailable: isAvailable,
       vendorName: vendor?.vendorName,
       macAddress: arpData?.macAddress,
+      aliveWhen: isAvailable ? DateTime.now() : _devices[it.hostId]?.aliveWhen,
     );
   }
 }
@@ -206,6 +285,14 @@ abstract class NetworkDeviceEvent {
 
 class NetworkDeviceAdded extends NetworkDeviceEvent {
   NetworkDeviceAdded(super.data);
+}
+
+class NetworkDeviceOnline extends NetworkDeviceEvent {
+  NetworkDeviceOnline(super.data);
+}
+
+class NetworkDeviceOffline extends NetworkDeviceEvent {
+  NetworkDeviceOffline(super.data);
 }
 
 class NetworkDeviceRemoved extends NetworkDeviceEvent {

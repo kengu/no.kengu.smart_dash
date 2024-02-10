@@ -12,9 +12,13 @@ _$NetworkDeviceInfoImpl _$$NetworkDeviceInfoImplFromJson(
       hostId: json['hostId'] as String,
       ipAddress: json['ipAddress'] as String,
       deviceName: json['deviceName'] as String,
+      isAvailable: json['isAvailable'] as bool,
       hostName: json['hostName'] as String?,
       macAddress: json['macAddress'] as String?,
       vendorName: json['vendorName'] as String?,
+      aliveWhen: json['aliveWhen'] == null
+          ? null
+          : DateTime.parse(json['aliveWhen'] as String),
     );
 
 Map<String, dynamic> _$$NetworkDeviceInfoImplToJson(
@@ -23,7 +27,9 @@ Map<String, dynamic> _$$NetworkDeviceInfoImplToJson(
       'hostId': instance.hostId,
       'ipAddress': instance.ipAddress,
       'deviceName': instance.deviceName,
+      'isAvailable': instance.isAvailable,
       'hostName': instance.hostName,
       'macAddress': instance.macAddress,
       'vendorName': instance.vendorName,
+      'aliveWhen': instance.aliveWhen?.toIso8601String(),
     };

@@ -20,9 +20,11 @@ class NetworkDeviceInfo with _$NetworkDeviceInfo {
     required String hostId,
     required String ipAddress,
     required String deviceName,
+    required bool isAvailable,
     String? hostName,
     String? macAddress,
     String? vendorName,
+    DateTime? aliveWhen,
   }) = _NetworkDeviceInfo;
 
   String get readableName {
