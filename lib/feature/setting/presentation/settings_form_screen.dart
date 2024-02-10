@@ -17,6 +17,7 @@ import 'package:smart_dash/feature/setting/presentation/tile/setting_switch_tile
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 
 import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
+import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
 
 class SettingFormScreen extends ConsumerWidget {
   const SettingFormScreen({
@@ -56,91 +57,145 @@ class SettingTilesWidget extends StatelessWidget {
         return ReactiveFormConsumer(
           builder: (context, formGroup, child) {
             final theme = Theme.of(context);
-            return Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: SettingsList(
-                platform: DevicePlatform.android,
-                lightTheme: SettingsThemeData(
-                  settingsListBackground: theme.canvasColor,
-                  settingsTileTextColor: theme.listTileTheme.tileColor,
-                ),
-                darkTheme: SettingsThemeData(
-                  settingsListBackground: theme.canvasColor,
-                  settingsTileTextColor: theme.listTileTheme.tileColor,
-                ),
-                sections: [
-                  SettingsSection(
-                    title: const Text('Look and feel'),
-                    tiles: [
-                      DarkModeTile(formControlName: SettingType.darkMode.name),
-                    ],
-                  ),
-                  SettingsSection(
-                    title: const Text('Interaction'),
-                    tiles: [
-                      SettingSwitchTile(
-                        type: SettingType.showSnackBar,
-                        formControlName: SettingType.showSnackBar.name,
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SettingsList(
+                    platform: DevicePlatform.android,
+                    lightTheme: SettingsThemeData(
+                      settingsListBackground: theme.canvasColor,
+                      settingsTileTextColor: theme.listTileTheme.tileColor,
+                    ),
+                    darkTheme: SettingsThemeData(
+                      settingsListBackground: theme.canvasColor,
+                      settingsTileTextColor: theme.listTileTheme.tileColor,
+                    ),
+                    sections: [
+                      SettingsSection(
+                        title: const Text('Look and feel'),
+                        tiles: [
+                          DarkModeTile(
+                              formControlName: SettingType.darkMode.name),
+                        ],
+                      ),
+                      SettingsSection(
+                        title: const Text('Interaction'),
+                        tiles: [
+                          SettingSwitchTile(
+                            type: SettingType.showSnackBar,
+                            formControlName: SettingType.showSnackBar.name,
+                          )
+                        ],
+                      ),
+                      SettingsSection(
+                        title: const Text('Accounting'),
+                        tiles: [
+                          PriceAreaTile(
+                            formControlName: SettingType.priceArea.name,
+                          )
+                        ],
+                      ),
+                      SettingsSection(
+                        title: const Text('Data'),
+                        tiles: [
+                          SettingsTile.navigation(
+                            title: const Text('Clear account data'),
+                            description: const Text(
+                              'This will delete all local account data',
+                            ),
+                            onPressed: (_) async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.remove(AccountRepository.key);
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Account data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear device data'),
+                            description: const Text(
+                              'This will delete all local device data',
+                            ),
+                            onPressed: (context) async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.remove(DeviceRepository.key);
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Device data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear network data'),
+                            description: const Text(
+                              'This will delete all local network data',
+                            ),
+                            onPressed: (_) async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs
+                                  .remove(NetworkDeviceInfoRepository.key);
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Network data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear history data'),
+                            description: const Text(
+                              'This will delete all local history data',
+                            ),
+                            onPressed: (context) async {
+                              await ref
+                                  .read(timeSeriesRepositoryProvider)
+                                  .deleteAll();
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'History data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear price data'),
+                            description: const Text(
+                              'This will delete all local price data',
+                            ),
+                            onPressed: (_) async {
+                              await ref
+                                  .read(electricityPriceRepositoryProvider)
+                                  .deleteAll();
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Price data deleted',
+                                );
+                              });
+                            },
+                          )
+                        ],
                       )
                     ],
                   ),
-                  SettingsSection(
-                    title: const Text('Accounting'),
-                    tiles: [
-                      PriceAreaTile(
-                        formControlName: SettingType.priceArea.name,
-                      )
-                    ],
-                  ),
-                  SettingsSection(
-                    title: const Text('Data'),
-                    tiles: [
-                      SettingsTile.navigation(
-                        title: const Text('Clear account data'),
-                        description: const Text(
-                          'This will delete all local account data',
-                        ),
-                        onPressed: (_) async {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.remove(AccountRepository.key);
-                        },
-                      ),
-                      SettingsTile.navigation(
-                        title: const Text('Clear device data'),
-                        description: const Text(
-                          'This will delete all local device data',
-                        ),
-                        onPressed: (_) async {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.remove(DeviceRepository.key);
-                        },
-                      ),
-                      SettingsTile.navigation(
-                        title: const Text('Clear history data'),
-                        description: const Text(
-                          'This will delete all local history data',
-                        ),
-                        onPressed: (_) async {
-                          await ref
-                              .read(timeSeriesRepositoryProvider)
-                              .deleteAll();
-                        },
-                      ),
-                      SettingsTile.navigation(
-                        title: const Text('Clear price data'),
-                        description: const Text(
-                          'This will delete all local price data',
-                        ),
-                        onPressed: (_) async {
-                          await ref
-                              .read(electricityPriceRepositoryProvider)
-                              .deleteAll();
-                        },
-                      )
-                    ],
-                  )
-                ],
-              ),
+                );
+              },
             );
           },
         );
