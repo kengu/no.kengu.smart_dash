@@ -37,6 +37,24 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
         builder: (_, snapshot) {
           final devices = _where(snapshot);
           final lastUpdated = network.lastUpdated;
+          final child = ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: devices.length,
+            itemBuilder: (context, index) {
+              final e = devices[index];
+              return ListTile(
+                  dense: true,
+                  horizontalTitleGap: 24,
+                  title: Text(e.readableName),
+                  leading: Icon(
+                    e.isAvailable ? Icons.devices_other : Icons.device_unknown,
+                  ),
+                  subtitle: Text(
+                    '${e.ipAddress} (${e.macAddress})',
+                  ));
+            },
+          );
           return SmartDashTile(
             title: 'Network Now',
             subTitle: lastUpdated.isPresent
@@ -55,21 +73,28 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
               ),
               textScaler: const TextScaler.linear(1.2),
             ),
-            body: ListView(
-              children: devices
-                  .map((e) => ListTile(
-                      dense: true,
-                      horizontalTitleGap: 24,
-                      title: Text(e.readableName),
-                      leading: Icon(
-                        e.isAvailable
-                            ? Icons.devices_other
-                            : Icons.device_unknown,
-                      ),
-                      subtitle: Text(
-                        '${e.ipAddress} (${e.macAddress})',
-                      )))
-                  .toList(),
+            body: StreamBuilder<NetworkScanProgress>(
+              stream: network.progress,
+              initialData: NetworkScanProgress.none(),
+              builder: (context, snapshot) {
+                final e = snapshot.data!;
+                return e.inProgress
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LinearProgressIndicator(
+                            minHeight: 1,
+                            value: e.value / 100,
+                            color: Colors.lightGreen.withOpacity(0.6),
+                          ),
+                          Expanded(
+                            flex: 30,
+                            child: child,
+                          ),
+                        ],
+                      )
+                    : child;
+              },
             ),
           );
         });

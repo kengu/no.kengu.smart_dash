@@ -34,6 +34,7 @@ class NetworkInfoService {
   final _devices = <String, NetworkDeviceInfo>{};
   final _events = StreamController<NetworkDeviceEvent>.broadcast();
   final _states = StreamController<List<NetworkDeviceInfo>>.broadcast();
+  final _progress = StreamController<NetworkScanProgress>.broadcast();
 
   StreamSubscription<DateTime>? _timing;
 
@@ -43,7 +44,13 @@ class NetworkInfoService {
 
   Stream<List<NetworkDeviceInfo>> get states => _states.stream;
 
-  Optional<DateTime> get lastUpdated => _cache.lastCached('discover');
+  Stream<NetworkScanProgress> get progress => _progress.stream;
+
+  bool get scanInProgress => _scanInProgress;
+  bool _scanInProgress = false;
+
+  Optional<DateTime> get lastUpdated => Optional.ofNullable(_lastFullScan);
+  DateTime? _lastFullScan;
 
   /// Start listing to timing events for periodic discovery
   void bind() async {
@@ -52,11 +59,13 @@ class NetworkInfoService {
       'DeviceDriverManager is already bound to timing service',
     );
 
-    _timing = ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(liveCheck)
-        .listen((e) => _discover(_needFullScan(e, fullCheck)));
+    _timing = ref.read(timingServiceProvider).events.throttle(liveCheck).listen(
+      (e) {
+        if (!_scanInProgress) {
+          _discover(_needFullScan(e, fullCheck), liveCheck);
+        }
+      },
+    );
 
     if (kDebugMode) {
       _events.stream.listen(
@@ -88,7 +97,7 @@ class NetworkInfoService {
     return _cache.getOrFetch('info', () async {
       final local = await getLocalDevice();
       if (local.isPresent) {
-        final hosts = await getAvailableDevices(
+        final hosts = await getAllDevices(
           fullScan: fullScan,
           ttl: ttl,
         );
@@ -119,11 +128,11 @@ class NetworkInfoService {
     }, ttl: ttl);
   }
 
-  Future<List<NetworkDeviceInfo>> getAvailableDevices({
+  Future<List<NetworkDeviceInfo>> getAllDevices({
     bool fullScan = true,
     Duration ttl = Duration.zero,
   }) {
-    return _cache.getOrFetch('available', () async {
+    return _cache.getOrFetch('all', () async {
       final interface = await NetInterface.localInterface();
       final state = ref.read(networkDeviceInfoRepositoryProvider);
       if (interface == null) {
@@ -135,11 +144,9 @@ class NetworkInfoService {
         subnet,
         hostIds: _toHostIds(fullScan, state),
       );
-      return _update(result);
+      return _update(fullScan, result);
     }, ttl: ttl);
   }
-
-  DateTime? _lastFullScan;
 
   bool _needFullScan(DateTime e, Duration max) {
     if (_lastFullScan == null) return true;
@@ -170,7 +177,7 @@ class NetworkInfoService {
   }
 
   Future<void> _discover(bool fullScan, [Duration ttl = Duration.zero]) {
-    return _cache.getOrFetch('_discover', () async {
+    return _cache.getOrFetch('discover', () async {
       final interface = await NetInterface.localInterface();
       if (interface == null) {
         return;
@@ -183,24 +190,36 @@ class NetworkInfoService {
       String subnet = address.substring(0, address.lastIndexOf('.'));
       if (kDebugMode) {
         final left = (fullCheck -
-                DateTime.now().difference(_lastFullScan ?? DateTime.now()))
-            .inMinutes;
+            DateTime.now().difference(_lastFullScan ?? DateTime.now()));
         debugPrint(
           '----------------------------\n'
-          '$NetworkInfoService >> Scan ${fullScan ? 'All' : 'IsAlive: [${hostIds.join(',')}], full scan in $left min'}\n'
+          '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan: [${hostIds.join(',')}]. Full Scan in ${left.inMinutes} min'}\n'
           '----------------------------',
         );
       }
+      _scanInProgress = true;
       final result = HostScanner.getAllPingableDevicesAsync(
         subnet,
         hostIds: hostIds,
+        progressCallback: (e) {
+          debugPrint(
+            '----------------------------\n'
+            '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: ${e.toStringAsFixed(1)} %\n'
+            '----------------------------',
+          );
+          _scanInProgress = e.toInt() < 100;
+          _progress.add(
+            NetworkScanProgress(fullScan, e),
+          );
+        },
       );
-      unawaited(_update(result));
+      unawaited(_update(fullScan, result));
       return;
     }, ttl: ttl);
   }
 
-  Future<List<NetworkDeviceInfo>> _update(Stream<ActiveHost>? result) async {
+  Future<List<NetworkDeviceInfo>> _update(
+      bool fullScan, Stream<ActiveHost>? result) async {
     final pingable = <NetworkDeviceInfo>[];
     if (result != null) {
       final oldState = ref.read(networkDeviceInfoRepositoryProvider).value ??
@@ -252,9 +271,19 @@ class NetworkInfoService {
                 .map((NetworkDeviceRemoved.new)),
           ),
         );
-
-        _states.add(newState.values.toList());
       }
+
+      _states.add(newState.values.toList());
+
+      _scanInProgress = false;
+      debugPrint(
+        '----------------------------\n'
+        '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: 100 %\n'
+        '----------------------------',
+      );
+      _progress.add(
+        NetworkScanProgress(fullScan, 100.0),
+      );
     }
     return pingable;
   }
@@ -278,25 +307,41 @@ class NetworkInfoService {
   }
 }
 
+class NetworkScanProgress {
+  const NetworkScanProgress(this.fullScan, this.value);
+  final bool fullScan;
+  final double value;
+
+  bool get isNone => value < 0;
+  bool get isDone => value >= 100;
+  bool get inProgress => !(isNone || isDone);
+
+  static NetworkScanProgress none([bool fullScan = true]) =>
+      NetworkScanProgress(fullScan, -1);
+
+  static NetworkScanProgress done([bool fullScan = true]) =>
+      NetworkScanProgress(fullScan, 100);
+}
+
 abstract class NetworkDeviceEvent {
-  NetworkDeviceEvent(this.data);
+  const NetworkDeviceEvent(this.data);
   final NetworkDeviceInfo data;
 }
 
 class NetworkDeviceAdded extends NetworkDeviceEvent {
-  NetworkDeviceAdded(super.data);
+  const NetworkDeviceAdded(super.data);
 }
 
 class NetworkDeviceOnline extends NetworkDeviceEvent {
-  NetworkDeviceOnline(super.data);
+  const NetworkDeviceOnline(super.data);
 }
 
 class NetworkDeviceOffline extends NetworkDeviceEvent {
-  NetworkDeviceOffline(super.data);
+  const NetworkDeviceOffline(super.data);
 }
 
 class NetworkDeviceRemoved extends NetworkDeviceEvent {
-  NetworkDeviceRemoved(super.data);
+  const NetworkDeviceRemoved(super.data);
 }
 
 @Riverpod(keepAlive: true)

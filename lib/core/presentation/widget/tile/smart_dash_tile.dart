@@ -47,10 +47,10 @@ class SmartDashTile extends StatelessWidget {
                   style: TextStyle(color: subTitleColor),
                   textScaler: const TextScaler.linear(0.85),
                 ),
-                minLeadingWidth: 8,
-                style: ListTileStyle.drawer,
                 leading: leading,
                 trailing: trailing,
+                minLeadingWidth: 8,
+                style: ListTileStyle.drawer,
               ),
               const Spacer(),
               Expanded(
