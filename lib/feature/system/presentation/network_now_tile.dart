@@ -57,9 +57,11 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
           );
           return SmartDashTile(
             title: 'Network Now',
-            subTitle: lastUpdated.isPresent
-                ? 'Last updated ${format(lastUpdated.value)}'
-                : '',
+            subTitle: network.isEnabled
+                ? (lastUpdated.isPresent
+                    ? 'Last updated ${format(lastUpdated.value)}'
+                    : 'Last update unknown')
+                : 'Presence is disabled',
             constraints: NetworkNowTile.constraints,
             leading: const Icon(
               Icons.network_check,
@@ -75,7 +77,7 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
             ),
             body: StreamBuilder<NetworkScanProgress>(
               stream: network.progress,
-              initialData: NetworkScanProgress.none(),
+              initialData: network.getProgress(),
               builder: (context, snapshot) {
                 final e = snapshot.data!;
                 return e.inProgress

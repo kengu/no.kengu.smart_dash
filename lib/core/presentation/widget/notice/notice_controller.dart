@@ -22,8 +22,8 @@ class NoticeController extends _$NoticeController {
   }) {
     final shouldShow = ref
         .read(settingRepositoryProvider.notifier)
-        .get(SettingType.showSnackBar);
-    if (shouldShow.orElseNull?.value == true) {
+        .getOrDefault(SettingType.showSnackBar, false);
+    if (shouldShow) {
       ref.read(noticeControllerProvider.notifier).showSnackBar(
             context,
             message,

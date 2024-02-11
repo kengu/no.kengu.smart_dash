@@ -10,6 +10,7 @@ import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dar
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.dart';
+import 'package:smart_dash/feature/presence/presentation/presence_tile.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
@@ -134,8 +135,10 @@ class HomePage extends ConsumerWidget {
                     return NetworkNowTile(
                       key: GlobalObjectKey(item),
                     );
-/*
-*/
+                  case 'presence_now':
+                    return PresenceTile(
+                      key: GlobalObjectKey(item),
+                    );
                   default:
                     return Text(item.identifier);
                 }

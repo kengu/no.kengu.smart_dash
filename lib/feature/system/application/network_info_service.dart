@@ -5,11 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
 import 'package:network_tools_flutter/network_tools_flutter.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash/util/platform.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
 
@@ -18,16 +21,18 @@ part 'network_info_service.g.dart';
 class NetworkInfoService {
   NetworkInfoService(this.ref) {
     ref.onDispose(() {
+      unbind();
       _events.close();
       _states.close();
+      _progress.close();
     });
   }
 
   final Ref ref;
 
   // TODO: Make configurable
-  final liveCheck = const Duration(minutes: 1);
-  final fullCheck = const Duration(minutes: 5);
+  final liveCheck = Duration(minutes: Platform.isDesktop ? 1 : 5);
+  final fullCheck = Duration(minutes: Platform.isDesktop ? 5 : 10);
 
   final _cache = FutureCache(prefix: '$NetworkInfoService');
 
@@ -38,22 +43,25 @@ class NetworkInfoService {
 
   StreamSubscription<DateTime>? _timing;
 
+  /// Controlled by SettingType.enablePresence
+  bool get isEnabled => ref
+      .read(settingRepositoryProvider.notifier)
+      .getOrDefault(SettingType.enablePresence, false);
+
   List<NetworkDeviceInfo> get devicesCached => [..._devices.values];
 
   Stream<NetworkDeviceEvent> get events => _events.stream;
-
+  Stream<NetworkScanProgress> get progress => _progress.stream;
   Stream<List<NetworkDeviceInfo>> get states => _states.stream;
 
-  Stream<NetworkScanProgress> get progress => _progress.stream;
-
-  bool get scanInProgress => _scanInProgress;
-  bool _scanInProgress = false;
+  NetworkScanProgress getProgress() => _lastProgress;
+  NetworkScanProgress _lastProgress = NetworkScanProgress.none();
 
   Optional<DateTime> get lastUpdated => Optional.ofNullable(_lastFullScan);
   DateTime? _lastFullScan;
 
   /// Start listing to timing events for periodic discovery
-  void bind() async {
+  void bind() {
     assert(
       _timing == null,
       'DeviceDriverManager is already bound to timing service',
@@ -61,7 +69,7 @@ class NetworkInfoService {
 
     _timing = ref.read(timingServiceProvider).events.throttle(liveCheck).listen(
       (e) {
-        if (!_scanInProgress) {
+        if (isEnabled) {
           _discover(_needFullScan(e, fullCheck), liveCheck);
         }
       },
@@ -197,7 +205,11 @@ class NetworkInfoService {
           '----------------------------',
         );
       }
-      _scanInProgress = true;
+
+      _progress.add(
+        _lastProgress = NetworkScanProgress(fullScan, 0.0),
+      );
+
       final result = HostScanner.getAllPingableDevicesAsync(
         subnet,
         hostIds: hostIds,
@@ -207,9 +219,8 @@ class NetworkInfoService {
             '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: ${e.toStringAsFixed(1)} %\n'
             '----------------------------',
           );
-          _scanInProgress = e.toInt() < 100;
           _progress.add(
-            NetworkScanProgress(fullScan, e),
+            _lastProgress = NetworkScanProgress(fullScan, e),
           );
         },
       );
@@ -275,14 +286,13 @@ class NetworkInfoService {
 
       _states.add(newState.values.toList());
 
-      _scanInProgress = false;
       debugPrint(
         '----------------------------\n'
         '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: 100 %\n'
         '----------------------------',
       );
       _progress.add(
-        NetworkScanProgress(fullScan, 100.0),
+        _lastProgress = NetworkScanProgress.done(fullScan),
       );
     }
     return pingable;

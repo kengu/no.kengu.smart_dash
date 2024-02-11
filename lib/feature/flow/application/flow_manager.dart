@@ -34,8 +34,15 @@ class FlowManager {
 
   /// [DeviceDriver] should call this to register
   void register(Flow flow) {
+    assert(
+      !_flows.containsKey(flow.key),
+      'FlowManager: ${flow.runtimeType}[key:${flow.key}] already registered',
+    );
+
     _flows[flow.key] = flow;
-    debugPrint('FlowManager: ${flow.runtimeType}[key:${flow.key}] registered');
+    debugPrint(
+      'FlowManager: ${flow.runtimeType}[key:${flow.key}] registered',
+    );
   }
 
   /// Start pumping flow events by binding to device updates
@@ -77,17 +84,17 @@ class FlowManager {
 }
 
 abstract class Flow {
-  Flow(this.key);
+  const Flow(this.key);
 
   final String key;
 
-  bool when(DriverEvent event);
+  bool when(Object event);
 
   @visibleForOverriding
-  Stream<FlowEvent> evaluate(DriverEvent event);
+  Stream<FlowEvent> evaluate(Object event);
 
   /// Default method
-  Stream<FlowEvent> call(DriverEvent event) => evaluate(event);
+  Stream<FlowEvent> call(Object event) => evaluate(event);
 }
 
 class FlowEvent<T> {

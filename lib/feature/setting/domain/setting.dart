@@ -16,9 +16,12 @@ class Setting with _$Setting {
   factory Setting.fromJson(Map<String, Object?> json) =>
       _$SettingFromJson(json);
 
-  String toStringValue() => value.toString();
-  int toIntValue() => int.parse(toStringValue());
-  double toDoubleValue() => double.parse(toStringValue());
+  int toInt() => int.parse(toString());
+  bool toBool() => value == true;
+  double toDouble() => double.parse(toString());
+
+  @override
+  String toString() => value.toString();
 
   static Setting of(SettingType e) => Setting(
         name: e.name,
@@ -34,6 +37,7 @@ class SettingFields {
 enum SettingType {
   darkMode(DarkMode.system),
   showSnackBar(true),
+  enablePresence(false),
   priceArea('NO1', ['NO1', 'NO2', 'NO3', 'NO4', 'NO5']);
 
   const SettingType(this.defaultValue, [this.options = const []]);

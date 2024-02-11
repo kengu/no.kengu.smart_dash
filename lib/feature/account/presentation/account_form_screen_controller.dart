@@ -133,8 +133,8 @@ class AccountFormScreenController extends _$AccountFormScreenController
     // reactive_forms that does not handle objects well.
     // Side note: It is hard to work with reactive_forms
     // using the patterns implemented by SmartDash
-
     final presence = value[AccountFields.presence] as String?;
+
     return Account.fromJson({
       ...value,
       AccountFields.userId: query!.userId,

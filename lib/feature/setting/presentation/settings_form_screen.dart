@@ -83,8 +83,21 @@ class SettingTilesWidget extends StatelessWidget {
                         title: const Text('Interaction'),
                         tiles: [
                           SettingSwitchTile(
+                            title: 'Show notices',
+                            description: 'A notice is shown on each save',
                             type: SettingType.showSnackBar,
                             formControlName: SettingType.showSnackBar.name,
+                          )
+                        ],
+                      ),
+                      SettingsSection(
+                        title: const Text('Features'),
+                        tiles: [
+                          SettingSwitchTile(
+                            title: 'Presence detection',
+                            description: 'Let devices track presence',
+                            type: SettingType.enablePresence,
+                            formControlName: SettingType.enablePresence.name,
                           )
                         ],
                       ),

@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/type.dart';
 
 part 'setting_repository.g.dart';
 
@@ -22,6 +23,16 @@ class SettingRepository extends _$SettingRepository {
   SettingMap build() => toMap(defaults);
 
   Optional<Setting> get(SettingType type) => Optional.ofNullable(state[type]);
+
+  T getOrDefault<T>(SettingType type, T defaultValue) => state.containsKey(type)
+      ? switch (typeOf<T>()) {
+          const (int) => get(type).value.toInt() as T,
+          const (bool) => get(type).value.toBool() as T,
+          const (double) => get(type).value.toDouble() as T,
+          const (String) => get(type).value.toString() as T,
+          _ => defaultValue
+        }
+      : defaultValue;
 
   Optional<Setting> set(SettingType type, Setting setting) {
     final current = state[type];

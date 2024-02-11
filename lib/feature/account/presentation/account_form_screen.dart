@@ -17,6 +17,7 @@ import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart'
 import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/util/widget.dart';
 
 import 'account_form_screen_controller.dart';
 import 'field/service_field_group.dart';
@@ -123,68 +124,135 @@ class _AccountPresenceField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ExpansionTile(
-      title: const Text('Presence Registration'),
-      subtitle: const Text('Pick a device on local network'),
-      tilePadding: const EdgeInsets.only(top: 16),
-      leading: const Icon(Icons.home_work, size: 48),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () async {
-          final remove = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Remove presence registration'),
-              content: const Text(
-                'This will remove all use and pairing.\n'
-                'Do you want to proceed?',
+    return ReactiveFormConsumer(
+      builder: (BuildContext context, FormGroup formGroup, _) {
+        final network = ref.read(networkInfoServiceProvider);
+        if (!network.isEnabled) {
+          return const ExpansionTile(
+            title: Text('Presence Registration'),
+            subtitle: Text('Presence is disabled'),
+            tilePadding: EdgeInsets.only(top: 16),
+            leading: Icon(Icons.home_work, size: 48),
+            childrenPadding: EdgeInsets.zero,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [Text('Goto Settings and enable presence')],
+                ),
               ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text('NO'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  child: const Text('YES'),
-                ),
-              ],
-            ),
+            ],
           );
-          if (remove == true) {
-            throw UnimplementedError(
-              'TODO: Remove of presence registration',
-            );
-          }
-        },
-      ),
-      children: [
-        const SizedBox(height: 16.0),
-        SmartDashDropdownField<String>(
-          formControlName: AccountFields.presence,
-          labelText: 'Device',
-          items: ref
-              .read(networkInfoServiceProvider)
-              .devicesCached
-              .map((e) => DropdownMenuItem<String>(
-                    value: jsonEncode(
-                      Presence.fromJson(e.toJson()).toJson(),
+        }
+        return ExpansionTile(
+          title: const Text('Presence Registration'),
+          subtitle: const Text('Let devices track presence'),
+          tilePadding: const EdgeInsets.only(top: 16),
+          leading: const Icon(Icons.home_work, size: 48),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              final remove = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Remove presence registration'),
+                  content: const Text(
+                    'This will remove all use and pairing.\n'
+                    'Do you want to proceed?',
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('NO'),
                     ),
-                    child: Tooltip(
-                      message: '${e.ipAddress} (Host ${e.macAddress})',
-                      preferBelow: true,
-                      child: Text(
-                        e.readableName,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('YES'),
                     ),
-                  ))
-              .toList(),
-          validationMessages: {
-            ValidationMessage.required: (_) => 'Please select an device',
-          },
-        ),
-      ],
+                  ],
+                ),
+              );
+              if (remove == true) {
+                formGroup.controls[AccountFields.presence]?.value = null;
+              }
+            },
+          ),
+          children: [
+            const Divider(height: 24),
+            StreamBuilder<NetworkScanProgress>(
+              stream: network.progress,
+              initialData: network.getProgress(),
+              builder: (context, snapshot) {
+                final e = snapshot.data!;
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            'Pick a device or phone that can be used to '
+                            'register if someone is at home. Try to run a '
+                            'network scan if you don\'t see your device.',
+                            style: getLegendTextStyle(context),
+                            textScaler: const TextScaler.linear(1.15),
+                          ),
+                        ),
+                        Tooltip(
+                          message: e.inProgress
+                              ? 'Scan in progress'
+                              : 'Run full network scan',
+                          child: IconButton(
+                            icon: const Icon(Icons.refresh),
+                            onPressed:
+                                e.inProgress ? null : () => network.discover(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (e.inProgress)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: LinearProgressIndicator(
+                          minHeight: 1,
+                          color: Colors.lightGreen.withOpacity(0.6),
+                        ),
+                      )
+                    else
+                      const Divider(height: 24),
+                  ],
+                );
+              },
+            ),
+            SmartDashDropdownField<String>(
+              formControlName: AccountFields.presence,
+              labelText: 'Device',
+              items: ref
+                  .read(networkInfoServiceProvider)
+                  .devicesCached
+                  .map((e) => DropdownMenuItem<String>(
+                        value: jsonEncode(
+                          Presence.fromJson(e.toJson()).toJson(),
+                        ),
+                        child: Tooltip(
+                          preferBelow: true,
+                          waitDuration: const Duration(milliseconds: 500),
+                          message: '${e.ipAddress} (Host ${e.macAddress})',
+                          child: Text(
+                            e.readableName,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              validationMessages: {
+                ValidationMessage.required: (_) => 'Please select an device',
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

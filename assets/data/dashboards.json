@@ -278,6 +278,16 @@
           "min_H": 1,
           "max_W": 3
         }
+      },
+      {
+        "item_id": "presence_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
       }
     ],
     "tablet": [
@@ -405,6 +415,16 @@
           "min_H": 1,
           "max_W": 3
         }
+      },
+      {
+        "item_id": "presence_now",
+        "layout": {
+          "w": 3,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 3
+        }
       }
     ],
     "desktop": [
@@ -524,6 +544,16 @@
       },
       {
         "item_id": "network_now",
+        "layout": {
+          "w": 4,
+          "h": 1,
+          "min_W": 3,
+          "min_H": 1,
+          "max_W": 4
+        }
+      },
+      {
+        "item_id": "presence_now",
         "layout": {
           "w": 4,
           "h": 1,

@@ -6,7 +6,7 @@ class SikomFlow extends Flow {
   SikomFlow() : super('sikom');
 
   @override
-  Stream<FlowEvent> evaluate(DriverEvent event) async* {
+  Stream<FlowEvent> evaluate(Object event) async* {
     if (event is DriverUpdatedEvent) {
       for (final device in event.devices) {
         for (final token in device.toTokens()) {
@@ -53,7 +53,7 @@ class SikomFlow extends Flow {
   }
 
   @override
-  bool when(DriverEvent event) =>
+  bool when(Object event) =>
       event is DriverUpdatedEvent &&
       event.devices.any(
         (d) => d.capabilities.isNotEmpty,

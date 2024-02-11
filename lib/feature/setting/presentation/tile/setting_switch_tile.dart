@@ -6,11 +6,15 @@ import 'package:smart_dash/feature/setting/domain/setting.dart';
 class SettingSwitchTile extends AbstractSettingsTile {
   const SettingSwitchTile({
     super.key,
-    required this.formControlName,
     required this.type,
+    required this.title,
+    required this.description,
+    required this.formControlName,
   });
 
   final SettingType type;
+  final String title;
+  final String description;
   final String formControlName;
 
   @override
@@ -21,8 +25,8 @@ class SettingSwitchTile extends AbstractSettingsTile {
       builder: (field) {
         return SettingsTile.switchTile(
           leading: const Icon(Icons.info),
-          title: const Text('Show notices'),
-          description: const Text('A notice is shown on each save'),
+          title: Text(title),
+          description: Text(description),
           // TODO: Find out how to use Theme.switchTheme using MaterialStateProperty
           activeSwitchColor: Colors.blueAccent,
           initialValue: field.value?.value as bool,
