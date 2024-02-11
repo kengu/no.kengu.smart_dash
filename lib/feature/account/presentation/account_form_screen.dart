@@ -5,9 +5,11 @@ import 'package:flutter/material.dart' hide ProgressIndicator;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_dropdown_field.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
@@ -47,7 +49,7 @@ class AccountFormScreen extends ConsumerWidget {
                 'Saved account for ${jsonEncode(account.fullName)}',
                 location: location,
               ),
-              child: AccountFieldsWidget(
+              child: _AccountFieldsWidget(
                 services: services,
               ),
             );
@@ -60,9 +62,8 @@ class AccountFormScreen extends ConsumerWidget {
   }
 }
 
-class AccountFieldsWidget extends StatelessWidget {
-  const AccountFieldsWidget({
-    super.key,
+class _AccountFieldsWidget extends StatelessWidget {
+  const _AccountFieldsWidget({
     required this.services,
   });
 
@@ -89,6 +90,7 @@ class AccountFieldsWidget extends StatelessWidget {
               ValidationMessage.required: (_) => 'Please enter lastname',
             },
           ),
+          const _AccountPresenceField(),
           ReactiveFormArray<Object>(
             formArrayName: AccountFields.services,
             builder: (context, formArray, child) {
@@ -107,7 +109,7 @@ class AccountFieldsWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 56.0),
-          AddServiceMenuButton(
+          _AddServiceMenuButton(
             services: services,
           ),
         ],
@@ -116,9 +118,79 @@ class AccountFieldsWidget extends StatelessWidget {
   }
 }
 
-class AddServiceMenuButton extends StatelessWidget {
-  AddServiceMenuButton({
-    super.key,
+class _AccountPresenceField extends ConsumerWidget {
+  const _AccountPresenceField();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ExpansionTile(
+      title: const Text('Presence Registration'),
+      subtitle: const Text('Pick a device on local network'),
+      tilePadding: const EdgeInsets.only(top: 16),
+      leading: const Icon(Icons.home_work, size: 48),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () async {
+          final remove = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Remove presence registration'),
+              content: const Text(
+                'This will remove all use and pairing.\n'
+                'Do you want to proceed?',
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text('NO'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text('YES'),
+                ),
+              ],
+            ),
+          );
+          if (remove == true) {
+            throw UnimplementedError(
+              'TODO: Remove of presence registration',
+            );
+          }
+        },
+      ),
+      children: [
+        const SizedBox(height: 16.0),
+        SmartDashDropdownField<String>(
+          formControlName: AccountFields.presence,
+          labelText: 'Device',
+          items: ref
+              .read(networkInfoServiceProvider)
+              .devicesCached
+              .map((e) => DropdownMenuItem<String>(
+                    value: jsonEncode(
+                      Presence.fromJson(e.toJson()).toJson(),
+                    ),
+                    child: Tooltip(
+                      message: '${e.ipAddress} (Host ${e.macAddress})',
+                      preferBelow: true,
+                      child: Text(
+                        e.readableName,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ))
+              .toList(),
+          validationMessages: {
+            ValidationMessage.required: (_) => 'Please select an device',
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _AddServiceMenuButton extends StatelessWidget {
+  _AddServiceMenuButton({
     required this.services,
   });
 
@@ -177,8 +249,19 @@ class AddServiceMenuButton extends StatelessWidget {
                 return missing
                     .map((key) => PopupMenuItem<String>(
                           value: key,
-                          child: Text(
-                            "${services[key]!.name}${instances[key]! > 1 ? ' (${instances[key]} left)' : ''}",
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/${services[key]!.image}',
+                                fit: BoxFit.cover,
+                                cacheWidth: 24,
+                                cacheHeight: 24,
+                              ),
+                              const SizedBox(width: 16),
+                              Text(
+                                "${services[key]!.name}${instances[key]! > 1 ? ' (${instances[key]} left)' : ''}",
+                              ),
+                            ],
                           ),
                         ))
                     .toList();

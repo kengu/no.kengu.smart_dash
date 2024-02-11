@@ -24,6 +24,7 @@ mixin _$Account {
   Set<ServiceConfig> get services => throw _privateConstructorUsedError;
   String? get fname => throw _privateConstructorUsedError;
   String? get lname => throw _privateConstructorUsedError;
+  Presence? get presence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,10 @@ abstract class $AccountCopyWith<$Res> {
       {String userId,
       Set<ServiceConfig> services,
       String? fname,
-      String? lname});
+      String? lname,
+      Presence? presence});
+
+  $PresenceCopyWith<$Res>? get presence;
 }
 
 /// @nodoc
@@ -59,6 +63,7 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
     Object? services = null,
     Object? fname = freezed,
     Object? lname = freezed,
+    Object? presence = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -77,7 +82,23 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
           ? _value.lname
           : lname // ignore: cast_nullable_to_non_nullable
               as String?,
+      presence: freezed == presence
+          ? _value.presence
+          : presence // ignore: cast_nullable_to_non_nullable
+              as Presence?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PresenceCopyWith<$Res>? get presence {
+    if (_value.presence == null) {
+      return null;
+    }
+
+    return $PresenceCopyWith<$Res>(_value.presence!, (value) {
+      return _then(_value.copyWith(presence: value) as $Val);
+    });
   }
 }
 
@@ -92,7 +113,11 @@ abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
       {String userId,
       Set<ServiceConfig> services,
       String? fname,
-      String? lname});
+      String? lname,
+      Presence? presence});
+
+  @override
+  $PresenceCopyWith<$Res>? get presence;
 }
 
 /// @nodoc
@@ -110,6 +135,7 @@ class __$$AccountImplCopyWithImpl<$Res>
     Object? services = null,
     Object? fname = freezed,
     Object? lname = freezed,
+    Object? presence = freezed,
   }) {
     return _then(_$AccountImpl(
       userId: null == userId
@@ -128,6 +154,10 @@ class __$$AccountImplCopyWithImpl<$Res>
           ? _value.lname
           : lname // ignore: cast_nullable_to_non_nullable
               as String?,
+      presence: freezed == presence
+          ? _value.presence
+          : presence // ignore: cast_nullable_to_non_nullable
+              as Presence?,
     ));
   }
 }
@@ -139,7 +169,8 @@ class _$AccountImpl extends _Account {
       {required this.userId,
       required final Set<ServiceConfig> services,
       this.fname,
-      this.lname})
+      this.lname,
+      this.presence})
       : _services = services,
         super._();
 
@@ -160,10 +191,12 @@ class _$AccountImpl extends _Account {
   final String? fname;
   @override
   final String? lname;
+  @override
+  final Presence? presence;
 
   @override
   String toString() {
-    return 'Account(userId: $userId, services: $services, fname: $fname, lname: $lname)';
+    return 'Account(userId: $userId, services: $services, fname: $fname, lname: $lname, presence: $presence)';
   }
 
   @override
@@ -174,13 +207,15 @@ class _$AccountImpl extends _Account {
             (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other._services, _services) &&
             (identical(other.fname, fname) || other.fname == fname) &&
-            (identical(other.lname, lname) || other.lname == lname));
+            (identical(other.lname, lname) || other.lname == lname) &&
+            (identical(other.presence, presence) ||
+                other.presence == presence));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, userId,
-      const DeepCollectionEquality().hash(_services), fname, lname);
+      const DeepCollectionEquality().hash(_services), fname, lname, presence);
 
   @JsonKey(ignore: true)
   @override
@@ -201,7 +236,8 @@ abstract class _Account extends Account {
       {required final String userId,
       required final Set<ServiceConfig> services,
       final String? fname,
-      final String? lname}) = _$AccountImpl;
+      final String? lname,
+      final Presence? presence}) = _$AccountImpl;
   const _Account._() : super._();
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$AccountImpl.fromJson;
@@ -215,7 +251,186 @@ abstract class _Account extends Account {
   @override
   String? get lname;
   @override
+  Presence? get presence;
+  @override
   @JsonKey(ignore: true)
   _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Presence _$PresenceFromJson(Map<String, dynamic> json) {
+  return _Presence.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Presence {
+  String get ipAddress => throw _privateConstructorUsedError;
+  String get deviceName => throw _privateConstructorUsedError;
+  String? get macAddress => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PresenceCopyWith<Presence> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PresenceCopyWith<$Res> {
+  factory $PresenceCopyWith(Presence value, $Res Function(Presence) then) =
+      _$PresenceCopyWithImpl<$Res, Presence>;
+  @useResult
+  $Res call({String ipAddress, String deviceName, String? macAddress});
+}
+
+/// @nodoc
+class _$PresenceCopyWithImpl<$Res, $Val extends Presence>
+    implements $PresenceCopyWith<$Res> {
+  _$PresenceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ipAddress = null,
+    Object? deviceName = null,
+    Object? macAddress = freezed,
+  }) {
+    return _then(_value.copyWith(
+      ipAddress: null == ipAddress
+          ? _value.ipAddress
+          : ipAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      deviceName: null == deviceName
+          ? _value.deviceName
+          : deviceName // ignore: cast_nullable_to_non_nullable
+              as String,
+      macAddress: freezed == macAddress
+          ? _value.macAddress
+          : macAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PresenceImplCopyWith<$Res>
+    implements $PresenceCopyWith<$Res> {
+  factory _$$PresenceImplCopyWith(
+          _$PresenceImpl value, $Res Function(_$PresenceImpl) then) =
+      __$$PresenceImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String ipAddress, String deviceName, String? macAddress});
+}
+
+/// @nodoc
+class __$$PresenceImplCopyWithImpl<$Res>
+    extends _$PresenceCopyWithImpl<$Res, _$PresenceImpl>
+    implements _$$PresenceImplCopyWith<$Res> {
+  __$$PresenceImplCopyWithImpl(
+      _$PresenceImpl _value, $Res Function(_$PresenceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ipAddress = null,
+    Object? deviceName = null,
+    Object? macAddress = freezed,
+  }) {
+    return _then(_$PresenceImpl(
+      ipAddress: null == ipAddress
+          ? _value.ipAddress
+          : ipAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      deviceName: null == deviceName
+          ? _value.deviceName
+          : deviceName // ignore: cast_nullable_to_non_nullable
+              as String,
+      macAddress: freezed == macAddress
+          ? _value.macAddress
+          : macAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PresenceImpl extends _Presence {
+  const _$PresenceImpl(
+      {required this.ipAddress, required this.deviceName, this.macAddress})
+      : super._();
+
+  factory _$PresenceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PresenceImplFromJson(json);
+
+  @override
+  final String ipAddress;
+  @override
+  final String deviceName;
+  @override
+  final String? macAddress;
+
+  @override
+  String toString() {
+    return 'Presence(ipAddress: $ipAddress, deviceName: $deviceName, macAddress: $macAddress)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PresenceImpl &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.deviceName, deviceName) ||
+                other.deviceName == deviceName) &&
+            (identical(other.macAddress, macAddress) ||
+                other.macAddress == macAddress));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, ipAddress, deviceName, macAddress);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
+      __$$PresenceImplCopyWithImpl<_$PresenceImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PresenceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Presence extends Presence {
+  const factory _Presence(
+      {required final String ipAddress,
+      required final String deviceName,
+      final String? macAddress}) = _$PresenceImpl;
+  const _Presence._() : super._();
+
+  factory _Presence.fromJson(Map<String, dynamic> json) =
+      _$PresenceImpl.fromJson;
+
+  @override
+  String get ipAddress;
+  @override
+  String get deviceName;
+  @override
+  String? get macAddress;
+  @override
+  @JsonKey(ignore: true)
+  _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -14,6 +14,7 @@ class Account with _$Account {
     required Set<ServiceConfig> services,
     String? fname,
     String? lname,
+    Presence? presence,
   }) = _Account;
 
   String get fullName => [fname, lname].whereType<String>().join(' ');
@@ -28,9 +29,24 @@ class Account with _$Account {
       _$AccountFromJson(json);
 }
 
+@freezed
+class Presence with _$Presence {
+  const Presence._();
+
+  const factory Presence({
+    required String ipAddress,
+    required String deviceName,
+    String? macAddress,
+  }) = _Presence;
+
+  factory Presence.fromJson(Map<String, Object?> json) =>
+      _$PresenceFromJson(json);
+}
+
 class AccountFields {
   static const String userId = 'userId';
   static const String fname = 'fname';
   static const String lname = 'lname';
+  static const String presence = 'presence';
   static const String services = 'services';
 }

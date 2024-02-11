@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -53,6 +55,9 @@ class AccountFormScreenController extends _$AccountFormScreenController
       AccountFields.lname: FormControl<String>(
         value: data.orElseNull?.lname,
         validators: [Validators.required],
+      ),
+      AccountFields.presence: FormControl<String>(
+        value: jsonEncode(data.orElseNull?.presence?.toJson()),
       ),
       AccountFields.services: FormArray<Object>([
         ...toServices(data).map(buildServiceFieldsForm),
@@ -122,8 +127,20 @@ class AccountFormScreenController extends _$AccountFormScreenController
   }
 
   @override
-  Account buildData(Map<String, Object?> value) =>
-      Account.fromJson({...value, AccountFields.userId: query!.userId});
+  Account buildData(Map<String, Object?> value) {
+    // Not happy with this workaround...
+    // It is a result of poor parametric typing in
+    // reactive_forms that does not handle objects well.
+    // Side note: It is hard to work with reactive_forms
+    // using the patterns implemented by SmartDash
+
+    final presence = value[AccountFields.presence] as String?;
+    return Account.fromJson({
+      ...value,
+      AccountFields.userId: query!.userId,
+      if (presence != null) AccountFields.presence: jsonDecode(presence),
+    });
+  }
 
   @override
   Future<Optional<Account>> load() =>

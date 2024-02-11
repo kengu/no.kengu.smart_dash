@@ -28,48 +28,46 @@ class _ServiceFieldGroupState extends State<ServiceFieldGroup> {
   @override
   Widget build(BuildContext context) {
     final service = widget.definitions[widget.service]!;
-    return Column(
-      children: [
-        const SizedBox(height: 56.0),
-        ListTile(
-          title: Text(service.name),
-          subtitle: Text(service.description),
-          contentPadding: EdgeInsets.zero,
-          leading: Image.asset(
-            'assets/images/${service.image}',
-            fit: BoxFit.cover,
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () async {
-              final remove = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: Text('Remove ${service.name}'),
-                  content: const Text(
-                    'This will remove all use and pairing.\n'
-                    'Do you want to proceed?',
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('NO'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('YES'),
-                    ),
-                  ],
+    return ExpansionTile(
+      title: Text(service.name),
+      subtitle: Text(service.description),
+      childrenPadding: EdgeInsets.zero,
+      tilePadding: const EdgeInsets.only(top: 16),
+      leading: Image.asset(
+        'assets/images/${service.image}',
+        fit: BoxFit.cover,
+      ),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () async {
+          final remove = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text('Remove ${service.name}'),
+              content: const Text(
+                'This will remove all use and pairing.\n'
+                'Do you want to proceed?',
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text('NO'),
                 ),
-              );
-              if (remove == true) {
-                widget.formArray.removeAt(
-                  widget.index,
-                );
-              }
-            },
-          ),
-        ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text('YES'),
+                ),
+              ],
+            ),
+          );
+          if (remove == true) {
+            widget.formArray.removeAt(
+              widget.index,
+            );
+          }
+        },
+      ),
+      children: [
         if (service.fields.contains(ServiceField.device)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
