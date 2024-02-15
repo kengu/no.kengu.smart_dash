@@ -12,6 +12,7 @@ import 'package:smart_dash/feature/system/data/network_device_info_repository.da
 import 'package:smart_dash/feature/system/domain/network_info.dart';
 import 'package:network_tools_flutter/network_tools_flutter.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
@@ -54,6 +55,9 @@ class NetworkInfoService {
   Stream<NetworkScanProgress> get progress => _progress.stream;
   Stream<List<NetworkDeviceInfo>> get states => _states.stream;
 
+  bool get isIdle => !inProgress;
+  bool get inProgress => _lastProgress.inProgress;
+
   NetworkScanProgress getProgress() => _lastProgress;
   NetworkScanProgress _lastProgress = NetworkScanProgress.none();
 
@@ -69,8 +73,8 @@ class NetworkInfoService {
 
     _timing = ref.read(timingServiceProvider).events.throttle(liveCheck).listen(
       (e) {
-        if (isEnabled) {
-          _discover(_needFullScan(e, fullCheck), liveCheck);
+        if (isEnabled && isIdle) {
+          _discover(_needFullScan(e, fullCheck));
         }
       },
     );
@@ -176,57 +180,63 @@ class NetworkInfoService {
 
   Stream<List<NetworkDeviceInfo>> discover({
     bool fullScan = true,
-    Duration ttl = Duration.zero,
   }) async* {
-    await _discover(fullScan, ttl);
+    if (isIdle) {
+      _discover(fullScan);
+    }
     await for (final states in _states.stream) {
       yield states;
     }
   }
 
-  Future<void> _discover(bool fullScan, [Duration ttl = Duration.zero]) {
-    return _cache.getOrFetch('discover', () async {
-      final interface = await NetInterface.localInterface();
-      if (interface == null) {
-        return;
-      }
-      final address = interface.ipAddress;
-      final hostIds = _toHostIds(
-        fullScan,
-        ref.read(networkDeviceInfoRepositoryProvider),
-      );
-      String subnet = address.substring(0, address.lastIndexOf('.'));
-      if (kDebugMode) {
-        final left = (fullCheck -
-            DateTime.now().difference(_lastFullScan ?? DateTime.now()));
-        debugPrint(
-          '----------------------------\n'
-          '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan: [${hostIds.join(',')}]. Full Scan in ${left.inMinutes} min'}\n'
-          '----------------------------',
+  Future<void> _discover(bool fullScan) {
+    _lastProgress = NetworkScanProgress(fullScan, 0.0);
+    return guard(
+      () async {
+        final interface = await NetInterface.localInterface();
+        if (interface == null) {
+          return;
+        }
+        final address = interface.ipAddress;
+        final hostIds = _toHostIds(
+          fullScan,
+          ref.read(networkDeviceInfoRepositoryProvider),
         );
-      }
-
-      _progress.add(
-        _lastProgress = NetworkScanProgress(fullScan, 0.0),
-      );
-
-      final result = HostScanner.getAllPingableDevicesAsync(
-        subnet,
-        hostIds: hostIds,
-        progressCallback: (e) {
+        String subnet = address.substring(0, address.lastIndexOf('.'));
+        if (kDebugMode) {
+          final left = (fullCheck -
+              DateTime.now().difference(_lastFullScan ?? DateTime.now()));
           debugPrint(
             '----------------------------\n'
-            '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: ${e.toStringAsFixed(1)} %\n'
+            '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan: [${hostIds.join(',')}]. Full Scan in ${left.inMinutes} min'}\n'
             '----------------------------',
           );
-          _progress.add(
-            _lastProgress = NetworkScanProgress(fullScan, e),
-          );
-        },
-      );
-      unawaited(_update(fullScan, result));
-      return;
-    }, ttl: ttl);
+        }
+
+        _progress.add(
+          _lastProgress = NetworkScanProgress(fullScan, 0.0),
+        );
+
+        final result = HostScanner.getAllPingableDevicesAsync(
+          subnet,
+          hostIds: hostIds,
+          progressCallback: (e) {
+            debugPrint(
+              '----------------------------\n'
+              '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: ${e.toStringAsFixed(1)} %\n'
+              '----------------------------',
+            );
+            _progress.add(
+              _lastProgress = NetworkScanProgress(fullScan, e),
+            );
+          },
+        );
+        unawaited(_update(fullScan, result));
+        return;
+      },
+      task: '_discover',
+      name: '$NetworkDeviceInfo',
+    );
   }
 
   Future<List<NetworkDeviceInfo>> _update(
