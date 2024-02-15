@@ -40,7 +40,10 @@ class SnowService {
       final account = await ref.read(accountRepositoryProvider).get(
             user.userId,
           );
-      return account.value.firstWhere(key);
+      // TODO: Implement selected home provider
+      final home = account.value.homes?.firstOrNull;
+      if (home == null) return const Optional.empty();
+      return home.firstServiceWhere(key);
     }, ttl: ttl);
   }
 

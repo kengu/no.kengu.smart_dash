@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SmartDashProgressIndicator extends StatelessWidget {
   const SmartDashProgressIndicator({
     super.key,
-    this.message,
+    this.message = 'Preparing data',
     this.delay = const Duration(
       milliseconds: 200,
     ),

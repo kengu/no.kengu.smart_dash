@@ -31,6 +31,7 @@ const _$TokenTypeEnumMap = {
 
 const _$TokenUnitEnumMap = {
   TokenUnit.onOff: 'onOff',
+  TokenUnit.count: 'count',
   TokenUnit.power: 'power',
   TokenUnit.energy: 'energy',
   TokenUnit.voltage: 'voltage',

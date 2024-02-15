@@ -25,18 +25,22 @@ class DeviceRepository {
           );
   }
 
-  Future<List<Device>> _load() => guard(() async {
-        final prefs = await SharedPreferences.getInstance();
-        final result = prefs.getStringList(DeviceRepository.key);
-        return result
-                ?.map(jsonDecode)
-                .whereType<JsonObject>()
-                .map(Device.fromJson)
-                // Remove duplicates just in case (
-                .toSet()
-                .toList() ??
-            [];
-      });
+  Future<List<Device>> _load() => guard(
+        () async {
+          final prefs = await SharedPreferences.getInstance();
+          final result = prefs.getStringList(DeviceRepository.key);
+          return result
+                  ?.map(jsonDecode)
+                  .whereType<JsonObject>()
+                  .map(Device.fromJson)
+                  // Remove duplicates just in case (
+                  .toSet()
+                  .toList() ??
+              [];
+        },
+        task: '_load',
+        name: '$DeviceRepository',
+      );
 
   /// Attempt to sett all given devices to
   /// repository. Returns list of actual added devices.
@@ -70,13 +74,17 @@ class DeviceRepository {
     return [if (success) ...unique];
   }
 
-  Future<bool> _setAll(List<Device> devices) => guard(() async {
-        final prefs = await SharedPreferences.getInstance();
-        return prefs.setStringList(
-          DeviceRepository.key,
-          devices.map(jsonEncode).toList(),
-        );
-      });
+  Future<bool> _setAll(List<Device> devices) => guard(
+        () async {
+          final prefs = await SharedPreferences.getInstance();
+          return prefs.setStringList(
+            DeviceRepository.key,
+            devices.map(jsonEncode).toList(),
+          );
+        },
+        task: '_setAll',
+        name: '$DeviceRepository',
+      );
 }
 
 @Riverpod(keepAlive: true)

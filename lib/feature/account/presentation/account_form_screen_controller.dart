@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,14 +7,15 @@ import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash/util/data/json.dart';
 
 part 'account_form_screen_controller.g.dart';
 
 class AccountQuery {
   AccountQuery({
     required this.userId,
-    required Iterable<String> services,
-  }) : services = services.toList();
+    required Iterable<String> serviceKeys,
+  }) : services = serviceKeys.toList();
 
   final String userId;
   final List<String> services;
@@ -27,21 +26,6 @@ class AccountFormScreenController extends _$AccountFormScreenController
     with
         AsyncLoadController<AccountQuery, Account>,
         AsyncFormController<AccountQuery, Account> {
-  static List<ServiceConfig> from(FormArray entries) =>
-      entries.value
-          ?.whereType<Map<String, Object?>>()
-          .map((e) => ServiceConfig.fromJson(e))
-          .toList() ??
-      [];
-
-  static int indexWhere(FormArray fromArray, ServiceConfig service) {
-    return fromArray.value!.indexWhere(
-      (e) =>
-          e[ServiceConfigFields.key] == service.key &&
-          e[ServiceConfigFields.device] == service.device,
-    );
-  }
-
   @override
   FutureOr<Optional<Account>> build() => super.build();
 
@@ -56,22 +40,37 @@ class AccountFormScreenController extends _$AccountFormScreenController
         value: data.orElseNull?.lname,
         validators: [Validators.required],
       ),
-      AccountFields.presence: FormControl<String>(
-        value: jsonEncode(data.orElseNull?.presence?.toJson()),
+      AccountFields.homes: FormArray<JsonObject>([
+        ...(data.orElseNull?.homes ?? []).map(buildHomeFieldsForm),
+      ]),
+    });
+  }
+
+  FormGroup buildHomeFieldsForm(AccountHome data) {
+    return fb.group(<String, Object>{
+      AccountHomeFields.name: FormControl<String>(
+        value: data.name,
       ),
-      AccountFields.services: FormArray<Object>([
+      AccountHomeFields.members: FormArray<JsonObject>([
+        ...data.members.map(buildMemberFieldsForm),
+      ]),
+      AccountHomeFields.services: FormArray<JsonObject>([
         ...toServices(data).map(buildServiceFieldsForm),
       ]),
     });
   }
 
-  Set<ServiceConfig> toServices(Optional<Account> data) {
-    return data.isPresent
-        ? query!.services
-            .map(data.value.where)
-            .expand((e) => e.toList())
-            .toSet()
-        : {};
+  FormGroup buildMemberFieldsForm(AccountHomeMember data) {
+    return fb.group(<String, Object>{
+      // Hidden fields
+      AccountHomeMemberFields.key: FormControl<String>(
+        value: data.key,
+      ),
+      // Rendered fields
+      AccountHomeMemberFields.name: FormControl<String>(
+        value: data.name,
+      ),
+    });
   }
 
   FormGroup buildServiceFieldsForm(ServiceConfig data) {
@@ -126,19 +125,18 @@ class AccountFormScreenController extends _$AccountFormScreenController
     });
   }
 
+  Set<ServiceConfig> toServices(AccountHome data) {
+    return query!.services
+        .map(data.serviceWhere)
+        .expand((e) => e.toList())
+        .toSet();
+  }
+
   @override
   Account buildData(Map<String, Object?> value) {
-    // Not happy with this workaround...
-    // It is a result of poor parametric typing in
-    // reactive_forms that does not handle objects well.
-    // Side note: It is hard to work with reactive_forms
-    // using the patterns implemented by SmartDash
-    final presence = value[AccountFields.presence] as String?;
-
     return Account.fromJson({
       ...value,
       AccountFields.userId: query!.userId,
-      if (presence != null) AccountFields.presence: jsonDecode(presence),
     });
   }
 

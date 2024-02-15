@@ -21,10 +21,9 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Account {
   String get userId => throw _privateConstructorUsedError;
-  Set<ServiceConfig> get services => throw _privateConstructorUsedError;
   String? get fname => throw _privateConstructorUsedError;
   String? get lname => throw _privateConstructorUsedError;
-  Presence? get presence => throw _privateConstructorUsedError;
+  List<AccountHome>? get homes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,13 +36,7 @@ abstract class $AccountCopyWith<$Res> {
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
   $Res call(
-      {String userId,
-      Set<ServiceConfig> services,
-      String? fname,
-      String? lname,
-      Presence? presence});
-
-  $PresenceCopyWith<$Res>? get presence;
+      {String userId, String? fname, String? lname, List<AccountHome>? homes});
 }
 
 /// @nodoc
@@ -60,20 +53,15 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
   @override
   $Res call({
     Object? userId = null,
-    Object? services = null,
     Object? fname = freezed,
     Object? lname = freezed,
-    Object? presence = freezed,
+    Object? homes = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      services: null == services
-          ? _value.services
-          : services // ignore: cast_nullable_to_non_nullable
-              as Set<ServiceConfig>,
       fname: freezed == fname
           ? _value.fname
           : fname // ignore: cast_nullable_to_non_nullable
@@ -82,23 +70,11 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
           ? _value.lname
           : lname // ignore: cast_nullable_to_non_nullable
               as String?,
-      presence: freezed == presence
-          ? _value.presence
-          : presence // ignore: cast_nullable_to_non_nullable
-              as Presence?,
+      homes: freezed == homes
+          ? _value.homes
+          : homes // ignore: cast_nullable_to_non_nullable
+              as List<AccountHome>?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PresenceCopyWith<$Res>? get presence {
-    if (_value.presence == null) {
-      return null;
-    }
-
-    return $PresenceCopyWith<$Res>(_value.presence!, (value) {
-      return _then(_value.copyWith(presence: value) as $Val);
-    });
   }
 }
 
@@ -110,14 +86,7 @@ abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String userId,
-      Set<ServiceConfig> services,
-      String? fname,
-      String? lname,
-      Presence? presence});
-
-  @override
-  $PresenceCopyWith<$Res>? get presence;
+      {String userId, String? fname, String? lname, List<AccountHome>? homes});
 }
 
 /// @nodoc
@@ -132,20 +101,15 @@ class __$$AccountImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? services = null,
     Object? fname = freezed,
     Object? lname = freezed,
-    Object? presence = freezed,
+    Object? homes = freezed,
   }) {
     return _then(_$AccountImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      services: null == services
-          ? _value._services
-          : services // ignore: cast_nullable_to_non_nullable
-              as Set<ServiceConfig>,
       fname: freezed == fname
           ? _value.fname
           : fname // ignore: cast_nullable_to_non_nullable
@@ -154,10 +118,10 @@ class __$$AccountImplCopyWithImpl<$Res>
           ? _value.lname
           : lname // ignore: cast_nullable_to_non_nullable
               as String?,
-      presence: freezed == presence
-          ? _value.presence
-          : presence // ignore: cast_nullable_to_non_nullable
-              as Presence?,
+      homes: freezed == homes
+          ? _value._homes
+          : homes // ignore: cast_nullable_to_non_nullable
+              as List<AccountHome>?,
     ));
   }
 }
@@ -167,11 +131,10 @@ class __$$AccountImplCopyWithImpl<$Res>
 class _$AccountImpl extends _Account {
   const _$AccountImpl(
       {required this.userId,
-      required final Set<ServiceConfig> services,
       this.fname,
       this.lname,
-      this.presence})
-      : _services = services,
+      final List<AccountHome>? homes})
+      : _homes = homes,
         super._();
 
   factory _$AccountImpl.fromJson(Map<String, dynamic> json) =>
@@ -179,24 +142,23 @@ class _$AccountImpl extends _Account {
 
   @override
   final String userId;
-  final Set<ServiceConfig> _services;
-  @override
-  Set<ServiceConfig> get services {
-    if (_services is EqualUnmodifiableSetView) return _services;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_services);
-  }
-
   @override
   final String? fname;
   @override
   final String? lname;
+  final List<AccountHome>? _homes;
   @override
-  final Presence? presence;
+  List<AccountHome>? get homes {
+    final value = _homes;
+    if (value == null) return null;
+    if (_homes is EqualUnmodifiableListView) return _homes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Account(userId: $userId, services: $services, fname: $fname, lname: $lname, presence: $presence)';
+    return 'Account(userId: $userId, fname: $fname, lname: $lname, homes: $homes)';
   }
 
   @override
@@ -205,17 +167,15 @@ class _$AccountImpl extends _Account {
         (other.runtimeType == runtimeType &&
             other is _$AccountImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other._services, _services) &&
             (identical(other.fname, fname) || other.fname == fname) &&
             (identical(other.lname, lname) || other.lname == lname) &&
-            (identical(other.presence, presence) ||
-                other.presence == presence));
+            const DeepCollectionEquality().equals(other._homes, _homes));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId,
-      const DeepCollectionEquality().hash(_services), fname, lname, presence);
+  int get hashCode => Object.hash(runtimeType, userId, fname, lname,
+      const DeepCollectionEquality().hash(_homes));
 
   @JsonKey(ignore: true)
   @override
@@ -234,10 +194,9 @@ class _$AccountImpl extends _Account {
 abstract class _Account extends Account {
   const factory _Account(
       {required final String userId,
-      required final Set<ServiceConfig> services,
       final String? fname,
       final String? lname,
-      final Presence? presence}) = _$AccountImpl;
+      final List<AccountHome>? homes}) = _$AccountImpl;
   const _Account._() : super._();
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$AccountImpl.fromJson;
@@ -245,47 +204,51 @@ abstract class _Account extends Account {
   @override
   String get userId;
   @override
-  Set<ServiceConfig> get services;
-  @override
   String? get fname;
   @override
   String? get lname;
   @override
-  Presence? get presence;
+  List<AccountHome>? get homes;
   @override
   @JsonKey(ignore: true)
   _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-Presence _$PresenceFromJson(Map<String, dynamic> json) {
-  return _Presence.fromJson(json);
+AccountHome _$AccountHomeFromJson(Map<String, dynamic> json) {
+  return _AccountHome.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Presence {
-  String get ipAddress => throw _privateConstructorUsedError;
-  String get deviceName => throw _privateConstructorUsedError;
-  String? get macAddress => throw _privateConstructorUsedError;
+mixin _$AccountHome {
+  String get name => throw _privateConstructorUsedError;
+  List<ServiceConfig> get services => throw _privateConstructorUsedError;
+  List<AccountHomeMember> get members => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PresenceCopyWith<Presence> get copyWith =>
+  $AccountHomeCopyWith<AccountHome> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PresenceCopyWith<$Res> {
-  factory $PresenceCopyWith(Presence value, $Res Function(Presence) then) =
-      _$PresenceCopyWithImpl<$Res, Presence>;
+abstract class $AccountHomeCopyWith<$Res> {
+  factory $AccountHomeCopyWith(
+          AccountHome value, $Res Function(AccountHome) then) =
+      _$AccountHomeCopyWithImpl<$Res, AccountHome>;
   @useResult
-  $Res call({String ipAddress, String deviceName, String? macAddress});
+  $Res call(
+      {String name,
+      List<ServiceConfig> services,
+      List<AccountHomeMember> members,
+      String? address});
 }
 
 /// @nodoc
-class _$PresenceCopyWithImpl<$Res, $Val extends Presence>
-    implements $PresenceCopyWith<$Res> {
-  _$PresenceCopyWithImpl(this._value, this._then);
+class _$AccountHomeCopyWithImpl<$Res, $Val extends AccountHome>
+    implements $AccountHomeCopyWith<$Res> {
+  _$AccountHomeCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -295,65 +258,79 @@ class _$PresenceCopyWithImpl<$Res, $Val extends Presence>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ipAddress = null,
-    Object? deviceName = null,
-    Object? macAddress = freezed,
+    Object? name = null,
+    Object? services = null,
+    Object? members = null,
+    Object? address = freezed,
   }) {
     return _then(_value.copyWith(
-      ipAddress: null == ipAddress
-          ? _value.ipAddress
-          : ipAddress // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      deviceName: null == deviceName
-          ? _value.deviceName
-          : deviceName // ignore: cast_nullable_to_non_nullable
-              as String,
-      macAddress: freezed == macAddress
-          ? _value.macAddress
-          : macAddress // ignore: cast_nullable_to_non_nullable
+      services: null == services
+          ? _value.services
+          : services // ignore: cast_nullable_to_non_nullable
+              as List<ServiceConfig>,
+      members: null == members
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<AccountHomeMember>,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$PresenceImplCopyWith<$Res>
-    implements $PresenceCopyWith<$Res> {
-  factory _$$PresenceImplCopyWith(
-          _$PresenceImpl value, $Res Function(_$PresenceImpl) then) =
-      __$$PresenceImplCopyWithImpl<$Res>;
+abstract class _$$AccountHomeImplCopyWith<$Res>
+    implements $AccountHomeCopyWith<$Res> {
+  factory _$$AccountHomeImplCopyWith(
+          _$AccountHomeImpl value, $Res Function(_$AccountHomeImpl) then) =
+      __$$AccountHomeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String ipAddress, String deviceName, String? macAddress});
+  $Res call(
+      {String name,
+      List<ServiceConfig> services,
+      List<AccountHomeMember> members,
+      String? address});
 }
 
 /// @nodoc
-class __$$PresenceImplCopyWithImpl<$Res>
-    extends _$PresenceCopyWithImpl<$Res, _$PresenceImpl>
-    implements _$$PresenceImplCopyWith<$Res> {
-  __$$PresenceImplCopyWithImpl(
-      _$PresenceImpl _value, $Res Function(_$PresenceImpl) _then)
+class __$$AccountHomeImplCopyWithImpl<$Res>
+    extends _$AccountHomeCopyWithImpl<$Res, _$AccountHomeImpl>
+    implements _$$AccountHomeImplCopyWith<$Res> {
+  __$$AccountHomeImplCopyWithImpl(
+      _$AccountHomeImpl _value, $Res Function(_$AccountHomeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ipAddress = null,
-    Object? deviceName = null,
-    Object? macAddress = freezed,
+    Object? name = null,
+    Object? services = null,
+    Object? members = null,
+    Object? address = freezed,
   }) {
-    return _then(_$PresenceImpl(
-      ipAddress: null == ipAddress
-          ? _value.ipAddress
-          : ipAddress // ignore: cast_nullable_to_non_nullable
+    return _then(_$AccountHomeImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      deviceName: null == deviceName
-          ? _value.deviceName
-          : deviceName // ignore: cast_nullable_to_non_nullable
-              as String,
-      macAddress: freezed == macAddress
-          ? _value.macAddress
-          : macAddress // ignore: cast_nullable_to_non_nullable
+      services: null == services
+          ? _value._services
+          : services // ignore: cast_nullable_to_non_nullable
+              as List<ServiceConfig>,
+      members: null == members
+          ? _value._members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<AccountHomeMember>,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -361,76 +338,257 @@ class __$$PresenceImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PresenceImpl extends _Presence {
-  const _$PresenceImpl(
-      {required this.ipAddress, required this.deviceName, this.macAddress})
-      : super._();
+class _$AccountHomeImpl extends _AccountHome {
+  const _$AccountHomeImpl(
+      {required this.name,
+      required final List<ServiceConfig> services,
+      required final List<AccountHomeMember> members,
+      this.address})
+      : _services = services,
+        _members = members,
+        super._();
 
-  factory _$PresenceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PresenceImplFromJson(json);
+  factory _$AccountHomeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AccountHomeImplFromJson(json);
 
   @override
-  final String ipAddress;
+  final String name;
+  final List<ServiceConfig> _services;
   @override
-  final String deviceName;
+  List<ServiceConfig> get services {
+    if (_services is EqualUnmodifiableListView) return _services;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_services);
+  }
+
+  final List<AccountHomeMember> _members;
   @override
-  final String? macAddress;
+  List<AccountHomeMember> get members {
+    if (_members is EqualUnmodifiableListView) return _members;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_members);
+  }
+
+  @override
+  final String? address;
 
   @override
   String toString() {
-    return 'Presence(ipAddress: $ipAddress, deviceName: $deviceName, macAddress: $macAddress)';
+    return 'AccountHome(name: $name, services: $services, members: $members, address: $address)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresenceImpl &&
-            (identical(other.ipAddress, ipAddress) ||
-                other.ipAddress == ipAddress) &&
-            (identical(other.deviceName, deviceName) ||
-                other.deviceName == deviceName) &&
-            (identical(other.macAddress, macAddress) ||
-                other.macAddress == macAddress));
+            other is _$AccountHomeImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._services, _services) &&
+            const DeepCollectionEquality().equals(other._members, _members) &&
+            (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, ipAddress, deviceName, macAddress);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(_services),
+      const DeepCollectionEquality().hash(_members),
+      address);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
-      __$$PresenceImplCopyWithImpl<_$PresenceImpl>(this, _$identity);
+  _$$AccountHomeImplCopyWith<_$AccountHomeImpl> get copyWith =>
+      __$$AccountHomeImplCopyWithImpl<_$AccountHomeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PresenceImplToJson(
+    return _$$AccountHomeImplToJson(
       this,
     );
   }
 }
 
-abstract class _Presence extends Presence {
-  const factory _Presence(
-      {required final String ipAddress,
-      required final String deviceName,
-      final String? macAddress}) = _$PresenceImpl;
-  const _Presence._() : super._();
+abstract class _AccountHome extends AccountHome {
+  const factory _AccountHome(
+      {required final String name,
+      required final List<ServiceConfig> services,
+      required final List<AccountHomeMember> members,
+      final String? address}) = _$AccountHomeImpl;
+  const _AccountHome._() : super._();
 
-  factory _Presence.fromJson(Map<String, dynamic> json) =
-      _$PresenceImpl.fromJson;
+  factory _AccountHome.fromJson(Map<String, dynamic> json) =
+      _$AccountHomeImpl.fromJson;
 
   @override
-  String get ipAddress;
+  String get name;
   @override
-  String get deviceName;
+  List<ServiceConfig> get services;
   @override
-  String? get macAddress;
+  List<AccountHomeMember> get members;
+  @override
+  String? get address;
   @override
   @JsonKey(ignore: true)
-  _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
+  _$$AccountHomeImplCopyWith<_$AccountHomeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AccountHomeMember _$AccountHomeMemberFromJson(Map<String, dynamic> json) {
+  return _AccountHomeMember.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AccountHomeMember {
+  String get key => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AccountHomeMemberCopyWith<AccountHomeMember> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AccountHomeMemberCopyWith<$Res> {
+  factory $AccountHomeMemberCopyWith(
+          AccountHomeMember value, $Res Function(AccountHomeMember) then) =
+      _$AccountHomeMemberCopyWithImpl<$Res, AccountHomeMember>;
+  @useResult
+  $Res call({String key, String name});
+}
+
+/// @nodoc
+class _$AccountHomeMemberCopyWithImpl<$Res, $Val extends AccountHomeMember>
+    implements $AccountHomeMemberCopyWith<$Res> {
+  _$AccountHomeMemberCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AccountHomeMemberImplCopyWith<$Res>
+    implements $AccountHomeMemberCopyWith<$Res> {
+  factory _$$AccountHomeMemberImplCopyWith(_$AccountHomeMemberImpl value,
+          $Res Function(_$AccountHomeMemberImpl) then) =
+      __$$AccountHomeMemberImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String key, String name});
+}
+
+/// @nodoc
+class __$$AccountHomeMemberImplCopyWithImpl<$Res>
+    extends _$AccountHomeMemberCopyWithImpl<$Res, _$AccountHomeMemberImpl>
+    implements _$$AccountHomeMemberImplCopyWith<$Res> {
+  __$$AccountHomeMemberImplCopyWithImpl(_$AccountHomeMemberImpl _value,
+      $Res Function(_$AccountHomeMemberImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? name = null,
+  }) {
+    return _then(_$AccountHomeMemberImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AccountHomeMemberImpl extends _AccountHomeMember {
+  const _$AccountHomeMemberImpl({required this.key, required this.name})
+      : super._();
+
+  factory _$AccountHomeMemberImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AccountHomeMemberImplFromJson(json);
+
+  @override
+  final String key;
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'AccountHomeMember(key: $key, name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AccountHomeMemberImpl &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, key, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AccountHomeMemberImplCopyWith<_$AccountHomeMemberImpl> get copyWith =>
+      __$$AccountHomeMemberImplCopyWithImpl<_$AccountHomeMemberImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AccountHomeMemberImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AccountHomeMember extends AccountHomeMember {
+  const factory _AccountHomeMember(
+      {required final String key,
+      required final String name}) = _$AccountHomeMemberImpl;
+  const _AccountHomeMember._() : super._();
+
+  factory _AccountHomeMember.fromJson(Map<String, dynamic> json) =
+      _$AccountHomeMemberImpl.fromJson;
+
+  @override
+  String get key;
+  @override
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$AccountHomeMemberImplCopyWith<_$AccountHomeMemberImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

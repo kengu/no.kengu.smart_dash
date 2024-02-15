@@ -20,7 +20,7 @@ class AccountRepository {
     return accounts.isEmpty
         ? Optional.of(Account(
             userId: userId,
-            services: {},
+            homes: const [],
           ))
         : accounts.firstWhereOptional(
             (account) => account.userId == userId,
@@ -33,20 +33,20 @@ class AccountRepository {
     return _setAll({...next, account}.toList());
   }
 
-  Future<List<Account>> _load() => guard(() async {
-        final prefs = await SharedPreferences.getInstance();
-        final result = prefs.getStringList(AccountRepository.key);
-        try {
+  Future<List<Account>> _load() => guard(
+        () async {
+          final prefs = await SharedPreferences.getInstance();
+          final result = prefs.getStringList(AccountRepository.key);
           return result
                   ?.map(jsonDecode)
                   .whereType<Map<String, Object?>>()
                   .map(Account.fromJson)
                   .toList() ??
               [];
-        } catch (e) {
-          return const [];
-        }
-      });
+        },
+        task: '_load',
+        name: '$AccountRepository',
+      );
 
   Future<bool> _setAll(List<Account> accounts) => guard(() async {
         final prefs = await SharedPreferences.getInstance();

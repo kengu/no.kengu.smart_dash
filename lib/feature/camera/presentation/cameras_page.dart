@@ -129,7 +129,8 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   }
 
   Future<void> _checkCameras() async {
-    final configs = await ref.read(cameraManagerProvider).getConfigs();
+    final configs =
+        await ref.read(cameraManagerProvider).getConfigs(ttl: const Duration());
     final cameras = await Future.wait(
       configs.map((e) => ref
           .read(cameraManagerProvider)

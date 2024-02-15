@@ -65,11 +65,13 @@ enum TokenType {
 
 enum TokenUnit {
   onOff(''),
+  count(''),
   power('W'),
   energy('Wh'),
   voltage('V'),
   temperature('°C');
 
+  bool get isCount => this == count;
   bool get isOnOff => this == onOff;
   bool get isPower => this == power;
   bool get isEnergy => this == energy;
@@ -85,6 +87,7 @@ enum TokenUnit {
 }
 
 extension TokenX on Token {
+  bool get isCount => unit == TokenUnit.count;
   bool get isOnOff => unit == TokenUnit.onOff;
   bool get isPower => unit == TokenUnit.power;
   bool get isEnergy => unit == TokenUnit.energy;

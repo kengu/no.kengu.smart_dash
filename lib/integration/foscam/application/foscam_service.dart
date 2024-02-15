@@ -34,7 +34,10 @@ class FoscamService implements CameraService {
       final account = await ref.read(accountRepositoryProvider).get(
             user.userId,
           );
-      return account.value.where(key);
+      // TODO: Implement selected home provider
+      final home = account.value.homes?.firstOrNull;
+      if (home == null) return const [];
+      return home.serviceWhere(key);
     }, ttl: ttl);
   }
 

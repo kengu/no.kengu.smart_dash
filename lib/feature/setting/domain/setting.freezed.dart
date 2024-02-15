@@ -110,11 +110,6 @@ class _$SettingImpl extends _Setting {
   final Object value;
 
   @override
-  String toString() {
-    return 'Setting(name: $name, value: $value)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&

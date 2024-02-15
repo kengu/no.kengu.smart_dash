@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 
 TextStyle getLegendTextStyle(BuildContext context) {
@@ -26,4 +27,18 @@ MaterialColor toMaterial(Color color) {
       900: color.darken(0.4)
     },
   );
+}
+
+extension FormArrayX on FormArray {
+  List<Widget> fieldBuilder<T>(
+    Widget Function(int index, T value) builder,
+  ) {
+    final widgets = <Widget>[];
+    if (isNotNull) {
+      for (int i = 0; i < value!.length; i++) {
+        widgets.add(builder(i, value![i] as T));
+      }
+    }
+    return widgets;
+  }
 }

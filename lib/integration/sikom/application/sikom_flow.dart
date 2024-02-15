@@ -46,6 +46,10 @@ class SikomFlow extends Flow {
                 device.onOff?.lastUpdated ?? device.lastUpdated,
               );
               break;
+            case TokenUnit.count:
+              throw UnimplementedError(
+                '${TokenUnit.count} not implemented',
+              );
           }
         }
       }
