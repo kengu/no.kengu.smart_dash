@@ -48,13 +48,17 @@ class AccountRepository {
         name: '$AccountRepository',
       );
 
-  Future<bool> _setAll(List<Account> accounts) => guard(() async {
-        final prefs = await SharedPreferences.getInstance();
-        return prefs.setStringList(
-          AccountRepository.key,
-          accounts.map(jsonEncode).toList(),
-        );
-      });
+  Future<bool> _setAll(List<Account> accounts) => guard(
+        () async {
+          final prefs = await SharedPreferences.getInstance();
+          return prefs.setStringList(
+            AccountRepository.key,
+            accounts.map(jsonEncode).toList(),
+          );
+        },
+        task: '_setAll',
+        name: '$AccountRepository',
+      );
 
   Account _replace(Account current, Account next) =>
       current.userId == next.userId ? next : current;

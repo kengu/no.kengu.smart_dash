@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
-import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_scaffold.dart';
+import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/presentation/widget/page_view.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
+import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_screen.dart';
 import 'package:smart_dash/feature/camera/presentation/cameras_page.dart';
-import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
-import 'package:smart_dash/core/presentation/pages/home_page.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
+import 'package:smart_dash/feature/home/presentation/home_page.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 import 'package:smart_dash/feature/room/presentation/rooms_page.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen.dart';
-import 'package:smart_dash/core/presentation/widget/page_view.dart';
 
 sealed class Routes {
   /// Get last location routed to
@@ -60,7 +60,13 @@ sealed class Routes {
           ),
           buildGoRoute(
             path: Screens.settings,
-            child: SettingFormScreen(location: _lastLocation),
+            builder: (context, state) {
+              return SettingFormScreen(
+                location: state.extra is String
+                    ? state.extra as String
+                    : _lastLocation,
+              );
+            },
           ),
           buildDeviceRoutes(),
           buildParingRoutes(),
@@ -119,6 +125,10 @@ sealed class Routes {
       child != null || builder != null,
       'child or builder must be provided',
     );
+    assert(
+      child != null && builder == null || child == null && builder != null,
+      'only child or builder can be provided',
+    );
     return GoRoute(
       path: path,
       routes: routes,
@@ -126,9 +136,7 @@ sealed class Routes {
         return CustomTransitionPage(
           restorationId: restorationId == null
               ? state.uri.toString()
-              : restorationId(
-                  state,
-                ),
+              : restorationId(state),
           fullscreenDialog: fullscreenDialog,
           child: child ?? builder!(context, state),
           transitionsBuilder: (

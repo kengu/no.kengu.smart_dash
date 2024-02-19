@@ -1,14 +1,14 @@
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
-import 'package:smart_dash/feature/dashboard/data/dashboard_repository.dart';
-import 'package:smart_dash/feature/dashboard/domain/dashboard.dart' as m;
-import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
-import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
-import 'package:smart_dash/core/application/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/feature/dashboard/data/dashboard_repository.dart';
+import 'package:smart_dash/feature/dashboard/domain/dashboard.dart' as m;
+import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
+import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
 
 typedef DashboardPageItemBuilder<T extends DashboardItem> = Widget Function(
     m.Dashboard dashboard, ResponsiveType type, int slotCount, T item);

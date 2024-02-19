@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/integration/foscam/data/foscam_client.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -30,14 +29,9 @@ class FoscamService implements CameraService {
   @override
   Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
     return _cache.getOrFetch('configs', () async {
-      final user = ref.read(userRepositoryProvider).currentUser;
-      final account = await ref.read(accountRepositoryProvider).get(
-            user.userId,
-          );
-      // TODO: Implement selected home provider
-      final home = account.value.homes?.firstOrNull;
-      if (home == null) return const [];
-      return home.serviceWhere(key);
+      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      if (!home.isPresent) return const [];
+      return home.value.serviceWhere(key);
     }, ttl: ttl);
   }
 

@@ -1,10 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gravatar/flutter_gravatar.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
+import 'package:smart_dash/feature/home/presentation/home_selector.dart';
 
 class SmartDashMenu extends StatelessWidget {
   const SmartDashMenu({
@@ -62,13 +60,8 @@ class SmartDashMenuHeader extends StatefulWidget {
 }
 
 class _SmartDashMenuHeaderState extends State<SmartDashMenuHeader> {
-  String? _email;
-  Gravatar? _gravatar;
-
   @override
   void initState() {
-    _email = "kengu@discoos.org";
-    _gravatar = Gravatar(_email!);
     super.initState();
   }
 
@@ -79,33 +72,9 @@ class _SmartDashMenuHeaderState extends State<SmartDashMenuHeader> {
         icon: widget.leading,
         onPressed: widget.onPressed,
       ),
-      actions: [
-        SizedBox.square(
-          dimension: 56,
-          child: IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              if (widget.closeOnAll) {
-                widget.onPressed();
-              }
-              context.go(Screens.settings);
-            },
-          ),
-        ),
-        IconButton(
-          iconSize: 40,
-          icon: CircleAvatar(
-            foregroundImage: Image.network(
-              _gravatar!.imageUrl(),
-            ).image,
-          ),
-          onPressed: () {
-            if (widget.closeOnAll) {
-              widget.onPressed();
-            }
-            context.go(Screens.account);
-          },
-        ),
+      actions: const [
+        HomeSelector(),
+        SizedBox(width: 8),
       ],
     );
   }

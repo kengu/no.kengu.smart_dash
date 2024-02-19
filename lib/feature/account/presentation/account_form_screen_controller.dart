@@ -1,12 +1,13 @@
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
+import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
-import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/util/data/json.dart';
 
 part 'account_form_screen_controller.g.dart';
@@ -46,28 +47,32 @@ class AccountFormScreenController extends _$AccountFormScreenController
     });
   }
 
-  FormGroup buildHomeFieldsForm(AccountHome data) {
+  FormGroup buildHomeFieldsForm(Home data) {
     return fb.group(<String, Object>{
-      AccountHomeFields.name: FormControl<String>(
+      HomeFields.name: FormControl<String>(
         value: data.name,
+        validators: [Validators.required],
       ),
-      AccountHomeFields.members: FormArray<JsonObject>([
+      HomeFields.address: FormControl<String>(
+        value: data.address,
+      ),
+      HomeFields.members: FormArray<JsonObject>([
         ...data.members.map(buildMemberFieldsForm),
       ]),
-      AccountHomeFields.services: FormArray<JsonObject>([
+      HomeFields.services: FormArray<JsonObject>([
         ...toServices(data).map(buildServiceFieldsForm),
       ]),
     });
   }
 
-  FormGroup buildMemberFieldsForm(AccountHomeMember data) {
+  FormGroup buildMemberFieldsForm(HomeMember data) {
     return fb.group(<String, Object>{
       // Hidden fields
-      AccountHomeMemberFields.key: FormControl<String>(
+      HomeMemberFields.key: FormControl<String>(
         value: data.key,
       ),
       // Rendered fields
-      AccountHomeMemberFields.name: FormControl<String>(
+      HomeMemberFields.name: FormControl<String>(
         value: data.name,
       ),
     });
@@ -125,7 +130,7 @@ class AccountFormScreenController extends _$AccountFormScreenController
     });
   }
 
-  Set<ServiceConfig> toServices(AccountHome data) {
+  Set<ServiceConfig> toServices(Home data) {
     return query!.services
         .map(data.serviceWhere)
         .expand((e) => e.toList())

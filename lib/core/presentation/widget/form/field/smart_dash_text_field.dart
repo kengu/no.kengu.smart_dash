@@ -6,6 +6,7 @@ class SmartDashTextField<T> extends StatelessWidget {
     super.key,
     required this.labelText,
     required this.formControlName,
+    this.hintText,
     this.suffixIcon,
     this.valueAccessor,
     this.validationMessages,
@@ -13,8 +14,9 @@ class SmartDashTextField<T> extends StatelessWidget {
     this.textInputAction = TextInputAction.next,
   });
 
-  final String? labelText;
   final bool obscureText;
+  final String labelText;
+  final String? hintText;
   final Widget? suffixIcon;
   final String formControlName;
   final TextInputAction? textInputAction;
@@ -29,7 +31,11 @@ class SmartDashTextField<T> extends StatelessWidget {
       formControlName: formControlName,
       textInputAction: textInputAction,
       validationMessages: validationMessages,
-      decoration: InputDecoration(labelText: labelText, suffixIcon: suffixIcon),
+      decoration: InputDecoration(
+        hintText: hintText,
+        labelText: labelText,
+        suffixIcon: suffixIcon,
+      ),
     );
   }
 }

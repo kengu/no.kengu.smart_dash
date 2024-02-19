@@ -4,19 +4,19 @@ import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
+import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_repository.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
+import 'package:smart_dash/feature/home/data/home_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/dark_mode_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/setting_switch_tile.dart';
-import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
-
-import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
 
 class SettingFormScreen extends ConsumerWidget {
@@ -126,6 +126,24 @@ class SettingTilesWidget extends StatelessWidget {
                                   context,
                                   ref,
                                   'Account data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear home data'),
+                            description: const Text(
+                              'This will delete all local home data',
+                            ),
+                            onPressed: (_) async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.remove(HomeRepository.key);
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Home data deleted',
                                 );
                               });
                             },

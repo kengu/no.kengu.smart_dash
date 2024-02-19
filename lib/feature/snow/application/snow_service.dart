@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/snow/data/nysny_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/future.dart';
@@ -36,14 +35,9 @@ class SnowService {
   Future<Optional<ServiceConfig>> getConfig(
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('config', () async {
-      final user = ref.read(userRepositoryProvider).currentUser;
-      final account = await ref.read(accountRepositoryProvider).get(
-            user.userId,
-          );
-      // TODO: Implement selected home provider
-      final home = account.value.homes?.firstOrNull;
-      if (home == null) return const Optional.empty();
-      return home.firstServiceWhere(key);
+      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      if (!home.isPresent) return const Optional.empty();
+      return home.value.firstServiceWhere(key);
     }, ttl: ttl);
   }
 

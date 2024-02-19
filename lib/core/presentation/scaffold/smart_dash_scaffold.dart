@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
-import 'package:smart_dash/core/application/fullscreen_state.dart';
+import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_menu.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_navigation_bar.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_navigation_rail.dart';

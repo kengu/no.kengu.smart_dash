@@ -3,13 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/integration/sikom/data/sikom_response.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
+import 'package:smart_dash/integration/sikom/sikom.dart';
 import 'package:smart_dash/util/guard.dart';
 
 class SikomClient {
@@ -26,13 +26,9 @@ class SikomClient {
 
   Future<Optional<ServiceConfig>> getCredentials() async {
     return guard(() async {
-      final user = ref.read(userRepositoryProvider).currentUser;
-      final account =
-          await ref.read(accountRepositoryProvider).get(user.userId);
-      // TODO: Implement selected home provider
-      final home = account.value.homes?.firstOrNull;
-      if (home == null) return const Optional.empty();
-      return home.firstServiceWhere('sikom');
+      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      if (!home.isPresent) return const Optional.empty();
+      return home.value.firstServiceWhere(Sikom.key);
     });
   }
 

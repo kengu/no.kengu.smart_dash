@@ -33,7 +33,7 @@ class SmartDashHeader extends StatelessWidget {
                 context.go(value);
               },
               itemBuilder: (context) {
-                return <PopupMenuEntry<String>>[
+                return [
                   const PopupMenuItem<String>(
                     value: Screens.pairing,
                     child: ListTile(

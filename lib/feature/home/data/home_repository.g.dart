@@ -1,28 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'account_form_screen_controller.dart';
+part of 'home_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$accountFormScreenControllerHash() =>
-    r'3393c2760cff086aaf7b382f2bb733ae5299aeb0';
+String _$homeRepositoryHash() => r'71fdb4f3454a6d37807ccfc9c3f5697251027d06';
 
-/// See also [AccountFormScreenController].
-@ProviderFor(AccountFormScreenController)
-final accountFormScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
-    AccountFormScreenController, Optional<Account>>.internal(
-  AccountFormScreenController.new,
-  name: r'accountFormScreenControllerProvider',
+/// See also [homeRepository].
+@ProviderFor(homeRepository)
+final homeRepositoryProvider = Provider<HomeRepository>.internal(
+  homeRepository,
+  name: r'homeRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$accountFormScreenControllerHash,
+      : _$homeRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AccountFormScreenController
-    = AutoDisposeAsyncNotifier<Optional<Account>>;
+typedef HomeRepositoryRef = ProviderRef<HomeRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

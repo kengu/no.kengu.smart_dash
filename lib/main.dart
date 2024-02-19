@@ -5,13 +5,21 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:network_tools_flutter/network_tools_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_dash/core/application/app_state_manager.dart';
-import 'package:smart_dash/util/platform.dart';
-import 'package:smart_dash/core/presentation/smart_dash_app.dart';
-import 'package:window_manager/window_manager.dart';
-import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_dash/core/presentation/smart_dash_app.dart';
+import 'package:smart_dash/feature/analytics/application/history_manager.dart';
+import 'package:smart_dash/feature/camera/application/camera_manager.dart';
+import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
+import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/presence/application/presence_service.dart';
+import 'package:smart_dash/feature/system/application/network_info_service.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
+import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
+import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
+import 'package:smart_dash/util/platform.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
+import 'package:window_manager/window_manager.dart';
 
 const sentryDNS =
     'https://49ed9a96f02544e1ab064eb451a5b01c@o288287.ingest.sentry.io/4504854610444288';
@@ -45,17 +53,12 @@ void main() async {
       // Initialize desktop-specific capabilities
       await _initOnDesktop();
 
-      // Create SmartDash state manager
-      final manager = AppStateManager(
-        ProviderContainer(),
-      );
-
       return runApp(
         // For widgets to be able to read providers, we need to wrap the entire
         // application in a "UncontrolledProviderScope" widget. This is where
         // the state of our providers will be stored.
         UncontrolledProviderScope(
-          container: manager.init(),
+          container: initProviders(),
           child: const SmartDashApp(),
         ),
       );
@@ -82,4 +85,32 @@ Future<void> _initOnDesktop() async {
     await windowManager.ensureInitialized();
     await windowManager.waitUntilReadyToShow(windowOptions);
   }
+}
+
+ProviderContainer initProviders() {
+  final container = ProviderContainer();
+  // Bind services with dependencies
+  container.read(flowManagerProvider).bind();
+  container.read(historyManagerProvider).bind();
+  container.read(networkInfoServiceProvider)
+    ..init()
+    ..bind();
+  container.read(presenceServiceProvider).bind();
+
+  // Register services with managers
+  container.read(deviceDriverManagerProvider)
+    ..register(container.read(sikomDriverProvider))
+    ..init()
+    ..bind();
+
+  container.read(cameraManagerProvider)
+    ..register(container.read(foscamServiceProvider))
+    ..init();
+
+  // Start pumping events
+  container.read(timingServiceProvider).start();
+  container.read(historyManagerProvider).pump();
+
+  debugPrint('Providers: Initialized');
+  return container;
 }
