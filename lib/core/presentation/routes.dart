@@ -5,6 +5,7 @@ import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_scaffold.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/widget/page_view.dart';
+import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
 import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
@@ -34,17 +35,18 @@ sealed class Routes {
       return contains(state.uri.toString()) ? state.uri.toString() : '/home';
     },
     routes: [
+      //
+      // Rail and bottom bar navigation destinations
+      //
       // This shellRoute displays a UI shell on the root
       // navigator around children routes that defined in
-      // 'routes' below (in this case rail/bottom navigation destinations)
+      // 'routes' below
       ShellRoute(
-        navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {
           return MaterialPage(
             restorationId: state.uri.toString(),
             child: SmartDashScaffold(
               location: state.uri.toString(),
-              withMenu: Pages.contains(state.uri.toString()),
               child: child,
             ),
           );
@@ -56,10 +58,12 @@ sealed class Routes {
           // (the selected rail/menu/bottom destination)
           buildGoRoute(
             path: Screens.account,
+            fullscreenDialog: true,
             child: AccountFormScreen(location: _lastLocation),
           ),
           buildGoRoute(
             path: Screens.settings,
+            fullscreenDialog: true,
             builder: (context, state) {
               return SettingFormScreen(
                 location: state.extra is String
@@ -67,6 +71,16 @@ sealed class Routes {
                     : _lastLocation,
               );
             },
+          ),
+          buildGoRoute(
+            path: Screens.camera,
+            fullscreenDialog: true,
+            builder: (context, state) => CameraScreen(
+              location: _lastLocation,
+              config: state.extra is Optional<ServiceConfig>
+                  ? state.extra as Optional<ServiceConfig>
+                  : const Optional.empty(),
+            ),
           ),
           buildDeviceRoutes(),
           buildParingRoutes(),
@@ -90,23 +104,19 @@ sealed class Routes {
           buildGoRoute(
             path: Pages.history,
             restorationId: setLastLocation,
-            child: const HistoryPage(),
-          ),
-          buildGoRoute(
-            path: Screens.camera,
-            builder: (context, state) => CameraScreen(
-                location: _lastLocation,
-                config: state.extra is Optional<ServiceConfig>
-                    ? state.extra as Optional<ServiceConfig>
-                    : const Optional.empty()),
+            builder: (context, state) {
+              return const HistoryPage();
+            },
           ),
           buildGoRoute(
             path: Pages.notifications,
             restorationId: setLastLocation,
-            child: const DetailsView(
-              title: 'Notifications',
-              route: Pages.home,
-            ),
+            builder: (context, state) {
+              return const DetailsView(
+                title: 'Notifications',
+                route: Pages.home,
+              );
+            },
           ),
         ],
       ),
@@ -116,7 +126,7 @@ sealed class Routes {
   static GoRoute buildGoRoute({
     required String path,
     Widget? child,
-    bool fullscreenDialog = true,
+    bool fullscreenDialog = false,
     GoRouterWidgetBuilder? builder,
     List<RouteBase> routes = const <RouteBase>[],
     String? Function(GoRouterState state)? restorationId,
@@ -133,20 +143,46 @@ sealed class Routes {
       path: path,
       routes: routes,
       pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          restorationId: restorationId == null
-              ? state.uri.toString()
-              : restorationId(state),
-          fullscreenDialog: fullscreenDialog,
-          child: child ?? builder!(context, state),
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(opacity: animation, child: child),
-        );
+        final widget = child ?? builder!(context, state);
+        final isNotMobile = ResponsiveWidget.isNotMobile(context);
+        return fullscreenDialog && isNotMobile
+            ? DialogPage(
+                builder: (_) => Dialog(
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  surfaceTintColor: Theme.of(context).colorScheme.background,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16.0),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16.0),
+                    ),
+                    child: SizedBox(
+                      width: 500,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: widget,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : CustomTransitionPage(
+                key: state.pageKey,
+                restorationId: restorationId == null
+                    ? state.uri.toString()
+                    : restorationId(state),
+                transitionsBuilder: (BuildContext context,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                    Widget child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                fullscreenDialog: fullscreenDialog,
+                child: widget,
+              );
       },
     );
   }
@@ -161,10 +197,47 @@ sealed class Routes {
 
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> _shellNavigatorKey =
-      GlobalKey<NavigatorState>();
 
   static void dispose() {
     router.dispose();
   }
+}
+
+/// A dialog page with Material entrance and exit animations, modal barrier color,
+/// and modal barrier behavior (dialog is dismissible with a tap on the barrier).
+class DialogPage<T> extends Page<T> {
+  final Offset? anchorPoint;
+  final Color? barrierColor;
+  final bool barrierDismissible;
+  final String? barrierLabel;
+  final bool useSafeArea;
+  final CapturedThemes? themes;
+  final WidgetBuilder builder;
+
+  const DialogPage({
+    required this.builder,
+    this.anchorPoint,
+    this.barrierColor = Colors.black54,
+    this.barrierDismissible = true,
+    this.barrierLabel,
+    this.useSafeArea = true,
+    this.themes,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+
+  @override
+  Route<T> createRoute(BuildContext context) => DialogRoute<T>(
+        context: context,
+        settings: this,
+        builder: builder,
+        anchorPoint: anchorPoint,
+        barrierColor: barrierColor,
+        barrierDismissible: barrierDismissible,
+        barrierLabel: barrierLabel,
+        useSafeArea: useSafeArea,
+        themes: themes,
+      );
 }

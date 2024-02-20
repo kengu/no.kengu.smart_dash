@@ -4,9 +4,8 @@ import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 class Screens {
   static const account = '/account';
   static const settings = '/settings';
-  static const pairing = PairingScreens.home;
   static const devices = DeviceScreens.home;
-  static const camera = '/camera';
+  static const pairing = PairingScreens.home;
 
   static const deviceListPaired = '$devices/${DeviceScreens.listPaired}';
   static const deviceDetails = '$devices/${DeviceScreens.details}';
@@ -16,6 +15,9 @@ class Screens {
 
   static const pairingListNewDevices =
       '$pairing/${PairingScreens.listNewDevices}';
+
+  static const camera = '/camera';
+  static const history = '/camera';
 
   // TODO: Make list this dynamic, easy to forget to update this list
   static const List<String> locations = [
@@ -33,4 +35,6 @@ class Screens {
   static String toPath(List<String> segments) => segments.join('/');
 
   static int indexOf(String location) => locations.indexOf(location);
+
+  static bool contains(String location) => locations.contains(location);
 }

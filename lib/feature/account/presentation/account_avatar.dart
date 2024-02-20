@@ -70,7 +70,7 @@ class _AccountAvatarState extends State<AccountAvatar> {
                   onTap: () {
                     context
                       ..pop()
-                      ..go(Screens.account);
+                      ..push(Screens.account);
                   },
                 ),
                 const Divider(),
@@ -88,7 +88,7 @@ class _AccountAvatarState extends State<AccountAvatar> {
                   onTap: () {
                     context
                       ..pop()
-                      ..go(Screens.settings);
+                      ..push(Screens.settings);
                   },
                 ),
               ],

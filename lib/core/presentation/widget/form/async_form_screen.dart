@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:smart_dash/util/typedefs.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
+import 'package:smart_dash/util/typedefs.dart';
 
 /// A async Fullscreen dialog form widget with [Scaffold].
 class AsyncFormScreen<Query, Data> extends StatelessWidget {
@@ -21,10 +21,7 @@ class AsyncFormScreen<Query, Data> extends StatelessWidget {
     this.builder,
     this.autoSubmit = false,
     this.scrollable = false,
-    this.constraints = const BoxConstraints(
-      minWidth: 300,
-      maxWidth: 400,
-    ),
+    this.constraints = const BoxConstraints(),
   });
 
   /// Screen title (shown on AppBar)

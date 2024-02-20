@@ -1,9 +1,5 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
@@ -14,10 +10,14 @@ import 'smart_dash_menu.dart';
 class SmartDashNavigationRail extends StatefulWidget {
   const SmartDashNavigationRail({
     super.key,
-    required this.location,
+    required this.selected,
+    required this.children,
+    required this.locations,
   });
 
-  final String location;
+  final String selected;
+  final List<String> locations;
+  final List<NavigationRailDestination> children;
 
   @override
   State<SmartDashNavigationRail> createState() =>
@@ -38,7 +38,7 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
   }
 
   int nextIndex() {
-    final nextIndex = Pages.indexOf(widget.location);
+    final nextIndex = widget.locations.indexOf(widget.selected);
     return nextIndex > -1 ? nextIndex : _selectedIndex;
   }
 
@@ -49,7 +49,8 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
       groupAlignment: -0.9,
       extended: _extended.value,
       selectedIndex: _selectedIndex = nextIndex(),
-      leading: SmartDashMenu(
+      leading: SmartDashTopMenu(
+        resolve: NavigationRail.extendedAnimation,
         onPressed: () {
           setState(() {
             _extended.value = !_extended.value;
@@ -57,90 +58,19 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
         },
       ),
       trailing: const Expanded(
-        child: SmartDashBottomMenu(),
+        child: SmartDashBottomMenu(
+          resolve: NavigationRail.extendedAnimation,
+          children: [
+            CreateNewMenuButton(),
+            AccountAvatar(),
+          ],
+        ),
       ),
       onDestinationSelected: (int index) {
-        context.go(Pages.locations[index]);
+        context.go(widget.locations[index]);
       },
       // TODO: build nav rail destinations from shared source
-      destinations: const [
-        NavigationRailDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: Text('Home'),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            CupertinoIcons.rectangle_3_offgrid,
-          ),
-          selectedIcon: Icon(CupertinoIcons.rectangle_3_offgrid_fill),
-          label: Text('Rooms'),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.video_camera_back_outlined,
-          ),
-          selectedIcon: Icon(Icons.video_camera_back),
-          label: Text('Cameras'),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.history_outlined,
-          ),
-          selectedIcon: Icon(Icons.history),
-          label: Text('History'),
-        ),
-        NavigationRailDestination(
-          icon: Badge(
-            child: Icon(
-              Icons.notifications_none_outlined,
-            ),
-          ),
-          selectedIcon: Icon(Icons.notifications),
-          label: Text('Notifications'),
-        ),
-      ],
-    );
-  }
-}
-
-class SmartDashBottomMenu extends StatelessWidget {
-  const SmartDashBottomMenu({
-    super.key,
-    this.minWidth = 176,
-  });
-
-  final double minWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation =
-        NavigationRail.extendedAnimation(context);
-
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        final right = lerpDouble(0, minWidth, animation.value)! + 76;
-        return Container(
-          padding: const EdgeInsets.only(left: 12, top: 8, bottom: 8),
-          width: right,
-          child: SizedBox(
-            width: minWidth,
-            child: const Align(
-              alignment: Alignment.bottomLeft,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CreateNewMenuButton(),
-                  AccountAvatar(),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+      destinations: widget.children,
     );
   }
 }
@@ -196,7 +126,7 @@ class CreateNewMenuButton extends StatelessWidget {
                 onTap: () {
                   context
                     ..pop()
-                    ..go(Screens.pairing);
+                    ..push(Screens.pairing);
                 },
               ),
             ]);

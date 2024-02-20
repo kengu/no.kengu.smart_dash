@@ -310,7 +310,7 @@ class _HomeMembersField extends ConsumerWidget {
                           style: getLegendTextStyle(context),
                         ),
                         trailing: IconButton(
-                          onPressed: () => context.go(
+                          onPressed: () => context.push(
                             Screens.settings,
                             extra: Screens.account,
                           ),

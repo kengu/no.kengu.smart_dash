@@ -13,10 +13,7 @@ class SmartDashScreen extends StatelessWidget {
     this.scrollable = true,
     this.actions = const [],
     this.icon = Icons.close,
-    this.constraints = const BoxConstraints(
-      minWidth: 300,
-      maxWidth: 400,
-    ),
+    this.constraints = const BoxConstraints(),
   });
 
   /// Screen title (shown on AppBar)

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smart_dash/util/typedefs.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
+import 'package:smart_dash/util/typedefs.dart';
 
 /// A async load fullscreen dialog with [Scaffold]
 class AsyncLoadScreen<Query, Data> extends StatelessWidget {
@@ -18,10 +18,7 @@ class AsyncLoadScreen<Query, Data> extends StatelessWidget {
     this.physics,
     this.scrollable = false,
     this.actions = const [],
-    this.constraints = const BoxConstraints(
-      minWidth: 300,
-      maxWidth: 400,
-    ),
+    this.constraints = const BoxConstraints(),
   });
 
   /// Screen title (shown on AppBar)

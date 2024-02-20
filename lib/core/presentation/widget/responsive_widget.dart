@@ -34,6 +34,8 @@ class ResponsiveWidget extends StatelessWidget {
   static bool isAnyMobile(BuildContext context) =>
       isMobile(context) || isMobileLarge(context);
 
+  static bool isNotMobile(BuildContext context) => !isAnyMobile(context);
+
   static bool isMobile(BuildContext context) =>
       getWindowType(context) <= AdaptiveWindowType.xsmall;
 

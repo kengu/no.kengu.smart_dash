@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 
 class PriceAreaTile extends AbstractSettingsTile {
-  const PriceAreaTile({
+  PriceAreaTile({
     super.key,
     required this.formControlName,
   });
 
   final String formControlName;
+
+  final _popupMenuKey = GlobalKey<PopupMenuButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,35 +21,36 @@ class PriceAreaTile extends AbstractSettingsTile {
         final area = field.value?.value;
         return SettingsTile(
           leading: const Icon(Icons.attach_money),
-          title: const Text('Electricity Price Area'),
-          value: Text('Area $area'),
-          onPressed: (context) async {
-            final selected = await showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => Dialog(
-                child: Container(
-                  width: 300,
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: SettingType.priceArea.options
-                        .map((name) => RadioListTile(
-                              title: Text(name.toString()),
-                              value: area == name,
-                              onChanged: (_) => context.pop(name),
-                              groupValue: true,
-                            ))
-                        .toList(),
-                  ),
-                ),
-              ),
-            );
-            if (selected != null) {
+          //title: const Text('Electricity Price Area'),
+          title: PopupMenuButton<String>(
+            key: _popupMenuKey,
+            position: PopupMenuPosition.over,
+            tooltip: 'Select Price Area',
+            child: const Text('Electricity Price Area'),
+            onSelected: (String name) {
               field.control.value = Setting(
                 name: SettingType.priceArea.name,
-                value: selected,
+                value: name,
               );
-            }
+            },
+            itemBuilder: (BuildContext context) {
+              return SettingType.priceArea.options
+                  .map((name) => PopupMenuItem<String>(
+                        value: name.toString(),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.home),
+                            const SizedBox(width: 24),
+                            Text('Area $name'),
+                          ],
+                        ),
+                      ))
+                  .toList();
+            },
+          ),
+          value: Text('Area $area'),
+          onPressed: (context) async {
+            _popupMenuKey.currentState?.showButtonMenu();
           },
         );
       },
