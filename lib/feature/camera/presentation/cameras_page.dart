@@ -93,7 +93,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                             fit: BoxFit.fitWidth,
                             config: config,
                             onDoubleTap: () {
-                              context.go(Screens.camera, extra: config);
+                              context.push(Screens.camera, extra: config);
                             },
                           );
                       }

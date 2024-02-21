@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_dash/core/presentation/routes.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/pairing/presentation/select/device_types_screen.dart';
 import 'package:smart_dash/feature/pairing/presentation/pair/new_devices_screen.dart';
 import 'package:smart_dash/feature/pairing/presentation/pairing_screen.dart';
-import 'package:smart_dash/core/presentation/routes.dart';
+import 'package:smart_dash/feature/pairing/presentation/select/device_types_screen.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 
 class PairingScreens {
@@ -36,6 +36,7 @@ class PairingScreens {
 
 GoRoute buildParingRoutes() {
   return Routes.buildGoRoute(
+    fullscreenDialog: true,
     path: PairingScreens.home,
     child: PairingScreen(
       location: Routes.lastLocation,
@@ -43,6 +44,7 @@ GoRoute buildParingRoutes() {
     routes: [
       // Route to device type selection screen
       Routes.buildGoRoute(
+        fullscreenDialog: true,
         path: PairingScreens.listDeviceTypes,
         builder: (context, state) {
           return Consumer(
@@ -57,6 +59,7 @@ GoRoute buildParingRoutes() {
       ),
       // Route to device pairing screen
       Routes.buildGoRoute(
+        fullscreenDialog: true,
         path: PairingScreens.listNewDevices,
         builder: (context, state) {
           return Consumer(

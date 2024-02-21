@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
@@ -22,6 +24,11 @@ sealed class Routes {
   static String get lastLocation => _lastLocation;
 
   static String _lastLocation = Pages.home;
+
+  static final RouteStack _stack = RouteStack();
+
+  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static String setLastLocation(GoRouterState state) {
     return _lastLocation = state.uri.toString();
@@ -74,6 +81,7 @@ sealed class Routes {
           ),
           buildGoRoute(
             path: Screens.camera,
+            dialogWidth: null,
             fullscreenDialog: true,
             builder: (context, state) => CameraScreen(
               location: _lastLocation,
@@ -126,6 +134,7 @@ sealed class Routes {
   static GoRoute buildGoRoute({
     required String path,
     Widget? child,
+    double? dialogWidth = 500,
     bool fullscreenDialog = false,
     GoRouterWidgetBuilder? builder,
     List<RouteBase> routes = const <RouteBase>[],
@@ -142,47 +151,57 @@ sealed class Routes {
     return GoRoute(
       path: path,
       routes: routes,
+      onExit: _stack.onExit,
       pageBuilder: (context, state) {
+        final isDialogShown = _stack.isDialogShown;
         final widget = child ?? builder!(context, state);
         final isNotMobile = ResponsiveWidget.isNotMobile(context);
-        return fullscreenDialog && isNotMobile
-            ? DialogPage(
-                builder: (_) => Dialog(
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  surfaceTintColor: Theme.of(context).colorScheme.background,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16.0),
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(16.0),
-                    ),
-                    child: SizedBox(
-                      width: 500,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: widget,
-                      ),
-                    ),
+        final isDialog = fullscreenDialog && isNotMobile;
+
+        _stack.add(state, isDialog);
+
+        if (isDialog) {
+          final color = Theme.of(context).colorScheme.background;
+          return DialogPage(
+            // Only show barrier color on first dialog in stack
+            barrierColor: isDialogShown ? Colors.transparent : Colors.black54,
+            builder: (_) => Dialog(
+              backgroundColor: color,
+              surfaceTintColor: color,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+                child: SizedBox(
+                  width: dialogWidth,
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: widget,
                   ),
                 ),
-              )
-            : CustomTransitionPage(
-                key: state.pageKey,
-                restorationId: restorationId == null
-                    ? state.uri.toString()
-                    : restorationId(state),
-                transitionsBuilder: (BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                    Widget child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                fullscreenDialog: fullscreenDialog,
-                child: widget,
-              );
+              ),
+            ),
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: restorationId == null
+              ? state.uri.toString()
+              : restorationId(state),
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          fullscreenDialog: fullscreenDialog,
+          child: widget,
+        );
       },
     );
   }
@@ -195,12 +214,53 @@ sealed class Routes {
     return Pages.indexOf(uri.path) > -1 || Screens.indexOf(uri.path) > -1;
   }
 
-  static final GlobalKey<NavigatorState> _rootNavigatorKey =
-      GlobalKey<NavigatorState>();
-
   static void dispose() {
     router.dispose();
   }
+}
+
+class RouteStack {
+  final int max = 100;
+  final Set<RouteEntry> _stack = <RouteEntry>{};
+
+  get isDialogShown => _stack.lastOrNull?.isDialog == true;
+
+  void add(GoRouterState state, bool isDialog) {
+    if (_stack.length > max) {
+      _stack.remove(_stack.first);
+    }
+    _stack.add(RouteEntry(
+      state.path ?? state.topRoute?.path,
+      isDialog,
+    ));
+  }
+
+  FutureOr<bool> onExit(BuildContext context) {
+    return _stack.remove(_stack.last);
+  }
+}
+
+class RouteEntry {
+  RouteEntry(this.path, this.isDialog);
+
+  final String? path;
+  final bool isDialog;
+
+  @override
+  String toString() {
+    return 'RouteEntry{path: $path, isDialog: $isDialog}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RouteEntry &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          isDialog == other.isDialog;
+
+  @override
+  int get hashCode => path.hashCode ^ isDialog.hashCode;
 }
 
 /// A dialog page with Material entrance and exit animations, modal barrier color,

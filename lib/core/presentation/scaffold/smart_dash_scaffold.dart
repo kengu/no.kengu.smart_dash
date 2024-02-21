@@ -157,10 +157,10 @@ class _MobileScaffold extends ConsumerWidget {
                 context.pop();
                 switch (index) {
                   case 0: // View history
-                    context.go(Pages.history, extra: 'modal');
+                    context.push(Pages.history);
                     break;
                   case 1: // View notifications
-                    context.go(Pages.notifications, extra: 'modal');
+                    context.push(Pages.notifications);
                     break;
                   case 2: // Add Home
                     break;

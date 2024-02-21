@@ -21,6 +21,7 @@ class DeviceScreens {
 
 GoRoute buildDeviceRoutes() {
   return Routes.buildGoRoute(
+    fullscreenDialog: true,
     path: DeviceScreens.home,
     restorationId: Routes.setLastLocation,
     child: PairedDeviceScreen(
@@ -29,6 +30,7 @@ GoRoute buildDeviceRoutes() {
     routes: [
       // Route to device type selection screen
       Routes.buildGoRoute(
+        fullscreenDialog: true,
         path: DeviceScreens.details,
         builder: (context, state) {
           return PairedDeviceDetailsScreen(

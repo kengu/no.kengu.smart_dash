@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_json_view/flutter_json_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
-import 'package:flutter_json_view/flutter_json_view.dart';
 
 import 'paired_device_details_controller.dart';
 
@@ -51,7 +51,7 @@ class _PairedDeviceDetailsScreenState
               final unpaired = await _unpair(context);
               if (unpaired) {
                 setState(() {
-                  context.go(widget.location);
+                  context.push(widget.location);
                 });
               }
             },

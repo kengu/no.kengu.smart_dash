@@ -30,7 +30,7 @@ class SmartDashHeader extends StatelessWidget {
           if (ResponsiveWidget.isMobile(context))
             PopupMenuButton<String>(
               onSelected: (value) {
-                context.go(value);
+                context.push(value);
               },
               itemBuilder: (context) {
                 return [
@@ -59,7 +59,7 @@ class SmartDashHeader extends StatelessWidget {
           else ...[
             ElevatedButton(
               onPressed: () {
-                context.go(Screens.pairing);
+                context.push(Screens.pairing);
               },
               child: const Row(
                 children: [
@@ -71,7 +71,7 @@ class SmartDashHeader extends StatelessWidget {
             const SizedBox(width: 8),
             ElevatedButton(
               onPressed: () {
-                context.go(Screens.devices);
+                context.push(Screens.devices);
               },
               child: const Row(
                 children: [

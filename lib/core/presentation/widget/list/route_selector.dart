@@ -31,7 +31,7 @@ class RouteSelectorList<T> extends StatelessWidget {
                   ? null
                   : iconBuilder!(context, data, null),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => context.go(pathBuilder(data))))
+              onTap: () => context.push(pathBuilder(data))))
           .toList(),
     );
   }
