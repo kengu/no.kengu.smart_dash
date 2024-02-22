@@ -36,8 +36,10 @@ class IntegrationRepository extends _$IntegrationRepository {
         .loadString('assets/data/integrations.json')
         .then((json) => jsonDecode(json)) as List;
     return {
-      for (final e
-          in services.map((e) => e as JsonObject).map(Integration.fromJson))
+      for (final e in services
+          .map((e) => e as JsonObject)
+          .map(Integration.fromJson)
+          .where((e) => e.enabled))
         e.key: e,
     };
   }

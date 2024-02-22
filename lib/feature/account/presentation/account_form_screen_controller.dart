@@ -126,6 +126,11 @@ class AccountFormScreenController extends _$AccountFormScreenController
         ServiceConfigFields.password: FormControl<String>(
           value: data.password,
           validators: [Validators.required],
+        ),
+      if (data.fields.contains(ServiceField.topics))
+        ServiceConfigFields.topics: FormControl<String>(
+          value: data.topics,
+          validators: [Validators.required],
         )
     });
   }
@@ -146,8 +151,9 @@ class AccountFormScreenController extends _$AccountFormScreenController
   }
 
   @override
-  Future<Optional<Account>> load() =>
-      ref.read(accountRepositoryProvider).get(query!.userId);
+  Future<Optional<Account>> load() {
+    return ref.read(accountRepositoryProvider).get(query!.userId);
+  }
 
   @override
   Future<bool> save(Account data) async {

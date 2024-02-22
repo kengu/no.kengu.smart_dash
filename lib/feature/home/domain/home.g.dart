@@ -8,11 +8,11 @@ part of 'home.dart';
 
 _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
       name: json['name'] as String,
-      services: (json['services'] as List<dynamic>)
-          .map((e) => ServiceConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
       members: (json['members'] as List<dynamic>)
           .map((e) => HomeMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      services: (json['services'] as List<dynamic>)
+          .map((e) => ServiceConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       address: json['address'] as String?,
     );
@@ -20,8 +20,8 @@ _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
 Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'services': instance.services.map((e) => e.toJson()).toList(),
       'members': instance.members.map((e) => e.toJson()).toList(),
+      'services': instance.services.map((e) => e.toJson()).toList(),
       'address': instance.address,
     };
 

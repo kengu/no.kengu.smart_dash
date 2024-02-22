@@ -123,22 +123,24 @@ abstract class DeviceDriver {
       [DeviceType type = DeviceType.any]) async {
     final devices = await ref.read(deviceServiceProvider).getAll();
     return devices
-        .where((e) => type.isAny || e.type == type || e.service == key)
+        .where((e) => e.service == key && (type.isAny || e.type == type))
         .toList();
   }
 
   /// Get list of all new [Device]s (available but not paired)
   Future<List<Device>> getNewDevices([DeviceType type = DeviceType.any]) async {
     final available = await getAllDevices(type: type);
-    final devices = await ref.read(deviceRepositoryProvider).getAll();
-    final paired = devices.map((e) => e.name);
+    final devices = await ref.read(deviceRepositoryProvider).where(
+          (e) => e.service == key && (type.isAny || e.type == type),
+        );
+    final paired = devices.map((e) => e.id);
     if (paired.isEmpty) return available;
-    return available.where((device) => !paired.contains(device.name)).toList();
+    return available.where((device) => !paired.contains(device.id)).toList();
   }
 
   /// Set device properties of given device.
   /// Returns true if succeeded
-  Future<bool> updateDevice(Device device);
+  Future<bool> updateDevice(Device device) => Future.value(false);
 }
 
 class DriverEvent {

@@ -71,8 +71,8 @@ class SnowService {
       NySnyClient(
           _api,
           NySnyCredentials(
-            email: config.value.username,
-            password: config.value.password,
+            email: config.value.username!,
+            password: config.value.password!,
           )).getStates,
       ttl: ttl?.clamp(
         const Duration(minutes: 5),

@@ -11,12 +11,13 @@ class ServiceConfig with _$ServiceConfig {
   const factory ServiceConfig({
     required String key,
     required String name,
-    required String username,
-    required String password,
     required List<ServiceField> fields,
     int? port,
     String? host,
     String? device,
+    String? username,
+    String? password,
+    String? topics,
   }) = _ServiceConfig;
 
   factory ServiceConfig.fromJson(Map<String, Object?> json) =>
@@ -43,4 +44,5 @@ class ServiceConfigFields {
   static const String fields = 'fields';
   static const String username = 'username';
   static const String password = 'password';
+  static const String topics = 'topics';
 }

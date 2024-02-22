@@ -25,8 +25,8 @@ enum DeviceType {
   /// Thermostat
   thermostat,
 
-  /// Detector (on/off)
-  detector,
+  /// Sensor
+  sensor,
 
   /// Energy controller
   energyController,

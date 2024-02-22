@@ -11,6 +11,7 @@ _$IntegrationImpl _$$IntegrationImplFromJson(Map<String, dynamic> json) =>
       key: json['key'] as String,
       name: json['name'] as String,
       image: json['image'] as String,
+      enabled: json['enabled'] as bool,
       instances: json['instances'] as int,
       category: json['category'] as String,
       description: json['description'] as String,
@@ -27,6 +28,7 @@ Map<String, dynamic> _$$IntegrationImplToJson(_$IntegrationImpl instance) =>
       'key': instance.key,
       'name': instance.name,
       'image': instance.image,
+      'enabled': instance.enabled,
       'instances': instance.instances,
       'category': instance.category,
       'description': instance.description,
@@ -42,6 +44,7 @@ const _$ServiceFieldEnumMap = {
   ServiceField.port: 'port',
   ServiceField.username: 'username',
   ServiceField.password: 'password',
+  ServiceField.topics: 'topics',
 };
 
 const _$IntegrationFeatureEnumMap = {

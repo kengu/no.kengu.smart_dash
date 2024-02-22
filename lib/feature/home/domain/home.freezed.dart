@@ -21,8 +21,8 @@ Home _$HomeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Home {
   String get name => throw _privateConstructorUsedError;
-  List<ServiceConfig> get services => throw _privateConstructorUsedError;
   List<HomeMember> get members => throw _privateConstructorUsedError;
+  List<ServiceConfig> get services => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,8 +37,8 @@ abstract class $HomeCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
-      List<ServiceConfig> services,
       List<HomeMember> members,
+      List<ServiceConfig> services,
       String? address});
 }
 
@@ -56,8 +56,8 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
   @override
   $Res call({
     Object? name = null,
-    Object? services = null,
     Object? members = null,
+    Object? services = null,
     Object? address = freezed,
   }) {
     return _then(_value.copyWith(
@@ -65,14 +65,14 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      services: null == services
-          ? _value.services
-          : services // ignore: cast_nullable_to_non_nullable
-              as List<ServiceConfig>,
       members: null == members
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
               as List<HomeMember>,
+      services: null == services
+          ? _value.services
+          : services // ignore: cast_nullable_to_non_nullable
+              as List<ServiceConfig>,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -90,8 +90,8 @@ abstract class _$$HomeImplCopyWith<$Res> implements $HomeCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
-      List<ServiceConfig> services,
       List<HomeMember> members,
+      List<ServiceConfig> services,
       String? address});
 }
 
@@ -106,8 +106,8 @@ class __$$HomeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? services = null,
     Object? members = null,
+    Object? services = null,
     Object? address = freezed,
   }) {
     return _then(_$HomeImpl(
@@ -115,14 +115,14 @@ class __$$HomeImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      services: null == services
-          ? _value._services
-          : services // ignore: cast_nullable_to_non_nullable
-              as List<ServiceConfig>,
       members: null == members
           ? _value._members
           : members // ignore: cast_nullable_to_non_nullable
               as List<HomeMember>,
+      services: null == services
+          ? _value._services
+          : services // ignore: cast_nullable_to_non_nullable
+              as List<ServiceConfig>,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -136,11 +136,11 @@ class __$$HomeImplCopyWithImpl<$Res>
 class _$HomeImpl extends _Home {
   const _$HomeImpl(
       {required this.name,
-      required final List<ServiceConfig> services,
       required final List<HomeMember> members,
+      required final List<ServiceConfig> services,
       this.address})
-      : _services = services,
-        _members = members,
+      : _members = members,
+        _services = services,
         super._();
 
   factory _$HomeImpl.fromJson(Map<String, dynamic> json) =>
@@ -148,14 +148,6 @@ class _$HomeImpl extends _Home {
 
   @override
   final String name;
-  final List<ServiceConfig> _services;
-  @override
-  List<ServiceConfig> get services {
-    if (_services is EqualUnmodifiableListView) return _services;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_services);
-  }
-
   final List<HomeMember> _members;
   @override
   List<HomeMember> get members {
@@ -164,12 +156,20 @@ class _$HomeImpl extends _Home {
     return EqualUnmodifiableListView(_members);
   }
 
+  final List<ServiceConfig> _services;
+  @override
+  List<ServiceConfig> get services {
+    if (_services is EqualUnmodifiableListView) return _services;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_services);
+  }
+
   @override
   final String? address;
 
   @override
   String toString() {
-    return 'Home(name: $name, services: $services, members: $members, address: $address)';
+    return 'Home(name: $name, members: $members, services: $services, address: $address)';
   }
 
   @override
@@ -178,8 +178,8 @@ class _$HomeImpl extends _Home {
         (other.runtimeType == runtimeType &&
             other is _$HomeImpl &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other._services, _services) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
+            const DeepCollectionEquality().equals(other._services, _services) &&
             (identical(other.address, address) || other.address == address));
   }
 
@@ -188,8 +188,8 @@ class _$HomeImpl extends _Home {
   int get hashCode => Object.hash(
       runtimeType,
       name,
-      const DeepCollectionEquality().hash(_services),
       const DeepCollectionEquality().hash(_members),
+      const DeepCollectionEquality().hash(_services),
       address);
 
   @JsonKey(ignore: true)
@@ -209,8 +209,8 @@ class _$HomeImpl extends _Home {
 abstract class _Home extends Home {
   const factory _Home(
       {required final String name,
-      required final List<ServiceConfig> services,
       required final List<HomeMember> members,
+      required final List<ServiceConfig> services,
       final String? address}) = _$HomeImpl;
   const _Home._() : super._();
 
@@ -219,9 +219,9 @@ abstract class _Home extends Home {
   @override
   String get name;
   @override
-  List<ServiceConfig> get services;
-  @override
   List<HomeMember> get members;
+  @override
+  List<ServiceConfig> get services;
   @override
   String? get address;
   @override

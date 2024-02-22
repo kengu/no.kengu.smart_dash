@@ -13,8 +13,8 @@ class Home with _$Home {
 
   const factory Home({
     required String name,
-    required List<ServiceConfig> services,
     required List<HomeMember> members,
+    required List<ServiceConfig> services,
     String? address,
   }) = _Home;
 

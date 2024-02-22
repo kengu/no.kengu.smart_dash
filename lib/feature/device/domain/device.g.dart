@@ -50,7 +50,7 @@ const _$DeviceTypeEnumMap = {
   DeviceType.controller: 'controller',
   DeviceType.astroSwitch: 'astroSwitch',
   DeviceType.thermostat: 'thermostat',
-  DeviceType.detector: 'detector',
+  DeviceType.sensor: 'sensor',
   DeviceType.energyController: 'energyController',
   DeviceType.onOffRelay: 'onOffRelay',
   DeviceType.group: 'group',

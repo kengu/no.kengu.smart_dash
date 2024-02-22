@@ -7,7 +7,7 @@ part of 'pairing_screen_controller.dart';
 // **************************************************************************
 
 String _$pairingScreenControllerHash() =>
-    r'ed27e23d688ea89983641d8d8673f9a259b8e36d';
+    r'5cc68453123e50ffcc3f37665156cffa08f55bff';
 
 /// See also [PairingScreenController].
 @ProviderFor(PairingScreenController)

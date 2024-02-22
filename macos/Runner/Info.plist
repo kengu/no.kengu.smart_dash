@@ -32,5 +32,9 @@
 	<array>
 		<string>CpuConfigurationIntent</string>
 	</array>
+    <key>NSBonjourServices</key>
+    <array>
+      <string>mqtt.tcp</string>
+    </array>
 </dict>
 </plist>

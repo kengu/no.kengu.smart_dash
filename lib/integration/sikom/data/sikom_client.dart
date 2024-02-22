@@ -17,14 +17,13 @@ class SikomClient {
   final Dio api;
   final Ref ref;
 
-  static String toBasicAuth(ServiceConfig credentials) =>
-      ServiceConfig.toBasicAuth(
-        credentials.username,
+  static String toBasicAuth(ServiceConfig config) => ServiceConfig.toBasicAuth(
+        config.username!,
         // Security-by-obscurity-V-
-        '${credentials.password}!!!',
+        '${config.password}!!!',
       );
 
-  Future<Optional<ServiceConfig>> getCredentials() async {
+  Future<Optional<ServiceConfig>> _getServiceConfig() async {
     return guard(() async {
       final home = await ref.read(homeServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
@@ -34,7 +33,7 @@ class SikomClient {
 
   Future<bool> verifyCredentials() async {
     return guard(() async {
-      Optional<ServiceConfig> credentials = await getCredentials();
+      Optional<ServiceConfig> credentials = await _getServiceConfig();
       if (!credentials.isPresent) return false;
       final response = await api.get('/VerifyCredentials',
           options: Options(
@@ -61,7 +60,7 @@ class SikomClient {
 
   Future<Optional<List<SikomGateway>>> getGateways() async {
     return guard(() async {
-      Optional<ServiceConfig> credentials = await getCredentials();
+      Optional<ServiceConfig> credentials = await _getServiceConfig();
       if (!credentials.isPresent) return const Optional.empty();
       final response = await api.get('/Gateway/All',
           options: Options(
@@ -116,7 +115,7 @@ class SikomClient {
   }) async {
     return guard(() async {
       final devices = <SikomDevice>[];
-      Optional<ServiceConfig> credentials = await getCredentials();
+      Optional<ServiceConfig> credentials = await _getServiceConfig();
       if (!credentials.isPresent) return const Optional.empty();
       // Ensure maximum 20 devices per request
       final queries = ids.isEmpty
@@ -163,7 +162,7 @@ class SikomClient {
   Future<Optional<String>> getDevicePropertyValue(
       String id, String name) async {
     return guard(() async {
-      Optional<ServiceConfig> credentials = await getCredentials();
+      Optional<ServiceConfig> credentials = await _getServiceConfig();
       if (!credentials.isPresent) return const Optional.empty();
       final path = '/Device/$id/Property/$name/Value/';
       final response = await api.get(
@@ -196,7 +195,7 @@ class SikomClient {
   Future<Optional<SikomProperty>> setDeviceProperty(
       String id, SikomProperty property) async {
     return guard(() async {
-      Optional<ServiceConfig> credentials = await getCredentials();
+      Optional<ServiceConfig> credentials = await _getServiceConfig();
       if (!credentials.isPresent) return const Optional.empty();
       final path = '/Device/$id/AddProperty/${property.name}/${property.value}';
       final response = await api.get(

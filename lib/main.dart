@@ -11,11 +11,14 @@ import 'package:smart_dash/core/presentation/smart_dash_app.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
+import 'package:smart_dash/feature/device/application/device_flow.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
+import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
+import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
 import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
@@ -90,16 +93,21 @@ Future<void> _initOnDesktop() async {
 ProviderContainer initProviders() {
   final container = ProviderContainer();
   // Bind services with dependencies
-  container.read(flowManagerProvider).bind();
+  container.read(flowManagerProvider)
+    ..register(const DeviceFlow())
+    ..bind();
+
   container.read(historyManagerProvider).bind();
   container.read(networkInfoServiceProvider)
     ..init()
     ..bind();
   container.read(presenceServiceProvider).bind();
+  container.read(mqttServiceProvider).init();
 
   // Register services with managers
   container.read(deviceDriverManagerProvider)
     ..register(container.read(sikomDriverProvider))
+    ..register(container.read(rtl433DriverProvider))
     ..init()
     ..bind();
 

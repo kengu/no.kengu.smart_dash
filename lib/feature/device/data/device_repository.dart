@@ -4,8 +4,8 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash/util/guard.dart';
 
 part 'device_repository.g.dart';
 
@@ -14,6 +14,10 @@ class DeviceRepository {
 
   Future<List<Device>> getAll() async {
     return await _load();
+  }
+
+  Future<List<Device>> where(bool Function(Device element) test) async {
+    return (await _load()).where(test).toList();
   }
 
   Future<Optional<Device>> get(Identity id) async {

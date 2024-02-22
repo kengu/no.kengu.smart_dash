@@ -11,6 +11,7 @@ class Integration with _$Integration {
     required String key,
     required String name,
     required String image,
+    required bool enabled,
     required int instances,
     required String category,
     required String description,
@@ -35,6 +36,9 @@ class IntegrationFields {
   /// Service fields
   static const String fields = 'fields';
 
+  /// Service enabled
+  static const String enabled = 'enabled';
+
   /// Service category
   static const String category = 'category';
 
@@ -54,6 +58,7 @@ enum ServiceField {
   port,
   username,
   password,
+  topics,
 }
 
 enum IntegrationFeature {

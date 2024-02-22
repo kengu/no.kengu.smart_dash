@@ -48,6 +48,14 @@ enum SikomDeviceType {
 
   bool get isAny => this == any;
 
+  DeviceDefinition toDefinition() {
+    final type = toDeviceType();
+    return DeviceDefinition(
+      type: toDeviceType(),
+      name: Sikom.readableModelName[this] ?? type.name,
+    );
+  }
+
   static fromNativeType(String name) => switch (name) {
         'Controller' => SikomDeviceType.controller,
         'AstroSwitch' => SikomDeviceType.astroSwitch,
@@ -65,7 +73,7 @@ enum SikomDeviceType {
         DeviceType.controller => SikomDeviceType.controller,
         DeviceType.astroSwitch => SikomDeviceType.astroSwitch,
         DeviceType.thermostat => SikomDeviceType.thermostat,
-        DeviceType.detector => SikomDeviceType.detector,
+        DeviceType.sensor => SikomDeviceType.detector,
         DeviceType.energyController => SikomDeviceType.ecoEnergyController,
         DeviceType.onOffRelay => SikomDeviceType.onOffRelay,
         DeviceType.group => SikomDeviceType.group,
@@ -78,7 +86,7 @@ enum SikomDeviceType {
         SikomDeviceType.controller => DeviceType.controller,
         SikomDeviceType.astroSwitch => DeviceType.astroSwitch,
         SikomDeviceType.thermostat => DeviceType.thermostat,
-        SikomDeviceType.detector => DeviceType.detector,
+        SikomDeviceType.detector => DeviceType.sensor,
         SikomDeviceType.ecoEnergyController => DeviceType.energyController,
         SikomDeviceType.onOffRelay => DeviceType.onOffRelay,
         SikomDeviceType.group => DeviceType.group,
@@ -100,7 +108,7 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
   factory SikomDevice.fromJson(Map<String, Object?> json) =>
       _$SikomDeviceFromJson(json);
 
-  /// Get device's  id
+  /// Get device's id
   String get id => properties.id;
 
   /// Get device's readable name

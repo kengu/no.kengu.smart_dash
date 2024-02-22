@@ -6,7 +6,6 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart'
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/data/json.dart';
 
 import 'paired_device_details_controller.dart';
 
@@ -87,7 +86,7 @@ class _PairedDeviceDetailsScreenState
                       : 'Loading'),
                   device.isPresent
                       ? JsonView.map(
-                          device.value.data['Properties'] as JsonObject,
+                          device.value.data,
                         )
                       : const Center(
                           child: Text('Loading'),

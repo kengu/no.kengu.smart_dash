@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+    <key>NSBonjourServices</key>
+    <array>
+      <string>mqtt.tcp</string>
+    </array>
+
 </dict>
 </plist>

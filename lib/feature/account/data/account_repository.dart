@@ -37,12 +37,13 @@ class AccountRepository {
         () async {
           final prefs = await SharedPreferences.getInstance();
           final result = prefs.getStringList(AccountRepository.key);
-          return result
+          final accounts = result
                   ?.map(jsonDecode)
                   .whereType<Map<String, Object?>>()
                   .map(Account.fromJson)
                   .toList() ??
               [];
+          return accounts;
         },
         task: '_load',
         name: '$AccountRepository',

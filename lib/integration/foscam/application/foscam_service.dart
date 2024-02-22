@@ -145,16 +145,16 @@ class FoscamService implements CameraService {
   }
 
   Future<Optional<FoscamClient>> _newClient(String name) async {
-    final devices = await getConfigs();
-    final found = devices.firstWhereOptional((e) => e.device == name);
+    final cameras = await getConfigs();
+    final found = cameras.firstWhereOptional((e) => e.device == name);
     if (found.isPresent) {
       final device = found.value;
       final client = FoscamClient(
         host: device.host!,
         port: device.port!,
         credentials: FoscamCredentials(
-          username: device.username,
-          password: device.password,
+          username: device.username!,
+          password: device.password!,
         ),
       );
       return Optional.of(client);

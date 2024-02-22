@@ -7,8 +7,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/integration/sikom/application/sikom_flow.dart';
 import 'package:smart_dash/integration/sikom/data/sikom_client.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
@@ -35,11 +33,6 @@ class SikomDriver extends ThrottledDeviceDriver {
   String get key => Sikom.key;
 
   @override
-  void onRegisterFlows(FlowManager manager) {
-    manager.register(SikomFlow());
-  }
-
-  @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
     debugPrint(
       'Sikom throttled updates for '
@@ -55,17 +48,9 @@ class SikomDriver extends ThrottledDeviceDriver {
 
   @override
   Future<List<DeviceDefinition>> getDeviceDefinitions() {
-    return guard(() async {
-      final client = ref.read(sikomClientProvider);
-      final devices = await client.getAllDevices();
-      return devices.isPresent
-          ? devices.value
-              .where((e) => Sikom.supportedTypes.contains(e.type))
-              .map((e) => e.toDeviceDefinition())
-              .toSet()
-              .toList()
-          : <DeviceDefinition>[];
-    });
+    return Future.value(
+      Sikom.supportedTypes.map((e) => e.toDefinition()).toList(),
+    );
   }
 
   Future<Optional<List<SikomGateway>>> getGateways() async {

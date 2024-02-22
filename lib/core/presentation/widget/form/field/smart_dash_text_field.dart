@@ -7,6 +7,8 @@ class SmartDashTextField<T> extends StatelessWidget {
     required this.labelText,
     required this.formControlName,
     this.hintText,
+    this.minLines,
+    this.maxLines = 1,
     this.suffixIcon,
     this.valueAccessor,
     this.validationMessages,
@@ -14,6 +16,8 @@ class SmartDashTextField<T> extends StatelessWidget {
     this.textInputAction = TextInputAction.next,
   });
 
+  final int? minLines;
+  final int? maxLines;
   final bool obscureText;
   final String labelText;
   final String? hintText;
@@ -27,6 +31,9 @@ class SmartDashTextField<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ReactiveTextField<T>(
       obscureText: obscureText,
+      maxLines: maxLines,
+      minLines: minLines,
+      enableSuggestions: true,
       valueAccessor: valueAccessor,
       formControlName: formControlName,
       textInputAction: textInputAction,

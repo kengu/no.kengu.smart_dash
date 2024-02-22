@@ -667,6 +667,21 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
             textInputAction: TextInputAction.send,
           ),
         ],
+        if (service.fields.contains(ServiceField.topics)) ...[
+          const SizedBox(height: 16.0),
+          SmartDashTextField<String>(
+            labelText: 'Topics (comma separated)',
+            minLines: 1,
+            maxLines: 3,
+            formControlName: '${widget.index}.${ServiceConfigFields.topics}',
+            validationMessages: {
+              ValidationMessage.required: (_) =>
+                  'Please enter at least one topic',
+            },
+            suffixIcon: _buildVisibility(),
+            textInputAction: TextInputAction.send,
+          ),
+        ],
       ],
     );
   }
