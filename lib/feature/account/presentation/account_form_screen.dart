@@ -513,11 +513,12 @@ class _HomeServicesField extends StatelessWidget {
   }
 
   (Map<String, int>, Set<String>) _calcMissing() {
-    final uses = services.value
+    final integrated = services.value
             ?.whereType<JsonObject>()
-            .map((e) => e[ServiceConfigFields.key])
-            .toSet() ??
-        {};
+            .map(ServiceConfig.fromJson)
+            .toList() ??
+        <ServiceConfig>[];
+    final uses = integrated.map((e) => e.key).toSet();
     final instances = integrations.map(
       (key, value) => MapEntry(key, value.instances),
     );
@@ -525,7 +526,8 @@ class _HomeServicesField extends StatelessWidget {
       ..removeWhere((key) {
         if (uses.contains(key)) {
           if (instances.containsKey(key)) {
-            instances[key] = instances[key]! - 1;
+            instances[key] =
+                instances[key]! - integrated.where((e) => e.key == key).length;
           }
         }
         return instances[key] == 0;
