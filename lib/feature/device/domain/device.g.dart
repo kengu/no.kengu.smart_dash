@@ -16,7 +16,12 @@ _$DeviceImpl _$$DeviceImplFromJson(Map<String, dynamic> json) => _$DeviceImpl(
           .map((e) => $enumDecode(_$DeviceCapabilityEnumMap, e))
           .toList(),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
+      rain: (json['rain'] as num?)?.toDouble(),
+      humidity: (json['humidity'] as num?)?.toDouble(),
+      windAngle: (json['windAngle'] as num?)?.toDouble(),
       temperature: (json['temperature'] as num?)?.toDouble(),
+      windStrength: (json['windStrength'] as num?)?.toDouble(),
+      gustStrength: (json['gustStrength'] as num?)?.toDouble(),
       electric: json['electric'] == null
           ? null
           : ElectricState.fromJson(json['electric'] as Map<String, dynamic>),
@@ -39,7 +44,12 @@ Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
           .map((e) => _$DeviceCapabilityEnumMap[e]!)
           .toList(),
       'lastUpdated': instance.lastUpdated.toIso8601String(),
+      'rain': instance.rain,
+      'humidity': instance.humidity,
+      'windAngle': instance.windAngle,
       'temperature': instance.temperature,
+      'windStrength': instance.windStrength,
+      'gustStrength': instance.gustStrength,
       'electric': instance.electric?.toJson(),
       'onOff': instance.onOff?.toJson(),
       'thermostat': instance.thermostat?.toJson(),
@@ -64,6 +74,11 @@ const _$DeviceCapabilityEnumMap = {
   DeviceCapability.voltage: 'voltage',
   DeviceCapability.onOff: 'onOff',
   DeviceCapability.temperature: 'temperature',
+  DeviceCapability.humidity: 'humidity',
+  DeviceCapability.rain: 'rain',
+  DeviceCapability.windAngle: 'windAngle',
+  DeviceCapability.windStrength: 'windStrength',
+  DeviceCapability.gustStrength: 'gustStrength',
   DeviceCapability.targetTemperature: 'targetTemperature',
 };
 

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 
 part 'dashboard.freezed.dart';
 part 'dashboard.g.dart';
@@ -15,6 +15,7 @@ class Dashboard with _$Dashboard {
     required String key,
     required String title,
     required List<Token> tokens,
+    required List<Identity> ids,
     required int mobileSlotCount,
     required int tabletSlotCount,
     required int desktopSlotCount,
@@ -25,7 +26,13 @@ class Dashboard with _$Dashboard {
     required List<DashboardItem> mobileLarge,
   }) = _Dashboard;
 
-  Optional<Token> get(String name) {
+  Optional<Identity> getIdentity(String id) {
+    return ids.firstWhereOptional(
+      (e) => e.id == id,
+    );
+  }
+
+  Optional<Token> getToken(String name) {
     return tokens.firstWhereOptional(
       (e) => e.name == name,
     );

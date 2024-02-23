@@ -23,6 +23,7 @@ mixin _$Dashboard {
   String get key => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   List<Token> get tokens => throw _privateConstructorUsedError;
+  List<Identity> get ids => throw _privateConstructorUsedError;
   int get mobileSlotCount => throw _privateConstructorUsedError;
   int get tabletSlotCount => throw _privateConstructorUsedError;
   int get desktopSlotCount => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $DashboardCopyWith<$Res> {
       {String key,
       String title,
       List<Token> tokens,
+      List<Identity> ids,
       int mobileSlotCount,
       int tabletSlotCount,
       int desktopSlotCount,
@@ -73,6 +75,7 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     Object? key = null,
     Object? title = null,
     Object? tokens = null,
+    Object? ids = null,
     Object? mobileSlotCount = null,
     Object? tabletSlotCount = null,
     Object? desktopSlotCount = null,
@@ -95,6 +98,10 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      ids: null == ids
+          ? _value.ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<Identity>,
       mobileSlotCount: null == mobileSlotCount
           ? _value.mobileSlotCount
           : mobileSlotCount // ignore: cast_nullable_to_non_nullable
@@ -143,6 +150,7 @@ abstract class _$$DashboardImplCopyWith<$Res>
       {String key,
       String title,
       List<Token> tokens,
+      List<Identity> ids,
       int mobileSlotCount,
       int tabletSlotCount,
       int desktopSlotCount,
@@ -167,6 +175,7 @@ class __$$DashboardImplCopyWithImpl<$Res>
     Object? key = null,
     Object? title = null,
     Object? tokens = null,
+    Object? ids = null,
     Object? mobileSlotCount = null,
     Object? tabletSlotCount = null,
     Object? desktopSlotCount = null,
@@ -189,6 +198,10 @@ class __$$DashboardImplCopyWithImpl<$Res>
           ? _value._tokens
           : tokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      ids: null == ids
+          ? _value._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<Identity>,
       mobileSlotCount: null == mobileSlotCount
           ? _value.mobileSlotCount
           : mobileSlotCount // ignore: cast_nullable_to_non_nullable
@@ -232,6 +245,7 @@ class _$DashboardImpl extends _Dashboard {
       {required this.key,
       required this.title,
       required final List<Token> tokens,
+      required final List<Identity> ids,
       required this.mobileSlotCount,
       required this.tabletSlotCount,
       required this.desktopSlotCount,
@@ -241,6 +255,7 @@ class _$DashboardImpl extends _Dashboard {
       required final List<DashboardItem> desktop,
       required final List<DashboardItem> mobileLarge})
       : _tokens = tokens,
+        _ids = ids,
         _mobile = mobile,
         _tablet = tablet,
         _desktop = desktop,
@@ -260,6 +275,14 @@ class _$DashboardImpl extends _Dashboard {
     if (_tokens is EqualUnmodifiableListView) return _tokens;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tokens);
+  }
+
+  final List<Identity> _ids;
+  @override
+  List<Identity> get ids {
+    if (_ids is EqualUnmodifiableListView) return _ids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ids);
   }
 
   @override
@@ -304,7 +327,7 @@ class _$DashboardImpl extends _Dashboard {
 
   @override
   String toString() {
-    return 'Dashboard(key: $key, title: $title, tokens: $tokens, mobileSlotCount: $mobileSlotCount, tabletSlotCount: $tabletSlotCount, desktopSlotCount: $desktopSlotCount, mobileLargeSlotCount: $mobileLargeSlotCount, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
+    return 'Dashboard(key: $key, title: $title, tokens: $tokens, ids: $ids, mobileSlotCount: $mobileSlotCount, tabletSlotCount: $tabletSlotCount, desktopSlotCount: $desktopSlotCount, mobileLargeSlotCount: $mobileLargeSlotCount, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
   }
 
   @override
@@ -315,6 +338,7 @@ class _$DashboardImpl extends _Dashboard {
             (identical(other.key, key) || other.key == key) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._tokens, _tokens) &&
+            const DeepCollectionEquality().equals(other._ids, _ids) &&
             (identical(other.mobileSlotCount, mobileSlotCount) ||
                 other.mobileSlotCount == mobileSlotCount) &&
             (identical(other.tabletSlotCount, tabletSlotCount) ||
@@ -337,6 +361,7 @@ class _$DashboardImpl extends _Dashboard {
       key,
       title,
       const DeepCollectionEquality().hash(_tokens),
+      const DeepCollectionEquality().hash(_ids),
       mobileSlotCount,
       tabletSlotCount,
       desktopSlotCount,
@@ -365,6 +390,7 @@ abstract class _Dashboard extends Dashboard {
       {required final String key,
       required final String title,
       required final List<Token> tokens,
+      required final List<Identity> ids,
       required final int mobileSlotCount,
       required final int tabletSlotCount,
       required final int desktopSlotCount,
@@ -384,6 +410,8 @@ abstract class _Dashboard extends Dashboard {
   String get title;
   @override
   List<Token> get tokens;
+  @override
+  List<Identity> get ids;
   @override
   int get mobileSlotCount;
   @override

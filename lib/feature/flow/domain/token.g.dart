@@ -33,7 +33,12 @@ const _$TokenUnitEnumMap = {
   TokenUnit.onOff: 'onOff',
   TokenUnit.count: 'count',
   TokenUnit.power: 'power',
+  TokenUnit.rain: 'rain',
   TokenUnit.energy: 'energy',
   TokenUnit.voltage: 'voltage',
+  TokenUnit.humidity: 'humidity',
+  TokenUnit.windAngle: 'windAngle',
   TokenUnit.temperature: 'temperature',
+  TokenUnit.windStrength: 'windStrength',
+  TokenUnit.gustStrength: 'gustStrength',
 };

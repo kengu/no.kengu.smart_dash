@@ -49,19 +49,23 @@ mixin _$Rtl433Device {
   @JsonKey(name: 'moisture')
   double? get moisture => throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_dir_deg')
-  double? get windDirectionDegrees => throw _privateConstructorUsedError;
+  double? get windAngleInDegrees => throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_avg_m_s')
-  double? get windAverageMeterPerSeconds => throw _privateConstructorUsedError;
+  double? get windStrengthInMeterPerSeconds =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_avg_km_h')
-  double? get indAverageKilometerPerHour => throw _privateConstructorUsedError;
+  double? get windStrengthInKilometerPerHour =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_avg_mi_h')
-  double? get indAverageMilesPerHour => throw _privateConstructorUsedError;
+  double? get windStrengthInMilesPerHour => throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_max_m_s')
-  double? get windMaxMeterPerSeconds => throw _privateConstructorUsedError;
+  double? get gustStrengthInMeterPerSeconds =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_max_km_h')
-  double? get windMaxKilometerPerHour => throw _privateConstructorUsedError;
+  double? get gustStrengthInKilometerPerHour =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_max_mi_h')
-  double? get windMaxMilesPerHour => throw _privateConstructorUsedError;
+  double? get gustStrengthInMilesPerHour => throw _privateConstructorUsedError;
   @JsonKey(name: 'rain_mm')
   double? get rainInMillimeters => throw _privateConstructorUsedError;
   @JsonKey(name: 'rain_in')
@@ -100,13 +104,13 @@ abstract class $Rtl433DeviceCopyWith<$Res> {
       @JsonKey(name: 'setpoint_F') double? targetTemperatureFahrenheit,
       @JsonKey(name: 'humidity') double? humidity,
       @JsonKey(name: 'moisture') double? moisture,
-      @JsonKey(name: 'wind_dir_deg') double? windDirectionDegrees,
-      @JsonKey(name: 'wind_avg_m_s') double? windAverageMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h') double? indAverageKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') double? indAverageMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s') double? windMaxMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h') double? windMaxKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') double? windMaxMilesPerHour,
+      @JsonKey(name: 'wind_dir_deg') double? windAngleInDegrees,
+      @JsonKey(name: 'wind_avg_m_s') double? windStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_avg_km_h') double? windStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_avg_mi_h') double? windStrengthInMilesPerHour,
+      @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
       @JsonKey(name: 'rain_mm') double? rainInMillimeters,
       @JsonKey(name: 'rain_in') double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
@@ -141,13 +145,13 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
     Object? targetTemperatureFahrenheit = freezed,
     Object? humidity = freezed,
     Object? moisture = freezed,
-    Object? windDirectionDegrees = freezed,
-    Object? windAverageMeterPerSeconds = freezed,
-    Object? indAverageKilometerPerHour = freezed,
-    Object? indAverageMilesPerHour = freezed,
-    Object? windMaxMeterPerSeconds = freezed,
-    Object? windMaxKilometerPerHour = freezed,
-    Object? windMaxMilesPerHour = freezed,
+    Object? windAngleInDegrees = freezed,
+    Object? windStrengthInMeterPerSeconds = freezed,
+    Object? windStrengthInKilometerPerHour = freezed,
+    Object? windStrengthInMilesPerHour = freezed,
+    Object? gustStrengthInMeterPerSeconds = freezed,
+    Object? gustStrengthInKilometerPerHour = freezed,
+    Object? gustStrengthInMilesPerHour = freezed,
     Object? rainInMillimeters = freezed,
     Object? rainInInches = freezed,
     Object? rainRateMillimeterPerHour = freezed,
@@ -208,33 +212,33 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
           ? _value.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
               as double?,
-      windDirectionDegrees: freezed == windDirectionDegrees
-          ? _value.windDirectionDegrees
-          : windDirectionDegrees // ignore: cast_nullable_to_non_nullable
+      windAngleInDegrees: freezed == windAngleInDegrees
+          ? _value.windAngleInDegrees
+          : windAngleInDegrees // ignore: cast_nullable_to_non_nullable
               as double?,
-      windAverageMeterPerSeconds: freezed == windAverageMeterPerSeconds
-          ? _value.windAverageMeterPerSeconds
-          : windAverageMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+      windStrengthInMeterPerSeconds: freezed == windStrengthInMeterPerSeconds
+          ? _value.windStrengthInMeterPerSeconds
+          : windStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
-      indAverageKilometerPerHour: freezed == indAverageKilometerPerHour
-          ? _value.indAverageKilometerPerHour
-          : indAverageKilometerPerHour // ignore: cast_nullable_to_non_nullable
+      windStrengthInKilometerPerHour: freezed == windStrengthInKilometerPerHour
+          ? _value.windStrengthInKilometerPerHour
+          : windStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      indAverageMilesPerHour: freezed == indAverageMilesPerHour
-          ? _value.indAverageMilesPerHour
-          : indAverageMilesPerHour // ignore: cast_nullable_to_non_nullable
+      windStrengthInMilesPerHour: freezed == windStrengthInMilesPerHour
+          ? _value.windStrengthInMilesPerHour
+          : windStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxMeterPerSeconds: freezed == windMaxMeterPerSeconds
-          ? _value.windMaxMeterPerSeconds
-          : windMaxMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+      gustStrengthInMeterPerSeconds: freezed == gustStrengthInMeterPerSeconds
+          ? _value.gustStrengthInMeterPerSeconds
+          : gustStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxKilometerPerHour: freezed == windMaxKilometerPerHour
-          ? _value.windMaxKilometerPerHour
-          : windMaxKilometerPerHour // ignore: cast_nullable_to_non_nullable
+      gustStrengthInKilometerPerHour: freezed == gustStrengthInKilometerPerHour
+          ? _value.gustStrengthInKilometerPerHour
+          : gustStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxMilesPerHour: freezed == windMaxMilesPerHour
-          ? _value.windMaxMilesPerHour
-          : windMaxMilesPerHour // ignore: cast_nullable_to_non_nullable
+      gustStrengthInMilesPerHour: freezed == gustStrengthInMilesPerHour
+          ? _value.gustStrengthInMilesPerHour
+          : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       rainInMillimeters: freezed == rainInMillimeters
           ? _value.rainInMillimeters
@@ -283,13 +287,13 @@ abstract class _$$Rtl433DeviceImplCopyWith<$Res>
       @JsonKey(name: 'setpoint_F') double? targetTemperatureFahrenheit,
       @JsonKey(name: 'humidity') double? humidity,
       @JsonKey(name: 'moisture') double? moisture,
-      @JsonKey(name: 'wind_dir_deg') double? windDirectionDegrees,
-      @JsonKey(name: 'wind_avg_m_s') double? windAverageMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h') double? indAverageKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') double? indAverageMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s') double? windMaxMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h') double? windMaxKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') double? windMaxMilesPerHour,
+      @JsonKey(name: 'wind_dir_deg') double? windAngleInDegrees,
+      @JsonKey(name: 'wind_avg_m_s') double? windStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_avg_km_h') double? windStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_avg_mi_h') double? windStrengthInMilesPerHour,
+      @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
       @JsonKey(name: 'rain_mm') double? rainInMillimeters,
       @JsonKey(name: 'rain_in') double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
@@ -322,13 +326,13 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
     Object? targetTemperatureFahrenheit = freezed,
     Object? humidity = freezed,
     Object? moisture = freezed,
-    Object? windDirectionDegrees = freezed,
-    Object? windAverageMeterPerSeconds = freezed,
-    Object? indAverageKilometerPerHour = freezed,
-    Object? indAverageMilesPerHour = freezed,
-    Object? windMaxMeterPerSeconds = freezed,
-    Object? windMaxKilometerPerHour = freezed,
-    Object? windMaxMilesPerHour = freezed,
+    Object? windAngleInDegrees = freezed,
+    Object? windStrengthInMeterPerSeconds = freezed,
+    Object? windStrengthInKilometerPerHour = freezed,
+    Object? windStrengthInMilesPerHour = freezed,
+    Object? gustStrengthInMeterPerSeconds = freezed,
+    Object? gustStrengthInKilometerPerHour = freezed,
+    Object? gustStrengthInMilesPerHour = freezed,
     Object? rainInMillimeters = freezed,
     Object? rainInInches = freezed,
     Object? rainRateMillimeterPerHour = freezed,
@@ -389,33 +393,33 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
           ? _value.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
               as double?,
-      windDirectionDegrees: freezed == windDirectionDegrees
-          ? _value.windDirectionDegrees
-          : windDirectionDegrees // ignore: cast_nullable_to_non_nullable
+      windAngleInDegrees: freezed == windAngleInDegrees
+          ? _value.windAngleInDegrees
+          : windAngleInDegrees // ignore: cast_nullable_to_non_nullable
               as double?,
-      windAverageMeterPerSeconds: freezed == windAverageMeterPerSeconds
-          ? _value.windAverageMeterPerSeconds
-          : windAverageMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+      windStrengthInMeterPerSeconds: freezed == windStrengthInMeterPerSeconds
+          ? _value.windStrengthInMeterPerSeconds
+          : windStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
-      indAverageKilometerPerHour: freezed == indAverageKilometerPerHour
-          ? _value.indAverageKilometerPerHour
-          : indAverageKilometerPerHour // ignore: cast_nullable_to_non_nullable
+      windStrengthInKilometerPerHour: freezed == windStrengthInKilometerPerHour
+          ? _value.windStrengthInKilometerPerHour
+          : windStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      indAverageMilesPerHour: freezed == indAverageMilesPerHour
-          ? _value.indAverageMilesPerHour
-          : indAverageMilesPerHour // ignore: cast_nullable_to_non_nullable
+      windStrengthInMilesPerHour: freezed == windStrengthInMilesPerHour
+          ? _value.windStrengthInMilesPerHour
+          : windStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxMeterPerSeconds: freezed == windMaxMeterPerSeconds
-          ? _value.windMaxMeterPerSeconds
-          : windMaxMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+      gustStrengthInMeterPerSeconds: freezed == gustStrengthInMeterPerSeconds
+          ? _value.gustStrengthInMeterPerSeconds
+          : gustStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxKilometerPerHour: freezed == windMaxKilometerPerHour
-          ? _value.windMaxKilometerPerHour
-          : windMaxKilometerPerHour // ignore: cast_nullable_to_non_nullable
+      gustStrengthInKilometerPerHour: freezed == gustStrengthInKilometerPerHour
+          ? _value.gustStrengthInKilometerPerHour
+          : gustStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
-      windMaxMilesPerHour: freezed == windMaxMilesPerHour
-          ? _value.windMaxMilesPerHour
-          : windMaxMilesPerHour // ignore: cast_nullable_to_non_nullable
+      gustStrengthInMilesPerHour: freezed == gustStrengthInMilesPerHour
+          ? _value.gustStrengthInMilesPerHour
+          : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       rainInMillimeters: freezed == rainInMillimeters
           ? _value.rainInMillimeters
@@ -459,13 +463,13 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
       @JsonKey(name: 'setpoint_F') this.targetTemperatureFahrenheit,
       @JsonKey(name: 'humidity') this.humidity,
       @JsonKey(name: 'moisture') this.moisture,
-      @JsonKey(name: 'wind_dir_deg') this.windDirectionDegrees,
-      @JsonKey(name: 'wind_avg_m_s') this.windAverageMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h') this.indAverageKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') this.indAverageMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s') this.windMaxMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h') this.windMaxKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') this.windMaxMilesPerHour,
+      @JsonKey(name: 'wind_dir_deg') this.windAngleInDegrees,
+      @JsonKey(name: 'wind_avg_m_s') this.windStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_avg_km_h') this.windStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_avg_mi_h') this.windStrengthInMilesPerHour,
+      @JsonKey(name: 'wind_max_m_s') this.gustStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_max_km_h') this.gustStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_max_mi_h') this.gustStrengthInMilesPerHour,
       @JsonKey(name: 'rain_mm') this.rainInMillimeters,
       @JsonKey(name: 'rain_in') this.rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') this.rainRateMillimeterPerHour,
@@ -520,25 +524,25 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
   final double? moisture;
   @override
   @JsonKey(name: 'wind_dir_deg')
-  final double? windDirectionDegrees;
+  final double? windAngleInDegrees;
   @override
   @JsonKey(name: 'wind_avg_m_s')
-  final double? windAverageMeterPerSeconds;
+  final double? windStrengthInMeterPerSeconds;
   @override
   @JsonKey(name: 'wind_avg_km_h')
-  final double? indAverageKilometerPerHour;
+  final double? windStrengthInKilometerPerHour;
   @override
   @JsonKey(name: 'wind_avg_mi_h')
-  final double? indAverageMilesPerHour;
+  final double? windStrengthInMilesPerHour;
   @override
   @JsonKey(name: 'wind_max_m_s')
-  final double? windMaxMeterPerSeconds;
+  final double? gustStrengthInMeterPerSeconds;
   @override
   @JsonKey(name: 'wind_max_km_h')
-  final double? windMaxKilometerPerHour;
+  final double? gustStrengthInKilometerPerHour;
   @override
   @JsonKey(name: 'wind_max_mi_h')
-  final double? windMaxMilesPerHour;
+  final double? gustStrengthInMilesPerHour;
   @override
   @JsonKey(name: 'rain_mm')
   final double? rainInMillimeters;
@@ -557,7 +561,7 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
 
   @override
   String toString() {
-    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windDirectionDegrees: $windDirectionDegrees, windAverageMeterPerSeconds: $windAverageMeterPerSeconds, indAverageKilometerPerHour: $indAverageKilometerPerHour, indAverageMilesPerHour: $indAverageMilesPerHour, windMaxMeterPerSeconds: $windMaxMeterPerSeconds, windMaxKilometerPerHour: $windMaxKilometerPerHour, windMaxMilesPerHour: $windMaxMilesPerHour, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
+    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
   }
 
   @override
@@ -581,30 +585,33 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
                 other.temperatureFahrenheit == temperatureFahrenheit) &&
             (identical(other.targetTemperatureCelsius, targetTemperatureCelsius) ||
                 other.targetTemperatureCelsius == targetTemperatureCelsius) &&
-            (identical(other.targetTemperatureFahrenheit,
-                    targetTemperatureFahrenheit) ||
+            (identical(other.targetTemperatureFahrenheit, targetTemperatureFahrenheit) ||
                 other.targetTemperatureFahrenheit ==
                     targetTemperatureFahrenheit) &&
             (identical(other.humidity, humidity) ||
                 other.humidity == humidity) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
-            (identical(other.windDirectionDegrees, windDirectionDegrees) ||
-                other.windDirectionDegrees == windDirectionDegrees) &&
-            (identical(other.windAverageMeterPerSeconds, windAverageMeterPerSeconds) ||
-                other.windAverageMeterPerSeconds ==
-                    windAverageMeterPerSeconds) &&
-            (identical(other.indAverageKilometerPerHour, indAverageKilometerPerHour) ||
-                other.indAverageKilometerPerHour ==
-                    indAverageKilometerPerHour) &&
-            (identical(other.indAverageMilesPerHour, indAverageMilesPerHour) ||
-                other.indAverageMilesPerHour == indAverageMilesPerHour) &&
-            (identical(other.windMaxMeterPerSeconds, windMaxMeterPerSeconds) ||
-                other.windMaxMeterPerSeconds == windMaxMeterPerSeconds) &&
-            (identical(other.windMaxKilometerPerHour, windMaxKilometerPerHour) ||
-                other.windMaxKilometerPerHour == windMaxKilometerPerHour) &&
-            (identical(other.windMaxMilesPerHour, windMaxMilesPerHour) ||
-                other.windMaxMilesPerHour == windMaxMilesPerHour) &&
+            (identical(other.windAngleInDegrees, windAngleInDegrees) ||
+                other.windAngleInDegrees == windAngleInDegrees) &&
+            (identical(other.windStrengthInMeterPerSeconds, windStrengthInMeterPerSeconds) ||
+                other.windStrengthInMeterPerSeconds ==
+                    windStrengthInMeterPerSeconds) &&
+            (identical(other.windStrengthInKilometerPerHour, windStrengthInKilometerPerHour) ||
+                other.windStrengthInKilometerPerHour ==
+                    windStrengthInKilometerPerHour) &&
+            (identical(other.windStrengthInMilesPerHour, windStrengthInMilesPerHour) ||
+                other.windStrengthInMilesPerHour ==
+                    windStrengthInMilesPerHour) &&
+            (identical(other.gustStrengthInMeterPerSeconds, gustStrengthInMeterPerSeconds) ||
+                other.gustStrengthInMeterPerSeconds ==
+                    gustStrengthInMeterPerSeconds) &&
+            (identical(other.gustStrengthInKilometerPerHour, gustStrengthInKilometerPerHour) ||
+                other.gustStrengthInKilometerPerHour ==
+                    gustStrengthInKilometerPerHour) &&
+            (identical(other.gustStrengthInMilesPerHour, gustStrengthInMilesPerHour) ||
+                other.gustStrengthInMilesPerHour ==
+                    gustStrengthInMilesPerHour) &&
             (identical(other.rainInMillimeters, rainInMillimeters) ||
                 other.rainInMillimeters == rainInMillimeters) &&
             (identical(other.rainInInches, rainInInches) ||
@@ -613,8 +620,7 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
                 other.rainRateMillimeterPerHour == rainRateMillimeterPerHour) &&
             (identical(other.rainRateInchesPerHour, rainRateInchesPerHour) ||
                 other.rainRateInchesPerHour == rainRateInchesPerHour) &&
-            (identical(other.pressureInhPa, pressureInhPa) ||
-                other.pressureInhPa == pressureInhPa));
+            (identical(other.pressureInhPa, pressureInhPa) || other.pressureInhPa == pressureInhPa));
   }
 
   @JsonKey(ignore: true)
@@ -635,13 +641,13 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
         targetTemperatureFahrenheit,
         humidity,
         moisture,
-        windDirectionDegrees,
-        windAverageMeterPerSeconds,
-        indAverageKilometerPerHour,
-        indAverageMilesPerHour,
-        windMaxMeterPerSeconds,
-        windMaxKilometerPerHour,
-        windMaxMilesPerHour,
+        windAngleInDegrees,
+        windStrengthInMeterPerSeconds,
+        windStrengthInKilometerPerHour,
+        windStrengthInMilesPerHour,
+        gustStrengthInMeterPerSeconds,
+        gustStrengthInKilometerPerHour,
+        gustStrengthInMilesPerHour,
         rainInMillimeters,
         rainInInches,
         rainRateMillimeterPerHour,
@@ -679,13 +685,17 @@ abstract class _Rtl433Device extends Rtl433Device {
       @JsonKey(name: 'setpoint_F') final double? targetTemperatureFahrenheit,
       @JsonKey(name: 'humidity') final double? humidity,
       @JsonKey(name: 'moisture') final double? moisture,
-      @JsonKey(name: 'wind_dir_deg') final double? windDirectionDegrees,
-      @JsonKey(name: 'wind_avg_m_s') final double? windAverageMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h') final double? indAverageKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') final double? indAverageMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s') final double? windMaxMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h') final double? windMaxKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') final double? windMaxMilesPerHour,
+      @JsonKey(name: 'wind_dir_deg') final double? windAngleInDegrees,
+      @JsonKey(name: 'wind_avg_m_s')
+      final double? windStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_avg_km_h')
+      final double? windStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_avg_mi_h') final double? windStrengthInMilesPerHour,
+      @JsonKey(name: 'wind_max_m_s')
+      final double? gustStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_max_km_h')
+      final double? gustStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_max_mi_h') final double? gustStrengthInMilesPerHour,
       @JsonKey(name: 'rain_mm') final double? rainInMillimeters,
       @JsonKey(name: 'rain_in') final double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') final double? rainRateMillimeterPerHour,
@@ -741,25 +751,25 @@ abstract class _Rtl433Device extends Rtl433Device {
   double? get moisture;
   @override
   @JsonKey(name: 'wind_dir_deg')
-  double? get windDirectionDegrees;
+  double? get windAngleInDegrees;
   @override
   @JsonKey(name: 'wind_avg_m_s')
-  double? get windAverageMeterPerSeconds;
+  double? get windStrengthInMeterPerSeconds;
   @override
   @JsonKey(name: 'wind_avg_km_h')
-  double? get indAverageKilometerPerHour;
+  double? get windStrengthInKilometerPerHour;
   @override
   @JsonKey(name: 'wind_avg_mi_h')
-  double? get indAverageMilesPerHour;
+  double? get windStrengthInMilesPerHour;
   @override
   @JsonKey(name: 'wind_max_m_s')
-  double? get windMaxMeterPerSeconds;
+  double? get gustStrengthInMeterPerSeconds;
   @override
   @JsonKey(name: 'wind_max_km_h')
-  double? get windMaxKilometerPerHour;
+  double? get gustStrengthInKilometerPerHour;
   @override
   @JsonKey(name: 'wind_max_mi_h')
-  double? get windMaxMilesPerHour;
+  double? get gustStrengthInMilesPerHour;
   @override
   @JsonKey(name: 'rain_mm')
   double? get rainInMillimeters;

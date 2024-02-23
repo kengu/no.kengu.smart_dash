@@ -20,7 +20,7 @@ class RoomsPage extends ConsumerWidget {
         pageItemBuilder: (rooms, type, slotsCount, item) {
           return ThermostatTile(
             subTitle: 'Tindefjell',
-            thermostat: rooms.get(
+            thermostat: rooms.getToken(
               item.identifier,
             ),
           );

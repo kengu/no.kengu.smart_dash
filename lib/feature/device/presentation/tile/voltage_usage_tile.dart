@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/time/duration.dart';
 import 'package:smart_dash/util/time/time_series.dart';
-import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
-import 'package:smart_dash/util/data/units.dart';
 
 class VoltageTile<T extends num> extends ConsumerWidget {
   VoltageTile({
@@ -66,7 +66,7 @@ class VoltageTile<T extends num> extends ConsumerWidget {
         color: Colors.lightGreen,
       ),
       pointLabeler: (data) => data.toVoltage(0),
-      valueBuilder: (data) => data.toVoltage(fractionDigits: 0),
+      valueBuilder: (data) => data.toVoltage(orderDigits: 0),
       lineLabeler: (index) => usage.tsAgo(begin + index.toInt()),
     );
   }

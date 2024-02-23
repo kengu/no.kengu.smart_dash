@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard_page.dart';
 import 'package:smart_dash/feature/device/presentation/tile/energy_usage_tile.dart';
-import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
@@ -16,12 +18,11 @@ import 'package:smart_dash/feature/setting/presentation/settings_form_screen_con
 import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_tile.dart';
 import 'package:smart_dash/feature/system/presentation/network_now_tile.dart';
+import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
+import 'package:smart_dash/feature/weather/presentation/weather_forecast_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({
@@ -53,7 +54,7 @@ class HomePage extends ConsumerWidget {
                       key: GlobalObjectKey(item),
                       size: size,
                       duration: TimeScale.minutes.to(size),
-                      energy: home.get(
+                      energy: home.getToken(
                         'meter_energy:sikom:device:541905',
                       ),
                     );
@@ -62,7 +63,7 @@ class HomePage extends ConsumerWidget {
                       key: GlobalObjectKey(item),
                       size: size,
                       duration: TimeScale.minutes.to(size),
-                      power: home.get(
+                      power: home.getToken(
                         'measure_power:sikom:device:541905',
                       ),
                     );
@@ -71,7 +72,7 @@ class HomePage extends ConsumerWidget {
                       key: GlobalObjectKey(item),
                       size: size,
                       duration: TimeScale.minutes.to(size),
-                      voltage: home.get(
+                      voltage: home.getToken(
                         'measure_voltage:sikom:device:541905',
                       ),
                     );
@@ -98,7 +99,7 @@ class HomePage extends ConsumerWidget {
                   case 'bill_hourly':
                     return EnergyBillHourlyTile(
                       key: GlobalObjectKey(item),
-                      power: home.get(
+                      power: home.getToken(
                         'measure_power:sikom:device:541905',
                       ),
                       area: area,
@@ -107,15 +108,24 @@ class HomePage extends ConsumerWidget {
                   case 'bill_month':
                     return EnergyBillMonthTile(
                       key: GlobalObjectKey(item),
-                      power: home.get(
-                        'measure_power:sikom:device:541905',
-                      ),
                       area: area,
                       when: when,
+                      power: home.getToken(
+                        'measure_power:sikom:device:541905',
+                      ),
                     );
                   case 'weather_now':
-                    // TODO: Make location name configurable
+                    // TODO: Add support for device ids in
                     return WeatherNowTile(
+                      key: GlobalObjectKey(item),
+                      place: 'Tindefjell',
+                      device: home.getIdentity(
+                        'rtl_433:Cotech-367959-130',
+                      ),
+                    );
+                  case 'weather_forecast':
+                    // TODO: Make location name configurable
+                    return WeatherForecastTile(
                       key: GlobalObjectKey(item),
                       lat: 60.0802,
                       lon: 8.8168,

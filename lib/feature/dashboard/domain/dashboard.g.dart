@@ -13,6 +13,9 @@ _$DashboardImpl _$$DashboardImplFromJson(Map<String, dynamic> json) =>
       tokens: (json['tokens'] as List<dynamic>)
           .map((e) => Token.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ids: (json['ids'] as List<dynamic>)
+          .map((e) => Identity.fromJson(e as Map<String, dynamic>))
+          .toList(),
       mobileSlotCount: json['mobileSlotCount'] as int,
       tabletSlotCount: json['tabletSlotCount'] as int,
       desktopSlotCount: json['desktopSlotCount'] as int,
@@ -36,6 +39,7 @@ Map<String, dynamic> _$$DashboardImplToJson(_$DashboardImpl instance) =>
       'key': instance.key,
       'title': instance.title,
       'tokens': instance.tokens.map((e) => e.toJson()).toList(),
+      'ids': instance.ids.map((e) => e.toJson()).toList(),
       'mobileSlotCount': instance.mobileSlotCount,
       'tabletSlotCount': instance.tabletSlotCount,
       'desktopSlotCount': instance.desktopSlotCount,

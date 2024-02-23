@@ -67,13 +67,13 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
     @JsonKey(name: 'setpoint_F') double? targetTemperatureFahrenheit,
     @JsonKey(name: 'humidity') double? humidity,
     @JsonKey(name: 'moisture') double? moisture,
-    @JsonKey(name: 'wind_dir_deg') double? windDirectionDegrees,
-    @JsonKey(name: 'wind_avg_m_s') double? windAverageMeterPerSeconds,
-    @JsonKey(name: 'wind_avg_km_h') double? indAverageKilometerPerHour,
-    @JsonKey(name: 'wind_avg_mi_h') double? indAverageMilesPerHour,
-    @JsonKey(name: 'wind_max_m_s') double? windMaxMeterPerSeconds,
-    @JsonKey(name: 'wind_max_km_h') double? windMaxKilometerPerHour,
-    @JsonKey(name: 'wind_max_mi_h') double? windMaxMilesPerHour,
+    @JsonKey(name: 'wind_dir_deg') double? windAngleInDegrees,
+    @JsonKey(name: 'wind_avg_m_s') double? windStrengthInMeterPerSeconds,
+    @JsonKey(name: 'wind_avg_km_h') double? windStrengthInKilometerPerHour,
+    @JsonKey(name: 'wind_avg_mi_h') double? windStrengthInMilesPerHour,
+    @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
+    @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
+    @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
     @JsonKey(name: 'rain_mm') double? rainInMillimeters,
     @JsonKey(name: 'rain_in') double? rainInInches,
     @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
@@ -81,9 +81,65 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
     @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
   }) = _Rtl433Device;
 
+  bool get hasHumidity => humidity != null;
+
+  bool get hasWindAngle => windAngleInDegrees != null;
+
+  bool get hasRain => rainInMillimeters != null || rainInInches != null;
+
   bool get hasTemperature =>
       temperatureCelsius != null || temperatureFahrenheit != null;
 
+  bool get hasTargetTemperature =>
+      targetTemperatureCelsius != null || targetTemperatureFahrenheit != null;
+
+  bool get hasWindStrength =>
+      windStrengthInMeterPerSeconds != null ||
+      windStrengthInKilometerPerHour != null ||
+      windStrengthInMilesPerHour != null;
+
+  bool get hasGustStrength =>
+      gustStrengthInMeterPerSeconds != null ||
+      gustStrengthInKilometerPerHour != null ||
+      gustStrengthInMilesPerHour != null;
+
+  /// Get [temperature] in unit [TokenUnit.temperature]
+  double? get temperature =>
+      temperatureCelsius ??
+      (temperatureFahrenheit == null
+          ? null
+          : (5 / 9 * (temperatureFahrenheit! - 32.0)));
+
+  /// Get [targetTemperature] in unit [TokenUnit.temperature]
+  double? get targetTemperature =>
+      targetTemperatureCelsius ??
+      (targetTemperatureFahrenheit == null
+          ? null
+          : (5 / 9 * (targetTemperatureFahrenheit! - 32.0)));
+
+  /// Get [rain] in unit [TokenUnit.rain]
+  double? get rain =>
+      rainInMillimeters ?? (rainInInches == null ? null : rainInInches! * 25.4);
+
+  /// Get [windStrength] in unit [TokenUnit.windStrength]
+  double? get windStrength =>
+      windStrengthInMeterPerSeconds ??
+      (windStrengthInKilometerPerHour == null
+          ? (windStrengthInMilesPerHour == null
+              ? null
+              : windStrengthInMilesPerHour! * 0.44704)
+          : windStrengthInKilometerPerHour! * 5 / 18);
+
+  /// Get [gustStrength] in unit [TokenUnit.gustStrength]
+  double? get gustStrength =>
+      gustStrengthInMeterPerSeconds ??
+      (gustStrengthInKilometerPerHour == null
+          ? (gustStrengthInMilesPerHour == null
+              ? null
+              : gustStrengthInMilesPerHour! * 0.44704)
+          : gustStrengthInKilometerPerHour! * 5 / 18);
+
+  /// Get [time] as [DateTime]
   DateTime get lastUpdated {
     List<String> parts = time.split('.');
     int seconds = int.parse(parts[0]);
@@ -102,16 +158,24 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
   @override
   Device toDevice() => Device(
         data: toJson(),
-        id: '$model-$id',
         name: model,
-        capabilities: [
-          if (hasTemperature) DeviceCapability.temperature,
-        ],
-        temperature: temperatureCelsius ??
-            (temperatureFahrenheit == null
-                ? null
-                : (5 / 9 * (temperatureFahrenheit! - 32.0))),
+        id: '$model-$id',
         service: Rtl433.key,
+        capabilities: [
+          if (hasRain) DeviceCapability.rain,
+          if (hasHumidity) DeviceCapability.humidity,
+          if (hasWindAngle) DeviceCapability.windAngle,
+          if (hasTemperature) DeviceCapability.temperature,
+          if (hasWindStrength) DeviceCapability.windStrength,
+          if (hasGustStrength) DeviceCapability.gustStrength,
+//          if (hasTargetTemperature) DeviceCapability.targetTemperature,
+        ],
+        rain: rain,
+        humidity: humidity,
+        windAngle: windAngleInDegrees,
+        windStrength: windStrength,
+        gustStrength: gustStrength,
+        temperature: temperature,
         lastUpdated: lastUpdated,
         type: Rtl433DeviceType.fromNativeType(model).toDeviceType(),
       );

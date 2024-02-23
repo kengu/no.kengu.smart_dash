@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/device/application/device_service.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/weather/data/weather_client.dart';
 import 'package:smart_dash/feature/weather/data/weather_response.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
@@ -15,14 +17,56 @@ class WeatherService {
 
   final _cache = FutureCache(prefix: '$WeatherService');
 
-  Optional<Weather> getCachedWeather(double lat, double lon) {
+  Optional<Weather> getCachedNow(Identity id) {
     return Optional.ofNullable(
-      _cache.get<WeatherResponse>('$lat:$lon').orElseNull?.data,
+      _cache.get<Weather>('device:$id').orElseNull,
     );
   }
 
-  Future<Weather> getWeather(double lat, double lon, Duration period) async {
-    final key = '$lat:$lon';
+  Optional<Weather> getCachedForecast(double lat, double lon) {
+    return Optional.ofNullable(
+      _cache.get<WeatherResponse>('forecast:$lat:$lon').orElseNull?.data,
+    );
+  }
+
+  Future<Optional<Weather>> getNow(Identity id, Duration period) async {
+    final key = 'device:$id';
+    return _cache.getOrFetch(key, () async {
+      final result = await ref.read(deviceServiceProvider).get(id);
+      if (result.isPresent) {
+        final device = result.value;
+        final weather = Weather(
+            geometry: const PointGeometry(coords: []),
+            props: WeatherProperties(
+              meta: WeatherMeta(
+                // TODO: Populate from TokenUnit
+                units: const WeatherUnits(),
+                updatedAt: device.lastUpdated,
+              ),
+              timeseries: [
+                WeatherTimeStep(
+                  time: device.lastUpdated,
+                  data: WeatherData(
+                    instant: WeatherInstant(
+                      details: WeatherInstantDetails(
+                        airTemperature: device.temperature,
+                        windFromDirection: device.windAngle,
+                        windSpeed: device.windStrength,
+                        windSpeedOfGust: device.gustStrength,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ));
+        return Optional.of(weather);
+      }
+      return const Optional.empty();
+    }, ttl: period);
+  }
+
+  Future<Weather> getForecast(double lat, double lon, Duration period) async {
+    final key = 'forecast:$lat:$lon';
     final response = await _cache.getOrFetch(key, () async {
       final cached = _cache.get<WeatherResponse>(key);
       final client = ref.read(weatherClientProvider);

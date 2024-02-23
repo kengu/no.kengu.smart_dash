@@ -52,50 +52,63 @@ extension UnitX on num {
     return o.abs() < min ? '' : (o >= 0 ? upper[o] : lower[o]) ?? '';
   }
 
-  String toPower([int fractionDigits = 2]) =>
-      format(TokenUnit.power.symbol, fractionDigits);
-  String toEnergy([int fractionDigits = 2]) =>
-      format(TokenUnit.energy.symbol, fractionDigits);
-  String toVoltage([int fractionDigits = 2]) =>
-      format(TokenUnit.voltage.symbol, fractionDigits);
-  String toTemperature([int fractionDigits = 2]) =>
-      format(TokenUnit.temperature.symbol, fractionDigits);
+  String toPower([int orderDigits = 2]) =>
+      format(TokenUnit.power.symbol, orderDigits: orderDigits);
+  String toEnergy([int orderDigits = 2]) =>
+      format(TokenUnit.energy.symbol, orderDigits: orderDigits);
+  String toVoltage([int orderDigits = 2]) =>
+      format(TokenUnit.voltage.symbol, orderDigits: orderDigits);
+  String toTemperature([int orderDigits = 0]) => format(
+        TokenUnit.temperature.symbol,
+        orderDigits: orderDigits,
+        withOrder: false,
+      );
   String toPrice(String currency, [int fractionDigits = 2]) {
     return '${toStringAsFixed(fractionDigits)} $currency';
   }
 
-  String format(String unit, [int orderDigits = 2, int orderMin = 3]) {
+  String format(String unit,
+      {int orderDigits = 2, int orderMin = 3, bool withOrder = true}) {
     final o = order;
-    final s = symbol(o, orderMin);
+    final s = withOrder ? symbol(o, orderMin) : '';
     final b = (o == 0 || s.isEmpty ? this : this / pow(10, o));
-    final d = o.abs() < orderMin ? 0 : orderDigits;
+    final d = withOrder ? (o.abs() < orderMin ? 0 : orderDigits) : orderDigits;
     return [b.toStringAsFixed(d), '$s${TokenUnit.symbolOf(unit)}'].join(' ');
   }
 }
 
 extension UnitInListX<T extends num> on List<T> {
-  String toPower({int? index, int fractionDigits = 2}) =>
-      format(TokenUnit.power.symbol,
-          index: index, fractionDigits: fractionDigits);
+  String toPower({int? index, int orderDigits = 2}) =>
+      format(TokenUnit.power.symbol, index: index, orderDigits: orderDigits);
 
-  String toEnergy({int? index, int fractionDigits = 2}) =>
-      format(TokenUnit.energy.symbol,
-          index: index, fractionDigits: fractionDigits);
+  String toEnergy({int? index, int orderDigits = 2}) =>
+      format(TokenUnit.energy.symbol, index: index, orderDigits: orderDigits);
 
-  String toVoltage({int? index, int fractionDigits = 2}) =>
-      format(TokenUnit.voltage.symbol,
-          index: index, fractionDigits: fractionDigits);
+  String toVoltage({int? index, int orderDigits = 2}) =>
+      format(TokenUnit.voltage.symbol, index: index, orderDigits: orderDigits);
 
-  String toTemperature({int? index, int fractionDigits = 2}) =>
-      format(TokenUnit.temperature.symbol,
-          index: index, fractionDigits: fractionDigits);
+  String toTemperature({int? index, int orderDigits = 2}) => format(
+        TokenUnit.temperature.symbol,
+        index: index,
+        withOrder: false,
+        orderDigits: orderDigits,
+      );
 
   String toPrice(String currency, {int? index, int fractionDigits = 2}) =>
       (isEmpty ? 0 : this[min(length - 1, index ?? length - 1)])
           .toPrice(currency, fractionDigits);
 
-  String format(String unit, {int? index, int fractionDigits = 2}) {
+  String format(String unit,
+      {int? index,
+      int orderDigits = 2,
+      int orderMin = 3,
+      bool withOrder = true}) {
     final raw = isEmpty ? 0 : this[index ?? length - 1];
-    return raw.format(unit, fractionDigits);
+    return raw.format(
+      unit,
+      orderDigits: orderDigits,
+      orderMin: orderMin,
+      withOrder: withOrder,
+    );
   }
 }

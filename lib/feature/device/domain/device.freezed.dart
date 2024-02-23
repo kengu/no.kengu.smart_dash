@@ -42,7 +42,22 @@ mixin _$Device {
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
   /// Get device's measured temperature (default null)
+  double? get rain => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
+  double? get humidity => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
+  double? get windAngle => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
   double? get temperature => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
+  double? get windStrength => throw _privateConstructorUsedError;
+
+  /// Get device's measured temperature (default null)
+  double? get gustStrength => throw _privateConstructorUsedError;
 
   /// Get the device's electric state information (default null)
   ElectricState? get electric => throw _privateConstructorUsedError;
@@ -71,7 +86,12 @@ abstract class $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
+      double? rain,
+      double? humidity,
+      double? windAngle,
       double? temperature,
+      double? windStrength,
+      double? gustStrength,
       ElectricState? electric,
       SwitchState? onOff,
       Thermostat? thermostat});
@@ -101,7 +121,12 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
+    Object? rain = freezed,
+    Object? humidity = freezed,
+    Object? windAngle = freezed,
     Object? temperature = freezed,
+    Object? windStrength = freezed,
+    Object? gustStrength = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
@@ -135,9 +160,29 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      rain: freezed == rain
+          ? _value.rain
+          : rain // ignore: cast_nullable_to_non_nullable
+              as double?,
+      humidity: freezed == humidity
+          ? _value.humidity
+          : humidity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windAngle: freezed == windAngle
+          ? _value.windAngle
+          : windAngle // ignore: cast_nullable_to_non_nullable
+              as double?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windStrength: freezed == windStrength
+          ? _value.windStrength
+          : windStrength // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gustStrength: freezed == gustStrength
+          ? _value.gustStrength
+          : gustStrength // ignore: cast_nullable_to_non_nullable
               as double?,
       electric: freezed == electric
           ? _value.electric
@@ -206,7 +251,12 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       Map<String, Object?> data,
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
+      double? rain,
+      double? humidity,
+      double? windAngle,
       double? temperature,
+      double? windStrength,
+      double? gustStrength,
       ElectricState? electric,
       SwitchState? onOff,
       Thermostat? thermostat});
@@ -237,7 +287,12 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? data = null,
     Object? capabilities = null,
     Object? lastUpdated = null,
+    Object? rain = freezed,
+    Object? humidity = freezed,
+    Object? windAngle = freezed,
     Object? temperature = freezed,
+    Object? windStrength = freezed,
+    Object? gustStrength = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
@@ -271,9 +326,29 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      rain: freezed == rain
+          ? _value.rain
+          : rain // ignore: cast_nullable_to_non_nullable
+              as double?,
+      humidity: freezed == humidity
+          ? _value.humidity
+          : humidity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windAngle: freezed == windAngle
+          ? _value.windAngle
+          : windAngle // ignore: cast_nullable_to_non_nullable
+              as double?,
       temperature: freezed == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windStrength: freezed == windStrength
+          ? _value.windStrength
+          : windStrength // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gustStrength: freezed == gustStrength
+          ? _value.gustStrength
+          : gustStrength // ignore: cast_nullable_to_non_nullable
               as double?,
       electric: freezed == electric
           ? _value.electric
@@ -302,7 +377,12 @@ class _$DeviceImpl extends _Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapability> capabilities,
       required this.lastUpdated,
+      this.rain,
+      this.humidity,
+      this.windAngle,
       this.temperature,
+      this.windStrength,
+      this.gustStrength,
       this.electric,
       this.onOff,
       this.thermostat})
@@ -357,7 +437,27 @@ class _$DeviceImpl extends _Device {
 
   /// Get device's measured temperature (default null)
   @override
+  final double? rain;
+
+  /// Get device's measured temperature (default null)
+  @override
+  final double? humidity;
+
+  /// Get device's measured temperature (default null)
+  @override
+  final double? windAngle;
+
+  /// Get device's measured temperature (default null)
+  @override
   final double? temperature;
+
+  /// Get device's measured temperature (default null)
+  @override
+  final double? windStrength;
+
+  /// Get device's measured temperature (default null)
+  @override
+  final double? gustStrength;
 
   /// Get the device's electric state information (default null)
   @override
@@ -373,7 +473,7 @@ class _$DeviceImpl extends _Device {
 
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, temperature: $temperature, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windStrength: $windStrength, gustStrength: $gustStrength, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
   }
 
   @override
@@ -390,8 +490,17 @@ class _$DeviceImpl extends _Device {
                 .equals(other._capabilities, _capabilities) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
+            (identical(other.rain, rain) || other.rain == rain) &&
+            (identical(other.humidity, humidity) ||
+                other.humidity == humidity) &&
+            (identical(other.windAngle, windAngle) ||
+                other.windAngle == windAngle) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
+            (identical(other.windStrength, windStrength) ||
+                other.windStrength == windStrength) &&
+            (identical(other.gustStrength, gustStrength) ||
+                other.gustStrength == gustStrength) &&
             (identical(other.electric, electric) ||
                 other.electric == electric) &&
             (identical(other.onOff, onOff) || other.onOff == onOff) &&
@@ -410,7 +519,12 @@ class _$DeviceImpl extends _Device {
       const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(_capabilities),
       lastUpdated,
+      rain,
+      humidity,
+      windAngle,
       temperature,
+      windStrength,
+      gustStrength,
       electric,
       onOff,
       thermostat);
@@ -438,7 +552,12 @@ abstract class _Device extends Device {
       required final Map<String, Object?> data,
       required final List<DeviceCapability> capabilities,
       required final DateTime lastUpdated,
+      final double? rain,
+      final double? humidity,
+      final double? windAngle,
       final double? temperature,
+      final double? windStrength,
+      final double? gustStrength,
       final ElectricState? electric,
       final SwitchState? onOff,
       final Thermostat? thermostat}) = _$DeviceImpl;
@@ -477,7 +596,27 @@ abstract class _Device extends Device {
   @override
 
   /// Get device's measured temperature (default null)
+  double? get rain;
+  @override
+
+  /// Get device's measured temperature (default null)
+  double? get humidity;
+  @override
+
+  /// Get device's measured temperature (default null)
+  double? get windAngle;
+  @override
+
+  /// Get device's measured temperature (default null)
   double? get temperature;
+  @override
+
+  /// Get device's measured temperature (default null)
+  double? get windStrength;
+  @override
+
+  /// Get device's measured temperature (default null)
+  double? get gustStrength;
   @override
 
   /// Get the device's electric state information (default null)

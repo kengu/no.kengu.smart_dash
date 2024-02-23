@@ -5,26 +5,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/weather/application/weather_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/feature/weather/presentation/weather.dart';
 import 'package:smart_dash/util/data/num.dart';
+import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/widget.dart';
-import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 
 class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
   const WeatherNowTile({
     super.key,
-    required this.lat,
-    required this.lon,
     required this.place,
+    required this.device,
     this.period = const Duration(minutes: 5),
   });
 
-  final double lat;
-  final double lon;
   final String place;
   final Duration period;
+  final Optional<Identity> device;
 
   @override
   ConsumerState<WeatherNowTile> createState() => _WeatherNowTileState();
@@ -41,43 +43,32 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.device.isPresent) {
+      return _buildEmptyTile();
+    }
     final service = ref.watch(weatherServiceProvider);
-    return FutureBuilder<Weather>(
-      future: service.getWeather(widget.lat, widget.lon, widget.period),
-      initialData: service.getCachedWeather(widget.lat, widget.lon).orElseNull,
+    return FutureBuilder<Optional<Weather>>(
+      initialData: Optional.ofNullable(
+        service.getCachedNow(widget.device.value).orElseNull,
+      ),
+      future: service.getNow(
+        widget.device.value,
+        widget.period,
+      ),
       builder: (context, snapshot) {
         final now = DateTime.now();
-        final weather = _select(snapshot.data, now);
+        final data = snapshot.data?.orElseNull;
+        final weather = selectWeatherTimeStep(data, now);
         final details = _selected == 0
             ? weather
-            : _select(snapshot.data, now.add(Duration(hours: _selected)));
+            : selectWeatherTimeStep(data, now.add(Duration(hours: _selected)));
         if (details == null) {
-          return SmartDashTile(
-            title: 'Weather Now',
-            subTitle: widget.place,
-            constraints: constraints,
-            leading: const Icon(
-              Icons.wb_sunny,
-              color: Colors.lightGreen,
-            ),
-            trailing: Text(
-              _toTemperature(),
-              style: const TextStyle(
-                color: Colors.lightGreen,
-                fontWeight: FontWeight.bold,
-              ),
-              textScaler: const TextScaler.linear(1.2),
-            ),
-            body: const Center(
-              child: CircularProgressIndicator(
-                color: Colors.lightGreen,
-              ),
-            ),
-          );
+          return _buildEmptyTile();
         }
-        final index = snapshot.data!.props.timeseries.indexOf(details);
+        final index = snapshot.data!.value.props.timeseries.indexOf(details);
         return SmartDashTile(
-          title: 'Weather ${_selected == 0 ? 'Now' : '+${_selected}h'}',
+          title: 'Weather '
+              '${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
           subTitle: '${widget.place} @ '
               '${nf.format(details.time.toLocal().hour)}:00'
@@ -104,7 +95,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: WeatherInstanceWidget(
                     index: index,
-                    weather: snapshot.data!,
+                    weather: data!,
                   ),
                 ),
               ),
@@ -112,9 +103,9 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
               const Divider(),
               Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: SelectableForecastWidget(
+                child: SelectableNowWidget(
                   now: now,
-                  weather: snapshot.data,
+                  weather: data,
                   selected: _selected,
                   onSelected: (index) => setState(() {
                     _selected = _selected == index ? 0 : index;
@@ -128,13 +119,38 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
     );
   }
 
+  SmartDashTile _buildEmptyTile() {
+    return SmartDashTile(
+      title: 'Weather Now',
+      subTitle: widget.place,
+      constraints: constraints,
+      leading: const Icon(
+        Icons.wb_sunny,
+        color: Colors.lightGreen,
+      ),
+      trailing: Text(
+        _toTemperature(),
+        style: const TextStyle(
+          color: Colors.lightGreen,
+          fontWeight: FontWeight.bold,
+        ),
+        textScaler: const TextScaler.linear(1.2),
+      ),
+      body: const Center(
+        child: CircularProgressIndicator(
+          color: Colors.lightGreen,
+        ),
+      ),
+    );
+  }
+
   String _toTemperature([WeatherInstant? data]) {
-    return '${data?.details.airTemperature ?? '-'} °C';
+    return data?.details.airTemperature?.toTemperature(1) ?? '- °C';
   }
 }
 
-class SelectableForecastWidget extends StatelessWidget {
-  const SelectableForecastWidget({
+class SelectableNowWidget extends StatelessWidget {
+  const SelectableNowWidget({
     super.key,
     required this.now,
     this.selected = 0,
@@ -155,7 +171,7 @@ class SelectableForecastWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [3, 6, 12, 24]
           .map((hours) => SelectableBoxWidget(
-                WeatherForecastWidget(
+                WeatherNowWidget(
                   weather,
                   now: now,
                   hours: hours,
@@ -243,7 +259,7 @@ class WeatherInstanceWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _toSymbol(step, 120),
+        toWeatherSymbol(step, 120),
         Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -385,17 +401,8 @@ class WeatherInstanceWidget extends StatelessWidget {
   }
 }
 
-Image _toSymbol(WeatherTimeStep step, double size) {
-  final code = step.data.next1h?.summary.symbolCode ?? '';
-  return Image.asset(
-    'assets/images/weather/$code.png',
-    width: size,
-    cacheWidth: size.toInt(),
-  );
-}
-
-class WeatherForecastWidget extends StatelessWidget {
-  const WeatherForecastWidget(
+class WeatherNowWidget extends StatelessWidget {
+  const WeatherNowWidget(
     this.weather, {
     super.key,
     required this.now,
@@ -409,9 +416,10 @@ class WeatherForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final when = now.add(Duration(hours: hours));
-    final forecast = _select(weather, when, false);
+    final forecast = selectWeatherTimeStep(weather, when, false);
     final actual = forecast?.time.difference(now).inHours ?? hours;
-    final symbol = forecast == null ? const Text('-') : _toSymbol(forecast, 32);
+    final symbol =
+        forecast == null ? const Text('-') : toWeatherSymbol(forecast, 32);
     return Column(
       children: [
         symbol,
@@ -422,34 +430,4 @@ class WeatherForecastWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-WeatherTimeStep? _select(Weather? weather,
-    [DateTime? now, bool closest = true]) {
-  WeatherTimeStep? step;
-  if (weather != null) {
-    final it = weather.props.timeseries.iterator;
-    if (it.moveNext()) {
-      step = it.current;
-      var looking = true;
-      now ??= DateTime.now().toUtc();
-      var delta = step.time.difference(now);
-      while (looking && it.moveNext()) {
-        if (closest) {
-          final next = it.current.time.difference(now).abs();
-          delta = delta.abs();
-          if (next < delta) {
-            step = it.current;
-            delta = next;
-          }
-          looking = delta.inMinutes >= 60;
-        } else {
-          if (looking = now.difference(step!.time).inMinutes > 0) {
-            step = it.current;
-          }
-        }
-      }
-    }
-  }
-  return step;
 }

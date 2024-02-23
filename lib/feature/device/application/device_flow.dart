@@ -46,6 +46,41 @@ class DeviceFlow extends Flow {
                 device.onOff?.lastUpdated ?? device.lastUpdated,
               );
               break;
+            case TokenUnit.rain:
+              yield FlowEvent<double>(
+                token,
+                device.rain ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
+            case TokenUnit.humidity:
+              yield FlowEvent<double>(
+                token,
+                device.humidity ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
+            case TokenUnit.windAngle:
+              yield FlowEvent<double>(
+                token,
+                device.windAngle ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
+            case TokenUnit.windStrength:
+              yield FlowEvent<double>(
+                token,
+                device.windStrength ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
+            case TokenUnit.gustStrength:
+              yield FlowEvent<double>(
+                token,
+                device.gustStrength ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
             case TokenUnit.count:
               throw UnimplementedError(
                 '${TokenUnit.count} not implemented',

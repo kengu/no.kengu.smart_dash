@@ -80,7 +80,22 @@ class Device with _$Device {
     required DateTime lastUpdated,
 
     /// Get device's measured temperature (default null)
+    double? rain,
+
+    /// Get device's measured temperature (default null)
+    double? humidity,
+
+    /// Get device's measured temperature (default null)
+    double? windAngle,
+
+    /// Get device's measured temperature (default null)
     double? temperature,
+
+    /// Get device's measured temperature (default null)
+    double? windStrength,
+
+    /// Get device's measured temperature (default null)
+    double? gustStrength,
 
     /// Get the device's electric state information (default null)
     ElectricState? electric,
@@ -107,6 +122,8 @@ class Identity with _$Identity {
     required String deviceId,
     required String serviceKey,
   }) = _Identity;
+
+  String get id => [serviceKey, deviceId].join(':');
 
   factory Identity.fromJson(Map<String, Object?> json) =>
       _$IdentityFromJson(json);
@@ -164,6 +181,41 @@ enum DeviceCapability {
     TokenType.double,
   ),
 
+  humidity(
+    'measure_humidity',
+    'This implies that the device has '
+        'humidity measurement in percent (%) capability',
+    TokenType.double,
+  ),
+
+  rain(
+    'measure_rain',
+    'This implies that the device has '
+        'rain measurement in millimeter capability',
+    TokenType.double,
+  ),
+
+  windAngle(
+    'measure_wind_angle',
+    'This implies that the device has '
+        'wind angle measurement in degrees (°) capability',
+    TokenType.double,
+  ),
+
+  windStrength(
+    'measure_wind_strength',
+    'This implies that the device has '
+        'wind strength measurement in meters per seconds capability',
+    TokenType.double,
+  ),
+
+  gustStrength(
+    'measure_gust_strength',
+    'This implies that the device has '
+        'wind gust measurement in meters per seconds capability',
+    TokenType.double,
+  ),
+
   targetTemperature(
     'target_temperature',
     'This implies that the device has the ability to regulate temperature',
@@ -175,7 +227,12 @@ enum DeviceCapability {
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
   bool get hasTemperature => this == temperature;
-  bool get hasTargetTemperature => this == DeviceCapability.targetTemperature;
+  bool get hasRain => this == rain;
+  bool get hasHumidity => this == humidity;
+  bool get hasWindAngle => this == windAngle;
+  bool get hasWindStrength => this == windStrength;
+  bool get hasGustStrength => this == gustStrength;
+  bool get hasTargetTemperature => this == targetTemperature;
 
   const DeviceCapability(this.variable, this.description, this.type);
   final TokenType type;
@@ -189,6 +246,11 @@ extension DeviceCapabilityX on List<DeviceCapability> {
   bool get hasEnergy => any((c) => c.hasEnergy);
   bool get hasVoltage => any((c) => c.hasVoltage);
   bool get hasTemperature => any((c) => c.hasTemperature);
+  bool get hasRain => any((c) => c.hasRain);
+  bool get hasHumidity => any((c) => c.hasHumidity);
+  bool get hasWindAngle => any((c) => c.hasWindAngle);
+  bool get hasWindStrength => any((c) => c.hasWindStrength);
+  bool get hasGustStrength => any((c) => c.hasGustStrength);
   bool get hasTargetTemperature => any((c) => c.hasTargetTemperature);
 }
 
@@ -198,6 +260,11 @@ extension DeviceX on Device {
   bool get hasEnergy => capabilities.hasEnergy;
   bool get hasVoltage => capabilities.hasVoltage;
   bool get hasTemperature => capabilities.hasTemperature;
+  bool get hasRain => capabilities.hasRain;
+  bool get hasHumidity => capabilities.hasHumidity;
+  bool get hasWindAngle => capabilities.hasWindAngle;
+  bool get hasWindStrength => capabilities.hasWindStrength;
+  bool get hasGustStrength => capabilities.hasGustStrength;
   bool get hasTargetTemperature => capabilities.hasTargetTemperature;
 
   List<Token> toTokens() => capabilities
@@ -228,6 +295,41 @@ extension DeviceX on Device {
                 label: name,
                 unit: TokenUnit.onOff,
                 type: DeviceCapability.onOff.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.rain => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.rain,
+                type: DeviceCapability.rain.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.humidity => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.humidity,
+                type: DeviceCapability.humidity.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.windAngle => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.windAngle,
+                type: DeviceCapability.windAngle.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.windStrength => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.windStrength,
+                type: DeviceCapability.windStrength.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.gustStrength => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.gustStrength,
+                type: DeviceCapability.gustStrength.type,
                 name: Device.toTokenName(this, e),
               ),
             DeviceCapability.temperature => Token(
