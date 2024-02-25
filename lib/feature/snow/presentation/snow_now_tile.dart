@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,22 +8,16 @@ import 'package:smart_dash/feature/snow/application/snow_service.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 
-class SnowNowTile extends ConsumerStatefulWidget {
-  const SnowNowTile({
+class SnowNowTile extends ConsumerWidget {
+  SnowNowTile({
     super.key,
     required this.location,
   });
 
   final String location;
 
-  @override
-  ConsumerState<SnowNowTile> createState() => _SnowDepthNowState();
-}
-
-class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
-  late final SnowService service;
-  final df = DateFormat('d. MMM. yyyy HH:mm');
   final hf = DateFormat('HH:mm');
+  final df = DateFormat('d. MMM. yyyy HH:mm');
 
   final constraints = const BoxConstraints(
     minWidth: 270,
@@ -33,32 +25,19 @@ class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
     minHeight: 180,
   );
 
-  Timer? _timer;
-
   @override
-  void initState() {
-    service = ref.read(snowServiceProvider);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final service = ref.read(snowServiceProvider);
     final textStyle = Theme.of(context).textTheme.labelMedium;
-    return FutureBuilder<Optional<SnowState>>(
-      future: _getState(),
-      initialData: service.getStateCached(widget.location),
+    return StreamBuilder<Optional<SnowState>>(
+      stream: service.getStateAsStream(location),
+      initialData: service.getStateCached(location),
       builder: (context, snapshot) {
         final state = snapshot.data!;
         final snow = state.orElseNull;
         return SmartDashTile(
           title: 'Snow Depth Now',
-          subTitle: '${widget.location} last updated '
+          subTitle: '$location last updated '
               '${state.isPresent ? state.value.lastUpdated.format(prefixAgo: '') : '-'} ago',
           constraints: constraints.normalize(),
           leading: const Icon(
@@ -111,21 +90,5 @@ class _SnowDepthNowState extends ConsumerState<SnowNowTile> {
         );
       },
     );
-  }
-
-  Future<Optional<SnowState>> _getState() async {
-    final state = await service.getState(widget.location);
-    if (state.isPresent) {
-      // Start timer that fires after earliest next state update time
-      final now = DateTime.now();
-      final nextUpdate = state.value.nextUpdate;
-      final time = nextUpdate.difference(now).isNegative ? now : nextUpdate;
-      final refresh = time.add(const Duration(seconds: 1)).difference(now);
-      _timer?.cancel();
-      _timer = Timer(refresh, () async {
-        setState(() {});
-      });
-    }
-    return state;
   }
 }

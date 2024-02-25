@@ -132,7 +132,7 @@ class HomePage extends ConsumerWidget {
                       place: 'Tindefjell',
                     );
                   case 'snow_now':
-                    return const SnowNowTile(
+                    return SnowNowTile(
                       location: 'Skirvedalen',
                     );
                   case 'snow_now_list':

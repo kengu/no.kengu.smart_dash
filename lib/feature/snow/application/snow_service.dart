@@ -7,7 +7,9 @@ import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/snow/data/nysny_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
+import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/util/future.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'snow_service.g.dart';
 
@@ -51,6 +53,15 @@ class SnowService {
     return const Optional.empty();
   }
 
+  Stream<Optional<SnowState>> getStateAsStream(String location,
+      [Duration period = const Duration(minutes: 5)]) {
+    return ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(period)
+        .asyncMap((_) => getState(location, ttl: period));
+  }
+
   Optional<SnowState> getStateCached(String location) {
     final states = _cache.get<List<SnowState>>('states');
     if (states.isPresent) {
@@ -90,6 +101,15 @@ class SnowService {
       );
     }
     return states;
+  }
+
+  Stream<Optional<List<SnowState>>> getStatesAsStream(
+      [Duration period = const Duration(minutes: 5)]) {
+    return ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(period)
+        .asyncMap((_) => getStates(ttl: period));
   }
 }
 

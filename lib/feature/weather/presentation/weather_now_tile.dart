@@ -21,7 +21,7 @@ class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
     super.key,
     required this.place,
     required this.device,
-    this.period = const Duration(seconds: 10),
+    this.period = const Duration(seconds: 5),
   });
 
   final String place;

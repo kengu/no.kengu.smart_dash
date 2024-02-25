@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,15 +7,8 @@ import 'package:smart_dash/feature/snow/application/snow_service.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 
-class SnowNowListTile extends ConsumerStatefulWidget {
+class SnowNowListTile extends ConsumerWidget {
   const SnowNowListTile({super.key});
-
-  @override
-  ConsumerState<SnowNowListTile> createState() => _SnowDepthNowState();
-}
-
-class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
-  late final SnowService service;
 
   final constraints = const BoxConstraints(
     minWidth: 270,
@@ -25,25 +16,12 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
     minHeight: 180,
   );
 
-  Timer? _timer;
-
   @override
-  void initState() {
-    service = ref.read(snowServiceProvider);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final service = ref.read(snowServiceProvider);
     final trailingTextStyle = Theme.of(context).textTheme.labelLarge;
-    return FutureBuilder<Optional<List<SnowState>>>(
-      future: _getStates(),
+    return StreamBuilder<Optional<List<SnowState>>>(
+      stream: service.getStatesAsStream(),
       initialData: service.getStatesCached(),
       builder: (context, snapshot) {
         final states =
@@ -88,21 +66,5 @@ class _SnowDepthNowState extends ConsumerState<SnowNowListTile> {
         );
       },
     );
-  }
-
-  Future<Optional<List<SnowState>>> _getStates() async {
-    final states = await service.getStates();
-    if (states.isPresent) {
-      // Start timer that fires after earliest next state update time
-      final nextUpdate = SnowState.toEarliestNextUpdate(states.value);
-      final refresh =
-          nextUpdate.add(const Duration(seconds: 1)).difference(DateTime.now());
-      _timer?.cancel();
-      _timer = Timer(refresh, () async {
-        setState(() {});
-      });
-    }
-
-    return states;
   }
 }
