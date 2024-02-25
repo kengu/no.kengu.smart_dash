@@ -40,10 +40,11 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.watch(weatherServiceProvider);
-    return FutureBuilder<Weather>(
-      future: service.getForecast(widget.lat, widget.lon, widget.period),
+    final service = ref.read(weatherServiceProvider);
+    return StreamBuilder<Weather>(
       initialData: service.getCachedForecast(widget.lat, widget.lon).orElseNull,
+      stream:
+          service.getForecastAsStream(widget.lat, widget.lon, widget.period),
       builder: (context, snapshot) {
         final now = DateTime.now();
         final weather = selectWeatherTimeStep(snapshot.data, now);

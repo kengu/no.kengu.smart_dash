@@ -21,7 +21,7 @@ class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
     super.key,
     required this.place,
     required this.device,
-    this.period = const Duration(minutes: 5),
+    this.period = const Duration(seconds: 10),
   });
 
   final String place;
@@ -47,17 +47,12 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
       return _buildEmptyTile();
     }
     final service = ref.watch(weatherServiceProvider);
-    return FutureBuilder<Optional<Weather>>(
-      initialData: Optional.ofNullable(
-        service.getCachedNow(widget.device.value).orElseNull,
-      ),
-      future: service.getNow(
-        widget.device.value,
-        widget.period,
-      ),
+    return StreamBuilder<Weather>(
+      initialData: service.getCachedNow(widget.device.value).orElseNull,
+      stream: service.getNowAsStream(widget.device.value, widget.period),
       builder: (context, snapshot) {
         final now = DateTime.now();
-        final data = snapshot.data?.orElseNull;
+        final data = snapshot.data;
         final weather = selectWeatherTimeStep(data, now);
         final details = _selected == 0
             ? weather
@@ -65,13 +60,14 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
         if (details == null) {
           return _buildEmptyTile();
         }
-        final index = snapshot.data!.value.props.timeseries.indexOf(details);
+        final index = data!.props.timeseries.indexOf(details);
         return SmartDashTile(
           title: 'Weather '
               '${_selected == 0 ? 'Now' : '+${_selected}h'}',
           // TODO: Make location configurable
           subTitle: '${widget.place} @ '
-              '${nf.format(details.time.toLocal().hour)}:00'
+              '${nf.format(details.time.toLocal().hour)}:'
+              '${nf.format(details.time.toLocal().minute)}'
               ' ${details.time.toLocal().day == now.day ? 'today' : 'tomorrow'}',
           constraints: constraints,
           leading: const Icon(
@@ -93,9 +89,9 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
               Expanded(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
-                  child: WeatherInstanceWidget(
+                  child: WeatherInstantWidget(
                     index: index,
-                    weather: data!,
+                    weather: data,
                   ),
                 ),
               ),
@@ -236,8 +232,8 @@ class SelectableBoxWidget extends StatelessWidget {
   }
 }
 
-class WeatherInstanceWidget extends StatelessWidget {
-  const WeatherInstanceWidget({
+class WeatherInstantWidget extends StatelessWidget {
+  const WeatherInstantWidget({
     super.key,
     required this.index,
     required this.weather,
@@ -271,11 +267,11 @@ class WeatherInstanceWidget extends StatelessWidget {
                 Icon(Icons.air, color: legendColor),
                 const SizedBox(width: 8),
                 Text(
-                  '${instant.details.windSpeed!.floor()}',
+                  instant.details.windSpeed!.toStringAsFixed(1),
                 ),
                 if (instant.details.windSpeedOfGust != null)
                   Text(
-                    ' (${instant.details.windSpeedOfGust!.floor()})',
+                    ' (${instant.details.windSpeedOfGust!.toStringAsFixed(1)})',
                     style: textStyle,
                   ),
                 Text(
