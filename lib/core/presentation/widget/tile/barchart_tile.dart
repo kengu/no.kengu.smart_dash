@@ -41,7 +41,9 @@ class BarChartTile<T extends num> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // HACK: Chart does not handle values below 1 well
-    final valuePadding = items.max() < 1.0 ? 1.0 : 1.5;
+    final min = items.min();
+    final valuePadding =
+        (items.max() < 1.0 ? 1.0 : 1.5) + min < 0 ? min.abs() : 0;
 
     final foregroundColor = Colors.lightGreen.withOpacity(0.6);
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
@@ -101,7 +103,6 @@ class BarChartTile<T extends num> extends StatelessWidget {
                       items
                           .map((e) => ChartItem<T>(
                                 e.toDouble() + valuePadding,
-                                value: e,
                               ))
                           .toList(),
                       axisMax: 10,
