@@ -32,8 +32,11 @@ dependencies:
   pretty_bytes: ^6.1.0
   stream_transform: ^2.1.0
   battery_indicator: ^0.1.2
-  shared_preferences: ^2.2.2
 
+  # Local storage
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
   drift: ^2.16.0
   drift_dev: ^2.16.0
   sqlite3: ^2.4.0

@@ -154,9 +154,7 @@ class SettingTilesWidget extends StatelessWidget {
                               'This will delete all local device data',
                             ),
                             onPressed: (context) async {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.remove(DeviceRepository.key);
+                              await ref.read(deviceRepositoryProvider).clear();
                               setState(() {
                                 NoticeController.showSnackBarByRef(
                                   context,

@@ -1,15 +1,24 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/security.dart';
 
 part 'device_repository.g.dart';
 
+const _typeId = 1;
+
 class DeviceRepository {
+  DeviceRepository() {
+    if (!Hive.isAdapterRegistered(_typeId)) {
+      Hive.registerAdapter(DeviceAdapter());
+    }
+  }
+
   static const key = 'devices';
 
   Future<List<Device>> getAll() async {
@@ -29,36 +38,19 @@ class DeviceRepository {
           );
   }
 
-  Future<List<Device>> _load() => guard(
-        () async {
-          final prefs = await SharedPreferences.getInstance();
-          final result = prefs.getStringList(DeviceRepository.key);
-          return result
-                  ?.map(jsonDecode)
-                  .whereType<JsonObject>()
-                  .map(Device.fromJson)
-                  // Remove duplicates just in case (
-                  .toSet()
-                  .toList() ??
-              [];
-        },
-        task: '_load',
-        name: '$DeviceRepository',
-      );
-
   /// Attempt to sett all given devices to
   /// repository. Returns list of actual added devices.
   Future<List<Device>> updateAll(Iterable<Device> devices) async {
     final current = await _load();
     final unique = devices.toSet();
-    final currentIds = current.map((e) => Identity.of(e));
+    final currentIds = current.map(Identity.of);
     final removedIds = unique
         .where((e) => currentIds.contains(Identity.of(e)))
-        .map((e) => Identity.of(e));
+        .map(Identity.of);
     current.removeWhere(
       (e) => removedIds.contains(Identity.of(e)),
     );
-    final success = await _setAll([...unique, ...current]);
+    final success = await _putAll([...unique, ...current]);
     return [if (success) ...unique];
   }
 
@@ -67,31 +59,91 @@ class DeviceRepository {
   Future<List<Device>> removeAll(Iterable<Device> devices) async {
     final current = await _load();
     final unique = devices.toSet();
-    final currentIds = current.map((e) => Identity.of(e));
+    final currentIds = current.map(Identity.of);
     final removedIds = unique
         .where((e) => currentIds.contains(Identity.of(e)))
-        .map((e) => Identity.of(e));
+        .map(Identity.of);
     current.removeWhere(
       (e) => removedIds.contains(Identity.of(e)),
     );
-    final success = await _setAll(current);
+    final success = await _removeAll(current);
     return [if (success) ...unique];
   }
 
-  Future<bool> _setAll(List<Device> devices) => guard(
+  Future<CollectionBox<T>> _open<T>(String name) async {
+    final db = await BoxCollection.open(
+      key,
+      {'paired'},
+      path: './',
+      key: await getHiveCipher(key),
+    );
+    return db.openBox<T>(name);
+  }
+
+  Future<List<Device>> _load() => guard(
         () async {
-          final prefs = await SharedPreferences.getInstance();
-          return prefs.setStringList(
-            DeviceRepository.key,
-            devices.map(jsonEncode).toList(),
-          );
+          final box = await _open<Device>('paired');
+          final result = await box.getAll(await box.getAllKeys());
+          return result.whereType<Device>().toList();
         },
-        task: '_setAll',
+        task: '_load',
         name: '$DeviceRepository',
       );
+
+  Future<bool> _removeAll(List<Device> devices) => guard(
+        () async {
+          final box = await _open<Device>('paired');
+          final ids = devices.map(Identity.of).map((e) => e.id).toList();
+          await box.deleteAll(ids);
+          return true;
+        },
+        task: '_removeAll',
+        name: '$DeviceRepository',
+      );
+  Future<bool> _putAll(List<Device> devices) => guard(
+        () async {
+          final box = await _open<Device>('paired');
+          for (final device in devices) {
+            await box.put(
+              Identity.of(device).id,
+              device,
+            );
+          }
+          return true;
+        },
+        task: '_putAll',
+        name: '$DeviceRepository',
+      );
+
+  Future<void> clear() async {
+    return guard(
+      () => Hive.deleteBoxFromDisk('devices_paired'),
+      task: 'clear',
+      name: '$DeviceRepository',
+    );
+  }
 }
 
 @Riverpod(keepAlive: true)
 DeviceRepository deviceRepository(DeviceRepositoryRef ref) {
   return DeviceRepository();
+}
+
+class DeviceAdapter extends TypeAdapter<Device> {
+  @override
+  final typeId = _typeId;
+
+  @override
+  Device read(BinaryReader reader) {
+    return Device.fromJson(jsonDecode(
+      reader.read(),
+    ));
+  }
+
+  @override
+  void write(BinaryWriter writer, Device obj) {
+    writer.write(jsonEncode(
+      obj.toJson(),
+    ));
+  }
 }

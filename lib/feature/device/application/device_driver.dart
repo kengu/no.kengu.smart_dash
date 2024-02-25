@@ -121,10 +121,10 @@ abstract class DeviceDriver {
   /// Get list of all paired [Device]s
   Future<List<Device>> getPairedDevices(
       [DeviceType type = DeviceType.any]) async {
-    final devices = await ref.read(deviceServiceProvider).getAll();
-    return devices
-        .where((e) => e.service == key && (type.isAny || e.type == type))
-        .toList();
+    final devices = await ref
+        .read(deviceServiceProvider)
+        .where((e) => e.service == key && (type.isAny || e.type == type));
+    return devices.toList();
   }
 
   /// Get list of all new [Device]s (available but not paired)
