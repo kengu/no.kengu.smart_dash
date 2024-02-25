@@ -17,6 +17,10 @@ class HomeService {
 
   User get currentUser => ref.read(userRepositoryProvider).currentUser;
 
+  Future<Optional<Home>> newHome(String name, [String? userId]) {
+    return ref.read(homeRepositoryProvider).newHome(name);
+  }
+
   Future<Optional<Home>> getCurrentHome([String? userId]) {
     return _cache.getOrFetch('get_current_home', () async {
       final uid = userId ?? currentUser.userId;

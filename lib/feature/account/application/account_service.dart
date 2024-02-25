@@ -23,6 +23,10 @@ class AccountService {
       return ref.read(accountRepositoryProvider).get(uid);
     });
   }
+
+  Future<bool> addOrUpdate(Account account) {
+    return ref.read(accountRepositoryProvider).addOrUpdate(account);
+  }
 }
 
 @Riverpod(keepAlive: true)

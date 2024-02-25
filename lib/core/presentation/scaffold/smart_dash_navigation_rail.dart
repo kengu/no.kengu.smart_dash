@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/util/widget.dart';
 
 import 'smart_dash_menu.dart';
@@ -75,13 +79,13 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
   }
 }
 
-class CreateNewMenuButton extends StatelessWidget {
+class CreateNewMenuButton extends ConsumerWidget {
   const CreateNewMenuButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       icon: const Icon(Icons.add, size: 32),
       tooltip: 'Create new',
@@ -108,8 +112,25 @@ class CreateNewMenuButton extends StatelessWidget {
                   'Add new Home',
                   style: style,
                 ),
-                onTap: () {
+                onTap: () async {
                   context.pop();
+                  final name = await showTextInputDialog(
+                    context,
+                    title: 'Add Home',
+                    hint: 'Enter Name',
+                  );
+                  if (name?.isNotEmpty == true) {
+                    final home =
+                        await ref.read(homeServiceProvider).newHome(name!);
+                    if (home.isPresent) {
+                      if (!context.mounted) return;
+                      NoticeController.showSnackBarByRef(
+                        context,
+                        ref,
+                        'Home $name was added',
+                      );
+                    }
+                  }
                 },
               ),
               ListTile(

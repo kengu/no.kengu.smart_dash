@@ -10,7 +10,7 @@ import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
-import 'package:network_tools_flutter/network_tools_flutter.dart';
+import 'package:network_tools/network_tools.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/platform.dart';
@@ -152,7 +152,7 @@ class NetworkInfoService {
       }
       final address = interface.ipAddress;
       final subnet = address.substring(0, address.lastIndexOf('.'));
-      final result = HostScanner.getAllPingableDevicesAsync(
+      final result = HostScannerService.instance.getAllPingableDevicesAsync(
         subnet,
         hostIds: _toHostIds(fullScan, state),
       );
@@ -217,7 +217,7 @@ class NetworkInfoService {
           _lastProgress = NetworkScanProgress(fullScan, 0.0),
         );
 
-        final result = HostScanner.getAllPingableDevicesAsync(
+        final result = HostScannerService.instance.getAllPingableDevicesAsync(
           subnet,
           hostIds: hostIds,
           progressCallback: (e) {
