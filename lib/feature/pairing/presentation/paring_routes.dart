@@ -38,6 +38,7 @@ GoRoute buildParingRoutes() {
   return Routes.buildGoRoute(
     fullscreenDialog: true,
     path: PairingScreens.home,
+    restorationId: Routes.setLastLocation,
     child: PairingScreen(
       location: Routes.lastLocation,
     ),

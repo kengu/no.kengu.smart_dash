@@ -79,9 +79,15 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
     @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
     @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
     @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
+    @JsonKey(name: 'light_lux') int? lightInLux,
+    @JsonKey(name: 'uv') int? uvRadiation,
   }) = _Rtl433Device;
 
   bool get hasHumidity => humidity != null;
+
+  bool get hasLuminance => lightInLux != null;
+
+  bool get hasUltraviolet => uvRadiation != null;
 
   bool get hasWindAngle => windAngleInDegrees != null;
 
@@ -121,7 +127,7 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
   double? get rain =>
       rainInMillimeters ?? (rainInInches == null ? null : rainInInches! * 25.4);
 
-  /// Get [windStrength] in unit [TokenUnit.windStrength]
+  /// Get [windStrength] in unit [TokenUnit.windSpeed]
   double? get windStrength =>
       windStrengthInMeterPerSeconds ??
       (windStrengthInKilometerPerHour == null
@@ -130,7 +136,7 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
               : windStrengthInMilesPerHour! * 0.44704)
           : windStrengthInKilometerPerHour! * 5 / 18);
 
-  /// Get [gustStrength] in unit [TokenUnit.gustStrength]
+  /// Get [gustStrength] in unit [TokenUnit.gustSpeed]
   double? get gustStrength =>
       gustStrengthInMeterPerSeconds ??
       (gustStrengthInKilometerPerHour == null
@@ -165,18 +171,23 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
           if (hasRain) DeviceCapability.rain,
           if (hasHumidity) DeviceCapability.humidity,
           if (hasWindAngle) DeviceCapability.windAngle,
+          if (hasLuminance) DeviceCapability.luminance,
+          if (hasLuminance) DeviceCapability.ultraviolet,
+          if (hasWindStrength) DeviceCapability.windSpeed,
+          if (hasGustStrength) DeviceCapability.gustSpeed,
+          if (hasUltraviolet) DeviceCapability.ultraviolet,
           if (hasTemperature) DeviceCapability.temperature,
-          if (hasWindStrength) DeviceCapability.windStrength,
-          if (hasGustStrength) DeviceCapability.gustStrength,
 //          if (hasTargetTemperature) DeviceCapability.targetTemperature,
         ],
         rain: rain,
         humidity: humidity,
-        windAngle: windAngleInDegrees,
-        windStrength: windStrength,
-        gustStrength: gustStrength,
+        luminance: lightInLux,
+        ultraviolet: uvRadiation,
         temperature: temperature,
         lastUpdated: lastUpdated,
+        windSpeed: windStrength,
+        gustSpeed: gustStrength,
+        windAngle: windAngleInDegrees,
         type: Rtl433DeviceType.fromNativeType(model).toDeviceType(),
       );
 

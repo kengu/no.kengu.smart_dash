@@ -44,6 +44,12 @@ mixin _$Device {
   /// Get device's measured temperature (default null)
   double? get rain => throw _privateConstructorUsedError;
 
+  /// Get device's measured ultraviolet radiation (default null)
+  int? get ultraviolet => throw _privateConstructorUsedError;
+
+  /// Get device's measured luminance (default null)
+  int? get luminance => throw _privateConstructorUsedError;
+
   /// Get device's measured temperature (default null)
   double? get humidity => throw _privateConstructorUsedError;
 
@@ -53,11 +59,11 @@ mixin _$Device {
   /// Get device's measured temperature (default null)
   double? get temperature => throw _privateConstructorUsedError;
 
-  /// Get device's measured temperature (default null)
-  double? get windStrength => throw _privateConstructorUsedError;
+  /// Get device's measured wind speed (default null)
+  double? get windSpeed => throw _privateConstructorUsedError;
 
-  /// Get device's measured temperature (default null)
-  double? get gustStrength => throw _privateConstructorUsedError;
+  /// Get device's measured gust speed (default null)
+  double? get gustSpeed => throw _privateConstructorUsedError;
 
   /// Get the device's electric state information (default null)
   ElectricState? get electric => throw _privateConstructorUsedError;
@@ -87,11 +93,13 @@ abstract class $DeviceCopyWith<$Res> {
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       double? rain,
+      int? ultraviolet,
+      int? luminance,
       double? humidity,
       double? windAngle,
       double? temperature,
-      double? windStrength,
-      double? gustStrength,
+      double? windSpeed,
+      double? gustSpeed,
       ElectricState? electric,
       SwitchState? onOff,
       Thermostat? thermostat});
@@ -122,11 +130,13 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? capabilities = null,
     Object? lastUpdated = null,
     Object? rain = freezed,
+    Object? ultraviolet = freezed,
+    Object? luminance = freezed,
     Object? humidity = freezed,
     Object? windAngle = freezed,
     Object? temperature = freezed,
-    Object? windStrength = freezed,
-    Object? gustStrength = freezed,
+    Object? windSpeed = freezed,
+    Object? gustSpeed = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
@@ -164,6 +174,14 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.rain
           : rain // ignore: cast_nullable_to_non_nullable
               as double?,
+      ultraviolet: freezed == ultraviolet
+          ? _value.ultraviolet
+          : ultraviolet // ignore: cast_nullable_to_non_nullable
+              as int?,
+      luminance: freezed == luminance
+          ? _value.luminance
+          : luminance // ignore: cast_nullable_to_non_nullable
+              as int?,
       humidity: freezed == humidity
           ? _value.humidity
           : humidity // ignore: cast_nullable_to_non_nullable
@@ -176,13 +194,13 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
-      windStrength: freezed == windStrength
-          ? _value.windStrength
-          : windStrength // ignore: cast_nullable_to_non_nullable
+      windSpeed: freezed == windSpeed
+          ? _value.windSpeed
+          : windSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
-      gustStrength: freezed == gustStrength
-          ? _value.gustStrength
-          : gustStrength // ignore: cast_nullable_to_non_nullable
+      gustSpeed: freezed == gustSpeed
+          ? _value.gustSpeed
+          : gustSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
       electric: freezed == electric
           ? _value.electric
@@ -252,11 +270,13 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       double? rain,
+      int? ultraviolet,
+      int? luminance,
       double? humidity,
       double? windAngle,
       double? temperature,
-      double? windStrength,
-      double? gustStrength,
+      double? windSpeed,
+      double? gustSpeed,
       ElectricState? electric,
       SwitchState? onOff,
       Thermostat? thermostat});
@@ -288,11 +308,13 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? capabilities = null,
     Object? lastUpdated = null,
     Object? rain = freezed,
+    Object? ultraviolet = freezed,
+    Object? luminance = freezed,
     Object? humidity = freezed,
     Object? windAngle = freezed,
     Object? temperature = freezed,
-    Object? windStrength = freezed,
-    Object? gustStrength = freezed,
+    Object? windSpeed = freezed,
+    Object? gustSpeed = freezed,
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
@@ -330,6 +352,14 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.rain
           : rain // ignore: cast_nullable_to_non_nullable
               as double?,
+      ultraviolet: freezed == ultraviolet
+          ? _value.ultraviolet
+          : ultraviolet // ignore: cast_nullable_to_non_nullable
+              as int?,
+      luminance: freezed == luminance
+          ? _value.luminance
+          : luminance // ignore: cast_nullable_to_non_nullable
+              as int?,
       humidity: freezed == humidity
           ? _value.humidity
           : humidity // ignore: cast_nullable_to_non_nullable
@@ -342,13 +372,13 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
               as double?,
-      windStrength: freezed == windStrength
-          ? _value.windStrength
-          : windStrength // ignore: cast_nullable_to_non_nullable
+      windSpeed: freezed == windSpeed
+          ? _value.windSpeed
+          : windSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
-      gustStrength: freezed == gustStrength
-          ? _value.gustStrength
-          : gustStrength // ignore: cast_nullable_to_non_nullable
+      gustSpeed: freezed == gustSpeed
+          ? _value.gustSpeed
+          : gustSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
       electric: freezed == electric
           ? _value.electric
@@ -378,11 +408,13 @@ class _$DeviceImpl extends _Device {
       required final List<DeviceCapability> capabilities,
       required this.lastUpdated,
       this.rain,
+      this.ultraviolet,
+      this.luminance,
       this.humidity,
       this.windAngle,
       this.temperature,
-      this.windStrength,
-      this.gustStrength,
+      this.windSpeed,
+      this.gustSpeed,
       this.electric,
       this.onOff,
       this.thermostat})
@@ -439,6 +471,14 @@ class _$DeviceImpl extends _Device {
   @override
   final double? rain;
 
+  /// Get device's measured ultraviolet radiation (default null)
+  @override
+  final int? ultraviolet;
+
+  /// Get device's measured luminance (default null)
+  @override
+  final int? luminance;
+
   /// Get device's measured temperature (default null)
   @override
   final double? humidity;
@@ -451,13 +491,13 @@ class _$DeviceImpl extends _Device {
   @override
   final double? temperature;
 
-  /// Get device's measured temperature (default null)
+  /// Get device's measured wind speed (default null)
   @override
-  final double? windStrength;
+  final double? windSpeed;
 
-  /// Get device's measured temperature (default null)
+  /// Get device's measured gust speed (default null)
   @override
-  final double? gustStrength;
+  final double? gustSpeed;
 
   /// Get the device's electric state information (default null)
   @override
@@ -473,7 +513,7 @@ class _$DeviceImpl extends _Device {
 
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windStrength: $windStrength, gustStrength: $gustStrength, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
   }
 
   @override
@@ -491,16 +531,20 @@ class _$DeviceImpl extends _Device {
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
             (identical(other.rain, rain) || other.rain == rain) &&
+            (identical(other.ultraviolet, ultraviolet) ||
+                other.ultraviolet == ultraviolet) &&
+            (identical(other.luminance, luminance) ||
+                other.luminance == luminance) &&
             (identical(other.humidity, humidity) ||
                 other.humidity == humidity) &&
             (identical(other.windAngle, windAngle) ||
                 other.windAngle == windAngle) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature) &&
-            (identical(other.windStrength, windStrength) ||
-                other.windStrength == windStrength) &&
-            (identical(other.gustStrength, gustStrength) ||
-                other.gustStrength == gustStrength) &&
+            (identical(other.windSpeed, windSpeed) ||
+                other.windSpeed == windSpeed) &&
+            (identical(other.gustSpeed, gustSpeed) ||
+                other.gustSpeed == gustSpeed) &&
             (identical(other.electric, electric) ||
                 other.electric == electric) &&
             (identical(other.onOff, onOff) || other.onOff == onOff) &&
@@ -520,11 +564,13 @@ class _$DeviceImpl extends _Device {
       const DeepCollectionEquality().hash(_capabilities),
       lastUpdated,
       rain,
+      ultraviolet,
+      luminance,
       humidity,
       windAngle,
       temperature,
-      windStrength,
-      gustStrength,
+      windSpeed,
+      gustSpeed,
       electric,
       onOff,
       thermostat);
@@ -553,11 +599,13 @@ abstract class _Device extends Device {
       required final List<DeviceCapability> capabilities,
       required final DateTime lastUpdated,
       final double? rain,
+      final int? ultraviolet,
+      final int? luminance,
       final double? humidity,
       final double? windAngle,
       final double? temperature,
-      final double? windStrength,
-      final double? gustStrength,
+      final double? windSpeed,
+      final double? gustSpeed,
       final ElectricState? electric,
       final SwitchState? onOff,
       final Thermostat? thermostat}) = _$DeviceImpl;
@@ -599,6 +647,14 @@ abstract class _Device extends Device {
   double? get rain;
   @override
 
+  /// Get device's measured ultraviolet radiation (default null)
+  int? get ultraviolet;
+  @override
+
+  /// Get device's measured luminance (default null)
+  int? get luminance;
+  @override
+
   /// Get device's measured temperature (default null)
   double? get humidity;
   @override
@@ -611,12 +667,12 @@ abstract class _Device extends Device {
   double? get temperature;
   @override
 
-  /// Get device's measured temperature (default null)
-  double? get windStrength;
+  /// Get device's measured wind speed (default null)
+  double? get windSpeed;
   @override
 
-  /// Get device's measured temperature (default null)
-  double? get gustStrength;
+  /// Get device's measured gust speed (default null)
+  double? get gustSpeed;
   @override
 
   /// Get the device's electric state information (default null)

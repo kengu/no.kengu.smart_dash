@@ -37,7 +37,7 @@ GoRoute buildDeviceRoutes() {
             identity: Identity.fromJson(
               state.uri.queryParameters,
             ),
-            location: DeviceScreens.home,
+            location: Routes.lastLocation,
           );
         },
       ),

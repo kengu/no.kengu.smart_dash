@@ -32,10 +32,24 @@ class DeviceFlow extends Flow {
                 device.electric?.lastUpdated ?? device.lastUpdated,
               );
               break;
+            case TokenUnit.luminance:
+              yield FlowEvent<int>(
+                token,
+                device.luminance ?? 0,
+                device.lastUpdated,
+              );
+              break;
             case TokenUnit.temperature:
               yield FlowEvent<double>(
                 token,
                 device.temperature ?? 0.0,
+                device.lastUpdated,
+              );
+              break;
+            case TokenUnit.ultraviolet:
+              yield FlowEvent<int>(
+                token,
+                device.ultraviolet ?? 00,
                 device.lastUpdated,
               );
               break;
@@ -67,17 +81,17 @@ class DeviceFlow extends Flow {
                 device.lastUpdated,
               );
               break;
-            case TokenUnit.windStrength:
+            case TokenUnit.windSpeed:
               yield FlowEvent<double>(
                 token,
-                device.windStrength ?? 0.0,
+                device.windSpeed ?? 0.0,
                 device.lastUpdated,
               );
               break;
-            case TokenUnit.gustStrength:
+            case TokenUnit.gustSpeed:
               yield FlowEvent<double>(
                 token,
-                device.gustStrength ?? 0.0,
+                device.gustSpeed ?? 0.0,
                 device.lastUpdated,
               );
               break;

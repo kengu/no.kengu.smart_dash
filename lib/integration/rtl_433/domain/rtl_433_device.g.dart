@@ -36,6 +36,8 @@ _$Rtl433DeviceImpl _$$Rtl433DeviceImplFromJson(Map<String, dynamic> json) =>
       rainRateMillimeterPerHour: (json['rain_rate_mm_h'] as num?)?.toDouble(),
       rainRateInchesPerHour: (json['rain_rate_in_h'] as num?)?.toDouble(),
       pressureInhPa: (json['pressure_hPa'] as num?)?.toDouble(),
+      lightInLux: json['light_lux'] as int?,
+      uvRadiation: json['uv'] as int?,
     );
 
 Map<String, dynamic> _$$Rtl433DeviceImplToJson(_$Rtl433DeviceImpl instance) =>
@@ -66,4 +68,6 @@ Map<String, dynamic> _$$Rtl433DeviceImplToJson(_$Rtl433DeviceImpl instance) =>
       'rain_rate_mm_h': instance.rainRateMillimeterPerHour,
       'rain_rate_in_h': instance.rainRateInchesPerHour,
       'pressure_hPa': instance.pressureInhPa,
+      'light_lux': instance.lightInLux,
+      'uv': instance.uvRadiation,
     };

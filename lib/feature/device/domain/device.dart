@@ -82,6 +82,12 @@ class Device with _$Device {
     /// Get device's measured temperature (default null)
     double? rain,
 
+    /// Get device's measured ultraviolet radiation (default null)
+    int? ultraviolet,
+
+    /// Get device's measured luminance (default null)
+    int? luminance,
+
     /// Get device's measured temperature (default null)
     double? humidity,
 
@@ -91,11 +97,11 @@ class Device with _$Device {
     /// Get device's measured temperature (default null)
     double? temperature,
 
-    /// Get device's measured temperature (default null)
-    double? windStrength,
+    /// Get device's measured wind speed (default null)
+    double? windSpeed,
 
-    /// Get device's measured temperature (default null)
-    double? gustStrength,
+    /// Get device's measured gust speed (default null)
+    double? gustSpeed,
 
     /// Get the device's electric state information (default null)
     ElectricState? electric,
@@ -153,19 +159,22 @@ mixin DeviceMapper {
 enum DeviceCapability {
   energy(
     'meter_energy',
-    'This implies that the device has power measurement capability',
+    'This implies that the device has '
+        'energy measurement capability',
     TokenType.int,
   ),
 
   power(
     'measure_power',
-    'This implies that the device has power measurement capability',
+    'This implies that the device has '
+        'power measurement capability',
     TokenType.int,
   ),
 
   voltage(
     'measure_voltage',
-    'This implies that the device has voltage measurement capability',
+    'This implies that the device has '
+        'voltage measurement capability',
     TokenType.int,
   ),
 
@@ -177,43 +186,58 @@ enum DeviceCapability {
 
   temperature(
     'measure_temperature',
-    'This implies that the device has temperature measurement capability',
+    'This implies that the device has '
+        'temperature measurement (in celsius degrees, C°) capability',
     TokenType.double,
   ),
 
   humidity(
     'measure_humidity',
     'This implies that the device has '
-        'humidity measurement in percent (%) capability',
+        'humidity measurement (in percent, %) capability',
     TokenType.double,
   ),
 
   rain(
     'measure_rain',
     'This implies that the device has '
-        'rain measurement in millimeter capability',
+        'rain measurement (in millimeter) capability',
     TokenType.double,
   ),
 
   windAngle(
     'measure_wind_angle',
     'This implies that the device has '
-        'wind angle measurement in degrees (°) capability',
+        'wind angle measurement (in degrees, °) capability',
     TokenType.double,
   ),
 
-  windStrength(
-    'measure_wind_strength',
+  windSpeed(
+    'measure_wind_speed',
     'This implies that the device has '
-        'wind strength measurement in meters per seconds capability',
+        'wind strength measurement (in meters per seconds) capability',
     TokenType.double,
   ),
 
-  gustStrength(
-    'measure_gust_strength',
+  gustSpeed(
+    'measure_gust_speed',
     'This implies that the device has '
-        'wind gust measurement in meters per seconds capability',
+        'wind gust measurement (in meters per seconds) capability',
     TokenType.double,
+  ),
+
+  ultraviolet(
+    'measure_ultraviolet',
+    'This implies that the device has '
+        'ultraviolet measurement (in UV index, UVI) capability',
+    TokenType.int,
+  ),
+
+  luminance(
+    'measure_luminance',
+    'This implies that the device has '
+        'luminance measurement (in lux) capability',
+    TokenType.int,
   ),
 
   targetTemperature(
@@ -222,16 +246,18 @@ enum DeviceCapability {
     TokenType.double,
   );
 
+  bool get hasRain => this == rain;
   bool get hasOnOff => this == onOff;
   bool get hasPower => this == power;
   bool get hasEnergy => this == energy;
   bool get hasVoltage => this == voltage;
-  bool get hasTemperature => this == temperature;
-  bool get hasRain => this == rain;
   bool get hasHumidity => this == humidity;
+  bool get hasLuminance => this == luminance;
   bool get hasWindAngle => this == windAngle;
-  bool get hasWindStrength => this == windStrength;
-  bool get hasGustStrength => this == gustStrength;
+  bool get hasWindStrength => this == windSpeed;
+  bool get hasGustStrength => this == gustSpeed;
+  bool get hasUltraviolet => this == ultraviolet;
+  bool get hasTemperature => this == temperature;
   bool get hasTargetTemperature => this == targetTemperature;
 
   const DeviceCapability(this.variable, this.description, this.type);
@@ -241,14 +267,16 @@ enum DeviceCapability {
 }
 
 extension DeviceCapabilityX on List<DeviceCapability> {
+  bool get hasRain => any((c) => c.hasRain);
   bool get hasOnOff => any((c) => c.hasOnOff);
   bool get hasPower => any((c) => c.hasPower);
   bool get hasEnergy => any((c) => c.hasEnergy);
   bool get hasVoltage => any((c) => c.hasVoltage);
-  bool get hasTemperature => any((c) => c.hasTemperature);
-  bool get hasRain => any((c) => c.hasRain);
   bool get hasHumidity => any((c) => c.hasHumidity);
   bool get hasWindAngle => any((c) => c.hasWindAngle);
+  bool get hasLuminance => any((c) => c.hasLuminance);
+  bool get hasUltraviolet => any((c) => c.hasUltraviolet);
+  bool get hasTemperature => any((c) => c.hasTemperature);
   bool get hasWindStrength => any((c) => c.hasWindStrength);
   bool get hasGustStrength => any((c) => c.hasGustStrength);
   bool get hasTargetTemperature => any((c) => c.hasTargetTemperature);
@@ -259,10 +287,12 @@ extension DeviceX on Device {
   bool get hasPower => capabilities.hasPower;
   bool get hasEnergy => capabilities.hasEnergy;
   bool get hasVoltage => capabilities.hasVoltage;
-  bool get hasTemperature => capabilities.hasTemperature;
   bool get hasRain => capabilities.hasRain;
   bool get hasHumidity => capabilities.hasHumidity;
   bool get hasWindAngle => capabilities.hasWindAngle;
+  bool get hasLuminance => capabilities.hasLuminance;
+  bool get hasUltraviolet => capabilities.hasUltraviolet;
+  bool get hasTemperature => capabilities.hasTemperature;
   bool get hasWindStrength => capabilities.hasWindStrength;
   bool get hasGustStrength => capabilities.hasGustStrength;
   bool get hasTargetTemperature => capabilities.hasTargetTemperature;
@@ -318,18 +348,32 @@ extension DeviceX on Device {
                 type: DeviceCapability.windAngle.type,
                 name: Device.toTokenName(this, e),
               ),
-            DeviceCapability.windStrength => Token(
+            DeviceCapability.windSpeed => Token(
                 tag: e.name,
                 label: name,
-                unit: TokenUnit.windStrength,
-                type: DeviceCapability.windStrength.type,
+                unit: TokenUnit.windSpeed,
+                type: DeviceCapability.windSpeed.type,
                 name: Device.toTokenName(this, e),
               ),
-            DeviceCapability.gustStrength => Token(
+            DeviceCapability.gustSpeed => Token(
                 tag: e.name,
                 label: name,
-                unit: TokenUnit.gustStrength,
-                type: DeviceCapability.gustStrength.type,
+                unit: TokenUnit.gustSpeed,
+                type: DeviceCapability.gustSpeed.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.luminance => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.luminance,
+                type: DeviceCapability.luminance.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.ultraviolet => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.ultraviolet,
+                type: DeviceCapability.ultraviolet.type,
                 name: Device.toTokenName(this, e),
               ),
             DeviceCapability.temperature => Token(

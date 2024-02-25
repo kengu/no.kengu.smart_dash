@@ -38,7 +38,9 @@ const _$TokenUnitEnumMap = {
   TokenUnit.voltage: 'voltage',
   TokenUnit.humidity: 'humidity',
   TokenUnit.windAngle: 'windAngle',
+  TokenUnit.luminance: 'luminance',
+  TokenUnit.windSpeed: 'windSpeed',
+  TokenUnit.gustSpeed: 'gustSpeed',
+  TokenUnit.ultraviolet: 'ultraviolet',
   TokenUnit.temperature: 'temperature',
-  TokenUnit.windStrength: 'windStrength',
-  TokenUnit.gustStrength: 'gustStrength',
 };

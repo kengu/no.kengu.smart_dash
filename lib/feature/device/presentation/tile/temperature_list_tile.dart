@@ -37,9 +37,9 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
             .sort((a, b) => a.temperature?.compareTo(b.temperature ?? 0) ?? 0);
         final values = devices.map((e) => (e.temperature ?? 0)).toList();
         return BarChartTile<double>(
-          title: 'Temperatures Now',
+          title: widget.title,
+          subtitle: widget.subtitle,
           icon: CupertinoIcons.thermometer,
-          subtitle: 'Last updated ${DateTime.now().hour}h',
           items: values,
           hideZeroValues: false,
           chartMargin: BarChartTile.defaultChartMargin.copyWith(bottom: 8.0),

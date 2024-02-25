@@ -72,9 +72,11 @@ enum TokenUnit {
   voltage('V'),
   humidity('%'),
   windAngle('°'),
-  temperature('°C'),
-  windStrength('m/s'),
-  gustStrength('m/s');
+  luminance('lx'),
+  windSpeed('m/s'),
+  gustSpeed('m/s'),
+  ultraviolet('uvi'),
+  temperature('°C');
 
   bool get isRain => this == rain;
   bool get isCount => this == count;
@@ -84,9 +86,10 @@ enum TokenUnit {
   bool get isVoltage => this == voltage;
   bool get isHumidity => this == humidity;
   bool get isWindAngle => this == windAngle;
+  bool get isWindSpeed => this == windSpeed;
+  bool get isGustSpeed => this == gustSpeed;
+  bool get isLuminance => this == luminance;
   bool get isTemperature => this == temperature;
-  bool get isWindStrength => this == windStrength;
-  bool get isGustStrength => this == gustStrength;
 
   static String symbolOf(String token) =>
       values.where((e) => e.name == token).firstOrNull?.symbol ?? token;
@@ -105,7 +108,8 @@ extension TokenX on Token {
   bool get isVoltage => unit == TokenUnit.voltage;
   bool get isHumidity => unit == TokenUnit.humidity;
   bool get isWindAngle => unit == TokenUnit.windAngle;
+  bool get isWindSpeed => unit == TokenUnit.windSpeed;
+  bool get isGustSpeed => unit == TokenUnit.gustSpeed;
+  bool get isLuminance => unit == TokenUnit.luminance;
   bool get isTemperature => unit == TokenUnit.temperature;
-  bool get isWindStrength => unit == TokenUnit.windStrength;
-  bool get isGustStrength => unit == TokenUnit.gustStrength;
 }

@@ -49,10 +49,10 @@ class WeatherService {
                   data: WeatherData(
                     instant: WeatherInstant(
                       details: WeatherInstantDetails(
+                        windSpeed: device.windSpeed,
+                        windSpeedOfGust: device.gustSpeed,
                         airTemperature: device.temperature,
                         windFromDirection: device.windAngle,
-                        windSpeed: device.windStrength,
-                        windSpeedOfGust: device.gustStrength,
                       ),
                     ),
                   ),
