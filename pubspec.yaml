@@ -14,19 +14,19 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
 
-  dio: ^5.4.0
+  dio: ^5.4.1
   xml: ^6.5.0
-  http: ^1.0.0
-  path: ^1.8.3
-  intl: ^0.18.1
+  http: ^1.2.1
+  path: ^1.9.0
+  intl: ^0.18.0
   html: ^0.15.4
-  path_provider: ^2.1.1
   universal_io: ^2.2.2
-  window_manager: ^0.3.7
+  path_provider: ^2.1.2
+  window_manager: ^0.3.8
 
   logging: ^1.2.0
-  strings: ^3.0.0
-  timeago: ^3.6.0
+  strings: ^3.1.1
+  timeago: ^3.6.1
   optional: ^6.1.0+1
   collection: ^1.18.0
   pretty_bytes: ^6.1.0
@@ -34,14 +34,14 @@ dependencies:
   battery_indicator: ^0.1.2
   shared_preferences: ^2.2.2
 
-  drift: ^2.14.1
-  drift_dev: ^2.14.1
-  sqlite3: ^2.3.0
-  sqlite3_flutter_libs: ^0.5.18
+  drift: ^2.16.0
+  drift_dev: ^2.16.0
+  sqlite3: ^2.4.0
+  sqlite3_flutter_libs: ^0.5.20
 
-  fl_chart: ^0.66.0
+  fl_chart: ^0.66.2
   dashboard: ^0.0.4
-  go_router: ^13.0.0
+  go_router: ^13.2.0
   settings_ui: ^2.0.2
   charts_painter: ^3.1.1
   reactive_forms: ^16.1.1
@@ -60,14 +60,14 @@ dependencies:
   media_kit_libs_android_video: ^1.3.6
 
   mqtt_client: ^10.2.0
-  network_tools_flutter: ^1.0.5
+  network_tools: ^4.0.4
 
   json_annotation: ^4.8.1
   freezed_annotation: ^2.4.1
   riverpod_annotation: ^3.0.0-dev.3
 
-  sentry: ^7.14.0
-  sentry_flutter: ^7.14.0
+  sentry: ^7.16.1
+  sentry_flutter: ^7.16.1
 
   stack_trace: ^1.11.1
 
@@ -80,11 +80,11 @@ dev_dependencies:
     sdk: flutter
 
   test: ^1.24.9
-  custom_lint: ^0.5.7
+  custom_lint: ^0.5.11
   flutter_lints: ^3.0.1
 
-  freezed: ^2.4.6
-  build_runner: ^2.4.7
+  freezed: ^2.4.7
+  build_runner: ^2.4.8
   riverpod_lint: ^3.0.0-dev.4
   riverpod_generator: ^3.0.0-dev.11
   json_serializable: ^6.7.1

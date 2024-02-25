@@ -22,13 +22,15 @@ storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)
 
 .PHONY: \
 	doctor configure drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stopupgrade action android-configure android-build \
-	android-install android-rebuild \
+	build clean-build serve stopupgrade action \
+	android-configure android-build android-install android-rebuild \
+	macos-bootstrap macos-repair macos-update \
 
 .SILENT: \
 	doctor toolchain drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stop upgrade action android-configure android-build \
-	android-install android-rebuild \
+	build clean-build serve stopupgrade action \
+	android-configure android-build android-install android-rebuild \
+	macos-bootstrap macos-repair macos-update \
 
 doctor:
 	echo "Doctor summary"
@@ -91,8 +93,11 @@ configure:
 		# TROUBLESHOOTING build failures
 		# 1. If 'libarclite_macos.a' is missing on your macos machine,
  		#	 --> follow https://stackoverflow.com/a/75924853
+ 		# OR --> use macos-carthage-repair
+ 		#
 		# 2. If you get error "cannot load module 'SystemKit' built with SDK 'macosx14.2' when using SDK 'macosx13.3'"
 		#    --> carthage update --use-xcframeworks --platform macOS
+		# OR --> use macos-carthage-update
 
 
 		colima start
@@ -171,25 +176,34 @@ android-install:
 	read -p "> Select device id: " id; \
 	bundletool install-apks --apks=build/app/outputs/smartdash.apks --device-id $$id;
 
-macos-carthage-repair:
-	echo "Repairing MacOSX setup"; \
-	cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/
-	sudo mkdir arc
-	cd arc
-	sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .
-	sudo chmod +x *
+macos-repair:
+	echo "Repairing MacOSX setup..."
+	if [ -f  "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/README.md" ]; \
+	then echo "  [✓] Libarclite files found."; \
+	else \
+	  echo >&2 "  [x] Libarclite files NOT found > fixing..."; \
+	  cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/; \
+	  sudo mkdir arc && cd arc; \
+	  sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .; \
+	  sudo chmod +x *; \
+	  echo "  [✓] Libarclite files added."; \
+	fi; \
+	echo "Repairing MacOSX setup...DONE"
 
-macos-carthage-update:
-	cd macos
-	pod update
-	cd Runner.xcworkspace/
-	carthage bootstrap
 
-macos-carthage-boostrap:
-	cd macos
-	pod update
-	cd Runner.xcworkspace/
-	carthage update --use-xcframeworks --platform macOS
+macos-update:
+	echo "Updating MacOSX setup"; \
+	cd macos; \
+	pod update; \
+	cd Runner.xcworkspace; \
+	carthage update --use-xcframeworks --platform macOS; \
+
+macos-bootstrap:
+	echo "Bootstrapping MacOSX setup"; \
+	cd macos; \
+	pod update; \
+	cd Runner.xcworkspace; \
+	carthage bootstrap --use-xcframeworks --platform macOS; \
 
 upgrade:
 	echo "Updating packages..."
