@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
@@ -186,8 +187,11 @@ class _HomeInfoField extends StatelessWidget {
         'Manage home information',
         style: getLegendTextStyle(context),
       ),
-      leading: const Icon(Icons.home, size: 48),
+      shape: const Border(),
       tilePadding: const EdgeInsets.only(top: 16),
+      leading: const Icon(Icons.home, size: 48),
+      childrenPadding: const EdgeInsets.all(8.0),
+      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
       children: [
         Text(
           'Set a nickname and address for '
@@ -247,6 +251,7 @@ class _HomeMembersField extends ConsumerWidget {
                     style: getLegendTextStyle(context),
                   ),
                   maintainState: true,
+                  shape: const Border(),
                   leading: const Icon(Icons.group, size: 48.0),
                   tilePadding: const EdgeInsets.only(top: 16.0),
                   children: [
@@ -360,8 +365,9 @@ class _HomeMemberFieldState extends State<_HomeMemberField> {
       maintainState: true,
       shape: const Border(),
       collapsedShape: const Border(),
-      childrenPadding: EdgeInsets.zero,
       tilePadding: const EdgeInsets.only(top: 0),
+      childrenPadding: const EdgeInsets.all(8.0),
+      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
       leading: const Icon(Icons.device_unknown),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
@@ -404,6 +410,13 @@ class _HomeMemberFieldState extends State<_HomeMemberField> {
             ValidationMessage.required: (_) => 'Please enter an device name',
           },
         ),
+        const SizedBox(height: 8),
+        ListTile(
+          title: const Text('Key'),
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          subtitle: Text(member[HomeMemberFields.key] as String),
+        )
       ],
     );
   }
@@ -569,8 +582,9 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
       maintainState: true,
       shape: const Border(),
       collapsedShape: const Border(),
-      childrenPadding: EdgeInsets.zero,
       tilePadding: const EdgeInsets.only(top: 16),
+      childrenPadding: const EdgeInsets.all(8.0),
+      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
       leading: Image.asset(
         'assets/images/${service.image}',
         fit: BoxFit.cover,
