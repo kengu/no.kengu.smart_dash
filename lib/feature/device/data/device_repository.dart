@@ -100,6 +100,7 @@ class DeviceRepository {
         task: '_removeAll',
         name: '$DeviceRepository',
       );
+
   Future<bool> _putAll(List<Device> devices) => guard(
         () async {
           final box = await _open<Device>('paired');
@@ -117,7 +118,9 @@ class DeviceRepository {
 
   Future<void> clear() async {
     return guard(
-      () => Hive.deleteBoxFromDisk('devices_paired'),
+      () => Hive.deleteBoxFromDisk(
+        'devices_paired',
+      ),
       task: 'clear',
       name: '$DeviceRepository',
     );

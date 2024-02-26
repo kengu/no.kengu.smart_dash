@@ -1,16 +1,24 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/util/guard.dart';
-import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash/util/security.dart';
 
 part 'presence_repository.g.dart';
 
+const _typeId = 2;
+
 class PresenceRepository {
+  PresenceRepository() {
+    if (!Hive.isAdapterRegistered(_typeId)) {
+      Hive.registerAdapter(PresenceAdapter());
+    }
+  }
+
   static const key = 'presences';
 
   Future<List<Presence>> getAll() async {
@@ -26,22 +34,16 @@ class PresenceRepository {
           );
   }
 
-  Future<List<Presence>> _load() => guard(
-        () async {
-          final prefs = await SharedPreferences.getInstance();
-          final result = prefs.getStringList(PresenceRepository.key);
-          return result
-                  ?.map(jsonDecode)
-                  .whereType<JsonObject>()
-                  .map(Presence.fromJson)
-                  // Remove duplicates just in case (
-                  .toSet()
-                  .toList() ??
-              [];
-        },
-        task: '_load',
-        name: '$PresenceRepository',
+  Future<Optional<Presence>> getOrAdd(Token token) async {
+    final presence = await get(token);
+    if (!presence.isPresent) {
+      final updated = await updateAll(
+        [Presence.empty(token)],
       );
+      return updated.firstOptional;
+    }
+    return presence;
+  }
 
   /// Attempt to sett all given presences to
   /// repository. Returns list of actual added presences.
@@ -54,7 +56,7 @@ class PresenceRepository {
     current.removeWhere(
       (e) => removedIds.contains(e.token),
     );
-    final success = await _setAll([...unique, ...current]);
+    final success = await _putAll([...unique, ...current]);
     return [if (success) ...unique];
   }
 
@@ -63,25 +65,69 @@ class PresenceRepository {
   Future<List<Presence>> removeAll(Iterable<Presence> presences) async {
     final current = await _load();
     final unique = presences.toSet();
-    final currentIds = current.map((e) => e.token);
+    final currentIds = current.map((e) => e.id);
     final removedIds =
-        unique.where((e) => currentIds.contains(e.token)).map((e) => e.token);
+        unique.where((e) => currentIds.contains(e.id)).map((e) => e.id);
     current.removeWhere(
-      (e) => removedIds.contains(e.token),
+      (e) => removedIds.contains(e.id),
     );
-    final success = await _setAll(current);
+    final success = await _removeAll(current);
     return [if (success) ...unique];
   }
 
-  Future<bool> _setAll(List<Presence> presences) => guard(
+  Future<void> clear() async {
+    return guard(
+      () => Hive.deleteBoxFromDisk(
+        'presences_registered',
+      ),
+      task: 'clear',
+      name: '$PresenceRepository',
+    );
+  }
+
+  Future<CollectionBox<T>> _open<T>(String name) async {
+    final db = await BoxCollection.open(
+      key,
+      {'registered'},
+      path: './',
+      key: await getHiveCipher(key),
+    );
+    return db.openBox<T>(name);
+  }
+
+  Future<List<Presence>> _load() => guard(
         () async {
-          final prefs = await SharedPreferences.getInstance();
-          return prefs.setStringList(
-            PresenceRepository.key,
-            presences.map(jsonEncode).toList(),
-          );
+          final box = await _open<Presence>('registered');
+          final result = await box.getAll(await box.getAllKeys());
+          return result.whereType<Presence>().toList();
         },
-        task: '_setAll',
+        task: '_load',
+        name: '$PresenceRepository',
+      );
+
+  Future<bool> _removeAll(List<Presence> presences) => guard(
+        () async {
+          final box = await _open<Presence>('registered');
+          final ids = presences.map((e) => e.id).toList();
+          await box.deleteAll(ids);
+          return true;
+        },
+        task: '_removeAll',
+        name: '$PresenceRepository',
+      );
+
+  Future<bool> _putAll(List<Presence> presences) => guard(
+        () async {
+          final box = await _open<Presence>('registered');
+          for (final presence in presences) {
+            await box.put(
+              presence.id,
+              presence,
+            );
+          }
+          return true;
+        },
+        task: '_putAll',
         name: '$PresenceRepository',
       );
 }
@@ -89,4 +135,23 @@ class PresenceRepository {
 @Riverpod(keepAlive: true)
 PresenceRepository presenceRepository(PresenceRepositoryRef ref) {
   return PresenceRepository();
+}
+
+class PresenceAdapter extends TypeAdapter<Presence> {
+  @override
+  final typeId = _typeId;
+
+  @override
+  Presence read(BinaryReader reader) {
+    return Presence.fromJson(jsonDecode(
+      reader.read(),
+    ));
+  }
+
+  @override
+  void write(BinaryWriter writer, Presence obj) {
+    writer.write(jsonEncode(
+      obj.toJson(),
+    ));
+  }
 }

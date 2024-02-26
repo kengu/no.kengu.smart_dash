@@ -49,9 +49,9 @@ class NetworkInfoService {
       .read(settingRepositoryProvider.notifier)
       .getOrDefault(SettingType.enablePresence, false);
 
-  List<NetworkDeviceInfo> get devicesCached => [..._devices.values];
+  List<NetworkDeviceInfo> get devices => [..._devices.values];
 
-  Stream<NetworkDeviceEvent> get events => _events.stream;
+  Stream<NetworkDeviceEvent> get stream => _events.stream;
   Stream<NetworkScanProgress> get progress => _progress.stream;
   Stream<List<NetworkDeviceInfo>> get states => _states.stream;
 
@@ -249,7 +249,7 @@ class NetworkInfoService {
 
       // Wait for discovery progress
       await for (final it in result) {
-        _cache.setTTL('devices', DateTime.now());
+        _cache.setTTL('all', DateTime.now());
         NetworkDeviceInfo next = await _toDevice(it);
 
         pingable.add(next);
@@ -362,6 +362,11 @@ class NetworkDeviceOffline extends NetworkDeviceEvent {
 
 class NetworkDeviceRemoved extends NetworkDeviceEvent {
   const NetworkDeviceRemoved(super.data);
+}
+
+extension NetworkDeviceEventList on List<NetworkDeviceInfo> {
+  Iterable<NetworkDeviceEvent> get asEvents => map(
+      (e) => e.isAvailable ? NetworkDeviceOnline(e) : NetworkDeviceOffline(e));
 }
 
 @Riverpod(keepAlive: true)

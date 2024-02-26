@@ -33,7 +33,7 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
     final network = ref.watch(networkInfoServiceProvider);
     return StreamBuilder<List<NetworkDeviceInfo>>(
         stream: network.states,
-        initialData: network.devicesCached,
+        initialData: network.devices,
         builder: (_, snapshot) {
           final devices = _where(snapshot);
           final lastUpdated = network.lastUpdated;

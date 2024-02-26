@@ -34,7 +34,7 @@ class HomeRepository {
     bool isCurrent = true,
   }) async {
     final service = ref.read(accountServiceProvider);
-    final result = await service.getAccount();
+    final result = await service.getAccount(userId);
     if (!result.isPresent) {
       return const Optional.empty();
     }

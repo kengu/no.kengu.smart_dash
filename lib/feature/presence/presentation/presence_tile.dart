@@ -11,7 +11,7 @@ class PresenceTile extends ConsumerWidget {
     final service = ref.read(presenceServiceProvider);
     return StreamBuilder<PresenceEvent>(
       stream: service.events,
-      initialData: PresenceEvent(service.state),
+      initialData: service.lastEvent.orElseNull,
       builder: (context, snapshot) {
         final e = snapshot.data;
         final members = e?.state.members ?? [];
@@ -29,7 +29,7 @@ class PresenceTile extends ConsumerWidget {
             trailing: Text(
               snapshot.hasData
                   ? e?.state.isHome == true
-                      ? '${e!.state.members.length} is is HOME'
+                      ? '${e!.state.members.length} is HOME'
                       : 'AWAY'
                   : '-',
               style: const TextStyle(

@@ -11,6 +11,8 @@ import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_rep
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/home/data/home_repository.dart';
+import 'package:smart_dash/feature/presence/application/presence_service.dart';
+import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen_controller.dart';
@@ -155,6 +157,24 @@ class SettingTilesWidget extends StatelessWidget {
                             ),
                             onPressed: (context) async {
                               await ref.read(deviceRepositoryProvider).clear();
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Device data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear presence data'),
+                            description: const Text(
+                              'This will delete all local presence data',
+                            ),
+                            onPressed: (context) async {
+                              await ref
+                                  .read(presenceRepositoryProvider)
+                                  .clear();
                               setState(() {
                                 NoticeController.showSnackBarByRef(
                                   context,

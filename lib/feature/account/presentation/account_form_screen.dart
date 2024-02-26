@@ -19,6 +19,7 @@ import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
@@ -237,8 +238,8 @@ class _HomeMembersField extends ConsumerWidget {
         builder: (context, snapshot) {
           final devices = ref
               .read(networkInfoServiceProvider)
-              .devicesCached
-              .map(HomeMember.fromDevice)
+              .devices
+              .map(Presence.toHomeMember)
               .toList();
           final missing = _calcMissing(devices);
           return ReactiveFormArray(

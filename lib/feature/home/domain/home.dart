@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/system/domain/network_info.dart';
 
 part 'home.freezed.dart';
 part 'home.g.dart';
@@ -57,21 +55,6 @@ class HomeMember with _$HomeMember {
     required String key,
     required String name,
   }) = _HomeMember;
-
-  Token toToken() => Token(
-        tag: 'presence',
-        name: key,
-        label: name,
-        unit: TokenUnit.count,
-        type: DeviceCapability.onOff.type,
-      );
-
-  factory HomeMember.fromDevice(NetworkDeviceInfo info) => HomeMember(
-        name: info.readableName,
-        key: info.macAddress == null
-            ? 'presence:ip:${info.ipAddress}'
-            : 'presence:mac:${info.macAddress}',
-      );
 
   factory HomeMember.fromJson(Map<String, Object?> json) =>
       _$HomeMemberFromJson(json);
