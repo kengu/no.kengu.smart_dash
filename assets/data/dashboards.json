@@ -467,9 +467,9 @@
       {
         "item_id": "weather_now",
         "layout": {
-          "w": 3,
+          "w": 2,
           "h": 1,
-          "min_W": 3,
+          "min_W": 2,
           "min_H": 1,
           "max_W": 3
         }
@@ -487,9 +487,9 @@
       {
         "item_id": "meter_energy:sikom:device:541905",
         "layout": {
-          "w": 2,
+          "w": 3,
           "h": 1,
-          "min_W": 2,
+          "min_W": 3,
           "min_H": 1
         }
       },

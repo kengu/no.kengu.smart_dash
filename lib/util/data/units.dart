@@ -112,3 +112,45 @@ extension UnitInListX<T extends num> on List<T> {
     );
   }
 }
+
+/*
+Sunlight	            107,527
+Shade on a sunny day	10,752
+Overcast day	        1,075
+Very dark day	        107
+Twilight	            10.8
+Deep twilight	        1.08
+Full moon	            0.108
+Quarter moon	        0.0108
+Starlight	            0.0011
+Overcast night	      0.0001
+ */
+
+enum Illuminance {
+  none(-1, 'None'),
+  dark(0, 'Total darkness'),
+  overcastNight(0.0001, 'Overcast Night'),
+  starlightMoon(0.0011, 'Starlight Moon'),
+  quarterMoon(0.0108, 'Quarter Moon'),
+  fullMoon(0.108, 'Full Moon'),
+  deepTwilight(1.08, 'Deep Twilight'),
+  twilight(10.8, 'Twilight'),
+  darkDay(107, 'Dark Day'),
+  overcastDay(1075, 'Overcast Day'),
+  shadyDay(10752, 'Shady Day'),
+  sunlight(107527, 'Sunlight');
+
+  const Illuminance(this.lux, this.description);
+
+  final double lux;
+  final String description;
+
+  static Illuminance of(int lux) {
+    for (int i = 0; i < values.length - 1; i++) {
+      if (values[i].lux <= lux && values[i + 1].lux >= lux) {
+        return values[i];
+      }
+    }
+    return none;
+  }
+}

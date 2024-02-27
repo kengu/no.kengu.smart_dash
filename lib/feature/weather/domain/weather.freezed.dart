@@ -849,6 +849,18 @@ mixin _$WeatherInstantDetails {
   @JsonKey(name: 'wind_speed_of_gust')
   double? get windSpeedOfGust => throw _privateConstructorUsedError;
 
+  /// Light luminance (in lux)
+  @JsonKey(name: 'light_luminance')
+  int? get lightLuminance => throw _privateConstructorUsedError;
+
+  /// Air humidity (in percent, %)
+  @JsonKey(name: 'relative_humidity')
+  double? get relativeHumidity => throw _privateConstructorUsedError;
+
+  /// Ultraviolet radiation (in UV index, UVI)
+  @JsonKey(name: 'ultraviolet_radiation')
+  int? get ultravioletRadiation => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WeatherInstantDetailsCopyWith<WeatherInstantDetails> get copyWith =>
@@ -868,7 +880,10 @@ abstract class $WeatherInstantDetailsCopyWith<$Res> {
       @JsonKey(name: 'cloud_area_fraction') double? cloudAreaFraction,
       @JsonKey(name: 'wind_from_direction') double? windFromDirection,
       @JsonKey(name: 'wind_speed') double? windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') double? windSpeedOfGust});
+      @JsonKey(name: 'wind_speed_of_gust') double? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') int? lightLuminance,
+      @JsonKey(name: 'relative_humidity') double? relativeHumidity,
+      @JsonKey(name: 'ultraviolet_radiation') int? ultravioletRadiation});
 }
 
 /// @nodoc
@@ -891,6 +906,9 @@ class _$WeatherInstantDetailsCopyWithImpl<$Res,
     Object? windFromDirection = freezed,
     Object? windSpeed = freezed,
     Object? windSpeedOfGust = freezed,
+    Object? lightLuminance = freezed,
+    Object? relativeHumidity = freezed,
+    Object? ultravioletRadiation = freezed,
   }) {
     return _then(_value.copyWith(
       airPressureAtSeaLevel: freezed == airPressureAtSeaLevel
@@ -917,6 +935,18 @@ class _$WeatherInstantDetailsCopyWithImpl<$Res,
           ? _value.windSpeedOfGust
           : windSpeedOfGust // ignore: cast_nullable_to_non_nullable
               as double?,
+      lightLuminance: freezed == lightLuminance
+          ? _value.lightLuminance
+          : lightLuminance // ignore: cast_nullable_to_non_nullable
+              as int?,
+      relativeHumidity: freezed == relativeHumidity
+          ? _value.relativeHumidity
+          : relativeHumidity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      ultravioletRadiation: freezed == ultravioletRadiation
+          ? _value.ultravioletRadiation
+          : ultravioletRadiation // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -937,7 +967,10 @@ abstract class _$$WeatherInstantDetailsImplCopyWith<$Res>
       @JsonKey(name: 'cloud_area_fraction') double? cloudAreaFraction,
       @JsonKey(name: 'wind_from_direction') double? windFromDirection,
       @JsonKey(name: 'wind_speed') double? windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') double? windSpeedOfGust});
+      @JsonKey(name: 'wind_speed_of_gust') double? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') int? lightLuminance,
+      @JsonKey(name: 'relative_humidity') double? relativeHumidity,
+      @JsonKey(name: 'ultraviolet_radiation') int? ultravioletRadiation});
 }
 
 /// @nodoc
@@ -958,6 +991,9 @@ class __$$WeatherInstantDetailsImplCopyWithImpl<$Res>
     Object? windFromDirection = freezed,
     Object? windSpeed = freezed,
     Object? windSpeedOfGust = freezed,
+    Object? lightLuminance = freezed,
+    Object? relativeHumidity = freezed,
+    Object? ultravioletRadiation = freezed,
   }) {
     return _then(_$WeatherInstantDetailsImpl(
       airPressureAtSeaLevel: freezed == airPressureAtSeaLevel
@@ -984,6 +1020,18 @@ class __$$WeatherInstantDetailsImplCopyWithImpl<$Res>
           ? _value.windSpeedOfGust
           : windSpeedOfGust // ignore: cast_nullable_to_non_nullable
               as double?,
+      lightLuminance: freezed == lightLuminance
+          ? _value.lightLuminance
+          : lightLuminance // ignore: cast_nullable_to_non_nullable
+              as int?,
+      relativeHumidity: freezed == relativeHumidity
+          ? _value.relativeHumidity
+          : relativeHumidity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      ultravioletRadiation: freezed == ultravioletRadiation
+          ? _value.ultravioletRadiation
+          : ultravioletRadiation // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -997,7 +1045,10 @@ class _$WeatherInstantDetailsImpl extends _WeatherInstantDetails {
       @JsonKey(name: 'cloud_area_fraction') this.cloudAreaFraction,
       @JsonKey(name: 'wind_from_direction') this.windFromDirection,
       @JsonKey(name: 'wind_speed') this.windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') this.windSpeedOfGust})
+      @JsonKey(name: 'wind_speed_of_gust') this.windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') this.lightLuminance,
+      @JsonKey(name: 'relative_humidity') this.relativeHumidity,
+      @JsonKey(name: 'ultraviolet_radiation') this.ultravioletRadiation})
       : super._();
 
   factory _$WeatherInstantDetailsImpl.fromJson(Map<String, dynamic> json) =>
@@ -1033,9 +1084,24 @@ class _$WeatherInstantDetailsImpl extends _WeatherInstantDetails {
   @JsonKey(name: 'wind_speed_of_gust')
   final double? windSpeedOfGust;
 
+  /// Light luminance (in lux)
+  @override
+  @JsonKey(name: 'light_luminance')
+  final int? lightLuminance;
+
+  /// Air humidity (in percent, %)
+  @override
+  @JsonKey(name: 'relative_humidity')
+  final double? relativeHumidity;
+
+  /// Ultraviolet radiation (in UV index, UVI)
+  @override
+  @JsonKey(name: 'ultraviolet_radiation')
+  final int? ultravioletRadiation;
+
   @override
   String toString() {
-    return 'WeatherInstantDetails(airPressureAtSeaLevel: $airPressureAtSeaLevel, airTemperature: $airTemperature, cloudAreaFraction: $cloudAreaFraction, windFromDirection: $windFromDirection, windSpeed: $windSpeed, windSpeedOfGust: $windSpeedOfGust)';
+    return 'WeatherInstantDetails(airPressureAtSeaLevel: $airPressureAtSeaLevel, airTemperature: $airTemperature, cloudAreaFraction: $cloudAreaFraction, windFromDirection: $windFromDirection, windSpeed: $windSpeed, windSpeedOfGust: $windSpeedOfGust, lightLuminance: $lightLuminance, relativeHumidity: $relativeHumidity, ultravioletRadiation: $ultravioletRadiation)';
   }
 
   @override
@@ -1054,7 +1120,13 @@ class _$WeatherInstantDetailsImpl extends _WeatherInstantDetails {
             (identical(other.windSpeed, windSpeed) ||
                 other.windSpeed == windSpeed) &&
             (identical(other.windSpeedOfGust, windSpeedOfGust) ||
-                other.windSpeedOfGust == windSpeedOfGust));
+                other.windSpeedOfGust == windSpeedOfGust) &&
+            (identical(other.lightLuminance, lightLuminance) ||
+                other.lightLuminance == lightLuminance) &&
+            (identical(other.relativeHumidity, relativeHumidity) ||
+                other.relativeHumidity == relativeHumidity) &&
+            (identical(other.ultravioletRadiation, ultravioletRadiation) ||
+                other.ultravioletRadiation == ultravioletRadiation));
   }
 
   @JsonKey(ignore: true)
@@ -1066,7 +1138,10 @@ class _$WeatherInstantDetailsImpl extends _WeatherInstantDetails {
       cloudAreaFraction,
       windFromDirection,
       windSpeed,
-      windSpeedOfGust);
+      windSpeedOfGust,
+      lightLuminance,
+      relativeHumidity,
+      ultravioletRadiation);
 
   @JsonKey(ignore: true)
   @override
@@ -1085,14 +1160,17 @@ class _$WeatherInstantDetailsImpl extends _WeatherInstantDetails {
 
 abstract class _WeatherInstantDetails extends WeatherInstantDetails {
   const factory _WeatherInstantDetails(
-          {@JsonKey(name: 'air_pressure_at_sea_level')
-          final double? airPressureAtSeaLevel,
-          @JsonKey(name: 'air_temperature') final double? airTemperature,
-          @JsonKey(name: 'cloud_area_fraction') final double? cloudAreaFraction,
-          @JsonKey(name: 'wind_from_direction') final double? windFromDirection,
-          @JsonKey(name: 'wind_speed') final double? windSpeed,
-          @JsonKey(name: 'wind_speed_of_gust') final double? windSpeedOfGust}) =
-      _$WeatherInstantDetailsImpl;
+      {@JsonKey(name: 'air_pressure_at_sea_level')
+      final double? airPressureAtSeaLevel,
+      @JsonKey(name: 'air_temperature') final double? airTemperature,
+      @JsonKey(name: 'cloud_area_fraction') final double? cloudAreaFraction,
+      @JsonKey(name: 'wind_from_direction') final double? windFromDirection,
+      @JsonKey(name: 'wind_speed') final double? windSpeed,
+      @JsonKey(name: 'wind_speed_of_gust') final double? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') final int? lightLuminance,
+      @JsonKey(name: 'relative_humidity') final double? relativeHumidity,
+      @JsonKey(name: 'ultraviolet_radiation')
+      final int? ultravioletRadiation}) = _$WeatherInstantDetailsImpl;
   const _WeatherInstantDetails._() : super._();
 
   factory _WeatherInstantDetails.fromJson(Map<String, dynamic> json) =
@@ -1128,6 +1206,21 @@ abstract class _WeatherInstantDetails extends WeatherInstantDetails {
   /// Speed of wind gust
   @JsonKey(name: 'wind_speed_of_gust')
   double? get windSpeedOfGust;
+  @override
+
+  /// Light luminance (in lux)
+  @JsonKey(name: 'light_luminance')
+  int? get lightLuminance;
+  @override
+
+  /// Air humidity (in percent, %)
+  @JsonKey(name: 'relative_humidity')
+  double? get relativeHumidity;
+  @override
+
+  /// Ultraviolet radiation (in UV index, UVI)
+  @JsonKey(name: 'ultraviolet_radiation')
+  int? get ultravioletRadiation;
   @override
   @JsonKey(ignore: true)
   _$$WeatherInstantDetailsImplCopyWith<_$WeatherInstantDetailsImpl>
@@ -2482,6 +2575,10 @@ mixin _$WeatherUnits {
   String? get windSpeed => throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_speed_of_gust')
   String? get windSpeedOfGust => throw _privateConstructorUsedError;
+  @JsonKey(name: 'light_luminance')
+  String? get lightLuminance => throw _privateConstructorUsedError;
+  @JsonKey(name: 'ultraviolet_radiation')
+  String? get ultravioletRadiation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2504,7 +2601,9 @@ abstract class $WeatherUnitsCopyWith<$Res> {
       @JsonKey(name: 'relative_humidity') String? relativeHumidity,
       @JsonKey(name: 'wind_from_direction') String? windFromDirection,
       @JsonKey(name: 'wind_speed') String? windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') String? windSpeedOfGust});
+      @JsonKey(name: 'wind_speed_of_gust') String? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') String? lightLuminance,
+      @JsonKey(name: 'ultraviolet_radiation') String? ultravioletRadiation});
 }
 
 /// @nodoc
@@ -2528,6 +2627,8 @@ class _$WeatherUnitsCopyWithImpl<$Res, $Val extends WeatherUnits>
     Object? windFromDirection = freezed,
     Object? windSpeed = freezed,
     Object? windSpeedOfGust = freezed,
+    Object? lightLuminance = freezed,
+    Object? ultravioletRadiation = freezed,
   }) {
     return _then(_value.copyWith(
       airPressureAtSeaLevel: freezed == airPressureAtSeaLevel
@@ -2562,6 +2663,14 @@ class _$WeatherUnitsCopyWithImpl<$Res, $Val extends WeatherUnits>
           ? _value.windSpeedOfGust
           : windSpeedOfGust // ignore: cast_nullable_to_non_nullable
               as String?,
+      lightLuminance: freezed == lightLuminance
+          ? _value.lightLuminance
+          : lightLuminance // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ultravioletRadiation: freezed == ultravioletRadiation
+          ? _value.ultravioletRadiation
+          : ultravioletRadiation // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2583,7 +2692,9 @@ abstract class _$$WeatherUnitsImplCopyWith<$Res>
       @JsonKey(name: 'relative_humidity') String? relativeHumidity,
       @JsonKey(name: 'wind_from_direction') String? windFromDirection,
       @JsonKey(name: 'wind_speed') String? windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') String? windSpeedOfGust});
+      @JsonKey(name: 'wind_speed_of_gust') String? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') String? lightLuminance,
+      @JsonKey(name: 'ultraviolet_radiation') String? ultravioletRadiation});
 }
 
 /// @nodoc
@@ -2605,6 +2716,8 @@ class __$$WeatherUnitsImplCopyWithImpl<$Res>
     Object? windFromDirection = freezed,
     Object? windSpeed = freezed,
     Object? windSpeedOfGust = freezed,
+    Object? lightLuminance = freezed,
+    Object? ultravioletRadiation = freezed,
   }) {
     return _then(_$WeatherUnitsImpl(
       airPressureAtSeaLevel: freezed == airPressureAtSeaLevel
@@ -2639,6 +2752,14 @@ class __$$WeatherUnitsImplCopyWithImpl<$Res>
           ? _value.windSpeedOfGust
           : windSpeedOfGust // ignore: cast_nullable_to_non_nullable
               as String?,
+      lightLuminance: freezed == lightLuminance
+          ? _value.lightLuminance
+          : lightLuminance // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ultravioletRadiation: freezed == ultravioletRadiation
+          ? _value.ultravioletRadiation
+          : ultravioletRadiation // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2654,7 +2775,9 @@ class _$WeatherUnitsImpl extends _WeatherUnits {
       @JsonKey(name: 'relative_humidity') this.relativeHumidity,
       @JsonKey(name: 'wind_from_direction') this.windFromDirection,
       @JsonKey(name: 'wind_speed') this.windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust') this.windSpeedOfGust})
+      @JsonKey(name: 'wind_speed_of_gust') this.windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') this.lightLuminance,
+      @JsonKey(name: 'ultraviolet_radiation') this.ultravioletRadiation})
       : super._();
 
   factory _$WeatherUnitsImpl.fromJson(Map<String, dynamic> json) =>
@@ -2684,10 +2807,16 @@ class _$WeatherUnitsImpl extends _WeatherUnits {
   @override
   @JsonKey(name: 'wind_speed_of_gust')
   final String? windSpeedOfGust;
+  @override
+  @JsonKey(name: 'light_luminance')
+  final String? lightLuminance;
+  @override
+  @JsonKey(name: 'ultraviolet_radiation')
+  final String? ultravioletRadiation;
 
   @override
   String toString() {
-    return 'WeatherUnits(airPressureAtSeaLevel: $airPressureAtSeaLevel, airTemperature: $airTemperature, cloudAreaFraction: $cloudAreaFraction, precipitationAmount: $precipitationAmount, relativeHumidity: $relativeHumidity, windFromDirection: $windFromDirection, windSpeed: $windSpeed, windSpeedOfGust: $windSpeedOfGust)';
+    return 'WeatherUnits(airPressureAtSeaLevel: $airPressureAtSeaLevel, airTemperature: $airTemperature, cloudAreaFraction: $cloudAreaFraction, precipitationAmount: $precipitationAmount, relativeHumidity: $relativeHumidity, windFromDirection: $windFromDirection, windSpeed: $windSpeed, windSpeedOfGust: $windSpeedOfGust, lightLuminance: $lightLuminance, ultravioletRadiation: $ultravioletRadiation)';
   }
 
   @override
@@ -2710,7 +2839,11 @@ class _$WeatherUnitsImpl extends _WeatherUnits {
             (identical(other.windSpeed, windSpeed) ||
                 other.windSpeed == windSpeed) &&
             (identical(other.windSpeedOfGust, windSpeedOfGust) ||
-                other.windSpeedOfGust == windSpeedOfGust));
+                other.windSpeedOfGust == windSpeedOfGust) &&
+            (identical(other.lightLuminance, lightLuminance) ||
+                other.lightLuminance == lightLuminance) &&
+            (identical(other.ultravioletRadiation, ultravioletRadiation) ||
+                other.ultravioletRadiation == ultravioletRadiation));
   }
 
   @JsonKey(ignore: true)
@@ -2724,7 +2857,9 @@ class _$WeatherUnitsImpl extends _WeatherUnits {
       relativeHumidity,
       windFromDirection,
       windSpeed,
-      windSpeedOfGust);
+      windSpeedOfGust,
+      lightLuminance,
+      ultravioletRadiation);
 
   @JsonKey(ignore: true)
   @override
@@ -2750,8 +2885,10 @@ abstract class _WeatherUnits extends WeatherUnits {
       @JsonKey(name: 'relative_humidity') final String? relativeHumidity,
       @JsonKey(name: 'wind_from_direction') final String? windFromDirection,
       @JsonKey(name: 'wind_speed') final String? windSpeed,
-      @JsonKey(name: 'wind_speed_of_gust')
-      final String? windSpeedOfGust}) = _$WeatherUnitsImpl;
+      @JsonKey(name: 'wind_speed_of_gust') final String? windSpeedOfGust,
+      @JsonKey(name: 'light_luminance') final String? lightLuminance,
+      @JsonKey(name: 'ultraviolet_radiation')
+      final String? ultravioletRadiation}) = _$WeatherUnitsImpl;
   const _WeatherUnits._() : super._();
 
   factory _WeatherUnits.fromJson(Map<String, dynamic> json) =
@@ -2781,6 +2918,12 @@ abstract class _WeatherUnits extends WeatherUnits {
   @override
   @JsonKey(name: 'wind_speed_of_gust')
   String? get windSpeedOfGust;
+  @override
+  @JsonKey(name: 'light_luminance')
+  String? get lightLuminance;
+  @override
+  @JsonKey(name: 'ultraviolet_radiation')
+  String? get ultravioletRadiation;
   @override
   @JsonKey(ignore: true)
   _$$WeatherUnitsImplCopyWith<_$WeatherUnitsImpl> get copyWith =>

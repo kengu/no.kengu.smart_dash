@@ -75,7 +75,7 @@ enum TokenUnit {
   luminance('lx'),
   windSpeed('m/s'),
   gustSpeed('m/s'),
-  ultraviolet('uvi'),
+  ultraviolet('UVI'),
   temperature('°C');
 
   bool get isRain => this == rain;

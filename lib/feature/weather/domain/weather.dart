@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:smart_dash/util/data/num.dart';
 
 part 'weather.freezed.dart';
 part 'weather.g.dart';
@@ -27,6 +30,88 @@ class Weather with _$Weather {
 
   static String? toCompassDirection(double? direction) =>
       compassDirections[((direction ?? 0) / 45).floor()];
+
+  WeatherTimeStep? select(DateTime when, [bool closest = true]) {
+    WeatherTimeStep? step;
+    final it = props.timeseries.iterator;
+    if (it.moveNext()) {
+      step = it.current;
+      var looking = true;
+      DateTime now = when.toUtc();
+      var delta = step.time.difference(now);
+      while (looking && it.moveNext()) {
+        if (closest) {
+          final next = it.current.time.difference(now).abs();
+          delta = delta.abs();
+          if (next < delta) {
+            step = it.current;
+            delta = next;
+          }
+          looking = delta.inMinutes >= 60;
+        } else {
+          if (looking = now.difference(step!.time).inMinutes > 0) {
+            step = it.current;
+          }
+        }
+      }
+    }
+    return step;
+  }
+
+  double toPrecipitationAmount(int hours) {
+    final steps = props.timeseries
+        .take(hours)
+        .map((e) => e.data.next1h?.details)
+        .whereType<WeatherForecastDetails>()
+        .where((e) => (e.precipitationAmount ?? 0) > 0)
+        .map(
+      (e) {
+        final amountInMm = e.precipitationAmount ?? 0.0;
+        final hasMinTemp = e.airTemperatureMin != null;
+        final hasMaxTemp = e.airTemperatureMax != null;
+        final minTemp = hasMinTemp ? e.airTemperatureMin! : 0.0;
+        final maxTemp = hasMaxTemp ? e.airTemperatureMax! : 0.0;
+        final temp = hasMinTemp && hasMinTemp
+            ? min(minTemp, maxTemp)
+            : min(minTemp, maxTemp);
+        return amountInMm *
+            (temp > 0 ? 1 : _calcSnowRatioInInches(temp) * 0.254);
+      },
+    );
+
+    // Sum over next 24 from index
+    return steps.sum();
+  }
+
+  // From https://goodcalculators.com/rain-to-snow-calculator/
+  double _calcSnowRatioInInches(double temp) {
+    // 1 to -2
+    if (temp <= 1 && temp > -3) {
+      return 10;
+    }
+    // -3 to -7
+    else if (temp <= -3 && temp > -8) {
+      return 15;
+    }
+    // -7 to -9
+    else if (temp <= -7 && temp > -10) {
+      return 20;
+    }
+    // -10 to -12
+    else if (temp <= -10 && temp > -13) {
+      return 30;
+    }
+    // -13 to -18
+    else if (temp <= -13 && temp > -19) {
+      return 40;
+    }
+    // -18 to -29
+    else if (temp <= -18 && temp > -30) {
+      return 50;
+    }
+    // <-29
+    return 100;
+  }
 }
 
 @freezed
@@ -91,6 +176,15 @@ class WeatherInstantDetails with _$WeatherInstantDetails {
 
     /// Speed of wind gust
     @JsonKey(name: 'wind_speed_of_gust') double? windSpeedOfGust,
+
+    /// Light luminance (in lux)
+    @JsonKey(name: 'light_luminance') int? lightLuminance,
+
+    /// Air humidity (in percent, %)
+    @JsonKey(name: 'relative_humidity') double? relativeHumidity,
+
+    /// Ultraviolet radiation (in UV index, UVI)
+    @JsonKey(name: 'ultraviolet_radiation') int? ultravioletRadiation,
   }) = _WeatherInstantDetails;
 
   factory WeatherInstantDetails.fromJson(Map<String, Object?> json) =>
@@ -199,6 +293,8 @@ class WeatherUnits with _$WeatherUnits {
     @JsonKey(name: 'wind_from_direction') String? windFromDirection,
     @JsonKey(name: 'wind_speed') String? windSpeed,
     @JsonKey(name: 'wind_speed_of_gust') String? windSpeedOfGust,
+    @JsonKey(name: 'light_luminance') String? lightLuminance,
+    @JsonKey(name: 'ultraviolet_radiation') String? ultravioletRadiation,
   }) = _WeatherUnits;
   factory WeatherUnits.fromJson(Map<String, Object?> json) =>
       _$WeatherUnitsFromJson(json);

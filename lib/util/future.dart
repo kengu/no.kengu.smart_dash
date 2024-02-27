@@ -26,9 +26,9 @@ class FutureCache {
     return Optional<T>.ofNullable(_results[key]);
   }
 
-  Optional<T> set<T>(String key, Optional<T> value) {
+  Optional<T> set<T>(String key, Optional<T> value, [DateTime? when]) {
     _results[key] = value;
-    _requests[key] = (DateTime.now(), Future.value(value));
+    _requests[key] = (when ?? DateTime.now(), Future.value(value));
     return value;
   }
 

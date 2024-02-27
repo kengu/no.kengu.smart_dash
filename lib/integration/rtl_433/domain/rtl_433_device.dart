@@ -85,9 +85,31 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
 
   bool get hasHumidity => humidity != null;
 
-  bool get hasLuminance => lightInLux != null;
+  bool get hasLuminance {
+    if (lightInLux != null) {
+      switch (model.toLowerCase()) {
+        case 'cotech-367959':
+          // versions without light and uv sensors reports value 251
+          return uvRadiation! < 251;
+        default:
+          return true;
+      }
+    }
+    return false;
+  }
 
-  bool get hasUltraviolet => uvRadiation != null;
+  bool get hasUltraviolet {
+    if (uvRadiation != null) {
+      switch (model.toLowerCase()) {
+        case 'cotech-367959':
+          // versions without light sensors reports value 251
+          return uvRadiation! < 251;
+        default:
+          return true;
+      }
+    }
+    return false;
+  }
 
   bool get hasWindAngle => windAngleInDegrees != null;
 
@@ -172,7 +194,7 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
           if (hasHumidity) DeviceCapability.humidity,
           if (hasWindAngle) DeviceCapability.windAngle,
           if (hasLuminance) DeviceCapability.luminance,
-          if (hasLuminance) DeviceCapability.ultraviolet,
+          if (hasUltraviolet) DeviceCapability.ultraviolet,
           if (hasWindStrength) DeviceCapability.windSpeed,
           if (hasGustStrength) DeviceCapability.gustSpeed,
           if (hasUltraviolet) DeviceCapability.ultraviolet,
@@ -181,8 +203,8 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
         ],
         rain: rain,
         humidity: humidity,
-        luminance: lightInLux,
-        ultraviolet: uvRadiation,
+        luminance: hasLuminance ? lightInLux : null,
+        ultraviolet: hasUltraviolet ? uvRadiation : null,
         temperature: temperature,
         lastUpdated: lastUpdated,
         windSpeed: windStrength,

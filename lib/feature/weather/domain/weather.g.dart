@@ -81,6 +81,9 @@ _$WeatherInstantDetailsImpl _$$WeatherInstantDetailsImplFromJson(
       windFromDirection: (json['wind_from_direction'] as num?)?.toDouble(),
       windSpeed: (json['wind_speed'] as num?)?.toDouble(),
       windSpeedOfGust: (json['wind_speed_of_gust'] as num?)?.toDouble(),
+      lightLuminance: json['light_luminance'] as int?,
+      relativeHumidity: (json['relative_humidity'] as num?)?.toDouble(),
+      ultravioletRadiation: json['ultraviolet_radiation'] as int?,
     );
 
 Map<String, dynamic> _$$WeatherInstantDetailsImplToJson(
@@ -92,6 +95,9 @@ Map<String, dynamic> _$$WeatherInstantDetailsImplToJson(
       'wind_from_direction': instance.windFromDirection,
       'wind_speed': instance.windSpeed,
       'wind_speed_of_gust': instance.windSpeedOfGust,
+      'light_luminance': instance.lightLuminance,
+      'relative_humidity': instance.relativeHumidity,
+      'ultraviolet_radiation': instance.ultravioletRadiation,
     };
 
 _$WeatherForecastImpl _$$WeatherForecastImplFromJson(
@@ -209,6 +215,8 @@ _$WeatherUnitsImpl _$$WeatherUnitsImplFromJson(Map<String, dynamic> json) =>
       windFromDirection: json['wind_from_direction'] as String?,
       windSpeed: json['wind_speed'] as String?,
       windSpeedOfGust: json['wind_speed_of_gust'] as String?,
+      lightLuminance: json['light_luminance'] as String?,
+      ultravioletRadiation: json['ultraviolet_radiation'] as String?,
     );
 
 Map<String, dynamic> _$$WeatherUnitsImplToJson(_$WeatherUnitsImpl instance) =>
@@ -221,4 +229,6 @@ Map<String, dynamic> _$$WeatherUnitsImplToJson(_$WeatherUnitsImpl instance) =>
       'wind_from_direction': instance.windFromDirection,
       'wind_speed': instance.windSpeed,
       'wind_speed_of_gust': instance.windSpeedOfGust,
+      'light_luminance': instance.lightLuminance,
+      'ultraviolet_radiation': instance.ultravioletRadiation,
     };

@@ -32,7 +32,12 @@ class WeatherService {
         .stream
         .throttle(period)
         .where((e) => Identity.of(e.device) == id)) {
-      yield _toWeatherNow(e.device);
+      final weather = _toWeatherNow(e.device);
+      _cache.set<Weather>(
+        'device:$id',
+        Optional.of(weather),
+      );
+      yield weather;
     }
   }
 
@@ -52,17 +57,6 @@ class WeatherService {
     return Weather(
       geometry: const PointGeometry(coords: []),
       props: WeatherProperties(
-        meta: WeatherMeta(
-          units: WeatherUnits(
-            airTemperature: TokenUnit.temperature.symbol,
-            windFromDirection: TokenUnit.windAngle.symbol,
-            windSpeed: TokenUnit.windSpeed.symbol,
-            windSpeedOfGust: TokenUnit.gustSpeed.symbol,
-            precipitationAmount: TokenUnit.rain.symbol,
-            relativeHumidity: TokenUnit.humidity.symbol,
-          ),
-          updatedAt: device.lastUpdated,
-        ),
         timeseries: [
           WeatherTimeStep(
             time: device.lastUpdated,
@@ -70,14 +64,30 @@ class WeatherService {
               instant: WeatherInstant(
                 details: WeatherInstantDetails(
                   windSpeed: device.windSpeed,
+                  lightLuminance: device.luminance,
+                  relativeHumidity: device.humidity,
                   windSpeedOfGust: device.gustSpeed,
                   airTemperature: device.temperature,
                   windFromDirection: device.windAngle,
+                  ultravioletRadiation: device.ultraviolet,
                 ),
               ),
             ),
           ),
         ],
+        meta: WeatherMeta(
+          units: WeatherUnits(
+            windSpeed: TokenUnit.windSpeed.symbol,
+            precipitationAmount: TokenUnit.rain.symbol,
+            lightLuminance: TokenUnit.luminance.symbol,
+            relativeHumidity: TokenUnit.humidity.symbol,
+            windSpeedOfGust: TokenUnit.gustSpeed.symbol,
+            airTemperature: TokenUnit.temperature.symbol,
+            windFromDirection: TokenUnit.windAngle.symbol,
+            ultravioletRadiation: TokenUnit.ultraviolet.symbol,
+          ),
+          updatedAt: device.lastUpdated,
+        ),
       ),
     );
   }
