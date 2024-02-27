@@ -60,7 +60,7 @@ class BarChartTile<T extends num> extends StatelessWidget {
 
     return SmartDashTile(
       title: title,
-      subTitle: subtitle,
+      subtitle: subtitle,
       constraints: constraints,
       leading: Icon(
         icon,

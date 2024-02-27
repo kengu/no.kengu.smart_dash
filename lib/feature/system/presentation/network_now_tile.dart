@@ -57,7 +57,7 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
           );
           return SmartDashTile(
             title: 'Network Now',
-            subTitle: network.isEnabled
+            subtitle: network.isEnabled
                 ? (lastUpdated.isPresent
                     ? 'Last updated ${format(lastUpdated.value)}'
                     : 'Last update unknown')

@@ -42,7 +42,7 @@ class _SwitchOnOffListTileListTileState
         final devices = _set(snapshot);
         return SmartDashTile(
           title: widget.title,
-          subTitle: widget.subtitle,
+          subtitle: widget.subtitle,
           constraints: BoxConstraints(
             minWidth: 270,
             minHeight: 180,

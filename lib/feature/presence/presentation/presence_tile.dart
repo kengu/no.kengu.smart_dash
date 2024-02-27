@@ -21,7 +21,7 @@ class PresenceTile extends ConsumerWidget {
               minHeight: 270,
             ),
             title: 'Presence Now',
-            subTitle: e?.state.token.label ?? '-',
+            subtitle: e?.state.token.label ?? '-',
             leading: const Icon(
               Icons.home_work,
               color: Colors.lightGreen,

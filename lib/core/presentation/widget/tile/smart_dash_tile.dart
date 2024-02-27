@@ -6,7 +6,7 @@ class SmartDashTile extends StatelessWidget {
     super.key,
     required this.body,
     required this.title,
-    required this.subTitle,
+    required this.subtitle,
     required this.leading,
     required this.trailing,
     required this.constraints,
@@ -15,7 +15,7 @@ class SmartDashTile extends StatelessWidget {
   final Widget body;
   final String title;
   final Widget leading;
-  final String subTitle;
+  final String subtitle;
   final Widget trailing;
 
   final BoxConstraints constraints;
@@ -43,7 +43,7 @@ class SmartDashTile extends StatelessWidget {
                   textScaler: const TextScaler.linear(0.9),
                 ),
                 subtitle: Text(
-                  subTitle,
+                  subtitle,
                   style: TextStyle(color: subTitleColor),
                   textScaler: const TextScaler.linear(0.85),
                 ),

@@ -57,7 +57,7 @@ class SparklineTile<T extends num> extends StatelessWidget {
       builder: (context, animation, child) {
         return SmartDashTile(
           title: title,
-          subTitle: subTitle,
+          subtitle: subTitle,
           constraints: const BoxConstraints(
             minWidth: 270,
             minHeight: 150,

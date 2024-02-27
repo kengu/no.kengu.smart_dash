@@ -28,7 +28,7 @@ class SnowNowListTile extends ConsumerWidget {
             snapshot.data!.isPresent ? snapshot.data!.value : <SnowState>[];
         return SmartDashTile(
           title: 'Snow Depths Now',
-          subTitle: 'Last updated '
+          subtitle: 'Last updated '
               '${SnowState.toLatestUpdate(states).format(prefixAgo: '')} ago',
           constraints: constraints.normalize(),
           leading: const Icon(

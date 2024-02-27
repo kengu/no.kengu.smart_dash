@@ -11,7 +11,6 @@ import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_rep
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/home/data/home_repository.dart';
-import 'package:smart_dash/feature/presence/application/presence_service.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';

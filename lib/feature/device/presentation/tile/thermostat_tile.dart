@@ -40,7 +40,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
         final device = _set(snapshot);
         return SmartDashTile(
           title: device.orElseNull?.name ?? 'Thermostat',
-          subTitle: widget.subTitle,
+          subtitle: widget.subTitle,
           constraints: const BoxConstraints(
             maxWidth: 330,
             minWidth: 330,

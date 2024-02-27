@@ -37,7 +37,7 @@ class SnowNowTile extends ConsumerWidget {
         final snow = state.orElseNull;
         return SmartDashTile(
           title: 'Snow Depth Now',
-          subTitle: '$location last updated '
+          subtitle: '$location last updated '
               '${state.isPresent ? state.value.lastUpdated.format(prefixAgo: '') : '-'} ago',
           constraints: constraints.normalize(),
           leading: const Icon(

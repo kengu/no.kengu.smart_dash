@@ -42,7 +42,7 @@ class _SystemNowTileState extends ConsumerState<SystemNowTile> {
               if (!snapshot.hasData) {
                 return const SmartDashTile(
                   title: 'System Now',
-                  subTitle: 'Loading...',
+                  subtitle: 'Loading...',
                   constraints: SystemNowTile.constraints,
                   leading: Icon(
                     Icons.computer_outlined,
@@ -67,7 +67,7 @@ class _SystemNowTileState extends ConsumerState<SystemNowTile> {
               final memIsLow = usage?.memIsLow == true;
               return SmartDashTile(
                 title: 'System Now',
-                subTitle: service.lastUpdated.isPresent
+                subtitle: service.lastUpdated.isPresent
                     ? 'Last updated ${format(service.lastUpdated.value)}'
                     : '',
                 constraints: SystemNowTile.constraints,
