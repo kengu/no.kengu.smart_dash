@@ -15,7 +15,7 @@ import 'device_service.dart';
 /// paired [Device]s. Methods prefixed with "on" are only meant to be
 /// overridden by subclassed and not part of any public api.
 abstract class DeviceDriver {
-  DeviceDriver(this.key, this.ref) : _lastUpdated = DriverUpdatedEvent.now(key);
+  DeviceDriver(this.key, this.ref) : _lastEvent = DevicesUpdatedEvent.now(key);
 
   @protected
   final Ref ref;
@@ -29,18 +29,21 @@ abstract class DeviceDriver {
   /// Completer tracking completion of [onInit]
   final Completer<void> _readyCompleter = Completer();
 
+  final StreamController<DriverDevicesEvent> _controller =
+      StreamController.broadcast();
+
   /// It updated after each [onUpdate] has completed
-  DriverUpdatedEvent _lastUpdated;
+  DriverDevicesEvent _lastEvent;
 
   /// Check when driver last updated devices.
-  DriverUpdatedEvent get lastUpdated => _lastUpdated;
-
-  /// Check if this driver is ready ([DeviceDriver.onInit] has been run).
-  bool get isReady => _readyCompleter.isCompleted;
+  DriverDevicesEvent get lastEvent => _lastEvent;
 
   /// Check if this driver is initializing
   /// ([DeviceDriver.onInit] is invoked but not completed yet).
   bool get isInitializing => _initializing;
+
+  /// Check if this driver is ready ([DeviceDriver.onInit] has been run).
+  bool get isReady => _readyCompleter.isCompleted;
 
   /// Returns a Future which is completed when this
   /// [DeviceDriver] is ready ([DeviceDriver.onInit] has been run).
@@ -52,7 +55,7 @@ abstract class DeviceDriver {
   /// complete, subclass MUST call [Completer.complete].
   @protected
   @mustCallSuper
-  Future<void> onInit(Completer<void> completer) async {
+  Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
     assert(!isReady, 'Driver already initialized');
     _initializing = true;
     await completer.future;
@@ -61,6 +64,7 @@ abstract class DeviceDriver {
     ));
     _initializing = false;
     _readyCompleter.complete();
+    return _controller.stream;
   }
 
   /// Called after [onInit]. Override to implement supported flows
@@ -79,13 +83,16 @@ abstract class DeviceDriver {
   /// The driver is responsible to determine which devices that
   /// should be updated.
   @protected
-  Future<DriverUpdatedEvent> onUpdate() async {
-    return _lastUpdated;
+  Future<DriverDevicesEvent> onUpdate() async {
+    return _lastEvent;
   }
 
   /// This method is called when the driver is destroyed.
   @protected
-  Future<void> onUnInit() async {}
+  @mustCallSuper
+  Future<void> onUnInit() async {
+    await _controller.close();
+  }
 
   /// Get list of all known [Device] definitions
   Future<List<DeviceDefinition>> getDeviceDefinitions();
@@ -105,6 +112,10 @@ abstract class DeviceDriver {
     final repo = ref.read(deviceRepositoryProvider);
     final unique = await repo.updateAll(supported);
     await onPaired(unique);
+    _controller.add(DevicesPairedEvent.now(
+      key,
+      unique,
+    ));
     return unique;
   }
 
@@ -115,6 +126,10 @@ abstract class DeviceDriver {
     final repo = ref.read(deviceRepositoryProvider);
     final unique = await repo.removeAll(supported);
     await onUnPaired(unique);
+    _controller.add(DevicesUnpairedEvent.now(
+      key,
+      unique,
+    ));
     return unique;
   }
 
@@ -129,6 +144,7 @@ abstract class DeviceDriver {
 
   /// Get list of all new [Device]s (available but not paired)
   Future<List<Device>> getNewDevices([DeviceType type = DeviceType.any]) async {
+    // TODO: Cache response
     final available = await getAllDevices(type: type);
     final devices = await ref.read(deviceRepositoryProvider).where(
           (e) => e.service == key && (type.isAny || e.type == type),
@@ -143,22 +159,15 @@ abstract class DeviceDriver {
   Future<bool> updateDevice(Device device) => Future.value(false);
 }
 
-class DriverEvent {
+abstract class DriverEvent {
   final String key;
   final DateTime last;
   final DateTime when;
   DriverEvent(this.key, this.last, this.when);
 }
 
-/// This class stores facts about each
-/// [DeviceDriver.onUpdate] outcome. You can use
-/// [DriverUpdatedEvent.last] (updated) and
-/// [DriverUpdatedEvent.when] (this event was emitted)
-/// to reason about the device state freshness. The duration
-/// since last update and when this event was emitted is calculated
-/// by the convenience getter [DriverUpdatedEvent.duration]
-class DriverUpdatedEvent extends DriverEvent {
-  DriverUpdatedEvent(
+abstract class DriverDevicesEvent extends DriverEvent {
+  DriverDevicesEvent(
     super.key,
     super.when,
     super.last,
@@ -173,27 +182,90 @@ class DriverUpdatedEvent extends DriverEvent {
   Optional<Device> get first =>
       devices.isEmpty ? const Optional.empty() : Optional.of(devices.first);
 
-  factory DriverUpdatedEvent.now(String key,
-      [List<Device> devices = const []]) {
-    final when = DateTime.now();
-    return DriverUpdatedEvent(key, when, when, devices);
-  }
-
-  factory DriverUpdatedEvent.from(DriverUpdatedEvent event) {
-    return DriverUpdatedEvent(
-        event.key, event.when, DateTime.now(), event.devices);
-  }
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DriverUpdatedEvent &&
+      other is DriverDevicesEvent &&
           runtimeType == other.runtimeType &&
           when == other.when &&
           devices == other.devices;
 
   @override
   int get hashCode => when.hashCode ^ devices.hashCode;
+}
+
+/// This class stores facts about each
+/// [DeviceDriver.onPaired] outcome. You can use
+/// [DriverEvent.last] (updated) and
+/// [DriverEvent.when] (this event was emitted)
+/// to reason about the device state freshness. The duration
+/// since last update and when this event was emitted is calculated
+/// by the convenience getter [DriverDevicesEvent.duration]
+class DevicesPairedEvent extends DriverDevicesEvent {
+  DevicesPairedEvent(
+    super.key,
+    super.when,
+    super.last,
+    super.devices,
+  );
+
+  factory DevicesPairedEvent.now(String key,
+      [List<Device> devices = const []]) {
+    final when = DateTime.now();
+    return DevicesPairedEvent(key, when, when, devices);
+  }
+}
+
+/// This class stores facts about each
+/// [DeviceDriver.onUpdate] outcome. You can use
+/// [DriverEvent.last] (updated) and
+/// [DriverEvent.when] (this event was emitted)
+/// to reason about the device state freshness. The duration
+/// since last update and when this event was emitted is calculated
+/// by the convenience getter [DriverDevicesEvent.duration]
+class DevicesUpdatedEvent extends DriverDevicesEvent {
+  DevicesUpdatedEvent(
+    super.key,
+    super.when,
+    super.last,
+    super.devices,
+  );
+  factory DevicesUpdatedEvent.now(String key,
+      [List<Device> devices = const []]) {
+    final when = DateTime.now();
+    return DevicesUpdatedEvent(key, when, when, devices);
+  }
+
+  factory DevicesUpdatedEvent.from(DevicesUpdatedEvent event) {
+    return DevicesUpdatedEvent(
+      event.key,
+      event.when,
+      DateTime.now(),
+      event.devices,
+    );
+  }
+}
+
+/// This class stores facts about each
+/// [DeviceDriver.onUnPaired] outcome. You can use
+/// [DriverEvent.last] (updated) and
+/// [DriverEvent.when] (this event was emitted)
+/// to reason about the device state freshness. The duration
+/// since last update and when this event was emitted is calculated
+/// by the convenience getter [DriverDevicesEvent.duration]
+class DevicesUnpairedEvent extends DriverDevicesEvent {
+  DevicesUnpairedEvent(
+    super.key,
+    super.when,
+    super.last,
+    super.devices,
+  );
+
+  factory DevicesUnpairedEvent.now(String key,
+      [List<Device> devices = const []]) {
+    final when = DateTime.now();
+    return DevicesUnpairedEvent(key, when, when, devices);
+  }
 }
 
 /// This class adds throttled updates to [DeviceDriver].
@@ -218,7 +290,7 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
 
   late StreamController<DateTime> _updateController;
   late StreamSubscription<DateTime> _updateSubscription;
-  Completer<DriverUpdatedEvent> _updateCompleter = Completer();
+  Completer<DriverDevicesEvent> _updateCompleter = Completer();
 
   /// This method is called when the driver is initiated.
   /// Overriding subclasses MUST class this method before
@@ -227,23 +299,24 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
   @override
   @protected
   @mustCallSuper
-  Future<void> onInit(Completer<void> completer) async {
-    super.onInit(completer);
+  Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
+    final stream = super.onInit(completer);
     _updateController = StreamController.broadcast();
     _updateSubscription = _updateController.stream
         .throttle(throttle, trailing: trailing)
         .listen(_tryThrottledUpdate);
     completer.complete();
+    return stream;
   }
 
   void _tryThrottledUpdate(DateTime event) async {
     onThrottledUpdate(event).then((devices) {
       if (!_updateCompleter.isCompleted) {
-        _lastUpdated = ThrottledDriverUpdatedEvent.now(
-          _lastUpdated,
+        _lastEvent = ThrottledDriverUpdatedEvent.now(
+          _lastEvent,
           devices,
         );
-        _updateCompleter.complete(_lastUpdated);
+        _updateCompleter.complete(_lastEvent);
       }
     });
   }
@@ -253,11 +326,11 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
   /// should be updated. Overriding subclasses MUST call this method.
   @override
   @mustCallSuper
-  Future<DriverUpdatedEvent> onUpdate() async {
+  Future<DriverDevicesEvent> onUpdate() async {
     _updateController.add(DateTime.now());
     if (_shouldThrottle()) {
-      return _lastUpdated = ThrottledDriverUpdatedEvent.throttled(
-        _lastUpdated,
+      return _lastEvent = ThrottledDriverUpdatedEvent.throttled(
+        _lastEvent,
       );
     }
     _updateCompleter = Completer();
@@ -265,8 +338,8 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
   }
 
   bool _shouldThrottle() =>
-      _lastUpdated is ThrottledDriverUpdatedEvent &&
-          (_lastUpdated as ThrottledDriverUpdatedEvent).wasThrottled ||
+      _lastEvent is ThrottledDriverUpdatedEvent &&
+          (_lastEvent as ThrottledDriverUpdatedEvent).wasThrottled ||
       !_updateCompleter.isCompleted;
 
   /// This method is called in accordance with [throttle] and [trailing].
@@ -279,8 +352,9 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
   @protected
   @mustCallSuper
   Future<void> onUnInit() async {
-    _updateController.close();
-    return _updateSubscription.cancel();
+    await _updateController.close();
+    await _updateSubscription.cancel();
+    return super.onUnInit();
   }
 }
 
@@ -293,8 +367,8 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
 /// [ThrottledDriverUpdatedEvent.when] (this event was emitted)
 /// to reason about the device state freshness. The duration
 /// since last update and when this event was emitted is calculated
-/// by the convenience getter [DriverUpdatedEvent.duration]
-class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
+/// by the convenience getter [DevicesUpdatedEvent.duration]
+class ThrottledDriverUpdatedEvent extends DevicesUpdatedEvent {
   ThrottledDriverUpdatedEvent(
     super.key,
     super.last,
@@ -304,7 +378,7 @@ class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
   );
   final bool wasThrottled;
 
-  factory ThrottledDriverUpdatedEvent.now(DriverUpdatedEvent last,
+  factory ThrottledDriverUpdatedEvent.now(DriverDevicesEvent last,
       [List<Device> devices = const []]) {
     return ThrottledDriverUpdatedEvent(
       last.key,
@@ -315,7 +389,7 @@ class ThrottledDriverUpdatedEvent extends DriverUpdatedEvent {
     );
   }
 
-  factory ThrottledDriverUpdatedEvent.throttled(DriverUpdatedEvent event) {
+  factory ThrottledDriverUpdatedEvent.throttled(DriverDevicesEvent event) {
     // Keep time of first throttled event
     final last = event is ThrottledDriverUpdatedEvent && event.wasThrottled
         ? event.last

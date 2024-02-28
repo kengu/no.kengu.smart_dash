@@ -36,7 +36,7 @@ class SikomDriver extends ThrottledDeviceDriver {
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
     debugPrint(
       'Sikom throttled updates for '
-      '${event.difference(lastUpdated.last).inSeconds} sec.',
+      '${event.difference(lastEvent.last).inSeconds} sec.',
     );
     final paired = await getPairedDevices();
 

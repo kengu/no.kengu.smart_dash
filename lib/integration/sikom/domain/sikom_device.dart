@@ -56,15 +56,20 @@ enum SikomDeviceType {
     );
   }
 
-  static fromNativeType(String name) => switch (name) {
-        'Controller' => SikomDeviceType.controller,
-        'AstroSwitch' => SikomDeviceType.astroSwitch,
-        'Thermostat' => SikomDeviceType.thermostat,
-        'Detector' => SikomDeviceType.detector,
-        'ECOAMS' => SikomDeviceType.ecoEnergyController,
-        'OnOffRelay' => SikomDeviceType.onOffRelay,
-        'Group' => SikomDeviceType.group,
-        'Program' => SikomDeviceType.program,
+  static fromNativeType(String name) => switch (name.toLowerCase()) {
+        'group' => SikomDeviceType.group,
+        'egr' => SikomDeviceType.onOffRelay,
+        'program' => SikomDeviceType.program,
+        'detector' => SikomDeviceType.detector,
+        'easeehome' => SikomDeviceType.onOffRelay,
+        'thermostat' => SikomDeviceType.thermostat,
+        'onoffrelay' => SikomDeviceType.onOffRelay,
+        'controller' => SikomDeviceType.controller,
+        'astroswitch' => SikomDeviceType.astroSwitch,
+        'wirelessdetector' => SikomDeviceType.detector,
+        'ecoastroswitch' => SikomDeviceType.astroSwitch,
+        'ecoams' => SikomDeviceType.ecoEnergyController,
+        'wirelessthermostat' => SikomDeviceType.thermostat,
         _ => SikomDeviceType.unknown
       };
 

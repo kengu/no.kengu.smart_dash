@@ -62,7 +62,7 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
         final details = _selected == -1
             ? weather
             : snapshot.data?.select(now.add(
-                Duration(hours: _selected),
+                Duration(hours: hours[_selected]),
               ));
         if (details == null) {
           return _buildTile(

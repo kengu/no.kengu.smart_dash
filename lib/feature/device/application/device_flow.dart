@@ -7,7 +7,7 @@ class DeviceFlow extends Flow {
 
   @override
   Stream<FlowEvent> evaluate(Object event) async* {
-    if (event is DriverUpdatedEvent) {
+    if (event is DevicesUpdatedEvent) {
       for (final device in event.devices) {
         for (final token in device.toTokens()) {
           switch (token.unit) {
@@ -107,7 +107,7 @@ class DeviceFlow extends Flow {
 
   @override
   bool when(Object event) =>
-      event is DriverUpdatedEvent &&
+      event is DevicesUpdatedEvent &&
       event.devices.any(
         (d) => d.capabilities.isNotEmpty,
       );

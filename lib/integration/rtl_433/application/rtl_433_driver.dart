@@ -34,7 +34,7 @@ class Rtl433Driver extends ThrottledDeviceDriver {
   String get key => Rtl433.key;
 
   @override
-  Future<void> onInit(Completer<void> completer) async {
+  Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
     return guard(
       () async {
         _subscriptions.add(ref.read(mqttServiceProvider).updates.listen((e) {
@@ -63,7 +63,7 @@ class Rtl433Driver extends ThrottledDeviceDriver {
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
     debugPrint(
       'Rtl433 throttled updates for '
-      '${event.difference(lastUpdated.last).inSeconds} sec.',
+      '${event.difference(lastEvent.last).inSeconds} sec.',
     );
     final paired = await getPairedDevices();
 

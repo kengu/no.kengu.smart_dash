@@ -15,40 +15,57 @@ part 'device_service.g.dart';
 class DeviceService {
   DeviceService(this.ref) {
     ref.onDispose(() {
-      _controller.close();
-      _subscription.cancel();
+      _deviceController.close();
+      for (final e in _subscriptions) {
+        e.cancel();
+      }
     });
-    _subscription = ref.read(deviceDriverManagerProvider).updated.listen(
-          _handle,
-          cancelOnError: false,
-        );
+    final manager = ref.read(deviceDriverManagerProvider);
+    _subscriptions.add(
+      manager.events.listen(_handle, cancelOnError: false),
+    );
   }
 
   final Ref ref;
 
   final _cache = FutureCache(prefix: '$DeviceService');
 
-  final _controller = StreamController<DeviceEvent>.broadcast();
-
-  late final StreamSubscription<DriverUpdatedEvent> _subscription;
+  final List<StreamSubscription> _subscriptions = [];
 
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
 
-  void _handle(DriverUpdatedEvent e) async {
-    final stream = Stream.fromIterable(e.devices);
-    // NOTE: We should not add events too fast to stream for
-    // overall performance reasons. And StreamProviders only
-    // sees last event when events are added more frequently
-    // than 60 fps (less than 17 milliseconds between each event).
-    await for (final device in stream.delayed(delay)) {
-      // Process list of flow events in order of completion
-      _controller.add(DeviceUpdated(device));
+  final _deviceController = StreamController<DeviceEvent>.broadcast();
+
+  final _driverController = StreamController<DriverEvent>.broadcast();
+
+  void _handle(DriverEvent event) async {
+    if (event is DriverDevicesEvent) {
+      final stream = Stream.fromIterable(event.devices);
+      // NOTE: We should not add events too fast to stream for
+      // overall performance reasons. And StreamProviders only
+      // sees last event when events are added more frequently
+      // than 60 fps (less than 17 milliseconds between each event).
+      await for (final device in stream.delayed(delay)) {
+        // Process list of flow events in order of completion
+        final emit = switch (event.runtimeType) {
+          const (DevicesPairedEvent) => DevicePaired(device),
+          const (DevicesUpdatedEvent) => DeviceUpdated(device),
+          const (DevicesUnpairedEvent) => DeviceUnpaired(device),
+          const (ThrottledDriverUpdatedEvent) => DeviceUpdated(device),
+          Type() => throw UnimplementedError('Event $event not handled'),
+        };
+        _deviceController.add(emit);
+      }
+      _driverController.add(event);
     }
   }
 
   /// Get stream of device events
-  Stream<DeviceEvent> get stream => _controller.stream.distinct();
+  Stream<DeviceEvent> get devices => _deviceController.stream.distinct();
+
+  /// Get stream of device events
+  Stream<DriverEvent> get drivers => _driverController.stream.distinct();
 
   /// Get [Device] with given [id] stored locally
   Future<Optional<Device>> get(Identity id,
@@ -58,7 +75,7 @@ class DeviceService {
       () => ref.read(deviceRepositoryProvider).get(id),
       onResult: (data) {
         if (data.isPresent) {
-          _controller.add(
+          _deviceController.add(
             DeviceUpdated(data.value),
           );
         }
@@ -80,7 +97,7 @@ class DeviceService {
             ref.read(deviceDriverManagerProvider).getDriver(device.service);
         final success = await service.updateDevice(device);
         if (success) {
-          _controller.add(
+          _deviceController.add(
             DeviceUpdatePending(device),
           );
           await ref.read(deviceRepositoryProvider).updateAll([device]);
@@ -91,7 +108,7 @@ class DeviceService {
               ..removeWhere((e) => e.id == device.id)
               ..add(device),
           );
-          _controller.add(
+          _deviceController.add(
             DeviceUpdateCompleted(device),
           );
           return _cache.set(
@@ -116,7 +133,7 @@ class DeviceService {
       'all',
       () => ref.read(deviceRepositoryProvider).getAll(),
       onResult: (devices) {
-        _controller.addStream(Stream.fromIterable(devices.map(
+        _deviceController.addStream(Stream.fromIterable(devices.map(
           DeviceUpdated.new,
         )));
       },
@@ -166,6 +183,10 @@ abstract class DeviceEvent {
       Identity.of(device) == Identity.of(this.device);
 }
 
+class DevicePaired extends DeviceEvent {
+  DevicePaired(super.device);
+}
+
 class DeviceUpdated extends DeviceEvent {
   DeviceUpdated(super.device);
 }
@@ -176,4 +197,8 @@ class DeviceUpdatePending extends DeviceEvent {
 
 class DeviceUpdateCompleted extends DeviceEvent {
   DeviceUpdateCompleted(super.device);
+}
+
+class DeviceUnpaired extends DeviceEvent {
+  DeviceUnpaired(super.device);
 }

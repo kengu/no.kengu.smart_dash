@@ -7,6 +7,7 @@ import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 import 'device_driver.dart';
 
@@ -17,13 +18,27 @@ class DeviceDriverManager {
 
   final Ref ref;
   final Map<String, DeviceDriver> _drivers = {};
-  final StreamController<DriverUpdatedEvent> _updatedController =
+  final Map<String, StreamSubscription> _subscriptions = {};
+
+  final StreamController<DriverEvent> _controller =
       StreamController.broadcast();
 
   StreamSubscription<DateTime>? _timing;
 
-  /// Get stream of [DriverUpdatedEvent]s.
-  Stream<DriverUpdatedEvent> get updated => _updatedController.stream;
+  /// Get stream of [DevicesPairedEvent]s.
+  Stream<DriverEvent> get events => _controller.stream;
+
+  /// Get stream of [DevicesPairedEvent]s.
+  Stream<DevicesPairedEvent> get paired =>
+      _controller.stream.whereType<DevicesPairedEvent>();
+
+  /// Get stream of [DevicesUpdatedEvent]s.
+  Stream<DevicesUpdatedEvent> get updated =>
+      _controller.stream.whereType<DevicesUpdatedEvent>();
+
+  /// Get stream of [DevicesUnpairedEvent]s.
+  Stream<DevicesUnpairedEvent> get unpaired =>
+      _controller.stream.whereType<DevicesUnpairedEvent>();
 
   /// Check if [DeviceDriver] for given [definition] exists
   bool exists(String key) => _drivers.containsKey(key);
@@ -48,8 +63,14 @@ class DeviceDriverManager {
 
     await Future.wait(_ready(false).map(
       // ignore: invalid_use_of_protected_member
-      (e) => e.onInit(Completer()),
+      (e) => _onInit(e),
     ));
+  }
+
+  Future<void> _onInit(DeviceDriver driver) async {
+    // ignore: invalid_use_of_protected_member
+    final stream = await driver.onInit(Completer());
+    _subscriptions[driver.key] = stream.listen(_controller.add);
   }
 
   /// Start pumping update events to registered
@@ -79,6 +100,13 @@ class DeviceDriverManager {
     _timing = null;
   }
 
+  Future<void> dispose() async {
+    await _controller.close();
+    for (var e in _subscriptions.values) {
+      e.cancel();
+    }
+  }
+
   /// Get [DeviceDriver] for given [IntegrationFields.key]
   DeviceDriver getDriver(String key) {
     assert(
@@ -96,10 +124,10 @@ class DeviceDriverManager {
         final event = await driver.onUpdate();
         if (_shouldProcess(event)) {
           debugPrint(
-            'DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
+            '$DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
             'after ${event.duration.inSeconds} sec.',
           );
-          _updatedController.add(event);
+          _controller.add(event);
           // Update devices
           await ref.read(deviceRepositoryProvider).updateAll(event.devices);
         }
@@ -109,7 +137,7 @@ class DeviceDriverManager {
     );
   }
 
-  bool _shouldProcess(DriverUpdatedEvent event) =>
+  bool _shouldProcess(DriverDevicesEvent event) =>
       event is! ThrottledDriverUpdatedEvent || !event.wasThrottled;
 
   Iterable<DeviceDriver> _ready(bool isReady) =>
@@ -121,5 +149,5 @@ DeviceDriverManager deviceDriverManager(DeviceDriverManagerRef ref) =>
     DeviceDriverManager(ref);
 
 @riverpod
-Stream<DriverUpdatedEvent> driverUpdated(DriverUpdatedRef ref) =>
+Stream<DevicesUpdatedEvent> driverUpdated(DriverUpdatedRef ref) =>
     ref.watch(deviceDriverManagerProvider).updated;

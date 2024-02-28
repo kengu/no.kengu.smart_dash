@@ -29,7 +29,7 @@ class WeatherService {
       [Duration period = const Duration(seconds: 10)]) async* {
     await for (final e in ref
         .read(deviceServiceProvider)
-        .stream
+        .devices
         .throttle(period)
         .where((e) => Identity.of(e.device) == id)) {
       final weather = _toWeatherNow(e.device);

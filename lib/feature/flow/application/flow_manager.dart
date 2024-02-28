@@ -24,7 +24,7 @@ class FlowManager {
   final Duration delay = const Duration(milliseconds: 50);
   final StreamController<FlowEvent> _controller = StreamController.broadcast();
 
-  StreamSubscription<DriverUpdatedEvent>? _updates;
+  StreamSubscription<DevicesUpdatedEvent>? _updates;
 
   /// Get stream of [FlowEvent]s.
   Stream<FlowEvent> get events => _controller.stream;
@@ -61,7 +61,7 @@ class FlowManager {
     _updates = null;
   }
 
-  Future<void> _onTrigger(DriverUpdatedEvent event) {
+  Future<void> _onTrigger(DevicesUpdatedEvent event) {
     return guard<void>(
       () async {
         for (final evaluate in _flows.values.where(

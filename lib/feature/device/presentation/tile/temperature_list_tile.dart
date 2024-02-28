@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/widget/tile/barchart_tile.dart';
+import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/data/units.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 class TemperatureListTile extends ConsumerStatefulWidget {
   const TemperatureListTile({
@@ -27,14 +29,12 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
   @override
   Widget build(BuildContext context) {
     final service = ref.read(deviceServiceProvider);
-    return FutureBuilder<List<Device>>(
-      future: service.where((e) => e.hasTemperature),
-      initialData: service.whereCached((e) => e.hasTemperature).orElseNull,
+    return StreamBuilder<DriverDevicesEvent>(
+      stream: service.drivers
+          .whereType<DriverDevicesEvent>()
+          .where((e) => e.devices.any((e) => e.hasTemperature)),
       builder: (context, snapshot) {
-        final devices =
-            (snapshot.data?.isNotEmpty == true ? snapshot.data! : <Device>[]);
-        devices
-            .sort((a, b) => a.temperature?.compareTo(b.temperature ?? 0) ?? 0);
+        final devices = _set(snapshot);
         final values = devices.map((e) => (e.temperature ?? 0)).toList();
         return BarChartTile<double>(
           title: widget.title,
@@ -56,5 +56,16 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
         );
       },
     );
+  }
+
+  List<Device> _set(AsyncSnapshot<DriverDevicesEvent> snapshot) {
+    final result =
+        ref.read(deviceServiceProvider).whereCached((e) => e.hasTemperature);
+    if (result.isPresent) {
+      final devices = result.value;
+      devices.sort((a, b) => a.temperature?.compareTo(b.temperature ?? 0) ?? 0);
+      return devices;
+    }
+    return [];
   }
 }
