@@ -28,6 +28,7 @@ class TemperatureListTile extends ConsumerStatefulWidget {
 class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
   @override
   Widget build(BuildContext context) {
+    //return Placeholder();
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
       stream: service.drivers

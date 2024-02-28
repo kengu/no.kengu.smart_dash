@@ -64,14 +64,9 @@ class PresenceRepository {
   /// repository. Returns list of actual removed presences.
   Future<List<Presence>> removeAll(Iterable<Presence> presences) async {
     final current = await _load();
-    final unique = presences.toSet();
     final currentIds = current.map((e) => e.id);
-    final removedIds =
-        unique.where((e) => currentIds.contains(e.id)).map((e) => e.id);
-    current.removeWhere(
-      (e) => removedIds.contains(e.id),
-    );
-    final success = await _removeAll(current);
+    final unique = presences..toSet().where((e) => currentIds.contains(e.id));
+    final success = await _removeAll(unique);
     return [if (success) ...unique];
   }
 
@@ -105,7 +100,7 @@ class PresenceRepository {
         name: '$PresenceRepository',
       );
 
-  Future<bool> _removeAll(List<Presence> presences) => guard(
+  Future<bool> _removeAll(Iterable<Presence> presences) => guard(
         () async {
           final box = await _open<Presence>('registered');
           final ids = presences.map((e) => e.id).toList();

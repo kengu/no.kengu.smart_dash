@@ -43,7 +43,7 @@ class BarChartTile<T extends num> extends StatelessWidget {
     // HACK: Chart does not handle values below 1 well
     final min = items.min();
     final valuePadding =
-        (items.max() < 1.0 ? 1.0 : 1.5) + min < 0 ? min.abs() : 0;
+        (items.max() < 1.0 ? 1.0 : 1.5) + (min < 0 ? min.abs() : 0);
 
     final foregroundColor = Colors.lightGreen.withOpacity(0.6);
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;

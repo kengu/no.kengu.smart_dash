@@ -113,7 +113,7 @@ class AsyncNotifierDelegate<Data, Query> {
   /// {@endtemplate}
   FutureOr<Optional<Data>> build(
     Future<Optional<Data>> Function() load, {
-    Duration timeout = const Duration(milliseconds: 10000),
+    Duration timeout = const Duration(milliseconds: 100),
   }) async {
     final state = _queryCompleter.isCompleted
         ? await AsyncValue.guard(load)

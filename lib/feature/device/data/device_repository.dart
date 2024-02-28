@@ -58,15 +58,10 @@ class DeviceRepository {
   /// repository. Returns list of actual removed devices.
   Future<List<Device>> removeAll(Iterable<Device> devices) async {
     final current = await _load();
-    final unique = devices.toSet();
-    final currentIds = current.map(Identity.of);
-    final removedIds = unique
-        .where((e) => currentIds.contains(Identity.of(e)))
-        .map(Identity.of);
-    current.removeWhere(
-      (e) => removedIds.contains(Identity.of(e)),
-    );
-    final success = await _removeAll(current);
+    final currentIds = current.map(Identity.of).toList();
+    final unique = devices
+      ..toSet().where((e) => currentIds.contains(Identity.of(e)));
+    final success = await _removeAll(unique);
     return [if (success) ...unique];
   }
 
@@ -90,7 +85,7 @@ class DeviceRepository {
         name: '$DeviceRepository',
       );
 
-  Future<bool> _removeAll(List<Device> devices) => guard(
+  Future<bool> _removeAll(Iterable<Device> devices) => guard(
         () async {
           final box = await _open<Device>('paired');
           final ids = devices.map(Identity.of).map((e) => e.id).toList();
