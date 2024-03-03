@@ -30,11 +30,12 @@ class SettingFormScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncFormScreen<SettingsQuery, SettingMap>(
+    return AsyncFormScreen<SettingsQuery, SettingMap,
+        SettingsFormScreenController>(
       title: 'Edit settings',
-      query: SettingsQuery(),
+      query: const SettingsQuery(),
       autoSubmit: true,
-      provider: settingsFormScreenControllerProvider,
+      provider: settingsFormScreenControllerProvider.call,
       onClose: () => context.go(location),
       onSubmitted: (settings) => NoticeController.showSnackBarByRef(
         context,

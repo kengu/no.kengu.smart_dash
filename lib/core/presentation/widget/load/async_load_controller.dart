@@ -1,53 +1,48 @@
-import 'dart:async';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// Type definition of [AsyncValue] load notifier provider
-typedef AsyncLoadControllerProvider<Query, Data>
-    = AutoDisposeAsyncNotifierProvider<AsyncLoadController<Query, Data>,
-        Optional<Data>>;
+/*
 
-/// [AsyncLoadController] interface (mixin). The method [build] MUST be
-/// overridden by class using mixin. If not, riverpod_generator will throw
-/// and error (mixins are not evaluated by it, only classes I guess).
-mixin AsyncLoadController<Query, Data>
-    on AutoDisposeAsyncNotifier<Optional<Data>> {
-  final _delegate = AsyncNotifierDelegate<Data, Query>();
 
-  /// Load [Data] from storage
-  @visibleForOverriding
-  Future<Optional<Data>> load();
+The argument type 'AccountFormScreenControllerProvider Function(AccountQuery)'
+ can't be assigned to the parameter type
+ 'AutoDisposeAsyncNotifierProviderImpl<AutoDisposeAsyncNotifier<dynamic>, dynamic> Function(AccountQuery)'.
 
-  /// Get latest value.
-  /// Not available until first [build]
-  Optional<Data> get latest => _delegate.latest;
+AutoDisposeAsyncNotifierProviderImpl<AccountFormScreenController,
+    Optional<Account>>
 
-  @visibleForOverriding
-  set latest(Optional<Data> data) => _delegate.latest = data;
 
-  /// Get [query] currently in use.
-  Query? get query => _delegate.query;
+ */
 
-  /// Select data using given [query]
-  bool select(Query query) => _delegate.select(query);
+/// Type definition of [AsyncValue] load notifier
+typedef AsyncLoadControllerProvider<Data>
+// TODO: Try to find another way to do this with riverpod
+// ignore: invalid_use_of_internal_member
+    = BuildlessAutoDisposeAsyncNotifier<Optional<Data>>;
 
-  /// {@macro select_query_before_build}
-  ///
-  /// This method MUST be overridden by class using this mixin. If not,
-  /// riverpod_generator will output
-  /// ```text
-  /// No "build" method found. Classes annotated with @riverpod must define a method named "build".
-  /// ```
-  @override
-  @mustCallSuper
-  FutureOr<Optional<Data>> build() async {
-    await _delegate.build(load);
-    return _delegate.latest;
+/// Type definition of [AsyncValue] load notifier builder
+typedef AsyncLoadControllerProviderBuilder<Query, Data,
+        Controller extends AsyncLoadControllerProvider<Data>>
+    // TODO: Try to find another way to do this with riverpod
+    // ignore: invalid_use_of_internal_member
+    = AutoDisposeAsyncNotifierProviderImpl<Controller, Optional<Data>> Function(
+        Query query);
+
+/// [AsyncLoadController] interface (mixin).
+mixin AsyncLoadController<Query, Data> {
+  late final Query query;
+
+  AsyncValue<Optional<Data>> get state;
+  set state(AsyncValue<Optional<Data>> newState);
+
+  FutureOr<Optional<Data>> build(Query query) {
+    return load(query);
   }
+
+  FutureOr<Optional<Data>> load(Query query);
 }
 
+/*
 /// Delegate class for implementing [AsyncNotifier]
 class AsyncNotifierDelegate<Data, Query> {
   Query? _query;
@@ -112,14 +107,15 @@ class AsyncNotifierDelegate<Data, Query> {
   /// not called within given [timeout] (default is 100ms).
   /// {@endtemplate}
   FutureOr<Optional<Data>> build(
-    Future<Optional<Data>> Function() load, {
+    Query query,
+    Future<Optional<Data>> Function(Query query) load, {
     Duration timeout = const Duration(milliseconds: 100),
   }) async {
     final state = _queryCompleter.isCompleted
-        ? await AsyncValue.guard(load)
+        ? await AsyncValue.guard(() => load(query))
         : await _queryCompleter.future.then(
             (_) {
-              return AsyncValue.guard(load);
+              return AsyncValue.guard(() => load(query));
             },
           ).timeout(timeout);
     if (state.hasValue) {
@@ -130,3 +126,4 @@ class AsyncNotifierDelegate<Data, Query> {
     );
   }
 }
+ */

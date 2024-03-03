@@ -20,11 +20,12 @@ class DeviceTypesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<DeviceTypesQuery, List<DeviceDefinition>>(
+    return AsyncLoadScreen<DeviceTypesQuery, List<DeviceDefinition>,
+        DeviceTypesScreenController>(
       title: 'Device types',
       onClose: () => context.go(location),
       query: DeviceTypesQuery(serviceKey),
-      provider: deviceTypesScreenControllerProvider,
+      provider: deviceTypesScreenControllerProvider.call,
       builder: (context, ref, data, child) {
         return Column(
           children: [

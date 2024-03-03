@@ -19,11 +19,12 @@ class PairedDeviceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<PairedDeviceQuery, List<Device>>(
+    return AsyncLoadScreen<PairedDeviceQuery, List<Device>,
+        PairedDeviceScreenController>(
       title: 'Paired devices',
       onClose: () => context.go(location),
       query: PairedDeviceQuery(),
-      provider: pairedDeviceScreenControllerProvider,
+      provider: pairedDeviceScreenControllerProvider.call,
       builder: (context, ref, data, child) {
         return Column(
           children: [

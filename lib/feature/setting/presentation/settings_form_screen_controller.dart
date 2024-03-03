@@ -8,19 +8,18 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_controller.d
 
 part 'settings_form_screen_controller.g.dart';
 
-class SettingsQuery {}
+class SettingsQuery {
+  const SettingsQuery();
+}
 
 @riverpod
 class SettingsFormScreenController extends _$SettingsFormScreenController
     with
         AsyncLoadController<SettingsQuery, SettingMap>,
         AsyncFormController<SettingsQuery, SettingMap> {
-  SettingsFormScreenController() {
-    select(SettingsQuery());
-  }
-
   @override
-  FutureOr<Optional<SettingMap>> build() => super.build();
+  FutureOr<Optional<SettingMap>> build(SettingsQuery query) =>
+      super.build(query);
 
   @override
   FormGroup buildForm(Optional<SettingMap> data) {
@@ -44,7 +43,7 @@ class SettingsFormScreenController extends _$SettingsFormScreenController
   }
 
   @override
-  Future<Optional<SettingMap>> load() =>
+  Future<Optional<SettingMap>> load(SettingsQuery query) =>
       ref.read(settingRepositoryProvider.notifier).load();
 
   @override

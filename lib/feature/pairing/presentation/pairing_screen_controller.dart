@@ -12,10 +12,11 @@ class PairingQuery {}
 class PairingScreenController extends _$PairingScreenController
     with AsyncLoadController<PairingQuery, IntegrationMap> {
   @override
-  FutureOr<Optional<IntegrationMap>> build() => super.build();
+  FutureOr<Optional<IntegrationMap>> build(PairingQuery query) =>
+      super.build(query);
 
   @override
-  Future<Optional<IntegrationMap>> load() async {
+  Future<Optional<IntegrationMap>> load(PairingQuery query) async {
     final services = await ref.read(
       integrationRepositoryProvider.future,
     );

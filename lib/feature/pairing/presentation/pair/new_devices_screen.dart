@@ -32,7 +32,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
 
   bool _isLoading = true;
 
-  void _init(Optional<List<Device>> data, StateSetter setState) {
+  void _set(Optional<List<Device>> data) {
     if (data.isPresent && _selected.isEmpty) {
       if (data.value.isNotEmpty) {
         _devices.addAll(data.value);
@@ -43,74 +43,56 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
       }
       if (_isLoading) {
         _isLoading = false;
-        rebuild();
       }
     }
   }
 
-  Future<bool> rebuild() async {
-    if (!mounted) return false;
-
-    // if there's a current frame,
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      // wait for the end of that frame.
-      await SchedulerBinding.instance.endOfFrame;
-      if (!mounted) return false;
-    }
-
-    setState(() {});
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return AsyncLoadScreen<NewDevicesQuery, List<Device>>(
-          title: _buildTitle(),
-          query: NewDevicesQuery(
-            type: widget.type,
-            serviceKey: widget.serviceKey,
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: _selected.where((value) => value).isNotEmpty
-                  ? () => _onAddDevices(context)
-                  : null,
-              child: const Icon(Icons.check),
-            )
+    return AsyncLoadScreen<NewDevicesQuery, List<Device>,
+        NewDevicesScreenController>(
+      title: _buildTitle(),
+      query: NewDevicesQuery(
+        type: widget.type,
+        serviceKey: widget.serviceKey,
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: _selected.where((value) => value).isNotEmpty
+              ? () => _onAddDevices(context)
+              : null,
+          child: const Icon(Icons.check),
+        )
+      ],
+      onClose: () => context.go(widget.location),
+      provider: newDevicesScreenControllerProvider.call,
+      builder: (context, ref, data, child) {
+        _set(data);
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(_buildDescription()),
+              ),
+            ),
+            const Divider(),
+            Expanded(
+              flex: 1,
+              child: MultiSelectorList<Device>(
+                selected: _selected,
+                entries: data.isPresent ? data.value : [],
+                titleBuilder: (_, device, __) => Text(
+                  '${device.name} (id: ${device.id})',
+                ),
+                onChanged: (index, value) {
+                  _selected[index] = value;
+                  setState(() {});
+                },
+              ),
+            ),
           ],
-          onClose: () => context.go(widget.location),
-          provider: newDevicesScreenControllerProvider,
-          builder: (context, ref, data, child) {
-            _init(data, setState);
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(_buildDescription()),
-                  ),
-                ),
-                const Divider(),
-                Expanded(
-                  flex: 1,
-                  child: MultiSelectorList<Device>(
-                    selected: _selected,
-                    entries: data.isPresent ? data.value : [],
-                    titleBuilder: (_, device, __) => Text(
-                      '${device.name} (id: ${device.id})',
-                    ),
-                    onChanged: (index, value) {
-                      _selected[index] = value;
-                      setState(() {});
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
         );
       },
     );

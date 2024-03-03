@@ -30,11 +30,12 @@ class _PairedDeviceDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadScreen<PairedDeviceDetailsQuery, Device>(
+    return AsyncLoadScreen<PairedDeviceDetailsQuery, Device,
+        PairedDeviceDetailsScreenController>(
       title: 'Paired device',
       onClose: () => context.go(widget.location),
       query: PairedDeviceDetailsQuery(widget.identity),
-      provider: pairedDeviceDetailsScreenControllerProvider,
+      provider: pairedDeviceDetailsScreenControllerProvider.call,
       actions: [
         if (_undeleteable)
           const ElevatedButton(

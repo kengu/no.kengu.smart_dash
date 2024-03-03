@@ -1,20 +1,27 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash/feature/account/presentation/account_form_screen_controller.dart';
 import 'package:stream_transform/stream_transform.dart';
-
-/// Type definition of [AsyncValue] save notifier provider
-typedef AsyncFormControllerProvider<Query, Data>
-    = AutoDisposeAsyncNotifierProvider<AsyncFormController<Query, Data>,
-        Optional<Data>>;
 
 /// [AsyncFormController] interface (mixin). The method [build] MUST be
 /// overridden by class using mixin. If not, riverpod_generator will throw
 /// and error (mixins are not evaluated by it, only classes I guess).
 mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
+  static AsyncFormController<Query, Data> of<Query, Data>(
+      WidgetRef ref,
+      AsyncLoadControllerProviderBuilder<Query, Data,
+              AsyncLoadControllerProvider<Data>>
+          provider,
+      Query query) {
+    return ref.read(provider(query).notifier)
+        as AsyncFormController<Query, Data>;
+  }
+
   /// Reference to [FormGroup.valueChanges],
   /// closed on [autoSubmit] with refresh
   StreamSubscription? _subscription;
@@ -58,18 +65,24 @@ mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
       state = AsyncLoading<Optional<Data>>();
       state = await AsyncValue.guard(() async {
         final data = buildData(value);
-        return await save(data) ? Optional.of(data) : latest;
+        return await save(data)
+            ? Optional.of(data)
+            : Optional.ofNullable(
+                state.value?.orElseNull,
+              );
       });
       if (_shouldNotify) {
         _autoSubmits.add(state.value!.value);
       }
     }
     // ignore: invalid_use_of_visible_for_overriding_member
-    return (latest = Optional.ofNullable(
+    return Optional.ofNullable(
       state.value?.orElseNull,
-    ));
+    );
   }
 
   bool get _shouldNotify =>
-      isAutoSubmitting && _autoSubmits.hasListener && latest.isPresent;
+      isAutoSubmitting &&
+      _autoSubmits.hasListener &&
+      state.valueOrNull?.isPresent == true;
 }

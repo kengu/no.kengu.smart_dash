@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -7,6 +8,8 @@ import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
+import 'package:smart_dash/feature/identity/data/user_repository.dart';
+import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/data/json.dart';
 
@@ -27,8 +30,21 @@ class AccountFormScreenController extends _$AccountFormScreenController
     with
         AsyncLoadController<AccountQuery, Account>,
         AsyncFormController<AccountQuery, Account> {
+  static AccountFormScreenController forCurrentUser(WidgetRef ref) {
+    final user = ref.read(userRepositoryProvider).currentUser;
+    final integrations = ref.read(integrationRepositoryProvider);
+    return AsyncFormController.of(
+        ref,
+        accountFormScreenControllerProvider.call,
+        AccountQuery(
+          userId: user.userId,
+          serviceKeys:
+              integrations.hasValue ? integrations.value!.keys.toList() : [],
+        )) as AccountFormScreenController;
+  }
+
   @override
-  FutureOr<Optional<Account>> build() => super.build();
+  FutureOr<Optional<Account>> build(AccountQuery query) => super.build(query);
 
   @override
   FormGroup buildForm(Optional<Account> data) {
@@ -136,7 +152,7 @@ class AccountFormScreenController extends _$AccountFormScreenController
   }
 
   Set<ServiceConfig> toServices(Home data) {
-    return query!.services
+    return query.services
         .map(data.serviceWhere)
         .expand((e) => e.toList())
         .toSet();
@@ -146,13 +162,13 @@ class AccountFormScreenController extends _$AccountFormScreenController
   Account buildData(Map<String, Object?> value) {
     return Account.fromJson({
       ...value,
-      AccountFields.userId: query!.userId,
+      AccountFields.userId: query.userId,
     });
   }
 
   @override
-  Future<Optional<Account>> load() {
-    return ref.read(accountRepositoryProvider).get(query!.userId);
+  Future<Optional<Account>> load(AccountQuery query) {
+    return ref.read(accountRepositoryProvider).get(query.userId);
   }
 
   @override

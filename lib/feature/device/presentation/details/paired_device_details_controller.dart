@@ -19,10 +19,11 @@ class PairedDeviceDetailsScreenController
     extends _$PairedDeviceDetailsScreenController
     with AsyncLoadController<PairedDeviceDetailsQuery, Device> {
   @override
-  FutureOr<Optional<Device>> build() => super.build();
+  FutureOr<Optional<Device>> build(PairedDeviceDetailsQuery query) =>
+      super.build(query);
 
   @override
-  Future<Optional<Device>> load() async {
-    return ref.read(deviceRepositoryProvider).get(query!.id);
+  Future<Optional<Device>> load(PairedDeviceDetailsQuery query) async {
+    return ref.read(deviceRepositoryProvider).get(query.id);
   }
 }

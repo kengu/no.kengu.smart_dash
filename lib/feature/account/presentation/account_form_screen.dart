@@ -14,6 +14,7 @@ import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_f
 import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
@@ -43,14 +44,15 @@ class AccountFormScreen extends ConsumerWidget {
           data: (integrations) {
             return ref.watch(getCurrentHomeProvider()).when(
                   data: (currentHome) {
-                    return AsyncFormScreen<AccountQuery, Account>(
+                    return AsyncFormScreen<AccountQuery, Account,
+                        AccountFormScreenController>(
                       title: 'Edit account',
                       scrollable: true,
                       query: AccountQuery(
                         userId: user.userId,
                         serviceKeys: integrations.keys,
                       ),
-                      provider: accountFormScreenControllerProvider,
+                      provider: accountFormScreenControllerProvider.call,
                       onClose: () => context.go(location),
                       onSubmitted: (account) =>
                           NoticeController.showSnackBarByRef(
@@ -116,6 +118,7 @@ class _CurrentHomeSetup extends ConsumerWidget {
         leading: Icon(Icons.home_work, size: 48),
       );
     }
+    ref.read(accountServiceProvider).getAccount();
     return ReactiveFormArray<JsonObject>(
       formArrayName: AccountFields.homes,
       builder: (context, array, child) {
@@ -134,9 +137,8 @@ class _CurrentHomeSetup extends ConsumerWidget {
           index > -1,
           'Current home ${current.name} not found in homes [${homes.join(',')}]',
         );
-        final controller = ref.read(
-          accountFormScreenControllerProvider.notifier,
-        );
+
+        final controller = AccountFormScreenController.forCurrentUser(ref);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

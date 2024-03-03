@@ -15,7 +15,7 @@
     "name": "MQTT API",
     "image": "mqtt.png",
     "category": "Smart Home & IoT",
-    "features": ["device"],
+    "features": ["data"],
     "description": "Enter client information",
     "fields": ["host", "port", "username", "password", "topics"],
     "instances": 1,

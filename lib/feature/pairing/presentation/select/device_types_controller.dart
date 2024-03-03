@@ -17,12 +17,13 @@ class DeviceTypesQuery {
 class DeviceTypesScreenController extends _$DeviceTypesScreenController
     with AsyncLoadController<DeviceTypesQuery, List<DeviceDefinition>> {
   @override
-  FutureOr<Optional<List<DeviceDefinition>>> build() => super.build();
+  FutureOr<Optional<List<DeviceDefinition>>> build(DeviceTypesQuery query) =>
+      super.build(query);
 
   @override
-  Future<Optional<List<DeviceDefinition>>> load() async {
+  Future<Optional<List<DeviceDefinition>>> load(DeviceTypesQuery query) async {
     final service = ref.read(deviceDriverManagerProvider).getDriver(
-          query!.serviceKey,
+          query.serviceKey,
         );
     return Optional.ofNullable(
       await service.getDeviceDefinitions(),

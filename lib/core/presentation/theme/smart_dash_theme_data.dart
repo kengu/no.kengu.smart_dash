@@ -4,7 +4,6 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 
 part 'smart_dash_theme_data.g.dart';
 
@@ -83,17 +82,12 @@ extension ColorX on Color {
 class SmartDashAppThemeQuery {}
 
 @riverpod
-class SmartDashAppThemeController extends _$SmartDashAppThemeController
-    with AsyncLoadController<SmartDashAppThemeQuery, SettingMap> {
-  SmartDashAppThemeController() {
-    select(SmartDashAppThemeQuery());
-  }
-
+class SmartDashAppThemeController extends _$SmartDashAppThemeController {
   @override
-  FutureOr<Optional<SettingMap>> build() => super.build();
+  FutureOr<Optional<SettingMap>> build(SmartDashAppThemeQuery query) =>
+      load(query);
 
-  @override
-  Future<Optional<SettingMap>> load() =>
+  Future<Optional<SettingMap>> load(SmartDashAppThemeQuery query) =>
       ref.read(settingRepositoryProvider.notifier).load();
 }
 

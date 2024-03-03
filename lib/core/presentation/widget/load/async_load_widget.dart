@@ -14,18 +14,20 @@ typedef AsyncLoadWidgetBuilder<Data> = Widget Function(
 );
 
 /// Widget for async load of data matching given query.
-class AsyncLoadWidget<Query, Data> extends ConsumerWidget {
+class AsyncLoadWidget<Query, Data,
+        Controller extends AsyncLoadControllerProvider<Data>>
+    extends ConsumerWidget {
   const AsyncLoadWidget({
     super.key,
+    required this.query,
     required this.builder,
     required this.provider,
-    this.query,
     this.child,
     this.onError,
   });
 
   /// Data query used buy [AsyncLoadController] to load data
-  final Query? query;
+  final Query query;
 
   /// Called when an error have occurred
   final ErrorCallback? onError;
@@ -34,27 +36,18 @@ class AsyncLoadWidget<Query, Data> extends ConsumerWidget {
   final AsyncLoadWidgetBuilder<Data> builder;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncLoadControllerProvider<Query, Data> provider;
+  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
 
   /// The screen content
   final Widget? child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return _invalidate(ref).watch(provider).when(
+    return ref.watch(provider(query)).when(
           error: _onError,
           loading: SmartDashProgressIndicator.new,
-          data: (data) => builder(context, ref, data, child),
+          data: (state) => builder(context, ref, state, child),
         );
-  }
-
-  WidgetRef _invalidate(WidgetRef ref) {
-    if (query != null) {
-      if (ref.read(provider.notifier).select(query as Query)) {
-        ref.invalidate(provider);
-      }
-    }
-    return ref;
   }
 
   SmartDashErrorWidget _onError(Object cause, StackTrace stackTrace) {

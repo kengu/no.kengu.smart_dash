@@ -21,23 +21,216 @@ final themeChangedProvider = AutoDisposeProvider<SettingMap>.internal(
 
 typedef ThemeChangedRef = AutoDisposeProviderRef<SettingMap>;
 String _$smartDashAppThemeControllerHash() =>
-    r'f08f5fe26684ffa590ea1106a541cc777f4a9b17';
+    r'd4ea96b3f4dfca2709e80f4fca3d7fa6755ae972';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+abstract class _$SmartDashAppThemeController
+    extends BuildlessAutoDisposeAsyncNotifier<Optional<SettingMap>> {
+  late final SmartDashAppThemeQuery query;
+
+  FutureOr<Optional<SettingMap>> build(
+    SmartDashAppThemeQuery query,
+  );
+}
 
 /// See also [SmartDashAppThemeController].
 @ProviderFor(SmartDashAppThemeController)
-final smartDashAppThemeControllerProvider = AutoDisposeAsyncNotifierProvider<
-    SmartDashAppThemeController, Optional<SettingMap>>.internal(
-  SmartDashAppThemeController.new,
-  name: r'smartDashAppThemeControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$smartDashAppThemeControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const smartDashAppThemeControllerProvider = SmartDashAppThemeControllerFamily();
 
-typedef _$SmartDashAppThemeController
-    = AutoDisposeAsyncNotifier<Optional<SettingMap>>;
+/// See also [SmartDashAppThemeController].
+class SmartDashAppThemeControllerFamily extends Family {
+  /// See also [SmartDashAppThemeController].
+  const SmartDashAppThemeControllerFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'smartDashAppThemeControllerProvider';
+
+  /// See also [SmartDashAppThemeController].
+  SmartDashAppThemeControllerProvider call(
+    SmartDashAppThemeQuery query,
+  ) {
+    return SmartDashAppThemeControllerProvider(
+      query,
+    );
+  }
+
+  @visibleForOverriding
+  @override
+  SmartDashAppThemeControllerProvider getProviderOverride(
+    covariant SmartDashAppThemeControllerProvider provider,
+  ) {
+    return call(
+      provider.query,
+    );
+  }
+
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(SmartDashAppThemeController Function() create) {
+    return _$SmartDashAppThemeControllerFamilyOverride(this, create);
+  }
+}
+
+class _$SmartDashAppThemeControllerFamilyOverride implements FamilyOverride {
+  _$SmartDashAppThemeControllerFamilyOverride(
+      this.overriddenFamily, this.create);
+
+  final SmartDashAppThemeController Function() create;
+
+  @override
+  final SmartDashAppThemeControllerFamily overriddenFamily;
+
+  @override
+  SmartDashAppThemeControllerProvider getProviderOverride(
+    covariant SmartDashAppThemeControllerProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
+}
+
+/// See also [SmartDashAppThemeController].
+class SmartDashAppThemeControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<SmartDashAppThemeController,
+        Optional<SettingMap>> {
+  /// See also [SmartDashAppThemeController].
+  SmartDashAppThemeControllerProvider(
+    SmartDashAppThemeQuery query,
+  ) : this._internal(
+          () => SmartDashAppThemeController()..query = query,
+          from: smartDashAppThemeControllerProvider,
+          name: r'smartDashAppThemeControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$smartDashAppThemeControllerHash,
+          dependencies: SmartDashAppThemeControllerFamily._dependencies,
+          allTransitiveDependencies:
+              SmartDashAppThemeControllerFamily._allTransitiveDependencies,
+          query: query,
+        );
+
+  SmartDashAppThemeControllerProvider._internal(
+    super.create, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.query,
+  }) : super.internal();
+
+  final SmartDashAppThemeQuery query;
+
+  @override
+  FutureOr<Optional<SettingMap>> runNotifierBuild(
+    covariant SmartDashAppThemeController notifier,
+  ) {
+    return notifier.build(
+      query,
+    );
+  }
+
+  @override
+  Override overrideWith(SmartDashAppThemeController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: SmartDashAppThemeControllerProvider._internal(
+        () => create()..query = query,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        query: query,
+      ),
+    );
+  }
+
+  @override
+  (SmartDashAppThemeQuery,) get argument {
+    return (query,);
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<SmartDashAppThemeController,
+      Optional<SettingMap>> createElement() {
+    return _SmartDashAppThemeControllerProviderElement(this);
+  }
+
+  SmartDashAppThemeControllerProvider _copyWith(
+    SmartDashAppThemeController Function() create,
+  ) {
+    return SmartDashAppThemeControllerProvider._internal(
+      () => create()..query = query,
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      query: query,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SmartDashAppThemeControllerProvider && other.query == query;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, query.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin SmartDashAppThemeControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<Optional<SettingMap>> {
+  /// The parameter `query` of this provider.
+  SmartDashAppThemeQuery get query;
+}
+
+class _SmartDashAppThemeControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<SmartDashAppThemeController,
+        Optional<SettingMap>> with SmartDashAppThemeControllerRef {
+  _SmartDashAppThemeControllerProviderElement(super.provider);
+
+  @override
+  SmartDashAppThemeQuery get query =>
+      (origin as SmartDashAppThemeControllerProvider).query;
+}
+
 String _$platformBrightnessNotifierHash() =>
     r'edb2d876ae0a9234eaab0a05de38560de26a5017';
 

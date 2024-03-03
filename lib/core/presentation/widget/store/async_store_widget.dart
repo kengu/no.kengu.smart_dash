@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/util/typedefs.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_widget.dart';
 
@@ -15,14 +16,16 @@ typedef AsyncStoreWidgetBuilder<Data> = Widget Function(
 );
 
 /// Widget for async store of data matching given query.
-class AsyncStoreWidget<Query, Data> extends ConsumerStatefulWidget {
+class AsyncStoreWidget<Query, Data,
+        Controller extends AsyncLoadControllerProvider<Data>>
+    extends ConsumerStatefulWidget {
   const AsyncStoreWidget({
     super.key,
+    required this.query,
     required this.provider,
     required this.onSubmitted,
     this.builder,
     this.onError,
-    this.query,
     this.child,
     this.autoSubmit = false,
   }) : assert(
@@ -31,7 +34,7 @@ class AsyncStoreWidget<Query, Data> extends ConsumerStatefulWidget {
         );
 
   /// Data query used buy [AsyncStoreController] to load data
-  final Query? query;
+  final Query query;
 
   /// Called when an error have occurred
   final ErrorCallback? onError;
@@ -40,7 +43,7 @@ class AsyncStoreWidget<Query, Data> extends ConsumerStatefulWidget {
   final ValueChanged<Data> onSubmitted;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncStoreControllerProvider<Query, Data> provider;
+  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
 
   /// Every change is submitted automatically (default false)
   /// No manual 'SAVE' action is shown when auto submitting.
@@ -53,15 +56,16 @@ class AsyncStoreWidget<Query, Data> extends ConsumerStatefulWidget {
   final Widget? child;
 
   @override
-  ConsumerState<AsyncStoreWidget<Query, Data>> createState() =>
-      _AsyncSaveWidgetState<Query, Data>();
+  ConsumerState<AsyncStoreWidget<Query, Data, Controller>> createState() =>
+      _AsyncSaveWidgetState<Query, Data, Controller>();
 }
 
-class _AsyncSaveWidgetState<Query, Data>
-    extends ConsumerState<AsyncStoreWidget<Query, Data>> {
+class _AsyncSaveWidgetState<Query, Data,
+        Controller extends AsyncLoadControllerProvider<Data>>
+    extends ConsumerState<AsyncStoreWidget<Query, Data, Controller>> {
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadWidget<Query, Data>(
+    return AsyncLoadWidget<Query, Data, Controller>(
       query: widget.query,
       provider: widget.provider,
       builder: (context, ref, data, _) {

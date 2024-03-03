@@ -3,19 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_widget.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
 import 'package:smart_dash/util/typedefs.dart';
 
 /// A async Fullscreen dialog form widget with [Scaffold].
-class AsyncFormScreen<Query, Data> extends StatelessWidget {
+class AsyncFormScreen<Query, Data,
+        Controller extends AsyncLoadControllerProvider<Data>>
+    extends StatelessWidget {
   const AsyncFormScreen({
     super.key,
     required this.title,
+    required this.query,
     required this.child,
     required this.onClose,
     required this.provider,
     required this.onSubmitted,
-    this.query,
     this.onError,
     this.physics,
     this.builder,
@@ -37,10 +40,10 @@ class AsyncFormScreen<Query, Data> extends StatelessWidget {
   final ValueChanged<Data> onSubmitted;
 
   /// Data query used buy [AsyncFormController] to load data
-  final Query? query;
+  final Query query;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncFormControllerProvider<Query, Data> provider;
+  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
 
   /// [SingleChildScrollView] is inserted above [child] if true
   final bool scrollable;
@@ -66,7 +69,7 @@ class AsyncFormScreen<Query, Data> extends StatelessWidget {
     return Consumer(
       child: child,
       builder: (context, ref, _) {
-        return AsyncFormWidget<Query, Data>(
+        return AsyncFormWidget<Query, Data, Controller>(
           query: query,
           onError: onError,
           builder: builder,
@@ -104,10 +107,9 @@ class AsyncFormScreen<Query, Data> extends StatelessWidget {
 
   void _onSubmit(WidgetRef ref, FormGroup formGroup) {
     if (formGroup.valid) {
-      ref.watch(provider.notifier).submit(formGroup.value).then(
-            (value) => onSubmitted(value.value),
-            onError: onError,
-          );
+      AsyncFormController.of(ref, provider, query)
+          .submit(formGroup.value)
+          .then((value) => onSubmitted(value.value), onError: onError);
     } else {
       formGroup.markAllAsTouched();
     }

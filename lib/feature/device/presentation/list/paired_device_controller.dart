@@ -14,10 +14,11 @@ class PairedDeviceQuery {
 class PairedDeviceScreenController extends _$PairedDeviceScreenController
     with AsyncLoadController<PairedDeviceQuery, List<Device>> {
   @override
-  FutureOr<Optional<List<Device>>> build() => super.build();
+  FutureOr<Optional<List<Device>>> build(PairedDeviceQuery query) =>
+      super.build(query);
 
   @override
-  Future<Optional<List<Device>>> load() async {
+  Future<Optional<List<Device>>> load(PairedDeviceQuery query) async {
     return Optional.of(await ref.read(deviceRepositoryProvider).getAll());
   }
 }
