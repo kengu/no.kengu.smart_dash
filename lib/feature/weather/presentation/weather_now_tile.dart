@@ -74,7 +74,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
                 child: WeatherInstantWidget(
                   withWind: true,
                   withSymbol: false,
-                  withPrecipitation: false,
+                  withPrecipitation: true,
                   withLightLuminance: false,
                   withRelativeHumidity: true,
                   withCloudAreaFraction: false,
