@@ -39,7 +39,7 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
 
   final nf = NumberFormat("00");
 
-  int _selected = 0;
+  int _selected = -1;
 
   @override
   Widget build(BuildContext context) {
