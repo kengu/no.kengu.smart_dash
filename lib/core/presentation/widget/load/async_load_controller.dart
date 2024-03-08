@@ -16,8 +16,8 @@ AutoDisposeAsyncNotifierProviderImpl<AccountFormScreenController,
 
 /// Type definition of [AsyncValue] load notifier
 typedef AsyncLoadControllerProvider<Data>
-// TODO: Try to find another way to do this with riverpod
-// ignore: invalid_use_of_internal_member
+    // TODO: Try to find another way to do this with riverpod
+    // ignore: invalid_use_of_internal_member
     = BuildlessAutoDisposeAsyncNotifier<Optional<Data>>;
 
 /// Type definition of [AsyncValue] load notifier builder
