@@ -17,18 +17,28 @@
       -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--
+      Local notification permissions.
+      Android 14 or higher.
+      -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <application
             android:largeHeap="true"
             android:label="smart_dash"
-            android:allowBackup="false"
             android:name="${applicationName}"
-            android:icon="@mipmap/ic_launcher">
+            android:icon="@mipmap/ic_launcher"
+            android:allowBackup="false"
+            android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
                 android:name=".MainActivity"
                 android:exported="true"
                 android:launchMode="singleTop"
                 android:theme="@style/LaunchTheme"
                 android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+                android:turnScreenOn="true"
+                android:showWhenLocked="true"
                 android:hardwareAccelerated="true"
                 android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as

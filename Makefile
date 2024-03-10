@@ -22,13 +22,13 @@ storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)
 
 .PHONY: \
 	doctor configure drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stopupgrade action \
+	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update \
 
 .SILENT: \
 	doctor toolchain drift-info drift-export drift-migration drift-generate-tests \
-	build clean-build serve stopupgrade action \
+	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update \
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/application/notification_service.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
 class SmartDashHeader extends StatelessWidget {
@@ -57,6 +59,23 @@ class SmartDashHeader extends StatelessWidget {
               },
             )
           else ...[
+            Consumer(builder: (context, ref, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  ref.read(notificationServiceProvider).show(
+                        title: 'SmartDash',
+                        body: 'Hello!',
+                        payload: 'Some data',
+                      );
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.add),
+                    Text('SHOW'),
+                  ],
+                ),
+              );
+            }),
             ElevatedButton(
               onPressed: () {
                 context.push(Screens.pairing);
