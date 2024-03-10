@@ -13,6 +13,8 @@ import 'package:smart_dash/util/stream.dart';
 part 'device_service.g.dart';
 
 class DeviceService {
+  static const String key = 'device';
+
   DeviceService(this.ref) {
     ref.onDispose(() {
       _deviceController.close();

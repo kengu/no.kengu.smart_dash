@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/flow/domain/flow.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
@@ -17,6 +17,8 @@ import 'package:stream_transform/stream_transform.dart';
 part 'presence_service.g.dart';
 
 class PresenceService {
+  static const String key = 'presence';
+
   PresenceService(this.ref) {
     ref.onDispose(() {
       unbind();
@@ -75,7 +77,7 @@ class PresenceService {
 }
 
 class PresenceFlow extends Flow {
-  PresenceFlow(this.ref) : super('presence') {
+  PresenceFlow(this.ref) : super(PresenceService.key) {
     ref.onDispose(() {
       _subscription?.cancel();
     });
@@ -94,7 +96,7 @@ class PresenceFlow extends Flow {
   Optional<Home> get home => _home;
   Optional<Home> _home = const Optional.empty();
   Optional<Token> get token =>
-      Optional.ofNullable(_lastEvent.orElseNull?.token);
+      Optional.ofNullable(_lastEvent.orElseNull?.state.token);
 
   bool get isHome => _lastEvent.isPresent ? state.value.isHome : false;
   bool get isAway => _lastEvent.isPresent ? state.value.isAway : false;
@@ -206,15 +208,38 @@ class PresenceFlow extends Flow {
   }
 }
 
-class PresenceEvent extends FlowEvent<int> {
+class PresenceEvent extends FlowEvent {
   PresenceEvent(this.state)
-      : super(state.token, state.members.length, state.when);
+      : super(
+          flow: PresenceService.key,
+          tags: [
+            FlowTag<int>(
+              when: state.when,
+              token: state.token,
+              data: state.members.length,
+            )
+          ],
+        );
 
   final Presence state;
 }
 
-class MemberPresenceEvent extends FlowEvent<bool> {
-  MemberPresenceEvent(super.token, super.isHome, super.when);
+class MemberPresenceEvent extends FlowEvent {
+  MemberPresenceEvent(Token token, bool isHome, DateTime when)
+      : super(
+          flow: PresenceService.key,
+          tags: [
+            FlowTag<bool>(
+              when: when,
+              data: isHome,
+              token: token,
+            )
+          ],
+        );
+
+  bool get isHome => tags.first.data;
+  Token get token => tags.first.token;
+  DateTime get when => tags.first.when;
 }
 
 class MemberPresenceIsHome extends MemberPresenceEvent {

@@ -1,0 +1,48 @@
+[
+  {
+    "name": "a1b2c3",
+    "label": "Power Limit Notification",
+    "description": "Notify when power exceeds limit",
+    "state": {
+      "repeated": 0,
+      "value": false,
+      "parameters": []
+    },
+    "trigger": {
+      "label": "Devices Updated",
+      "description": "Triggers flow when a device is updated",
+      "any": true,
+      "onTypes": ["device"],
+      "onTags": ["measure_power:sikom:device:541905"],
+      "ttl": 30,
+      "repeatUntil": 0,
+      "debounceUntil": 0
+    },
+    "conditions": [
+      {
+        "label": "Limit",
+        "description": "Power limit",
+        "expression": "power > 500",
+        "variables": [
+          {
+            "tag": "power",
+            "name": "measure_power:sikom:device:541905",
+            "type": "int",
+            "unit": "power",
+            "label": "Effektstyring",
+            "description": "Effektstyring"
+          }
+        ]
+      }
+    ],
+    "whenTrue": [
+      {
+        "label": "Alert",
+        "type": "notification",
+        "description": "Power limit exceeded",
+        "parameters": []
+      }
+    ],
+    "whenFalse": []
+  }
+]

@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/flow/domain/flow.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -36,22 +37,22 @@ class HistoryManager {
   /// Get stream of [HistoryEvent]s.
   Stream<HistoryEvent> get events => _controller.stream;
 
-  StreamSubscription<FlowEvent>? _changes;
+  final List<StreamSubscription> _subscriptions = [];
 
   /// Start pumping history events by binding to device updates
   void bind() async {
-    assert(_changes == null, 'HistoryManager is started already');
-    _changes = ref
-        .read(flowManagerProvider)
-        .events
-        .where((e) => e.isNumber())
-        .listen(_onHandle);
+    assert(_subscriptions.isEmpty, 'HistoryManager is bound already');
+    _subscriptions.add(
+      ref.read(flowManagerProvider).events.listen(_onHandle),
+    );
   }
 
   /// Stop pumping history events by unbinding from global event pump.
   void unbind() {
-    _changes?.cancel();
-    _changes = null;
+    for (final it in _subscriptions) {
+      it.cancel();
+    }
+    _subscriptions.clear();
   }
 
   /// Pump current [HistoryEvent]s
@@ -199,42 +200,45 @@ class HistoryManager {
       () async {
         final offset = toOffset();
         final repo = ref.read(timeSeriesRepositoryProvider);
-        final result = await repo.get(event.token, offset);
+        for (final tag in event.tags.where((e) => e.isNumber())) {
+          final result = await repo.get(tag.token, offset);
 
-        // Create new history for offset if not found in repo
-        final history = result.isPresent
-            ? result.value
-            : event.token.emptyTs(offset: offset);
+          // Create new history for offset if not found in repo
+          final history = result.isPresent
+              ? result.value
+              : tag.token.emptyTs(offset: offset);
 
-        // Has event happened passed end of history?
-        if (event.when.difference(history.end) > history.span) {
-          final next = switch (event.type) {
-            const (int) => history.record<int>(
-                event.data as int,
-                event.when,
-                max: maxLength,
-              ),
-            const (double) => history.record<double>(
-                event.data as double,
-                event.when,
-                max: maxLength,
-              ),
-            _ => throw UnsupportedError(
-                'History manager does not handle [${event.type}]',
-              ),
-          };
-          if (next != history) {
-            await repo.save(next);
-            // Keep result for cached lookups
-            _cache.setIfExists<TimeSeries>(
-              _tokenCacheKey(next.name, offset),
-              (_) => next,
-            );
-            // Notify listeners
-            _controller.add(HistoryEvent(
-              event.token,
-              next,
-            ));
+          // Has event happened passed end of history?
+          if (tag.when.difference(history.end) > history.span) {
+            final next = switch (tag.type) {
+              const (int) => history.record<int>(
+                  tag.data as int,
+                  tag.when,
+                  max: maxLength,
+                ),
+              const (double) => history.record<double>(
+                  tag.data as double,
+                  tag.when,
+                  max: maxLength,
+                ),
+              _ => throw UnsupportedError(
+                  'History manager does '
+                  'not handle tag type [${tag.type}]',
+                ),
+            };
+            if (next != history) {
+              await repo.save(next);
+              // Keep result for cached lookups
+              _cache.setIfExists<TimeSeries>(
+                _tokenCacheKey(next.name, offset),
+                (_) => next,
+              );
+              // Notify listeners
+              _controller.add(HistoryEvent(
+                tag.token,
+                next,
+              ));
+            }
           }
         }
       },

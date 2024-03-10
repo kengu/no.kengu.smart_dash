@@ -41,16 +41,8 @@ class DeviceRepository {
   /// Attempt to sett all given devices to
   /// repository. Returns list of actual added devices.
   Future<List<Device>> updateAll(Iterable<Device> devices) async {
-    final current = await _load();
     final unique = devices.toSet();
-    final currentIds = current.map(Identity.of);
-    final removedIds = unique
-        .where((e) => currentIds.contains(Identity.of(e)))
-        .map(Identity.of);
-    current.removeWhere(
-      (e) => removedIds.contains(Identity.of(e)),
-    );
-    final success = await _putAll([...unique, ...current]);
+    final success = await _putAll([...unique]);
     return [if (success) ...unique];
   }
 

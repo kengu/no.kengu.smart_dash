@@ -4,22 +4,24 @@ A Smart Dashboard App for my personal use.
 
 ## Roadmap
 
+- [ ] Implement pane-based settings screen on desktop
 - [ ] Implement support for editable control flows
-- [ ] Implement alarms as notifications and detail views
+    * [x] Blocks with triggers, conditions and actions
+    * [ ] Flows Page with list and details view
+    * [ ] Implement notifications support (with triggers)
 - [ ] Implement display of indoor temperature per room with graphs
 - [ ] Implement support for geocoder for address and reverse lookup
 - [ ] Move identity, account, dashboard and home from feature to core
 - [ ] Implement support for virtual devices (as composition of tokens)
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 
 - [ ] Move state and integrations to backend
--
 
 ## Supported features
-- [x] Implement support for Sikom thermostats
-- [x] Implement support for Sikom power controller
-- [x] Integrate webcam for easy viewing in one place
-- [x] Implement support for Sikom buttons (and astro switch)
-- [x] Read and save historical data from the weather station
+- [x] Sikom thermostats
+- [x] Sikom power controller
+- [x] Sikom buttons (and astro switch)
+- [x] Webcam for easy viewing in one place
+- [x] Read and save historical data from rtl_433 devices
  
 ## Experiments and ideas to explore
 
@@ -30,7 +32,7 @@ A Smart Dashboard App for my personal use.
 
 # Developing
 
-Configure development environment (MacOS only for now)
+Configure development environment (macOS only for now)
 ```bash
 make configure
 ```

@@ -10,6 +10,7 @@ import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_repository.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
+import 'package:smart_dash/feature/flow/data/block_repository.dart';
 import 'package:smart_dash/feature/home/data/home_repository.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
@@ -167,6 +168,22 @@ class SettingTilesWidget extends StatelessWidget {
                             },
                           ),
                           SettingsTile.navigation(
+                            title: const Text('Clear flow data'),
+                            description: const Text(
+                              'This will delete all local flow data',
+                            ),
+                            onPressed: (context) async {
+                              await ref.read(blockRepositoryProvider).clear();
+                              setState(() {
+                                NoticeController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Flow data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
                             title: const Text('Clear presence data'),
                             description: const Text(
                               'This will delete all local presence data',
@@ -179,7 +196,7 @@ class SettingTilesWidget extends StatelessWidget {
                                 NoticeController.showSnackBarByRef(
                                   context,
                                   ref,
-                                  'Device data deleted',
+                                  'Presence data deleted',
                                 );
                               });
                             },

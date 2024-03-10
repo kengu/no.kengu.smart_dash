@@ -48,15 +48,8 @@ class PresenceRepository {
   /// Attempt to sett all given presences to
   /// repository. Returns list of actual added presences.
   Future<List<Presence>> updateAll(Iterable<Presence> presences) async {
-    final current = await _load();
     final unique = presences.toSet();
-    final currentIds = current.map((e) => e.token);
-    final removedIds =
-        unique.where((e) => currentIds.contains(e.token)).map((e) => e.token);
-    current.removeWhere(
-      (e) => removedIds.contains(e.token),
-    );
-    final success = await _putAll([...unique, ...current]);
+    final success = await _putAll([...unique]);
     return [if (success) ...unique];
   }
 

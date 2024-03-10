@@ -7,7 +7,7 @@ Future<T> guard<T>(
   String name = 'guard()',
   String task = 'execute',
   void Function()? done,
-  bool transaction = true,
+  bool transaction = false,
 }) async {
   final trx = transaction ? Sentry.startTransaction(name, task) : null;
   try {
@@ -19,6 +19,29 @@ Future<T> guard<T>(
     rethrow;
   } finally {
     await trx?.finish();
+    if (done != null) {
+      done();
+    }
+  }
+}
+
+T guardSync<T>(
+  T Function() execute, {
+  String name = 'guardSync()',
+  String task = 'execute',
+  void Function()? done,
+  bool transaction = false,
+}) {
+  final trx = transaction ? Sentry.startTransaction(name, task) : null;
+  try {
+    return execute();
+  } catch (e, stackTrace) {
+    debugPrint(e.toString());
+    debugPrint(stackTrace.toString());
+    Sentry.captureException(e, stackTrace: stackTrace);
+    rethrow;
+  } finally {
+    trx?.finish();
     if (done != null) {
       done();
     }

@@ -96,7 +96,7 @@ class NetworkInfoService {
     _timing = null;
   }
 
-  void init() async {
+  Future<void> init() async {
     final state =
         await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
     _devices.addAll(state);

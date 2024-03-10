@@ -11,7 +11,6 @@ import 'package:smart_dash/core/presentation/smart_dash_app.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
-import 'package:smart_dash/feature/device/application/device_flow.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
@@ -90,27 +89,27 @@ Future<void> _initOnDesktop() async {
   }
 }
 
+// TODO: Make code generator for initProviders
 ProviderContainer initProviders() {
   final container = ProviderContainer();
   // Bind services with dependencies
-  container.read(flowManagerProvider)
-    ..register(const DeviceFlow())
-    ..bind();
-
   container.read(historyManagerProvider).bind();
   container.read(networkInfoServiceProvider)
     ..init()
     ..bind();
   container.read(presenceServiceProvider).bind();
   container.read(mqttServiceProvider).init();
+  container.read(flowManagerProvider).init();
 
-  // Register services with managers
-  container.read(deviceDriverManagerProvider)
+  // Register device drivers
+  final manager = container.read(deviceDriverManagerProvider);
+  manager
     ..register(container.read(sikomDriverProvider))
     ..register(container.read(rtl433DriverProvider))
     ..init()
     ..bind();
 
+  // Register camera providers
   container.read(cameraManagerProvider)
     ..register(container.read(foscamServiceProvider))
     ..init();

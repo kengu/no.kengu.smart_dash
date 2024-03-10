@@ -4,12 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
+import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'device_driver.dart';
+import 'device_flow.dart';
 
 part 'device_driver_manager.g.dart';
 
@@ -51,7 +53,7 @@ class DeviceDriverManager {
   }
 
   /// Initialize manager
-  void init() async {
+  Future<void> init() async {
     assert(
       _drivers.isNotEmpty,
       'Remember to register drivers before starting DeviceDriverManager',
@@ -84,6 +86,11 @@ class DeviceDriverManager {
       _timing == null,
       'DeviceDriverManager is already bound to timing service',
     );
+
+    // Register device flow with manager
+    ref.read(flowManagerProvider)
+      ..register(DeviceTokensFlow())
+      ..bind(events);
 
     _timing = ref
         .read(timingServiceProvider)

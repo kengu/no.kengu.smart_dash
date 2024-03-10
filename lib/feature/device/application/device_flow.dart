@@ -1,114 +1,117 @@
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/flow/domain/flow.dart';
 
-class DeviceFlow extends Flow {
-  const DeviceFlow() : super('device');
+class DeviceTokensFlow extends Flow {
+  const DeviceTokensFlow() : super('$DeviceTokensFlow');
 
   @override
   Stream<FlowEvent> evaluate(Object event) async* {
     if (event is DevicesUpdatedEvent) {
       for (final device in event.devices) {
-        for (final token in device.toTokens()) {
-          switch (token.unit) {
-            case TokenUnit.energy:
-              yield FlowEvent<int>(
-                token,
-                device.electric?.cumulativeToday ?? 0,
-                device.electric?.lastUpdated ?? device.lastUpdated,
-              );
-              break;
-            case TokenUnit.power:
-              yield FlowEvent<int>(
-                token,
-                device.electric?.currentPower ?? 0,
-                device.electric?.lastUpdated ?? device.lastUpdated,
-              );
-              break;
-            case TokenUnit.voltage:
-              yield FlowEvent<int>(
-                token,
-                device.electric?.voltage ?? 0,
-                device.electric?.lastUpdated ?? device.lastUpdated,
-              );
-              break;
-            case TokenUnit.luminance:
-              yield FlowEvent<int>(
-                token,
-                device.luminance ?? 0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.temperature:
-              yield FlowEvent<double>(
-                token,
-                device.temperature ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.ultraviolet:
-              yield FlowEvent<int>(
-                token,
-                device.ultraviolet ?? 00,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.onOff:
-              yield FlowEvent<bool>(
-                token,
-                device.onOff?.state ?? false,
-                device.onOff?.lastUpdated ?? device.lastUpdated,
-              );
-              break;
-            case TokenUnit.rain:
-              yield FlowEvent<double>(
-                token,
-                device.rain ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.humidity:
-              yield FlowEvent<double>(
-                token,
-                device.humidity ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.windAngle:
-              yield FlowEvent<double>(
-                token,
-                device.windAngle ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.windSpeed:
-              yield FlowEvent<double>(
-                token,
-                device.windSpeed ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.gustSpeed:
-              yield FlowEvent<double>(
-                token,
-                device.gustSpeed ?? 0.0,
-                device.lastUpdated,
-              );
-              break;
-            case TokenUnit.count:
-              throw UnimplementedError(
-                '${TokenUnit.count} not implemented',
-              );
-          }
-        }
+        final tags = toTags(device);
+        yield FlowEvent(flow: key, tags: tags);
       }
     }
   }
 
+  static List<FlowTag<dynamic>> toTags(Device device) {
+    final tags = <FlowTag>[];
+    for (final token in device.toTokens()) {
+      switch (token.unit) {
+        case TokenUnit.energy:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.electric?.cumulativeToday ?? 0,
+            when: device.electric?.lastUpdated ?? device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.power:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.electric?.currentPower ?? 0,
+            when: device.electric?.lastUpdated ?? device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.voltage:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.electric?.voltage ?? 0,
+            when: device.electric?.lastUpdated ?? device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.luminance:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.luminance ?? 0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.temperature:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.temperature ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.ultraviolet:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.ultraviolet ?? 00,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.onOff:
+          tags.add(FlowTag<bool>(
+            token: token,
+            data: device.onOff?.state ?? false,
+            when: device.onOff?.lastUpdated ?? device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.rain:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.rain ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.humidity:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.humidity ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.windAngle:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.windAngle ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.windSpeed:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.windSpeed ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.gustSpeed:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.gustSpeed ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.count:
+          throw UnimplementedError(
+            '${TokenUnit.count} not implemented',
+          );
+      }
+    }
+    return tags;
+  }
+
   @override
-  bool when(Object event) =>
-      event is DevicesUpdatedEvent &&
-      event.devices.any(
-        (d) => d.capabilities.isNotEmpty,
-      );
+  bool when(Object event) => event is DevicesUpdatedEvent;
 }

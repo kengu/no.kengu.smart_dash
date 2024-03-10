@@ -24,6 +24,7 @@ dependencies:
   path_provider: ^2.1.2
   window_manager: ^0.3.8
 
+  nanoid: ^1.0.0
   logging: ^1.2.0
   strings: ^3.1.1
   timeago: ^3.6.1
@@ -56,6 +57,8 @@ dependencies:
   flutter_wall_layout: ^2.1.1
   adaptive_breakpoints: ^0.1.7
   flutter_secure_storage: ^9.0.0
+
+  eval_ex: ^1.1.8
 
   media_kit: ^1.1.10+1
   media_kit_video: ^1.2.4

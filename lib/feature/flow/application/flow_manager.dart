@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/device/application/device_driver.dart';
-import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/feature/flow/application/block_flow.dart';
+import 'package:smart_dash/feature/flow/data/block_repository.dart';
+import 'package:smart_dash/feature/flow/domain/flow.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/stream.dart';
 import 'package:smart_dash/util/type.dart';
@@ -18,13 +18,11 @@ class FlowManager {
 
   final Ref ref;
   final _flows = <String, Flow>{};
-  // TODO Make limit configurable
-  final Duration limit = const Duration(seconds: 5);
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
   final StreamController<FlowEvent> _controller = StreamController.broadcast();
 
-  StreamSubscription<DevicesUpdatedEvent>? _updates;
+  final Map<Type, StreamSubscription> _subscriptions = {};
 
   /// Get stream of [FlowEvent]s.
   Stream<FlowEvent> get events => _controller.stream;
@@ -32,7 +30,13 @@ class FlowManager {
   /// Check if [Flow] for given [Flow.key] exists
   bool exists(String key) => _flows.containsKey(key);
 
-  /// [DeviceDriver] should call this to register
+  Future<void> init() async {
+    assert(_flows.isEmpty, 'FlowManager is initialized already');
+    for (final model in await ref.read(blockRepositoryProvider).getAll()) {
+      register(BlockFlow(model: model));
+    }
+  }
+
   void register(Flow flow) {
     assert(
       !_flows.containsKey(flow.key),
@@ -45,23 +49,40 @@ class FlowManager {
     );
   }
 
-  /// Start pumping flow events by binding to device updates
-  void bind() {
-    assert(_updates == null, 'FlowManager is started already');
-    _updates = ref
-        .read(deviceDriverManagerProvider)
-        .updated
-        .throttle(limit)
-        .listen(_onTrigger);
+  /// Bind to stream of [T] events.
+  ///
+  /// Use [limit] to reduce the rate that events
+  /// are processed to at most once per duration
+  void bind<T extends Object>(
+    Stream<T> events, {
+    Duration limit = const Duration(seconds: 5),
+  }) {
+    final type = typeOf<T>();
+    assert(
+      !_subscriptions.containsKey(type),
+      'Stream of $type already bound',
+    );
+    _subscriptions[type] = events.throttle(limit).listen(trigger);
   }
 
-  /// Stop pumping flow events by unbinding from global event pump.
-  void unbind() {
-    _updates?.cancel();
-    _updates = null;
+  /// Unbind from stream of [T] events
+  void unbind<T extends Object>(Stream<T> events) {
+    final type = typeOf<T>();
+    final subscription = _subscriptions[type];
+    assert(subscription != null, 'Stream of $type not bound');
+    subscription!.cancel();
+    _subscriptions.remove(type);
   }
 
-  Future<void> _onTrigger(DevicesUpdatedEvent event) {
+  /// Unbind from all streams
+  void unbindAll() {
+    for (final it in _subscriptions.values) {
+      it.cancel();
+    }
+    _subscriptions.clear();
+  }
+
+  Future<void> trigger(Object event) {
     return guard<void>(
       () async {
         for (final evaluate in _flows.values.where(
@@ -72,63 +93,19 @@ class FlowManager {
           // sees last event when events are added more frequently
           // than 60 fps (less than 17 milliseconds between each event).
           await for (final event in evaluate(event).delayed(delay)) {
+            if (event is BlocEvent) {
+              final flow = evaluate as BlockFlow;
+              await ref.read(blockRepositoryProvider).updateAll([flow.model]);
+              debugPrint('FlowManager >> Updated Block [${flow.model.name}]');
+            }
             // Process list of flow events in order of completion
             _controller.add(event);
           }
         }
       },
-      task: '_onTrigger',
+      task: 'trigger',
       name: 'FlowManager',
     );
-  }
-}
-
-abstract class Flow {
-  const Flow(this.key);
-
-  final String key;
-
-  bool when(Object event);
-
-  @visibleForOverriding
-  Stream<FlowEvent> evaluate(Object event);
-
-  /// Default method
-  Stream<FlowEvent> call(Object event) => evaluate(event);
-}
-
-class FlowEvent<T> {
-  FlowEvent(this.token, this.data, this.when) {
-    assert(
-      token.isType(data),
-      'Token type [${token.type}] does not match data type [$type]',
-    );
-  }
-
-  final T data;
-  final Token token;
-  final DateTime when;
-
-  Type get type => typeOf<T>();
-
-  bool isNumber() => this.data is num;
-
-  bool isType<E>() => this is FlowEvent<E>;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FlowEvent &&
-          runtimeType == other.runtimeType &&
-          token == other.token &&
-          data == other.data;
-
-  @override
-  int get hashCode => token.hashCode ^ data.hashCode;
-
-  @override
-  String toString() {
-    return 'FlowEvent{token: $token}';
   }
 }
 
