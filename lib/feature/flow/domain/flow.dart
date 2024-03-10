@@ -62,10 +62,12 @@ class FlowEvent {
   FlowEvent({
     required this.flow,
     required this.tags,
-  });
+    DateTime? when,
+  }) : when = when ?? DateTime.now();
 
   final String flow;
   final List<FlowTag> tags;
+  final DateTime when;
 
   @override
   bool operator ==(Object other) =>

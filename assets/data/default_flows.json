@@ -14,15 +14,16 @@
       "any": true,
       "onTypes": ["device"],
       "onTags": ["measure_power:sikom:device:541905"],
-      "ttl": 30,
-      "repeatUntil": 0,
-      "debounceUntil": 0
+      "repeatCount": 0,
+      "repeatAfter": 300,
+      "debounceCount": 0,
+      "debounceAfter": 300
     },
     "conditions": [
       {
         "label": "Limit",
         "description": "Power limit",
-        "expression": "power > 500",
+        "expression": "power > 50",
         "variables": [
           {
             "tag": "power",
@@ -37,9 +38,9 @@
     ],
     "whenTrue": [
       {
-        "label": "Alert",
         "type": "notification",
-        "description": "Power limit exceeded",
+        "label": "Power Limit Notification",
+        "description": "Power exceeded 8.0 kW",
         "parameters": []
       }
     ],

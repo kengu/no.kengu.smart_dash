@@ -571,11 +571,12 @@ BlockTrigger _$BlockTriggerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BlockTrigger {
-  int get ttl => throw _privateConstructorUsedError;
   bool get any => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
-  int get repeatUntil => throw _privateConstructorUsedError;
-  int get debounceUntil => throw _privateConstructorUsedError;
+  int get repeatCount => throw _privateConstructorUsedError;
+  int get repeatAfter => throw _privateConstructorUsedError;
+  int get debounceCount => throw _privateConstructorUsedError;
+  int get debounceAfter => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<String> get onTags => throw _privateConstructorUsedError;
   List<BlockTriggerOnType> get onTypes => throw _privateConstructorUsedError;
@@ -593,11 +594,12 @@ abstract class $BlockTriggerCopyWith<$Res> {
       _$BlockTriggerCopyWithImpl<$Res, BlockTrigger>;
   @useResult
   $Res call(
-      {int ttl,
-      bool any,
+      {bool any,
       String label,
-      int repeatUntil,
-      int debounceUntil,
+      int repeatCount,
+      int repeatAfter,
+      int debounceCount,
+      int debounceAfter,
       String description,
       List<String> onTags,
       List<BlockTriggerOnType> onTypes});
@@ -616,20 +618,17 @@ class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ttl = null,
     Object? any = null,
     Object? label = null,
-    Object? repeatUntil = null,
-    Object? debounceUntil = null,
+    Object? repeatCount = null,
+    Object? repeatAfter = null,
+    Object? debounceCount = null,
+    Object? debounceAfter = null,
     Object? description = null,
     Object? onTags = null,
     Object? onTypes = null,
   }) {
     return _then(_value.copyWith(
-      ttl: null == ttl
-          ? _value.ttl
-          : ttl // ignore: cast_nullable_to_non_nullable
-              as int,
       any: null == any
           ? _value.any
           : any // ignore: cast_nullable_to_non_nullable
@@ -638,13 +637,21 @@ class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      repeatUntil: null == repeatUntil
-          ? _value.repeatUntil
-          : repeatUntil // ignore: cast_nullable_to_non_nullable
+      repeatCount: null == repeatCount
+          ? _value.repeatCount
+          : repeatCount // ignore: cast_nullable_to_non_nullable
               as int,
-      debounceUntil: null == debounceUntil
-          ? _value.debounceUntil
-          : debounceUntil // ignore: cast_nullable_to_non_nullable
+      repeatAfter: null == repeatAfter
+          ? _value.repeatAfter
+          : repeatAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceCount: null == debounceCount
+          ? _value.debounceCount
+          : debounceCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceAfter: null == debounceAfter
+          ? _value.debounceAfter
+          : debounceAfter // ignore: cast_nullable_to_non_nullable
               as int,
       description: null == description
           ? _value.description
@@ -671,11 +678,12 @@ abstract class _$$BlockTriggerImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int ttl,
-      bool any,
+      {bool any,
       String label,
-      int repeatUntil,
-      int debounceUntil,
+      int repeatCount,
+      int repeatAfter,
+      int debounceCount,
+      int debounceAfter,
       String description,
       List<String> onTags,
       List<BlockTriggerOnType> onTypes});
@@ -692,20 +700,17 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ttl = null,
     Object? any = null,
     Object? label = null,
-    Object? repeatUntil = null,
-    Object? debounceUntil = null,
+    Object? repeatCount = null,
+    Object? repeatAfter = null,
+    Object? debounceCount = null,
+    Object? debounceAfter = null,
     Object? description = null,
     Object? onTags = null,
     Object? onTypes = null,
   }) {
     return _then(_$BlockTriggerImpl(
-      ttl: null == ttl
-          ? _value.ttl
-          : ttl // ignore: cast_nullable_to_non_nullable
-              as int,
       any: null == any
           ? _value.any
           : any // ignore: cast_nullable_to_non_nullable
@@ -714,13 +719,21 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      repeatUntil: null == repeatUntil
-          ? _value.repeatUntil
-          : repeatUntil // ignore: cast_nullable_to_non_nullable
+      repeatCount: null == repeatCount
+          ? _value.repeatCount
+          : repeatCount // ignore: cast_nullable_to_non_nullable
               as int,
-      debounceUntil: null == debounceUntil
-          ? _value.debounceUntil
-          : debounceUntil // ignore: cast_nullable_to_non_nullable
+      repeatAfter: null == repeatAfter
+          ? _value.repeatAfter
+          : repeatAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceCount: null == debounceCount
+          ? _value.debounceCount
+          : debounceCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceAfter: null == debounceAfter
+          ? _value.debounceAfter
+          : debounceAfter // ignore: cast_nullable_to_non_nullable
               as int,
       description: null == description
           ? _value.description
@@ -742,11 +755,12 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BlockTriggerImpl extends _BlockTrigger {
   const _$BlockTriggerImpl(
-      {required this.ttl,
-      required this.any,
+      {required this.any,
       required this.label,
-      required this.repeatUntil,
-      required this.debounceUntil,
+      required this.repeatCount,
+      required this.repeatAfter,
+      required this.debounceCount,
+      required this.debounceAfter,
       required this.description,
       required final List<String> onTags,
       required final List<BlockTriggerOnType> onTypes})
@@ -758,15 +772,17 @@ class _$BlockTriggerImpl extends _BlockTrigger {
       _$$BlockTriggerImplFromJson(json);
 
   @override
-  final int ttl;
-  @override
   final bool any;
   @override
   final String label;
   @override
-  final int repeatUntil;
+  final int repeatCount;
   @override
-  final int debounceUntil;
+  final int repeatAfter;
+  @override
+  final int debounceCount;
+  @override
+  final int debounceAfter;
   @override
   final String description;
   final List<String> _onTags;
@@ -787,7 +803,7 @@ class _$BlockTriggerImpl extends _BlockTrigger {
 
   @override
   String toString() {
-    return 'BlockTrigger(ttl: $ttl, any: $any, label: $label, repeatUntil: $repeatUntil, debounceUntil: $debounceUntil, description: $description, onTags: $onTags, onTypes: $onTypes)';
+    return 'BlockTrigger(any: $any, label: $label, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, description: $description, onTags: $onTags, onTypes: $onTypes)';
   }
 
   @override
@@ -795,13 +811,16 @@ class _$BlockTriggerImpl extends _BlockTrigger {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockTriggerImpl &&
-            (identical(other.ttl, ttl) || other.ttl == ttl) &&
             (identical(other.any, any) || other.any == any) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.repeatUntil, repeatUntil) ||
-                other.repeatUntil == repeatUntil) &&
-            (identical(other.debounceUntil, debounceUntil) ||
-                other.debounceUntil == debounceUntil) &&
+            (identical(other.repeatCount, repeatCount) ||
+                other.repeatCount == repeatCount) &&
+            (identical(other.repeatAfter, repeatAfter) ||
+                other.repeatAfter == repeatAfter) &&
+            (identical(other.debounceCount, debounceCount) ||
+                other.debounceCount == debounceCount) &&
+            (identical(other.debounceAfter, debounceAfter) ||
+                other.debounceAfter == debounceAfter) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality().equals(other._onTags, _onTags) &&
@@ -812,11 +831,12 @@ class _$BlockTriggerImpl extends _BlockTrigger {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      ttl,
       any,
       label,
-      repeatUntil,
-      debounceUntil,
+      repeatCount,
+      repeatAfter,
+      debounceCount,
+      debounceAfter,
       description,
       const DeepCollectionEquality().hash(_onTags),
       const DeepCollectionEquality().hash(_onTypes));
@@ -837,11 +857,12 @@ class _$BlockTriggerImpl extends _BlockTrigger {
 
 abstract class _BlockTrigger extends BlockTrigger {
   const factory _BlockTrigger(
-      {required final int ttl,
-      required final bool any,
+      {required final bool any,
       required final String label,
-      required final int repeatUntil,
-      required final int debounceUntil,
+      required final int repeatCount,
+      required final int repeatAfter,
+      required final int debounceCount,
+      required final int debounceAfter,
       required final String description,
       required final List<String> onTags,
       required final List<BlockTriggerOnType> onTypes}) = _$BlockTriggerImpl;
@@ -851,15 +872,17 @@ abstract class _BlockTrigger extends BlockTrigger {
       _$BlockTriggerImpl.fromJson;
 
   @override
-  int get ttl;
-  @override
   bool get any;
   @override
   String get label;
   @override
-  int get repeatUntil;
+  int get repeatCount;
   @override
-  int get debounceUntil;
+  int get repeatAfter;
+  @override
+  int get debounceCount;
+  @override
+  int get debounceAfter;
   @override
   String get description;
   @override

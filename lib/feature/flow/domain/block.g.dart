@@ -58,11 +58,12 @@ Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
 
 _$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
     _$BlockTriggerImpl(
-      ttl: json['ttl'] as int,
       any: json['any'] as bool,
       label: json['label'] as String,
-      repeatUntil: json['repeatUntil'] as int,
-      debounceUntil: json['debounceUntil'] as int,
+      repeatCount: json['repeatCount'] as int,
+      repeatAfter: json['repeatAfter'] as int,
+      debounceCount: json['debounceCount'] as int,
+      debounceAfter: json['debounceAfter'] as int,
       description: json['description'] as String,
       onTags:
           (json['onTags'] as List<dynamic>).map((e) => e as String).toList(),
@@ -73,11 +74,12 @@ _$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$BlockTriggerImplToJson(_$BlockTriggerImpl instance) =>
     <String, dynamic>{
-      'ttl': instance.ttl,
       'any': instance.any,
       'label': instance.label,
-      'repeatUntil': instance.repeatUntil,
-      'debounceUntil': instance.debounceUntil,
+      'repeatCount': instance.repeatCount,
+      'repeatAfter': instance.repeatAfter,
+      'debounceCount': instance.debounceCount,
+      'debounceAfter': instance.debounceAfter,
       'description': instance.description,
       'onTags': instance.onTags,
       'onTypes':

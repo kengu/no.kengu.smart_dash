@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/core/application/notification_service.dart';
 import 'package:smart_dash/feature/flow/application/block_flow.dart';
 import 'package:smart_dash/feature/flow/data/block_repository.dart';
 import 'package:smart_dash/feature/flow/domain/flow.dart';
@@ -97,6 +98,15 @@ class FlowManager {
               final flow = evaluate as BlockFlow;
               await ref.read(blockRepositoryProvider).updateAll([flow.model]);
               debugPrint('FlowManager >> Updated Block [${flow.model.name}]');
+              switch (event.runtimeType) {
+                case const (BlockNotificationEvent):
+                  final notification = event as BlockNotificationEvent;
+                  ref.read(notificationServiceProvider).show(
+                        title: notification.action.label,
+                        body: notification.action.description,
+                      );
+                  continue;
+              }
             }
             // Process list of flow events in order of completion
             _controller.add(event);

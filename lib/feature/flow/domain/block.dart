@@ -38,20 +38,25 @@ class BlockState with _$BlockState {
     DateTime? lastChanged,
   }) = _BlockState;
 
-  bool isExpired(int ttl) =>
-      ttl > 0 &&
-      (lastChanged == null ||
-          DateTime.now().difference(lastChanged!).inSeconds > ttl);
+  /// Check if [ttl] exceeds duration from [lastChanged] to now.
+  ///
+  /// If [ttl] is equal to or less than zero this function returns false.
+  bool isExpired(int ttl, {DateTime? ifNull}) {
+    final when = lastChanged ?? ifNull;
+    return ttl > 0 &&
+        (when == null || DateTime.now().difference(when).inSeconds > ttl);
+  }
 
-  factory BlockState.fromTags(
-      {required bool value,
-      required int repeated,
-      required List<FlowTag> tags,
-      required DateTime? lastChanged}) {
+  factory BlockState.fromTags({
+    required bool value,
+    required int repeated,
+    required List<FlowTag> tags,
+    required DateTime? lastChanged,
+  }) {
     return BlockState(
       value: value,
       repeated: repeated,
-      lastChanged: lastChanged,
+      lastChanged: lastChanged ?? DateTime.now(),
       parameters: tags.map(BlockParameter.fromTag).toList(),
     );
   }
@@ -71,11 +76,12 @@ class BlockTrigger with _$BlockTrigger {
   const BlockTrigger._();
 
   const factory BlockTrigger({
-    required int ttl,
     required bool any,
     required String label,
-    required int repeatUntil,
-    required int debounceUntil,
+    required int repeatCount,
+    required int repeatAfter,
+    required int debounceCount,
+    required int debounceAfter,
     required String description,
     required List<String> onTags,
     required List<BlockTriggerOnType> onTypes,

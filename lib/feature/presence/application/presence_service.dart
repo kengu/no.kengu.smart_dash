@@ -235,11 +235,11 @@ class MemberPresenceEvent extends FlowEvent {
               token: token,
             )
           ],
+          when: when,
         );
 
   bool get isHome => tags.first.data;
   Token get token => tags.first.token;
-  DateTime get when => tags.first.when;
 }
 
 class MemberPresenceIsHome extends MemberPresenceEvent {
