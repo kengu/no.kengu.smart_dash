@@ -101,6 +101,7 @@ class BlockCondition with _$BlockCondition {
     required String expression,
     required String description,
     required List<BlockVariable> variables,
+    required List<BlockParameter> parameters,
   }) = _BlockCondition;
 
   factory BlockCondition.fromJson(Map<String, Object?> json) =>
@@ -147,7 +148,7 @@ class BlockVariable with _$BlockVariable {
       _$BlockVariableFromJson(json);
 }
 
-enum BlocActionType {
+enum BlockActionType {
   notification;
 }
 
@@ -159,7 +160,7 @@ class BlockAction with _$BlockAction {
   const factory BlockAction({
     required String label,
     required String description,
-    required BlocActionType type,
+    required BlockActionType type,
     required List<BlockParameter> parameters,
   }) = _BlockAction;
 

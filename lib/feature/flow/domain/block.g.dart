@@ -100,6 +100,9 @@ _$BlockConditionImpl _$$BlockConditionImplFromJson(Map<String, dynamic> json) =>
       variables: (json['variables'] as List<dynamic>)
           .map((e) => BlockVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
+      parameters: (json['parameters'] as List<dynamic>)
+          .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$BlockConditionImplToJson(
@@ -109,6 +112,7 @@ Map<String, dynamic> _$$BlockConditionImplToJson(
       'expression': instance.expression,
       'description': instance.description,
       'variables': instance.variables.map((e) => e.toJson()).toList(),
+      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
     };
 
 _$BlockVariableImpl _$$BlockVariableImplFromJson(Map<String, dynamic> json) =>
@@ -157,7 +161,7 @@ _$BlockActionImpl _$$BlockActionImplFromJson(Map<String, dynamic> json) =>
     _$BlockActionImpl(
       label: json['label'] as String,
       description: json['description'] as String,
-      type: $enumDecode(_$BlocActionTypeEnumMap, json['type']),
+      type: $enumDecode(_$BlockActionTypeEnumMap, json['type']),
       parameters: (json['parameters'] as List<dynamic>)
           .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -167,12 +171,12 @@ Map<String, dynamic> _$$BlockActionImplToJson(_$BlockActionImpl instance) =>
     <String, dynamic>{
       'label': instance.label,
       'description': instance.description,
-      'type': _$BlocActionTypeEnumMap[instance.type]!,
+      'type': _$BlockActionTypeEnumMap[instance.type]!,
       'parameters': instance.parameters.map((e) => e.toJson()).toList(),
     };
 
-const _$BlocActionTypeEnumMap = {
-  BlocActionType.notification: 'notification',
+const _$BlockActionTypeEnumMap = {
+  BlockActionType.notification: 'notification',
 };
 
 _$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>

@@ -46,17 +46,11 @@ class BlockFlow extends Flow {
         // TODO: Cache expressions for better performance?
         final expr = exp.Expression(condition.expression);
         for (final name in expr.getUsedVariables()) {
-          final match = tags.firstWhereOptional(
-            (e) => e.token.tag == name || e.token.name == name,
-          );
-
-          if (!match.isPresent) {
-            return false;
+          if (!_setTagValue(expr, name, tags)) {
+            if (!_setParamValue(expr, name, condition)) {
+              return false;
+            }
           }
-          expr.setStringVariable(
-            name,
-            match.value.data.toString(),
-          );
         }
         final result = expr.eval().toString();
         return result == "1";
@@ -64,6 +58,43 @@ class BlockFlow extends Flow {
       task: '_evaluate',
       name: '$BlockFlow[$key]',
     );
+  }
+
+  bool _setTagValue(
+    exp.Expression expr,
+    String name,
+    List<FlowTag<dynamic>> tags,
+  ) {
+    final tag = tags.firstWhereOptional(
+      (e) => e.token.tag == name || e.token.name == name,
+    );
+
+    if (!tag.isPresent) return false;
+
+    expr.setStringVariable(
+      name,
+      tag.value.data.toString(),
+    );
+    return true;
+  }
+
+  bool _setParamValue(
+    exp.Expression expr,
+    String name,
+    BlockCondition condition,
+  ) {
+    final param = condition.parameters.firstWhereOptional(
+      (e) => e.tag == name || e.name == name,
+    );
+
+    if (!param.isPresent) return false;
+
+    expr.setStringVariable(
+      name,
+      param.value.value.toString(),
+    );
+
+    return true;
   }
 
   Stream<FlowEvent> _handle(
@@ -99,7 +130,8 @@ class BlockFlow extends Flow {
     if (changed || shouldRepeat || expired) {
       for (final action in actions) {
         switch (action.type) {
-          case BlocActionType.notification:
+          // TODO: Add more action types
+          case BlockActionType.notification:
             yield BlockNotificationEvent(action, flow: key, tags: tags);
         }
       }

@@ -905,6 +905,7 @@ mixin _$BlockCondition {
   String get expression => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<BlockVariable> get variables => throw _privateConstructorUsedError;
+  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -922,7 +923,8 @@ abstract class $BlockConditionCopyWith<$Res> {
       {String label,
       String expression,
       String description,
-      List<BlockVariable> variables});
+      List<BlockVariable> variables,
+      List<BlockParameter> parameters});
 }
 
 /// @nodoc
@@ -942,6 +944,7 @@ class _$BlockConditionCopyWithImpl<$Res, $Val extends BlockCondition>
     Object? expression = null,
     Object? description = null,
     Object? variables = null,
+    Object? parameters = null,
   }) {
     return _then(_value.copyWith(
       label: null == label
@@ -960,6 +963,10 @@ class _$BlockConditionCopyWithImpl<$Res, $Val extends BlockCondition>
           ? _value.variables
           : variables // ignore: cast_nullable_to_non_nullable
               as List<BlockVariable>,
+      parameters: null == parameters
+          ? _value.parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
     ) as $Val);
   }
 }
@@ -976,7 +983,8 @@ abstract class _$$BlockConditionImplCopyWith<$Res>
       {String label,
       String expression,
       String description,
-      List<BlockVariable> variables});
+      List<BlockVariable> variables,
+      List<BlockParameter> parameters});
 }
 
 /// @nodoc
@@ -994,6 +1002,7 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
     Object? expression = null,
     Object? description = null,
     Object? variables = null,
+    Object? parameters = null,
   }) {
     return _then(_$BlockConditionImpl(
       label: null == label
@@ -1012,6 +1021,10 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
           ? _value._variables
           : variables // ignore: cast_nullable_to_non_nullable
               as List<BlockVariable>,
+      parameters: null == parameters
+          ? _value._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
     ));
   }
 }
@@ -1023,8 +1036,10 @@ class _$BlockConditionImpl extends _BlockCondition {
       {required this.label,
       required this.expression,
       required this.description,
-      required final List<BlockVariable> variables})
+      required final List<BlockVariable> variables,
+      required final List<BlockParameter> parameters})
       : _variables = variables,
+        _parameters = parameters,
         super._();
 
   factory _$BlockConditionImpl.fromJson(Map<String, dynamic> json) =>
@@ -1044,9 +1059,17 @@ class _$BlockConditionImpl extends _BlockCondition {
     return EqualUnmodifiableListView(_variables);
   }
 
+  final List<BlockParameter> _parameters;
+  @override
+  List<BlockParameter> get parameters {
+    if (_parameters is EqualUnmodifiableListView) return _parameters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_parameters);
+  }
+
   @override
   String toString() {
-    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables)';
+    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables, parameters: $parameters)';
   }
 
   @override
@@ -1060,13 +1083,20 @@ class _$BlockConditionImpl extends _BlockCondition {
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality()
-                .equals(other._variables, _variables));
+                .equals(other._variables, _variables) &&
+            const DeepCollectionEquality()
+                .equals(other._parameters, _parameters));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, label, expression, description,
-      const DeepCollectionEquality().hash(_variables));
+  int get hashCode => Object.hash(
+      runtimeType,
+      label,
+      expression,
+      description,
+      const DeepCollectionEquality().hash(_variables),
+      const DeepCollectionEquality().hash(_parameters));
 
   @JsonKey(ignore: true)
   @override
@@ -1088,7 +1118,8 @@ abstract class _BlockCondition extends BlockCondition {
       {required final String label,
       required final String expression,
       required final String description,
-      required final List<BlockVariable> variables}) = _$BlockConditionImpl;
+      required final List<BlockVariable> variables,
+      required final List<BlockParameter> parameters}) = _$BlockConditionImpl;
   const _BlockCondition._() : super._();
 
   factory _BlockCondition.fromJson(Map<String, dynamic> json) =
@@ -1102,6 +1133,8 @@ abstract class _BlockCondition extends BlockCondition {
   String get description;
   @override
   List<BlockVariable> get variables;
+  @override
+  List<BlockParameter> get parameters;
   @override
   @JsonKey(ignore: true)
   _$$BlockConditionImplCopyWith<_$BlockConditionImpl> get copyWith =>
@@ -1360,7 +1393,7 @@ BlockAction _$BlockActionFromJson(Map<String, dynamic> json) {
 mixin _$BlockAction {
   String get label => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  BlocActionType get type => throw _privateConstructorUsedError;
+  BlockActionType get type => throw _privateConstructorUsedError;
   List<BlockParameter> get parameters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1378,7 +1411,7 @@ abstract class $BlockActionCopyWith<$Res> {
   $Res call(
       {String label,
       String description,
-      BlocActionType type,
+      BlockActionType type,
       List<BlockParameter> parameters});
 }
 
@@ -1412,7 +1445,7 @@ class _$BlockActionCopyWithImpl<$Res, $Val extends BlockAction>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as BlocActionType,
+              as BlockActionType,
       parameters: null == parameters
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
@@ -1432,7 +1465,7 @@ abstract class _$$BlockActionImplCopyWith<$Res>
   $Res call(
       {String label,
       String description,
-      BlocActionType type,
+      BlockActionType type,
       List<BlockParameter> parameters});
 }
 
@@ -1464,7 +1497,7 @@ class __$$BlockActionImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as BlocActionType,
+              as BlockActionType,
       parameters: null == parameters
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
@@ -1492,7 +1525,7 @@ class _$BlockActionImpl extends _BlockAction {
   @override
   final String description;
   @override
-  final BlocActionType type;
+  final BlockActionType type;
   final List<BlockParameter> _parameters;
   @override
   List<BlockParameter> get parameters {
@@ -1542,7 +1575,7 @@ abstract class _BlockAction extends BlockAction {
   const factory _BlockAction(
       {required final String label,
       required final String description,
-      required final BlocActionType type,
+      required final BlockActionType type,
       required final List<BlockParameter> parameters}) = _$BlockActionImpl;
   const _BlockAction._() : super._();
 
@@ -1554,7 +1587,7 @@ abstract class _BlockAction extends BlockAction {
   @override
   String get description;
   @override
-  BlocActionType get type;
+  BlockActionType get type;
   @override
   List<BlockParameter> get parameters;
   @override
