@@ -102,8 +102,8 @@ class FlowManager {
                 case const (BlockNotificationEvent):
                   final notification = event as BlockNotificationEvent;
                   ref.read(notificationServiceProvider).show(
-                        title: notification.action.label,
-                        body: notification.action.description,
+                        title: notification.label,
+                        body: notification.description,
                       );
                   continue;
               }

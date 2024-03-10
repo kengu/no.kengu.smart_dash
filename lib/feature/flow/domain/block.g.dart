@@ -19,6 +19,9 @@ _$BlockModelImpl _$$BlockModelImplFromJson(Map<String, dynamic> json) =>
       whenFalse: (json['whenFalse'] as List<dynamic>)
           .map((e) => BlockAction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      parameters: (json['parameters'] as List<dynamic>)
+          .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       conditions: (json['conditions'] as List<dynamic>)
           .map((e) => BlockCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -33,14 +36,56 @@ Map<String, dynamic> _$$BlockModelImplToJson(_$BlockModelImpl instance) =>
       'trigger': instance.trigger.toJson(),
       'whenTrue': instance.whenTrue.map((e) => e.toJson()).toList(),
       'whenFalse': instance.whenFalse.map((e) => e.toJson()).toList(),
+      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
       'conditions': instance.conditions.map((e) => e.toJson()).toList(),
     };
+
+_$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>
+    _$BlockParameterImpl(
+      tag: json['tag'] as String,
+      name: json['name'] as String,
+      value: json['value'] as Object,
+      type: $enumDecode(_$TokenTypeEnumMap, json['type']),
+      unit: $enumDecode(_$TokenUnitEnumMap, json['unit']),
+    );
+
+Map<String, dynamic> _$$BlockParameterImplToJson(
+        _$BlockParameterImpl instance) =>
+    <String, dynamic>{
+      'tag': instance.tag,
+      'name': instance.name,
+      'value': instance.value,
+      'type': _$TokenTypeEnumMap[instance.type]!,
+      'unit': _$TokenUnitEnumMap[instance.unit]!,
+    };
+
+const _$TokenTypeEnumMap = {
+  TokenType.int: 'int',
+  TokenType.bool: 'bool',
+  TokenType.double: 'double',
+};
+
+const _$TokenUnitEnumMap = {
+  TokenUnit.onOff: 'onOff',
+  TokenUnit.count: 'count',
+  TokenUnit.power: 'power',
+  TokenUnit.rain: 'rain',
+  TokenUnit.energy: 'energy',
+  TokenUnit.voltage: 'voltage',
+  TokenUnit.humidity: 'humidity',
+  TokenUnit.windAngle: 'windAngle',
+  TokenUnit.luminance: 'luminance',
+  TokenUnit.windSpeed: 'windSpeed',
+  TokenUnit.gustSpeed: 'gustSpeed',
+  TokenUnit.ultraviolet: 'ultraviolet',
+  TokenUnit.temperature: 'temperature',
+};
 
 _$BlockStateImpl _$$BlockStateImplFromJson(Map<String, dynamic> json) =>
     _$BlockStateImpl(
       value: json['value'] as bool,
       repeated: json['repeated'] as int,
-      parameters: (json['parameters'] as List<dynamic>)
+      tags: (json['tags'] as List<dynamic>)
           .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastChanged: json['lastChanged'] == null
@@ -52,7 +97,7 @@ Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'repeated': instance.repeated,
-      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
+      'tags': instance.tags.map((e) => e.toJson()).toList(),
       'lastChanged': instance.lastChanged?.toIso8601String(),
     };
 
@@ -100,9 +145,6 @@ _$BlockConditionImpl _$$BlockConditionImplFromJson(Map<String, dynamic> json) =>
       variables: (json['variables'] as List<dynamic>)
           .map((e) => BlockVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
-      parameters: (json['parameters'] as List<dynamic>)
-          .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$BlockConditionImplToJson(
@@ -112,7 +154,6 @@ Map<String, dynamic> _$$BlockConditionImplToJson(
       'expression': instance.expression,
       'description': instance.description,
       'variables': instance.variables.map((e) => e.toJson()).toList(),
-      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
     };
 
 _$BlockVariableImpl _$$BlockVariableImplFromJson(Map<String, dynamic> json) =>
@@ -135,36 +176,11 @@ Map<String, dynamic> _$$BlockVariableImplToJson(_$BlockVariableImpl instance) =>
       'description': instance.description,
     };
 
-const _$TokenTypeEnumMap = {
-  TokenType.int: 'int',
-  TokenType.bool: 'bool',
-  TokenType.double: 'double',
-};
-
-const _$TokenUnitEnumMap = {
-  TokenUnit.onOff: 'onOff',
-  TokenUnit.count: 'count',
-  TokenUnit.power: 'power',
-  TokenUnit.rain: 'rain',
-  TokenUnit.energy: 'energy',
-  TokenUnit.voltage: 'voltage',
-  TokenUnit.humidity: 'humidity',
-  TokenUnit.windAngle: 'windAngle',
-  TokenUnit.luminance: 'luminance',
-  TokenUnit.windSpeed: 'windSpeed',
-  TokenUnit.gustSpeed: 'gustSpeed',
-  TokenUnit.ultraviolet: 'ultraviolet',
-  TokenUnit.temperature: 'temperature',
-};
-
 _$BlockActionImpl _$$BlockActionImplFromJson(Map<String, dynamic> json) =>
     _$BlockActionImpl(
       label: json['label'] as String,
       description: json['description'] as String,
       type: $enumDecode(_$BlockActionTypeEnumMap, json['type']),
-      parameters: (json['parameters'] as List<dynamic>)
-          .map((e) => BlockParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$BlockActionImplToJson(_$BlockActionImpl instance) =>
@@ -172,28 +188,8 @@ Map<String, dynamic> _$$BlockActionImplToJson(_$BlockActionImpl instance) =>
       'label': instance.label,
       'description': instance.description,
       'type': _$BlockActionTypeEnumMap[instance.type]!,
-      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
     };
 
 const _$BlockActionTypeEnumMap = {
   BlockActionType.notification: 'notification',
 };
-
-_$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>
-    _$BlockParameterImpl(
-      tag: json['tag'] as String,
-      name: json['name'] as String,
-      value: json['value'] as Object,
-      type: $enumDecode(_$TokenTypeEnumMap, json['type']),
-      unit: $enumDecode(_$TokenUnitEnumMap, json['unit']),
-    );
-
-Map<String, dynamic> _$$BlockParameterImplToJson(
-        _$BlockParameterImpl instance) =>
-    <String, dynamic>{
-      'tag': instance.tag,
-      'name': instance.name,
-      'value': instance.value,
-      'type': _$TokenTypeEnumMap[instance.type]!,
-      'unit': _$TokenUnitEnumMap[instance.unit]!,
-    };

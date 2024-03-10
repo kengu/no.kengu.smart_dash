@@ -27,6 +27,7 @@ mixin _$BlockModel {
   BlockTrigger get trigger => throw _privateConstructorUsedError;
   List<BlockAction> get whenTrue => throw _privateConstructorUsedError;
   List<BlockAction> get whenFalse => throw _privateConstructorUsedError;
+  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
   List<BlockCondition> get conditions => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $BlockModelCopyWith<$Res> {
       BlockTrigger trigger,
       List<BlockAction> whenTrue,
       List<BlockAction> whenFalse,
+      List<BlockParameter> parameters,
       List<BlockCondition> conditions});
 
   $BlockStateCopyWith<$Res> get state;
@@ -75,6 +77,7 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
     Object? trigger = null,
     Object? whenTrue = null,
     Object? whenFalse = null,
+    Object? parameters = null,
     Object? conditions = null,
   }) {
     return _then(_value.copyWith(
@@ -106,6 +109,10 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
           ? _value.whenFalse
           : whenFalse // ignore: cast_nullable_to_non_nullable
               as List<BlockAction>,
+      parameters: null == parameters
+          ? _value.parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
       conditions: null == conditions
           ? _value.conditions
           : conditions // ignore: cast_nullable_to_non_nullable
@@ -146,6 +153,7 @@ abstract class _$$BlockModelImplCopyWith<$Res>
       BlockTrigger trigger,
       List<BlockAction> whenTrue,
       List<BlockAction> whenFalse,
+      List<BlockParameter> parameters,
       List<BlockCondition> conditions});
 
   @override
@@ -172,6 +180,7 @@ class __$$BlockModelImplCopyWithImpl<$Res>
     Object? trigger = null,
     Object? whenTrue = null,
     Object? whenFalse = null,
+    Object? parameters = null,
     Object? conditions = null,
   }) {
     return _then(_$BlockModelImpl(
@@ -203,6 +212,10 @@ class __$$BlockModelImplCopyWithImpl<$Res>
           ? _value._whenFalse
           : whenFalse // ignore: cast_nullable_to_non_nullable
               as List<BlockAction>,
+      parameters: null == parameters
+          ? _value._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
       conditions: null == conditions
           ? _value._conditions
           : conditions // ignore: cast_nullable_to_non_nullable
@@ -222,9 +235,11 @@ class _$BlockModelImpl extends _BlockModel {
       required this.trigger,
       required final List<BlockAction> whenTrue,
       required final List<BlockAction> whenFalse,
+      required final List<BlockParameter> parameters,
       required final List<BlockCondition> conditions})
       : _whenTrue = whenTrue,
         _whenFalse = whenFalse,
+        _parameters = parameters,
         _conditions = conditions,
         super._();
 
@@ -257,6 +272,14 @@ class _$BlockModelImpl extends _BlockModel {
     return EqualUnmodifiableListView(_whenFalse);
   }
 
+  final List<BlockParameter> _parameters;
+  @override
+  List<BlockParameter> get parameters {
+    if (_parameters is EqualUnmodifiableListView) return _parameters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_parameters);
+  }
+
   final List<BlockCondition> _conditions;
   @override
   List<BlockCondition> get conditions {
@@ -267,7 +290,7 @@ class _$BlockModelImpl extends _BlockModel {
 
   @override
   String toString() {
-    return 'BlockModel(name: $name, label: $label, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, conditions: $conditions)';
+    return 'BlockModel(name: $name, label: $label, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
   }
 
   @override
@@ -285,6 +308,8 @@ class _$BlockModelImpl extends _BlockModel {
             const DeepCollectionEquality()
                 .equals(other._whenFalse, _whenFalse) &&
             const DeepCollectionEquality()
+                .equals(other._parameters, _parameters) &&
+            const DeepCollectionEquality()
                 .equals(other._conditions, _conditions));
   }
 
@@ -299,6 +324,7 @@ class _$BlockModelImpl extends _BlockModel {
       trigger,
       const DeepCollectionEquality().hash(_whenTrue),
       const DeepCollectionEquality().hash(_whenFalse),
+      const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_conditions));
 
   @JsonKey(ignore: true)
@@ -324,6 +350,7 @@ abstract class _BlockModel extends BlockModel {
       required final BlockTrigger trigger,
       required final List<BlockAction> whenTrue,
       required final List<BlockAction> whenFalse,
+      required final List<BlockParameter> parameters,
       required final List<BlockCondition> conditions}) = _$BlockModelImpl;
   const _BlockModel._() : super._();
 
@@ -345,10 +372,222 @@ abstract class _BlockModel extends BlockModel {
   @override
   List<BlockAction> get whenFalse;
   @override
+  List<BlockParameter> get parameters;
+  @override
   List<BlockCondition> get conditions;
   @override
   @JsonKey(ignore: true)
   _$$BlockModelImplCopyWith<_$BlockModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BlockParameter _$BlockParameterFromJson(Map<String, dynamic> json) {
+  return _BlockParameter.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BlockParameter {
+  String get tag => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  Object get value => throw _privateConstructorUsedError;
+  TokenType get type => throw _privateConstructorUsedError;
+  TokenUnit get unit => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BlockParameterCopyWith<BlockParameter> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BlockParameterCopyWith<$Res> {
+  factory $BlockParameterCopyWith(
+          BlockParameter value, $Res Function(BlockParameter) then) =
+      _$BlockParameterCopyWithImpl<$Res, BlockParameter>;
+  @useResult
+  $Res call(
+      {String tag, String name, Object value, TokenType type, TokenUnit unit});
+}
+
+/// @nodoc
+class _$BlockParameterCopyWithImpl<$Res, $Val extends BlockParameter>
+    implements $BlockParameterCopyWith<$Res> {
+  _$BlockParameterCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tag = null,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
+    Object? unit = null,
+  }) {
+    return _then(_value.copyWith(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _value.value : value,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TokenType,
+      unit: null == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as TokenUnit,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BlockParameterImplCopyWith<$Res>
+    implements $BlockParameterCopyWith<$Res> {
+  factory _$$BlockParameterImplCopyWith(_$BlockParameterImpl value,
+          $Res Function(_$BlockParameterImpl) then) =
+      __$$BlockParameterImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String tag, String name, Object value, TokenType type, TokenUnit unit});
+}
+
+/// @nodoc
+class __$$BlockParameterImplCopyWithImpl<$Res>
+    extends _$BlockParameterCopyWithImpl<$Res, _$BlockParameterImpl>
+    implements _$$BlockParameterImplCopyWith<$Res> {
+  __$$BlockParameterImplCopyWithImpl(
+      _$BlockParameterImpl _value, $Res Function(_$BlockParameterImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tag = null,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
+    Object? unit = null,
+  }) {
+    return _then(_$BlockParameterImpl(
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _value.value : value,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TokenType,
+      unit: null == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as TokenUnit,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BlockParameterImpl extends _BlockParameter {
+  const _$BlockParameterImpl(
+      {required this.tag,
+      required this.name,
+      required this.value,
+      required this.type,
+      required this.unit})
+      : super._();
+
+  factory _$BlockParameterImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BlockParameterImplFromJson(json);
+
+  @override
+  final String tag;
+  @override
+  final String name;
+  @override
+  final Object value;
+  @override
+  final TokenType type;
+  @override
+  final TokenUnit unit;
+
+  @override
+  String toString() {
+    return 'BlockParameter(tag: $tag, name: $name, value: $value, type: $type, unit: $unit)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BlockParameterImpl &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.unit, unit) || other.unit == unit));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, tag, name,
+      const DeepCollectionEquality().hash(value), type, unit);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
+      __$$BlockParameterImplCopyWithImpl<_$BlockParameterImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BlockParameterImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BlockParameter extends BlockParameter {
+  const factory _BlockParameter(
+      {required final String tag,
+      required final String name,
+      required final Object value,
+      required final TokenType type,
+      required final TokenUnit unit}) = _$BlockParameterImpl;
+  const _BlockParameter._() : super._();
+
+  factory _BlockParameter.fromJson(Map<String, dynamic> json) =
+      _$BlockParameterImpl.fromJson;
+
+  @override
+  String get tag;
+  @override
+  String get name;
+  @override
+  Object get value;
+  @override
+  TokenType get type;
+  @override
+  TokenUnit get unit;
+  @override
+  @JsonKey(ignore: true)
+  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -360,7 +599,7 @@ BlockState _$BlockStateFromJson(Map<String, dynamic> json) {
 mixin _$BlockState {
   bool get value => throw _privateConstructorUsedError;
   int get repeated => throw _privateConstructorUsedError;
-  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
+  List<BlockParameter> get tags => throw _privateConstructorUsedError;
   DateTime? get lastChanged => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -378,7 +617,7 @@ abstract class $BlockStateCopyWith<$Res> {
   $Res call(
       {bool value,
       int repeated,
-      List<BlockParameter> parameters,
+      List<BlockParameter> tags,
       DateTime? lastChanged});
 }
 
@@ -397,7 +636,7 @@ class _$BlockStateCopyWithImpl<$Res, $Val extends BlockState>
   $Res call({
     Object? value = null,
     Object? repeated = null,
-    Object? parameters = null,
+    Object? tags = null,
     Object? lastChanged = freezed,
   }) {
     return _then(_value.copyWith(
@@ -409,9 +648,9 @@ class _$BlockStateCopyWithImpl<$Res, $Val extends BlockState>
           ? _value.repeated
           : repeated // ignore: cast_nullable_to_non_nullable
               as int,
-      parameters: null == parameters
-          ? _value.parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as List<BlockParameter>,
       lastChanged: freezed == lastChanged
           ? _value.lastChanged
@@ -432,7 +671,7 @@ abstract class _$$BlockStateImplCopyWith<$Res>
   $Res call(
       {bool value,
       int repeated,
-      List<BlockParameter> parameters,
+      List<BlockParameter> tags,
       DateTime? lastChanged});
 }
 
@@ -449,7 +688,7 @@ class __$$BlockStateImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
     Object? repeated = null,
-    Object? parameters = null,
+    Object? tags = null,
     Object? lastChanged = freezed,
   }) {
     return _then(_$BlockStateImpl(
@@ -461,9 +700,9 @@ class __$$BlockStateImplCopyWithImpl<$Res>
           ? _value.repeated
           : repeated // ignore: cast_nullable_to_non_nullable
               as int,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as List<BlockParameter>,
       lastChanged: freezed == lastChanged
           ? _value.lastChanged
@@ -479,9 +718,9 @@ class _$BlockStateImpl extends _BlockState {
   const _$BlockStateImpl(
       {required this.value,
       required this.repeated,
-      required final List<BlockParameter> parameters,
+      required final List<BlockParameter> tags,
       this.lastChanged})
-      : _parameters = parameters,
+      : _tags = tags,
         super._();
 
   factory _$BlockStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -491,12 +730,12 @@ class _$BlockStateImpl extends _BlockState {
   final bool value;
   @override
   final int repeated;
-  final List<BlockParameter> _parameters;
+  final List<BlockParameter> _tags;
   @override
-  List<BlockParameter> get parameters {
-    if (_parameters is EqualUnmodifiableListView) return _parameters;
+  List<BlockParameter> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parameters);
+    return EqualUnmodifiableListView(_tags);
   }
 
   @override
@@ -504,7 +743,7 @@ class _$BlockStateImpl extends _BlockState {
 
   @override
   String toString() {
-    return 'BlockState(value: $value, repeated: $repeated, parameters: $parameters, lastChanged: $lastChanged)';
+    return 'BlockState(value: $value, repeated: $repeated, tags: $tags, lastChanged: $lastChanged)';
   }
 
   @override
@@ -515,8 +754,7 @@ class _$BlockStateImpl extends _BlockState {
             (identical(other.value, value) || other.value == value) &&
             (identical(other.repeated, repeated) ||
                 other.repeated == repeated) &&
-            const DeepCollectionEquality()
-                .equals(other._parameters, _parameters) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.lastChanged, lastChanged) ||
                 other.lastChanged == lastChanged));
   }
@@ -524,7 +762,7 @@ class _$BlockStateImpl extends _BlockState {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, value, repeated,
-      const DeepCollectionEquality().hash(_parameters), lastChanged);
+      const DeepCollectionEquality().hash(_tags), lastChanged);
 
   @JsonKey(ignore: true)
   @override
@@ -544,7 +782,7 @@ abstract class _BlockState extends BlockState {
   const factory _BlockState(
       {required final bool value,
       required final int repeated,
-      required final List<BlockParameter> parameters,
+      required final List<BlockParameter> tags,
       final DateTime? lastChanged}) = _$BlockStateImpl;
   const _BlockState._() : super._();
 
@@ -556,7 +794,7 @@ abstract class _BlockState extends BlockState {
   @override
   int get repeated;
   @override
-  List<BlockParameter> get parameters;
+  List<BlockParameter> get tags;
   @override
   DateTime? get lastChanged;
   @override
@@ -905,7 +1143,6 @@ mixin _$BlockCondition {
   String get expression => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<BlockVariable> get variables => throw _privateConstructorUsedError;
-  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -923,8 +1160,7 @@ abstract class $BlockConditionCopyWith<$Res> {
       {String label,
       String expression,
       String description,
-      List<BlockVariable> variables,
-      List<BlockParameter> parameters});
+      List<BlockVariable> variables});
 }
 
 /// @nodoc
@@ -944,7 +1180,6 @@ class _$BlockConditionCopyWithImpl<$Res, $Val extends BlockCondition>
     Object? expression = null,
     Object? description = null,
     Object? variables = null,
-    Object? parameters = null,
   }) {
     return _then(_value.copyWith(
       label: null == label
@@ -963,10 +1198,6 @@ class _$BlockConditionCopyWithImpl<$Res, $Val extends BlockCondition>
           ? _value.variables
           : variables // ignore: cast_nullable_to_non_nullable
               as List<BlockVariable>,
-      parameters: null == parameters
-          ? _value.parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
     ) as $Val);
   }
 }
@@ -983,8 +1214,7 @@ abstract class _$$BlockConditionImplCopyWith<$Res>
       {String label,
       String expression,
       String description,
-      List<BlockVariable> variables,
-      List<BlockParameter> parameters});
+      List<BlockVariable> variables});
 }
 
 /// @nodoc
@@ -1002,7 +1232,6 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
     Object? expression = null,
     Object? description = null,
     Object? variables = null,
-    Object? parameters = null,
   }) {
     return _then(_$BlockConditionImpl(
       label: null == label
@@ -1021,10 +1250,6 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
           ? _value._variables
           : variables // ignore: cast_nullable_to_non_nullable
               as List<BlockVariable>,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
     ));
   }
 }
@@ -1036,10 +1261,8 @@ class _$BlockConditionImpl extends _BlockCondition {
       {required this.label,
       required this.expression,
       required this.description,
-      required final List<BlockVariable> variables,
-      required final List<BlockParameter> parameters})
+      required final List<BlockVariable> variables})
       : _variables = variables,
-        _parameters = parameters,
         super._();
 
   factory _$BlockConditionImpl.fromJson(Map<String, dynamic> json) =>
@@ -1059,17 +1282,9 @@ class _$BlockConditionImpl extends _BlockCondition {
     return EqualUnmodifiableListView(_variables);
   }
 
-  final List<BlockParameter> _parameters;
-  @override
-  List<BlockParameter> get parameters {
-    if (_parameters is EqualUnmodifiableListView) return _parameters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parameters);
-  }
-
   @override
   String toString() {
-    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables, parameters: $parameters)';
+    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables)';
   }
 
   @override
@@ -1083,20 +1298,13 @@ class _$BlockConditionImpl extends _BlockCondition {
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality()
-                .equals(other._variables, _variables) &&
-            const DeepCollectionEquality()
-                .equals(other._parameters, _parameters));
+                .equals(other._variables, _variables));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      label,
-      expression,
-      description,
-      const DeepCollectionEquality().hash(_variables),
-      const DeepCollectionEquality().hash(_parameters));
+  int get hashCode => Object.hash(runtimeType, label, expression, description,
+      const DeepCollectionEquality().hash(_variables));
 
   @JsonKey(ignore: true)
   @override
@@ -1118,8 +1326,7 @@ abstract class _BlockCondition extends BlockCondition {
       {required final String label,
       required final String expression,
       required final String description,
-      required final List<BlockVariable> variables,
-      required final List<BlockParameter> parameters}) = _$BlockConditionImpl;
+      required final List<BlockVariable> variables}) = _$BlockConditionImpl;
   const _BlockCondition._() : super._();
 
   factory _BlockCondition.fromJson(Map<String, dynamic> json) =
@@ -1133,8 +1340,6 @@ abstract class _BlockCondition extends BlockCondition {
   String get description;
   @override
   List<BlockVariable> get variables;
-  @override
-  List<BlockParameter> get parameters;
   @override
   @JsonKey(ignore: true)
   _$$BlockConditionImplCopyWith<_$BlockConditionImpl> get copyWith =>
@@ -1394,7 +1599,6 @@ mixin _$BlockAction {
   String get label => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   BlockActionType get type => throw _privateConstructorUsedError;
-  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1408,11 +1612,7 @@ abstract class $BlockActionCopyWith<$Res> {
           BlockAction value, $Res Function(BlockAction) then) =
       _$BlockActionCopyWithImpl<$Res, BlockAction>;
   @useResult
-  $Res call(
-      {String label,
-      String description,
-      BlockActionType type,
-      List<BlockParameter> parameters});
+  $Res call({String label, String description, BlockActionType type});
 }
 
 /// @nodoc
@@ -1431,7 +1631,6 @@ class _$BlockActionCopyWithImpl<$Res, $Val extends BlockAction>
     Object? label = null,
     Object? description = null,
     Object? type = null,
-    Object? parameters = null,
   }) {
     return _then(_value.copyWith(
       label: null == label
@@ -1446,10 +1645,6 @@ class _$BlockActionCopyWithImpl<$Res, $Val extends BlockAction>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BlockActionType,
-      parameters: null == parameters
-          ? _value.parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
     ) as $Val);
   }
 }
@@ -1462,11 +1657,7 @@ abstract class _$$BlockActionImplCopyWith<$Res>
       __$$BlockActionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String label,
-      String description,
-      BlockActionType type,
-      List<BlockParameter> parameters});
+  $Res call({String label, String description, BlockActionType type});
 }
 
 /// @nodoc
@@ -1483,7 +1674,6 @@ class __$$BlockActionImplCopyWithImpl<$Res>
     Object? label = null,
     Object? description = null,
     Object? type = null,
-    Object? parameters = null,
   }) {
     return _then(_$BlockActionImpl(
       label: null == label
@@ -1498,10 +1688,6 @@ class __$$BlockActionImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BlockActionType,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
     ));
   }
 }
@@ -1510,12 +1696,8 @@ class __$$BlockActionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BlockActionImpl extends _BlockAction {
   const _$BlockActionImpl(
-      {required this.label,
-      required this.description,
-      required this.type,
-      required final List<BlockParameter> parameters})
-      : _parameters = parameters,
-        super._();
+      {required this.label, required this.description, required this.type})
+      : super._();
 
   factory _$BlockActionImpl.fromJson(Map<String, dynamic> json) =>
       _$$BlockActionImplFromJson(json);
@@ -1526,17 +1708,10 @@ class _$BlockActionImpl extends _BlockAction {
   final String description;
   @override
   final BlockActionType type;
-  final List<BlockParameter> _parameters;
-  @override
-  List<BlockParameter> get parameters {
-    if (_parameters is EqualUnmodifiableListView) return _parameters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parameters);
-  }
 
   @override
   String toString() {
-    return 'BlockAction(label: $label, description: $description, type: $type, parameters: $parameters)';
+    return 'BlockAction(label: $label, description: $description, type: $type)';
   }
 
   @override
@@ -1547,15 +1722,12 @@ class _$BlockActionImpl extends _BlockAction {
             (identical(other.label, label) || other.label == label) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other._parameters, _parameters));
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, label, description, type,
-      const DeepCollectionEquality().hash(_parameters));
+  int get hashCode => Object.hash(runtimeType, label, description, type);
 
   @JsonKey(ignore: true)
   @override
@@ -1575,8 +1747,7 @@ abstract class _BlockAction extends BlockAction {
   const factory _BlockAction(
       {required final String label,
       required final String description,
-      required final BlockActionType type,
-      required final List<BlockParameter> parameters}) = _$BlockActionImpl;
+      required final BlockActionType type}) = _$BlockActionImpl;
   const _BlockAction._() : super._();
 
   factory _BlockAction.fromJson(Map<String, dynamic> json) =
@@ -1589,219 +1760,7 @@ abstract class _BlockAction extends BlockAction {
   @override
   BlockActionType get type;
   @override
-  List<BlockParameter> get parameters;
-  @override
   @JsonKey(ignore: true)
   _$$BlockActionImplCopyWith<_$BlockActionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BlockParameter _$BlockParameterFromJson(Map<String, dynamic> json) {
-  return _BlockParameter.fromJson(json);
-}
-
-/// @nodoc
-mixin _$BlockParameter {
-  String get tag => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  Object get value => throw _privateConstructorUsedError;
-  TokenType get type => throw _privateConstructorUsedError;
-  TokenUnit get unit => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $BlockParameterCopyWith<BlockParameter> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockParameterCopyWith<$Res> {
-  factory $BlockParameterCopyWith(
-          BlockParameter value, $Res Function(BlockParameter) then) =
-      _$BlockParameterCopyWithImpl<$Res, BlockParameter>;
-  @useResult
-  $Res call(
-      {String tag, String name, Object value, TokenType type, TokenUnit unit});
-}
-
-/// @nodoc
-class _$BlockParameterCopyWithImpl<$Res, $Val extends BlockParameter>
-    implements $BlockParameterCopyWith<$Res> {
-  _$BlockParameterCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tag = null,
-    Object? name = null,
-    Object? value = null,
-    Object? type = null,
-    Object? unit = null,
-  }) {
-    return _then(_value.copyWith(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as TokenType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as TokenUnit,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$BlockParameterImplCopyWith<$Res>
-    implements $BlockParameterCopyWith<$Res> {
-  factory _$$BlockParameterImplCopyWith(_$BlockParameterImpl value,
-          $Res Function(_$BlockParameterImpl) then) =
-      __$$BlockParameterImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String tag, String name, Object value, TokenType type, TokenUnit unit});
-}
-
-/// @nodoc
-class __$$BlockParameterImplCopyWithImpl<$Res>
-    extends _$BlockParameterCopyWithImpl<$Res, _$BlockParameterImpl>
-    implements _$$BlockParameterImplCopyWith<$Res> {
-  __$$BlockParameterImplCopyWithImpl(
-      _$BlockParameterImpl _value, $Res Function(_$BlockParameterImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tag = null,
-    Object? name = null,
-    Object? value = null,
-    Object? type = null,
-    Object? unit = null,
-  }) {
-    return _then(_$BlockParameterImpl(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as TokenType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as TokenUnit,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$BlockParameterImpl extends _BlockParameter {
-  const _$BlockParameterImpl(
-      {required this.tag,
-      required this.name,
-      required this.value,
-      required this.type,
-      required this.unit})
-      : super._();
-
-  factory _$BlockParameterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockParameterImplFromJson(json);
-
-  @override
-  final String tag;
-  @override
-  final String name;
-  @override
-  final Object value;
-  @override
-  final TokenType type;
-  @override
-  final TokenUnit unit;
-
-  @override
-  String toString() {
-    return 'BlockParameter(tag: $tag, name: $name, value: $value, type: $type, unit: $unit)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$BlockParameterImpl &&
-            (identical(other.tag, tag) || other.tag == tag) &&
-            (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other.value, value) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.unit, unit) || other.unit == unit));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, tag, name,
-      const DeepCollectionEquality().hash(value), type, unit);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
-      __$$BlockParameterImplCopyWithImpl<_$BlockParameterImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockParameterImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _BlockParameter extends BlockParameter {
-  const factory _BlockParameter(
-      {required final String tag,
-      required final String name,
-      required final Object value,
-      required final TokenType type,
-      required final TokenUnit unit}) = _$BlockParameterImpl;
-  const _BlockParameter._() : super._();
-
-  factory _BlockParameter.fromJson(Map<String, dynamic> json) =
-      _$BlockParameterImpl.fromJson;
-
-  @override
-  String get tag;
-  @override
-  String get name;
-  @override
-  Object get value;
-  @override
-  TokenType get type;
-  @override
-  TokenUnit get unit;
-  @override
-  @JsonKey(ignore: true)
-  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

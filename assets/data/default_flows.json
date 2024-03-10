@@ -6,7 +6,7 @@
     "state": {
       "repeated": 0,
       "value": false,
-      "parameters": []
+      "tags": []
     },
     "trigger": {
       "label": "Devices Updated",
@@ -14,11 +14,22 @@
       "any": true,
       "onTypes": ["device"],
       "onTags": ["measure_power:sikom:device:541905"],
-      "repeatCount": 3,
+      "repeatCount": 0,
       "repeatAfter": 0,
       "debounceCount": 0,
-      "debounceAfter": 0
+      "debounceAfter": 300
     },
+    "parameters": [
+      {
+        "tag": "limit",
+        "name": "limit",
+        "value": 8000,
+        "type": "int",
+        "unit": "power",
+        "label": "Limit",
+        "description": "Limit"
+      }
+    ],
     "conditions": [
       {
         "label": "Limit",
@@ -33,17 +44,6 @@
             "label": "Effektstyring",
             "description": "Effektstyring"
           }
-        ],
-        "parameters": [
-          {
-            "tag": "limit",
-            "name": "limit",
-            "value": 2000,
-            "type": "int",
-            "unit": "power",
-            "label": "Limit",
-            "description": "Limit"
-          }
         ]
       }
     ],
@@ -51,8 +51,7 @@
       {
         "type": "notification",
         "label": "Power Limit Notification",
-        "description": "Power exceeded 8.0 kW",
-        "parameters": []
+        "description": "Power exceeded ${limit}"
       }
     ],
     "whenFalse": []

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
+import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/util/type.dart';
 
 abstract class Flow {
@@ -31,7 +32,6 @@ class FlowTag<T> {
   final T data;
   final Token token;
   final DateTime when;
-
   Type get type => typeOf<T>();
   String get name => token.name;
 
@@ -40,6 +40,17 @@ class FlowTag<T> {
   bool isNumber() => this.data is num;
   bool isDouble() => this.data is double;
   bool isType<E>() => this is FlowTag<E>;
+
+  String toStringValue() {
+    switch (token.type) {
+      case TokenType.bool:
+        return data.toString();
+      case TokenType.int:
+        return (data as int).format(token.unit.symbol);
+      case TokenType.double:
+        return (data as double).format(token.unit.symbol);
+    }
+  }
 
   @override
   bool operator ==(Object other) =>

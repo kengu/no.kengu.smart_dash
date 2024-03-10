@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
+import 'package:smart_dash/util/data/units.dart';
 
 import 'flow.dart';
 
@@ -19,11 +20,50 @@ class BlockModel with _$BlockModel {
     required BlockTrigger trigger,
     required List<BlockAction> whenTrue,
     required List<BlockAction> whenFalse,
+    required List<BlockParameter> parameters,
     required List<BlockCondition> conditions,
   }) = _BlockModel;
 
   factory BlockModel.fromJson(Map<String, Object?> json) =>
       _$BlockModelFromJson(json);
+}
+
+/// Block parameter model
+@freezed
+class BlockParameter with _$BlockParameter {
+  const BlockParameter._();
+
+  const factory BlockParameter({
+    required String tag,
+    required String name,
+    required Object value,
+    required TokenType type,
+    required TokenUnit unit,
+  }) = _BlockParameter;
+
+  factory BlockParameter.fromTag(FlowTag tag) {
+    return BlockParameter(
+      tag: tag.token.tag,
+      name: tag.token.tag,
+      value: tag.data,
+      type: tag.token.type,
+      unit: tag.token.unit,
+    );
+  }
+
+  String toStringValue() {
+    switch (type) {
+      case TokenType.bool:
+        return value.toString();
+      case TokenType.int:
+        return (value as int).format(unit.symbol);
+      case TokenType.double:
+        return (value as double).format(unit.symbol);
+    }
+  }
+
+  factory BlockParameter.fromJson(Map<String, Object?> json) =>
+      _$BlockParameterFromJson(json);
 }
 
 /// Block state model
@@ -34,7 +74,7 @@ class BlockState with _$BlockState {
   const factory BlockState({
     required bool value,
     required int repeated,
-    required List<BlockParameter> parameters,
+    required List<BlockParameter> tags,
     DateTime? lastChanged,
   }) = _BlockState;
 
@@ -57,7 +97,7 @@ class BlockState with _$BlockState {
       value: value,
       repeated: repeated,
       lastChanged: lastChanged ?? DateTime.now(),
-      parameters: tags.map(BlockParameter.fromTag).toList(),
+      tags: tags.map(BlockParameter.fromTag).toList(),
     );
   }
   factory BlockState.fromJson(Map<String, Object?> json) =>
@@ -101,7 +141,6 @@ class BlockCondition with _$BlockCondition {
     required String expression,
     required String description,
     required List<BlockVariable> variables,
-    required List<BlockParameter> parameters,
   }) = _BlockCondition;
 
   factory BlockCondition.fromJson(Map<String, Object?> json) =>
@@ -161,36 +200,8 @@ class BlockAction with _$BlockAction {
     required String label,
     required String description,
     required BlockActionType type,
-    required List<BlockParameter> parameters,
   }) = _BlockAction;
 
   factory BlockAction.fromJson(Map<String, Object?> json) =>
       _$BlockActionFromJson(json);
-}
-
-/// Block parameter model
-@freezed
-class BlockParameter with _$BlockParameter {
-  const BlockParameter._();
-
-  const factory BlockParameter({
-    required String tag,
-    required String name,
-    required Object value,
-    required TokenType type,
-    required TokenUnit unit,
-  }) = _BlockParameter;
-
-  factory BlockParameter.fromTag(FlowTag tag) {
-    return BlockParameter(
-      tag: tag.token.tag,
-      name: tag.token.tag,
-      value: tag.data,
-      type: tag.token.type,
-      unit: tag.token.unit,
-    );
-  }
-
-  factory BlockParameter.fromJson(Map<String, Object?> json) =>
-      _$BlockParameterFromJson(json);
 }

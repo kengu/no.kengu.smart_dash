@@ -5,6 +5,7 @@ import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/domain/flow.dart';
 import 'package:eval_ex/expression.dart' as exp;
 import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/util/string.dart';
 
 class BlockFlow extends Flow {
   BlockFlow({
@@ -47,7 +48,7 @@ class BlockFlow extends Flow {
         final expr = exp.Expression(condition.expression);
         for (final name in expr.getUsedVariables()) {
           if (!_setTagValue(expr, name, tags)) {
-            if (!_setParamValue(expr, name, condition)) {
+            if (!_setParamValue(expr, name, model.parameters)) {
               return false;
             }
           }
@@ -81,9 +82,9 @@ class BlockFlow extends Flow {
   bool _setParamValue(
     exp.Expression expr,
     String name,
-    BlockCondition condition,
+    List<BlockParameter> parameters,
   ) {
-    final param = condition.parameters.firstWhereOptional(
+    final param = parameters.firstWhereOptional(
       (e) => e.tag == name || e.name == name,
     );
 
@@ -127,12 +128,17 @@ class BlockFlow extends Flow {
 
     final shouldRepeat = repeated <= trigger.repeatCount;
 
-    if (changed || shouldRepeat || expired) {
+    if (changed || shouldRepeat || expired || shouldDebounce) {
       for (final action in actions) {
         switch (action.type) {
           // TODO: Add more action types
           case BlockActionType.notification:
-            yield BlockNotificationEvent(action, flow: key, tags: tags);
+            yield BlockNotificationEvent(
+              action,
+              flow: key,
+              tags: tags,
+              parameters: model.parameters,
+            );
         }
       }
     }
@@ -156,7 +162,38 @@ class BlocEvent extends FlowEvent {
   BlocEvent({
     required super.flow,
     required super.tags,
+    required this.parameters,
   });
+  final List<BlockParameter> parameters;
+
+  final _values = <String, String>{};
+
+  String setVariables(String text) {
+    final vars = text.getVariables();
+    if (vars.isNotEmpty) {
+      if (_values.isEmpty) {
+        final values = <String, String>{};
+        for (final tag in tags) {
+          if (vars.contains(tag.name)) {
+            _values[tag.name] = tag.toStringValue();
+          }
+          if (vars.contains(tag.token.tag)) {
+            _values[tag.token.tag] = tag.toStringValue();
+          }
+        }
+        for (final param in parameters) {
+          if (vars.contains(param.name)) {
+            _values[param.name] = param.toStringValue();
+          }
+          if (vars.contains(param.name)) {
+            _values[param.tag] = param.toStringValue();
+          }
+        }
+      }
+      return text.setVariables(_values);
+    }
+    return text;
+  }
 }
 
 class BlockNotificationEvent extends BlocEvent {
@@ -164,6 +201,10 @@ class BlockNotificationEvent extends BlocEvent {
     this.action, {
     required super.flow,
     required super.tags,
+    required super.parameters,
   });
   final BlockAction action;
+
+  String get label => setVariables(action.label);
+  String get description => setVariables(action.description);
 }
