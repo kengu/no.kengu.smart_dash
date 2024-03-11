@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/core/application/notification_service.dart';
+import 'package:smart_dash/feature/notification/application/notification_service.dart';
 import 'package:smart_dash/feature/flow/application/block_flow.dart';
 import 'package:smart_dash/feature/flow/data/block_repository.dart';
 import 'package:smart_dash/feature/flow/domain/flow.dart';
@@ -94,10 +94,14 @@ class FlowManager {
           // sees last event when events are added more frequently
           // than 60 fps (less than 17 milliseconds between each event).
           await for (final event in evaluate(event).delayed(delay)) {
-            if (event is BlocEvent) {
-              final flow = evaluate as BlockFlow;
-              await ref.read(blockRepositoryProvider).updateAll([flow.model]);
-              debugPrint('FlowManager >> Updated Block [${flow.model.name}]');
+            if (event is BlockEvent) {
+              await ref.read(blockRepositoryProvider).updateAll([event.model]);
+              debugPrint(
+                '$FlowManager: Updated Block ['
+                'id: ${event.model.name}, '
+                'value: ${event.model.state.value}, '
+                'repeated: ${event.model.state.repeated}]',
+              );
               switch (event.runtimeType) {
                 case const (BlockNotificationEvent):
                   final notification = event as BlockNotificationEvent;
@@ -105,7 +109,7 @@ class FlowManager {
                         title: notification.label,
                         body: notification.description,
                       );
-                  continue;
+                  break;
               }
             }
             // Process list of flow events in order of completion

@@ -128,6 +128,14 @@ class BlockFlow extends Flow {
 
     final shouldRepeat = repeated <= trigger.repeatCount;
 
+    if (_model.state != state) {
+      yield BlockUpdatedEvent(
+        flow: key,
+        tags: tags,
+        model: _model,
+      );
+    }
+
     if (changed || shouldRepeat || expired || shouldDebounce) {
       for (final action in actions) {
         switch (action.type) {
@@ -137,7 +145,7 @@ class BlockFlow extends Flow {
               action,
               flow: key,
               tags: tags,
-              parameters: model.parameters,
+              model: _model,
             );
         }
       }
@@ -158,13 +166,14 @@ class BlockFlow extends Flow {
   }
 }
 
-class BlocEvent extends FlowEvent {
-  BlocEvent({
+abstract class BlockEvent extends FlowEvent {
+  BlockEvent({
     required super.flow,
     required super.tags,
-    required this.parameters,
+    required this.model,
   });
-  final List<BlockParameter> parameters;
+
+  final BlockModel model;
 
   final _values = <String, String>{};
 
@@ -172,7 +181,6 @@ class BlocEvent extends FlowEvent {
     final vars = text.getVariables();
     if (vars.isNotEmpty) {
       if (_values.isEmpty) {
-        final values = <String, String>{};
         for (final tag in tags) {
           if (vars.contains(tag.name)) {
             _values[tag.name] = tag.toStringValue();
@@ -181,7 +189,7 @@ class BlocEvent extends FlowEvent {
             _values[tag.token.tag] = tag.toStringValue();
           }
         }
-        for (final param in parameters) {
+        for (final param in model.parameters) {
           if (vars.contains(param.name)) {
             _values[param.name] = param.toStringValue();
           }
@@ -196,12 +204,20 @@ class BlocEvent extends FlowEvent {
   }
 }
 
-class BlockNotificationEvent extends BlocEvent {
+class BlockUpdatedEvent extends BlockEvent {
+  BlockUpdatedEvent({
+    required super.flow,
+    required super.tags,
+    required super.model,
+  });
+}
+
+class BlockNotificationEvent extends BlockEvent {
   BlockNotificationEvent(
     this.action, {
     required super.flow,
     required super.tags,
-    required super.parameters,
+    required super.model,
   });
   final BlockAction action;
 

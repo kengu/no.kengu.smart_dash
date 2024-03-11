@@ -1,20 +1,19 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
-import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/details/paired_device_details_screen.dart';
 import 'package:smart_dash/feature/device/presentation/list/paired_device_screen.dart';
 
 class DeviceScreens {
-  static const home = '/device/home';
-  static const listPaired = 'list/devices';
-  static const details = 'details/device';
+  static const home = '/device';
+  static const details = '$home/$_details';
+  static const _details = 'details';
 
   static String toDevicesDetailsPath(
     Device device,
   ) =>
       Uri(
-        path: Screens.deviceDetails,
+        path: _details,
         queryParameters: Identity.of(device).toJson(),
       ).toString();
 }
@@ -31,7 +30,7 @@ GoRoute buildDeviceRoutes() {
       // Route to device type selection screen
       Routes.buildGoRoute(
         fullscreenDialog: true,
-        path: DeviceScreens.details,
+        path: DeviceScreens._details,
         builder: (context, state) {
           return PairedDeviceDetailsScreen(
             identity: Identity.fromJson(

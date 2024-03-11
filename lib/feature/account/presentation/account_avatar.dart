@@ -4,6 +4,7 @@ import 'package:flutter_gravatar/flutter_gravatar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
 import 'package:smart_dash/util/widget.dart';
 
 class AccountAvatar extends StatefulWidget {
@@ -33,14 +34,16 @@ class _AccountAvatarState extends State<AccountAvatar> {
   Widget build(BuildContext context) {
     return IconButton(
       iconSize: widget.iconSize,
-      icon: CircleAvatar(
-        foregroundImage: Image.network(
-          _gravatar!.imageUrl(),
-          cacheWidth: 48,
-          cacheHeight: 48,
-          loadingBuilder: (_, __, ___) =>
-              const Icon(CupertinoIcons.person_fill),
-        ).image,
+      icon: NotificationBadge(
+        child: CircleAvatar(
+          foregroundImage: Image.network(
+            _gravatar!.imageUrl(),
+            cacheWidth: 48,
+            cacheHeight: 48,
+            loadingBuilder: (_, __, ___) =>
+                const Icon(CupertinoIcons.person_fill),
+          ).image,
+        ),
       ),
       onPressed: () {
         final screen = MediaQuery.of(context);
@@ -71,6 +74,25 @@ class _AccountAvatarState extends State<AccountAvatar> {
                     context
                       ..pop()
                       ..push(Screens.account);
+                  },
+                ),
+                ListTile(
+                  minLeadingWidth: 32.0,
+                  leading: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: NotificationBadge(
+                      child: Icon(Icons.notifications),
+                    ),
+                  ),
+                  title: const Text('Notifications'),
+                  subtitle: Text(
+                    'Manage notifications',
+                    style: style,
+                  ),
+                  onTap: () {
+                    context
+                      ..pop()
+                      ..push(Screens.notifications);
                   },
                 ),
                 const Divider(),

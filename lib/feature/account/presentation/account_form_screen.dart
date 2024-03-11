@@ -11,9 +11,9 @@ import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
-import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
@@ -55,7 +55,7 @@ class AccountFormScreen extends ConsumerWidget {
                       provider: accountFormScreenControllerProvider.call,
                       onClose: () => context.go(location),
                       onSubmitted: (account) =>
-                          NoticeController.showSnackBarByRef(
+                          SnackbarController.showSnackBarByRef(
                         context,
                         ref,
                         'Saved account for ${jsonEncode(account.name)}',

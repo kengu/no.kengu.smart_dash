@@ -15,6 +15,7 @@ import 'package:smart_dash/feature/camera/presentation/camera_screen.dart';
 import 'package:smart_dash/feature/camera/presentation/cameras_page.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
 import 'package:smart_dash/feature/home/presentation/home_page.dart';
+import 'package:smart_dash/feature/notification/presentation/notification_routes.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 import 'package:smart_dash/feature/room/presentation/rooms_page.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen.dart';
@@ -92,6 +93,7 @@ sealed class Routes {
           ),
           buildDeviceRoutes(),
           buildParingRoutes(),
+          buildNotificationRoutes(),
           // These are displayed on the ShellRoute's Navigator
           // (path to each rail/menu/bottom destinations)
           buildGoRoute(
@@ -110,20 +112,20 @@ sealed class Routes {
             child: const CamerasPage(),
           ),
           buildGoRoute(
+            path: Pages.flows,
+            restorationId: setLastLocation,
+            builder: (context, state) {
+              return const DetailsView(
+                title: 'Flows',
+                route: Pages.home,
+              );
+            },
+          ),
+          buildGoRoute(
             path: Pages.history,
             restorationId: setLastLocation,
             builder: (context, state) {
               return const HistoryPage();
-            },
-          ),
-          buildGoRoute(
-            path: Pages.notifications,
-            restorationId: setLastLocation,
-            builder: (context, state) {
-              return const DetailsView(
-                title: 'Notifications',
-                route: Pages.home,
-              );
             },
           ),
         ],

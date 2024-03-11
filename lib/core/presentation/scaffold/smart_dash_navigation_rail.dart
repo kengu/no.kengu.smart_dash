@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
-import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
+import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/util/widget.dart';
@@ -124,7 +124,7 @@ class CreateNewMenuButton extends ConsumerWidget {
                         await ref.read(homeServiceProvider).newHome(name!);
                     if (home.isPresent) {
                       if (!context.mounted) return;
-                      NoticeController.showSnackBarByRef(
+                      SnackbarController.showSnackBarByRef(
                         context,
                         ref,
                         'Home $name was added',

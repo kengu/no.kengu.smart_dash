@@ -5,7 +5,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
-import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
+import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_repository.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
@@ -38,7 +38,7 @@ class SettingFormScreen extends ConsumerWidget {
       autoSubmit: true,
       provider: settingsFormScreenControllerProvider.call,
       onClose: () => context.go(location),
-      onSubmitted: (settings) => NoticeController.showSnackBarByRef(
+      onSubmitted: (settings) => SnackbarController.showSnackBarByRef(
         context,
         ref,
         'Settings saved',
@@ -125,7 +125,7 @@ class SettingTilesWidget extends StatelessWidget {
                                   await SharedPreferences.getInstance();
                               await prefs.remove(AccountRepository.key);
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Account data deleted',
@@ -143,7 +143,7 @@ class SettingTilesWidget extends StatelessWidget {
                                   await SharedPreferences.getInstance();
                               await prefs.remove(HomeRepository.key);
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Home data deleted',
@@ -159,7 +159,7 @@ class SettingTilesWidget extends StatelessWidget {
                             onPressed: (context) async {
                               await ref.read(deviceRepositoryProvider).clear();
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Device data deleted',
@@ -175,7 +175,7 @@ class SettingTilesWidget extends StatelessWidget {
                             onPressed: (context) async {
                               await ref.read(blockRepositoryProvider).clear();
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Flow data deleted',
@@ -193,7 +193,7 @@ class SettingTilesWidget extends StatelessWidget {
                                   .read(presenceRepositoryProvider)
                                   .clear();
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Presence data deleted',
@@ -212,7 +212,7 @@ class SettingTilesWidget extends StatelessWidget {
                               await prefs
                                   .remove(NetworkDeviceInfoRepository.key);
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Network data deleted',
@@ -230,7 +230,7 @@ class SettingTilesWidget extends StatelessWidget {
                                   .read(timeSeriesRepositoryProvider)
                                   .deleteAll();
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'History data deleted',
@@ -248,7 +248,7 @@ class SettingTilesWidget extends StatelessWidget {
                                   .read(electricityPriceRepositoryProvider)
                                   .deleteAll();
                               setState(() {
-                                NoticeController.showSnackBarByRef(
+                                SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Price data deleted',

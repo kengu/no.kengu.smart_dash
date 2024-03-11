@@ -14,8 +14,8 @@
       "any": true,
       "onTypes": ["device"],
       "onTags": ["measure_power:sikom:device:541905"],
-      "repeatCount": 0,
-      "repeatAfter": 0,
+      "repeatCount": 3,
+      "repeatAfter": 300,
       "debounceCount": 0,
       "debounceAfter": 300
     },

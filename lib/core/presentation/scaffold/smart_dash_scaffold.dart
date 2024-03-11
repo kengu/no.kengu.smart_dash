@@ -11,6 +11,7 @@ import 'package:smart_dash/core/presentation/scaffold/smart_dash_navigation_rail
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
+import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
 import 'package:smart_dash/util/widget.dart';
 
 class SmartDashScaffold extends ConsumerStatefulWidget {
@@ -96,20 +97,16 @@ class _DesktopScaffold extends ConsumerWidget {
                       label: Text('Cameras'),
                     ),
                     NavigationRailDestination(
+                      icon: Icon(Icons.tag_outlined),
+                      selectedIcon: Icon(Icons.tag),
+                      label: Text('Flows'),
+                    ),
+                    NavigationRailDestination(
                       icon: Icon(
                         Icons.history_outlined,
                       ),
                       selectedIcon: Icon(Icons.history),
                       label: Text('History'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Badge(
-                        child: Icon(
-                          Icons.notifications_none_outlined,
-                        ),
-                      ),
-                      selectedIcon: Icon(Icons.notifications),
-                      label: Text('Notifications'),
                     ),
                   ],
                 ),
@@ -156,13 +153,14 @@ class _MobileScaffold extends ConsumerWidget {
               onDestinationSelected: (index) {
                 context.pop();
                 switch (index) {
-                  case 0: // View history
+                  case 0: // View notifications
+                    context.push(Pages.flows);
+                    break;
+                  case 1: // View history
                     context.push(Pages.history);
                     break;
-                  case 1: // View notifications
-                    context.push(Pages.notifications);
-                    break;
-                  case 2: // Add Home
+                  case 2: // TODO: Add Home
+                    context.push(Screens.account);
                     break;
                   case 3: // Pair with device
                     context.push(Screens.pairing);
@@ -170,7 +168,10 @@ class _MobileScaffold extends ConsumerWidget {
                   case 4: // Manage account
                     context.push(Screens.account);
                     break;
-                  case 5: // Manage settings
+                  case 5: // Manage notifications
+                    context.push(Screens.notifications);
+                    break;
+                  case 6: // Manage settings
                     context.push(Screens.settings);
                     break;
                 }
@@ -192,20 +193,18 @@ class _MobileScaffold extends ConsumerWidget {
                   child: Text('View', style: style),
                 ),
                 const NavigationDrawerDestination(
+                  label: Text('Flows'),
+                  icon: Icon(
+                    Icons.notifications_none_outlined,
+                  ),
+                  selectedIcon: Icon(Icons.notifications),
+                ),
+                const NavigationDrawerDestination(
                   label: Text('History'),
                   icon: Icon(
                     Icons.history_outlined,
                   ),
                   selectedIcon: Icon(Icons.history),
-                ),
-                const NavigationDrawerDestination(
-                  label: Text('Notifications'),
-                  icon: Badge(
-                    child: Icon(
-                      Icons.notifications_none_outlined,
-                    ),
-                  ),
-                  selectedIcon: Icon(Icons.notifications),
                 ),
                 const Divider(),
                 Padding(
@@ -228,6 +227,12 @@ class _MobileScaffold extends ConsumerWidget {
                 const NavigationDrawerDestination(
                   icon: Icon(Icons.person),
                   label: Text('Account'),
+                ),
+                const NavigationDrawerDestination(
+                  icon: NotificationBadge(
+                    child: Icon(Icons.notifications),
+                  ),
+                  label: Text('Notifications'),
                 ),
                 const Divider(),
                 Padding(

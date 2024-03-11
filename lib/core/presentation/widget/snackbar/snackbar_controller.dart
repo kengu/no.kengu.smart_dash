@@ -7,10 +7,10 @@ import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
-part 'notice_controller.g.dart';
+part 'snackbar_controller.g.dart';
 
 @riverpod
-class NoticeController extends _$NoticeController {
+class SnackbarController extends _$SnackbarController {
   @override
   void build() {}
 
@@ -24,7 +24,7 @@ class NoticeController extends _$NoticeController {
         .read(settingRepositoryProvider.notifier)
         .getOrDefault(SettingType.showSnackBar, false);
     if (shouldShow) {
-      ref.read(noticeControllerProvider.notifier).showSnackBar(
+      ref.read(snackbarControllerProvider.notifier).showSnackBar(
             context,
             message,
             location: location,

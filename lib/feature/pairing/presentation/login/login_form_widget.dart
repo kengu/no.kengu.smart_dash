@@ -10,7 +10,7 @@
 // import 'package:smart_dash/util/integration.dart';
 // import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 // import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
-// import 'package:smart_dash/core/presentation/widget/notice/notice_controller.dart';
+// import 'package:smart_dash/core/presentation/widget/notice/snackbar_controller.dart';
 // import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 // import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 //
