@@ -1,17 +1,24 @@
-/// Details of an active notification.
-class ActiveNotificationDetails {
-  const ActiveNotificationDetails({
-    required this.id,
-    required this.title,
-    required this.body,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  /// The notification's id.
-  final int id;
+part 'notification.freezed.dart';
+part 'notification.g.dart';
 
-  /// The notification's title.
-  final String title;
+/// Block model
+@freezed
+class NotificationModel with _$NotificationModel {
+  const NotificationModel._();
 
-  /// The notification's body.
-  final String body;
+  const factory NotificationModel({
+    required int id,
+    required bool shown,
+    required String body,
+    required String title,
+    required bool isAcked,
+    required DateTime when,
+  }) = _NotificationModel;
+
+  bool get isActive => !isAcked;
+
+  factory NotificationModel.fromJson(Map<String, Object?> json) =>
+      _$NotificationModelFromJson(json);
 }

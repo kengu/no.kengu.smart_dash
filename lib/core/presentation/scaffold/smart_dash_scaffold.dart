@@ -97,8 +97,8 @@ class _DesktopScaffold extends ConsumerWidget {
                       label: Text('Cameras'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.tag_outlined),
-                      selectedIcon: Icon(Icons.tag),
+                      icon: Icon(Icons.lightbulb_outline),
+                      selectedIcon: Icon(Icons.lightbulb),
                       label: Text('Flows'),
                     ),
                     NavigationRailDestination(
@@ -195,9 +195,9 @@ class _MobileScaffold extends ConsumerWidget {
                 const NavigationDrawerDestination(
                   label: Text('Flows'),
                   icon: Icon(
-                    Icons.notifications_none_outlined,
+                    Icons.lightbulb_outline,
                   ),
-                  selectedIcon: Icon(Icons.notifications),
+                  selectedIcon: Icon(Icons.lightbulb),
                 ),
                 const NavigationDrawerDestination(
                   label: Text('History'),

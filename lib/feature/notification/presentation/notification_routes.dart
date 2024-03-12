@@ -7,7 +7,7 @@ class NotificationScreens {
   static const home = '/notifications';
   static const details = 'details';
 
-  static String toDetailsPath(ActiveNotificationDetails details) => Uri(
+  static String toDetailsPath(NotificationModel details) => Uri(
         path: NotificationScreens.details,
         queryParameters: {
           'id': details.id,

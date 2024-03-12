@@ -7,7 +7,7 @@ part of 'notification_screen_controller.dart';
 // **************************************************************************
 
 String _$notificationScreenControllerHash() =>
-    r'0ade8e88f54a138b28d822deb8f2f219caaf05cc';
+    r'1ec545847c335b408029cde5dc897af288eefa95';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,10 +32,10 @@ class _SystemHash {
 
 abstract class _$NotificationScreenController
     extends BuildlessAutoDisposeAsyncNotifier<
-        Optional<List<ActiveNotificationDetails>>> {
+        Optional<List<NotificationModel>>> {
   late final NotificationQuery query;
 
-  FutureOr<Optional<List<ActiveNotificationDetails>>> build(
+  FutureOr<Optional<List<NotificationModel>>> build(
     NotificationQuery query,
   );
 }
@@ -109,7 +109,7 @@ class _$NotificationScreenControllerFamilyOverride implements FamilyOverride {
 /// See also [NotificationScreenController].
 class NotificationScreenControllerProvider
     extends AutoDisposeAsyncNotifierProviderImpl<NotificationScreenController,
-        Optional<List<ActiveNotificationDetails>>> {
+        Optional<List<NotificationModel>>> {
   /// See also [NotificationScreenController].
   NotificationScreenControllerProvider(
     NotificationQuery query,
@@ -140,7 +140,7 @@ class NotificationScreenControllerProvider
   final NotificationQuery query;
 
   @override
-  FutureOr<Optional<List<ActiveNotificationDetails>>> runNotifierBuild(
+  FutureOr<Optional<List<NotificationModel>>> runNotifierBuild(
     covariant NotificationScreenController notifier,
   ) {
     return notifier.build(
@@ -171,7 +171,7 @@ class NotificationScreenControllerProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<NotificationScreenController,
-      Optional<List<ActiveNotificationDetails>>> createElement() {
+      Optional<List<NotificationModel>>> createElement() {
     return _NotificationScreenControllerProviderElement(this);
   }
 
@@ -204,15 +204,15 @@ class NotificationScreenControllerProvider
   }
 }
 
-mixin NotificationScreenControllerRef on AutoDisposeAsyncNotifierProviderRef<
-    Optional<List<ActiveNotificationDetails>>> {
+mixin NotificationScreenControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<Optional<List<NotificationModel>>> {
   /// The parameter `query` of this provider.
   NotificationQuery get query;
 }
 
 class _NotificationScreenControllerProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<
-        NotificationScreenController, Optional<List<ActiveNotificationDetails>>>
+        NotificationScreenController, Optional<List<NotificationModel>>>
     with NotificationScreenControllerRef {
   _NotificationScreenControllerProviderElement(super.provider);
 

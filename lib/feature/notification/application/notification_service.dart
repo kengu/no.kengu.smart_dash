@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/feature/notification/data/notification_repository.dart';
 import 'package:smart_dash/feature/notification/domain/notification.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:universal_io/io.dart';
@@ -11,13 +13,15 @@ import 'package:universal_io/io.dart';
 part 'notification_service.g.dart';
 
 class NotificationService {
-  NotificationService._();
+  NotificationService._(this.ref);
 
-  factory NotificationService() {
-    return _singleton ??= NotificationService._();
+  factory NotificationService(Ref ref) {
+    return _singleton ??= NotificationService._(ref);
   }
 
-  final Set<int> _active = {};
+  final Ref ref;
+
+  final Set<int> _activeIds = {};
 
   static NotificationService? _singleton;
 
@@ -34,11 +38,13 @@ class NotificationService {
 
   Timer? _timer;
 
+  bool get isPlatformReady => !_initialize;
+
   Stream<int> get active => _controller.stream;
 
   int get activeCount {
     try {
-      return _active.length;
+      return _activeIds.length;
     } finally {
       getActive();
     }
@@ -46,11 +52,11 @@ class NotificationService {
 
   bool isActive(int id) {
     getActive();
-    return _active.contains(id);
+    return _activeIds.contains(id);
   }
 
-  Future<bool> init() async {
-    if (!_initialize) return false;
+  Future<bool> _initPlugin() async {
+    if (!isPlatformSupported || isPlatformReady) return false;
 
     final settings = _toSettings();
     if (!settings.isPresent) return false;
@@ -63,47 +69,77 @@ class NotificationService {
 
     _initialize = !(success == true);
 
-    if (!_initialize) {
+    if (isPlatformReady) {
       // Check periodically
       _timer ??= Timer.periodic(
         const Duration(seconds: 1),
         (_) => getActive(),
       );
+
+      for (final active in await getActive()) {
+        await _showInPlatform(active);
+      }
     }
 
     debugPrint(
       'NotificationService '
       '>> Initialization '
-      '${_initialize ? 'Failed' : 'Completed (${_active.length} active)'}',
+      '${_initialize ? 'Failed' : 'Completed (${_activeIds.length} active)'}',
     );
 
-    return !_initialize;
+    return isPlatformReady;
   }
 
-  Future<List<ActiveNotificationDetails>> getActive() async {
-    if (!isPlatformSupported || _initialize && !await init()) {
-      return const [];
-    }
+  Future<List<NotificationModel>> getActive() async {
+    if (_initialize) await _initPlugin();
 
-    final current = _active.toSet();
-    _active.clear();
+    final currentIds = _activeIds.toSet();
+    final repo = ref.read(notificationRepositoryProvider);
 
-    final active = <ActiveNotificationDetails>[];
-    for (final it in await _plugin.getActiveNotifications()) {
-      if (it.id != null) {
-        _active.add(it.id!);
-        active.add(ActiveNotificationDetails(
-          id: it.id!,
-          body: it.body ?? '',
-          title: it.title ?? '',
-        ));
+    _activeIds.clear();
+
+    final changed = <NotificationModel>[];
+    final active = await repo.where((e) => e.isActive);
+    final storedIds = active.map((e) => e.id).toSet();
+
+    if (isPlatformReady) {
+      for (final it in await _plugin.getActiveNotifications()) {
+        if (it.id != null) {
+          _activeIds.add(it.id!);
+        }
       }
+
+      for (final it in active) {
+        if (!_activeIds.contains(it.id)) {
+          if (it.shown && it.isActive) {
+            changed.add(it.copyWith(isAcked: true));
+          } else {
+            changed.add(it.copyWith(shown: true));
+            // Show notifications raised on other
+            unawaited(_showInPlatform(it));
+          }
+        }
+      }
+
+      // Synchronize stored and local notification state
+      for (final id in _activeIds) {
+        if (!storedIds.contains(id)) {
+          _activeIds.remove(id);
+          unawaited(_plugin.cancel(id));
+        }
+      }
+    } else {
+      _activeIds.addAll(storedIds);
     }
 
-    _nextId = _active.max() + 1;
+    if (changed.isNotEmpty) {
+      await repo.updateAll(changed);
+    }
 
-    if (current.length != _active.length ||
-        current.any((e) => !_active.contains(e))) {
+    _nextId = storedIds.max() + 1;
+
+    if (currentIds.length != _activeIds.length ||
+        currentIds.any((e) => !_activeIds.contains(e))) {
       _notifyActiveCount();
     }
 
@@ -115,37 +151,70 @@ class NotificationService {
     required String body,
     int? id,
   }) async {
-    if (_initialize && !await init()) return -1;
-
-    final details = _toDetails();
-    if (!details.isPresent) return -1;
+    if (_initialize) await _initPlugin();
 
     id = id ?? (++_nextId);
-    await _plugin.show(
-      id,
-      title,
-      body,
-      details.value,
+    _activeIds.add(id);
+
+    final repo = ref.read(notificationRepositoryProvider);
+    final notification = NotificationModel(
+      id: id,
+      shown: true,
+      title: title,
+      body: body,
+      isAcked: false,
+      when: DateTime.now(),
     );
-    _active.add(id);
+
+    await repo.updateAll([notification]);
+
+    await _showInPlatform(notification);
+
     _notifyActiveCount();
 
     return id;
   }
 
-  Future<bool> cancel(int id) async {
-    await _plugin.cancel(id);
-    return _remove(id);
+  Future<void> _showInPlatform(NotificationModel model) async {
+    if (isPlatformSupported) {
+      final details = _toDetails();
+      if (details.isPresent) {
+        await _plugin.show(
+          model.id,
+          model.title,
+          model.body,
+          details.value,
+        );
+      }
+    }
   }
 
-  Future<void> cancelAll() {
-    _active.clear();
-    _notifyActiveCount();
-    return _plugin.cancelAll();
+  Future<bool> ack(int id) async {
+    if (_initialize) await _initPlugin();
+    if (isPlatformReady) {
+      await _plugin.cancel(id);
+    }
+    return _ackAll([id]);
+  }
+
+  Future<void> ackAll() async {
+    if (_initialize) await _initPlugin();
+    try {
+      final active = await getActive();
+      if (isPlatformReady) {
+        await _plugin.cancelAll();
+      }
+      await _ackAll(
+        active.map((e) => e.id),
+      );
+      _activeIds.clear();
+    } finally {
+      _notifyActiveCount();
+    }
   }
 
   void _notifyActiveCount() {
-    _controller.add(_active.length);
+    _controller.add(_activeIds.length);
   }
 
   Optional<InitializationSettings> _toSettings() {
@@ -234,7 +303,7 @@ class NotificationService {
       '>> Clicked on id: ${details.id}',
     );
     if (details.id != null) {
-      _remove(details.id!);
+      _ackAll([details.id!]);
     }
   }
 
@@ -244,7 +313,7 @@ class NotificationService {
       '>> Clicked on id: ${details.id}',
     );
     if (details.id != null) {
-      _remove(details.id!);
+      _ackAll([details.id!]);
     }
   }
 
@@ -254,12 +323,15 @@ class NotificationService {
       '$NotificationService: _onDidReceiveLocalNotification '
       '>> Clicked on id: $id',
     );
-    _remove(id);
+    _ackAll([id]);
   }
 
-  bool _remove(int id) {
+  Future<bool> _ackAll(Iterable<int> ids) async {
     try {
-      return _active.remove(id);
+      _activeIds.removeAll(ids);
+      final repo = ref.read(notificationRepositoryProvider);
+      await repo.ackAll(ids);
+      return true;
     } finally {
       _notifyActiveCount();
     }
@@ -268,4 +340,4 @@ class NotificationService {
 
 @Riverpod(keepAlive: true)
 NotificationService notificationService(NotificationServiceRef ref) =>
-    NotificationService();
+    NotificationService(ref);

@@ -12,6 +12,7 @@ import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/flow/data/block_repository.dart';
 import 'package:smart_dash/feature/home/data/home_repository.dart';
+import 'package:smart_dash/feature/notification/data/notification_repository.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
@@ -179,6 +180,24 @@ class SettingTilesWidget extends StatelessWidget {
                                   context,
                                   ref,
                                   'Flow data deleted',
+                                );
+                              });
+                            },
+                          ),
+                          SettingsTile.navigation(
+                            title: const Text('Clear notification data'),
+                            description: const Text(
+                              'This will delete all local notification data',
+                            ),
+                            onPressed: (context) async {
+                              await ref
+                                  .read(notificationRepositoryProvider)
+                                  .clear();
+                              setState(() {
+                                SnackbarController.showSnackBarByRef(
+                                  context,
+                                  ref,
+                                  'Notification data deleted',
                                 );
                               });
                             },

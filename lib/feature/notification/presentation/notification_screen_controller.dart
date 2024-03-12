@@ -10,12 +10,9 @@ class NotificationQuery {}
 
 @riverpod
 class NotificationScreenController extends _$NotificationScreenController
-    with
-        AsyncLoadController<NotificationQuery,
-            List<ActiveNotificationDetails>> {
+    with AsyncLoadController<NotificationQuery, List<NotificationModel>> {
   @override
-  FutureOr<Optional<List<ActiveNotificationDetails>>> build(
-      NotificationQuery query) {
+  FutureOr<Optional<List<NotificationModel>>> build(NotificationQuery query) {
     final service = ref.read(notificationServiceProvider);
     ref.onDispose(
       service.active.listen((e) async {
@@ -28,7 +25,7 @@ class NotificationScreenController extends _$NotificationScreenController
   }
 
   @override
-  Future<Optional<List<ActiveNotificationDetails>>> load(
+  Future<Optional<List<NotificationModel>>> load(
       NotificationQuery query) async {
     final active = await ref.read(notificationServiceProvider).getActive();
     return Optional.of(active);

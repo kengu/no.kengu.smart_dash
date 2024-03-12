@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_dash/feature/notification/application/notification_service.dart';
 import 'package:smart_dash/feature/notification/domain/notification.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash/util/time/date_time.dart';
+import 'package:smart_dash/util/widget.dart';
 
 import 'notification_screen_controller.dart';
 
@@ -17,7 +19,8 @@ class NotificationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<NotificationQuery, List<ActiveNotificationDetails>,
+    final style = getLegendTextStyle(context);
+    return AsyncLoadScreen<NotificationQuery, List<NotificationModel>,
         NotificationScreenController>(
       title: 'Notifications',
       onClose: () => context.go(location),
@@ -27,7 +30,7 @@ class NotificationScreen extends ConsumerWidget {
           icon: const Icon(Icons.done_all),
           onPressed: () {
             context.go(location);
-            ref.read(notificationServiceProvider).cancelAll();
+            ref.read(notificationServiceProvider).ackAll();
           },
         )
       ],
@@ -58,12 +61,22 @@ class NotificationScreen extends ConsumerWidget {
                     leading: const Icon(Icons.notifications),
                     title: Text(active[index].title),
                     subtitle: Text(active[index].body),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.check),
-                      tooltip: 'Acknowledge',
-                      onPressed: () => ref
-                          .read(notificationServiceProvider)
-                          .cancel(active[index].id),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          active[index].when.format(prefixAgo: ''),
+                          style: style,
+                          textScaler: const TextScaler.linear(0.9),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.done),
+                          tooltip: 'Acknowledge',
+                          onPressed: () => ref
+                              .read(notificationServiceProvider)
+                              .ack(active[index].id),
+                        ),
+                      ],
                     ),
                   ),
                 ),
