@@ -120,3 +120,7 @@ flutter:
     - assets/images/weather/
     - assets/images/weather/
 
+  fonts:
+    - family: SmartDashIcons
+      fonts:
+        - asset: fonts/SmartDashIcons.ttf

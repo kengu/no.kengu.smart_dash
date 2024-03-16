@@ -72,3 +72,23 @@ Generate Drift migration tests
 ```bash
 make drift-generate-tests
 ```
+
+## Custom Icons
+Use [FlutterIcon](https://www.fluttericon.com/) to generate custom icons package. For details, see
+[How to Generate Custom Icons in Flutter](https://www.freecodecamp.org/news/how-to-add-custom-icons-to-your-flutter-application/).
+
+Custom material design icons in svg format can be found at [pictogrammers.com](https://pictogrammers.com/library/mdi/).
+
+### How to modify icons 
+
+1. Open https://www.fluttericon.com
+2. Import `asserts/icons/config.json` (click on wrench-icon)
+3. Modify existing icons (delete, replace) og add new ones 
+   * Make your own or download svg from [pictogrammers.com](https://pictogrammers.com/library/mdi/)
+   * Remember to store svg in `asserts/icons`
+4. Download updated set of icons from https://www.fluttericon.com
+5. Extract files in archive downloaded from https://www.fluttericon.com
+6. Copy `fonts/SmartDashIcons.ttf` in archive to `fonts/`
+7. Copy `config.json` in archive `asserts/icons/config.json`
+8. Copy `smart_dash_icons_icons.dart` in archive to `lib/core/presentation/smart_dash_icons_icons.dart`
+
