@@ -96,7 +96,7 @@ class NotificationService {
     final currentIds = _activeIds.toSet();
     final repo = ref.read(notificationRepositoryProvider);
 
-    _activeIds.clear();
+    final activeIds = <int>[];
 
     final changed = <NotificationModel>[];
     final active = await repo.where((e) => e.isActive);
@@ -105,12 +105,12 @@ class NotificationService {
     if (isPlatformReady) {
       for (final it in await _plugin.getActiveNotifications()) {
         if (it.id != null) {
-          _activeIds.add(it.id!);
+          activeIds.add(it.id!);
         }
       }
 
       for (final it in active) {
-        if (!_activeIds.contains(it.id)) {
+        if (!activeIds.contains(it.id)) {
           if (it.shown && it.isActive) {
             changed.add(it.copyWith(isAcked: true));
           } else {
@@ -122,14 +122,14 @@ class NotificationService {
       }
 
       // Synchronize stored and local notification state
-      for (final id in _activeIds) {
+      for (final id in activeIds) {
         if (!storedIds.contains(id)) {
-          _activeIds.remove(id);
+          activeIds.remove(id);
           unawaited(_plugin.cancel(id));
         }
       }
     } else {
-      _activeIds.addAll(storedIds);
+      activeIds.addAll(storedIds);
     }
 
     if (changed.isNotEmpty) {
@@ -137,6 +137,9 @@ class NotificationService {
     }
 
     _nextId = storedIds.max() + 1;
+    _activeIds
+      ..clear()
+      ..addAll(activeIds);
 
     if (currentIds.length != _activeIds.length ||
         currentIds.any((e) => !_activeIds.contains(e))) {
