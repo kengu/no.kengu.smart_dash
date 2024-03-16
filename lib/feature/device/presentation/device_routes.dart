@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/presentation/details/paired_device_details_screen.dart';
-import 'package:smart_dash/feature/device/presentation/list/paired_device_screen.dart';
+import 'package:smart_dash/feature/device/presentation/list/paired_devices_screen.dart';
 
 class DeviceScreens {
   static const home = '/device';
@@ -13,7 +13,7 @@ class DeviceScreens {
     Device device,
   ) =>
       Uri(
-        path: _details,
+        path: details,
         queryParameters: Identity.of(device).toJson(),
       ).toString();
 }
@@ -23,7 +23,7 @@ GoRoute buildDeviceRoutes() {
     fullscreenDialog: true,
     path: DeviceScreens.home,
     restorationId: Routes.setLastLocation,
-    child: PairedDeviceScreen(
+    child: PairedDevicesScreen(
       location: Routes.lastLocation,
     ),
     routes: [
