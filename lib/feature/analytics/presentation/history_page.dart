@@ -18,13 +18,81 @@ class HistoryPage extends ConsumerStatefulWidget {
 }
 
 class _HistoryPageState extends ConsumerState<HistoryPage> {
-  final df = DateFormat('dd-MM-yyyy HH:mm');
-
   bool get isFullscreen => FullscreenState.watch(ref);
 
   String _filter = '';
 
-  final Set<TimeSeries> _series = {};
+  int _pageSize = 10;
+
+  final List<TimeSeries> _series = [];
+
+  static const List<DataColumn> _columns = [
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Token',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'First',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Last',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Points',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Zeros',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Min',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Average',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+      tooltip: 'Hourly Average',
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Max',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +111,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         });
   }
 
-  Widget _build(Set<TimeSeries> data) {
+  Widget _build(List<TimeSeries> data) {
     return Padding(
       padding: !isFullscreen
           ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
@@ -58,95 +126,34 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             padding: !isFullscreen
                 ? const EdgeInsets.only(top: 56.0)
                 : const EdgeInsets.only(top: 0.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) => setState(() {
-                      _filter = value;
-                    }),
-                    decoration: const InputDecoration(
-                      labelText: 'Search',
-                      suffixIcon: Icon(Icons.search),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: PaginatedDataTable(
+                  header: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: TextField(
+                      onChanged: (value) => setState(() {
+                        _filter = value;
+                      }),
+                      decoration: const InputDecoration(
+                        labelText: 'Search',
+                        suffixIcon: Icon(Icons.search),
+                      ),
                     ),
                   ),
+                  rowsPerPage: _pageSize,
+                  availableRowsPerPage: const [10, 25, 50],
+                  onRowsPerPageChanged: (value) {
+                    setState(() {
+                      _pageSize = value!;
+                    });
+                  },
+                  columns: _columns,
+                  //rows: data.map((e) => _buildDataRow(e)).toList(),
+                  source: _TimeSeriesDataSource(data: data),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: DataTable(
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Token',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'First',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Last',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Points',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Zeros',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Min',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Average',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          tooltip: 'Hourly Average',
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Max',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                      ],
-                      rows: data.map((e) => _buildDataRow(e)).toList(),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],
@@ -154,19 +161,43 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
-  Set<TimeSeries> _where(AsyncSnapshot<List<TimeSeries>> snapshot) {
+  List<TimeSeries> _where(AsyncSnapshot<List<TimeSeries>> snapshot) {
     final data = snapshot.hasData ? snapshot.data! : <TimeSeries>[];
     return _series
       ..clear()
       ..addAll(
-        data.where((e) => _filter.isEmpty || e.name.contains(_filter)).toList(),
+        data.where((e) => _filter.isEmpty || e.name.contains(_filter)).toSet(),
       );
   }
 
-  Set<TimeSeries> _update(HistoryEvent e) {
+  List<TimeSeries> _update(HistoryEvent e) {
     return _series
       ..remove(e.data)
       ..add(e.data);
+  }
+}
+
+class _TimeSeriesDataSource extends DataTableSource {
+  _TimeSeriesDataSource({required this.data});
+
+  final df = DateFormat('dd-MM-yyyy HH:mm');
+
+  final List<TimeSeries> data;
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => 0;
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= data.length) {
+      return null;
+    }
+    return _buildDataRow(data[index]);
   }
 
   DataRow _buildDataRow(TimeSeries series) {
