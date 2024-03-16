@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'paired_device_controller.dart';
+part of 'paired_devices_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pairedDeviceScreenControllerHash() =>
-    r'0ff3fa1098f4fad948edddf1d8795fe3eabfc793';
+String _$pairedDevicesScreenControllerHash() =>
+    r'e0690fde38d97c341fee83893d6fbb8a9274d5cb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$PairedDeviceScreenController
+abstract class _$PairedDevicesScreenController
     extends BuildlessAutoDisposeAsyncNotifier<Optional<List<Device>>> {
   late final PairedDeviceQuery query;
 
@@ -39,15 +39,15 @@ abstract class _$PairedDeviceScreenController
   );
 }
 
-/// See also [PairedDeviceScreenController].
-@ProviderFor(PairedDeviceScreenController)
-const pairedDeviceScreenControllerProvider =
-    PairedDeviceScreenControllerFamily();
+/// See also [PairedDevicesScreenController].
+@ProviderFor(PairedDevicesScreenController)
+const pairedDevicesScreenControllerProvider =
+    PairedDevicesScreenControllerFamily();
 
-/// See also [PairedDeviceScreenController].
-class PairedDeviceScreenControllerFamily extends Family {
-  /// See also [PairedDeviceScreenController].
-  const PairedDeviceScreenControllerFamily();
+/// See also [PairedDevicesScreenController].
+class PairedDevicesScreenControllerFamily extends Family {
+  /// See also [PairedDevicesScreenController].
+  const PairedDevicesScreenControllerFamily();
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
 
@@ -61,21 +61,21 @@ class PairedDeviceScreenControllerFamily extends Family {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'pairedDeviceScreenControllerProvider';
+  String? get name => r'pairedDevicesScreenControllerProvider';
 
-  /// See also [PairedDeviceScreenController].
-  PairedDeviceScreenControllerProvider call(
+  /// See also [PairedDevicesScreenController].
+  PairedDevicesScreenControllerProvider call(
     PairedDeviceQuery query,
   ) {
-    return PairedDeviceScreenControllerProvider(
+    return PairedDevicesScreenControllerProvider(
       query,
     );
   }
 
   @visibleForOverriding
   @override
-  PairedDeviceScreenControllerProvider getProviderOverride(
-    covariant PairedDeviceScreenControllerProvider provider,
+  PairedDevicesScreenControllerProvider getProviderOverride(
+    covariant PairedDevicesScreenControllerProvider provider,
   ) {
     return call(
       provider.query,
@@ -83,50 +83,50 @@ class PairedDeviceScreenControllerFamily extends Family {
   }
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(PairedDeviceScreenController Function() create) {
-    return _$PairedDeviceScreenControllerFamilyOverride(this, create);
+  Override overrideWith(PairedDevicesScreenController Function() create) {
+    return _$PairedDevicesScreenControllerFamilyOverride(this, create);
   }
 }
 
-class _$PairedDeviceScreenControllerFamilyOverride implements FamilyOverride {
-  _$PairedDeviceScreenControllerFamilyOverride(
+class _$PairedDevicesScreenControllerFamilyOverride implements FamilyOverride {
+  _$PairedDevicesScreenControllerFamilyOverride(
       this.overriddenFamily, this.create);
 
-  final PairedDeviceScreenController Function() create;
+  final PairedDevicesScreenController Function() create;
 
   @override
-  final PairedDeviceScreenControllerFamily overriddenFamily;
+  final PairedDevicesScreenControllerFamily overriddenFamily;
 
   @override
-  PairedDeviceScreenControllerProvider getProviderOverride(
-    covariant PairedDeviceScreenControllerProvider provider,
+  PairedDevicesScreenControllerProvider getProviderOverride(
+    covariant PairedDevicesScreenControllerProvider provider,
   ) {
     return provider._copyWith(create);
   }
 }
 
-/// See also [PairedDeviceScreenController].
-class PairedDeviceScreenControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<PairedDeviceScreenController,
+/// See also [PairedDevicesScreenController].
+class PairedDevicesScreenControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<PairedDevicesScreenController,
         Optional<List<Device>>> {
-  /// See also [PairedDeviceScreenController].
-  PairedDeviceScreenControllerProvider(
+  /// See also [PairedDevicesScreenController].
+  PairedDevicesScreenControllerProvider(
     PairedDeviceQuery query,
   ) : this._internal(
-          () => PairedDeviceScreenController()..query = query,
-          from: pairedDeviceScreenControllerProvider,
-          name: r'pairedDeviceScreenControllerProvider',
+          () => PairedDevicesScreenController()..query = query,
+          from: pairedDevicesScreenControllerProvider,
+          name: r'pairedDevicesScreenControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$pairedDeviceScreenControllerHash,
-          dependencies: PairedDeviceScreenControllerFamily._dependencies,
+                  : _$pairedDevicesScreenControllerHash,
+          dependencies: PairedDevicesScreenControllerFamily._dependencies,
           allTransitiveDependencies:
-              PairedDeviceScreenControllerFamily._allTransitiveDependencies,
+              PairedDevicesScreenControllerFamily._allTransitiveDependencies,
           query: query,
         );
 
-  PairedDeviceScreenControllerProvider._internal(
+  PairedDevicesScreenControllerProvider._internal(
     super.create, {
     required super.name,
     required super.dependencies,
@@ -140,7 +140,7 @@ class PairedDeviceScreenControllerProvider
 
   @override
   FutureOr<Optional<List<Device>>> runNotifierBuild(
-    covariant PairedDeviceScreenController notifier,
+    covariant PairedDevicesScreenController notifier,
   ) {
     return notifier.build(
       query,
@@ -148,10 +148,10 @@ class PairedDeviceScreenControllerProvider
   }
 
   @override
-  Override overrideWith(PairedDeviceScreenController Function() create) {
+  Override overrideWith(PairedDevicesScreenController Function() create) {
     return ProviderOverride(
       origin: this,
-      override: PairedDeviceScreenControllerProvider._internal(
+      override: PairedDevicesScreenControllerProvider._internal(
         () => create()..query = query,
         from: from,
         name: null,
@@ -169,15 +169,15 @@ class PairedDeviceScreenControllerProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<PairedDeviceScreenController,
+  AutoDisposeAsyncNotifierProviderElement<PairedDevicesScreenController,
       Optional<List<Device>>> createElement() {
-    return _PairedDeviceScreenControllerProviderElement(this);
+    return _PairedDevicesScreenControllerProviderElement(this);
   }
 
-  PairedDeviceScreenControllerProvider _copyWith(
-    PairedDeviceScreenController Function() create,
+  PairedDevicesScreenControllerProvider _copyWith(
+    PairedDevicesScreenController Function() create,
   ) {
-    return PairedDeviceScreenControllerProvider._internal(
+    return PairedDevicesScreenControllerProvider._internal(
       () => create()..query = query,
       name: name,
       dependencies: dependencies,
@@ -190,7 +190,7 @@ class PairedDeviceScreenControllerProvider
 
   @override
   bool operator ==(Object other) {
-    return other is PairedDeviceScreenControllerProvider &&
+    return other is PairedDevicesScreenControllerProvider &&
         other.query == query;
   }
 
@@ -203,21 +203,21 @@ class PairedDeviceScreenControllerProvider
   }
 }
 
-mixin PairedDeviceScreenControllerRef
+mixin PairedDevicesScreenControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<List<Device>>> {
   /// The parameter `query` of this provider.
   PairedDeviceQuery get query;
 }
 
-class _PairedDeviceScreenControllerProviderElement
+class _PairedDevicesScreenControllerProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<
-        PairedDeviceScreenController,
-        Optional<List<Device>>> with PairedDeviceScreenControllerRef {
-  _PairedDeviceScreenControllerProviderElement(super.provider);
+        PairedDevicesScreenController,
+        Optional<List<Device>>> with PairedDevicesScreenControllerRef {
+  _PairedDevicesScreenControllerProviderElement(super.provider);
 
   @override
   PairedDeviceQuery get query =>
-      (origin as PairedDeviceScreenControllerProvider).query;
+      (origin as PairedDevicesScreenControllerProvider).query;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

@@ -4,14 +4,14 @@ import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 
-part 'paired_device_controller.g.dart';
+part 'paired_devices_controller.g.dart';
 
 class PairedDeviceQuery {
   PairedDeviceQuery();
 }
 
 @riverpod
-class PairedDeviceScreenController extends _$PairedDeviceScreenController
+class PairedDevicesScreenController extends _$PairedDevicesScreenController
     with AsyncLoadController<PairedDeviceQuery, List<Device>> {
   @override
   FutureOr<Optional<List<Device>>> build(PairedDeviceQuery query) =>

@@ -135,9 +135,9 @@ class DeviceService {
       'all',
       () => ref.read(deviceRepositoryProvider).getAll(),
       onResult: (devices) {
-        _deviceController.addStream(Stream.fromIterable(devices.map(
-          DeviceUpdated.new,
-        )));
+        for (final it in devices.map(DeviceUpdated.new)) {
+          _deviceController.add(it);
+        }
       },
       ttl: ttl,
     );

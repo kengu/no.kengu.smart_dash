@@ -7,10 +7,10 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart'
 import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
 import 'package:smart_dash/feature/device/presentation/utils.dart';
 
-import 'paired_device_controller.dart';
+import 'paired_devices_controller.dart';
 
-class PairedDeviceScreen extends ConsumerWidget {
-  const PairedDeviceScreen({
+class PairedDevicesScreen extends ConsumerWidget {
+  const PairedDevicesScreen({
     super.key,
     required this.location,
   });
@@ -20,11 +20,11 @@ class PairedDeviceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncLoadScreen<PairedDeviceQuery, List<Device>,
-        PairedDeviceScreenController>(
+        PairedDevicesScreenController>(
       title: 'Paired devices',
       onClose: () => context.go(location),
       query: PairedDeviceQuery(),
-      provider: pairedDeviceScreenControllerProvider.call,
+      provider: pairedDevicesScreenControllerProvider.call,
       builder: (context, ref, data, child) {
         return Column(
           children: [
