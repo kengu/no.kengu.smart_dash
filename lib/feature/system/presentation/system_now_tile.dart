@@ -95,7 +95,6 @@ class _SystemNowTileState extends ConsumerState<SystemNowTile> {
                               maxHeight: 160,
                             ),
                             child: CpuPieChart(
-                              key: const GlobalObjectKey('cpu_pie'),
                               info: usage,
                             ),
                           ),
@@ -105,7 +104,6 @@ class _SystemNowTileState extends ConsumerState<SystemNowTile> {
                               maxHeight: 160,
                             ),
                             child: MemPieChart(
-                              key: const GlobalObjectKey('mem_pie'),
                               info: usage,
                             ),
                           ),
