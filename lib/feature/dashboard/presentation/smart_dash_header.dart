@@ -59,18 +59,6 @@ class SmartDashHeader extends StatelessWidget {
           else ...[
             ElevatedButton(
               onPressed: () {
-                context.push(Screens.pairing);
-              },
-              child: const Row(
-                children: [
-                  Icon(Icons.add),
-                  Text('PAIR DEVICE'),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
                 context.push(Screens.devices);
               },
               child: const Row(

@@ -22,12 +22,15 @@ class SmartDashToolbar extends StatelessWidget {
       children: [
         leading,
         if (hasTitle)
-          SizedBox(
-            height: 42,
-            child: Center(
-              child: Text(
-                title!,
-                style: Theme.of(context).textTheme.headlineMedium,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: SizedBox(
+                height: 40,
+                child: Text(
+                  title!,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
             ),
           ),

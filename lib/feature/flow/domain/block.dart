@@ -7,14 +7,28 @@ import 'flow.dart';
 part 'block.freezed.dart';
 part 'block.g.dart';
 
+class BlockFields {
+  static const String id = 'id';
+  static const String label = 'label';
+  static const String state = 'state';
+  static const String enabled = 'enabled';
+  static const String trigger = 'trigger';
+  static const String whenTrue = 'whenTrue';
+  static const String whenFalse = 'whenFalse';
+  static const String parameters = 'parameters';
+  static const String conditions = 'conditions';
+  static const String description = 'description';
+}
+
 /// Block model
 @freezed
 class BlockModel with _$BlockModel {
   const BlockModel._();
 
   const factory BlockModel({
-    required String name,
+    required String id,
     required String label,
+    required bool enabled,
     required BlockState state,
     required String description,
     required BlockTrigger trigger,
@@ -26,6 +40,14 @@ class BlockModel with _$BlockModel {
 
   factory BlockModel.fromJson(Map<String, Object?> json) =>
       _$BlockModelFromJson(json);
+}
+
+class BlockParameterFields {
+  static const String tag = 'tag';
+  static const String type = 'type';
+  static const String unit = 'unit';
+  static const String name = 'name';
+  static const String value = 'value';
 }
 
 /// Block parameter model
@@ -108,6 +130,29 @@ enum BlockTriggerOnType {
   any,
   none,
   device;
+
+  bool get isAny => this == any;
+  bool get isNone => this == none;
+  bool get isSpecific => !(isAny || isNone);
+
+  static List<BlockTriggerOnType> get specific =>
+      values.where((e) => e.isSpecific).toList();
+
+  static List<BlockTriggerOnType> reminder(List<BlockTriggerOnType> exists) =>
+      values.where((e) => e.isSpecific && !exists.contains(e)).toList();
+
+  static BlockTriggerOnType of(String name) =>
+      values.firstWhere((e) => e.name == name, orElse: () => any);
+}
+
+class BlockTriggerFields {
+  static const String any = 'any';
+  static const String onTags = 'onTags';
+  static const String onTypes = 'onTypes';
+  static const String repeatCount = 'repeatCount';
+  static const String repeatAfter = 'repeatAfter';
+  static const String debounceCount = 'debounceCount';
+  static const String debounceAfter = 'debounceAfter';
 }
 
 /// Block trigger model
@@ -117,18 +162,23 @@ class BlockTrigger with _$BlockTrigger {
 
   const factory BlockTrigger({
     required bool any,
-    required String label,
     required int repeatCount,
     required int repeatAfter,
     required int debounceCount,
     required int debounceAfter,
-    required String description,
     required List<String> onTags,
     required List<BlockTriggerOnType> onTypes,
   }) = _BlockTrigger;
 
   factory BlockTrigger.fromJson(Map<String, Object?> json) =>
       _$BlockTriggerFromJson(json);
+}
+
+class BlockConditionFields {
+  static const String label = 'label';
+  static const String expression = 'expression';
+  static const String description = 'description';
+  static const String variables = 'variables';
 }
 
 /// Block condition model
@@ -145,6 +195,15 @@ class BlockCondition with _$BlockCondition {
 
   factory BlockCondition.fromJson(Map<String, Object?> json) =>
       _$BlockConditionFromJson(json);
+}
+
+class BlockVariableFields {
+  static const String tag = 'tag';
+  static const String name = 'name';
+  static const String type = 'type';
+  static const String unit = 'unit';
+  static const String label = 'label';
+  static const String description = 'description';
 }
 
 /// Block variable model
@@ -189,6 +248,16 @@ class BlockVariable with _$BlockVariable {
 
 enum BlockActionType {
   notification;
+
+  static BlockActionType of(String name) =>
+      values.firstWhere((e) => e.name == name,
+          orElse: () => BlockActionType.notification);
+}
+
+class BlockActionFields {
+  static const String label = 'label';
+  static const String description = 'description';
+  static const String type = 'type';
 }
 
 /// Model of block action performed when all conditions are met

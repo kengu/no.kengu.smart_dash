@@ -20,8 +20,9 @@ BlockModel _$BlockModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BlockModel {
-  String get name => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
+  bool get enabled => throw _privateConstructorUsedError;
   BlockState get state => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   BlockTrigger get trigger => throw _privateConstructorUsedError;
@@ -43,8 +44,9 @@ abstract class $BlockModelCopyWith<$Res> {
       _$BlockModelCopyWithImpl<$Res, BlockModel>;
   @useResult
   $Res call(
-      {String name,
+      {String id,
       String label,
+      bool enabled,
       BlockState state,
       String description,
       BlockTrigger trigger,
@@ -70,8 +72,9 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? id = null,
     Object? label = null,
+    Object? enabled = null,
     Object? state = null,
     Object? description = null,
     Object? trigger = null,
@@ -81,14 +84,18 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
     Object? conditions = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       label: null == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
+      enabled: null == enabled
+          ? _value.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -146,8 +153,9 @@ abstract class _$$BlockModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
+      {String id,
       String label,
+      bool enabled,
       BlockState state,
       String description,
       BlockTrigger trigger,
@@ -173,8 +181,9 @@ class __$$BlockModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? id = null,
     Object? label = null,
+    Object? enabled = null,
     Object? state = null,
     Object? description = null,
     Object? trigger = null,
@@ -184,14 +193,18 @@ class __$$BlockModelImplCopyWithImpl<$Res>
     Object? conditions = null,
   }) {
     return _then(_$BlockModelImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       label: null == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
+      enabled: null == enabled
+          ? _value.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -228,8 +241,9 @@ class __$$BlockModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BlockModelImpl extends _BlockModel {
   const _$BlockModelImpl(
-      {required this.name,
+      {required this.id,
       required this.label,
+      required this.enabled,
       required this.state,
       required this.description,
       required this.trigger,
@@ -247,9 +261,11 @@ class _$BlockModelImpl extends _BlockModel {
       _$$BlockModelImplFromJson(json);
 
   @override
-  final String name;
+  final String id;
   @override
   final String label;
+  @override
+  final bool enabled;
   @override
   final BlockState state;
   @override
@@ -290,7 +306,7 @@ class _$BlockModelImpl extends _BlockModel {
 
   @override
   String toString() {
-    return 'BlockModel(name: $name, label: $label, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
+    return 'BlockModel(id: $id, label: $label, enabled: $enabled, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
   }
 
   @override
@@ -298,8 +314,9 @@ class _$BlockModelImpl extends _BlockModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.label, label) || other.label == label) &&
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -317,8 +334,9 @@ class _$BlockModelImpl extends _BlockModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      name,
+      id,
       label,
+      enabled,
       state,
       description,
       trigger,
@@ -343,8 +361,9 @@ class _$BlockModelImpl extends _BlockModel {
 
 abstract class _BlockModel extends BlockModel {
   const factory _BlockModel(
-      {required final String name,
+      {required final String id,
       required final String label,
+      required final bool enabled,
       required final BlockState state,
       required final String description,
       required final BlockTrigger trigger,
@@ -358,9 +377,11 @@ abstract class _BlockModel extends BlockModel {
       _$BlockModelImpl.fromJson;
 
   @override
-  String get name;
+  String get id;
   @override
   String get label;
+  @override
+  bool get enabled;
   @override
   BlockState get state;
   @override
@@ -810,12 +831,10 @@ BlockTrigger _$BlockTriggerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BlockTrigger {
   bool get any => throw _privateConstructorUsedError;
-  String get label => throw _privateConstructorUsedError;
   int get repeatCount => throw _privateConstructorUsedError;
   int get repeatAfter => throw _privateConstructorUsedError;
   int get debounceCount => throw _privateConstructorUsedError;
   int get debounceAfter => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
   List<String> get onTags => throw _privateConstructorUsedError;
   List<BlockTriggerOnType> get onTypes => throw _privateConstructorUsedError;
 
@@ -833,12 +852,10 @@ abstract class $BlockTriggerCopyWith<$Res> {
   @useResult
   $Res call(
       {bool any,
-      String label,
       int repeatCount,
       int repeatAfter,
       int debounceCount,
       int debounceAfter,
-      String description,
       List<String> onTags,
       List<BlockTriggerOnType> onTypes});
 }
@@ -857,12 +874,10 @@ class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
   @override
   $Res call({
     Object? any = null,
-    Object? label = null,
     Object? repeatCount = null,
     Object? repeatAfter = null,
     Object? debounceCount = null,
     Object? debounceAfter = null,
-    Object? description = null,
     Object? onTags = null,
     Object? onTypes = null,
   }) {
@@ -871,10 +886,6 @@ class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
           ? _value.any
           : any // ignore: cast_nullable_to_non_nullable
               as bool,
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
       repeatCount: null == repeatCount
           ? _value.repeatCount
           : repeatCount // ignore: cast_nullable_to_non_nullable
@@ -891,10 +902,6 @@ class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
           ? _value.debounceAfter
           : debounceAfter // ignore: cast_nullable_to_non_nullable
               as int,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       onTags: null == onTags
           ? _value.onTags
           : onTags // ignore: cast_nullable_to_non_nullable
@@ -917,12 +924,10 @@ abstract class _$$BlockTriggerImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool any,
-      String label,
       int repeatCount,
       int repeatAfter,
       int debounceCount,
       int debounceAfter,
-      String description,
       List<String> onTags,
       List<BlockTriggerOnType> onTypes});
 }
@@ -939,12 +944,10 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? any = null,
-    Object? label = null,
     Object? repeatCount = null,
     Object? repeatAfter = null,
     Object? debounceCount = null,
     Object? debounceAfter = null,
-    Object? description = null,
     Object? onTags = null,
     Object? onTypes = null,
   }) {
@@ -953,10 +956,6 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
           ? _value.any
           : any // ignore: cast_nullable_to_non_nullable
               as bool,
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
       repeatCount: null == repeatCount
           ? _value.repeatCount
           : repeatCount // ignore: cast_nullable_to_non_nullable
@@ -973,10 +972,6 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
           ? _value.debounceAfter
           : debounceAfter // ignore: cast_nullable_to_non_nullable
               as int,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       onTags: null == onTags
           ? _value._onTags
           : onTags // ignore: cast_nullable_to_non_nullable
@@ -994,12 +989,10 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
 class _$BlockTriggerImpl extends _BlockTrigger {
   const _$BlockTriggerImpl(
       {required this.any,
-      required this.label,
       required this.repeatCount,
       required this.repeatAfter,
       required this.debounceCount,
       required this.debounceAfter,
-      required this.description,
       required final List<String> onTags,
       required final List<BlockTriggerOnType> onTypes})
       : _onTags = onTags,
@@ -1012,8 +1005,6 @@ class _$BlockTriggerImpl extends _BlockTrigger {
   @override
   final bool any;
   @override
-  final String label;
-  @override
   final int repeatCount;
   @override
   final int repeatAfter;
@@ -1021,8 +1012,6 @@ class _$BlockTriggerImpl extends _BlockTrigger {
   final int debounceCount;
   @override
   final int debounceAfter;
-  @override
-  final String description;
   final List<String> _onTags;
   @override
   List<String> get onTags {
@@ -1041,7 +1030,7 @@ class _$BlockTriggerImpl extends _BlockTrigger {
 
   @override
   String toString() {
-    return 'BlockTrigger(any: $any, label: $label, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, description: $description, onTags: $onTags, onTypes: $onTypes)';
+    return 'BlockTrigger(any: $any, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, onTags: $onTags, onTypes: $onTypes)';
   }
 
   @override
@@ -1050,7 +1039,6 @@ class _$BlockTriggerImpl extends _BlockTrigger {
         (other.runtimeType == runtimeType &&
             other is _$BlockTriggerImpl &&
             (identical(other.any, any) || other.any == any) &&
-            (identical(other.label, label) || other.label == label) &&
             (identical(other.repeatCount, repeatCount) ||
                 other.repeatCount == repeatCount) &&
             (identical(other.repeatAfter, repeatAfter) ||
@@ -1059,8 +1047,6 @@ class _$BlockTriggerImpl extends _BlockTrigger {
                 other.debounceCount == debounceCount) &&
             (identical(other.debounceAfter, debounceAfter) ||
                 other.debounceAfter == debounceAfter) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             const DeepCollectionEquality().equals(other._onTags, _onTags) &&
             const DeepCollectionEquality().equals(other._onTypes, _onTypes));
   }
@@ -1070,12 +1056,10 @@ class _$BlockTriggerImpl extends _BlockTrigger {
   int get hashCode => Object.hash(
       runtimeType,
       any,
-      label,
       repeatCount,
       repeatAfter,
       debounceCount,
       debounceAfter,
-      description,
       const DeepCollectionEquality().hash(_onTags),
       const DeepCollectionEquality().hash(_onTypes));
 
@@ -1096,12 +1080,10 @@ class _$BlockTriggerImpl extends _BlockTrigger {
 abstract class _BlockTrigger extends BlockTrigger {
   const factory _BlockTrigger(
       {required final bool any,
-      required final String label,
       required final int repeatCount,
       required final int repeatAfter,
       required final int debounceCount,
       required final int debounceAfter,
-      required final String description,
       required final List<String> onTags,
       required final List<BlockTriggerOnType> onTypes}) = _$BlockTriggerImpl;
   const _BlockTrigger._() : super._();
@@ -1112,8 +1094,6 @@ abstract class _BlockTrigger extends BlockTrigger {
   @override
   bool get any;
   @override
-  String get label;
-  @override
   int get repeatCount;
   @override
   int get repeatAfter;
@@ -1121,8 +1101,6 @@ abstract class _BlockTrigger extends BlockTrigger {
   int get debounceCount;
   @override
   int get debounceAfter;
-  @override
-  String get description;
   @override
   List<String> get onTags;
   @override

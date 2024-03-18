@@ -172,6 +172,15 @@ class DeviceService {
     }
     return const Optional.empty();
   }
+
+  Future<List<Token>> getTokens() async {
+    final tokens = <Token>[];
+    final repo = ref.read(deviceRepositoryProvider);
+    for (final device in await repo.getAll()) {
+      tokens.addAll(device.toTokens());
+    }
+    return tokens;
+  }
 }
 
 @Riverpod(keepAlive: true)

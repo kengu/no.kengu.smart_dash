@@ -20,23 +20,10 @@ GoRoute buildNotificationRoutes() {
     fullscreenDialog: true,
     path: NotificationScreens.home,
     restorationId: Routes.setLastLocation,
-    child: NotificationScreen(
-      location: Routes.lastLocation,
-    ),
-    routes: [
-      /*
-      // Route to device type selection screen
-      Routes.buildGoRoute(
-        fullscreenDialog: true,
-        path: NotificationScreens.details,
-        builder: (context, state) {
-          return NotificationDetailsScreen(
-            serviceKey: state.uri.queryParameters['key']!,
-            location: Routes.lastLocation,
-          );
-        },
-      ),
-       */
-    ],
+    builder: (context, state) {
+      return NotificationScreen(
+        location: Routes.lastLocationOnStack,
+      );
+    },
   );
 }

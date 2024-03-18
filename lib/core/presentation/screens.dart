@@ -1,4 +1,5 @@
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
+import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_routes.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 
@@ -16,6 +17,9 @@ class Screens {
 
   static const camera = '/camera';
 
+  static const flowSelect = FlowRoutes.select;
+  static const flowDetails = FlowRoutes.details;
+
   static const notifications = NotificationScreens.home;
 
   // TODO: Make list this dynamic, easy to forget to update this list
@@ -28,6 +32,8 @@ class Screens {
     Screens.pairingListDeviceTypes,
     Screens.pairingListNewDevices,
     Screens.camera,
+    Screens.flowSelect,
+    Screens.flowDetails,
     Screens.notifications,
   ];
 

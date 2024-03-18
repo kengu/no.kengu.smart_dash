@@ -9,8 +9,8 @@ import 'package:smart_dash/integration/domain/integration.dart';
 
 class PairingScreens {
   static const home = '/pairing';
-  static const listNewDevices = '$home/list/device/new';
-  static const listDeviceTypes = '$home/list/device/type';
+  static const listNewDevices = '$home/$_listNewDevices';
+  static const listDeviceTypes = '$home/$_listDeviceTypes';
 
   static const _listNewDevices = 'list/device/new';
   static const _listDeviceTypes = 'list/device/type';
@@ -40,9 +40,11 @@ GoRoute buildParingRoutes() {
     fullscreenDialog: true,
     path: PairingScreens.home,
     restorationId: Routes.setLastLocation,
-    child: PairingScreen(
-      location: Routes.lastLocation,
-    ),
+    builder: (context, state) {
+      return PairingScreen(
+        location: Routes.lastLocationOnStack,
+      );
+    },
     routes: [
       // Route to device type selection screen
       Routes.buildGoRoute(
@@ -51,7 +53,7 @@ GoRoute buildParingRoutes() {
         builder: (context, state) {
           return DeviceTypesScreen(
             serviceKey: state.uri.queryParameters['key']!,
-            location: Routes.lastLocation,
+            location: Routes.lastLocationOnStack,
           );
         },
       ),
@@ -62,7 +64,7 @@ GoRoute buildParingRoutes() {
         builder: (context, state) {
           return NewDevicesScreen(
             serviceKey: state.uri.queryParameters['key']!,
-            location: Routes.lastLocation,
+            location: Routes.lastLocationOnStack,
             type: DeviceType.from(state.uri.queryParameters['type']!),
           );
         },

@@ -1,6 +1,7 @@
 [
   {
-    "name": "a1b2c3",
+    "id": "a1b2c3",
+    "enabled": true,
     "label": "Power Limit Notification",
     "description": "Notify when power exceeds limit",
     "state": {
@@ -9,8 +10,6 @@
       "tags": []
     },
     "trigger": {
-      "label": "Devices Updated",
-      "description": "Triggers flow when a device is updated",
       "any": true,
       "onTypes": ["device"],
       "onTags": ["measure_power:sikom:device:541905"],

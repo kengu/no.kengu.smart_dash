@@ -8,8 +8,9 @@ part of 'block.dart';
 
 _$BlockModelImpl _$$BlockModelImplFromJson(Map<String, dynamic> json) =>
     _$BlockModelImpl(
-      name: json['name'] as String,
+      id: json['id'] as String,
       label: json['label'] as String,
+      enabled: json['enabled'] as bool,
       state: BlockState.fromJson(json['state'] as Map<String, dynamic>),
       description: json['description'] as String,
       trigger: BlockTrigger.fromJson(json['trigger'] as Map<String, dynamic>),
@@ -29,8 +30,9 @@ _$BlockModelImpl _$$BlockModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$BlockModelImplToJson(_$BlockModelImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'id': instance.id,
       'label': instance.label,
+      'enabled': instance.enabled,
       'state': instance.state.toJson(),
       'description': instance.description,
       'trigger': instance.trigger.toJson(),
@@ -104,12 +106,10 @@ Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
 _$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
     _$BlockTriggerImpl(
       any: json['any'] as bool,
-      label: json['label'] as String,
       repeatCount: json['repeatCount'] as int,
       repeatAfter: json['repeatAfter'] as int,
       debounceCount: json['debounceCount'] as int,
       debounceAfter: json['debounceAfter'] as int,
-      description: json['description'] as String,
       onTags:
           (json['onTags'] as List<dynamic>).map((e) => e as String).toList(),
       onTypes: (json['onTypes'] as List<dynamic>)
@@ -120,12 +120,10 @@ _$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$BlockTriggerImplToJson(_$BlockTriggerImpl instance) =>
     <String, dynamic>{
       'any': instance.any,
-      'label': instance.label,
       'repeatCount': instance.repeatCount,
       'repeatAfter': instance.repeatAfter,
       'debounceCount': instance.debounceCount,
       'debounceAfter': instance.debounceAfter,
-      'description': instance.description,
       'onTags': instance.onTags,
       'onTypes':
           instance.onTypes.map((e) => _$BlockTriggerOnTypeEnumMap[e]!).toList(),

@@ -23,9 +23,11 @@ GoRoute buildDeviceRoutes() {
     fullscreenDialog: true,
     path: DeviceScreens.home,
     restorationId: Routes.setLastLocation,
-    child: PairedDevicesScreen(
-      location: Routes.lastLocation,
-    ),
+    builder: (context, state) {
+      return PairedDevicesScreen(
+        location: Routes.lastLocationOnStack,
+      );
+    },
     routes: [
       // Route to device type selection screen
       Routes.buildGoRoute(
@@ -36,7 +38,7 @@ GoRoute buildDeviceRoutes() {
             identity: Identity.fromJson(
               state.uri.queryParameters,
             ),
-            location: Routes.lastLocation,
+            location: Routes.lastLocationOnStack,
           );
         },
       ),

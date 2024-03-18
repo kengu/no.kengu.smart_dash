@@ -20,19 +20,362 @@ final flowManagerProvider = Provider<FlowManager>.internal(
 );
 
 typedef FlowManagerRef = ProviderRef<FlowManager>;
-String _$flowHash() => r'9a05f66cce08296259b4dc96e6e3c14954ec74f8';
+String _$flowHash() => r'91f3c02d787fa612c3068b322b0399fed2d8033c';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
 
 /// See also [flow].
 @ProviderFor(flow)
-final flowProvider = AutoDisposeStreamProvider<FlowEvent>.internal(
-  flow,
-  name: r'flowProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$flowHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const flowProvider = FlowFamily();
 
-typedef FlowRef = AutoDisposeStreamProviderRef<FlowEvent>;
+/// See also [flow].
+class FlowFamily extends Family {
+  /// See also [flow].
+  const FlowFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'flowProvider';
+
+  /// See also [flow].
+  FlowProvider call(
+    FlowEventQuery query,
+  ) {
+    return FlowProvider(
+      query,
+    );
+  }
+
+  @visibleForOverriding
+  @override
+  FlowProvider getProviderOverride(
+    covariant FlowProvider provider,
+  ) {
+    return call(
+      provider.query,
+    );
+  }
+
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(Stream<FlowEvent> Function(FlowRef ref) create) {
+    return _$FlowFamilyOverride(this, create);
+  }
+}
+
+class _$FlowFamilyOverride implements FamilyOverride {
+  _$FlowFamilyOverride(this.overriddenFamily, this.create);
+
+  final Stream<FlowEvent> Function(FlowRef ref) create;
+
+  @override
+  final FlowFamily overriddenFamily;
+
+  @override
+  FlowProvider getProviderOverride(
+    covariant FlowProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
+}
+
+/// See also [flow].
+class FlowProvider extends AutoDisposeStreamProvider<FlowEvent> {
+  /// See also [flow].
+  FlowProvider(
+    FlowEventQuery query,
+  ) : this._internal(
+          (ref) => flow(
+            ref as FlowRef,
+            query,
+          ),
+          from: flowProvider,
+          name: r'flowProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product') ? null : _$flowHash,
+          dependencies: FlowFamily._dependencies,
+          allTransitiveDependencies: FlowFamily._allTransitiveDependencies,
+          query: query,
+        );
+
+  FlowProvider._internal(
+    super.create, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.query,
+  }) : super.internal();
+
+  final FlowEventQuery query;
+
+  @override
+  Override overrideWith(
+    Stream<FlowEvent> Function(FlowRef ref) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FlowProvider._internal(
+        (ref) => create(ref as FlowRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        query: query,
+      ),
+    );
+  }
+
+  @override
+  (FlowEventQuery,) get argument {
+    return (query,);
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<FlowEvent> createElement() {
+    return _FlowProviderElement(this);
+  }
+
+  FlowProvider _copyWith(
+    Stream<FlowEvent> Function(FlowRef ref) create,
+  ) {
+    return FlowProvider._internal(
+      (ref) => create(ref as FlowRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      query: query,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FlowProvider && other.query == query;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, query.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FlowRef on AutoDisposeStreamProviderRef<FlowEvent> {
+  /// The parameter `query` of this provider.
+  FlowEventQuery get query;
+}
+
+class _FlowProviderElement extends AutoDisposeStreamProviderElement<FlowEvent>
+    with FlowRef {
+  _FlowProviderElement(super.provider);
+
+  @override
+  FlowEventQuery get query => (origin as FlowProvider).query;
+}
+
+String _$blockModelFlowHash() => r'6ce66c863c08faad4a3610b8873f29b0c9f28a94';
+
+/// See also [blockModelFlow].
+@ProviderFor(blockModelFlow)
+const blockModelFlowProvider = BlockModelFlowFamily();
+
+/// See also [blockModelFlow].
+class BlockModelFlowFamily extends Family {
+  /// See also [blockModelFlow].
+  const BlockModelFlowFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'blockModelFlowProvider';
+
+  /// See also [blockModelFlow].
+  BlockModelFlowProvider call(
+    BlockFlowQuery query,
+  ) {
+    return BlockModelFlowProvider(
+      query,
+    );
+  }
+
+  @visibleForOverriding
+  @override
+  BlockModelFlowProvider getProviderOverride(
+    covariant BlockModelFlowProvider provider,
+  ) {
+    return call(
+      provider.query,
+    );
+  }
+
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      Stream<BlockModel> Function(BlockModelFlowRef ref) create) {
+    return _$BlockModelFlowFamilyOverride(this, create);
+  }
+}
+
+class _$BlockModelFlowFamilyOverride implements FamilyOverride {
+  _$BlockModelFlowFamilyOverride(this.overriddenFamily, this.create);
+
+  final Stream<BlockModel> Function(BlockModelFlowRef ref) create;
+
+  @override
+  final BlockModelFlowFamily overriddenFamily;
+
+  @override
+  BlockModelFlowProvider getProviderOverride(
+    covariant BlockModelFlowProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
+}
+
+/// See also [blockModelFlow].
+class BlockModelFlowProvider extends AutoDisposeStreamProvider<BlockModel> {
+  /// See also [blockModelFlow].
+  BlockModelFlowProvider(
+    BlockFlowQuery query,
+  ) : this._internal(
+          (ref) => blockModelFlow(
+            ref as BlockModelFlowRef,
+            query,
+          ),
+          from: blockModelFlowProvider,
+          name: r'blockModelFlowProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$blockModelFlowHash,
+          dependencies: BlockModelFlowFamily._dependencies,
+          allTransitiveDependencies:
+              BlockModelFlowFamily._allTransitiveDependencies,
+          query: query,
+        );
+
+  BlockModelFlowProvider._internal(
+    super.create, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.query,
+  }) : super.internal();
+
+  final BlockFlowQuery query;
+
+  @override
+  Override overrideWith(
+    Stream<BlockModel> Function(BlockModelFlowRef ref) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: BlockModelFlowProvider._internal(
+        (ref) => create(ref as BlockModelFlowRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        query: query,
+      ),
+    );
+  }
+
+  @override
+  (BlockFlowQuery,) get argument {
+    return (query,);
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<BlockModel> createElement() {
+    return _BlockModelFlowProviderElement(this);
+  }
+
+  BlockModelFlowProvider _copyWith(
+    Stream<BlockModel> Function(BlockModelFlowRef ref) create,
+  ) {
+    return BlockModelFlowProvider._internal(
+      (ref) => create(ref as BlockModelFlowRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      query: query,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BlockModelFlowProvider && other.query == query;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, query.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin BlockModelFlowRef on AutoDisposeStreamProviderRef<BlockModel> {
+  /// The parameter `query` of this provider.
+  BlockFlowQuery get query;
+}
+
+class _BlockModelFlowProviderElement
+    extends AutoDisposeStreamProviderElement<BlockModel>
+    with BlockModelFlowRef {
+  _BlockModelFlowProviderElement(super.provider);
+
+  @override
+  BlockFlowQuery get query => (origin as BlockModelFlowProvider).query;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

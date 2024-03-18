@@ -61,6 +61,33 @@ enum TokenType {
   int,
   bool,
   double;
+
+  static TokenType of(String? name) => values.firstWhere((e) => e.name == name);
+}
+
+extension TokenTypeX on TokenType {
+  Object tryParse(Object value) {
+    switch (this) {
+      case TokenType.int:
+        return num.tryParse(
+              value.toString(),
+            )?.toInt() ??
+            0;
+      case TokenType.bool:
+        return bool.tryParse(
+              value.toString(),
+              caseSensitive: false,
+            ) ??
+            false;
+      case TokenType.double:
+        return double.tryParse(
+              value.toString(),
+            ) ??
+            0.0;
+      default:
+        return value;
+    }
+  }
 }
 
 enum TokenUnit {
@@ -90,6 +117,8 @@ enum TokenUnit {
   bool get isGustSpeed => this == gustSpeed;
   bool get isLuminance => this == luminance;
   bool get isTemperature => this == temperature;
+
+  static TokenUnit of(String name) => values.firstWhere((e) => e.name == name);
 
   static String symbolOf(String token) =>
       values.where((e) => e.name == token).firstOrNull?.symbol ?? token;

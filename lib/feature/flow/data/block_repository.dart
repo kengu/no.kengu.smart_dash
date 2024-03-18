@@ -23,6 +23,17 @@ class BlockRepository {
 
   static const key = 'blocks';
 
+  Future<List<String>> getIds() async {
+    return guard(
+      () async {
+        final box = await _open<BlockModel>('registered');
+        return await box.getAllKeys();
+      },
+      task: 'getIds',
+      name: '$BlockRepository',
+    );
+  }
+
   Future<List<BlockModel>> getAll() async {
     return await _load();
   }
@@ -31,12 +42,12 @@ class BlockRepository {
     return (await _load()).where(test).toList();
   }
 
-  Future<Optional<BlockModel>> get(String name) async {
+  Future<Optional<BlockModel>> get(String id) async {
     final blocks = await _load();
     return blocks.isEmpty
         ? const Optional.empty()
         : blocks.firstWhereOptional(
-            (block) => block.name == name,
+            (block) => block.id == id,
           );
   }
 
@@ -52,8 +63,8 @@ class BlockRepository {
   /// repository. Returns list of actual removed blocks.
   Future<List<BlockModel>> removeAll(Iterable<BlockModel> blocks) async {
     final current = await _load();
-    final currentIds = current.map((e) => e.name).toList();
-    final unique = blocks..toSet().where((e) => currentIds.contains(e.name));
+    final currentIds = current.map((e) => e.id).toList();
+    final unique = blocks..toSet().where((e) => currentIds.contains(e.id));
     final success = await _removeAll(unique);
     return [if (success) ...unique];
   }
@@ -92,7 +103,7 @@ class BlockRepository {
   Future<bool> _removeAll(Iterable<BlockModel> blocks) => guard(
         () async {
           final box = await _open<BlockModel>('registered');
-          final ids = blocks.map((e) => e.name).toList();
+          final ids = blocks.map((e) => e.id).toList();
           await box.deleteAll(ids);
           return true;
         },
@@ -104,7 +115,7 @@ class BlockRepository {
         () async {
           final box = await _open<BlockModel>('registered');
           for (final block in blocks) {
-            await box.put(block.name, block);
+            await box.put(block.id, block);
           }
           return true;
         },

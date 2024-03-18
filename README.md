@@ -4,12 +4,23 @@ A Smart Dashboard App for my personal use.
 
 ## Roadmap
 
-- [ ] Implement pane-based settings screen on desktop
 - [ ] Implement support for editable control flows
     * [x] Blocks with triggers, conditions and actions
-    * [ ] Screen for creating new flows
-    * [ ] Flows Page with list and details view
-    * [ ] Add flow notification action
+    * [x] Screen for creating new flows
+    * [x] Page with list of flows
+    * [x] Flow notification action
+    * [ ] New flow from templates
+- [ ] Implement network connectivity events
+    * [ ] General internet connectivity
+    * [ ] Service connectivity (all apis)
+- [ ] Add snow as device (depth and weight as tokens)
+- [ ] Implement weather page
+    * [ ] Actual weather now (tile)
+    * [ ] Short-term forecast (tile)
+    * [ ] Long-term forecast (table)
+    * [ ] Weather history (diagram)
+    * [ ] Snow weight now (tile)
+- [ ] Implement pane-based settings screen on desktop
 - [ ] Implement support for geocoder for address and reverse lookup
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 
 - [ ] Move state and integrations to backend
@@ -84,7 +95,7 @@ Custom material design icons in svg format can be found at [pictogrammers.com](h
 1. Open https://www.fluttericon.com
 2. Import `asserts/icons/config.json` (click on wrench-icon)
 3. Modify existing icons (delete, replace) og add new ones 
-   * Make your own or download svg from [pictogrammers.com](https://pictogrammers.com/library/mdi/)
+   * Make your own or download svg from [pictogrammers.com](https://pictogrammers.com/library/mdi/) or [iconpacks.net](https://www.iconpacks.net/)
    * Remember to store svg in `asserts/icons`
 4. Download updated set of icons from https://www.fluttericon.com
 5. Extract files in archive downloaded from https://www.fluttericon.com

@@ -1,16 +1,21 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class SmartDashTextField<T> extends StatelessWidget {
   const SmartDashTextField({
     super.key,
     required this.labelText,
-    required this.formControlName,
+    this.formPath = const [],
+    this.formControl,
+    this.formControlName,
     this.hintText,
     this.minLines,
     this.maxLines = 1,
     this.suffixIcon,
     this.valueAccessor,
+    this.allowEmpty = true,
     this.validationMessages,
     this.obscureText = false,
     this.textInputAction = TextInputAction.next,
@@ -22,7 +27,10 @@ class SmartDashTextField<T> extends StatelessWidget {
   final String labelText;
   final String? hintText;
   final Widget? suffixIcon;
-  final String formControlName;
+  final List<Object> formPath;
+  final String? formControlName;
+  final bool allowEmpty;
+  final FormControl<T>? formControl;
   final TextInputAction? textInputAction;
   final ControlValueAccessor<T, String>? valueAccessor;
   final Map<String, ValidationMessageFunction>? validationMessages;
@@ -30,14 +38,21 @@ class SmartDashTextField<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReactiveTextField<T>(
-      obscureText: obscureText,
       maxLines: maxLines,
       minLines: minLines,
+      formControl: formControl,
       enableSuggestions: true,
+      obscureText: obscureText,
       valueAccessor: valueAccessor,
-      formControlName: formControlName,
       textInputAction: textInputAction,
       validationMessages: validationMessages,
+      inputFormatters: [
+        if (!allowEmpty)
+          TextInputFormatter.withFunction(
+            (oldValue, newValue) => newValue.text.isEmpty ? oldValue : newValue,
+          )
+      ],
+      formControlName: [...formPath, formControlName].whereNotNull().join('.'),
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,

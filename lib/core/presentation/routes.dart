@@ -6,7 +6,6 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_scaffold.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
-import 'package:smart_dash/core/presentation/widget/page_view.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
@@ -14,6 +13,7 @@ import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_screen.dart';
 import 'package:smart_dash/feature/camera/presentation/cameras_page.dart';
 import 'package:smart_dash/feature/device/presentation/device_routes.dart';
+import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/home/presentation/home_page.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_routes.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
@@ -27,6 +27,8 @@ sealed class Routes {
   static String _lastLocation = Pages.home;
 
   static final RouteStack _stack = RouteStack();
+
+  static String get lastLocationOnStack => _stack.lastLocation;
 
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -67,7 +69,11 @@ sealed class Routes {
           buildGoRoute(
             path: Screens.account,
             fullscreenDialog: true,
-            child: AccountFormScreen(location: _lastLocation),
+            builder: (context, state) {
+              return AccountFormScreen(
+                location: lastLocationOnStack,
+              );
+            },
           ),
           buildGoRoute(
             path: Screens.settings,
@@ -76,7 +82,7 @@ sealed class Routes {
               return SettingFormScreen(
                 location: state.extra is String
                     ? state.extra as String
-                    : _lastLocation,
+                    : lastLocationOnStack,
               );
             },
           ),
@@ -85,12 +91,13 @@ sealed class Routes {
             dialogWidth: null,
             fullscreenDialog: true,
             builder: (context, state) => CameraScreen(
-              location: _lastLocation,
+              location: lastLocationOnStack,
               config: state.extra is Optional<ServiceConfig>
                   ? state.extra as Optional<ServiceConfig>
                   : const Optional.empty(),
             ),
           ),
+          buildFlowRoutes(),
           buildDeviceRoutes(),
           buildParingRoutes(),
           buildNotificationRoutes(),
@@ -110,16 +117,6 @@ sealed class Routes {
             path: Pages.cameras,
             restorationId: setLastLocation,
             child: const CamerasPage(),
-          ),
-          buildGoRoute(
-            path: Pages.flows,
-            restorationId: setLastLocation,
-            builder: (context, state) {
-              return const DetailsView(
-                title: 'Flows',
-                route: Pages.home,
-              );
-            },
           ),
           buildGoRoute(
             path: Pages.history,
@@ -227,6 +224,8 @@ class RouteStack {
 
   get isDialogShown => _stack.lastOrNull?.isDialog == true;
 
+  String get lastLocation => _stack.lastOrNull?.path ?? Pages.home;
+
   void add(GoRouterState state, bool isDialog) {
     if (_stack.length > max) {
       _stack.remove(_stack.first);
@@ -238,6 +237,7 @@ class RouteStack {
   }
 
   FutureOr<bool> onExit(BuildContext context) {
+    if (_stack.isEmpty) return true;
     return _stack.remove(_stack.last);
   }
 }

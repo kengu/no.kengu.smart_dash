@@ -86,7 +86,7 @@ class _AccountAvatarState extends State<AccountAvatar> {
                   ),
                   title: const Text('Notifications'),
                   subtitle: Text(
-                    'Manage notifications',
+                    'Manage your notifications',
                     style: style,
                   ),
                   onTap: () {

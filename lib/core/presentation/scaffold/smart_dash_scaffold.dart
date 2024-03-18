@@ -9,6 +9,7 @@ import 'package:smart_dash/core/presentation/scaffold/smart_dash_menu.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_navigation_bar.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_navigation_rail.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
+import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
@@ -97,8 +98,10 @@ class _DesktopScaffold extends ConsumerWidget {
                       label: Text('Cameras'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.lightbulb_outline),
-                      selectedIcon: Icon(Icons.lightbulb),
+                      icon: Icon(
+                        SmartDashIcons.process_outlined,
+                      ),
+                      selectedIcon: Icon(SmartDashIcons.process),
                       label: Text('Flows'),
                     ),
                     NavigationRailDestination(
@@ -153,7 +156,7 @@ class _MobileScaffold extends ConsumerWidget {
               onDestinationSelected: (index) {
                 context.pop();
                 switch (index) {
-                  case 0: // View notifications
+                  case 0: // View flows
                     context.push(Pages.flows);
                     break;
                   case 1: // View history
@@ -195,9 +198,9 @@ class _MobileScaffold extends ConsumerWidget {
                 const NavigationDrawerDestination(
                   label: Text('Flows'),
                   icon: Icon(
-                    Icons.lightbulb_outline,
+                    SmartDashIcons.process_outlined,
                   ),
-                  selectedIcon: Icon(Icons.lightbulb),
+                  selectedIcon: Icon(SmartDashIcons.process),
                 ),
                 const NavigationDrawerDestination(
                   label: Text('History'),

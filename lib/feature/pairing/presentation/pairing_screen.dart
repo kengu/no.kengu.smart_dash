@@ -45,11 +45,9 @@ class PairingScreen extends ConsumerWidget {
                   fit: BoxFit.cover,
                   width: 40,
                 ),
-                titleBuilder: (_, service, __) => Text(service.name),
+                pathBuilder: PairingScreens.toListDeviceTypesPath,
                 entries: services.isPresent ? services.value.values : [],
-                pathBuilder: (data) => PairingScreens.toListDeviceTypesPath(
-                  data,
-                ),
+                titleBuilder: (_, service, __) => Text(service.name),
               ),
             ),
           ],
