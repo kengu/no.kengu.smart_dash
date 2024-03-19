@@ -48,7 +48,7 @@ class HomePage extends ConsumerWidget {
               return SmartDashboardPage(
                   name: 'home',
                   title: 'Home',
-                  slotHeight: 270,
+                  slotHeight: 280,
                   pageItemBuilder: (home, type, slotsCount, item) {
                     switch (item.identifier) {
                       case 'meter_energy:sikom:device:541905':
