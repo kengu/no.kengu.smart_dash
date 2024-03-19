@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart' as s;
 import 'package:universal_io/io.dart';
@@ -18,11 +19,12 @@ class MqttClient {
     _api.setProtocolV311();
 
     _api.keepAlivePeriod = 60;
-    _api.connectTimeoutPeriod = 10000;
+    _api.connectTimeoutPeriod = 30000;
 
     _api.pongCallback = _pong;
     _api.onConnected = _onConnected;
     _api.onSubscribed = _onSubscribed;
+    _api.onSubscribeFail = _onSubscribeFail;
     _api.onUnsubscribed = _onUnsubscribed;
     _api.onDisconnected = _onDisconnected;
     _api.onAutoReconnect = _onAutoReconnect;
@@ -30,7 +32,7 @@ class MqttClient {
   }
 
   final MqttServerClient _api;
-  final Map<String, MqttSubscriptionStatus> _subcriptions = {};
+  final Map<String, MqttSubscriptionStatus> _subscriptions = {};
   final StreamController<s.MqttMessage> _controller =
       StreamController.broadcast();
 
@@ -51,6 +53,8 @@ class MqttClient {
       'MqttClient >> Connect :: Client is connecting',
     );
     _api.connectionMessage = MqttConnectMessage()
+        // TODO: Make client id configurable or random id persisted
+        .withClientIdentifier(nanoid())
         .withWillTopic('smart_dash/will')
         .withWillMessage('offline')
         .withWillQos(MqttQos.atLeastOnce)
@@ -88,7 +92,7 @@ class MqttClient {
       _api.subscribe(topic, MqttQos.exactlyOnce),
     );
     if (subscription.isPresent) {
-      _subcriptions[topic] = _api.getSubscriptionsStatus(topic);
+      _subscriptions[topic] = _api.getSubscriptionsStatus(topic);
     }
     return subscription;
   }
@@ -100,12 +104,12 @@ class MqttClient {
     );
 
     if (gracefully) {
-      for (final topic in _subcriptions.keys) {
+      for (final topic in _subscriptions.keys) {
         _api.unsubscribe(topic, expectAcknowledge: gracefully);
       }
 
       // Wait for the unsubscribe messages from the broker
-      while (_subcriptions.isNotEmpty) {
+      while (_subscriptions.isNotEmpty) {
         await MqttUtilities.asyncSleep(1);
       }
     }
@@ -155,7 +159,15 @@ class MqttClient {
       'MqttClient >> OnSubscribed :: '
       'Confirmed for topic :: $topic',
     );
-    _subcriptions[topic] = _api.getSubscriptionsStatus(topic);
+    _subscriptions[topic] = _api.getSubscriptionsStatus(topic);
+  }
+
+  void _onSubscribeFail(String topic) {
+    debugPrint(
+      'MqttClient >> OnSubscribedFail :: '
+      'Not subscribed to topic :: $topic',
+    );
+    _subscriptions.remove(topic);
   }
 
   void _onUnsubscribed(String? topic) {
@@ -163,7 +175,7 @@ class MqttClient {
       'MqttClient >> OnUnsubscribed :: '
       'Confirmed for topic :: $topic',
     );
-    _subcriptions.remove(topic);
+    _subscriptions.remove(topic);
   }
 
   // The unsolicited disconnect callback
