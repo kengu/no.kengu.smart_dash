@@ -39,7 +39,9 @@ class Screens {
 
   static String toPath(List<String> segments) => segments.join('/');
 
-  static int indexOf(String location) => locations.indexOf(location);
+  static int indexOf(String location) =>
+      locations.indexOf(location.split('?')[0]);
 
-  static bool contains(String location) => locations.contains(location);
+  static bool contains(String location) =>
+      locations.contains(location.split('?')[0]);
 }
