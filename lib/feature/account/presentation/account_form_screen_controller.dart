@@ -4,7 +4,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/feature/account/data/account_repository.dart';
+import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
@@ -168,11 +168,11 @@ class AccountFormScreenController extends _$AccountFormScreenController
 
   @override
   Future<Optional<Account>> load(AccountQuery query) {
-    return ref.read(accountRepositoryProvider).get(query.userId);
+    return ref.read(accountServiceProvider).getAccount(query.userId);
   }
 
   @override
   Future<bool> save(Account data) async {
-    return await ref.read(accountRepositoryProvider).addOrUpdate(data);
+    return await ref.read(accountServiceProvider).addOrUpdate(data);
   }
 }

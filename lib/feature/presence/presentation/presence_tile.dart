@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
+import 'package:smart_dash/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash/feature/setting/domain/setting.dart';
 
 class PresenceTile extends ConsumerWidget {
   const PresenceTile({super.key});
@@ -15,6 +17,9 @@ class PresenceTile extends ConsumerWidget {
       builder: (context, snapshot) {
         final e = snapshot.data;
         final members = e?.state.members ?? [];
+        final isEnabled = ref
+            .read(settingRepositoryProvider.notifier)
+            .getOrDefault(SettingType.enablePresence, false);
         return SmartDashTile(
             constraints: const BoxConstraints(
               minWidth: 270,
@@ -41,6 +46,7 @@ class PresenceTile extends ConsumerWidget {
             body: ListView(
               children: members
                   .map((e) => ListTile(
+                        enabled: isEnabled,
                         title: Text(e.label),
                         leading: const Icon(Icons.home),
                       ))

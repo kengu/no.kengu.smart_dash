@@ -270,10 +270,10 @@ packages:
     dependency: transitive
     description:
       name: csv
-      sha256: "63ed2871dd6471193dffc52c0e6c76fb86269c00244d244297abbb355c84a86e"
+      sha256: c6aa2679b2a18cb57652920f674488d89712efaf4d3fdf2e537215b35fc19d6c
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "6.0.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -598,10 +598,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "170c46e237d6eb0e6e9f0e8b3f56101e14fb64f787016e42edd74c39cf8b176a"
+      sha256: "7ecb2f391edbca5473db591b48555a8912dde60edd0fb3013bd6743033b2d3f8"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.2.1"
   graphs:
     dependency: transitive
     description:
@@ -893,10 +893,11 @@ packages:
   network_tools:
     dependency: "direct main"
     description:
-      path: "../network_tools"
-      relative: true
-    source: path
-    version: "4.0.4"
+      name: network_tools
+      sha256: "22e92e3e7dbb87458554df64cf75ac8b0869e4fd854b5c85c39dbee59a491a69"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
   node_preamble:
     dependency: transitive
     description:
@@ -1220,18 +1221,18 @@ packages:
     dependency: "direct main"
     description:
       name: sentry
-      sha256: a524a87d096799b775530176c8c082afe7aa1f10cc31ba078fecdd74e9afc923
+      sha256: a460aa48568d47140dd0557410b624d344ffb8c05555107ac65035c1097cf1ad
       url: "https://pub.dev"
     source: hosted
-    version: "7.17.0"
+    version: "7.18.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: e0f8367f8f7c74dba9f7521f71700bce6c6ee065cf342f065d4fce411b84fc7b
+      sha256: "3d0d1d4e0e407d276ae8128d123263ccbc37e988bae906765efd6f37d544f4c6"
       url: "https://pub.dev"
     source: hosted
-    version: "7.17.0"
+    version: "7.18.0"
   settings_ui:
     dependency: "direct main"
     description:

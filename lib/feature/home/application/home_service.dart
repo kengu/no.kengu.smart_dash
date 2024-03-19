@@ -41,9 +41,14 @@ class HomeService {
     });
   }
 
+  Optional<Home> getCachedCurrentHome([String? userId]) {
+    final uid = userId ?? currentUser.userId;
+    return _cache.get('get_current_home$uid');
+  }
+
   Future<Optional<Home>> getCurrentHome([String? userId]) {
-    return _cache.getOrFetch('get_current_home', () async {
-      final uid = userId ?? currentUser.userId;
+    final uid = userId ?? currentUser.userId;
+    return _cache.getOrFetch('get_current_home$uid', () async {
       return ref.read(homeRepositoryProvider).getCurrentHome(uid);
     });
   }

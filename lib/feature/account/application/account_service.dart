@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,22 +12,40 @@ import 'package:smart_dash/util/future.dart';
 part 'account_service.g.dart';
 
 class AccountService {
-  AccountService(this.ref);
+  AccountService(this.ref) {
+    ref.onDispose(() {
+      _controller.close();
+    });
+  }
 
   final Ref ref;
   final _cache = FutureCache(prefix: '$AccountService');
 
+  final StreamController<Account> _controller = StreamController.broadcast();
+
+  Stream<Account> get changes => _controller.stream;
+
   User get currentUser => ref.read(userRepositoryProvider).currentUser;
+
+  Optional<Account> getCachedAccount([String? userId]) {
+    final uid = userId ?? currentUser.userId;
+    return _cache.get('get_user_account:$uid');
+  }
 
   Future<Optional<Account>> getAccount([String? userId]) {
     final uid = userId ?? currentUser.userId;
-    return _cache.getOrFetch('get_user_account:$userId', () {
+    return _cache.getOrFetch('get_user_account:$uid', () {
       return ref.read(accountRepositoryProvider).get(uid);
     });
   }
 
-  Future<bool> addOrUpdate(Account account) {
-    return ref.read(accountRepositoryProvider).addOrUpdate(account);
+  Future<bool> addOrUpdate(Account account) async {
+    final repo = ref.read(accountRepositoryProvider);
+    final result = await repo.addOrUpdate(account);
+    if (result) {
+      _controller.add(account);
+    }
+    return result;
   }
 }
 
