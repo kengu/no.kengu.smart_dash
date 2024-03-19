@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -64,10 +65,19 @@ class NotificationService {
     final success = await _plugin.initialize(
       settings.value,
       onDidReceiveNotificationResponse: _onForeground,
-      onDidReceiveBackgroundNotificationResponse: _onBackground,
     );
 
     _initialize = !(success == true);
+
+    if (!_initialize) {
+      if (Platform.isAndroid || Platform.isIOS) {
+        PermissionStatus status = await Permission.notification.status;
+        if (!status.isGranted) {
+          // The permission is not granted, request it.
+          status = await Permission.notification.request();
+        }
+      }
+    }
 
     if (isPlatformReady) {
       // Check periodically
@@ -303,16 +313,6 @@ class NotificationService {
   void _onForeground(NotificationResponse details) {
     debugPrint(
       '$NotificationService: _onForeground '
-      '>> Clicked on id: ${details.id}',
-    );
-    if (details.id != null) {
-      _ackAll([details.id!]);
-    }
-  }
-
-  void _onBackground(NotificationResponse details) {
-    debugPrint(
-      '$NotificationService: _onBackground '
       '>> Clicked on id: ${details.id}',
     );
     if (details.id != null) {

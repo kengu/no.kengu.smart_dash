@@ -72,6 +72,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   riverpod_annotation: ^3.0.0-dev.3
 
+  permission_handler: ^11.3.0
   flutter_local_notifications: ^17.0.0
 
   sentry: ^7.16.1
