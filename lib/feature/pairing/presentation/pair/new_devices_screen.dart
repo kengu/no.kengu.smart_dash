@@ -31,6 +31,11 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
 
   bool _isLoading = true;
 
+  late NewDevicesQuery query = NewDevicesQuery(
+    type: widget.type,
+    serviceKey: widget.serviceKey,
+  );
+
   void _set(Optional<List<Device>> data) {
     if (data.isPresent && _selected.isEmpty) {
       if (data.value.isNotEmpty) {
@@ -51,10 +56,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
     return AsyncLoadScreen<NewDevicesQuery, List<Device>,
         NewDevicesScreenController>(
       title: _buildTitle(),
-      query: NewDevicesQuery(
-        type: widget.type,
-        serviceKey: widget.serviceKey,
-      ),
+      query: query,
       actions: [
         ElevatedButton(
           onPressed: _selected.where((value) => value).isNotEmpty

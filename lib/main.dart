@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:network_tools/network_tools.dart';
@@ -21,6 +22,7 @@ import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
 import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
+import 'package:universal_io/io.dart' as io;
 import 'package:window_manager/window_manager.dart';
 
 const sentryDNS =
@@ -35,6 +37,7 @@ void main() async {
     appDocDirectory.path,
     enableDebugging: !kReleaseMode,
   );
+  await Hive.initFlutter(io.Platform.pathSeparator);
 
   // This is needed for riverpod error messages
   FlutterError.demangleStackTrace = (StackTrace stack) {

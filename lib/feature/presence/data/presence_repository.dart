@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:optional/optional.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
@@ -74,11 +75,12 @@ class PresenceRepository {
   }
 
   Future<CollectionBox<T>> _open<T>(String name) async {
+    final directory = await getApplicationDocumentsDirectory();
     final db = await BoxCollection.open(
       key,
       {'registered'},
-      path: './',
       key: await getHiveCipher(key),
+      path: directory.path,
     );
     return db.openBox<T>(name);
   }

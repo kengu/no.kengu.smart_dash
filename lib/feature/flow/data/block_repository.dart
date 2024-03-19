@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:optional/optional.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/util/data/json.dart';
@@ -70,11 +71,12 @@ class BlockRepository {
   }
 
   Future<CollectionBox<T>> _open<T>(String name) async {
+    final directory = await getApplicationDocumentsDirectory();
     final db = await BoxCollection.open(
       key,
       {'registered'},
-      path: './',
       key: await getHiveCipher(key),
+      path: directory.path,
     );
     return db.openBox<T>(name);
   }
