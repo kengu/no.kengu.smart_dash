@@ -60,7 +60,8 @@ class MqttService {
           }));
 
           debugPrint(
-              'MqttService >> Subscribing to topics [${config.topics}]...');
+            'MqttService >> Subscribing to topics [${config.topics}]...',
+          );
           for (final topic in config.topics!.split(',')) {
             final result = client.subscribe(topic);
             if (result.isPresent) {

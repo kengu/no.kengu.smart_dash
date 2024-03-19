@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart' as s;
-import 'package:universal_io/io.dart';
+import 'package:smart_dash/util/platform.dart';
+import 'package:universal_io/io.dart' as io;
 
 class MqttClient {
   MqttClient(MqttServerClient api, {bool logging = false}) : _api = api {
@@ -52,9 +52,11 @@ class MqttClient {
     debugPrint(
       'MqttClient >> Connect :: Client is connecting',
     );
+
+    final deviceId = await Platform.deviceId;
+
     _api.connectionMessage = MqttConnectMessage()
-        // TODO: Make client id configurable or random id persisted
-        .withClientIdentifier(nanoid())
+        .withClientIdentifier('smart_dash::$deviceId')
         .withWillTopic('smart_dash/will')
         .withWillMessage('offline')
         .withWillQos(MqttQos.atLeastOnce)
@@ -70,11 +72,11 @@ class MqttClient {
       // Raised by the client when connection fails.
       debugPrint('MqttClient >> client exception :: $e');
       _api.disconnect();
-    } on SocketException catch (e) {
+    } on io.SocketException catch (e) {
       // Raised by the socket layer
       debugPrint('MqttClient >> socket exception :: $e');
       _api.disconnect();
-    } on HttpException catch (e) {
+    } on io.HttpException catch (e) {
       // Raised by the socket layer
       debugPrint('MqttClient >> http exception :: $e');
       _api.disconnect();

@@ -124,7 +124,6 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
                   ),
                   onSelected: (index) => setState(() {
                     _selected = _selected == index ? -1 : index;
-                    debugPrint(_selected.toString());
                   }),
                 ),
               )

@@ -2,10 +2,10 @@
   "commitish" : "v0.0.12",
   "Mac" : [
     {
-      "hash" : "58e65bfed7437ee94ff0472df002ccc4dfb474f06c42d26d9dc06afc581dc419",
+      "container" : "SystemKit.xcframework",
+      "hash" : "662c89efb79b1e5735e39b3d1eef44f544ab2dcb76f396f6599bbe491d708220",
       "swiftToolchainVersion" : "5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)",
       "identifier" : "macos-arm64_x86_64",
-      "container" : "SystemKit.xcframework",
       "name" : "SystemKit"
     }
   ]
