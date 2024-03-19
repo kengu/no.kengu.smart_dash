@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
 import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
@@ -12,6 +13,8 @@ import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
+import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
 import 'package:smart_dash/util/widget.dart';
 
@@ -153,28 +156,38 @@ class _MobileScaffold extends ConsumerWidget {
           ? NavigationDrawer(
               elevation: 8.0,
               selectedIndex: -1,
-              onDestinationSelected: (index) {
+              onDestinationSelected: (index) async {
                 context.pop();
                 switch (index) {
-                  case 0: // View flows
-                    context.push(Pages.flows);
+                  case 0:
+                    final name = await showTextInputDialog(
+                      context,
+                      title: 'Add Home',
+                      hint: 'Enter Name',
+                    );
+                    if (name?.isNotEmpty == true) {
+                      final home =
+                          await ref.read(homeServiceProvider).newHome(name!);
+                      if (home.isPresent) {
+                        if (!context.mounted) return;
+                        SnackbarController.showSnackBarByRef(
+                          context,
+                          ref,
+                          'Home $name was added',
+                        );
+                      }
+                    }
                     break;
-                  case 1: // View history
-                    context.push(Pages.history);
-                    break;
-                  case 2: // TODO: Add Home
-                    context.push(Screens.account);
-                    break;
-                  case 3: // Pair with device
+                  case 1: // Pair with device
                     context.push(Screens.pairing);
                     break;
-                  case 4: // Manage account
+                  case 2: // Manage account
                     context.push(Screens.account);
                     break;
-                  case 5: // Manage notifications
+                  case 3: // Manage notifications
                     context.push(Screens.notifications);
                     break;
-                  case 6: // Manage settings
+                  case 4: // Manage settings
                     context.push(Screens.settings);
                     break;
                 }
@@ -194,20 +207,6 @@ class _MobileScaffold extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
                   child: Text('View', style: style),
-                ),
-                const NavigationDrawerDestination(
-                  label: Text('Flows'),
-                  icon: Icon(
-                    SmartDashIcons.process_outlined,
-                  ),
-                  selectedIcon: Icon(SmartDashIcons.process),
-                ),
-                const NavigationDrawerDestination(
-                  label: Text('History'),
-                  icon: Icon(
-                    Icons.history_outlined,
-                  ),
-                  selectedIcon: Icon(Icons.history),
                 ),
                 const Divider(),
                 Padding(
@@ -291,29 +290,43 @@ class _MobileScaffold extends ConsumerWidget {
       bottomNavigationBar: isPage && !isFullscreen
           ? SmartDashNavigationBar(
               selected: location,
-              locations: const [Pages.home, Pages.rooms, Pages.cameras],
+              locations: Pages.locations,
               children: const [
                 NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
                   label: 'Home',
                   tooltip: 'Home',
+                  icon: Icon(Icons.home_outlined),
+                  selectedIcon: Icon(Icons.home),
                 ),
                 NavigationDestination(
+                  label: 'Rooms',
+                  tooltip: 'Rooms',
                   icon: Icon(
                     CupertinoIcons.rectangle_3_offgrid,
                   ),
                   selectedIcon: Icon(CupertinoIcons.rectangle_3_offgrid_fill),
-                  label: 'Rooms',
-                  tooltip: 'Rooms',
                 ),
                 NavigationDestination(
+                  label: 'Cameras',
+                  tooltip: 'Cameras',
                   icon: Icon(
                     Icons.video_camera_back_outlined,
                   ),
                   selectedIcon: Icon(Icons.video_camera_back),
-                  label: 'Cameras',
-                  tooltip: 'Cameras',
+                ),
+                NavigationDestination(
+                  label: 'Flows',
+                  icon: Icon(
+                    SmartDashIcons.process_outlined,
+                  ),
+                  selectedIcon: Icon(SmartDashIcons.process),
+                ),
+                NavigationDestination(
+                  label: 'History',
+                  icon: Icon(
+                    Icons.history_outlined,
+                  ),
+                  selectedIcon: Icon(Icons.history),
                 ),
               ],
             )
