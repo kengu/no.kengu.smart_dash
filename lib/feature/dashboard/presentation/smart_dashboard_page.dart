@@ -66,13 +66,7 @@ class SmartDashboardPage extends ConsumerWidget {
                   : const EdgeInsets.all(16.0),
               child: Stack(
                 children: [
-                  if (withHeader)
-                    SmartDashHeader(
-                      title: title,
-                      key: GlobalObjectKey(
-                        'smart_dashboard_page:$name',
-                      ),
-                    ),
+                  if (withHeader) SmartDashHeader(title: title),
                   Padding(
                     padding: withHeader
                         ? const EdgeInsets.only(top: 56.0)

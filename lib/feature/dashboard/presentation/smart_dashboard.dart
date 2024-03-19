@@ -30,8 +30,6 @@ class SmartDashboard extends StatefulWidget {
 class _SmartDashboardState extends State<SmartDashboard> {
   late DashboardItemController itemController;
 
-  final key = GlobalKey();
-
   final scrollController = ScrollController();
 
   @override
@@ -77,7 +75,6 @@ class _SmartDashboardState extends State<SmartDashboard> {
 
   Dashboard<DashboardItem> _build(ResponsiveType type, int slotCount) {
     return Dashboard(
-      key: key,
       slideToTop: false,
       shrinkToPlace: true,
       absorbPointer: false,
