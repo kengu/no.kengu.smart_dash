@@ -83,44 +83,80 @@ class _SmartDashboardState extends State<SmartDashboard> {
       horizontalSpace: 16,
       slotCount: slotCount,
       scrollController: scrollController,
+      dashboardItemController: itemController,
       physics: const RangeMaintainingScrollPhysics(
         parent: AlwaysScrollableScrollPhysics(),
       ),
       slotHeight: widget.slotHeight,
+      errorPlaceholder: (e, s) => Text("$e , $s"),
       cacheExtend: widget.slotHeight * widget.cacheSlotCount,
       itemBuilder: (item) => widget.itemBuilder(type, slotCount, item),
-      dashboardItemController: itemController,
-      errorPlaceholder: (e, s) => Text("$e , $s"),
     );
   }
 }
 
 class SmartDashboardItemStorage extends DashboardItemStorageDelegate {
   SmartDashboardItemStorage({
-    required this.mobile,
-    required this.desktop,
     required this.mobileSlotCount,
     required this.desktopSlotCount,
-    this.tablet = const [],
-    this.mobileLarge = const [],
+    bool cacheItems = false,
     this.tabletSlotCount = 0,
     this.mobileLargeSlotCount = 0,
-  });
+    List<DashboardItem> mobile = const [],
+    List<DashboardItem> desktop = const [],
+    List<DashboardItem> tablet = const [],
+    List<DashboardItem> mobileLarge = const [],
+    this.itemBuilder,
+  })  : _slots = {
+          mobileSlotCount: _SmartDashboardItemStorageSlot(
+            slotCount: mobileSlotCount,
+            items: mobile.toList(),
+          ),
+          desktopSlotCount: _SmartDashboardItemStorageSlot(
+            slotCount: desktopSlotCount,
+            items: desktop.toList(),
+          ),
+          tabletSlotCount: _SmartDashboardItemStorageSlot(
+            slotCount: tabletSlotCount,
+            items: tablet.toList(),
+          ),
+          mobileLargeSlotCount: _SmartDashboardItemStorageSlot(
+            slotCount: mobileLargeSlotCount,
+            items: mobileLarge.toList(),
+          ),
+        },
+        _cacheItems = cacheItems {
+    // Sanity checks
+    assert(mobileSlotCount > 0, 'mobileSlotCount > 0 is required');
+    assert(desktopSlotCount > 0, 'desktopSlotCount > 0 is required');
+    assert(
+      itemBuilder == null || cacheItems == false && itemBuilder != null,
+      'itemBuilder requires no caching',
+    );
+  }
+
+  final bool _cacheItems;
 
   final int mobileSlotCount;
   final int desktopSlotCount;
   final int tabletSlotCount;
   final int mobileLargeSlotCount;
-  final List<DashboardItem> mobile;
-  final List<DashboardItem> desktop;
-  final List<DashboardItem> tablet;
-  final List<DashboardItem> mobileLarge;
+  final Map<int, _SmartDashboardItemStorageSlot> _slots;
+
+  final Future<List<DashboardItem>> Function(int slotCount)? itemBuilder;
 
   @override
-  bool get cacheItems => true;
+  bool get cacheItems => _cacheItems;
 
   @override
   bool get layoutsBySlotCount => true;
+
+  List<DashboardItem> get mobile => _slots[mobileSlotCount]!.items.toList();
+  List<DashboardItem> get desktop => _slots[mobileSlotCount]!.items.toList();
+  List<DashboardItem> get tablet =>
+      _slots[mobileSlotCount]?.items.toList() ?? const <DashboardItem>[];
+  List<DashboardItem> get mobileLarge =>
+      _slots[mobileSlotCount]?.items.toList() ?? const <DashboardItem>[];
 
   JsonObject toJson() {
     return {
@@ -140,24 +176,49 @@ class SmartDashboardItemStorage extends DashboardItemStorageDelegate {
 
   @override
   FutureOr<List<DashboardItem>> getAllItems(int slotCount) async {
-    if (mobileSlotCount == slotCount) {
-      return mobile;
-    } else if (mobileLargeSlotCount == slotCount) {
-      return mobileLarge;
-    } else if (tabletSlotCount == slotCount) {
-      return tablet;
-    } else if (desktopSlotCount == slotCount) {
-      return desktop;
+    final slot = _slots[slotCount];
+    assert(slot != null, 'Items for slotCount $slotCount not found');
+    final items = slot!.items;
+    if (itemBuilder != null) {
+      items.clear();
+      items.addAll(await itemBuilder!(slotCount));
     }
-    throw StateError('slotCount $slotCount not found');
+    return List.unmodifiable(items);
   }
 
   @override
-  FutureOr<void> onItemsAdded(List<DashboardItem> items, int slotCount) {}
+  FutureOr<void> onItemsAdded(List<DashboardItem> items, int slotCount) {
+    final slot = _slots[slotCount];
+    assert(slot != null, 'Items for slotCount $slotCount not found');
+    slot!.items.addAll(items);
+  }
 
   @override
-  FutureOr<void> onItemsDeleted(List<DashboardItem> items, int slotCount) {}
+  FutureOr<void> onItemsDeleted(List<DashboardItem> items, int slotCount) {
+    final slot = _slots[slotCount];
+    assert(slot != null, 'Items for slotCount $slotCount not found');
+    for (final it in items) {
+      slot!.items.remove(it);
+    }
+  }
 
   @override
-  FutureOr<void> onItemsUpdated(List<DashboardItem> items, int slotCount) {}
+  FutureOr<void> onItemsUpdated(List<DashboardItem> items, int slotCount) {
+    final slot = _slots[slotCount];
+    assert(slot != null, 'Items for slotCount $slotCount not found');
+    for (final it in items) {
+      final index =
+          slot!.items.indexWhere((e) => e.identifier == it.identifier);
+      if (index > -1) slot.items[index] = it;
+    }
+  }
+}
+
+class _SmartDashboardItemStorageSlot {
+  _SmartDashboardItemStorageSlot({
+    required this.slotCount,
+    required this.items,
+  });
+  final int slotCount;
+  final List<DashboardItem> items;
 }

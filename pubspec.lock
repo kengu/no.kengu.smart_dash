@@ -326,11 +326,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: a6f94b044c2504b01bf6ae10e9bf38b8b528374c
+      ref: "issue/update_item_controller"
+      resolved-ref: "6f89ca08e726022a8ea73f35e76d8f1a993a0b76"
       url: "https://github.com/DISCOOS/dashboard.git"
     source: git
-    version: "0.0.4"
+    version: "0.0.5"
   dbus:
     dependency: transitive
     description:

@@ -39,6 +39,11 @@ class SmartDashboardPage extends ConsumerWidget {
           data: (dashboards) {
             final page = dashboards[name] as m.Dashboard;
             final storage = SmartDashboardItemStorage(
+              cacheItems: true,
+              mobileSlotCount: page.mobileSlotCount,
+              tabletSlotCount: page.tabletSlotCount,
+              desktopSlotCount: page.desktopSlotCount,
+              mobileLargeSlotCount: page.mobileLargeSlotCount,
               mobile: page.mobile
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
@@ -55,10 +60,6 @@ class SmartDashboardPage extends ConsumerWidget {
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
                   .toList(),
-              mobileSlotCount: page.mobileSlotCount,
-              tabletSlotCount: page.tabletSlotCount,
-              desktopSlotCount: page.desktopSlotCount,
-              mobileLargeSlotCount: page.mobileLargeSlotCount,
             );
             return Padding(
               padding: withHeader

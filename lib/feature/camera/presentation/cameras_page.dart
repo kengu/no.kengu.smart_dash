@@ -62,12 +62,13 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
                   child: SmartDashboard(
                     slotHeight: 380,
                     storage: SmartDashboardItemStorage(
-                      mobile: _items(configs),
-                      tablet: _items(configs),
-                      desktop: _items(configs),
+                      cacheItems: true,
                       mobileSlotCount: 1,
                       tabletSlotCount: 2,
                       desktopSlotCount: 3,
+                      mobile: _items(configs),
+                      tablet: _items(configs),
+                      desktop: _items(configs),
                     ),
                     itemBuilder: (type, slotsCount, item) {
                       switch (item.identifier) {
