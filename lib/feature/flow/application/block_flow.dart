@@ -188,7 +188,7 @@ class BlockFlow extends Flow {
     if (_model.isPresent) {
       final next = _model.value.copyWith(state: state);
       _model = Optional.of(next);
-      await ref.read(blockRepositoryProvider).updateAll([next]);
+      await ref.read(blockRepositoryProvider).addOrUpdate([next]);
       debugPrint(
         '$BlockFlow: Updated Block ['
         'id: $id, '
@@ -257,11 +257,27 @@ abstract class BlockEvent extends FlowEvent {
   }
 }
 
+class BlockAddedEvent extends BlockEvent {
+  BlockAddedEvent({
+    required super.flow,
+    required super.model,
+    super.tags = const [],
+  });
+}
+
 class BlockUpdatedEvent extends BlockEvent {
   BlockUpdatedEvent({
     required super.flow,
     required super.tags,
     required super.model,
+  });
+}
+
+class BlockDeletedEvent extends BlockEvent {
+  BlockDeletedEvent({
+    required super.flow,
+    required super.model,
+    super.tags = const [],
   });
 }
 

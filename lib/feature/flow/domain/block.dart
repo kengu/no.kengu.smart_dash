@@ -38,6 +38,32 @@ class BlockModel with _$BlockModel {
     required List<BlockCondition> conditions,
   }) = _BlockModel;
 
+  factory BlockModel.empty(String id, String label) => BlockModel(
+        id: id,
+        label: label,
+        enabled: true,
+        state: BlockState(
+          tags: [],
+          repeated: 0,
+          value: false,
+          lastChanged: DateTime.now(),
+        ),
+        description: label,
+        trigger: const BlockTrigger(
+          any: false,
+          repeatCount: 0,
+          repeatAfter: 0,
+          debounceCount: 0,
+          debounceAfter: 0,
+          onTags: [],
+          onTypes: [],
+        ),
+        whenTrue: const [],
+        whenFalse: const [],
+        parameters: const [],
+        conditions: const [],
+      );
+
   factory BlockModel.fromJson(Map<String, Object?> json) =>
       _$BlockModelFromJson(json);
 }

@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/default_value_accessor.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_switch_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
-import 'package:smart_dash/core/presentation/widget/form/field/typed_control_value_accessor.dart';
 import 'package:smart_dash/core/presentation/widget/list/expansion_list.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
@@ -18,16 +18,6 @@ class BlockTriggerFormGroup extends ConsumerWidget {
   const BlockTriggerFormGroup({super.key, required this.group});
 
   final FormGroup group;
-
-  static final _intAccessor = TypedValueControlAccessor<int, String>(
-    toModel: (value) {
-      if (value != null) {
-        return int.tryParse(value);
-      }
-      return 0;
-    },
-    toValue: (value) => value.toString(),
-  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,7 +88,7 @@ class BlockTriggerFormGroup extends ConsumerWidget {
               labelText: 'Repeat number of times',
               formPath: const [BlockFields.trigger],
               formControlName: BlockTriggerFields.repeatCount,
-              valueAccessor: _intAccessor,
+              valueAccessor: DefaultIntValueAccessor(0),
               validationMessages: {
                 ValidationMessage.number: (_) => 'Please enter a number',
                 ValidationMessage.required: (_) => 'Please enter a value',
@@ -110,7 +100,7 @@ class BlockTriggerFormGroup extends ConsumerWidget {
               labelText: 'Repeat after (in seconds)',
               formPath: const [BlockFields.trigger],
               formControlName: BlockTriggerFields.repeatAfter,
-              valueAccessor: _intAccessor,
+              valueAccessor: DefaultIntValueAccessor(0),
               validationMessages: {
                 ValidationMessage.number: (_) => 'Please enter a number',
                 ValidationMessage.required: (_) => 'Please enter a value',
@@ -122,7 +112,7 @@ class BlockTriggerFormGroup extends ConsumerWidget {
               labelText: 'Skip number of times',
               formPath: const [BlockFields.trigger],
               formControlName: BlockTriggerFields.debounceCount,
-              valueAccessor: _intAccessor,
+              valueAccessor: DefaultIntValueAccessor(0),
               validationMessages: {
                 ValidationMessage.number: (_) => 'Please enter a number',
                 ValidationMessage.required: (_) => 'Please enter a value',
@@ -134,7 +124,7 @@ class BlockTriggerFormGroup extends ConsumerWidget {
               labelText: 'Skip until (in seconds)',
               formPath: const [BlockFields.trigger],
               formControlName: BlockTriggerFields.debounceAfter,
-              valueAccessor: _intAccessor,
+              valueAccessor: DefaultIntValueAccessor(0),
               validationMessages: {
                 ValidationMessage.number: (_) => 'Please enter a number',
                 ValidationMessage.required: (_) => 'Please enter a value',

@@ -173,13 +173,21 @@ class DeviceService {
     return const Optional.empty();
   }
 
-  Future<List<Token>> getTokens() async {
-    final tokens = <Token>[];
-    final repo = ref.read(deviceRepositoryProvider);
-    for (final device in await repo.getAll()) {
-      tokens.addAll(device.toTokens());
-    }
-    return tokens;
+  Optional<List<Token>> getCachedTokens() {
+    return _cache.get('tokens');
+  }
+
+  Future<List<Token>> getTokens([
+    Duration? ttl = const Duration(seconds: 5),
+  ]) async {
+    return _cache.getOrFetch('tokens', () async {
+      final tokens = <Token>[];
+      final repo = ref.read(deviceRepositoryProvider);
+      for (final device in await repo.getAll()) {
+        tokens.addAll(device.toTokens());
+      }
+      return tokens;
+    }, ttl: ttl);
   }
 }
 

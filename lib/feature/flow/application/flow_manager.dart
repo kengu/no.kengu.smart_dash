@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
@@ -22,18 +23,17 @@ class FlowManager {
 
   final Ref ref;
   final _flows = <String, Flow>{};
+
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
-  final StreamController<FlowEvent> _controller = StreamController.broadcast();
-
   final Map<Type, StreamSubscription> _subscriptions = {};
+  final StreamController<FlowEvent> _controller = StreamController.broadcast();
 
   /// Get stream of [FlowEvent]s.
   Stream<FlowEvent> get events => _controller.stream;
 
   /// Check if [Flow] for given [Flow.key] exists
   bool exists(String key) => _flows.containsKey(key);
-
   Future<void> init() async {
     assert(_flows.isEmpty, 'FlowManager is initialized already');
     for (final id in await ref.read(blockRepositoryProvider).getIds()) {
@@ -96,6 +96,10 @@ class FlowManager {
     return tags.toList();
   }
 
+  Optional<List<Token>> getCachedTokens() {
+    return ref.read(deviceServiceProvider).getCachedTokens();
+  }
+
   Future<List<Token>> getTokens() async {
     return ref.read(deviceServiceProvider).getTokens();
   }
@@ -132,16 +136,37 @@ class FlowManager {
     );
   }
 
-  Future<bool> update(BlockModel data) async {
+  Future<bool> addOrUpdate(BlockModel data, {bool notify = true}) async {
     final repo = ref.read(blockRepositoryProvider);
-    final result = await repo.updateAll([data]);
-    final event = BlockUpdatedEvent(
-      flow: BlockFlow.toKey(data.id),
-      model: data,
-      tags: [],
-    );
-    _controller.add(event);
+    final exists = await repo.get(data.id);
+    final result = await repo.addOrUpdate([data]);
+    if (notify) {
+      final builder =
+          (exists.isPresent ? BlockUpdatedEvent.new : BlockAddedEvent.new);
+      final event = builder(
+        flow: BlockFlow.toKey(data.id),
+        model: data,
+        tags: [],
+      );
+      _controller.add(event);
+    }
     return result.isNotEmpty;
+  }
+
+  Future<bool> delete(String id) async {
+    final repo = ref.read(blockRepositoryProvider);
+    final block = await repo.get(id);
+    if (!block.isPresent) return false;
+    _flows.remove(BlockFlow.toKey(id));
+    final deleted = await repo.removeAll([block.value]);
+    if (deleted.isNotEmpty) {
+      final event = BlockDeletedEvent(
+        flow: BlockFlow.toKey(id),
+        model: block.value,
+      );
+      _controller.add(event);
+    }
+    return deleted.isNotEmpty;
   }
 }
 

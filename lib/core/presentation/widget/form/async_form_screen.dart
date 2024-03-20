@@ -22,6 +22,7 @@ class AsyncFormScreen<Query, Data,
     this.onError,
     this.physics,
     this.builder,
+    this.submitText = 'SAVE',
     this.autoSubmit = false,
     this.scrollable = false,
     this.constraints = const BoxConstraints(),
@@ -54,6 +55,8 @@ class AsyncFormScreen<Query, Data,
   /// Every change is submitted automatically (default false)
   /// No manual 'SAVE' action is shown when auto submitting.
   final bool autoSubmit;
+
+  final String submitText;
 
   /// Constraints of form body
   final BoxConstraints constraints;
@@ -93,7 +96,7 @@ class AsyncFormScreen<Query, Data,
                         ),
                       ),
                       onPressed: () => _onSubmit(ref, formGroup),
-                      child: const Text('SAVE'),
+                      child: Text(submitText),
                     );
                   },
                 ),

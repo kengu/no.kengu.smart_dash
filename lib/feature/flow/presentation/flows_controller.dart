@@ -7,15 +7,18 @@ import 'package:smart_dash/feature/flow/domain/block.dart';
 part 'flows_controller.g.dart';
 
 class FlowsQuery {
-  const FlowsQuery();
+  const FlowsQuery({this.ids = const []});
+
+  final List<String> ids;
 }
 
 @riverpod
 class FlowsController extends _$FlowsController
     with AsyncLoadController<FlowsQuery, List<BlockModel>> {
   @override
-  FutureOr<Optional<List<BlockModel>>> build(FlowsQuery query) =>
-      super.build(query);
+  FutureOr<Optional<List<BlockModel>>> build(FlowsQuery query) {
+    return super.build(query);
+  }
 
   @override
   Future<Optional<List<BlockModel>>> load(FlowsQuery query) async {

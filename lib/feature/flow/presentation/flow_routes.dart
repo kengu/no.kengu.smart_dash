@@ -8,9 +8,11 @@ import 'package:smart_dash/feature/flow/presentation/select/select_flow_screen.d
 
 class FlowRoutes {
   static const select = '${Pages.flows}/$_select';
+  static const create = '${Pages.flows}/$_create';
   static const details = '${Pages.flows}/$_details';
 
   static const _select = 'select';
+  static const _create = 'create';
   static const _details = 'details';
 
   static String toDetails(BlockModel model) => Uri(
@@ -26,7 +28,6 @@ GoRoute buildFlowRoutes() {
     restorationId: Routes.setLastLocation,
     child: const FlowsPage(),
     routes: [
-      // Route to device type selection screen
       Routes.buildGoRoute(
         fullscreenDialog: true,
         path: FlowRoutes._select,
@@ -37,7 +38,16 @@ GoRoute buildFlowRoutes() {
           );
         },
       ),
-      // Route to device type selection screen
+      Routes.buildGoRoute(
+        fullscreenDialog: true,
+        path: FlowRoutes._create,
+        restorationId: Routes.setLastLocation,
+        builder: (context, state) {
+          return BlockFlowFormScreen(
+            location: Routes.lastLocationOnStack,
+          );
+        },
+      ),
       Routes.buildGoRoute(
         fullscreenDialog: true,
         path: FlowRoutes._details,

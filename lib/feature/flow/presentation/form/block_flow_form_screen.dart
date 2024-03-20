@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_switch_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
+import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
+import 'package:smart_dash/feature/flow/presentation/flow_summary.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_action_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_conditions_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_parameters_array_field.dart';
@@ -22,11 +25,11 @@ import 'block_flow_form_controller.dart';
 class BlockFlowFormScreen extends ConsumerWidget {
   const BlockFlowFormScreen({
     super.key,
-    required this.id,
+    this.id,
     required this.location,
   });
 
-  final String id;
+  final String? id;
   final String location;
 
   @override
@@ -37,6 +40,7 @@ class BlockFlowFormScreen extends ConsumerWidget {
                 BlockFlowFormController>(
               title: 'Edit Flow',
               scrollable: true,
+              submitText: id == null ? 'CREATE' : 'SAVE',
               query: BlockFlowFormQuery(id: id),
               provider: blockFlowFormControllerProvider.call,
               onClose: () => context.go(location),
@@ -98,14 +102,53 @@ class BlockFlowFormScreen extends ConsumerWidget {
                             label: Text('Flow Is'),
                             border: InputBorder.none,
                           ),
-                          child: Text(
-                            '${block.state.value ? 'Active' : 'Inactive'} '
-                            '(${block.state.repeated} evaluations)',
-                            textScaler: const TextScaler.linear(
-                              1.2,
-                            ),
+                          child: FlowSummary(
+                            model: block,
+                            enabled: block.enabled,
+                            contentPadding: const EdgeInsets.all(16.0),
                           ),
                         ),
+                        if (id != null) ...[
+                          const Divider(),
+                          InputDecorator(
+                            decoration: const InputDecoration(
+                              label: Text(
+                                'Danger Zone',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              border: InputBorder.none,
+                            ),
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child: Text(
+                                    'Delete flow from home',
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () async {
+                                    final delete = await showPromptDialog(
+                                      context,
+                                      title: 'Delete ${block.label}',
+                                    );
+                                    if (delete == true) {
+                                      await ref
+                                          .read(flowManagerProvider)
+                                          .delete(block.id);
+                                      if (context.mounted) {
+                                        context.go(location);
+                                      }
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   );

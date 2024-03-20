@@ -8,7 +8,7 @@ import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_dropdo
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_array_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
-import 'package:smart_dash/core/presentation/widget/form/field/typed_control_value_accessor.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/typed_value_accessor.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_controller.dart';
@@ -133,7 +133,7 @@ class _BlockParameterField extends StatelessWidget {
               validationMessages: {
                 ValidationMessage.required: (_) => 'Please enter value',
               },
-              valueAccessor: TypedValueControlAccessor<Object, String>(
+              valueAccessor: TypedValueAccessor<Object, String>(
                 toModel: (value) {
                   if (value != null) {
                     // Apply type to value

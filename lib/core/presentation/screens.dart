@@ -18,6 +18,7 @@ class Screens {
   static const camera = '/camera';
 
   static const flowSelect = FlowRoutes.select;
+  static const flowCreate = FlowRoutes.create;
   static const flowDetails = FlowRoutes.details;
 
   static const notifications = NotificationScreens.home;
@@ -33,6 +34,7 @@ class Screens {
     Screens.pairingListNewDevices,
     Screens.camera,
     Screens.flowSelect,
+    Screens.flowCreate,
     Screens.flowDetails,
     Screens.notifications,
   ];

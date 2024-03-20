@@ -6,9 +6,9 @@ typedef ViewDataMapper<ModelDataType, ViewDataType> = ModelDataType? Function(
 typedef ModelDataMapper<ModelDataType, ViewDataType> = ViewDataType? Function(
     ModelDataType?);
 
-class TypedValueControlAccessor<ModelDataType, ViewDataType>
+class TypedValueAccessor<ModelDataType, ViewDataType>
     extends ControlValueAccessor<ModelDataType, ViewDataType> {
-  TypedValueControlAccessor({
+  TypedValueAccessor({
     required ViewDataMapper<ModelDataType, ViewDataType> toModel,
     required ModelDataMapper<ModelDataType, ViewDataType> toValue,
   })  : _viewToModelValue = toModel,

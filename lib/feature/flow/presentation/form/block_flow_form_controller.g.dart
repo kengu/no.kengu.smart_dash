@@ -7,7 +7,7 @@ part of 'block_flow_form_controller.dart';
 // **************************************************************************
 
 String _$blockFlowFormControllerHash() =>
-    r'1e6e73f42663326030f4ddb3a172d15e63188f12';
+    r'67fdd7aacc61f55aa2eed125860e8ad39d2df209';
 
 /// Copied from Dart SDK
 class _SystemHash {

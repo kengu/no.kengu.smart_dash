@@ -9,6 +9,8 @@ A Smart Dashboard App for my personal use.
     * [x] Screen for creating new flows
     * [x] Page with list of flows
     * [x] Flow notification action
+    * [x] Human-readable summary
+    * [ ] Refactor trigger into single list
     * [ ] New flow from templates
 - [ ] Implement network connectivity events
     * [ ] General internet connectivity

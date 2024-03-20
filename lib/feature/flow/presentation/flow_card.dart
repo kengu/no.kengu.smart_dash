@@ -21,18 +21,19 @@ class FlowCard extends ConsumerWidget {
             return Card(
               elevation: 8,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
                       child: FlowSummary(
                         model: model,
+                        enabled: model.enabled,
                       ),
                     ),
                   ),
                   Material(
                     elevation: 0.0,
                     child: ListTile(
+                      enabled: model.enabled,
                       title: Text(model.label),
                       leading: const Icon(SmartDashIcons.process_outlined),
                       contentPadding:

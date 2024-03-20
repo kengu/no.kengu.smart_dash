@@ -54,7 +54,7 @@ class BlockRepository {
 
   /// Attempt to sett all given blocks to
   /// repository. Returns list of actual added blocks.
-  Future<List<BlockModel>> updateAll(Iterable<BlockModel> blocks) async {
+  Future<List<BlockModel>> addOrUpdate(Iterable<BlockModel> blocks) async {
     final unique = blocks.toSet();
     final success = await _putAll([...unique]);
     return [if (success) ...unique];

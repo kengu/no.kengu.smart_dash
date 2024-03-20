@@ -181,13 +181,16 @@ class _MobileScaffold extends ConsumerWidget {
                   case 1: // Pair with device
                     context.push(Screens.pairing);
                     break;
-                  case 2: // Manage account
+                  case 2: // Pair with device
+                    context.push(Screens.pairing);
+                    break;
+                  case 3: // Manage account
                     context.push(Screens.account);
                     break;
-                  case 3: // Manage notifications
+                  case 4: // Manage notifications
                     context.push(Screens.notifications);
                     break;
-                  case 4: // Manage settings
+                  case 5: // Manage settings
                     context.push(Screens.settings);
                     break;
                 }
@@ -220,6 +223,10 @@ class _MobileScaffold extends ConsumerWidget {
                 const NavigationDrawerDestination(
                   icon: Icon(Icons.devices),
                   label: Text('Device'),
+                ),
+                const NavigationDrawerDestination(
+                  icon: Icon(SmartDashIcons.process),
+                  label: Text('Flow'),
                 ),
                 const Divider(),
                 Padding(

@@ -1,3 +1,4 @@
+import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,7 +14,7 @@ part 'block_flow_form_controller.g.dart';
 class BlockFlowFormQuery {
   BlockFlowFormQuery({required this.id});
 
-  final String id;
+  final String? id;
 
   @override
   bool operator ==(Object other) =>
@@ -194,12 +195,18 @@ class BlockFlowFormController extends _$BlockFlowFormController
   }
 
   @override
-  Future<Optional<BlockModel>> load(BlockFlowFormQuery query) {
-    return ref.read(blockRepositoryProvider).get(query.id);
+  Future<Optional<BlockModel>> load(BlockFlowFormQuery query) async {
+    if (query.id == null) {
+      return Optional.of(BlockModel.empty(
+        nanoid(),
+        'New Flow',
+      ));
+    }
+    return ref.read(blockRepositoryProvider).get(query.id!);
   }
 
   @override
   Future<bool> save(BlockModel data) async {
-    return ref.read(flowManagerProvider).update(data);
+    return ref.read(flowManagerProvider).addOrUpdate(data);
   }
 }
