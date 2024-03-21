@@ -11,8 +11,7 @@ class DefaultIntValueAccessor extends ControlValueAccessor<int, String> {
 
   @override
   int? viewToModelValue(String? viewValue) {
-    return (viewValue == '' || viewValue == null)
-        ? defaultValue
-        : int.tryParse(viewValue);
+    final value = viewValue?.replaceAll(' ', '');
+    return (value == '' || value == null) ? defaultValue : int.tryParse(value);
   }
 }
