@@ -129,29 +129,31 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             child: SingleChildScrollView(
               child: SizedBox(
                 width: double.infinity,
-                child: PaginatedDataTable(
-                  header: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: TextField(
-                      onChanged: (value) => setState(() {
-                        _filter = value;
-                      }),
-                      decoration: const InputDecoration(
-                        labelText: 'Search',
-                        suffixIcon: Icon(Icons.search),
+                child: SelectionArea(
+                  child: PaginatedDataTable(
+                    header: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: TextField(
+                        onChanged: (value) => setState(() {
+                          _filter = value;
+                        }),
+                        decoration: const InputDecoration(
+                          labelText: 'Search',
+                          suffixIcon: Icon(Icons.search),
+                        ),
                       ),
                     ),
+                    rowsPerPage: _pageSize,
+                    availableRowsPerPage: const [10, 25, 50],
+                    onRowsPerPageChanged: (value) {
+                      setState(() {
+                        _pageSize = value!;
+                      });
+                    },
+                    columns: _columns,
+                    //rows: data.map((e) => _buildDataRow(e)).toList(),
+                    source: _TimeSeriesDataSource(data: data),
                   ),
-                  rowsPerPage: _pageSize,
-                  availableRowsPerPage: const [10, 25, 50],
-                  onRowsPerPageChanged: (value) {
-                    setState(() {
-                      _pageSize = value!;
-                    });
-                  },
-                  columns: _columns,
-                  //rows: data.map((e) => _buildDataRow(e)).toList(),
-                  source: _TimeSeriesDataSource(data: data),
                 ),
               ),
             ),
