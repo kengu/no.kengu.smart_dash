@@ -52,11 +52,13 @@ class BlockModel with _$BlockModel {
         trigger: const BlockTrigger(
           any: false,
           repeatCount: 0,
-          repeatAfter: 0,
+          repeatAfter: 300,
           debounceCount: 0,
           debounceAfter: 0,
           onTags: [],
-          onTypes: [],
+          onTypes: [
+            BlockTriggerOnType.device,
+          ],
         ),
         whenTrue: const [],
         whenFalse: const [],

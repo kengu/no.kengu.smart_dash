@@ -47,12 +47,12 @@ class FlowManager {
   void register(Flow flow) {
     assert(
       !_flows.containsKey(flow.key),
-      'FlowManager: ${flow.runtimeType}[key:${flow.key}] already registered',
+      'FlowManager: $Flow[key:${flow.key}] already registered',
     );
 
     _flows[flow.key] = flow;
     debugPrint(
-      'FlowManager: ${flow.runtimeType}[key:${flow.key}] registered',
+      'FlowManager: $Flow[key:${flow.key}] registered',
     );
   }
 

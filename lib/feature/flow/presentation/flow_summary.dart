@@ -32,6 +32,7 @@ class FlowSummary extends ConsumerWidget {
     final green = inGray ? gray : Colors.green.lighten(0.1);
     final trigger = model.trigger;
     final types = trigger.onTypes.map((e) => e.name);
+    final willSkip = this.willSkip(trigger);
     final hasActions = model.whenTrue.length > 1 || model.whenFalse.length > 1;
     final or = Text('OR', style: bold);
     final and = Text('AND', style: bold);
@@ -103,23 +104,26 @@ class FlowSummary extends ConsumerWidget {
                     ],
                   ),
                 ],
-                const SizedBox(height: 8.0),
-                _buildLine(
-                  [
-                    _buildChip(hasActions ? 'Actions' : 'Action', normal, gray),
-                    Text('${hasActions ? 'are' : 'is '} skipped', style: bold),
-                    if (trigger.debounceCount > 0) ...[
-                      _buildChip('${trigger.debounceCount}', normal, blue),
-                      Text('times', style: bold)
+                if (willSkip) ...[
+                  const SizedBox(height: 8.0),
+                  _buildLine(
+                    [
+                      _buildChip(
+                          hasActions ? 'Actions' : 'Action', normal, gray),
+                      Text('${hasActions ? 'are' : 'is '} skipped',
+                          style: bold),
+                      if (trigger.debounceCount > 0) ...[
+                        _buildChip('${trigger.debounceCount}', normal, blue),
+                        Text('times', style: bold)
+                      ],
+                      if (willSkip) or,
+                      if (trigger.debounceAfter > 0) ...[
+                        Text('for', style: bold),
+                        _buildChip('${trigger.debounceAfter}s', normal, blue),
+                      ],
                     ],
-                    if (trigger.debounceCount > 0 && trigger.debounceAfter > 0)
-                      or,
-                    if (trigger.debounceAfter > 0) ...[
-                      Text('for', style: bold),
-                      _buildChip('${trigger.debounceAfter}s', normal, blue),
-                    ],
-                  ],
-                ),
+                  )
+                ],
                 const SizedBox(height: 8.0),
                 _buildLine(
                   [
@@ -141,6 +145,9 @@ class FlowSummary extends ConsumerWidget {
           );
         });
   }
+
+  bool willSkip(BlockTrigger trigger) =>
+      trigger.debounceCount > 0 && trigger.debounceAfter > 0;
 
   Iterable<String> _toTags(AsyncSnapshot<List<Token>> snapshot) {
     final tags = model.trigger.onTags.map((e) => e);
