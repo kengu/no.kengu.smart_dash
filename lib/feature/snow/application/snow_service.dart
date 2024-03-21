@@ -23,7 +23,10 @@ abstract class SnowService {
 
   Stream<List<SnowState>> get updates => _updates.stream;
 
-  Future<Optional<SnowState>> getState(String location, {Duration? ttl}) async {
+  Future<Optional<SnowState>> getState(
+    String location, {
+    Duration? ttl = const Duration(minutes: 5),
+  }) async {
     final states = await getStates(ttl: ttl);
     if (states.isPresent) {
       return states.value.firstWhereOptional((e) => e.location == location);
@@ -43,7 +46,9 @@ abstract class SnowService {
     return _cache.get('states');
   }
 
-  Future<Optional<List<SnowState>>> getStates({Duration? ttl}) async {
+  Future<Optional<List<SnowState>>> getStates({
+    Duration? ttl = const Duration(minutes: 5),
+  }) async {
     final states = await _cache.getOrFetch(
       'states',
       () async {

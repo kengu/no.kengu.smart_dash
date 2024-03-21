@@ -49,7 +49,7 @@ class SnowState with _$SnowState {
       states.map((e) => e.nextUpdate).fold(
             now.add(const Duration(days: 1)).millisecondsSinceEpoch,
             (earliest, e) => e.difference(now).isNegative
-                ? now.millisecondsSinceEpoch
+                ? now.subtract(limit).millisecondsSinceEpoch
                 : min(earliest, e.millisecondsSinceEpoch),
           ),
     );

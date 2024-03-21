@@ -76,7 +76,9 @@ class SnowManager {
     return Optional.of(states);
   }
 
-  Future<List<SnowState>> getStates({Duration? ttl}) async {
+  Future<List<SnowState>> getStates({
+    Duration? ttl = const Duration(minutes: 5),
+  }) async {
     final states = <SnowState>[];
     for (final service in _services.values) {
       final result = await service.getStates(ttl: ttl);

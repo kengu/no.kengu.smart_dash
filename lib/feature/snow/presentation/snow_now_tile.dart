@@ -57,7 +57,7 @@ class SnowNowTile extends ConsumerWidget {
             child: state.isPresent
                 ? ListView(children: [
                     ListTile(
-                      leading: const Icon(CupertinoIcons.gauge),
+                      leading: const Icon(Icons.scale),
                       title: Text('Weight', style: textStyle),
                       trailing:
                           Text('${snow!.equivalent} kg/m²', style: textStyle),
