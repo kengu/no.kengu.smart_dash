@@ -102,6 +102,8 @@ enum TokenUnit {
   luminance('lx'),
   windSpeed('m/s'),
   gustSpeed('m/s'),
+  snowDepth('cm'),
+  snowWeight('kg'),
   ultraviolet('UVI'),
   temperature('°C');
 
@@ -117,6 +119,8 @@ enum TokenUnit {
   bool get isGustSpeed => this == gustSpeed;
   bool get isLuminance => this == luminance;
   bool get isTemperature => this == temperature;
+  bool get isSnowDepth => this == snowDepth;
+  bool get isSnowWeight => this == snowWeight;
 
   static TokenUnit of(String name) => values.firstWhere((e) => e.name == name);
 

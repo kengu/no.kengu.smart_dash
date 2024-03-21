@@ -70,7 +70,7 @@
     "name": "NySny Web",
     "image": "nysny.png",
     "category": "Weather Services",
-    "features": ["data"],
+    "features": ["data", "device", "snow"],
     "description": "Enter account information",
     "fields": ["username", "password"],
     "instances": 1,

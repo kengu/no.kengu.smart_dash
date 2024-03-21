@@ -30,9 +30,6 @@ class SikomDriver extends ThrottledDeviceDriver {
         );
 
   @override
-  String get key => Sikom.key;
-
-  @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
     debugPrint(
       'Sikom throttled updates for '

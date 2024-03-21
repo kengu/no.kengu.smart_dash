@@ -33,6 +33,8 @@ _$DeviceImpl _$$DeviceImplFromJson(Map<String, dynamic> json) => _$DeviceImpl(
       thermostat: json['thermostat'] == null
           ? null
           : Thermostat.fromJson(json['thermostat'] as Map<String, dynamic>),
+      snowDepth: json['snowDepth'] as int?,
+      snowWeight: json['snowWeight'] as int?,
     );
 
 Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
@@ -57,6 +59,8 @@ Map<String, dynamic> _$$DeviceImplToJson(_$DeviceImpl instance) =>
       'electric': instance.electric?.toJson(),
       'onOff': instance.onOff?.toJson(),
       'thermostat': instance.thermostat?.toJson(),
+      'snowDepth': instance.snowDepth,
+      'snowWeight': instance.snowWeight,
     };
 
 const _$DeviceTypeEnumMap = {
@@ -86,6 +90,8 @@ const _$DeviceCapabilityEnumMap = {
   DeviceCapability.ultraviolet: 'ultraviolet',
   DeviceCapability.luminance: 'luminance',
   DeviceCapability.targetTemperature: 'targetTemperature',
+  DeviceCapability.snowDepth: 'snowDepth',
+  DeviceCapability.snowWeight: 'snowWeight',
 };
 
 _$IdentityImpl _$$IdentityImplFromJson(Map<String, dynamic> json) =>

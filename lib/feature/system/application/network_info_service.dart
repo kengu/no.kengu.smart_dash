@@ -65,11 +65,15 @@ class NetworkInfoService {
   DateTime? _lastFullScan;
 
   /// Start listing to timing events for periodic discovery
-  void bind() {
+  Future<void> bind() async {
     assert(
       _timing == null,
       'DeviceDriverManager is already bound to timing service',
     );
+
+    final state =
+        await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
+    _devices.addAll(state);
 
     _timing = ref.read(timingServiceProvider).events.throttle(liveCheck).listen(
       (e) {
@@ -94,12 +98,6 @@ class NetworkInfoService {
   void unbind() {
     _timing?.cancel();
     _timing = null;
-  }
-
-  Future<void> init() async {
-    final state =
-        await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
-    _devices.addAll(state);
   }
 
   Future<Optional<NetworkInfo>> getNetworkInfo({

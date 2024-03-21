@@ -31,9 +31,6 @@ class Rtl433Driver extends ThrottledDeviceDriver {
   final Map<(Object, String), Rtl433Device> _devices = {};
 
   @override
-  String get key => Rtl433.key;
-
-  @override
   Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
     return guard(
       () async {
@@ -87,7 +84,8 @@ class Rtl433Driver extends ThrottledDeviceDriver {
   }) {
     final found = _devices.values
         .map((e) => e.toDevice())
-        .where((e) => ids.contains(e.id) || type.isAny || e.type == type)
+        .where((e) => ids.isEmpty || ids.contains(e.id))
+        .where((e) => type.isAny || e.type == type)
         .toList();
     return Future.value(found);
   }

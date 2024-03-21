@@ -94,6 +94,6 @@ class FlowEvent {
   @override
   String toString() {
     return 'FlowEvent{flow: $flow, tags: '
-        '[${tags.map((e) => e.token.name).join()}]}';
+        '[${tags.map((e) => e.token.name).join(',')}]}';
   }
 }

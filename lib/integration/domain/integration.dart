@@ -65,4 +65,5 @@ enum IntegrationFeature {
   data,
   device,
   camera,
+  snow,
 }

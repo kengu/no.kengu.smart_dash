@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -210,6 +211,9 @@ class HistoryManager {
 
           // Has event happened passed end of history?
           if (tag.when.difference(history.end) > history.span) {
+            debugPrint(
+              '$HistoryManager::_onHandle >> SAVE >> ${event.toString()}',
+            );
             final next = switch (tag.type) {
               const (int) => history.record<int>(
                   tag.data as int,

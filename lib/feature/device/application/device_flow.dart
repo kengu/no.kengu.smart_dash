@@ -103,6 +103,21 @@ class DeviceTokensFlow extends Flow {
             when: device.lastUpdated,
           ));
           break;
+        case TokenUnit.snowWeight:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.snowWeight ?? 0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.snowDepth:
+          tags.add(FlowTag<int>(
+            token: token,
+            data: device.snowDepth ?? 0,
+            when: device.lastUpdated,
+          ));
+          break;
+        // Unimplemented units
         case TokenUnit.count:
           throw UnimplementedError(
             '${TokenUnit.count} not implemented',

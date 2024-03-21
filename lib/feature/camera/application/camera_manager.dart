@@ -20,12 +20,15 @@ class CameraManager {
 
   /// [Camera] should call this to register
   void register(CameraService service) {
+    assert(_services[service.key] == null,
+        'Camera service integration [${service.key}] exists already');
+
     _services[service.key] = service;
     debugPrint('CameraManager: '
         '${service.runtimeType}[key:${service.key}] registered');
   }
 
-  void init() => getConfigs();
+  Future<void> init() => getConfigs();
 
   /// Get [Camera] for given [IntegrationFields.key]
   T getService<T extends CameraService>(String key) {

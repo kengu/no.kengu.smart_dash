@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
+import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
@@ -30,21 +31,31 @@ class FlowCard extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Material(
-                    elevation: 0.0,
-                    child: ListTile(
-                      enabled: model.enabled,
-                      title: Text(model.label),
-                      leading: const Icon(SmartDashIcons.process_outlined),
-                      contentPadding:
-                          const EdgeInsets.only(left: 16, right: 8.0),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          context.go(
-                            FlowRoutes.toDetails(model),
-                          );
-                        },
+                  ClipRRect(
+                    clipBehavior: Clip.hardEdge,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                    child: Material(
+                      elevation: 8.0,
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .lighten(0.05),
+                      child: ListTile(
+                        enabled: model.enabled,
+                        title: Text(model.label),
+                        leading: const Icon(SmartDashIcons.process_outlined),
+                        contentPadding:
+                            const EdgeInsets.only(left: 16, right: 8.0),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            context.go(
+                              FlowRoutes.toDetails(model),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

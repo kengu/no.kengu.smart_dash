@@ -12,10 +12,10 @@ A Smart Dashboard App for my personal use.
     * [x] Human-readable summary
     * [ ] Refactor trigger into single list
     * [ ] New flow from templates
-- [ ] Implement network connectivity events
+- [ ] Implement network connectivity handling (tolerance and events)
     * [ ] General internet connectivity
     * [ ] Service connectivity (all apis)
-- [ ] Add snow as device (depth and weight as tokens)
+- [ ] Add weather forecast as device (for use in flow and history)
 - [ ] Implement weather page
     * [ ] Actual weather now (tile)
     * [ ] Short-term forecast (tile)
@@ -33,6 +33,7 @@ A Smart Dashboard App for my personal use.
 - [x] Sikom buttons (and astro switch)
 - [x] Webcam for easy viewing in one place
 - [x] Read and save historical data from rtl_433 devices
+- [x] Snow service and device support (depth and weight as tokens)
  
 ## Experiments and ideas to explore
 

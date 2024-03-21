@@ -74,6 +74,12 @@ mixin _$Device {
   /// Get the device's thermostat information (default null)
   Thermostat? get thermostat => throw _privateConstructorUsedError;
 
+  /// Get device's measured snow depth (default null)
+  int? get snowDepth => throw _privateConstructorUsedError;
+
+  /// Get device's measured snow depth (default null)
+  int? get snowWeight => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DeviceCopyWith<Device> get copyWith => throw _privateConstructorUsedError;
@@ -102,7 +108,9 @@ abstract class $DeviceCopyWith<$Res> {
       double? gustSpeed,
       ElectricState? electric,
       SwitchState? onOff,
-      Thermostat? thermostat});
+      Thermostat? thermostat,
+      int? snowDepth,
+      int? snowWeight});
 
   $ElectricStateCopyWith<$Res>? get electric;
   $SwitchStateCopyWith<$Res>? get onOff;
@@ -140,6 +148,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
+    Object? snowDepth = freezed,
+    Object? snowWeight = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -214,6 +224,14 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.thermostat
           : thermostat // ignore: cast_nullable_to_non_nullable
               as Thermostat?,
+      snowDepth: freezed == snowDepth
+          ? _value.snowDepth
+          : snowDepth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      snowWeight: freezed == snowWeight
+          ? _value.snowWeight
+          : snowWeight // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -279,7 +297,9 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       double? gustSpeed,
       ElectricState? electric,
       SwitchState? onOff,
-      Thermostat? thermostat});
+      Thermostat? thermostat,
+      int? snowDepth,
+      int? snowWeight});
 
   @override
   $ElectricStateCopyWith<$Res>? get electric;
@@ -318,6 +338,8 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? electric = freezed,
     Object? onOff = freezed,
     Object? thermostat = freezed,
+    Object? snowDepth = freezed,
+    Object? snowWeight = freezed,
   }) {
     return _then(_$DeviceImpl(
       id: null == id
@@ -392,6 +414,14 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.thermostat
           : thermostat // ignore: cast_nullable_to_non_nullable
               as Thermostat?,
+      snowDepth: freezed == snowDepth
+          ? _value.snowDepth
+          : snowDepth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      snowWeight: freezed == snowWeight
+          ? _value.snowWeight
+          : snowWeight // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -417,7 +447,9 @@ class _$DeviceImpl extends _Device {
       this.gustSpeed,
       this.electric,
       this.onOff,
-      this.thermostat})
+      this.thermostat,
+      this.snowDepth,
+      this.snowWeight})
       : _data = data,
         _capabilities = capabilities,
         super._();
@@ -511,9 +543,17 @@ class _$DeviceImpl extends _Device {
   @override
   final Thermostat? thermostat;
 
+  /// Get device's measured snow depth (default null)
+  @override
+  final int? snowDepth;
+
+  /// Get device's measured snow depth (default null)
+  @override
+  final int? snowWeight;
+
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat, snowDepth: $snowDepth, snowWeight: $snowWeight)';
   }
 
   @override
@@ -549,31 +589,38 @@ class _$DeviceImpl extends _Device {
                 other.electric == electric) &&
             (identical(other.onOff, onOff) || other.onOff == onOff) &&
             (identical(other.thermostat, thermostat) ||
-                other.thermostat == thermostat));
+                other.thermostat == thermostat) &&
+            (identical(other.snowDepth, snowDepth) ||
+                other.snowDepth == snowDepth) &&
+            (identical(other.snowWeight, snowWeight) ||
+                other.snowWeight == snowWeight));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      service,
-      type,
-      const DeepCollectionEquality().hash(_data),
-      const DeepCollectionEquality().hash(_capabilities),
-      lastUpdated,
-      rain,
-      ultraviolet,
-      luminance,
-      humidity,
-      windAngle,
-      temperature,
-      windSpeed,
-      gustSpeed,
-      electric,
-      onOff,
-      thermostat);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        service,
+        type,
+        const DeepCollectionEquality().hash(_data),
+        const DeepCollectionEquality().hash(_capabilities),
+        lastUpdated,
+        rain,
+        ultraviolet,
+        luminance,
+        humidity,
+        windAngle,
+        temperature,
+        windSpeed,
+        gustSpeed,
+        electric,
+        onOff,
+        thermostat,
+        snowDepth,
+        snowWeight
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -608,7 +655,9 @@ abstract class _Device extends Device {
       final double? gustSpeed,
       final ElectricState? electric,
       final SwitchState? onOff,
-      final Thermostat? thermostat}) = _$DeviceImpl;
+      final Thermostat? thermostat,
+      final int? snowDepth,
+      final int? snowWeight}) = _$DeviceImpl;
   const _Device._() : super._();
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
@@ -685,6 +734,14 @@ abstract class _Device extends Device {
 
   /// Get the device's thermostat information (default null)
   Thermostat? get thermostat;
+  @override
+
+  /// Get device's measured snow depth (default null)
+  int? get snowDepth;
+  @override
+
+  /// Get device's measured snow depth (default null)
+  int? get snowWeight;
   @override
   @JsonKey(ignore: true)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>

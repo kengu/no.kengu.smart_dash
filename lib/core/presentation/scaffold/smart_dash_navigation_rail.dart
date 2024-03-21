@@ -9,6 +9,7 @@ import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
+import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
 import 'package:smart_dash/util/widget.dart';
 
 import 'smart_dash_menu.dart';
@@ -50,6 +51,7 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
 
   @override
   Widget build(BuildContext context) {
+    final style = getLegendTextStyle(context);
     return NavigationRail(
       elevation: 8.0,
       groupAlignment: -0.9,
@@ -63,12 +65,86 @@ class _SmartDashNavigationRailState extends State<SmartDashNavigationRail>
           });
         },
       ),
-      trailing: const Expanded(
+      trailing: Expanded(
         child: SmartDashBottomMenu(
           resolve: NavigationRail.extendedAnimation,
           children: [
-            CreateNewMenuButton(),
-            AccountAvatar(),
+            const CreateNewMenuButton(),
+            AccountAvatar(
+              children: [
+                ListTile(
+                  minLeadingWidth: 32.0,
+                  leading: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(Icons.person),
+                  ),
+                  title: const Text('Account'),
+                  subtitle: Text(
+                    'Manage this account',
+                    style: style,
+                  ),
+                  onTap: () {
+                    context
+                      ..pop()
+                      ..push(Screens.account);
+                  },
+                ),
+                ListTile(
+                  minLeadingWidth: 32.0,
+                  leading: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: NotificationBadge(
+                      child: Icon(Icons.notifications),
+                    ),
+                  ),
+                  title: const Text('Notifications'),
+                  subtitle: Text(
+                    'Manage your notifications',
+                    style: style,
+                  ),
+                  onTap: () {
+                    context
+                      ..pop()
+                      ..push(Screens.notifications);
+                  },
+                ),
+                ListTile(
+                  minLeadingWidth: 32.0,
+                  leading: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(Icons.devices),
+                  ),
+                  title: const Text('Paired devices'),
+                  subtitle: Text(
+                    'Manage your devices',
+                    style: style,
+                  ),
+                  onTap: () {
+                    context
+                      ..pop()
+                      ..push(Screens.devices);
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  minLeadingWidth: 32.0,
+                  leading: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(Icons.settings),
+                  ),
+                  title: const Text('Settings'),
+                  subtitle: Text(
+                    'Customize this application',
+                    style: style,
+                  ),
+                  onTap: () {
+                    context
+                      ..pop()
+                      ..push(Screens.settings);
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

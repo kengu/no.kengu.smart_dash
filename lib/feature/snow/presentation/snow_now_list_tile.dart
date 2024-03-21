@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash/feature/snow/application/snow_service.dart';
+import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 
@@ -18,14 +17,13 @@ class SnowNowListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final service = ref.read(snowServiceProvider);
+    final manager = ref.read(snowManagerProvider);
     final trailingTextStyle = Theme.of(context).textTheme.labelLarge;
-    return StreamBuilder<Optional<List<SnowState>>>(
-      stream: service.getStatesAsStream(),
-      initialData: service.getStatesCached(),
+    return StreamBuilder<List<SnowState>>(
+      stream: manager.getStatesAsStream(),
+      initialData: manager.getCachedStates().orElseNull,
       builder: (context, snapshot) {
-        final states =
-            snapshot.data!.isPresent ? snapshot.data!.value : <SnowState>[];
+        final states = snapshot.hasData ? snapshot.data! : <SnowState>[];
         return SmartDashTile(
           title: 'Snow Depths Now',
           subtitle: 'Last updated '

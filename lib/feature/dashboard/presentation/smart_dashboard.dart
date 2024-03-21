@@ -116,14 +116,16 @@ class SmartDashboardItemStorage extends DashboardItemStorageDelegate {
             slotCount: desktopSlotCount,
             items: desktop.toList(),
           ),
-          tabletSlotCount: _SmartDashboardItemStorageSlot(
-            slotCount: tabletSlotCount,
-            items: tablet.toList(),
-          ),
-          mobileLargeSlotCount: _SmartDashboardItemStorageSlot(
-            slotCount: mobileLargeSlotCount,
-            items: mobileLarge.toList(),
-          ),
+          if (tabletSlotCount > 0)
+            tabletSlotCount: _SmartDashboardItemStorageSlot(
+              slotCount: tabletSlotCount,
+              items: tablet.toList(),
+            ),
+          if (mobileLargeSlotCount > 0)
+            mobileLargeSlotCount: _SmartDashboardItemStorageSlot(
+              slotCount: mobileLargeSlotCount,
+              items: mobileLarge.toList(),
+            ),
         },
         _cacheItems = cacheItems {
     // Sanity checks
@@ -152,11 +154,11 @@ class SmartDashboardItemStorage extends DashboardItemStorageDelegate {
   bool get layoutsBySlotCount => true;
 
   List<DashboardItem> get mobile => _slots[mobileSlotCount]!.items.toList();
-  List<DashboardItem> get desktop => _slots[mobileSlotCount]!.items.toList();
+  List<DashboardItem> get desktop => _slots[desktopSlotCount]!.items.toList();
   List<DashboardItem> get tablet =>
-      _slots[mobileSlotCount]?.items.toList() ?? const <DashboardItem>[];
+      _slots[tabletSlotCount]?.items.toList() ?? const <DashboardItem>[];
   List<DashboardItem> get mobileLarge =>
-      _slots[mobileSlotCount]?.items.toList() ?? const <DashboardItem>[];
+      _slots[mobileLargeSlotCount]?.items.toList() ?? const <DashboardItem>[];
 
   JsonObject toJson() {
     return {

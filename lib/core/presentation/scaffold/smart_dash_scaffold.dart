@@ -181,8 +181,8 @@ class _MobileScaffold extends ConsumerWidget {
                   case 1: // Pair with device
                     context.push(Screens.pairing);
                     break;
-                  case 2: // Pair with device
-                    context.push(Screens.pairing);
+                  case 2: // Create new flow
+                    context.push(Screens.flowCreate);
                     break;
                   case 3: // Manage account
                     context.push(Screens.account);
@@ -190,7 +190,10 @@ class _MobileScaffold extends ConsumerWidget {
                   case 4: // Manage notifications
                     context.push(Screens.notifications);
                     break;
-                  case 5: // Manage settings
+                  case 5: // Manage paired devices
+                    context.push(Screens.devices);
+                    break;
+                  case 6: // Manage settings
                     context.push(Screens.settings);
                     break;
                 }
@@ -242,6 +245,12 @@ class _MobileScaffold extends ConsumerWidget {
                     child: Icon(Icons.notifications),
                   ),
                   label: Text('Notifications'),
+                ),
+                const NavigationDrawerDestination(
+                  icon: NotificationBadge(
+                    child: Icon(Icons.devices),
+                  ),
+                  label: Text('Paired devices'),
                 ),
                 const Divider(),
                 Padding(

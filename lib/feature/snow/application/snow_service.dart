@@ -1,65 +1,34 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:optional/optional.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/snow/data/nysny_client.dart';
+import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/util/future.dart';
-import 'package:stream_transform/stream_transform.dart';
 
-part 'snow_service.g.dart';
-
-class SnowService {
-  SnowService(this.ref) {
-    ref.onDispose(() {
-      _api.close(force: true);
-    });
-  }
-
-  static const key = 'nysny';
+abstract class SnowService {
+  SnowService(this.key, this.ref);
 
   final Ref ref;
 
+  final String key;
+
   final _cache = FutureCache(prefix: '$SnowService');
 
-  final _api = Dio(BaseOptions(baseUrl: 'https://nysny.no/'))
-    // Process json in the background
-    ..transformer = BackgroundTransformer();
+  final StreamController<List<SnowState>> _updates =
+      StreamController.broadcast();
 
-  Optional<Optional<ServiceConfig>> getCachedConfigs() {
-    return _cache.get('configs');
-  }
-
-  Future<Optional<ServiceConfig>> getConfig(
-      {Duration ttl = const Duration(seconds: 4)}) async {
-    return _cache.getOrFetch('config', () async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
-      if (!home.isPresent) return const Optional.empty();
-      return home.value.firstServiceWhere(key);
-    }, ttl: ttl);
-  }
+  Stream<List<SnowState>> get updates => _updates.stream;
 
   Future<Optional<SnowState>> getState(String location, {Duration? ttl}) async {
-    final config = await getConfig();
-    if (!config.isPresent) return const Optional.empty();
     final states = await getStates(ttl: ttl);
     if (states.isPresent) {
       return states.value.firstWhereOptional((e) => e.location == location);
     }
     return const Optional.empty();
-  }
-
-  Stream<Optional<SnowState>> getStateAsStream(String location,
-      [Duration period = const Duration(minutes: 5)]) {
-    return ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getState(location, ttl: period));
   }
 
   Optional<SnowState> getStateCached(String location) {
@@ -75,16 +44,20 @@ class SnowService {
   }
 
   Future<Optional<List<SnowState>>> getStates({Duration? ttl}) async {
-    final config = await getConfig();
-    if (!config.isPresent) return const Optional.empty();
     final states = await _cache.getOrFetch(
       'states',
-      NySnyClient(
-          _api,
-          NySnyCredentials(
-            email: config.value.username!,
-            password: config.value.password!,
-          )).getStates,
+      () async {
+        final config = await _getConfig();
+        if (config.isPresent) {
+          final client = newClient(config.value);
+          final states = await client.getStates();
+          for (final state in states) {
+            _updates.add(state);
+          }
+          return states;
+        }
+        return const Optional<List<SnowState>>.empty();
+      },
       ttl: ttl?.clamp(
         const Duration(minutes: 5),
         const Duration(days: 1),
@@ -103,15 +76,14 @@ class SnowService {
     return states;
   }
 
-  Stream<Optional<List<SnowState>>> getStatesAsStream(
-      [Duration period = const Duration(minutes: 5)]) {
-    return ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getStates(ttl: period));
+  Future<Optional<ServiceConfig>> _getConfig(
+      {Duration ttl = const Duration(seconds: 4)}) async {
+    return _cache.getOrFetch('config', () async {
+      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      if (!home.isPresent) return const Optional.empty();
+      return home.value.firstServiceWhere(key);
+    }, ttl: ttl);
   }
-}
 
-@Riverpod(keepAlive: true)
-SnowService snowService(SnowServiceRef ref) => SnowService(ref);
+  SnowClient newClient(ServiceConfig config);
+}

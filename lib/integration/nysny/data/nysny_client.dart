@@ -3,23 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
+import 'package:sentry/sentry.dart';
+import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/guard.dart';
 
-class NySnyClient {
-  NySnyClient(
-    this.api,
-    this.credentials,
-  );
+class NySnyClient extends SnowClient {
+  NySnyClient(this.api, this.credentials);
 
   final Dio api;
 
   final NySnyCredentials credentials;
 
-  static final df = DateFormat("d. MMM HH:mm", 'nb_NO');
-  static final mf = DateFormat("d. MMM", 'nb_NO');
+  static final df = DateFormat("d. MMMM HH:mm", 'nb_NO');
+  static final mf = DateFormat("d. MMMM", 'nb_NO');
 
+  @override
   Future<Optional<List<SnowState>>> getStates() async {
     try {
       // Step 1: Log in
@@ -151,9 +151,7 @@ class NySnyClient {
                 data,
                 field: 'Tid',
                 parse: df.parse,
-                defaultValue: DateTime.fromMillisecondsSinceEpoch(
-                  0,
-                ),
+                defaultValue: now,
               ).copyWith(year: now.year),
               nextUpdate: df
                   .parse(
@@ -186,7 +184,16 @@ class NySnyClient {
 
     try {
       return parse == null ? item as T : parse(item);
-    } catch (e) {
+    } catch (e, _) {
+      Sentry.captureException(
+        e,
+        stackTrace: _,
+        hint: Hint.withMap({
+          'clue': 'Have www.nysny.no changed data format in field $field?',
+          'field': field,
+          'value': value,
+        }),
+      );
       return defaultValue;
     }
   }

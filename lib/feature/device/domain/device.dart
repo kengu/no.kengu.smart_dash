@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/device/domain/thermostat.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 
@@ -48,6 +49,13 @@ enum DeviceType {
   static DeviceType from(String? name) {
     return values.firstWhere((e) => e.name == name,
         orElse: () => DeviceType.any);
+  }
+
+  DeviceDefinition toDefinition([String? name]) {
+    return DeviceDefinition(
+      type: this,
+      name: name ?? this.name,
+    );
   }
 }
 
@@ -111,6 +119,12 @@ class Device with _$Device {
 
     /// Get the device's thermostat information (default null)
     Thermostat? thermostat,
+
+    /// Get device's measured snow depth (default null)
+    int? snowDepth,
+
+    /// Get device's measured snow depth (default null)
+    int? snowWeight,
   }) = _Device;
 
   static String toTokenName(Device device, DeviceCapability e) {
@@ -244,6 +258,20 @@ enum DeviceCapability {
     'target_temperature',
     'This implies that the device has the ability to regulate temperature',
     TokenType.double,
+  ),
+
+  snowDepth(
+    'measure_snow_depth',
+    'This implies that the device has '
+        'snow depth measurement (in cm) capability',
+    TokenType.int,
+  ),
+
+  snowWeight(
+    'measure_snow_weight',
+    'This implies that the device has '
+        'snow weight measurement (in kg) capability',
+    TokenType.int,
   );
 
   bool get hasRain => this == rain;
@@ -259,6 +287,8 @@ enum DeviceCapability {
   bool get hasUltraviolet => this == ultraviolet;
   bool get hasTemperature => this == temperature;
   bool get hasTargetTemperature => this == targetTemperature;
+  bool get hasSnowDepth => this == snowDepth;
+  bool get hasSnowWeight => this == snowWeight;
 
   const DeviceCapability(this.variable, this.description, this.type);
   final TokenType type;
@@ -280,6 +310,8 @@ extension DeviceCapabilityX on List<DeviceCapability> {
   bool get hasWindStrength => any((c) => c.hasWindStrength);
   bool get hasGustStrength => any((c) => c.hasGustStrength);
   bool get hasTargetTemperature => any((c) => c.hasTargetTemperature);
+  bool get hasSnowDepth => any((c) => c.hasSnowDepth);
+  bool get hasSnowWeight => any((c) => c.hasSnowWeight);
 }
 
 extension DeviceX on Device {
@@ -296,6 +328,8 @@ extension DeviceX on Device {
   bool get hasWindStrength => capabilities.hasWindStrength;
   bool get hasGustStrength => capabilities.hasGustStrength;
   bool get hasTargetTemperature => capabilities.hasTargetTemperature;
+  bool get hasSnowDepth => capabilities.hasSnowDepth;
+  bool get hasSnowWeight => capabilities.hasSnowWeight;
 
   List<Token> toTokens() => capabilities
       .map((e) => switch (e) {
@@ -381,6 +415,20 @@ extension DeviceX on Device {
                 label: name,
                 unit: TokenUnit.temperature,
                 type: DeviceCapability.temperature.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.snowDepth => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.snowDepth,
+                type: DeviceCapability.snowDepth.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.snowWeight => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.snowWeight,
+                type: DeviceCapability.snowDepth.type,
                 name: Device.toTokenName(this, e),
               ),
             DeviceCapability.targetTemperature => Token(

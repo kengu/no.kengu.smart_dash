@@ -34,6 +34,7 @@ class FlowManager {
 
   /// Check if [Flow] for given [Flow.key] exists
   bool exists(String key) => _flows.containsKey(key);
+
   Future<void> init() async {
     assert(_flows.isEmpty, 'FlowManager is initialized already');
     for (final id in await ref.read(blockRepositoryProvider).getIds()) {

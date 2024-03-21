@@ -14,10 +14,13 @@ import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
+import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
 import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
+import 'package:smart_dash/integration/nysny/application/nysny_driver.dart';
+import 'package:smart_dash/integration/nysny/application/nysny_service.dart';
 import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
 import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
 import 'package:smart_dash/util/platform.dart';
@@ -95,27 +98,33 @@ Future<void> _initOnDesktop() async {
 // TODO: Make code generator for initProviders
 ProviderContainer initProviders() {
   final container = ProviderContainer();
-  // Bind services with dependencies
-  container.read(historyManagerProvider).bind();
-  container.read(networkInfoServiceProvider)
-    ..init()
-    ..bind();
-  container.read(presenceServiceProvider).bind();
-  container.read(mqttServiceProvider).init();
+
+  // Initialize core services
   container.read(flowManagerProvider).init();
+  container.read(mqttServiceProvider).init();
 
-  // Register device drivers
-  final manager = container.read(deviceDriverManagerProvider);
-  manager
-    ..register(container.read(sikomDriverProvider))
-    ..register(container.read(rtl433DriverProvider))
-    ..init()
-    ..bind();
-
-  // Register camera providers
+  // Register camera service providers and init manager
   container.read(cameraManagerProvider)
     ..register(container.read(foscamServiceProvider))
     ..init();
+
+  // Register snow service providers
+  container.read(snowManagerProvider).register(
+        container.read(nySnyServiceProvider),
+      );
+
+  // Bind with dependencies
+  container.read(historyManagerProvider).bind();
+  container.read(networkInfoServiceProvider).bind();
+  container.read(presenceServiceProvider).bind();
+
+  // Register device drivers and bind manager with dependencies
+  final manager = container.read(deviceDriverManagerProvider);
+  manager
+    ..register(container.read(nySnyDriverProvider))
+    ..register(container.read(sikomDriverProvider))
+    ..register(container.read(rtl433DriverProvider))
+    ..bind();
 
   // Start pumping events
   container.read(timingServiceProvider).start();

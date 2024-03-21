@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'snow_service.dart';
+part of 'snow_manager.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snowServiceHash() => r'0abe255bedf66f6d605b24829c0a026d23b3ddd5';
+String _$snowManagerHash() => r'b8376212d4a92d82ee7b996b777f4fafba164265';
 
-/// See also [snowService].
-@ProviderFor(snowService)
-final snowServiceProvider = Provider<SnowService>.internal(
-  snowService,
-  name: r'snowServiceProvider',
+/// See also [snowManager].
+@ProviderFor(snowManager)
+final snowManagerProvider = Provider<SnowManager>.internal(
+  snowManager,
+  name: r'snowManagerProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$snowServiceHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$snowManagerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef SnowServiceRef = ProviderRef<SnowService>;
+typedef SnowManagerRef = ProviderRef<SnowManager>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

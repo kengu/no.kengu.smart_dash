@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,10 +21,16 @@ class WeatherService {
 
   final _cache = FutureCache(prefix: '$WeatherService');
 
-  Optional<Weather> getCachedNow(Identity id) {
-    return Optional.ofNullable(
-      _cache.get<Weather>('device:$id').orElseNull,
-    );
+  Optional<Weather> getCachedNow(Identity id, {bool refresh = false}) {
+    try {
+      return Optional.ofNullable(
+        _cache.get<Weather>('device:$id').orElseNull,
+      );
+    } finally {
+      if (refresh) {
+        unawaited(getNow(id));
+      }
+    }
   }
 
   Stream<Weather> getNowAsStream(Identity id,
@@ -41,7 +49,7 @@ class WeatherService {
     }
   }
 
-  Future<Optional<Weather>> getNow(Identity id, Duration period) async {
+  Future<Optional<Weather>> getNow(Identity id, [Duration? period]) async {
     final key = 'device:$id';
     return _cache.getOrFetch(key, () async {
       final result = await ref.read(deviceServiceProvider).get(id);

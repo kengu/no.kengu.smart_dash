@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 
 class SmartDashHeader extends StatelessWidget {
@@ -27,48 +25,17 @@ class SmartDashHeader extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const Spacer(flex: 1),
+          /*
           if (ResponsiveWidget.isMobile(context))
             PopupMenuButton<String>(
               onSelected: (value) {
                 context.push(value);
               },
               itemBuilder: (context) {
-                return [
-                  const PopupMenuItem<String>(
-                    value: Screens.pairing,
-                    child: ListTile(
-                      title: Row(
-                        children: [
-                          Icon(Icons.add),
-                          Text('PAIR DEVICE'),
-                        ],
-                      ),
-                      leading: Icon(Icons.device_unknown),
-                    ),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: Screens.devices,
-                    child: ListTile(
-                      title: Text('PAIRED DEVICES'),
-                      leading: Icon(Icons.cloud),
-                    ),
-                  ),
-                ];
+                return [];
               },
             )
-          else ...[
-            ElevatedButton(
-              onPressed: () {
-                context.push(Screens.devices);
-              },
-              child: const Row(
-                children: [
-                  Icon(Icons.list),
-                  Text('PAIRED DEVICES'),
-                ],
-              ),
-            ),
-          ]
+           */
         ],
       ),
     );

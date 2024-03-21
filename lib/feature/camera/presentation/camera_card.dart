@@ -9,7 +9,6 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
@@ -119,10 +118,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
                   builder: (context, snapshot) {
                     if (!(snapshot.hasData && snapshot.data!.isPresent)) {
                       return Container(
-                        color: Theme.of(context)
-                            .navigationRailTheme
-                            .backgroundColor!
-                            .lighten(0.05),
+                        color: Theme.of(context).cardColor,
                         child: const Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -130,36 +126,39 @@ class _VideoCardState extends ConsumerState<CameraCard>
                     }
                     return GestureDetector(
                       onDoubleTap: widget.onDoubleTap,
-                      child: Stack(
-                        children: [
-                          if (isVideoPlaying)
-                            Video(controller: _videoController)
-                          else
-                            Image.memory(
-                              snapshot.data!.value.bytes,
-                              gaplessPlayback: true,
-                              isAntiAlias: true,
-                              fit: widget.fit,
-                              cacheWidth: widget.cachedWidth,
-                              cacheHeight: widget.cachedHeight,
-                            ),
-                          if (_isAnimationVisible)
-                            Positioned(
-                              top: 20,
-                              right: 20,
-                              child: FadeTransition(
-                                opacity: _animController,
-                                child: Container(
-                                  width: 16,
-                                  height: 16,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.5),
-                                    shape: BoxShape.circle,
+                      child: Container(
+                        color: Theme.of(context).cardColor,
+                        child: Stack(
+                          children: [
+                            if (isVideoPlaying)
+                              Video(controller: _videoController)
+                            else
+                              Image.memory(
+                                snapshot.data!.value.bytes,
+                                gaplessPlayback: true,
+                                isAntiAlias: true,
+                                fit: widget.fit,
+                                cacheWidth: widget.cachedWidth,
+                                cacheHeight: widget.cachedHeight,
+                              ),
+                            if (_isAnimationVisible)
+                              Positioned(
+                                top: 20,
+                                right: 20,
+                                child: FadeTransition(
+                                  opacity: _animController,
+                                  child: Container(
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.withOpacity(0.5),
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   }),
@@ -168,20 +167,18 @@ class _VideoCardState extends ConsumerState<CameraCard>
               leading: const Icon(
                 Icons.video_camera_back_outlined,
               ),
-              title: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 150),
-                child: Tooltip(
-                  message: 'Updates ever ${widget.period.inSeconds}s',
-                  child: Text(
-                    widget.config.orElseNull?.device ?? 'Camera',
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              contentPadding: const EdgeInsets.only(left: 16.0, right: 4.0),
+              title: Tooltip(
+                message: 'Updates ever ${widget.period.inSeconds}s',
+                child: Text(
+                  widget.config.orElseNull?.device ?? 'Camera',
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               trailing: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(
-                    width: 200.0 +
+                    width: 110.0 +
                         (widget.withMotionControl ? 100 : 0) +
                         (widget.withRefreshControl ? 76 : 0) +
                         (widget.withVideoControl ? 140 : 0)),

@@ -52,11 +52,16 @@ class DeviceDriverManager {
         '${driver.runtimeType}[key:${driver.key}] registered');
   }
 
-  /// Initialize manager
-  Future<void> init() async {
+  /// Start pumping update events to registered
+  /// device drivers by binding it to the global timing event pump.
+  Future<void> bind() async {
+    assert(
+      _timing == null,
+      'DeviceDriverManager is already bound to timing service',
+    );
     assert(
       _drivers.isNotEmpty,
-      'Remember to register drivers before starting DeviceDriverManager',
+      'Remember to register drivers before starting the manager',
     );
     assert(
       _ready(false).where((e) => e.isInitializing).isEmpty,
@@ -67,25 +72,6 @@ class DeviceDriverManager {
       // ignore: invalid_use_of_protected_member
       (e) => _onInit(e),
     ));
-  }
-
-  Future<void> _onInit(DeviceDriver driver) async {
-    // ignore: invalid_use_of_protected_member
-    final stream = await driver.onInit(Completer());
-    _subscriptions[driver.key] = stream.listen(_controller.add);
-  }
-
-  /// Start pumping update events to registered
-  /// device drivers by binding it to the global timing event pump.
-  void bind() {
-    assert(
-      _drivers.isNotEmpty,
-      'Remember to register drivers before starting the manager',
-    );
-    assert(
-      _timing == null,
-      'DeviceDriverManager is already bound to timing service',
-    );
 
     // Register device flow with manager
     ref.read(flowManagerProvider)
@@ -96,6 +82,12 @@ class DeviceDriverManager {
         .read(timingServiceProvider)
         .events
         .listen((_) => Future.wait(_ready(true).map(_onUpdate)));
+  }
+
+  Future<void> _onInit(DeviceDriver driver) async {
+    // ignore: invalid_use_of_protected_member
+    final stream = await driver.onInit(Completer());
+    _subscriptions[driver.key] = stream.listen(_controller.add);
   }
 
   /// Stop pumping update events by unbinding from global

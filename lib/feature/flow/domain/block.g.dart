@@ -79,6 +79,8 @@ const _$TokenUnitEnumMap = {
   TokenUnit.luminance: 'luminance',
   TokenUnit.windSpeed: 'windSpeed',
   TokenUnit.gustSpeed: 'gustSpeed',
+  TokenUnit.snowDepth: 'snowDepth',
+  TokenUnit.snowWeight: 'snowWeight',
   TokenUnit.ultraviolet: 'ultraviolet',
   TokenUnit.temperature: 'temperature',
 };

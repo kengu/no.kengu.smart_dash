@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash/feature/snow/application/snow_service.dart';
+import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 
@@ -27,13 +27,13 @@ class SnowNowTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final service = ref.read(snowServiceProvider);
+    final manager = ref.read(snowManagerProvider);
     final textStyle = Theme.of(context).textTheme.labelMedium;
-    return StreamBuilder<Optional<SnowState>>(
-      stream: service.getStateAsStream(location),
-      initialData: service.getStateCached(location),
+    return StreamBuilder<SnowState>(
+      stream: manager.getStateAsStream(location),
+      initialData: manager.getCachedState(location).orElseNull,
       builder: (context, snapshot) {
-        final state = snapshot.data!;
+        final state = Optional.ofNullable(snapshot.data);
         final snow = state.orElseNull;
         return SmartDashTile(
           title: 'Snow Depth Now',
