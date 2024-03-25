@@ -54,10 +54,15 @@ class MqttService {
 
           // Needed for disposal when driver is uninitialized
           _clients.add(client);
-          _subscriptions.add(client.updates.listen((e) {
-            debugPrint('MqttService >> Received :: ${e.topic} :: ${e.payload}');
-            _controller.add(e);
-          }));
+          _subscriptions.add(client.updates.listen(
+            (e) {
+              debugPrint(
+                'MqttService >> Received :: ${e.topic} :: ${e.payload}',
+              );
+              _controller.add(e);
+            },
+            cancelOnError: false,
+          ));
 
           debugPrint(
             'MqttService >> Subscribing to topics [${config.topics}]...',

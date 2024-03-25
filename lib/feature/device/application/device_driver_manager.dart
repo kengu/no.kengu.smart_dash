@@ -78,16 +78,16 @@ class DeviceDriverManager {
       ..register(DeviceTokensFlow())
       ..bind(events);
 
-    _timing = ref
-        .read(timingServiceProvider)
-        .events
-        .listen((_) => Future.wait(_ready(true).map(_onUpdate)));
+    _timing = ref.read(timingServiceProvider).events.listen(
+        (_) => Future.wait(_ready(true).map(_onUpdate)),
+        cancelOnError: false);
   }
 
   Future<void> _onInit(DeviceDriver driver) async {
     // ignore: invalid_use_of_protected_member
     final stream = await driver.onInit(Completer());
-    _subscriptions[driver.key] = stream.listen(_controller.add);
+    _subscriptions[driver.key] =
+        stream.listen(_controller.add, cancelOnError: false);
   }
 
   /// Stop pumping update events by unbinding from global
@@ -126,9 +126,11 @@ class DeviceDriverManager {
             '$DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
             'after ${event.duration.inSeconds} sec.',
           );
-          _controller.add(event);
-          // Update devices
-          await ref.read(deviceRepositoryProvider).updateAll(event.devices);
+          if (event.isNotEmpty) {
+            _controller.add(event);
+            // Update devices
+            await ref.read(deviceRepositoryProvider).updateAll(event.devices);
+          }
         }
       },
       task: '_onUpdate',

@@ -57,7 +57,7 @@ class PresenceService {
     await Future.wait(
       service.devices.asEvents.map(_onHandle),
     );
-    _subscription = service.stream.listen(_onHandle);
+    _subscription = service.stream.listen(_onHandle, cancelOnError: false);
   }
 
   /// Stop listing to network device events.
@@ -110,7 +110,7 @@ class PresenceFlow extends Flow {
         final token = Presence.toHomeToken(event.home);
         _setState(token);
       }
-    });
+    }, cancelOnError: false);
   }
 
   Future<HomeService> _setHome() async {

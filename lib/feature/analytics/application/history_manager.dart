@@ -43,7 +43,10 @@ class HistoryManager {
   void bind() async {
     assert(_subscriptions.isEmpty, 'HistoryManager is bound already');
     _subscriptions.add(
-      ref.read(flowManagerProvider).events.listen(_onHandle),
+      ref
+          .read(flowManagerProvider)
+          .events
+          .listen(_onHandle, cancelOnError: false),
     );
   }
 

@@ -81,6 +81,7 @@ class NetworkInfoService {
           _discover(_needFullScan(e, fullCheck));
         }
       },
+      cancelOnError: false,
     );
 
     if (kDebugMode) {
@@ -90,6 +91,7 @@ class NetworkInfoService {
           '$NetworkInfoService >> ${e.runtimeType}::${e.data.ipAddress}\n'
           '----------------------------',
         ),
+        cancelOnError: false,
       );
     }
   }

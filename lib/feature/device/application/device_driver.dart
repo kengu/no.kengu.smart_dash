@@ -182,6 +182,9 @@ abstract class DriverDevicesEvent extends DriverEvent {
   Optional<Device> get first =>
       devices.isEmpty ? const Optional.empty() : Optional.of(devices.first);
 
+  bool get isEmpty => devices.isEmpty;
+  bool get isNotEmpty => devices.isNotEmpty;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -304,7 +307,7 @@ abstract class ThrottledDeviceDriver extends DeviceDriver {
     _updateController = StreamController.broadcast();
     _updateSubscription = _updateController.stream
         .throttle(throttle, trailing: trailing)
-        .listen(_tryThrottledUpdate);
+        .listen(_tryThrottledUpdate, cancelOnError: false);
     completer.complete();
     return stream;
   }

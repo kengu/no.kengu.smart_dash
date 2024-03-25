@@ -69,7 +69,8 @@ class FlowManager {
       !_subscriptions.containsKey(type),
       'Stream of $type already bound',
     );
-    _subscriptions[type] = events.throttle(limit).listen(trigger);
+    _subscriptions[type] =
+        events.throttle(limit).listen(trigger, cancelOnError: false);
   }
 
   /// Unbind from stream of [T] events

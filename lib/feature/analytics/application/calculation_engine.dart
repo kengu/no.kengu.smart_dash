@@ -37,7 +37,7 @@ class CalculationEngine {
         ref.read(timingServiceProvider).events.throttle(period).listen((event) {
       // TODO: Add error handling.
       guard<void>(onCalculate);
-    });
+    }, cancelOnError: false);
   }
 
   /// Stops calculations by unbinding from global event pump.
