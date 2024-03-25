@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget/circle_blip.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
@@ -10,7 +11,10 @@ import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_summary.dart';
 
 class FlowCard extends ConsumerWidget {
-  FlowCard({super.key, required this.id}) : query = BlockFlowQuery(id: id);
+  FlowCard({
+    super.key,
+    required this.id,
+  }) : query = BlockFlowQuery(id: id);
 
   final String id;
   final BlockFlowQuery query;
@@ -25,9 +29,13 @@ class FlowCard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      child: FlowSummary(
-                        model: model,
-                        enabled: model.enabled,
+                      child: CircleBlip(
+                        debounce: 1,
+                        enabled: true,
+                        child: FlowSummary(
+                          model: model,
+                          enabled: model.enabled,
+                        ),
                       ),
                     ),
                   ),

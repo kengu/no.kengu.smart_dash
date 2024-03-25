@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/presentation/widget/circle_blip.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
@@ -52,8 +53,6 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   bool _isUpdating = false;
 
-  late AnimationController _animController;
-
   // Create a [Player] to control playback.
   late final _videoPlayer = Player();
 
@@ -61,9 +60,6 @@ class _VideoCardState extends ConsumerState<CameraCard>
   late final _videoController = VideoController(_videoPlayer);
 
   Optional<Camera> _camera = const Optional.empty();
-
-  bool _isAnimationVisible = false;
-
   late Optional<(ServiceConfig, String)> _videoConfig;
 
   bool get isVideoPlaying => _videoPlayer.state.playing;
@@ -71,10 +67,6 @@ class _VideoCardState extends ConsumerState<CameraCard>
   @override
   void initState() {
     _startSnapshots();
-    _animController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
     super.initState();
   }
 
@@ -97,7 +89,6 @@ class _VideoCardState extends ConsumerState<CameraCard>
       unawaited(_videoPlayer.stop());
     }
     _videoPlayer.dispose();
-    _animController.dispose();
     super.dispose();
   }
 
@@ -141,22 +132,13 @@ class _VideoCardState extends ConsumerState<CameraCard>
                                 cacheWidth: widget.cachedWidth,
                                 cacheHeight: widget.cachedHeight,
                               ),
-                            if (_isAnimationVisible)
-                              Positioned(
-                                top: 20,
-                                right: 20,
-                                child: FadeTransition(
-                                  opacity: _animController,
-                                  child: Container(
-                                    width: 16,
-                                    height: 16,
-                                    decoration: BoxDecoration(
-                                      color: Colors.green.withOpacity(0.5),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: CircleBlip(
+                                enabled: !isVideoPlaying,
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -244,22 +226,11 @@ class _VideoCardState extends ConsumerState<CameraCard>
     );
   }
 
-  void _showCircle() {
-    setState(() => _isAnimationVisible = true);
-    _animController.forward().then((_) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        _animController.reverse().then((_) {
-          setState(() => _isAnimationVisible = false);
-        });
-      });
-    });
-  }
-
   void _startSnapshots() {
     _snapshotTimer?.cancel();
     _snapshotTimer = Timer.periodic(
       widget.period,
-      (timer) => _showCircle(),
+      (timer) => setState(() {}),
     );
   }
 
@@ -300,7 +271,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
   Future<void> _refresh() async {
     await _fetchCamera(ttl: Duration.zero);
     if (mounted) {
-      setState(_showCircle);
+      setState(() {});
     }
   }
 
