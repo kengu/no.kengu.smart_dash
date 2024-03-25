@@ -13,6 +13,8 @@ enum Rtl433DeviceType {
 
   sensor('Sensor'),
 
+  weatherStation('Weather Station'),
+
   /// Device unknown to SmartDash
   unknown('');
 
@@ -30,20 +32,24 @@ enum Rtl433DeviceType {
     );
   }
 
-  static Rtl433DeviceType fromNativeType(String name) => switch (name) {
-        'Cotech-367959' => Rtl433DeviceType.sensor,
+  static Rtl433DeviceType fromNativeType(String name) =>
+      switch (name.toLowerCase()) {
+        'cotech-367959' => Rtl433DeviceType.weatherStation,
+        'fineoffset-telldusproove' => Rtl433DeviceType.weatherStation,
         _ => Rtl433DeviceType.unknown
       };
 
   static Rtl433DeviceType fromDeviceType(DeviceType type) => switch (type) {
         DeviceType.any => Rtl433DeviceType.any,
         DeviceType.sensor => Rtl433DeviceType.sensor,
+        DeviceType.weatherNow => Rtl433DeviceType.weatherStation,
         _ => Rtl433DeviceType.unknown
       };
 
   DeviceType toDeviceType() => switch (this) {
         Rtl433DeviceType.any => DeviceType.any,
         Rtl433DeviceType.sensor => DeviceType.sensor,
+        Rtl433DeviceType.weatherStation => DeviceType.weatherNow,
         _ => DeviceType.unknown,
       };
 }
@@ -74,13 +80,23 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
     @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
     @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
     @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
-    @JsonKey(name: 'rain_mm') double? rainInMillimeters,
-    @JsonKey(name: 'rain_in') double? rainInInches,
-    @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
-    @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
-    @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
     @JsonKey(name: 'light_lux') int? lightInLux,
     @JsonKey(name: 'uv') int? uvRadiation,
+
+    /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
+    @JsonKey(name: 'rain_mm') double? rainInMillimeters,
+
+    /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
+    @JsonKey(name: 'rain_in') double? rainInInches,
+
+    /// Rainfall rate from rain sensor (in mm) per hour.
+    @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
+
+    /// Rainfall rate from rain sensor (in inches) per hour.
+    @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
+
+    /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
+    @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
   }) = _Rtl433Device;
 
   bool get hasHumidity => humidity != null;
@@ -113,7 +129,10 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
 
   bool get hasWindAngle => windAngleInDegrees != null;
 
-  bool get hasRain => rainInMillimeters != null || rainInInches != null;
+  bool get hasRainTotal => rainInMillimeters != null || rainInInches != null;
+
+  bool get hasRainRate =>
+      rainRateMillimeterPerHour != null || rainRateInchesPerHour != null;
 
   bool get hasTemperature =>
       temperatureCelsius != null || temperatureFahrenheit != null;
@@ -145,8 +164,13 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
           ? null
           : (5 / 9 * (targetTemperatureFahrenheit! - 32.0)));
 
-  /// Get [rain] in unit [TokenUnit.rain]
-  double? get rain =>
+  /// Get [rainRate] in unit [TokenUnit.rainRate]
+  double? get rainRate =>
+      rainRateMillimeterPerHour ??
+      (rainRateInchesPerHour == null ? null : rainRateInchesPerHour! * 25.4);
+
+  /// Get [rainTotal] in unit [TokenUnit.rainTotal]
+  double? get rainTotal =>
       rainInMillimeters ?? (rainInInches == null ? null : rainInInches! * 25.4);
 
   /// Get [windStrength] in unit [TokenUnit.windSpeed]
@@ -180,6 +204,27 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
     return dateTime;
   }
 
+  String get deviceId => '$model-$id'.toLowerCase();
+
+  Identity toIdentity() => Identity(
+        deviceId: deviceId,
+        serviceKey: Rtl433.key,
+      );
+
+  List<DeviceCapability> get capabilities => [
+        if (hasHumidity) DeviceCapability.humidity,
+        if (hasRainRate) DeviceCapability.rainRate,
+        if (hasRainTotal) DeviceCapability.rainTotal,
+        if (hasWindAngle) DeviceCapability.windAngle,
+        if (hasLuminance) DeviceCapability.luminance,
+        if (hasUltraviolet) DeviceCapability.ultraviolet,
+        if (hasWindStrength) DeviceCapability.windSpeed,
+        if (hasGustStrength) DeviceCapability.gustSpeed,
+        if (hasUltraviolet) DeviceCapability.ultraviolet,
+        if (hasTemperature) DeviceCapability.temperature,
+//          if (hasTargetTemperature) DeviceCapability.targetTemperature,
+      ];
+
   factory Rtl433Device.fromJson(Map<String, Object?> json) =>
       _$Rtl433DeviceFromJson(json);
 
@@ -187,22 +232,12 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
   Device toDevice() => Device(
         data: toJson(),
         name: model,
-        id: '$model-$id',
+        id: deviceId,
         service: Rtl433.key,
-        capabilities: [
-          if (hasRain) DeviceCapability.rain,
-          if (hasHumidity) DeviceCapability.humidity,
-          if (hasWindAngle) DeviceCapability.windAngle,
-          if (hasLuminance) DeviceCapability.luminance,
-          if (hasUltraviolet) DeviceCapability.ultraviolet,
-          if (hasWindStrength) DeviceCapability.windSpeed,
-          if (hasGustStrength) DeviceCapability.gustSpeed,
-          if (hasUltraviolet) DeviceCapability.ultraviolet,
-          if (hasTemperature) DeviceCapability.temperature,
-//          if (hasTargetTemperature) DeviceCapability.targetTemperature,
-        ],
-        rain: rain,
+        capabilities: capabilities,
         humidity: humidity,
+        rainRate: rainRate,
+        rainTotal: rainTotal,
         luminance: hasLuminance ? lightInLux : null,
         ultraviolet: hasUltraviolet ? uvRadiation : null,
         temperature: temperature,

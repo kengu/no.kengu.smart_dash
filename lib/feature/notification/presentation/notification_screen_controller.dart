@@ -18,7 +18,7 @@ class NotificationScreenController extends _$NotificationScreenController
       service.active.listen((e) async {
         final active = await service.getActive();
         state = AsyncData(Optional.of(active));
-      }).cancel,
+      }, cancelOnError: false).cancel,
     );
 
     return super.build(query);

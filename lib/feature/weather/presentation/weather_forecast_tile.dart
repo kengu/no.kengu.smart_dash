@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_dash/core/presentation/widget/selectable_row_widget.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash/feature/weather/application/weather_service.dart';
+import 'package:smart_dash/feature/weather/application/weather_forecast_manager.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/util/data/units.dart';
 
@@ -43,18 +43,18 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.read(weatherServiceProvider);
+    final manager = ref.read(weatherForecastManagerProvider);
     return StreamBuilder<Weather>(
-      initialData: service
-          .getCachedForecast(
+      initialData: manager
+          .getFirstCachedForecast(
             widget.lat,
             widget.lon,
           )
           .orElseNull,
-      stream: service.getForecastAsStream(
+      stream: manager.getFirstForecastAsStream(
         widget.lat,
         widget.lon,
-        widget.period,
+        period: widget.period,
       ),
       builder: (context, snapshot) {
         final now = DateTime.now();

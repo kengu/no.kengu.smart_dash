@@ -32,11 +32,12 @@ class DeviceRepository {
 
   Future<Optional<Device>> get(Identity id) async {
     final devices = await _load();
-    return devices.isEmpty
-        ? const Optional.empty()
+    final device = devices.isEmpty
+        ? const Optional<Device>.empty()
         : devices.firstWhereOptional(
             (device) => Identity.of(device) == id,
           );
+    return device;
   }
 
   /// Attempt to sett all given devices to

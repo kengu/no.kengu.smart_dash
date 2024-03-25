@@ -122,7 +122,7 @@ class HomePage extends ConsumerWidget {
                           key: GlobalObjectKey(item),
                           place: 'Tindefjell',
                           device: home.getIdentity(
-                            'rtl_433:Cotech-367959-130',
+                            'rtl_433:cotech-367959-130',
                           ),
                         );
                       case 'weather_forecast':

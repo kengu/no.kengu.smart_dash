@@ -38,8 +38,11 @@ class AccountFormScreenController extends _$AccountFormScreenController
         accountFormScreenControllerProvider.call,
         AccountQuery(
           userId: user.userId,
-          serviceKeys:
-              integrations.hasValue ? integrations.value!.keys.toList() : [],
+          serviceKeys: integrations.hasValue
+              ? integrations.value!.entries
+                  .where((e) => !e.value.system)
+                  .map((e) => e.key)
+              : [],
         )) as AccountFormScreenController;
   }
 

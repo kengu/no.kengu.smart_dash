@@ -31,13 +31,13 @@ _$Rtl433DeviceImpl _$$Rtl433DeviceImplFromJson(Map<String, dynamic> json) =>
       gustStrengthInKilometerPerHour:
           (json['wind_max_km_h'] as num?)?.toDouble(),
       gustStrengthInMilesPerHour: (json['wind_max_mi_h'] as num?)?.toDouble(),
+      lightInLux: json['light_lux'] as int?,
+      uvRadiation: json['uv'] as int?,
       rainInMillimeters: (json['rain_mm'] as num?)?.toDouble(),
       rainInInches: (json['rain_in'] as num?)?.toDouble(),
       rainRateMillimeterPerHour: (json['rain_rate_mm_h'] as num?)?.toDouble(),
       rainRateInchesPerHour: (json['rain_rate_in_h'] as num?)?.toDouble(),
       pressureInhPa: (json['pressure_hPa'] as num?)?.toDouble(),
-      lightInLux: json['light_lux'] as int?,
-      uvRadiation: json['uv'] as int?,
     );
 
 Map<String, dynamic> _$$Rtl433DeviceImplToJson(_$Rtl433DeviceImpl instance) =>
@@ -63,11 +63,11 @@ Map<String, dynamic> _$$Rtl433DeviceImplToJson(_$Rtl433DeviceImpl instance) =>
       'wind_max_m_s': instance.gustStrengthInMeterPerSeconds,
       'wind_max_km_h': instance.gustStrengthInKilometerPerHour,
       'wind_max_mi_h': instance.gustStrengthInMilesPerHour,
+      'light_lux': instance.lightInLux,
+      'uv': instance.uvRadiation,
       'rain_mm': instance.rainInMillimeters,
       'rain_in': instance.rainInInches,
       'rain_rate_mm_h': instance.rainRateMillimeterPerHour,
       'rain_rate_in_h': instance.rainRateInchesPerHour,
       'pressure_hPa': instance.pressureInhPa,
-      'light_lux': instance.lightInLux,
-      'uv': instance.uvRadiation,
     };

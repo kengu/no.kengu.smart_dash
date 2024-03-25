@@ -75,6 +75,20 @@ class DeviceTokensFlow extends Flow {
             when: device.lastUpdated,
           ));
           break;
+        case TokenUnit.rainRate:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.rainRate ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
+        case TokenUnit.rainTotal:
+          tags.add(FlowTag<double>(
+            token: token,
+            data: device.rainTotal ?? 0.0,
+            when: device.lastUpdated,
+          ));
+          break;
         case TokenUnit.humidity:
           tags.add(FlowTag<double>(
             token: token,

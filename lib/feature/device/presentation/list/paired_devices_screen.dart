@@ -46,7 +46,7 @@ class PairedDevicesScreen extends ConsumerWidget {
                   toIconData(device),
                 ),
                 entries: data.isPresent ? data.value : [],
-                pathBuilder: (data) => DeviceScreens.toDevicesDetailsPath(
+                pathBuilder: (data) => DeviceScreens.toDeviceDetailsPath(
                   data,
                 ),
               ),

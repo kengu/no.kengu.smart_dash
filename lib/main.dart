@@ -10,19 +10,12 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/presentation/smart_dash_app.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/camera/application/camera_manager.dart';
-import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
-import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
+import 'package:smart_dash/integration/application/integration_manager.dart';
 import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
-import 'package:smart_dash/integration/nysny/application/nysny_driver.dart';
-import 'package:smart_dash/integration/nysny/application/nysny_service.dart';
-import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
-import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:universal_io/io.dart' as io;
@@ -103,28 +96,13 @@ ProviderContainer initProviders() {
   container.read(flowManagerProvider).init();
   container.read(mqttServiceProvider).init();
 
-  // Register camera service providers and init manager
-  container.read(cameraManagerProvider)
-    ..register(container.read(foscamServiceProvider))
-    ..init();
-
-  // Register snow service providers
-  container.read(snowManagerProvider).register(
-        container.read(nySnyServiceProvider),
-      );
-
   // Bind with dependencies
   container.read(historyManagerProvider).bind();
   container.read(networkInfoServiceProvider).bind();
   container.read(presenceServiceProvider).bind();
 
-  // Register device drivers and bind manager with dependencies
-  final manager = container.read(deviceDriverManagerProvider);
-  manager
-    ..register(container.read(nySnyDriverProvider))
-    ..register(container.read(sikomDriverProvider))
-    ..register(container.read(rtl433DriverProvider))
-    ..bind();
+  // Initialize integrations
+  container.read(integrationManagerProvider).init(container);
 
   // Start pumping events
   container.read(timingServiceProvider).start();

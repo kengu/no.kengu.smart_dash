@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:optional/optional_internal.dart';
 import 'package:smart_dash/feature/notification/application/notification_service.dart';
 import 'package:smart_dash/feature/notification/domain/notification.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
@@ -37,7 +38,7 @@ class NotificationScreen extends ConsumerWidget {
       query: NotificationQuery(),
       provider: notificationScreenControllerProvider.call,
       builder: (context, ref, result, child) {
-        final active = result.orElseNull ?? [];
+        final active = _sort(result);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -85,5 +86,11 @@ class NotificationScreen extends ConsumerWidget {
         );
       },
     );
+  }
+
+  List<NotificationModel> _sort(Optional<List<NotificationModel>> result) {
+    final items = result.orElseNull?.toList() ?? [];
+    items.sort((a, b) => b.when.compareTo(a.when));
+    return items;
   }
 }

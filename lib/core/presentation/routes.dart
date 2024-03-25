@@ -52,6 +52,7 @@ sealed class Routes {
       // navigator around children routes that defined in
       // 'routes' below
       ShellRoute(
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state, child) {
           return MaterialPage(
             restorationId: state.uri.toString(),

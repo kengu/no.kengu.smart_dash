@@ -8,16 +8,22 @@ part of 'weather.dart';
 
 _$WeatherImpl _$$WeatherImplFromJson(Map<String, dynamic> json) =>
     _$WeatherImpl(
+      service: json['service'] as String,
       geometry:
           PointGeometry.fromJson(json['geometry'] as Map<String, dynamic>),
       props: WeatherProperties.fromJson(
           json['properties'] as Map<String, dynamic>),
+      observedBy: json['observedBy'] == null
+          ? null
+          : Identity.fromJson(json['observedBy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$WeatherImplToJson(_$WeatherImpl instance) =>
     <String, dynamic>{
+      'service': instance.service,
       'geometry': instance.geometry.toJson(),
       'properties': instance.props.toJson(),
+      'observedBy': instance.observedBy?.toJson(),
     };
 
 _$WeatherTimeStepImpl _$$WeatherTimeStepImplFromJson(
@@ -84,6 +90,7 @@ _$WeatherInstantDetailsImpl _$$WeatherInstantDetailsImplFromJson(
       lightLuminance: json['light_luminance'] as int?,
       relativeHumidity: (json['relative_humidity'] as num?)?.toDouble(),
       ultravioletRadiation: json['ultraviolet_radiation'] as int?,
+      precipitationAmount: (json['precipitation_amount'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$WeatherInstantDetailsImplToJson(
@@ -98,6 +105,7 @@ Map<String, dynamic> _$$WeatherInstantDetailsImplToJson(
       'light_luminance': instance.lightLuminance,
       'relative_humidity': instance.relativeHumidity,
       'ultraviolet_radiation': instance.ultravioletRadiation,
+      'precipitation_amount': instance.precipitationAmount,
     };
 
 _$WeatherForecastImpl _$$WeatherForecastImplFromJson(

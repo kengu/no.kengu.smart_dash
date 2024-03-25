@@ -41,8 +41,14 @@ mixin _$Device {
   /// Get the timestamp for when device's was last updated
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
-  /// Get device's measured temperature (default null)
+  /// Get device's measured rain since last measurement (default null)
   double? get rain => throw _privateConstructorUsedError;
+
+  /// Get device's measured rain rate. (default null)
+  double? get rainRate => throw _privateConstructorUsedError;
+
+  /// Get device's measured rain since last reset. Reset method is device dependent. (default null)
+  double? get rainTotal => throw _privateConstructorUsedError;
 
   /// Get device's measured ultraviolet radiation (default null)
   int? get ultraviolet => throw _privateConstructorUsedError;
@@ -99,6 +105,8 @@ abstract class $DeviceCopyWith<$Res> {
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       double? rain,
+      double? rainRate,
+      double? rainTotal,
       int? ultraviolet,
       int? luminance,
       double? humidity,
@@ -138,6 +146,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? capabilities = null,
     Object? lastUpdated = null,
     Object? rain = freezed,
+    Object? rainRate = freezed,
+    Object? rainTotal = freezed,
     Object? ultraviolet = freezed,
     Object? luminance = freezed,
     Object? humidity = freezed,
@@ -183,6 +193,14 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       rain: freezed == rain
           ? _value.rain
           : rain // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainRate: freezed == rainRate
+          ? _value.rainRate
+          : rainRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainTotal: freezed == rainTotal
+          ? _value.rainTotal
+          : rainTotal // ignore: cast_nullable_to_non_nullable
               as double?,
       ultraviolet: freezed == ultraviolet
           ? _value.ultraviolet
@@ -288,6 +306,8 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       List<DeviceCapability> capabilities,
       DateTime lastUpdated,
       double? rain,
+      double? rainRate,
+      double? rainTotal,
       int? ultraviolet,
       int? luminance,
       double? humidity,
@@ -328,6 +348,8 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? capabilities = null,
     Object? lastUpdated = null,
     Object? rain = freezed,
+    Object? rainRate = freezed,
+    Object? rainTotal = freezed,
     Object? ultraviolet = freezed,
     Object? luminance = freezed,
     Object? humidity = freezed,
@@ -373,6 +395,14 @@ class __$$DeviceImplCopyWithImpl<$Res>
       rain: freezed == rain
           ? _value.rain
           : rain // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainRate: freezed == rainRate
+          ? _value.rainRate
+          : rainRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainTotal: freezed == rainTotal
+          ? _value.rainTotal
+          : rainTotal // ignore: cast_nullable_to_non_nullable
               as double?,
       ultraviolet: freezed == ultraviolet
           ? _value.ultraviolet
@@ -438,6 +468,8 @@ class _$DeviceImpl extends _Device {
       required final List<DeviceCapability> capabilities,
       required this.lastUpdated,
       this.rain,
+      this.rainRate,
+      this.rainTotal,
       this.ultraviolet,
       this.luminance,
       this.humidity,
@@ -499,9 +531,17 @@ class _$DeviceImpl extends _Device {
   @override
   final DateTime lastUpdated;
 
-  /// Get device's measured temperature (default null)
+  /// Get device's measured rain since last measurement (default null)
   @override
   final double? rain;
+
+  /// Get device's measured rain rate. (default null)
+  @override
+  final double? rainRate;
+
+  /// Get device's measured rain since last reset. Reset method is device dependent. (default null)
+  @override
+  final double? rainTotal;
 
   /// Get device's measured ultraviolet radiation (default null)
   @override
@@ -553,7 +593,7 @@ class _$DeviceImpl extends _Device {
 
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat, snowDepth: $snowDepth, snowWeight: $snowWeight)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, rainRate: $rainRate, rainTotal: $rainTotal, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat, snowDepth: $snowDepth, snowWeight: $snowWeight)';
   }
 
   @override
@@ -571,6 +611,10 @@ class _$DeviceImpl extends _Device {
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
             (identical(other.rain, rain) || other.rain == rain) &&
+            (identical(other.rainRate, rainRate) ||
+                other.rainRate == rainRate) &&
+            (identical(other.rainTotal, rainTotal) ||
+                other.rainTotal == rainTotal) &&
             (identical(other.ultraviolet, ultraviolet) ||
                 other.ultraviolet == ultraviolet) &&
             (identical(other.luminance, luminance) ||
@@ -608,6 +652,8 @@ class _$DeviceImpl extends _Device {
         const DeepCollectionEquality().hash(_capabilities),
         lastUpdated,
         rain,
+        rainRate,
+        rainTotal,
         ultraviolet,
         luminance,
         humidity,
@@ -646,6 +692,8 @@ abstract class _Device extends Device {
       required final List<DeviceCapability> capabilities,
       required final DateTime lastUpdated,
       final double? rain,
+      final double? rainRate,
+      final double? rainTotal,
       final int? ultraviolet,
       final int? luminance,
       final double? humidity,
@@ -692,8 +740,16 @@ abstract class _Device extends Device {
   DateTime get lastUpdated;
   @override
 
-  /// Get device's measured temperature (default null)
+  /// Get device's measured rain since last measurement (default null)
   double? get rain;
+  @override
+
+  /// Get device's measured rain rate. (default null)
+  double? get rainRate;
+  @override
+
+  /// Get device's measured rain since last reset. Reset method is device dependent. (default null)
+  double? get rainTotal;
   @override
 
   /// Get device's measured ultraviolet radiation (default null)

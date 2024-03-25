@@ -34,6 +34,8 @@ const _$TokenUnitEnumMap = {
   TokenUnit.count: 'count',
   TokenUnit.power: 'power',
   TokenUnit.rain: 'rain',
+  TokenUnit.rainTotal: 'rainTotal',
+  TokenUnit.rainRate: 'rainRate',
   TokenUnit.energy: 'energy',
   TokenUnit.voltage: 'voltage',
   TokenUnit.humidity: 'humidity',

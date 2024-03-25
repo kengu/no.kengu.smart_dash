@@ -10,6 +10,7 @@ class Integration with _$Integration {
   const factory Integration({
     required String key,
     required String name,
+    required bool system,
     required String image,
     required bool enabled,
     required int instances,
@@ -65,5 +66,6 @@ enum IntegrationFeature {
   data,
   device,
   camera,
+  weather,
   snow,
 }

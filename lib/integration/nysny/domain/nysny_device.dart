@@ -26,8 +26,8 @@ class NySnyDevice with _$NySnyDevice, DeviceMapper {
 
   @override
   Device toDevice() => Device(
+        name: location,
         data: toJson(),
-        name: '$NySny',
         id: location.toLowerCase(),
         service: NySny.key,
         capabilities: [

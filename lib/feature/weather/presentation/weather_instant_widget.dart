@@ -127,6 +127,11 @@ class WeatherInstantWidget extends StatelessWidget {
     Color legendColor,
     TextStyle textStyle,
   ) {
+    final precipitationAmount = isForecast
+        ? weather.toPrecipitationForecastAmount(index <= 1 ? 24 : index)
+        : (weather.props.timeseries[index].data.instant.details
+                .precipitationAmount ??
+            0.0);
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -137,13 +142,14 @@ class WeatherInstantWidget extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          weather
-              .toPrecipitationAmount(index <= 1 ? 24 : index)
-              .toStringAsFixed(1),
+          precipitationAmount.toStringAsFixed(1),
         ),
         Text(
-          '${airTemp > 0 ? ' mm rain' : ' cm snow'} '
-          '${isForecast ? 'next' : 'previous'} ${index > 1 ? index : 24}h',
+          [
+            if (!isForecast || airTemp > 0) ' mm rain' else ' cm snow',
+            if (isForecast) 'next' else 'previous',
+            '${index > 1 ? index : 24}h'
+          ].join(' '),
           style: textStyle,
         )
       ],

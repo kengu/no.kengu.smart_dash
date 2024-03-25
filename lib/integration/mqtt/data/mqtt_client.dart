@@ -140,7 +140,7 @@ class MqttClient {
           ),
         ));
       }
-    });
+    }, cancelOnError: false);
 
     debugPrint(
       'MqttClient >> OnConnected :: '

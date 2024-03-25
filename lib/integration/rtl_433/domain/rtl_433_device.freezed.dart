@@ -66,20 +66,30 @@ mixin _$Rtl433Device {
       throw _privateConstructorUsedError;
   @JsonKey(name: 'wind_max_mi_h')
   double? get gustStrengthInMilesPerHour => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rain_mm')
-  double? get rainInMillimeters => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rain_in')
-  double? get rainInInches => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rain_rate_mm_h')
-  double? get rainRateMillimeterPerHour => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rain_rate_in_h')
-  double? get rainRateInchesPerHour => throw _privateConstructorUsedError;
-  @JsonKey(name: 'pressure_hPa')
-  double? get pressureInhPa => throw _privateConstructorUsedError;
   @JsonKey(name: 'light_lux')
   int? get lightInLux => throw _privateConstructorUsedError;
   @JsonKey(name: 'uv')
   int? get uvRadiation => throw _privateConstructorUsedError;
+
+  /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
+  @JsonKey(name: 'rain_mm')
+  double? get rainInMillimeters => throw _privateConstructorUsedError;
+
+  /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
+  @JsonKey(name: 'rain_in')
+  double? get rainInInches => throw _privateConstructorUsedError;
+
+  /// Rainfall rate from rain sensor (in mm) per hour.
+  @JsonKey(name: 'rain_rate_mm_h')
+  double? get rainRateMillimeterPerHour => throw _privateConstructorUsedError;
+
+  /// Rainfall rate from rain sensor (in inches) per hour.
+  @JsonKey(name: 'rain_rate_in_h')
+  double? get rainRateInchesPerHour => throw _privateConstructorUsedError;
+
+  /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
+  @JsonKey(name: 'pressure_hPa')
+  double? get pressureInhPa => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -115,13 +125,13 @@ abstract class $Rtl433DeviceCopyWith<$Res> {
       @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
       @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
       @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
+      @JsonKey(name: 'light_lux') int? lightInLux,
+      @JsonKey(name: 'uv') int? uvRadiation,
       @JsonKey(name: 'rain_mm') double? rainInMillimeters,
       @JsonKey(name: 'rain_in') double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
       @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
-      @JsonKey(name: 'light_lux') int? lightInLux,
-      @JsonKey(name: 'uv') int? uvRadiation});
+      @JsonKey(name: 'pressure_hPa') double? pressureInhPa});
 }
 
 /// @nodoc
@@ -158,13 +168,13 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
     Object? gustStrengthInMeterPerSeconds = freezed,
     Object? gustStrengthInKilometerPerHour = freezed,
     Object? gustStrengthInMilesPerHour = freezed,
+    Object? lightInLux = freezed,
+    Object? uvRadiation = freezed,
     Object? rainInMillimeters = freezed,
     Object? rainInInches = freezed,
     Object? rainRateMillimeterPerHour = freezed,
     Object? rainRateInchesPerHour = freezed,
     Object? pressureInhPa = freezed,
-    Object? lightInLux = freezed,
-    Object? uvRadiation = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id ? _value.id : id,
@@ -248,6 +258,14 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
           ? _value.gustStrengthInMilesPerHour
           : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
+      lightInLux: freezed == lightInLux
+          ? _value.lightInLux
+          : lightInLux // ignore: cast_nullable_to_non_nullable
+              as int?,
+      uvRadiation: freezed == uvRadiation
+          ? _value.uvRadiation
+          : uvRadiation // ignore: cast_nullable_to_non_nullable
+              as int?,
       rainInMillimeters: freezed == rainInMillimeters
           ? _value.rainInMillimeters
           : rainInMillimeters // ignore: cast_nullable_to_non_nullable
@@ -268,14 +286,6 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
           ? _value.pressureInhPa
           : pressureInhPa // ignore: cast_nullable_to_non_nullable
               as double?,
-      lightInLux: freezed == lightInLux
-          ? _value.lightInLux
-          : lightInLux // ignore: cast_nullable_to_non_nullable
-              as int?,
-      uvRadiation: freezed == uvRadiation
-          ? _value.uvRadiation
-          : uvRadiation // ignore: cast_nullable_to_non_nullable
-              as int?,
     ) as $Val);
   }
 }
@@ -310,13 +320,13 @@ abstract class _$$Rtl433DeviceImplCopyWith<$Res>
       @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
       @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
       @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
+      @JsonKey(name: 'light_lux') int? lightInLux,
+      @JsonKey(name: 'uv') int? uvRadiation,
       @JsonKey(name: 'rain_mm') double? rainInMillimeters,
       @JsonKey(name: 'rain_in') double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
       @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa') double? pressureInhPa,
-      @JsonKey(name: 'light_lux') int? lightInLux,
-      @JsonKey(name: 'uv') int? uvRadiation});
+      @JsonKey(name: 'pressure_hPa') double? pressureInhPa});
 }
 
 /// @nodoc
@@ -351,13 +361,13 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
     Object? gustStrengthInMeterPerSeconds = freezed,
     Object? gustStrengthInKilometerPerHour = freezed,
     Object? gustStrengthInMilesPerHour = freezed,
+    Object? lightInLux = freezed,
+    Object? uvRadiation = freezed,
     Object? rainInMillimeters = freezed,
     Object? rainInInches = freezed,
     Object? rainRateMillimeterPerHour = freezed,
     Object? rainRateInchesPerHour = freezed,
     Object? pressureInhPa = freezed,
-    Object? lightInLux = freezed,
-    Object? uvRadiation = freezed,
   }) {
     return _then(_$Rtl433DeviceImpl(
       id: null == id ? _value.id : id,
@@ -441,6 +451,14 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
           ? _value.gustStrengthInMilesPerHour
           : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
+      lightInLux: freezed == lightInLux
+          ? _value.lightInLux
+          : lightInLux // ignore: cast_nullable_to_non_nullable
+              as int?,
+      uvRadiation: freezed == uvRadiation
+          ? _value.uvRadiation
+          : uvRadiation // ignore: cast_nullable_to_non_nullable
+              as int?,
       rainInMillimeters: freezed == rainInMillimeters
           ? _value.rainInMillimeters
           : rainInMillimeters // ignore: cast_nullable_to_non_nullable
@@ -461,14 +479,6 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
           ? _value.pressureInhPa
           : pressureInhPa // ignore: cast_nullable_to_non_nullable
               as double?,
-      lightInLux: freezed == lightInLux
-          ? _value.lightInLux
-          : lightInLux // ignore: cast_nullable_to_non_nullable
-              as int?,
-      uvRadiation: freezed == uvRadiation
-          ? _value.uvRadiation
-          : uvRadiation // ignore: cast_nullable_to_non_nullable
-              as int?,
     ));
   }
 }
@@ -498,13 +508,13 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
       @JsonKey(name: 'wind_max_m_s') this.gustStrengthInMeterPerSeconds,
       @JsonKey(name: 'wind_max_km_h') this.gustStrengthInKilometerPerHour,
       @JsonKey(name: 'wind_max_mi_h') this.gustStrengthInMilesPerHour,
+      @JsonKey(name: 'light_lux') this.lightInLux,
+      @JsonKey(name: 'uv') this.uvRadiation,
       @JsonKey(name: 'rain_mm') this.rainInMillimeters,
       @JsonKey(name: 'rain_in') this.rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') this.rainRateMillimeterPerHour,
       @JsonKey(name: 'rain_rate_in_h') this.rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa') this.pressureInhPa,
-      @JsonKey(name: 'light_lux') this.lightInLux,
-      @JsonKey(name: 'uv') this.uvRadiation})
+      @JsonKey(name: 'pressure_hPa') this.pressureInhPa})
       : super._();
 
   factory _$Rtl433DeviceImpl.fromJson(Map<String, dynamic> json) =>
@@ -574,30 +584,40 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
   @JsonKey(name: 'wind_max_mi_h')
   final double? gustStrengthInMilesPerHour;
   @override
-  @JsonKey(name: 'rain_mm')
-  final double? rainInMillimeters;
-  @override
-  @JsonKey(name: 'rain_in')
-  final double? rainInInches;
-  @override
-  @JsonKey(name: 'rain_rate_mm_h')
-  final double? rainRateMillimeterPerHour;
-  @override
-  @JsonKey(name: 'rain_rate_in_h')
-  final double? rainRateInchesPerHour;
-  @override
-  @JsonKey(name: 'pressure_hPa')
-  final double? pressureInhPa;
-  @override
   @JsonKey(name: 'light_lux')
   final int? lightInLux;
   @override
   @JsonKey(name: 'uv')
   final int? uvRadiation;
 
+  /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
+  @override
+  @JsonKey(name: 'rain_mm')
+  final double? rainInMillimeters;
+
+  /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
+  @override
+  @JsonKey(name: 'rain_in')
+  final double? rainInInches;
+
+  /// Rainfall rate from rain sensor (in mm) per hour.
+  @override
+  @JsonKey(name: 'rain_rate_mm_h')
+  final double? rainRateMillimeterPerHour;
+
+  /// Rainfall rate from rain sensor (in inches) per hour.
+  @override
+  @JsonKey(name: 'rain_rate_in_h')
+  final double? rainRateInchesPerHour;
+
+  /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
+  @override
+  @JsonKey(name: 'pressure_hPa')
+  final double? pressureInhPa;
+
   @override
   String toString() {
-    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa, lightInLux: $lightInLux, uvRadiation: $uvRadiation)';
+    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, lightInLux: $lightInLux, uvRadiation: $uvRadiation, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
   }
 
   @override
@@ -648,17 +668,17 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
             (identical(other.gustStrengthInMilesPerHour, gustStrengthInMilesPerHour) ||
                 other.gustStrengthInMilesPerHour ==
                     gustStrengthInMilesPerHour) &&
+            (identical(other.lightInLux, lightInLux) ||
+                other.lightInLux == lightInLux) &&
+            (identical(other.uvRadiation, uvRadiation) ||
+                other.uvRadiation == uvRadiation) &&
             (identical(other.rainInMillimeters, rainInMillimeters) ||
                 other.rainInMillimeters == rainInMillimeters) &&
             (identical(other.rainInInches, rainInInches) ||
                 other.rainInInches == rainInInches) &&
-            (identical(other.rainRateMillimeterPerHour, rainRateMillimeterPerHour) ||
-                other.rainRateMillimeterPerHour == rainRateMillimeterPerHour) &&
-            (identical(other.rainRateInchesPerHour, rainRateInchesPerHour) ||
-                other.rainRateInchesPerHour == rainRateInchesPerHour) &&
-            (identical(other.pressureInhPa, pressureInhPa) || other.pressureInhPa == pressureInhPa) &&
-            (identical(other.lightInLux, lightInLux) || other.lightInLux == lightInLux) &&
-            (identical(other.uvRadiation, uvRadiation) || other.uvRadiation == uvRadiation));
+            (identical(other.rainRateMillimeterPerHour, rainRateMillimeterPerHour) || other.rainRateMillimeterPerHour == rainRateMillimeterPerHour) &&
+            (identical(other.rainRateInchesPerHour, rainRateInchesPerHour) || other.rainRateInchesPerHour == rainRateInchesPerHour) &&
+            (identical(other.pressureInhPa, pressureInhPa) || other.pressureInhPa == pressureInhPa));
   }
 
   @JsonKey(ignore: true)
@@ -686,13 +706,13 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
         gustStrengthInMeterPerSeconds,
         gustStrengthInKilometerPerHour,
         gustStrengthInMilesPerHour,
+        lightInLux,
+        uvRadiation,
         rainInMillimeters,
         rainInInches,
         rainRateMillimeterPerHour,
         rainRateInchesPerHour,
-        pressureInhPa,
-        lightInLux,
-        uvRadiation
+        pressureInhPa
       ]);
 
   @JsonKey(ignore: true)
@@ -736,13 +756,14 @@ abstract class _Rtl433Device extends Rtl433Device {
       @JsonKey(name: 'wind_max_km_h')
       final double? gustStrengthInKilometerPerHour,
       @JsonKey(name: 'wind_max_mi_h') final double? gustStrengthInMilesPerHour,
+      @JsonKey(name: 'light_lux') final int? lightInLux,
+      @JsonKey(name: 'uv') final int? uvRadiation,
       @JsonKey(name: 'rain_mm') final double? rainInMillimeters,
       @JsonKey(name: 'rain_in') final double? rainInInches,
       @JsonKey(name: 'rain_rate_mm_h') final double? rainRateMillimeterPerHour,
       @JsonKey(name: 'rain_rate_in_h') final double? rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa') final double? pressureInhPa,
-      @JsonKey(name: 'light_lux') final int? lightInLux,
-      @JsonKey(name: 'uv') final int? uvRadiation}) = _$Rtl433DeviceImpl;
+      @JsonKey(name: 'pressure_hPa')
+      final double? pressureInhPa}) = _$Rtl433DeviceImpl;
   const _Rtl433Device._() : super._();
 
   factory _Rtl433Device.fromJson(Map<String, dynamic> json) =
@@ -812,26 +833,36 @@ abstract class _Rtl433Device extends Rtl433Device {
   @JsonKey(name: 'wind_max_mi_h')
   double? get gustStrengthInMilesPerHour;
   @override
-  @JsonKey(name: 'rain_mm')
-  double? get rainInMillimeters;
-  @override
-  @JsonKey(name: 'rain_in')
-  double? get rainInInches;
-  @override
-  @JsonKey(name: 'rain_rate_mm_h')
-  double? get rainRateMillimeterPerHour;
-  @override
-  @JsonKey(name: 'rain_rate_in_h')
-  double? get rainRateInchesPerHour;
-  @override
-  @JsonKey(name: 'pressure_hPa')
-  double? get pressureInhPa;
-  @override
   @JsonKey(name: 'light_lux')
   int? get lightInLux;
   @override
   @JsonKey(name: 'uv')
   int? get uvRadiation;
+  @override
+
+  /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
+  @JsonKey(name: 'rain_mm')
+  double? get rainInMillimeters;
+  @override
+
+  /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
+  @JsonKey(name: 'rain_in')
+  double? get rainInInches;
+  @override
+
+  /// Rainfall rate from rain sensor (in mm) per hour.
+  @JsonKey(name: 'rain_rate_mm_h')
+  double? get rainRateMillimeterPerHour;
+  @override
+
+  /// Rainfall rate from rain sensor (in inches) per hour.
+  @JsonKey(name: 'rain_rate_in_h')
+  double? get rainRateInchesPerHour;
+  @override
+
+  /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
+  @JsonKey(name: 'pressure_hPa')
+  double? get pressureInhPa;
   @override
   @JsonKey(ignore: true)
   _$$Rtl433DeviceImplCopyWith<_$Rtl433DeviceImpl> get copyWith =>

@@ -5,11 +5,11 @@ import 'package:smart_dash/feature/device/presentation/details/paired_device_det
 import 'package:smart_dash/feature/device/presentation/list/paired_devices_screen.dart';
 
 class DeviceScreens {
-  static const home = '/device';
+  static const home = '/devices';
   static const details = '$home/$_details';
   static const _details = 'details';
 
-  static String toDevicesDetailsPath(
+  static String toDeviceDetailsPath(
     Device device,
   ) =>
       Uri(

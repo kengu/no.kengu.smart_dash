@@ -95,6 +95,8 @@ enum TokenUnit {
   count(''),
   power('W'),
   rain('mm'),
+  rainTotal('mm'),
+  rainRate('mm/h'),
   energy('Wh'),
   voltage('V'),
   humidity('%'),
@@ -103,7 +105,7 @@ enum TokenUnit {
   windSpeed('m/s'),
   gustSpeed('m/s'),
   snowDepth('cm'),
-  snowWeight('kg'),
+  snowWeight('kg/m²'),
   ultraviolet('UVI'),
   temperature('°C');
 

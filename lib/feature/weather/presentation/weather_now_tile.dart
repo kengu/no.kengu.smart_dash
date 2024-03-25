@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/weather/application/weather_service.dart';
+import 'package:smart_dash/feature/weather/application/weather_now_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_instant_widget.dart';
 import 'package:smart_dash/util/data/units.dart';
@@ -37,11 +37,14 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
     if (!widget.device.isPresent) {
       return _buildEmptyTile();
     }
-    final service = ref.watch(weatherServiceProvider);
+    final service = ref.watch(weatherNowServiceProvider);
     final cached = service.getCachedNow(widget.device.value, refresh: true);
     return StreamBuilder<Weather>(
       initialData: cached.orElseNull,
-      stream: service.getNowAsStream(widget.device.value, widget.period),
+      stream: service.getNowAsStream(
+        widget.device.value,
+        period: widget.period,
+      ),
       builder: (context, snapshot) {
         final now = DateTime.now();
         final data = snapshot.data;

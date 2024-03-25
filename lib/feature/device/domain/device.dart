@@ -41,6 +41,8 @@ enum DeviceType {
   /// Program
   program,
 
+  weatherNow,
+
   /// Device unknown to SmartDash
   unknown;
 
@@ -87,8 +89,14 @@ class Device with _$Device {
     /// Get the timestamp for when device's was last updated
     required DateTime lastUpdated,
 
-    /// Get device's measured temperature (default null)
+    /// Get device's measured rain since last measurement (default null)
     double? rain,
+
+    /// Get device's measured rain rate. (default null)
+    double? rainRate,
+
+    /// Get device's measured rain since last reset. Reset method is device dependent. (default null)
+    double? rainTotal,
 
     /// Get device's measured ultraviolet radiation (default null)
     int? ultraviolet,
@@ -219,6 +227,20 @@ enum DeviceCapability {
     TokenType.double,
   ),
 
+  rainRate(
+    'measure_rain_rate',
+    'This implies that the device has '
+        'rain rate measurement (in millimeter per hour) capability',
+    TokenType.double,
+  ),
+
+  rainTotal(
+    'measure_rain_total',
+    'This implies that the device has '
+        'rain total measurement (in millimeter) capability',
+    TokenType.double,
+  ),
+
   windAngle(
     'measure_wind_angle',
     'This implies that the device has '
@@ -275,6 +297,8 @@ enum DeviceCapability {
   );
 
   bool get hasRain => this == rain;
+  bool get hasRainRate => this == rainRate;
+  bool get hasRainTotal => this == rainTotal;
   bool get hasOnOff => this == onOff;
   bool get hasPower => this == power;
   bool get hasEnergy => this == energy;
@@ -297,11 +321,13 @@ enum DeviceCapability {
 }
 
 extension DeviceCapabilityX on List<DeviceCapability> {
-  bool get hasRain => any((c) => c.hasRain);
   bool get hasOnOff => any((c) => c.hasOnOff);
   bool get hasPower => any((c) => c.hasPower);
   bool get hasEnergy => any((c) => c.hasEnergy);
   bool get hasVoltage => any((c) => c.hasVoltage);
+  bool get hasRain => any((c) => c.hasRain);
+  bool get hasRainRate => any((c) => c.hasRainRate);
+  bool get hasRainTotal => any((c) => c.hasRainTotal);
   bool get hasHumidity => any((c) => c.hasHumidity);
   bool get hasWindAngle => any((c) => c.hasWindAngle);
   bool get hasLuminance => any((c) => c.hasLuminance);
@@ -312,14 +338,29 @@ extension DeviceCapabilityX on List<DeviceCapability> {
   bool get hasTargetTemperature => any((c) => c.hasTargetTemperature);
   bool get hasSnowDepth => any((c) => c.hasSnowDepth);
   bool get hasSnowWeight => any((c) => c.hasSnowWeight);
+
+  bool get isWeatherNow => any(
+        (c) => const [
+          DeviceCapability.rain,
+          DeviceCapability.temperature,
+          DeviceCapability.windSpeed,
+          DeviceCapability.windAngle,
+          DeviceCapability.gustSpeed,
+          DeviceCapability.humidity,
+          DeviceCapability.luminance,
+          DeviceCapability.ultraviolet,
+        ].contains(c),
+      );
 }
 
 extension DeviceX on Device {
+  bool get hasRain => capabilities.hasRain;
+  bool get hasRainRate => capabilities.hasRainRate;
+  bool get hasRainTotal => capabilities.hasRainTotal;
   bool get hasOnOff => capabilities.hasOnOff;
   bool get hasPower => capabilities.hasPower;
   bool get hasEnergy => capabilities.hasEnergy;
   bool get hasVoltage => capabilities.hasVoltage;
-  bool get hasRain => capabilities.hasRain;
   bool get hasHumidity => capabilities.hasHumidity;
   bool get hasWindAngle => capabilities.hasWindAngle;
   bool get hasLuminance => capabilities.hasLuminance;
@@ -330,6 +371,7 @@ extension DeviceX on Device {
   bool get hasTargetTemperature => capabilities.hasTargetTemperature;
   bool get hasSnowDepth => capabilities.hasSnowDepth;
   bool get hasSnowWeight => capabilities.hasSnowWeight;
+  bool get isWeatherNow => capabilities.isWeatherNow;
 
   List<Token> toTokens() => capabilities
       .map((e) => switch (e) {
@@ -366,6 +408,20 @@ extension DeviceX on Device {
                 label: name,
                 unit: TokenUnit.rain,
                 type: DeviceCapability.rain.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.rainRate => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.rainRate,
+                type: DeviceCapability.rainRate.type,
+                name: Device.toTokenName(this, e),
+              ),
+            DeviceCapability.rainTotal => Token(
+                tag: e.name,
+                label: name,
+                unit: TokenUnit.rainTotal,
+                type: DeviceCapability.rainTotal.type,
                 name: Device.toTokenName(this, e),
               ),
             DeviceCapability.humidity => Token(

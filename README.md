@@ -20,8 +20,11 @@ A Smart Dashboard App for my personal use.
     * [ ] Actual weather now (tile)
     * [ ] Short-term forecast (tile)
     * [ ] Long-term forecast (table)
-    * [ ] Weather history (diagram)
+    * [ ] Weather history (graph)
     * [ ] Snow weight now (tile)
+- [ ] Implement history details (table + graph) 
+- [ ] Implement scrollable bottom bar using [scrollable_reorderable_navbar](https://pub.dev/packages/scrollable_reorderable_navbar) 
+- [ ] Implement configurable processing delays and throttling
 - [ ] Implement pane-based settings screen on desktop
 - [ ] Implement support for geocoder for address and reverse lookup
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 

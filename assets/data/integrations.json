@@ -8,6 +8,7 @@
     "description": "Enter account email and password",
     "fields": ["username", "password"],
     "instances": 1,
+    "system": false,
     "enabled": true
   },
   {
@@ -19,6 +20,7 @@
     "description": "Enter client information",
     "fields": ["host", "port", "username", "password", "topics"],
     "instances": 1,
+    "system": false,
     "enabled": true
   },
   {
@@ -30,6 +32,7 @@
     "features": ["device"],
     "fields": [],
     "instances": 1,
+    "system": false,
     "enabled": true
   },
   {
@@ -41,6 +44,7 @@
     "description": "Enter account email and password",
     "fields": ["username", "password"],
     "instances": 1,
+    "system": false,
     "enabled": false
   },
   {
@@ -52,6 +56,7 @@
     "fields": ["username", "password"],
     "description": "Enter account email and password",
     "instances": 1,
+    "system": false,
     "enabled": false
   },
   {
@@ -63,6 +68,19 @@
     "description": "Enter camera information",
     "fields": ["device", "host", "port", "username", "password"],
     "instances": 4,
+    "system": false,
+    "enabled": true
+  },
+  {
+    "key": "metno",
+    "name": "MET Location Forecast API",
+    "image": "met.png",
+    "category": "Weather Services",
+    "features": ["data", "device", "weather"],
+    "description": "Enable weather forecasts",
+    "fields": [],
+    "instances": 1,
+    "system": false,
     "enabled": true
   },
   {
@@ -74,6 +92,7 @@
     "description": "Enter account information",
     "fields": ["username", "password"],
     "instances": 1,
+    "system": false,
     "enabled": true
   }
 ]

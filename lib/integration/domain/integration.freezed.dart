@@ -22,6 +22,7 @@ Integration _$IntegrationFromJson(Map<String, dynamic> json) {
 mixin _$Integration {
   String get key => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  bool get system => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   bool get enabled => throw _privateConstructorUsedError;
   int get instances => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $IntegrationCopyWith<$Res> {
   $Res call(
       {String key,
       String name,
+      bool system,
       String image,
       bool enabled,
       int instances,
@@ -69,6 +71,7 @@ class _$IntegrationCopyWithImpl<$Res, $Val extends Integration>
   $Res call({
     Object? key = null,
     Object? name = null,
+    Object? system = null,
     Object? image = null,
     Object? enabled = null,
     Object? instances = null,
@@ -86,6 +89,10 @@ class _$IntegrationCopyWithImpl<$Res, $Val extends Integration>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      system: null == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as bool,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -129,6 +136,7 @@ abstract class _$$IntegrationImplCopyWith<$Res>
   $Res call(
       {String key,
       String name,
+      bool system,
       String image,
       bool enabled,
       int instances,
@@ -151,6 +159,7 @@ class __$$IntegrationImplCopyWithImpl<$Res>
   $Res call({
     Object? key = null,
     Object? name = null,
+    Object? system = null,
     Object? image = null,
     Object? enabled = null,
     Object? instances = null,
@@ -168,6 +177,10 @@ class __$$IntegrationImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      system: null == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as bool,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -206,6 +219,7 @@ class _$IntegrationImpl implements _Integration {
   const _$IntegrationImpl(
       {required this.key,
       required this.name,
+      required this.system,
       required this.image,
       required this.enabled,
       required this.instances,
@@ -223,6 +237,8 @@ class _$IntegrationImpl implements _Integration {
   final String key;
   @override
   final String name;
+  @override
+  final bool system;
   @override
   final String image;
   @override
@@ -251,7 +267,7 @@ class _$IntegrationImpl implements _Integration {
 
   @override
   String toString() {
-    return 'Integration(key: $key, name: $name, image: $image, enabled: $enabled, instances: $instances, category: $category, description: $description, fields: $fields, features: $features)';
+    return 'Integration(key: $key, name: $name, system: $system, image: $image, enabled: $enabled, instances: $instances, category: $category, description: $description, fields: $fields, features: $features)';
   }
 
   @override
@@ -261,6 +277,7 @@ class _$IntegrationImpl implements _Integration {
             other is _$IntegrationImpl &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.system, system) || other.system == system) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.enabled, enabled) || other.enabled == enabled) &&
             (identical(other.instances, instances) ||
@@ -279,6 +296,7 @@ class _$IntegrationImpl implements _Integration {
       runtimeType,
       key,
       name,
+      system,
       image,
       enabled,
       instances,
@@ -305,6 +323,7 @@ abstract class _Integration implements Integration {
   const factory _Integration(
       {required final String key,
       required final String name,
+      required final bool system,
       required final String image,
       required final bool enabled,
       required final int instances,
@@ -320,6 +339,8 @@ abstract class _Integration implements Integration {
   String get key;
   @override
   String get name;
+  @override
+  bool get system;
   @override
   String get image;
   @override

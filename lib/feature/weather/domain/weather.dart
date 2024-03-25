@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/num.dart';
 
 part 'weather.freezed.dart';
@@ -10,9 +11,13 @@ part 'weather.g.dart';
 class Weather with _$Weather {
   const Weather._();
   const factory Weather({
+    @JsonKey(name: 'service') required String service,
     @JsonKey(name: 'geometry') required PointGeometry geometry,
     @JsonKey(name: 'properties') required WeatherProperties props,
+    @JsonKey(name: 'observedBy') Identity? observedBy,
   }) = _Weather;
+
+  bool get isObservation => observedBy != null;
 
   factory Weather.fromJson(Map<String, Object?> json) =>
       _$WeatherFromJson(json);
@@ -58,7 +63,7 @@ class Weather with _$Weather {
     return step;
   }
 
-  double toPrecipitationAmount(int hours) {
+  double toPrecipitationForecastAmount(int hours) {
     final steps = props.timeseries
         .take(hours)
         .map((e) => e.data.next1h?.details)
@@ -185,6 +190,9 @@ class WeatherInstantDetails with _$WeatherInstantDetails {
 
     /// Ultraviolet radiation (in UV index, UVI)
     @JsonKey(name: 'ultraviolet_radiation') int? ultravioletRadiation,
+
+    /// Amount of precipitation in mm water equivalents
+    @JsonKey(name: 'precipitation_amount') double? precipitationAmount,
   }) = _WeatherInstantDetails;
 
   factory WeatherInstantDetails.fromJson(Map<String, Object?> json) =>
@@ -277,8 +285,14 @@ class PointGeometry with _$PointGeometry {
     @JsonKey(name: 'coordinates') required List<double> coords,
   }) = _PointGeometry;
 
+  double get lon => coords.length > 1 ? coords[0] : double.nan;
+  double get lat => coords.length > 1 ? coords[1] : double.nan;
+  double get alt => coords.length > 2 ? coords[2] : double.nan;
+
   factory PointGeometry.fromJson(Map<String, Object?> json) =>
       _$PointGeometryFromJson(json);
+
+  bool isHere(double lon, double lat) => this.lon == lon && this.lat == lat;
 }
 
 @freezed

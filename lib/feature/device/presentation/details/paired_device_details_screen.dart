@@ -51,7 +51,7 @@ class _PairedDeviceDetailsScreenState
               final unpaired = await _unpair(context);
               if (unpaired) {
                 setState(() {
-                  context.push(widget.location);
+                  context.go(widget.location);
                 });
               }
             },

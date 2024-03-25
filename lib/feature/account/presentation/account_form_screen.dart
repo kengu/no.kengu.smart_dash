@@ -50,7 +50,9 @@ class AccountFormScreen extends ConsumerWidget {
                       scrollable: true,
                       query: AccountQuery(
                         userId: user.userId,
-                        serviceKeys: integrations.keys,
+                        serviceKeys: integrations.entries
+                            .where((e) => !e.value.system)
+                            .map((e) => e.key),
                       ),
                       provider: accountFormScreenControllerProvider.call,
                       onClose: () => context.go(location),
