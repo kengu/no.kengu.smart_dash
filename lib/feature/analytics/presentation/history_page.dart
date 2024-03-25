@@ -173,9 +173,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   List<TimeSeries> _update(HistoryEvent e) {
-    return _series
-      ..remove(e.data)
-      ..add(e.data);
+    if (e.data.name.contains(_filter)) {
+      _series
+        ..remove(e.data)
+        ..add(e.data);
+    }
+    return _series;
   }
 }
 
