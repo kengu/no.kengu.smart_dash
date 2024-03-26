@@ -64,7 +64,7 @@ class HomePage extends ConsumerWidget {
                         return WeatherNowTile(
                           key: GlobalObjectKey(item),
                           place: 'Tindefjell',
-                          title: 'On backside',
+                          title: 'Front door',
                           withWind: false,
                           withPrecipitation: false,
                           device: home.getIdentity(
