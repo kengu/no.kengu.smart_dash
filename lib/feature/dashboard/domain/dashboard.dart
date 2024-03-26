@@ -16,15 +16,18 @@ class Dashboard with _$Dashboard {
     required String title,
     required List<Token> tokens,
     required List<Identity> ids,
-    required int mobileSlotCount,
-    required int tabletSlotCount,
-    required int desktopSlotCount,
-    required int mobileLargeSlotCount,
-    required List<DashboardItem> mobile,
-    required List<DashboardItem> tablet,
-    required List<DashboardItem> desktop,
-    required List<DashboardItem> mobileLarge,
+    required DashboardLayout mobile,
+    required DashboardLayout tablet,
+    required DashboardLayout desktop,
+    required DashboardLayout mobileLarge,
   }) = _Dashboard;
+
+  int get mobileSlotCount => mobile.slotCount;
+  int get tabletSlotCount => tablet.slotCount;
+  int get desktopSlotCount => desktop.slotCount;
+  int get mobileLargeSlotCount => mobileLarge.slotCount;
+
+  List<DashboardLayout> get layouts => [mobile, mobileLarge, tablet, desktop];
 
   Optional<Identity> getIdentity(String id) {
     return ids.firstWhereOptional(
@@ -38,8 +41,29 @@ class Dashboard with _$Dashboard {
     );
   }
 
+  double getSlotHeight(int slotCount, [double useDefault = 280]) {
+    final found = layouts.firstWhereOptional((e) => e.slotCount == slotCount);
+    return found.isPresent ? found.value.slotHeight : useDefault;
+  }
+
+  Optional<DashboardLayout> getLayout(int slotCount) {
+    return layouts.firstWhereOptional((e) => e.slotCount == slotCount);
+  }
+
   factory Dashboard.fromJson(Map<String, Object?> json) =>
       _$DashboardFromJson(json);
+}
+
+@freezed
+class DashboardLayout with _$DashboardLayout {
+  const factory DashboardLayout({
+    @JsonKey(name: 'slotCount') required int slotCount,
+    @JsonKey(name: 'slotHeight') required double slotHeight,
+    @JsonKey(name: 'items') required List<DashboardItem> items,
+  }) = _DashboardLayout;
+
+  factory DashboardLayout.fromJson(Map<String, Object?> json) =>
+      _$DashboardLayoutFromJson(json);
 }
 
 @freezed

@@ -18,10 +18,10 @@ class SmartDashboard extends StatefulWidget {
     this.cacheSlotCount = 10,
   });
 
-  final double slotHeight;
   final int cacheSlotCount;
   final SmartDashboardItemStorage storage;
   final DashboardItemSlotBuilder itemBuilder;
+  final double Function(int slotCount) slotHeight;
 
   @override
   State<SmartDashboard> createState() => _SmartDashboardState();
@@ -74,6 +74,7 @@ class _SmartDashboardState extends State<SmartDashboard> {
   }
 
   Dashboard<DashboardItem> _build(ResponsiveType type, int slotCount) {
+    final slotHeight = widget.slotHeight(slotCount);
     return Dashboard(
       slideToTop: false,
       shrinkToPlace: true,
@@ -87,9 +88,9 @@ class _SmartDashboardState extends State<SmartDashboard> {
       physics: const RangeMaintainingScrollPhysics(
         parent: AlwaysScrollableScrollPhysics(),
       ),
-      slotHeight: widget.slotHeight,
+      slotHeight: slotHeight,
       errorPlaceholder: (e, s) => Text("$e , $s"),
-      cacheExtend: widget.slotHeight * widget.cacheSlotCount,
+      cacheExtend: slotHeight * widget.cacheSlotCount,
       itemBuilder: (item) => widget.itemBuilder(type, slotCount, item),
     );
   }

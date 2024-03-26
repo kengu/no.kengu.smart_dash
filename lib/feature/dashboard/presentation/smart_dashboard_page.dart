@@ -18,14 +18,12 @@ class SmartDashboardPage extends ConsumerWidget {
     super.key,
     required this.name,
     required this.title,
-    required this.slotHeight,
     required this.pageItemBuilder,
     this.cacheSlotCount = 10,
   });
 
   final String name;
   final String title;
-  final double slotHeight;
   final int cacheSlotCount;
   final DashboardPageItemBuilder pageItemBuilder;
 
@@ -44,19 +42,19 @@ class SmartDashboardPage extends ConsumerWidget {
               tabletSlotCount: page.tabletSlotCount,
               desktopSlotCount: page.desktopSlotCount,
               mobileLargeSlotCount: page.mobileLargeSlotCount,
-              mobile: page.mobile
+              mobile: page.mobile.items
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
                   .toList(),
-              tablet: page.tablet
+              tablet: page.tablet.items
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
                   .toList(),
-              desktop: page.desktop
+              desktop: page.desktop.items
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
                   .toList(),
-              mobileLarge: page.mobileLarge
+              mobileLarge: page.mobileLarge.items
                   .map((e) => e.toJson())
                   .map((e) => DashboardItem.fromMap(e))
                   .toList(),
@@ -74,7 +72,7 @@ class SmartDashboardPage extends ConsumerWidget {
                         : const EdgeInsets.only(top: 0.0),
                     child: SmartDashboard(
                       storage: storage,
-                      slotHeight: slotHeight,
+                      slotHeight: (slotCount) => page.getSlotHeight(slotCount),
                       itemBuilder: (type, slotCount, item) => pageItemBuilder(
                         page,
                         type,

@@ -45,7 +45,7 @@ class _CameraPageState extends ConsumerState<FlowsPage> {
                       ? const EdgeInsets.only(top: 56.0)
                       : const EdgeInsets.only(top: 0.0),
                   child: SmartDashboard(
-                    slotHeight: 380,
+                    slotHeight: (_) => 380,
                     storage: SmartDashboardItemStorage(
                       mobileSlotCount: 1,
                       tabletSlotCount: 2,

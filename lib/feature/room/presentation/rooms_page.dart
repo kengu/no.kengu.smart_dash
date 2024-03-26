@@ -16,7 +16,6 @@ class RoomsPage extends ConsumerWidget {
     return SmartDashboardPage(
         name: 'rooms',
         title: 'Rooms',
-        slotHeight: 200,
         pageItemBuilder: (rooms, type, slotsCount, item) {
           return ThermostatTile(
             subTitle: 'Tindefjell',

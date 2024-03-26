@@ -48,9 +48,37 @@ class HomePage extends ConsumerWidget {
               return SmartDashboardPage(
                   name: 'home',
                   title: 'Home',
-                  slotHeight: 280,
                   pageItemBuilder: (home, type, slotsCount, item) {
                     switch (item.identifier) {
+                      case 'weather_now':
+                        // TODO: Add support for device ids in
+                        return WeatherNowTile(
+                          key: GlobalObjectKey(item),
+                          place: 'Tindefjell',
+                          device: home.getIdentity(
+                            'rtl_433:cotech-367959-130',
+                          ),
+                        );
+                      case 'temp_backside':
+                        // TODO: Add support for device ids in
+                        return WeatherNowTile(
+                          key: GlobalObjectKey(item),
+                          place: 'Tindefjell',
+                          title: 'On backside',
+                          withWind: false,
+                          withPrecipitation: false,
+                          device: home.getIdentity(
+                            'rtl_433:fineoffset-telldusproove-199',
+                          ),
+                        );
+                      case 'weather_forecast':
+                        // TODO: Make location name configurable
+                        return WeatherForecastTile(
+                          key: GlobalObjectKey(item),
+                          lat: 60.0802,
+                          lon: 8.8168,
+                          place: 'Tindefjell',
+                        );
                       case 'meter_energy:sikom:device:541905':
                         return EnergyUsageTile<int>(
                           key: GlobalObjectKey(item),
@@ -115,23 +143,6 @@ class HomePage extends ConsumerWidget {
                           power: home.getToken(
                             'measure_power:sikom:device:541905',
                           ),
-                        );
-                      case 'weather_now':
-                        // TODO: Add support for device ids in
-                        return WeatherNowTile(
-                          key: GlobalObjectKey(item),
-                          place: 'Tindefjell',
-                          device: home.getIdentity(
-                            'rtl_433:cotech-367959-130',
-                          ),
-                        );
-                      case 'weather_forecast':
-                        // TODO: Make location name configurable
-                        return WeatherForecastTile(
-                          key: GlobalObjectKey(item),
-                          lat: 60.0802,
-                          lon: 8.8168,
-                          place: 'Tindefjell',
                         );
                       case 'snow_now':
                         return SnowNowTile(

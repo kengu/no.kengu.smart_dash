@@ -14,11 +14,28 @@ class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
     super.key,
     required this.place,
     required this.device,
+    this.title = 'Weather Now',
+    this.withWind = true,
+    this.withSymbol = false,
+    this.withPrecipitation = true,
+    this.withLightLuminance = false,
+    this.withRelativeHumidity = true,
+    this.withCloudAreaFraction = false,
+    this.withUltravioletRadiation = false,
     this.period = const Duration(seconds: 5),
   });
   final String place;
+  final String title;
   final Duration period;
   final Optional<Identity> device;
+
+  final bool withWind;
+  final bool withSymbol;
+  final bool withPrecipitation;
+  final bool withLightLuminance;
+  final bool withRelativeHumidity;
+  final bool withCloudAreaFraction;
+  final bool withUltravioletRadiation;
 
   @override
   ConsumerState<WeatherNowTile> createState() => _WeatherNowTileState();
@@ -54,7 +71,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
         }
         final index = data!.props.timeseries.indexOf(weather);
         return SmartDashTile(
-          title: 'Weather Now',
+          title: widget.title,
           subtitle: widget.place,
           constraints: constraints,
           leading: const Icon(
@@ -76,16 +93,16 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 800),
                 child: WeatherInstantWidget(
-                  withWind: true,
-                  withSymbol: false,
-                  withPrecipitation: true,
-                  withLightLuminance: false,
-                  withRelativeHumidity: true,
-                  withCloudAreaFraction: false,
-                  withUltravioletRadiation: false,
                   index: index,
                   weather: data,
                   isForecast: false,
+                  withWind: widget.withWind,
+                  withSymbol: widget.withSymbol,
+                  withPrecipitation: widget.withPrecipitation,
+                  withLightLuminance: widget.withLightLuminance,
+                  withRelativeHumidity: widget.withRelativeHumidity,
+                  withCloudAreaFraction: widget.withCloudAreaFraction,
+                  withUltravioletRadiation: widget.withUltravioletRadiation,
                 ),
               ),
             ],
@@ -97,7 +114,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
 
   SmartDashTile _buildEmptyTile() {
     return _buildTile(
-      title: 'Weather Now',
+      title: widget.title,
       subtitle: widget.place,
       body: const Center(
         child: CircularProgressIndicator(

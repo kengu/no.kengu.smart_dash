@@ -27,7 +27,6 @@ class WeatherInstantWidget extends StatelessWidget {
   final int index;
   final Weather weather;
   final bool isForecast;
-
   final bool withWind;
   final bool withSymbol;
   final bool withPrecipitation;
@@ -44,44 +43,47 @@ class WeatherInstantWidget extends StatelessWidget {
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
     final legendColor = surfaceColor.lighten(0.2);
     final textStyle = getLegendTextStyle(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (withSymbol) toWeatherSymbol(step, 120),
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (withWind) ...[
-              _buildWind(instant, legendColor, textStyle),
-              const SizedBox(height: 8),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (withSymbol) toWeatherSymbol(step, 110),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (withWind) ...[
+                _buildWind(instant, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
+              if (withPrecipitation) ...[
+                _buildPrecipitation(airTemp, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
+              if (withCloudAreaFraction) ...[
+                _buildCloudAreaFraction(instant, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
+              if (withRelativeHumidity) ...[
+                _buildRelativeHumidity(instant, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
+              if (withUltravioletRadiation) ...[
+                _buildUltravioletRadiation(instant, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
+              if (withLightLuminance) ...[
+                _buildLightLuminance(instant, legendColor, textStyle),
+                const SizedBox(height: 8),
+              ],
             ],
-            if (withPrecipitation) ...[
-              _buildPrecipitation(airTemp, legendColor, textStyle),
-              const SizedBox(height: 8),
-            ],
-            if (withCloudAreaFraction) ...[
-              _buildCloudAreaFraction(instant, legendColor, textStyle),
-              const SizedBox(height: 8),
-            ],
-            if (withRelativeHumidity) ...[
-              _buildRelativeHumidity(instant, legendColor, textStyle),
-              const SizedBox(height: 8),
-            ],
-            if (withUltravioletRadiation) ...[
-              _buildUltravioletRadiation(instant, legendColor, textStyle),
-              const SizedBox(height: 8),
-            ],
-            if (withLightLuminance) ...[
-              _buildLightLuminance(instant, legendColor, textStyle),
-              const SizedBox(height: 8),
-            ],
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -151,6 +153,7 @@ class WeatherInstantWidget extends StatelessWidget {
             '${index > 1 ? index : 24}h'
           ].join(' '),
           style: textStyle,
+          overflow: TextOverflow.fade,
         )
       ],
     );
