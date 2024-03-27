@@ -55,13 +55,13 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
       return _buildEmptyTile();
     }
     final service = ref.watch(weatherNowServiceProvider);
-    final cached = service.getCachedNow(widget.device.value, refresh: true);
     return StreamBuilder<Weather>(
-      initialData: cached.orElseNull,
       stream: service.getNowAsStream(
         widget.device.value,
+        refresh: true,
         period: widget.period,
       ),
+      initialData: service.getCachedNow(widget.device.value).orElseNull,
       builder: (context, snapshot) {
         final now = DateTime.now();
         final data = snapshot.data;

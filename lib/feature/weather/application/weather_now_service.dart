@@ -32,16 +32,10 @@ class WeatherNowService {
 
   Stream<List<Weather>> get updates => _updates.stream;
 
-  Optional<Weather> getCachedNow(Identity id, {bool refresh = false}) {
-    try {
-      return Optional.ofNullable(
-        _cache.get<Weather>('device:$id').orElseNull,
-      );
-    } finally {
-      if (refresh) {
-        unawaited(getNow(id));
-      }
-    }
+  Optional<Weather> getCachedNow(Identity id) {
+    return Optional.ofNullable(
+      _cache.get<Weather>('device:$id').orElseNull,
+    );
   }
 
   Future<Optional<Weather>> getNow(Identity id, {Duration? ttl}) async {
@@ -58,8 +52,16 @@ class WeatherNowService {
     }, ttl: ttl);
   }
 
-  Stream<Weather> getNowAsStream(Identity id,
-      {Duration period = const Duration(seconds: 10)}) async* {
+  Stream<Weather> getNowAsStream(
+    Identity id, {
+    bool refresh = false,
+    Duration period = const Duration(seconds: 10),
+  }) async* {
+    if (refresh) {
+      final next = await getNow(id);
+      if (next.isPresent) yield next.value;
+    }
+
     await for (final e in ref
         .read(deviceServiceProvider)
         .devices
