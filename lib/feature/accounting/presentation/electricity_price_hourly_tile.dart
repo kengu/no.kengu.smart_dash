@@ -44,8 +44,8 @@ class ElectricityPriceHourlyTile<T extends num> extends ConsumerWidget {
             Icons.attach_money,
             color: Colors.lightGreen,
           ),
-          valueBuilder: (data) => data.toPrice('kr'),
           pointLabeler: (data) => data.toPrice('kr'),
+          valueBuilder: (data) => data.toPrice('kr', index: now),
           pointSelector: (index, key) => index == now || kLine.contains(key),
           lineLabeler: (double index) => '${history.tsAt(index.ceil()).hour}h',
         );
