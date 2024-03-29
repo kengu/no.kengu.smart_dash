@@ -24,7 +24,7 @@ class CameraScreen extends StatelessWidget {
         onClose: () => context.go(location),
         constraints: constraints,
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: LimitedBox(
             maxWidth: constraints.maxWidth,
             maxHeight: constraints.maxWidth / 1.68,

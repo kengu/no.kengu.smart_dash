@@ -244,7 +244,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
     if (widget.config.isPresent) {
       final config = widget.config.value;
       final url = 'rtsp://${config.username}:${config.password}'
-          '@${config.host}:${config.port}/videoSub';
+          '@${config.host}:${config.port}/videoMain';
       _videoConfig = Optional.of((config, url));
       await _videoPlayer.open(Media(url));
       _snapshotTimer?.cancel();
