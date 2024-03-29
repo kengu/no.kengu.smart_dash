@@ -29,12 +29,6 @@ mixin _$Token {
   /// Get token label
   String get label => throw _privateConstructorUsedError;
 
-  /// Get token type
-  TokenType get type => throw _privateConstructorUsedError;
-
-  /// Get token unit
-  TokenUnit get unit => throw _privateConstructorUsedError;
-
   /// Get device capability
   DeviceCapability get capability => throw _privateConstructorUsedError;
 
@@ -49,12 +43,7 @@ abstract class $TokenCopyWith<$Res> {
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
   $Res call(
-      {String tag,
-      String name,
-      String label,
-      TokenType type,
-      TokenUnit unit,
-      DeviceCapability capability});
+      {String tag, String name, String label, DeviceCapability capability});
 }
 
 /// @nodoc
@@ -73,8 +62,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? tag = null,
     Object? name = null,
     Object? label = null,
-    Object? type = null,
-    Object? unit = null,
     Object? capability = null,
   }) {
     return _then(_value.copyWith(
@@ -90,14 +77,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as TokenType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as TokenUnit,
       capability: null == capability
           ? _value.capability
           : capability // ignore: cast_nullable_to_non_nullable
@@ -114,12 +93,7 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String tag,
-      String name,
-      String label,
-      TokenType type,
-      TokenUnit unit,
-      DeviceCapability capability});
+      {String tag, String name, String label, DeviceCapability capability});
 }
 
 /// @nodoc
@@ -136,8 +110,6 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? tag = null,
     Object? name = null,
     Object? label = null,
-    Object? type = null,
-    Object? unit = null,
     Object? capability = null,
   }) {
     return _then(_$TokenImpl(
@@ -153,14 +125,6 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as TokenType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as TokenUnit,
       capability: null == capability
           ? _value.capability
           : capability // ignore: cast_nullable_to_non_nullable
@@ -176,8 +140,6 @@ class _$TokenImpl extends _Token {
       {required this.tag,
       required this.name,
       required this.label,
-      required this.type,
-      required this.unit,
       required this.capability})
       : super._();
 
@@ -196,21 +158,13 @@ class _$TokenImpl extends _Token {
   @override
   final String label;
 
-  /// Get token type
-  @override
-  final TokenType type;
-
-  /// Get token unit
-  @override
-  final TokenUnit unit;
-
   /// Get device capability
   @override
   final DeviceCapability capability;
 
   @override
   String toString() {
-    return 'Token(tag: $tag, name: $name, label: $label, type: $type, unit: $unit, capability: $capability)';
+    return 'Token(tag: $tag, name: $name, label: $label, capability: $capability)';
   }
 
   @override
@@ -221,16 +175,13 @@ class _$TokenImpl extends _Token {
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.capability, capability) ||
                 other.capability == capability));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, tag, name, label, type, unit, capability);
+  int get hashCode => Object.hash(runtimeType, tag, name, label, capability);
 
   @JsonKey(ignore: true)
   @override
@@ -251,8 +202,6 @@ abstract class _Token extends Token {
       {required final String tag,
       required final String name,
       required final String label,
-      required final TokenType type,
-      required final TokenUnit unit,
       required final DeviceCapability capability}) = _$TokenImpl;
   const _Token._() : super._();
 
@@ -270,14 +219,6 @@ abstract class _Token extends Token {
 
   /// Get token label
   String get label;
-  @override
-
-  /// Get token type
-  TokenType get type;
-  @override
-
-  /// Get token unit
-  TokenUnit get unit;
   @override
 
   /// Get device capability

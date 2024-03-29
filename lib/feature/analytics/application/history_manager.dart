@@ -6,6 +6,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
+import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/flow.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
@@ -88,15 +89,13 @@ class HistoryManager {
     );
   }
 
-  /// Load current tokens from storage
   Future<List<Token>> getTokens([Duration? ttl]) async {
-    return _cache.getOrFetch('tokens', () async {
-      return await ref.read(timeSeriesRepositoryProvider).getTokens();
-    }, ttl: ttl);
+    // TODO: Limit to tokens with history only
+    return ref.read(deviceServiceProvider).getTokens();
   }
 
-  /// Get all tokens loaded in manager
-  Optional<List<Token>> getTokensCached() => _cache.get('tokens');
+  Optional<List<Token>> getTokensCached() =>
+      ref.read(deviceServiceProvider).getCachedTokens();
 
   Future<List<TimeSeries>> getAll({
     DateTime? when,

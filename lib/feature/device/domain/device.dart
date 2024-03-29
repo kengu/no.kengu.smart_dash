@@ -185,7 +185,12 @@ class Device with _$Device {
   }) = _Device;
 
   static String toTokenName(Device device, DeviceCapability e) {
-    return [e.variable, device.service, 'device', device.id].join(':');
+    return Token.toName(
+      e.variable,
+      device.service,
+      'device',
+      device.id,
+    );
   }
 
   factory Device.fromJson(Map<String, Object?> json) => _$DeviceFromJson(json);
@@ -210,9 +215,13 @@ class Identity with _$Identity {
         serviceKey: device.service,
       );
 
-  static Identity fromToken(Token token) {
-    final parts = token.name.split(':');
-    assert(parts.length == 4, 'Token name ${token.name} is not a device');
+  factory Identity.fromToken(Token token) {
+    return Identity.fromId(token.name);
+  }
+
+  factory Identity.fromId(String id) {
+    final parts = id.split(':');
+    assert(parts.length == 4, '$id is not a device id');
     return Identity(
       deviceId: parts[3],
       serviceKey: parts[1],
@@ -532,8 +541,6 @@ enum DeviceCapability {
   Token toToken(Device device) {
     return Token(
       tag: name,
-      type: type,
-      unit: unit,
       capability: this,
       label: device.name,
       name: Device.toTokenName(device, this),

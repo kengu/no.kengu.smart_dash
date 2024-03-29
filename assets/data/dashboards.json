@@ -17,24 +17,18 @@
         "tag": "energy",
         "name": "meter_energy:sikom:device:541905",
         "label": "Effektstyring",
-        "type": "int",
-        "unit": "energy",
         "capability": "energy"
       },
       {
         "tag": "power",
         "name": "measure_power:sikom:device:541905",
         "label": "Effektstyring",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "voltage",
         "name": "measure_voltage:sikom:device:541905",
         "label": "Effektstyring",
-        "type": "int",
-        "unit": "voltage",
         "capability": "voltage"
       }
     ],
@@ -745,88 +739,66 @@
         "tag": "power",
         "name": "measure_temperature:sikom:device:540241",
         "label": "Gang",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540242",
         "label": "Vaskerom",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540243",
         "label": "Bad forside",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540244",
         "label": "Stue/spisestue",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:541890",
         "label": "Bod",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540319",
         "label": "Bad bakside",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540320",
         "label": "Soverom gjester",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540321",
         "label": "Soverom Ella",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540322",
         "label": "Soverom foreldre",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540323",
         "label": "Hems Emil",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       },
       {
         "tag": "power",
         "name": "measure_temperature:sikom:device:540324",
         "label": "Hems Noah",
-        "type": "int",
-        "unit": "power",
         "capability": "power"
       }
     ],

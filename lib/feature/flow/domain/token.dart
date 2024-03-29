@@ -26,15 +26,12 @@ class Token with _$Token {
     /// Get token label
     required String label,
 
-    /// Get token type
-    required TokenType type,
-
-    /// Get token unit
-    required TokenUnit unit,
-
     /// Get device capability
     required DeviceCapability capability,
   }) = _Token;
+
+  TokenType get type => capability.type;
+  TokenUnit get unit => capability.unit;
 
   bool isType<T>(T data) => switch (type) {
         TokenType.int => data is int,
@@ -59,6 +56,10 @@ class Token with _$Token {
   }
 
   factory Token.fromJson(Map<String, Object?> json) => _$TokenFromJson(json);
+
+  static toName(String variable, String service, String type, String id) {
+    return [variable, service, type, id].join(':');
+  }
 }
 
 enum TokenType {

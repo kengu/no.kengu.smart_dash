@@ -251,8 +251,6 @@ class BlockVariable with _$BlockVariable {
   Token toToken() => Token(
         tag: tag,
         name: name,
-        unit: unit,
-        type: type,
         label: label,
         capability: DeviceCapability.value,
       );

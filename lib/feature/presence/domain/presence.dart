@@ -24,17 +24,15 @@ class Presence with _$Presence {
   static Presence empty(Token token) => Presence(
         token: token,
         isHome: false,
-        when: DateTime.now(),
         members: const [],
+        when: DateTime.now(),
       );
 
   static Token toHomeToken(Home home) {
     return Token(
       tag: 'presence',
       label: home.name,
-      type: TokenType.int,
-      unit: TokenUnit.onOff,
-      capability: DeviceCapability.onOff,
+      capability: DeviceCapability.value,
       // TODO: Add unique home id using nanoid
       name: 'presence:${home.name.toLowerCase()}',
     );
@@ -44,8 +42,6 @@ class Presence with _$Presence {
     return Token(
       tag: 'presence',
       label: data.readableName,
-      unit: TokenUnit.onOff,
-      type: DeviceCapability.onOff.type,
       capability: DeviceCapability.onOff,
       name: data.macAddress == null
           ? 'presence:ip:${data.ipAddress}'

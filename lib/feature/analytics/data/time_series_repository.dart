@@ -7,7 +7,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/drift/time_series_database.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/drift/connection.dart';
@@ -22,18 +21,6 @@ class TimeSeriesRepository {
   TimeSeriesDatabase db;
 
   static DateTime toOffset(DateTime when) => TimeSeriesDatabase.toOffset(when);
-
-  Future<List<Token>> getTokens() {
-    return guard(() async {
-      // TODO: Improve tokens lookup, this processes to much data. Store tokens in sqlite table? I think so!
-      final paired = await ref.read(deviceRepositoryProvider).getAll();
-      final tokens = paired.map((e) => e.toTokens()).fold(
-        <Token>[],
-        (tokens, e) => tokens..addAll(e),
-      ).toList();
-      return tokens;
-    });
-  }
 
   Future<Optional<List<TimeSeries>>> getAll(
       List<Token> tokens, DateTime when) async {
