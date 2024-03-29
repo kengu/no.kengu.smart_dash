@@ -35,6 +35,9 @@ mixin _$Token {
   /// Get token unit
   TokenUnit get unit => throw _privateConstructorUsedError;
 
+  /// Get device capability
+  DeviceCapability get capability => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TokenCopyWith<Token> get copyWith => throw _privateConstructorUsedError;
@@ -46,7 +49,12 @@ abstract class $TokenCopyWith<$Res> {
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
   $Res call(
-      {String tag, String name, String label, TokenType type, TokenUnit unit});
+      {String tag,
+      String name,
+      String label,
+      TokenType type,
+      TokenUnit unit,
+      DeviceCapability capability});
 }
 
 /// @nodoc
@@ -67,6 +75,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? label = null,
     Object? type = null,
     Object? unit = null,
+    Object? capability = null,
   }) {
     return _then(_value.copyWith(
       tag: null == tag
@@ -89,6 +98,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as TokenUnit,
+      capability: null == capability
+          ? _value.capability
+          : capability // ignore: cast_nullable_to_non_nullable
+              as DeviceCapability,
     ) as $Val);
   }
 }
@@ -101,7 +114,12 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String tag, String name, String label, TokenType type, TokenUnit unit});
+      {String tag,
+      String name,
+      String label,
+      TokenType type,
+      TokenUnit unit,
+      DeviceCapability capability});
 }
 
 /// @nodoc
@@ -120,6 +138,7 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? label = null,
     Object? type = null,
     Object? unit = null,
+    Object? capability = null,
   }) {
     return _then(_$TokenImpl(
       tag: null == tag
@@ -142,6 +161,10 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as TokenUnit,
+      capability: null == capability
+          ? _value.capability
+          : capability // ignore: cast_nullable_to_non_nullable
+              as DeviceCapability,
     ));
   }
 }
@@ -154,7 +177,8 @@ class _$TokenImpl extends _Token {
       required this.name,
       required this.label,
       required this.type,
-      required this.unit})
+      required this.unit,
+      required this.capability})
       : super._();
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
@@ -180,9 +204,13 @@ class _$TokenImpl extends _Token {
   @override
   final TokenUnit unit;
 
+  /// Get device capability
+  @override
+  final DeviceCapability capability;
+
   @override
   String toString() {
-    return 'Token(tag: $tag, name: $name, label: $label, type: $type, unit: $unit)';
+    return 'Token(tag: $tag, name: $name, label: $label, type: $type, unit: $unit, capability: $capability)';
   }
 
   @override
@@ -194,12 +222,15 @@ class _$TokenImpl extends _Token {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.unit, unit) || other.unit == unit));
+            (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.capability, capability) ||
+                other.capability == capability));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, tag, name, label, type, unit);
+  int get hashCode =>
+      Object.hash(runtimeType, tag, name, label, type, unit, capability);
 
   @JsonKey(ignore: true)
   @override
@@ -221,7 +252,8 @@ abstract class _Token extends Token {
       required final String name,
       required final String label,
       required final TokenType type,
-      required final TokenUnit unit}) = _$TokenImpl;
+      required final TokenUnit unit,
+      required final DeviceCapability capability}) = _$TokenImpl;
   const _Token._() : super._();
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
@@ -246,6 +278,10 @@ abstract class _Token extends Token {
 
   /// Get token unit
   TokenUnit get unit;
+  @override
+
+  /// Get device capability
+  DeviceCapability get capability;
   @override
   @JsonKey(ignore: true)
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -269,17 +270,6 @@ class HistoryEvent {
   bool get isTemperature => token.isTemperature;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is HistoryEvent &&
-          runtimeType == other.runtimeType &&
-          token == other.token &&
-          data == other.data;
-
-  @override
-  int get hashCode => token.hashCode ^ data.hashCode;
-
-  @override
   String toString() {
     return 'HistoryEvent{token: $token}';
   }
@@ -290,8 +280,15 @@ HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref);
 
 @Riverpod(keepAlive: true)
 Stream<HistoryEvent> history(HistoryRef ref, [Token? token]) {
-//  ref.read(historyManagerProvider).pump();
-  return ref.watch(historyManagerProvider).events.where(
-        (e) => token == null || e.token == token,
-      );
+  final manager = ref.watch(historyManagerProvider);
+  manager.pump(tokens: [if (token != null) token]);
+  return manager.events.where(
+    (e) {
+      final match = token == null || e.token == token;
+      if (match) {
+        debugPrint('history >> ${e.runtimeType}[${e.token.name}]');
+      }
+      return match;
+    },
+  );
 }

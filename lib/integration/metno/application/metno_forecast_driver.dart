@@ -6,17 +6,18 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/snow/application/snow_manager.dart';
-import 'package:smart_dash/integration/nysny/domain/nysny_device.dart';
-import 'package:smart_dash/integration/nysny/nysny.dart';
+import 'package:smart_dash/feature/weather/application/weather_forecast_manager.dart';
+import 'package:smart_dash/feature/weather/domain/weather.dart';
+import 'package:smart_dash/integration/metno/domain/metno_forecast_device.dart';
+import 'package:smart_dash/integration/metno/metno.dart';
 import 'package:smart_dash/util/platform.dart';
 
-part 'nysny_driver.g.dart';
+part 'metno_forecast_driver.g.dart';
 
-class NySnyDriver extends ThrottledDeviceDriver {
-  NySnyDriver(Ref ref)
+class MetNoForecastDriver extends ThrottledDeviceDriver {
+  MetNoForecastDriver(Ref ref)
       : super(
-          NySny.key,
+          MetNo.key,
           ref,
           trailing: true,
           throttle: Duration(
@@ -25,10 +26,15 @@ class NySnyDriver extends ThrottledDeviceDriver {
           ),
         );
 
+  // TODO: Implement places in integration
+  final _places = [
+    const PointGeometry(coords: [8.8168, 60.0802]),
+  ];
+
   @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
     debugPrint(
-      '$NySny throttled updates for '
+      '$MetNo throttled updates for '
       '${event.difference(lastEvent.last).inSeconds} sec.',
     );
     final paired = await getPairedDevices();
@@ -41,8 +47,8 @@ class NySnyDriver extends ThrottledDeviceDriver {
   @override
   Future<List<DeviceDefinition>> getDeviceDefinitions() {
     return Future.value(
-      NySny.supportedTypes
-          .map((e) => e.toDefinition(NySny.readableModelName[e] ?? e.name))
+      MetNo.supportedTypes
+          .map((e) => e.toDefinition(MetNo.readableModelName[e] ?? e.name))
           .toList(),
     );
   }
@@ -52,9 +58,13 @@ class NySnyDriver extends ThrottledDeviceDriver {
     DeviceType type = DeviceType.any,
     Iterable<String> ids = const [],
   }) async {
-    final devices = <NySnyDevice>[];
-    for (final states in await ref.read(snowManagerProvider).getStates()) {
-      devices.add(NySnyDevice(state: states));
+    final devices = <MetNoForecastDevice>[];
+    final manager = ref.read(weatherForecastManagerProvider);
+    for (final place in _places) {
+      final result = await manager.getForecasts(lat: place.lat, lon: place.lon);
+      for (final forecast in result) {
+        devices.add(MetNoForecastDevice(state: forecast));
+      }
     }
     return devices
         .map((e) => e.toDevice())
@@ -65,4 +75,5 @@ class NySnyDriver extends ThrottledDeviceDriver {
 }
 
 @Riverpod(keepAlive: true)
-NySnyDriver nySnyDriver(NySnyDriverRef ref) => NySnyDriver(ref);
+MetNoForecastDriver metNoForecastDriver(MetNoForecastDriverRef ref) =>
+    MetNoForecastDriver(ref);

@@ -68,8 +68,8 @@ const _$TokenTypeEnumMap = {
 };
 
 const _$TokenUnitEnumMap = {
+  TokenUnit.value: 'value',
   TokenUnit.onOff: 'onOff',
-  TokenUnit.count: 'count',
   TokenUnit.power: 'power',
   TokenUnit.rain: 'rain',
   TokenUnit.rainTotal: 'rainTotal',
@@ -81,6 +81,7 @@ const _$TokenUnitEnumMap = {
   TokenUnit.luminance: 'luminance',
   TokenUnit.windSpeed: 'windSpeed',
   TokenUnit.gustSpeed: 'gustSpeed',
+  TokenUnit.snow: 'snow',
   TokenUnit.snowDepth: 'snowDepth',
   TokenUnit.snowWeight: 'snowWeight',
   TokenUnit.ultraviolet: 'ultraviolet',

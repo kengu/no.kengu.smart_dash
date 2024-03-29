@@ -33,7 +33,8 @@ class Presence with _$Presence {
       tag: 'presence',
       label: home.name,
       type: TokenType.int,
-      unit: TokenUnit.count,
+      unit: TokenUnit.onOff,
+      capability: DeviceCapability.onOff,
       // TODO: Add unique home id using nanoid
       name: 'presence:${home.name.toLowerCase()}',
     );
@@ -43,8 +44,9 @@ class Presence with _$Presence {
     return Token(
       tag: 'presence',
       label: data.readableName,
-      unit: TokenUnit.count,
+      unit: TokenUnit.onOff,
       type: DeviceCapability.onOff.type,
+      capability: DeviceCapability.onOff,
       name: data.macAddress == null
           ? 'presence:ip:${data.ipAddress}'
           : 'presence:mac:${data.macAddress}',

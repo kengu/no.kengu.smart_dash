@@ -57,20 +57,14 @@ class FlowManager {
   }
 
   /// Bind to stream of [T] events.
-  ///
-  /// Use [limit] to reduce the rate that events
-  /// are processed to at most once per duration
-  void bind<T extends Object>(
-    Stream<T> events, {
-    Duration limit = const Duration(seconds: 5),
-  }) {
+  void bind<T extends Object>(Stream<T> events) {
     final type = typeOf<T>();
     assert(
       !_subscriptions.containsKey(type),
       'Stream of $type already bound',
     );
     _subscriptions[type] =
-        events.throttle(limit).listen(trigger, cancelOnError: false);
+        events.delayed(delay).listen(trigger, cancelOnError: false);
   }
 
   /// Unbind from stream of [T] events

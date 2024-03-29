@@ -167,7 +167,7 @@ class _BlockVariablesList extends ConsumerWidget {
               label: name,
               description: '',
               type: TokenType.int,
-              unit: TokenUnit.count,
+              unit: TokenUnit.value,
             ),
           );
         }

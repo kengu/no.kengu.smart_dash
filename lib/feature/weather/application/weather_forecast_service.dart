@@ -23,14 +23,20 @@ abstract class WeatherForecastService {
 
   Stream<Weather> get updates => _updates.stream;
 
-  Optional<Weather> getCachedForecast(double lat, double lon) {
+  Optional<Weather> getCachedForecast({
+    required double lat,
+    required double lon,
+  }) {
     return Optional.ofNullable(
       _cache.get<WeatherResponse>('forecast:$lat:$lon').orElseNull?.data,
     );
   }
 
-  Future<Optional<Weather>> getForecast(double lat, double lon,
-      {Duration? ttl}) async {
+  Future<Optional<Weather>> getForecast({
+    required double lat,
+    required double lon,
+    Duration? ttl,
+  }) async {
     final key = 'forecast:$lat:$lon';
     final result =
         await _cache.getOrFetch<Optional<WeatherResponse>>(key, () async {

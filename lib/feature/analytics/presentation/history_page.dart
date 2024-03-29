@@ -70,6 +70,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     DataColumn(
       label: Expanded(
         child: Text(
+          'Last',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
           'Min',
           style: TextStyle(fontStyle: FontStyle.italic),
         ),
@@ -227,6 +235,9 @@ class _TimeSeriesDataSource extends DataTableSource {
           stats.zeros.last.toString(),
         )),
         DataCell(Text(
+          stats.isEmpty ? "0" : series.lastRow.last.format(stats.unit),
+        )),
+        DataCell(Text(
           stats.isEmpty ? "0" : stats.min.last.format(stats.unit),
         )),
         DataCell(Text(
@@ -234,7 +245,7 @@ class _TimeSeriesDataSource extends DataTableSource {
         )),
         DataCell(Text(
           stats.isEmpty ? "0" : stats.max.last.format(stats.unit),
-        ))
+        )),
       ],
     );
   }

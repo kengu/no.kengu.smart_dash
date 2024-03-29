@@ -254,6 +254,7 @@ class BlockVariable with _$BlockVariable {
         unit: unit,
         type: type,
         label: label,
+        capability: DeviceCapability.value,
       );
 
   factory BlockVariable.fromToken(

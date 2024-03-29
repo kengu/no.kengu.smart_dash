@@ -25,7 +25,7 @@ class FlowTag<T> {
   }) {
     assert(
       token.isType(data),
-      'Token type [${token.type}] does not match data type [$type]',
+      'Token type [${token.type}] for [${token.name}] does not match data type [$type]',
     );
   }
 

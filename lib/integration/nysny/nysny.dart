@@ -8,6 +8,6 @@ class NySny {
   ];
 
   static const readableModelName = {
-    DeviceType.sensor: 'Sensor',
+    DeviceType.sensor: 'Snow Sensor',
   };
 }

@@ -4,10 +4,10 @@ class MetNo {
   static const key = 'metno';
 
   static const supportedTypes = [
-    DeviceType.sensor,
+    DeviceType.weatherForecast,
   ];
 
   static const readableModelName = {
-    DeviceType.sensor: 'Sensor',
+    DeviceType.weatherForecast: 'Weather Forecast',
   };
 }

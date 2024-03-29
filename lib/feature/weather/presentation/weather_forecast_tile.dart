@@ -47,18 +47,19 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
     return StreamBuilder<Weather>(
       initialData: manager
           .getFirstCachedForecast(
-            widget.lat,
-            widget.lon,
+            lat: widget.lat,
+            lon: widget.lon,
           )
           .orElseNull,
       stream: manager.getFirstForecastAsStream(
-        widget.lat,
-        widget.lon,
+        refresh: true,
+        lat: widget.lat,
+        lon: widget.lon,
         period: widget.period,
       ),
       builder: (context, snapshot) {
         final now = DateTime.now();
-        final weather = snapshot.data?.select(now);
+        final weather = snapshot.data?.select(now, true);
         final details = _selected == -1
             ? weather
             : snapshot.data?.select(now.add(
@@ -81,6 +82,11 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
             Duration(hours: hours[index]),
           )),
         );
+
+        // Get offset from first element in series
+        final first = snapshot.data?.select(now);
+        final offset =
+            snapshot.data?.props.timeseries.indexWhere((e) => e == first) ?? 0;
         return _buildTile(
           title: 'Weather Forecast '
               '${_selected < 0 ? 'Now' : '+${hours[_selected]}h'}',
@@ -98,15 +104,16 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: WeatherInstantWidget(
-                    withSymbol: true,
+                    offset: offset,
                     withWind: true,
+                    withSymbol: true,
+                    isForecast: true,
+                    weather: snapshot.data!,
                     withPrecipitation: true,
                     withLightLuminance: false,
                     withRelativeHumidity: false,
                     withCloudAreaFraction: true,
                     withUltravioletRadiation: false,
-                    isForecast: true,
-                    weather: snapshot.data!,
                     index: _selected < 0 ? 0 : hours[_selected],
                   ),
                 ),

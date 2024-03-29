@@ -41,7 +41,7 @@ class BlockParametersArrayField extends ConsumerWidget {
               name: name,
               value: 0,
               type: TokenType.int,
-              unit: TokenUnit.count,
+              unit: TokenUnit.value,
             ),
           );
         }

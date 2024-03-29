@@ -41,7 +41,11 @@ enum DeviceType {
   /// Program
   program,
 
+  /// Weather measurements
   weatherNow,
+
+  /// Weather forecasts
+  weatherForecast,
 
   /// Device unknown to SmartDash
   unknown;
@@ -133,6 +137,51 @@ class Device with _$Device {
 
     /// Get device's measured snow depth (default null)
     int? snowWeight,
+
+    /// Get device's rain forecast (in mm) next 24h (default null)
+    double? rain1h,
+
+    /// Get device's rain forecast (in mm) next 3h (default null)
+    double? rain3h,
+
+    /// Get device's rain forecast (in mm) next 6h (default null)
+    double? rain6h,
+
+    /// Get device's rain forecast (in mm) next 12h (default null)
+    double? rain12h,
+
+    /// Get device's rain forecast (in mm) next 24h (default null)
+    double? rain1d,
+
+    /// Get device's snow forecast (in cm) next 24h (default null)
+    double? snow1h,
+
+    /// Get device's snow forecast (in cm) next 3h (default null)
+    double? snow3h,
+
+    /// Get device's snow forecast (in cm) next 6h (default null)
+    double? snow6h,
+
+    /// Get device's snow forecast (in cm) next 12h (default null)
+    double? snow12h,
+
+    /// Get device's snow forecast (in cm) next 24h (default null)
+    double? snow1d,
+
+    /// Get device's temperature forecast (in mm) next 24h (default null)
+    double? temperature1h,
+
+    /// Get device's temperature forecast (in mm) next 3h (default null)
+    double? temperature3h,
+
+    /// Get device's temperature forecast (in mm) next 6h (default null)
+    double? temperature6h,
+
+    /// Get device's temperature forecast (in mm) next 12h (default null)
+    double? temperature12h,
+
+    /// Get device's temperature forecast (in mm) next 24h (default null)
+    double? temperature1d,
   }) = _Device;
 
   static String toTokenName(Device device, DeviceCapability e) {
@@ -179,10 +228,18 @@ mixin DeviceMapper {
 /// Copied from https://apps-sdk-v3.developer.homey.app/tutorial-device-capabilities.html
 /// TODO: Make my own capability definitions
 enum DeviceCapability {
+  value(
+    'value',
+    'This implies that the device has value capability',
+    TokenUnit.value,
+    TokenType.int,
+  ),
+
   energy(
     'meter_energy',
     'This implies that the device has '
         'energy measurement capability',
+    TokenUnit.energy,
     TokenType.int,
   ),
 
@@ -190,6 +247,7 @@ enum DeviceCapability {
     'measure_power',
     'This implies that the device has '
         'power measurement capability',
+    TokenUnit.power,
     TokenType.int,
   ),
 
@@ -197,19 +255,29 @@ enum DeviceCapability {
     'measure_voltage',
     'This implies that the device has '
         'voltage measurement capability',
+    TokenUnit.voltage,
     TokenType.int,
   ),
 
   onOff(
     'switch_mode',
     'This implies that the device has on/off switch capability',
+    TokenUnit.onOff,
     TokenType.bool,
+  ),
+
+  targetTemperature(
+    'target_temperature',
+    'This implies that the device has the ability to regulate temperature',
+    TokenUnit.temperature,
+    TokenType.double,
   ),
 
   temperature(
     'measure_temperature',
     'This implies that the device has '
         'temperature measurement (in celsius degrees, C°) capability',
+    TokenUnit.temperature,
     TokenType.double,
   ),
 
@@ -217,6 +285,7 @@ enum DeviceCapability {
     'measure_humidity',
     'This implies that the device has '
         'humidity measurement (in percent, %) capability',
+    TokenUnit.humidity,
     TokenType.double,
   ),
 
@@ -224,6 +293,7 @@ enum DeviceCapability {
     'measure_rain',
     'This implies that the device has '
         'rain measurement (in millimeter) capability',
+    TokenUnit.rain,
     TokenType.double,
   ),
 
@@ -231,6 +301,7 @@ enum DeviceCapability {
     'measure_rain_rate',
     'This implies that the device has '
         'rain rate measurement (in millimeter per hour) capability',
+    TokenUnit.rainRate,
     TokenType.double,
   ),
 
@@ -238,6 +309,7 @@ enum DeviceCapability {
     'measure_rain_total',
     'This implies that the device has '
         'rain total measurement (in millimeter) capability',
+    TokenUnit.rainTotal,
     TokenType.double,
   ),
 
@@ -245,6 +317,7 @@ enum DeviceCapability {
     'measure_wind_angle',
     'This implies that the device has '
         'wind angle measurement (in degrees, °) capability',
+    TokenUnit.windAngle,
     TokenType.double,
   ),
 
@@ -252,6 +325,7 @@ enum DeviceCapability {
     'measure_wind_speed',
     'This implies that the device has '
         'wind strength measurement (in meters per seconds) capability',
+    TokenUnit.windSpeed,
     TokenType.double,
   ),
 
@@ -259,6 +333,7 @@ enum DeviceCapability {
     'measure_gust_speed',
     'This implies that the device has '
         'wind gust measurement (in meters per seconds) capability',
+    TokenUnit.gustSpeed,
     TokenType.double,
   ),
 
@@ -266,6 +341,7 @@ enum DeviceCapability {
     'measure_ultraviolet',
     'This implies that the device has '
         'ultraviolet measurement (in UV index, UVI) capability',
+    TokenUnit.ultraviolet,
     TokenType.int,
   ),
 
@@ -273,19 +349,15 @@ enum DeviceCapability {
     'measure_luminance',
     'This implies that the device has '
         'luminance measurement (in lux) capability',
+    TokenUnit.luminance,
     TokenType.int,
-  ),
-
-  targetTemperature(
-    'target_temperature',
-    'This implies that the device has the ability to regulate temperature',
-    TokenType.double,
   ),
 
   snowDepth(
     'measure_snow_depth',
     'This implies that the device has '
         'snow depth measurement (in cm) capability',
+    TokenUnit.snowDepth,
     TokenType.int,
   ),
 
@@ -293,9 +365,135 @@ enum DeviceCapability {
     'measure_snow_weight',
     'This implies that the device has '
         'snow weight measurement (in kg) capability',
+    TokenUnit.snowWeight,
     TokenType.int,
+  ),
+
+  // =====================
+  // Forecast capabilities
+  // =====================
+
+  temperature1h(
+    'measure_temperature',
+    'This implies that the device has temperature '
+        'forecast (in celsius degrees, C°) next 1h capability',
+    TokenUnit.temperature,
+    TokenType.double,
+  ),
+
+  temperature3h(
+    'measure_temperature',
+    'This implies that the device has temperature '
+        'forecast (in celsius degrees, C°) in 3h capability',
+    TokenUnit.temperature,
+    TokenType.double,
+  ),
+
+  temperature6h(
+    'measure_temperature',
+    'This implies that the device has temperature '
+        'forecast (in celsius degrees, C°) in 6h capability',
+    TokenUnit.temperature,
+    TokenType.double,
+  ),
+
+  temperature12h(
+    'measure_temperature',
+    'This implies that the device has temperature '
+        'forecast (in celsius degrees, C°) in 12h capability',
+    TokenUnit.temperature,
+    TokenType.double,
+  ),
+
+  temperature1d(
+    'measure_temperature',
+    'This implies that the device has temperature '
+        'forecast (in celsius degrees, C°) in 1d capability',
+    TokenUnit.temperature,
+    TokenType.double,
+  ),
+
+  rain1h(
+    'forecast_rain_1h',
+    'This implies that the device has precipitation as '
+        'rain forecast (in millimeter) next 1h capability',
+    TokenUnit.rain,
+    TokenType.double,
+  ),
+
+  rain3h(
+    'forecast_rain_3h',
+    'This implies that the device has precipitation as '
+        'rain forecast (in millimeter) next 3h capability',
+    TokenUnit.rain,
+    TokenType.double,
+  ),
+
+  rain6h(
+    'forecast_rain_6h',
+    'This implies that the device has precipitation as '
+        'rain forecast (in millimeter) next 6h capability',
+    TokenUnit.rain,
+    TokenType.double,
+  ),
+
+  rain12h(
+    'forecast_rain_12h',
+    'This implies that the device has precipitation as '
+        'rain forecast (in millimeter) next 12h capability',
+    TokenUnit.rain,
+    TokenType.double,
+  ),
+
+  rain1d(
+    'forecast_rain_1d',
+    'This implies that the device has precipitation as '
+        'rain forecast (in millimeter) next 1d capability',
+    TokenUnit.rain,
+    TokenType.double,
+  ),
+
+  snow1h(
+    'forecast_snow_1h',
+    'This implies that the device has precipitation as '
+        'snow forecast (in cm) next 1h capability',
+    TokenUnit.snow,
+    TokenType.double,
+  ),
+
+  snow3h(
+    'forecast_snow_3h',
+    'This implies that the device has precipitation as '
+        'snow forecast (in cm) next 3h capability',
+    TokenUnit.snow,
+    TokenType.double,
+  ),
+
+  snow6h(
+    'forecast_snow_6h',
+    'This implies that the device has precipitation as '
+        'snow forecast (in cm) next 6h capability',
+    TokenUnit.snow,
+    TokenType.double,
+  ),
+
+  snow12h(
+    'forecast_snow_12h',
+    'This implies that the device has precipitation as '
+        'snow forecast (in cm) next 12h capability',
+    TokenUnit.snow,
+    TokenType.double,
+  ),
+
+  snow1d(
+    'forecast_snow_1d',
+    'This implies that the device has precipitation as '
+        'snow forecast (in cm) next 1d capability',
+    TokenUnit.snow,
+    TokenType.double,
   );
 
+  // Measure capabilities
   bool get hasRain => this == rain;
   bool get hasRainRate => this == rainRate;
   bool get hasRainTotal => this == rainTotal;
@@ -314,8 +512,37 @@ enum DeviceCapability {
   bool get hasSnowDepth => this == snowDepth;
   bool get hasSnowWeight => this == snowWeight;
 
-  const DeviceCapability(this.variable, this.description, this.type);
+  // Forecast capabilities
+  bool get hasRain1h => this == rain1h;
+  bool get hasRain3h => this == rain3h;
+  bool get hasRain6h => this == rain6h;
+  bool get hasRain12h => this == rain12h;
+  bool get hasRain1d => this == rain1d;
+  bool get hasSnow1h => this == snow1h;
+  bool get hasSnow3h => this == snow3h;
+  bool get hasSnow6h => this == snow6h;
+  bool get hasSnow12h => this == snow12h;
+  bool get hasSnow1d => this == snow1d;
+  bool get hasTemperature1h => this == temperature1h;
+  bool get hasTemperature3h => this == temperature3h;
+  bool get hasTemperature6h => this == temperature6h;
+  bool get hasTemperature12h => this == temperature12h;
+  bool get hasTemperature1d => this == temperature1d;
+
+  Token toToken(Device device) {
+    return Token(
+      tag: name,
+      type: type,
+      unit: unit,
+      capability: this,
+      label: device.name,
+      name: Device.toTokenName(device, this),
+    );
+  }
+
+  const DeviceCapability(this.variable, this.description, this.unit, this.type);
   final TokenType type;
+  final TokenUnit unit;
   final String variable;
   final String description;
 }
@@ -339,6 +566,23 @@ extension DeviceCapabilityX on List<DeviceCapability> {
   bool get hasSnowDepth => any((c) => c.hasSnowDepth);
   bool get hasSnowWeight => any((c) => c.hasSnowWeight);
 
+  // Forecasts
+  bool get hasRain1h => any((c) => c.hasRain1h);
+  bool get hasRain3h => any((c) => c.hasRain3h);
+  bool get hasRain6h => any((c) => c.hasRain6h);
+  bool get hasRain12h => any((c) => c.hasRain12h);
+  bool get hasRain1d => any((c) => c.hasRain1d);
+  bool get hasSnow1h => any((c) => c.hasSnow1h);
+  bool get hasSnow3h => any((c) => c.hasSnow3h);
+  bool get hasSnow6h => any((c) => c.hasSnow6h);
+  bool get hasSnow12h => any((c) => c.hasSnow12h);
+  bool get hasSnow1d => any((c) => c.hasSnow1d);
+  bool get hasTemperature1h => any((c) => c.hasTemperature1d);
+  bool get hasTemperature3h => any((c) => c.hasTemperature1d);
+  bool get hasTemperature6h => any((c) => c.hasTemperature1d);
+  bool get hasTemperature12h => any((c) => c.hasTemperature1d);
+  bool get hasTemperature1d => any((c) => c.hasTemperature1d);
+
   bool get isWeatherNow => any(
         (c) => const [
           DeviceCapability.rain,
@@ -349,6 +593,39 @@ extension DeviceCapabilityX on List<DeviceCapability> {
           DeviceCapability.humidity,
           DeviceCapability.luminance,
           DeviceCapability.ultraviolet,
+        ].contains(c),
+      );
+
+  bool get isWeatherForecast =>
+      isRainForecast || isSnowForecast || isTemperatureForecast;
+
+  bool get isRainForecast => any(
+        (c) => const [
+          DeviceCapability.rain1h,
+          DeviceCapability.rain3h,
+          DeviceCapability.rain6h,
+          DeviceCapability.rain12h,
+          DeviceCapability.rain1d,
+        ].contains(c),
+      );
+
+  bool get isSnowForecast => any(
+        (c) => const [
+          DeviceCapability.snow1h,
+          DeviceCapability.snow3h,
+          DeviceCapability.snow6h,
+          DeviceCapability.snow12h,
+          DeviceCapability.snow1d,
+        ].contains(c),
+      );
+
+  bool get isTemperatureForecast => any(
+        (c) => const [
+          DeviceCapability.temperature1h,
+          DeviceCapability.temperature3h,
+          DeviceCapability.temperature6h,
+          DeviceCapability.temperature12h,
+          DeviceCapability.temperature1d,
         ].contains(c),
       );
 }
@@ -373,127 +650,20 @@ extension DeviceX on Device {
   bool get hasSnowWeight => capabilities.hasSnowWeight;
   bool get isWeatherNow => capabilities.isWeatherNow;
 
-  List<Token> toTokens() => capabilities
-      .map((e) => switch (e) {
-            DeviceCapability.power => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.power,
-                type: DeviceCapability.power.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.energy => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.energy,
-                type: DeviceCapability.energy.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.voltage => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.voltage,
-                type: DeviceCapability.voltage.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.onOff => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.onOff,
-                type: DeviceCapability.onOff.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.rain => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.rain,
-                type: DeviceCapability.rain.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.rainRate => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.rainRate,
-                type: DeviceCapability.rainRate.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.rainTotal => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.rainTotal,
-                type: DeviceCapability.rainTotal.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.humidity => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.humidity,
-                type: DeviceCapability.humidity.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.windAngle => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.windAngle,
-                type: DeviceCapability.windAngle.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.windSpeed => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.windSpeed,
-                type: DeviceCapability.windSpeed.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.gustSpeed => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.gustSpeed,
-                type: DeviceCapability.gustSpeed.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.luminance => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.luminance,
-                type: DeviceCapability.luminance.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.ultraviolet => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.ultraviolet,
-                type: DeviceCapability.ultraviolet.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.temperature => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.temperature,
-                type: DeviceCapability.temperature.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.snowDepth => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.snowDepth,
-                type: DeviceCapability.snowDepth.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.snowWeight => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.snowWeight,
-                type: DeviceCapability.snowDepth.type,
-                name: Device.toTokenName(this, e),
-              ),
-            DeviceCapability.targetTemperature => Token(
-                tag: e.name,
-                label: name,
-                unit: TokenUnit.temperature,
-                type: DeviceCapability.targetTemperature.type,
-                name: Device.toTokenName(this, e),
-              ),
-          })
-      .toList();
+  bool get hasRain1h => capabilities.hasRain1d;
+  bool get hasRain3h => capabilities.hasRain1d;
+  bool get hasRain6h => capabilities.hasRain1d;
+  bool get hasRain12h => capabilities.hasRain1d;
+  bool get hasRain1d => capabilities.hasRain1d;
+  bool get hasSnow1h => capabilities.hasRain1d;
+  bool get hasSnow3h => capabilities.hasRain1d;
+  bool get hasSnow6h => capabilities.hasRain1d;
+  bool get hasSnow12h => capabilities.hasRain1d;
+  bool get hasSnow1d => capabilities.hasRain1d;
+  bool get isRainForecast => capabilities.isRainForecast;
+  bool get isSnowForecast => capabilities.isSnowForecast;
+  bool get isWeatherForecast => capabilities.isWeatherForecast;
+  bool get isTemperatureForecast => capabilities.isTemperatureForecast;
+
+  List<Token> toTokens() => capabilities.map((e) => e.toToken(this)).toList();
 }

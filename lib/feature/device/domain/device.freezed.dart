@@ -86,6 +86,51 @@ mixin _$Device {
   /// Get device's measured snow depth (default null)
   int? get snowWeight => throw _privateConstructorUsedError;
 
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  double? get rain1h => throw _privateConstructorUsedError;
+
+  /// Get device's rain forecast (in mm) next 3h (default null)
+  double? get rain3h => throw _privateConstructorUsedError;
+
+  /// Get device's rain forecast (in mm) next 6h (default null)
+  double? get rain6h => throw _privateConstructorUsedError;
+
+  /// Get device's rain forecast (in mm) next 12h (default null)
+  double? get rain12h => throw _privateConstructorUsedError;
+
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  double? get rain1d => throw _privateConstructorUsedError;
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  double? get snow1h => throw _privateConstructorUsedError;
+
+  /// Get device's snow forecast (in cm) next 3h (default null)
+  double? get snow3h => throw _privateConstructorUsedError;
+
+  /// Get device's snow forecast (in cm) next 6h (default null)
+  double? get snow6h => throw _privateConstructorUsedError;
+
+  /// Get device's snow forecast (in cm) next 12h (default null)
+  double? get snow12h => throw _privateConstructorUsedError;
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  double? get snow1d => throw _privateConstructorUsedError;
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  double? get temperature1h => throw _privateConstructorUsedError;
+
+  /// Get device's temperature forecast (in mm) next 3h (default null)
+  double? get temperature3h => throw _privateConstructorUsedError;
+
+  /// Get device's temperature forecast (in mm) next 6h (default null)
+  double? get temperature6h => throw _privateConstructorUsedError;
+
+  /// Get device's temperature forecast (in mm) next 12h (default null)
+  double? get temperature12h => throw _privateConstructorUsedError;
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  double? get temperature1d => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DeviceCopyWith<Device> get copyWith => throw _privateConstructorUsedError;
@@ -118,7 +163,22 @@ abstract class $DeviceCopyWith<$Res> {
       SwitchState? onOff,
       Thermostat? thermostat,
       int? snowDepth,
-      int? snowWeight});
+      int? snowWeight,
+      double? rain1h,
+      double? rain3h,
+      double? rain6h,
+      double? rain12h,
+      double? rain1d,
+      double? snow1h,
+      double? snow3h,
+      double? snow6h,
+      double? snow12h,
+      double? snow1d,
+      double? temperature1h,
+      double? temperature3h,
+      double? temperature6h,
+      double? temperature12h,
+      double? temperature1d});
 
   $ElectricStateCopyWith<$Res>? get electric;
   $SwitchStateCopyWith<$Res>? get onOff;
@@ -160,6 +220,21 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     Object? thermostat = freezed,
     Object? snowDepth = freezed,
     Object? snowWeight = freezed,
+    Object? rain1h = freezed,
+    Object? rain3h = freezed,
+    Object? rain6h = freezed,
+    Object? rain12h = freezed,
+    Object? rain1d = freezed,
+    Object? snow1h = freezed,
+    Object? snow3h = freezed,
+    Object? snow6h = freezed,
+    Object? snow12h = freezed,
+    Object? snow1d = freezed,
+    Object? temperature1h = freezed,
+    Object? temperature3h = freezed,
+    Object? temperature6h = freezed,
+    Object? temperature12h = freezed,
+    Object? temperature1d = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -250,6 +325,66 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
           ? _value.snowWeight
           : snowWeight // ignore: cast_nullable_to_non_nullable
               as int?,
+      rain1h: freezed == rain1h
+          ? _value.rain1h
+          : rain1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain3h: freezed == rain3h
+          ? _value.rain3h
+          : rain3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain6h: freezed == rain6h
+          ? _value.rain6h
+          : rain6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain12h: freezed == rain12h
+          ? _value.rain12h
+          : rain12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain1d: freezed == rain1d
+          ? _value.rain1d
+          : rain1d // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow1h: freezed == snow1h
+          ? _value.snow1h
+          : snow1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow3h: freezed == snow3h
+          ? _value.snow3h
+          : snow3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow6h: freezed == snow6h
+          ? _value.snow6h
+          : snow6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow12h: freezed == snow12h
+          ? _value.snow12h
+          : snow12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow1d: freezed == snow1d
+          ? _value.snow1d
+          : snow1d // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature1h: freezed == temperature1h
+          ? _value.temperature1h
+          : temperature1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature3h: freezed == temperature3h
+          ? _value.temperature3h
+          : temperature3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature6h: freezed == temperature6h
+          ? _value.temperature6h
+          : temperature6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature12h: freezed == temperature12h
+          ? _value.temperature12h
+          : temperature12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature1d: freezed == temperature1d
+          ? _value.temperature1d
+          : temperature1d // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -319,7 +454,22 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       SwitchState? onOff,
       Thermostat? thermostat,
       int? snowDepth,
-      int? snowWeight});
+      int? snowWeight,
+      double? rain1h,
+      double? rain3h,
+      double? rain6h,
+      double? rain12h,
+      double? rain1d,
+      double? snow1h,
+      double? snow3h,
+      double? snow6h,
+      double? snow12h,
+      double? snow1d,
+      double? temperature1h,
+      double? temperature3h,
+      double? temperature6h,
+      double? temperature12h,
+      double? temperature1d});
 
   @override
   $ElectricStateCopyWith<$Res>? get electric;
@@ -362,6 +512,21 @@ class __$$DeviceImplCopyWithImpl<$Res>
     Object? thermostat = freezed,
     Object? snowDepth = freezed,
     Object? snowWeight = freezed,
+    Object? rain1h = freezed,
+    Object? rain3h = freezed,
+    Object? rain6h = freezed,
+    Object? rain12h = freezed,
+    Object? rain1d = freezed,
+    Object? snow1h = freezed,
+    Object? snow3h = freezed,
+    Object? snow6h = freezed,
+    Object? snow12h = freezed,
+    Object? snow1d = freezed,
+    Object? temperature1h = freezed,
+    Object? temperature3h = freezed,
+    Object? temperature6h = freezed,
+    Object? temperature12h = freezed,
+    Object? temperature1d = freezed,
   }) {
     return _then(_$DeviceImpl(
       id: null == id
@@ -452,6 +617,66 @@ class __$$DeviceImplCopyWithImpl<$Res>
           ? _value.snowWeight
           : snowWeight // ignore: cast_nullable_to_non_nullable
               as int?,
+      rain1h: freezed == rain1h
+          ? _value.rain1h
+          : rain1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain3h: freezed == rain3h
+          ? _value.rain3h
+          : rain3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain6h: freezed == rain6h
+          ? _value.rain6h
+          : rain6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain12h: freezed == rain12h
+          ? _value.rain12h
+          : rain12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rain1d: freezed == rain1d
+          ? _value.rain1d
+          : rain1d // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow1h: freezed == snow1h
+          ? _value.snow1h
+          : snow1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow3h: freezed == snow3h
+          ? _value.snow3h
+          : snow3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow6h: freezed == snow6h
+          ? _value.snow6h
+          : snow6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow12h: freezed == snow12h
+          ? _value.snow12h
+          : snow12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      snow1d: freezed == snow1d
+          ? _value.snow1d
+          : snow1d // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature1h: freezed == temperature1h
+          ? _value.temperature1h
+          : temperature1h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature3h: freezed == temperature3h
+          ? _value.temperature3h
+          : temperature3h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature6h: freezed == temperature6h
+          ? _value.temperature6h
+          : temperature6h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature12h: freezed == temperature12h
+          ? _value.temperature12h
+          : temperature12h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperature1d: freezed == temperature1d
+          ? _value.temperature1d
+          : temperature1d // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -481,7 +706,22 @@ class _$DeviceImpl extends _Device {
       this.onOff,
       this.thermostat,
       this.snowDepth,
-      this.snowWeight})
+      this.snowWeight,
+      this.rain1h,
+      this.rain3h,
+      this.rain6h,
+      this.rain12h,
+      this.rain1d,
+      this.snow1h,
+      this.snow3h,
+      this.snow6h,
+      this.snow12h,
+      this.snow1d,
+      this.temperature1h,
+      this.temperature3h,
+      this.temperature6h,
+      this.temperature12h,
+      this.temperature1d})
       : _data = data,
         _capabilities = capabilities,
         super._();
@@ -591,9 +831,69 @@ class _$DeviceImpl extends _Device {
   @override
   final int? snowWeight;
 
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  @override
+  final double? rain1h;
+
+  /// Get device's rain forecast (in mm) next 3h (default null)
+  @override
+  final double? rain3h;
+
+  /// Get device's rain forecast (in mm) next 6h (default null)
+  @override
+  final double? rain6h;
+
+  /// Get device's rain forecast (in mm) next 12h (default null)
+  @override
+  final double? rain12h;
+
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  @override
+  final double? rain1d;
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  @override
+  final double? snow1h;
+
+  /// Get device's snow forecast (in cm) next 3h (default null)
+  @override
+  final double? snow3h;
+
+  /// Get device's snow forecast (in cm) next 6h (default null)
+  @override
+  final double? snow6h;
+
+  /// Get device's snow forecast (in cm) next 12h (default null)
+  @override
+  final double? snow12h;
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  @override
+  final double? snow1d;
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  @override
+  final double? temperature1h;
+
+  /// Get device's temperature forecast (in mm) next 3h (default null)
+  @override
+  final double? temperature3h;
+
+  /// Get device's temperature forecast (in mm) next 6h (default null)
+  @override
+  final double? temperature6h;
+
+  /// Get device's temperature forecast (in mm) next 12h (default null)
+  @override
+  final double? temperature12h;
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  @override
+  final double? temperature1d;
+
   @override
   String toString() {
-    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, rainRate: $rainRate, rainTotal: $rainTotal, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat, snowDepth: $snowDepth, snowWeight: $snowWeight)';
+    return 'Device(id: $id, name: $name, service: $service, type: $type, data: $data, capabilities: $capabilities, lastUpdated: $lastUpdated, rain: $rain, rainRate: $rainRate, rainTotal: $rainTotal, ultraviolet: $ultraviolet, luminance: $luminance, humidity: $humidity, windAngle: $windAngle, temperature: $temperature, windSpeed: $windSpeed, gustSpeed: $gustSpeed, electric: $electric, onOff: $onOff, thermostat: $thermostat, snowDepth: $snowDepth, snowWeight: $snowWeight, rain1h: $rain1h, rain3h: $rain3h, rain6h: $rain6h, rain12h: $rain12h, rain1d: $rain1d, snow1h: $snow1h, snow3h: $snow3h, snow6h: $snow6h, snow12h: $snow12h, snow1d: $snow1d, temperature1h: $temperature1h, temperature3h: $temperature3h, temperature6h: $temperature6h, temperature12h: $temperature12h, temperature1d: $temperature1d)';
   }
 
   @override
@@ -637,7 +937,27 @@ class _$DeviceImpl extends _Device {
             (identical(other.snowDepth, snowDepth) ||
                 other.snowDepth == snowDepth) &&
             (identical(other.snowWeight, snowWeight) ||
-                other.snowWeight == snowWeight));
+                other.snowWeight == snowWeight) &&
+            (identical(other.rain1h, rain1h) || other.rain1h == rain1h) &&
+            (identical(other.rain3h, rain3h) || other.rain3h == rain3h) &&
+            (identical(other.rain6h, rain6h) || other.rain6h == rain6h) &&
+            (identical(other.rain12h, rain12h) || other.rain12h == rain12h) &&
+            (identical(other.rain1d, rain1d) || other.rain1d == rain1d) &&
+            (identical(other.snow1h, snow1h) || other.snow1h == snow1h) &&
+            (identical(other.snow3h, snow3h) || other.snow3h == snow3h) &&
+            (identical(other.snow6h, snow6h) || other.snow6h == snow6h) &&
+            (identical(other.snow12h, snow12h) || other.snow12h == snow12h) &&
+            (identical(other.snow1d, snow1d) || other.snow1d == snow1d) &&
+            (identical(other.temperature1h, temperature1h) ||
+                other.temperature1h == temperature1h) &&
+            (identical(other.temperature3h, temperature3h) ||
+                other.temperature3h == temperature3h) &&
+            (identical(other.temperature6h, temperature6h) ||
+                other.temperature6h == temperature6h) &&
+            (identical(other.temperature12h, temperature12h) ||
+                other.temperature12h == temperature12h) &&
+            (identical(other.temperature1d, temperature1d) ||
+                other.temperature1d == temperature1d));
   }
 
   @JsonKey(ignore: true)
@@ -665,7 +985,22 @@ class _$DeviceImpl extends _Device {
         onOff,
         thermostat,
         snowDepth,
-        snowWeight
+        snowWeight,
+        rain1h,
+        rain3h,
+        rain6h,
+        rain12h,
+        rain1d,
+        snow1h,
+        snow3h,
+        snow6h,
+        snow12h,
+        snow1d,
+        temperature1h,
+        temperature3h,
+        temperature6h,
+        temperature12h,
+        temperature1d
       ]);
 
   @JsonKey(ignore: true)
@@ -705,7 +1040,22 @@ abstract class _Device extends Device {
       final SwitchState? onOff,
       final Thermostat? thermostat,
       final int? snowDepth,
-      final int? snowWeight}) = _$DeviceImpl;
+      final int? snowWeight,
+      final double? rain1h,
+      final double? rain3h,
+      final double? rain6h,
+      final double? rain12h,
+      final double? rain1d,
+      final double? snow1h,
+      final double? snow3h,
+      final double? snow6h,
+      final double? snow12h,
+      final double? snow1d,
+      final double? temperature1h,
+      final double? temperature3h,
+      final double? temperature6h,
+      final double? temperature12h,
+      final double? temperature1d}) = _$DeviceImpl;
   const _Device._() : super._();
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
@@ -798,6 +1148,66 @@ abstract class _Device extends Device {
 
   /// Get device's measured snow depth (default null)
   int? get snowWeight;
+  @override
+
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  double? get rain1h;
+  @override
+
+  /// Get device's rain forecast (in mm) next 3h (default null)
+  double? get rain3h;
+  @override
+
+  /// Get device's rain forecast (in mm) next 6h (default null)
+  double? get rain6h;
+  @override
+
+  /// Get device's rain forecast (in mm) next 12h (default null)
+  double? get rain12h;
+  @override
+
+  /// Get device's rain forecast (in mm) next 24h (default null)
+  double? get rain1d;
+  @override
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  double? get snow1h;
+  @override
+
+  /// Get device's snow forecast (in cm) next 3h (default null)
+  double? get snow3h;
+  @override
+
+  /// Get device's snow forecast (in cm) next 6h (default null)
+  double? get snow6h;
+  @override
+
+  /// Get device's snow forecast (in cm) next 12h (default null)
+  double? get snow12h;
+  @override
+
+  /// Get device's snow forecast (in cm) next 24h (default null)
+  double? get snow1d;
+  @override
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  double? get temperature1h;
+  @override
+
+  /// Get device's temperature forecast (in mm) next 3h (default null)
+  double? get temperature3h;
+  @override
+
+  /// Get device's temperature forecast (in mm) next 6h (default null)
+  double? get temperature6h;
+  @override
+
+  /// Get device's temperature forecast (in mm) next 12h (default null)
+  double? get temperature12h;
+  @override
+
+  /// Get device's temperature forecast (in mm) next 24h (default null)
+  double? get temperature1d;
   @override
   @JsonKey(ignore: true)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>

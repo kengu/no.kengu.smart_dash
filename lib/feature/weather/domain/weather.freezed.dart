@@ -28,6 +28,8 @@ mixin _$Weather {
   WeatherProperties get props => throw _privateConstructorUsedError;
   @JsonKey(name: 'observedBy')
   Identity? get observedBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'place')
+  String? get place => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +45,8 @@ abstract class $WeatherCopyWith<$Res> {
       {@JsonKey(name: 'service') String service,
       @JsonKey(name: 'geometry') PointGeometry geometry,
       @JsonKey(name: 'properties') WeatherProperties props,
-      @JsonKey(name: 'observedBy') Identity? observedBy});
+      @JsonKey(name: 'observedBy') Identity? observedBy,
+      @JsonKey(name: 'place') String? place});
 
   $PointGeometryCopyWith<$Res> get geometry;
   $WeatherPropertiesCopyWith<$Res> get props;
@@ -67,6 +70,7 @@ class _$WeatherCopyWithImpl<$Res, $Val extends Weather>
     Object? geometry = null,
     Object? props = null,
     Object? observedBy = freezed,
+    Object? place = freezed,
   }) {
     return _then(_value.copyWith(
       service: null == service
@@ -85,6 +89,10 @@ class _$WeatherCopyWithImpl<$Res, $Val extends Weather>
           ? _value.observedBy
           : observedBy // ignore: cast_nullable_to_non_nullable
               as Identity?,
+      place: freezed == place
+          ? _value.place
+          : place // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -128,7 +136,8 @@ abstract class _$$WeatherImplCopyWith<$Res> implements $WeatherCopyWith<$Res> {
       {@JsonKey(name: 'service') String service,
       @JsonKey(name: 'geometry') PointGeometry geometry,
       @JsonKey(name: 'properties') WeatherProperties props,
-      @JsonKey(name: 'observedBy') Identity? observedBy});
+      @JsonKey(name: 'observedBy') Identity? observedBy,
+      @JsonKey(name: 'place') String? place});
 
   @override
   $PointGeometryCopyWith<$Res> get geometry;
@@ -153,6 +162,7 @@ class __$$WeatherImplCopyWithImpl<$Res>
     Object? geometry = null,
     Object? props = null,
     Object? observedBy = freezed,
+    Object? place = freezed,
   }) {
     return _then(_$WeatherImpl(
       service: null == service
@@ -171,6 +181,10 @@ class __$$WeatherImplCopyWithImpl<$Res>
           ? _value.observedBy
           : observedBy // ignore: cast_nullable_to_non_nullable
               as Identity?,
+      place: freezed == place
+          ? _value.place
+          : place // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -182,7 +196,8 @@ class _$WeatherImpl extends _Weather {
       {@JsonKey(name: 'service') required this.service,
       @JsonKey(name: 'geometry') required this.geometry,
       @JsonKey(name: 'properties') required this.props,
-      @JsonKey(name: 'observedBy') this.observedBy})
+      @JsonKey(name: 'observedBy') this.observedBy,
+      @JsonKey(name: 'place') this.place})
       : super._();
 
   factory _$WeatherImpl.fromJson(Map<String, dynamic> json) =>
@@ -200,10 +215,13 @@ class _$WeatherImpl extends _Weather {
   @override
   @JsonKey(name: 'observedBy')
   final Identity? observedBy;
+  @override
+  @JsonKey(name: 'place')
+  final String? place;
 
   @override
   String toString() {
-    return 'Weather(service: $service, geometry: $geometry, props: $props, observedBy: $observedBy)';
+    return 'Weather(service: $service, geometry: $geometry, props: $props, observedBy: $observedBy, place: $place)';
   }
 
   @override
@@ -216,13 +234,14 @@ class _$WeatherImpl extends _Weather {
                 other.geometry == geometry) &&
             (identical(other.props, props) || other.props == props) &&
             (identical(other.observedBy, observedBy) ||
-                other.observedBy == observedBy));
+                other.observedBy == observedBy) &&
+            (identical(other.place, place) || other.place == place));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, service, geometry, props, observedBy);
+      Object.hash(runtimeType, service, geometry, props, observedBy, place);
 
   @JsonKey(ignore: true)
   @override
@@ -243,7 +262,8 @@ abstract class _Weather extends Weather {
       {@JsonKey(name: 'service') required final String service,
       @JsonKey(name: 'geometry') required final PointGeometry geometry,
       @JsonKey(name: 'properties') required final WeatherProperties props,
-      @JsonKey(name: 'observedBy') final Identity? observedBy}) = _$WeatherImpl;
+      @JsonKey(name: 'observedBy') final Identity? observedBy,
+      @JsonKey(name: 'place') final String? place}) = _$WeatherImpl;
   const _Weather._() : super._();
 
   factory _Weather.fromJson(Map<String, dynamic> json) = _$WeatherImpl.fromJson;
@@ -260,6 +280,9 @@ abstract class _Weather extends Weather {
   @override
   @JsonKey(name: 'observedBy')
   Identity? get observedBy;
+  @override
+  @JsonKey(name: 'place')
+  String? get place;
   @override
   @JsonKey(ignore: true)
   _$$WeatherImplCopyWith<_$WeatherImpl> get copyWith =>

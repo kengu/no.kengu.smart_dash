@@ -1,8 +1,7 @@
-import 'dart:math';
-
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/data/num.dart';
 
 part 'weather.freezed.dart';
 part 'weather.g.dart';
@@ -15,6 +14,7 @@ class Weather with _$Weather {
     @JsonKey(name: 'geometry') required PointGeometry geometry,
     @JsonKey(name: 'properties') required WeatherProperties props,
     @JsonKey(name: 'observedBy') Identity? observedBy,
+    @JsonKey(name: 'place') String? place,
   }) = _Weather;
 
   bool get isObservation => observedBy != null;
@@ -63,29 +63,102 @@ class Weather with _$Weather {
     return step;
   }
 
-  double toPrecipitationForecastAmount(int hours) {
-    final steps = props.timeseries
-        .take(hours)
-        .map((e) => e.data.next1h?.details)
-        .whereType<WeatherForecastDetails>()
-        .where((e) => (e.precipitationAmount ?? 0) > 0)
-        .map(
-      (e) {
-        final amountInMm = e.precipitationAmount ?? 0.0;
-        final hasMinTemp = e.airTemperatureMin != null;
-        final hasMaxTemp = e.airTemperatureMax != null;
-        final minTemp = hasMinTemp ? e.airTemperatureMin! : 0.0;
-        final maxTemp = hasMaxTemp ? e.airTemperatureMax! : 0.0;
-        final temp = hasMinTemp && hasMinTemp
-            ? min(minTemp, maxTemp)
-            : min(minTemp, maxTemp);
-        return amountInMm *
-            (temp > 0 ? 1 : _calcSnowRatioInInches(temp) * 0.254);
-      },
-    );
+  Optional<double> toTemperatureAt(int hours) {
+    if (props.timeseries.isEmpty) return const Optional.empty();
+    if (hours == 0) {
+      return Optional.ofNullable(
+        props.timeseries.first.data.instant.details.airTemperature,
+      );
+    }
+    final result = _toForecastSteps(hours).lastOptional;
 
-    // Sum over next 24 from index
-    return steps.sum();
+    if (!result.isPresent) return const Optional.empty();
+    return _calcTempAvg(
+      result.value.$1.airTemperature,
+      result.value.$2,
+    );
+  }
+
+  Optional<double> _calcTempAvg(double? airTemp, WeatherForecastDetails data) {
+    if (airTemp is double) return Optional.of(airTemp);
+
+    final hasMinTemp = data.airTemperatureMin != null;
+    final hasMaxTemp = data.airTemperatureMax != null;
+    final minTemp = hasMinTemp ? data.airTemperatureMin! : 0.0;
+    final maxTemp = hasMaxTemp ? data.airTemperatureMax! : 0.0;
+    if (hasMinTemp && !hasMaxTemp) return Optional.of(minTemp);
+    if (!hasMinTemp && hasMaxTemp) return Optional.of(maxTemp);
+    return Optional.of((minTemp + maxTemp) / 2);
+  }
+
+  double toPrecipitationForecastAmount(int hours,
+      {bool asRain = true, bool asSnow = true}) {
+    final steps = _toForecastSteps(hours)
+        .where((e) => (e.$2.precipitationAmount ?? 0) > 0)
+        .map((e) => _calcPrecipitationForecastAmount(
+              e.$1.airTemperature,
+              e.$2,
+              asRain: asRain,
+              asSnow: asSnow,
+            ));
+
+    return steps.sum;
+  }
+
+  double toRainForecastAmount(int hours) {
+    final steps = _toForecastSteps(hours)
+        .where((e) => (e.$2.precipitationAmount ?? 0) > 0)
+        .map((e) => _calcPrecipitationForecastAmount(
+              e.$1.airTemperature,
+              e.$2,
+              asRain: true,
+              asSnow: false,
+            ));
+
+    return steps.sum;
+  }
+
+  double toSnowForecastAmount(int hours) {
+    final steps = _toForecastSteps(hours)
+        .where((e) => (e.$2.precipitationAmount ?? 0) > 0)
+        .map((e) => _calcPrecipitationForecastAmount(
+              e.$1.airTemperature,
+              e.$2,
+              asSnow: true,
+              asRain: false,
+            ));
+
+    return steps.sum;
+  }
+
+  Iterable<(WeatherInstantDetails, WeatherForecastDetails)> _toForecastSteps(
+    int hours,
+  ) {
+    return props.timeseries
+        .take(hours)
+        .map((e) => (e.data.instant.details, e.data.next1h?.details))
+        .whereType<(WeatherInstantDetails, WeatherForecastDetails)>();
+  }
+
+  double _calcPrecipitationForecastAmount(
+    double? airTemp,
+    WeatherForecastDetails data, {
+    required asRain,
+    required bool asSnow,
+  }) {
+    final amountInMm = data.precipitationAmount ?? 0.0;
+    final avg = _calcTempAvg(airTemp, data);
+    final temp = avg.isPresent ? avg.value : 0.0;
+
+    if (asRain) {
+      return temp > 0 ? amountInMm : 0.0;
+    }
+    if (asSnow) {
+      return temp <= 0
+          ? amountInMm * _calcSnowRatioInInches(temp) * 0.254
+          : 0.0;
+    }
+    return 0.0;
   }
 
   // From https://goodcalculators.com/rain-to-snow-calculator/

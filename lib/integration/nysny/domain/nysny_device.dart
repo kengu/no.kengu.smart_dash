@@ -7,7 +7,6 @@ import 'package:smart_dash/integration/nysny/nysny.dart';
 part 'nysny_device.freezed.dart';
 part 'nysny_device.g.dart';
 
-/// See https://triq.org/rtl_433/DATA_FORMAT.html
 @freezed
 class NySnyDevice with _$NySnyDevice, DeviceMapper {
   const NySnyDevice._();
@@ -30,20 +29,21 @@ class NySnyDevice with _$NySnyDevice, DeviceMapper {
         data: toJson(),
         id: location.toLowerCase(),
         service: NySny.key,
+        type: DeviceType.sensor,
         capabilities: [
           DeviceCapability.snowDepth,
           DeviceCapability.snowWeight,
         ],
         snowDepth: snowDepth,
         snowWeight: snowWeight,
-        type: DeviceType.sensor,
         lastUpdated: lastUpdated,
       );
 
   DeviceDefinition toDeviceDefinition() {
+    const type = DeviceType.sensor;
     return DeviceDefinition(
-      type: DeviceType.sensor,
-      name: DeviceType.sensor.name,
+      type: type,
+      name: NySny.readableModelName[type] ?? type.name,
     );
   }
 }

@@ -15,7 +15,6 @@ A Smart Dashboard App for my personal use.
 - [ ] Implement network connectivity handling (tolerance and events)
     * [ ] General internet connectivity
     * [ ] Service connectivity (all apis)
-- [ ] Add weather forecast as device (for use in flow and history)
 - [ ] Implement weather page
     * [ ] Actual weather now (tile)
     * [ ] Short-term forecast (tile)
@@ -26,7 +25,10 @@ A Smart Dashboard App for my personal use.
 - [ ] Implement scrollable bottom bar using [scrollable_reorderable_navbar](https://pub.dev/packages/scrollable_reorderable_navbar) 
 - [ ] Implement configurable processing delays and throttling
 - [ ] Implement pane-based settings screen on desktop
-- [ ] Implement support for geocoder for address and reverse lookup
+- [ ] Implement Location service (point and/or place)
+    * [ ] Add geocoder for address and reverse lookup
+    * [ ] Add location field to Device
+    * [ ] Refactor location in Home, Weather and Snow features
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 
 - [ ] Move state and integrations to backend
 
@@ -36,6 +38,7 @@ A Smart Dashboard App for my personal use.
 - [x] Sikom buttons (and astro switch)
 - [x] Webcam for easy viewing in one place
 - [x] Read and save historical data from rtl_433 devices
+- [x] Weather forecasts as device (for use in flow and history)
 - [x] Snow service and device support (depth and weight as tokens)
  
 ## Experiments and ideas to explore

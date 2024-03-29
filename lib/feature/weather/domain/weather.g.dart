@@ -16,6 +16,7 @@ _$WeatherImpl _$$WeatherImplFromJson(Map<String, dynamic> json) =>
       observedBy: json['observedBy'] == null
           ? null
           : Identity.fromJson(json['observedBy'] as Map<String, dynamic>),
+      place: json['place'] as String?,
     );
 
 Map<String, dynamic> _$$WeatherImplToJson(_$WeatherImpl instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$WeatherImplToJson(_$WeatherImpl instance) =>
       'geometry': instance.geometry.toJson(),
       'properties': instance.props.toJson(),
       'observedBy': instance.observedBy?.toJson(),
+      'place': instance.place,
     };
 
 _$WeatherTimeStepImpl _$$WeatherTimeStepImplFromJson(

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
 import 'package:smart_dash/util/time/time_series.dart';
 
@@ -30,6 +31,9 @@ class Token with _$Token {
 
     /// Get token unit
     required TokenUnit unit,
+
+    /// Get device capability
+    required DeviceCapability capability,
   }) = _Token;
 
   bool isType<T>(T data) => switch (type) {
@@ -91,8 +95,8 @@ extension TokenTypeX on TokenType {
 }
 
 enum TokenUnit {
+  value(''),
   onOff(''),
-  count(''),
   power('W'),
   rain('mm'),
   rainTotal('mm'),
@@ -104,13 +108,14 @@ enum TokenUnit {
   luminance('lx'),
   windSpeed('m/s'),
   gustSpeed('m/s'),
+  snow('cm'),
   snowDepth('cm'),
   snowWeight('kg/m²'),
   ultraviolet('UVI'),
   temperature('°C');
 
   bool get isRain => this == rain;
-  bool get isCount => this == count;
+  bool get isValue => this == value;
   bool get isOnOff => this == onOff;
   bool get isPower => this == power;
   bool get isEnergy => this == energy;
@@ -136,12 +141,14 @@ enum TokenUnit {
 
 extension TokenX on Token {
   bool get isRain => unit == TokenUnit.rain;
-  bool get isCount => unit == TokenUnit.count;
+  bool get isValue => unit == TokenUnit.value;
   bool get isOnOff => unit == TokenUnit.onOff;
   bool get isPower => unit == TokenUnit.power;
   bool get isEnergy => unit == TokenUnit.energy;
   bool get isVoltage => unit == TokenUnit.voltage;
   bool get isHumidity => unit == TokenUnit.humidity;
+  bool get isRainRate => unit == TokenUnit.rainRate;
+  bool get isRainTotal => unit == TokenUnit.rainTotal;
   bool get isWindAngle => unit == TokenUnit.windAngle;
   bool get isWindSpeed => unit == TokenUnit.windSpeed;
   bool get isGustSpeed => unit == TokenUnit.gustSpeed;

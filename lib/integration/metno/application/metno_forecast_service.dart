@@ -7,10 +7,10 @@ import 'package:smart_dash/feature/weather/data/weather_forecast_client.dart';
 import 'package:smart_dash/integration/metno/data/metno_location_forecast_client.dart';
 import 'package:smart_dash/integration/metno/metno.dart';
 
-part 'metno_location_forecast_service.g.dart';
+part 'metno_forecast_service.g.dart';
 
-class MetNoLocationForecastService extends WeatherForecastService {
-  MetNoLocationForecastService(Ref ref) : super(MetNo.key, ref) {
+class MetNoForecastService extends WeatherForecastService {
+  MetNoForecastService(Ref ref) : super(MetNo.key, ref) {
     ref.onDispose(() {
       _api.close(force: true);
     });
@@ -32,7 +32,6 @@ class MetNoLocationForecastService extends WeatherForecastService {
 }
 
 @Riverpod(keepAlive: true)
-MetNoLocationForecastService metNoLocationForecastService(
-    MetNoLocationForecastServiceRef ref) {
-  return MetNoLocationForecastService(ref);
+MetNoForecastService metNoForecastService(MetNoForecastServiceRef ref) {
+  return MetNoForecastService(ref);
 }

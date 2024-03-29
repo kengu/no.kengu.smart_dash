@@ -133,9 +133,17 @@ class PresenceAdapter extends TypeAdapter<Presence> {
 
   @override
   Presence read(BinaryReader reader) {
-    return Presence.fromJson(jsonDecode(
+    final json = jsonDecode(
       reader.read(),
-    ));
+    );
+    try {
+      return Presence.fromJson(json);
+    } catch (e) {
+      // Fix schema mutation
+      json['token']['unit'] = TokenUnit.value.name;
+      json['token']['capability'] = DeviceCapability.value.name;
+      return Presence.fromJson(json);
+    }
   }
 
   @override

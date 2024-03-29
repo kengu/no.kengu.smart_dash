@@ -12,6 +12,7 @@ import 'weather.dart';
 class WeatherInstantWidget extends StatelessWidget {
   const WeatherInstantWidget({
     super.key,
+    this.offset = 0,
     required this.index,
     required this.weather,
     required this.withWind,
@@ -25,6 +26,7 @@ class WeatherInstantWidget extends StatelessWidget {
   });
 
   final int index;
+  final int offset;
   final Weather weather;
   final bool isForecast;
   final bool withWind;
@@ -130,7 +132,8 @@ class WeatherInstantWidget extends StatelessWidget {
     TextStyle textStyle,
   ) {
     final precipitationAmount = isForecast
-        ? weather.toPrecipitationForecastAmount(index <= 1 ? 24 : index)
+        ? weather
+            .toPrecipitationForecastAmount(index <= 1 ? offset + 24 : index)
         : (weather.props.timeseries[index].data.instant.details
                 .precipitationAmount ??
             0.0);
@@ -150,7 +153,7 @@ class WeatherInstantWidget extends StatelessWidget {
           [
             if (!isForecast || airTemp > 0) ' mm rain' else ' cm snow',
             if (isForecast) 'next' else 'previous',
-            '${index > 1 ? index : 24}h'
+            '${index - offset > 1 ? index - offset : 24}h'
           ].join(' '),
           style: textStyle,
           overflow: TextOverflow.fade,

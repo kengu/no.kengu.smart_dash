@@ -5,7 +5,8 @@ import 'package:smart_dash/feature/device/application/device_driver_manager.dart
 import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/weather/application/weather_forecast_manager.dart';
 import 'package:smart_dash/integration/foscam/application/foscam_service.dart';
-import 'package:smart_dash/integration/metno/application/metno_location_forecast_service.dart';
+import 'package:smart_dash/integration/metno/application/metno_forecast_driver.dart';
+import 'package:smart_dash/integration/metno/application/metno_forecast_service.dart';
 import 'package:smart_dash/integration/nysny/application/nysny_driver.dart';
 import 'package:smart_dash/integration/nysny/application/nysny_service.dart';
 import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
@@ -26,7 +27,7 @@ class IntegrationManager {
 
     // Register weather service providers
     container.read(weatherForecastManagerProvider).register(
-          container.read(metNoLocationForecastServiceProvider),
+          container.read(metNoForecastServiceProvider),
         );
 
     // Register snow service providers
@@ -39,6 +40,7 @@ class IntegrationManager {
     manager
       ..register(container.read(sikomDriverProvider))
       ..register(container.read(rtl433DriverProvider))
+      ..register(container.read(metNoForecastDriverProvider))
       ..register(container.read(nySnyDriverProvider))
       ..bind();
   }
