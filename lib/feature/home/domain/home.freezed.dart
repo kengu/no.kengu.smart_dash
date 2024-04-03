@@ -20,10 +20,11 @@ Home _$HomeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Home {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<HomeMember> get members => throw _privateConstructorUsedError;
   List<ServiceConfig> get services => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
+  Location get location => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,10 +37,13 @@ abstract class $HomeCopyWith<$Res> {
       _$HomeCopyWithImpl<$Res, Home>;
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       List<HomeMember> members,
       List<ServiceConfig> services,
-      String? address});
+      Location location});
+
+  $LocationCopyWith<$Res> get location;
 }
 
 /// @nodoc
@@ -55,12 +59,17 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? members = null,
     Object? services = null,
-    Object? address = freezed,
+    Object? location = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -73,11 +82,19 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
           ? _value.services
           : services // ignore: cast_nullable_to_non_nullable
               as List<ServiceConfig>,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocationCopyWith<$Res> get location {
+    return $LocationCopyWith<$Res>(_value.location, (value) {
+      return _then(_value.copyWith(location: value) as $Val);
+    });
   }
 }
 
@@ -89,10 +106,14 @@ abstract class _$$HomeImplCopyWith<$Res> implements $HomeCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       List<HomeMember> members,
       List<ServiceConfig> services,
-      String? address});
+      Location location});
+
+  @override
+  $LocationCopyWith<$Res> get location;
 }
 
 /// @nodoc
@@ -105,12 +126,17 @@ class __$$HomeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? members = null,
     Object? services = null,
-    Object? address = freezed,
+    Object? location = null,
   }) {
     return _then(_$HomeImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -123,10 +149,10 @@ class __$$HomeImplCopyWithImpl<$Res>
           ? _value._services
           : services // ignore: cast_nullable_to_non_nullable
               as List<ServiceConfig>,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location,
     ));
   }
 }
@@ -135,10 +161,11 @@ class __$$HomeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$HomeImpl extends _Home {
   const _$HomeImpl(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required final List<HomeMember> members,
       required final List<ServiceConfig> services,
-      this.address})
+      required this.location})
       : _members = members,
         _services = services,
         super._();
@@ -146,6 +173,8 @@ class _$HomeImpl extends _Home {
   factory _$HomeImpl.fromJson(Map<String, dynamic> json) =>
       _$$HomeImplFromJson(json);
 
+  @override
+  final String id;
   @override
   final String name;
   final List<HomeMember> _members;
@@ -165,11 +194,11 @@ class _$HomeImpl extends _Home {
   }
 
   @override
-  final String? address;
+  final Location location;
 
   @override
   String toString() {
-    return 'Home(name: $name, members: $members, services: $services, address: $address)';
+    return 'Home(id: $id, name: $name, members: $members, services: $services, location: $location)';
   }
 
   @override
@@ -177,20 +206,23 @@ class _$HomeImpl extends _Home {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
             const DeepCollectionEquality().equals(other._services, _services) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       const DeepCollectionEquality().hash(_members),
       const DeepCollectionEquality().hash(_services),
-      address);
+      location);
 
   @JsonKey(ignore: true)
   @override
@@ -208,14 +240,17 @@ class _$HomeImpl extends _Home {
 
 abstract class _Home extends Home {
   const factory _Home(
-      {required final String name,
+      {required final String id,
+      required final String name,
       required final List<HomeMember> members,
       required final List<ServiceConfig> services,
-      final String? address}) = _$HomeImpl;
+      required final Location location}) = _$HomeImpl;
   const _Home._() : super._();
 
   factory _Home.fromJson(Map<String, dynamic> json) = _$HomeImpl.fromJson;
 
+  @override
+  String get id;
   @override
   String get name;
   @override
@@ -223,7 +258,7 @@ abstract class _Home extends Home {
   @override
   List<ServiceConfig> get services;
   @override
-  String? get address;
+  Location get location;
   @override
   @JsonKey(ignore: true)
   _$$HomeImplCopyWith<_$HomeImpl> get copyWith =>
@@ -236,7 +271,7 @@ CurrentHome _$CurrentHomeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CurrentHome {
-  String get name => throw _privateConstructorUsedError;
+  String get homeId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -251,7 +286,7 @@ abstract class $CurrentHomeCopyWith<$Res> {
           CurrentHome value, $Res Function(CurrentHome) then) =
       _$CurrentHomeCopyWithImpl<$Res, CurrentHome>;
   @useResult
-  $Res call({String name, String userId});
+  $Res call({String homeId, String userId});
 }
 
 /// @nodoc
@@ -267,13 +302,13 @@ class _$CurrentHomeCopyWithImpl<$Res, $Val extends CurrentHome>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? homeId = null,
     Object? userId = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      homeId: null == homeId
+          ? _value.homeId
+          : homeId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -291,7 +326,7 @@ abstract class _$$CurrentHomeImplCopyWith<$Res>
       __$$CurrentHomeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String userId});
+  $Res call({String homeId, String userId});
 }
 
 /// @nodoc
@@ -305,13 +340,13 @@ class __$$CurrentHomeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? homeId = null,
     Object? userId = null,
   }) {
     return _then(_$CurrentHomeImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      homeId: null == homeId
+          ? _value.homeId
+          : homeId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -324,20 +359,20 @@ class __$$CurrentHomeImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CurrentHomeImpl extends _CurrentHome {
-  const _$CurrentHomeImpl({required this.name, required this.userId})
+  const _$CurrentHomeImpl({required this.homeId, required this.userId})
       : super._();
 
   factory _$CurrentHomeImpl.fromJson(Map<String, dynamic> json) =>
       _$$CurrentHomeImplFromJson(json);
 
   @override
-  final String name;
+  final String homeId;
   @override
   final String userId;
 
   @override
   String toString() {
-    return 'CurrentHome(name: $name, userId: $userId)';
+    return 'CurrentHome(homeId: $homeId, userId: $userId)';
   }
 
   @override
@@ -345,13 +380,13 @@ class _$CurrentHomeImpl extends _CurrentHome {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CurrentHomeImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.homeId, homeId) || other.homeId == homeId) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, userId);
+  int get hashCode => Object.hash(runtimeType, homeId, userId);
 
   @JsonKey(ignore: true)
   @override
@@ -369,7 +404,7 @@ class _$CurrentHomeImpl extends _CurrentHome {
 
 abstract class _CurrentHome extends CurrentHome {
   const factory _CurrentHome(
-      {required final String name,
+      {required final String homeId,
       required final String userId}) = _$CurrentHomeImpl;
   const _CurrentHome._() : super._();
 
@@ -377,7 +412,7 @@ abstract class _CurrentHome extends CurrentHome {
       _$CurrentHomeImpl.fromJson;
 
   @override
-  String get name;
+  String get homeId;
   @override
   String get userId;
   @override

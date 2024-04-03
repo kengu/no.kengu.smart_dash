@@ -9,7 +9,7 @@ class SmartDashExpansionList<T> extends StatefulWidget {
     required this.title,
     this.icon,
     this.trailing,
-    this.onTrailing,
+    this.onPressed,
     this.description,
     this.dense = false,
     this.iconSize = 32,
@@ -29,7 +29,7 @@ class SmartDashExpansionList<T> extends StatefulWidget {
   final List<Widget> children;
   final bool initiallyExpanded;
   final EdgeInsets childPadding;
-  final VoidCallback? onTrailing;
+  final VoidCallback? onPressed;
 
   @override
   State<SmartDashExpansionList<T>> createState() =>
@@ -132,7 +132,7 @@ class _SmartDashExpansionListState<T> extends State<SmartDashExpansionList<T>>
   }
 
   Widget? _buildIcon(bool isNested) {
-    final hasTrailing = widget.onTrailing != null;
+    final hasTrailing = widget.onPressed != null;
     final icon = widget.children.isEmpty || _isFullyExpanded
         ? Icon(widget.trailing ?? Icons.expand_more)
         : const Icon(Icons.expand_more);
@@ -146,7 +146,7 @@ class _SmartDashExpansionListState<T> extends State<SmartDashExpansionList<T>>
               ),
         onPressed: () {
           if ((widget.children.isEmpty || _isFullyExpanded) && hasTrailing) {
-            widget.onTrailing?.call();
+            widget.onPressed?.call();
             if (widget.children.isEmpty) {
               _tileController.expand();
               _set(true);

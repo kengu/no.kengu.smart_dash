@@ -116,7 +116,7 @@ class PresenceFlow extends Flow {
   Future<HomeService> _setHome() async {
     final homeService = ref.read(homeServiceProvider);
     final next = await homeService.getCurrentHome();
-    if (next.isPresent && next.value.name != _home.orElseNull?.name) {
+    if (next.isPresent && next.value.id != _home.orElseNull?.id) {
       _home = next;
       final home = _home.value;
       final token = Presence.toHomeToken(home);

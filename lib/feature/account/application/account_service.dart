@@ -32,17 +32,25 @@ class AccountService {
     return _cache.get('get_user_account:$uid');
   }
 
-  Future<Optional<Account>> getAccount([String? userId]) {
+  Future<Optional<Account>> getAccount({
+    String? userId,
+    Duration? ttl = Duration.zero,
+  }) {
     final uid = userId ?? currentUser.userId;
-    return _cache.getOrFetch('get_user_account:$uid', () {
-      return ref.read(accountRepositoryProvider).get(uid);
-    });
+    return _cache.getOrFetch('get_user_account:$uid', () async {
+      final data = await ref.read(accountRepositoryProvider).get(uid);
+      return data;
+    }, ttl: ttl);
   }
 
   Future<bool> addOrUpdate(Account account) async {
     final repo = ref.read(accountRepositoryProvider);
     final result = await repo.addOrUpdate(account);
     if (result) {
+      _cache.set(
+        'get_user_account:${account.userId}',
+        Optional.of(account),
+      );
       _controller.add(account);
     }
     return result;
@@ -53,6 +61,7 @@ class AccountService {
 AccountService accountService(AccountServiceRef ref) => AccountService(ref);
 
 @Riverpod()
-Future<Optional<Account>> getAccount(GetAccountRef ref, [String? userId]) {
-  return ref.watch(accountServiceProvider).getAccount(userId);
+Future<Optional<Account>> getAccount(GetAccountRef ref,
+    {String? userId, Duration? ttl}) {
+  return ref.watch(accountServiceProvider).getAccount(userId: userId);
 }

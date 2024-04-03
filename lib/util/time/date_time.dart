@@ -34,6 +34,15 @@ extension DateTimeX on DateTime {
     return now.year == year && now.month == month && now.day - 1 == day;
   }
 
+  /// Check if this [DateTime] is in the past
+  bool get isPast {
+    final now = DateTime.now();
+    return difference(now).isNegative;
+  }
+
+  /// Check if this [DateTime] is in the future
+  bool get isFuture => !isPast;
+
   /// Check if this [DateTime] is today
   bool get isToday {
     final now = DateTime.now();

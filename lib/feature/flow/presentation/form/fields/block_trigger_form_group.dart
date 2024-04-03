@@ -160,7 +160,7 @@ class _BlockTriggerOnList extends ConsumerWidget {
       ),
       dense: true,
       trailing: Icons.add,
-      onTrailing: () async {
+      onPressed: () async {
         final values = await resolver();
         if (!context.mounted) return;
 

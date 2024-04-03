@@ -21,8 +21,8 @@ class Account with _$Account {
   factory Account.fromJson(Map<String, Object?> json) =>
       _$AccountFromJson(json);
 
-  Optional<Home> homeWhere(String name) =>
-      homes.firstWhereOptional((c) => c.name == name);
+  Optional<Home> homeWhere(String id) =>
+      homes.firstWhereOptional((c) => c.id == id);
 }
 
 class AccountFields {

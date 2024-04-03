@@ -94,6 +94,18 @@
     "instances": 1,
     "system": false,
     "enabled": true
+  },
+  {
+    "key": "osm",
+    "name": "OSM Nominatim API",
+    "image": "osm.png",
+    "category": "Location Services",
+    "features": ["data"],
+    "description": "Enable location search",
+    "fields": [],
+    "instances": 1,
+    "system": false,
+    "enabled": true
   }
 ]
 

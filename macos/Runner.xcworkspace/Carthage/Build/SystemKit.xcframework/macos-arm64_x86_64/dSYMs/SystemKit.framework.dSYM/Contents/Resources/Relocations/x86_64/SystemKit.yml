@@ -1,6 +1,6 @@
 ---
 triple:          'x86_64-apple-darwin'
-binary-path:     '/Users/kengu/Library/Caches/org.carthage.CarthageKit/DerivedData/15.3_15E204a/SystemKit/v0.0.12/Build/Intermediates.noindex/ArchiveIntermediates/SystemKit/BuildProductsPath/Release/SystemKit.framework/SystemKit'
+binary-path:     '/Users/kengu/Library/Caches/org.carthage.CarthageKit/DerivedData/15.3_15E204a/SystemKit/v0.0.12/Build/Intermediates.noindex/ArchiveIntermediates/SystemKit-Package/BuildProductsPath/Release/SystemKit.framework/SystemKit'
 relocations:
   - { offsetInCU: 0xB6, offset: 0x87D87, size: 0x8, addend: 0x0, symName: '_$s9SystemKit7BatteryV15TemperatureUnitOSQAASQ2eeoiySbx_xtFZTW', symObjAddr: 0x70, symBinAddr: 0x1AA0, symSize: 0x10 }
   - { offsetInCU: 0xF0, offset: 0x87DC1, size: 0x8, addend: 0x0, symName: '_$s9SystemKit7BatteryV15TemperatureUnitOSHAASH9hashValueSivgTW', symObjAddr: 0x80, symBinAddr: 0x1AB0, symSize: 0x40 }

@@ -20,7 +20,7 @@ final homeServiceProvider = Provider<HomeService>.internal(
 );
 
 typedef HomeServiceRef = ProviderRef<HomeService>;
-String _$getCurrentHomeHash() => r'dda097a6e099efa319666c91afc4360069d93bc5';
+String _$getCurrentHomeHash() => r'424ecc0a72fa3998e4803aad187a7dd766dbca2c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -212,7 +212,7 @@ class _GetCurrentHomeProviderElement
   String? get userId => (origin as GetCurrentHomeProvider).userId;
 }
 
-String _$getHomesHash() => r'dd0181704199e041a7a31feee97bcb278b7e7aaa';
+String _$getHomesHash() => r'cb3848dde16fd1ef52f47fd4ce01e63c02ee5f6b';
 
 /// See also [getHomes].
 @ProviderFor(getHomes)

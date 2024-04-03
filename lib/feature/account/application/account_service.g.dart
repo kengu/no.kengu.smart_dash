@@ -21,7 +21,7 @@ final accountServiceProvider = Provider<AccountService>.internal(
 );
 
 typedef AccountServiceRef = ProviderRef<AccountService>;
-String _$getAccountHash() => r'29b0029fa4b87ec404473e71bf5366d591fda42c';
+String _$getAccountHash() => r'6e5d5c5dc8f50ace2a254dfafc162497d072c871';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,11 +68,13 @@ class GetAccountFamily extends Family {
   String? get name => r'getAccountProvider';
 
   /// See also [getAccount].
-  GetAccountProvider call([
+  GetAccountProvider call({
     String? userId,
-  ]) {
+    Duration? ttl,
+  }) {
     return GetAccountProvider(
-      userId,
+      userId: userId,
+      ttl: ttl,
     );
   }
 
@@ -82,7 +84,8 @@ class GetAccountFamily extends Family {
     covariant GetAccountProvider provider,
   ) {
     return call(
-      provider.userId,
+      userId: provider.userId,
+      ttl: provider.ttl,
     );
   }
 
@@ -112,12 +115,14 @@ class _$GetAccountFamilyOverride implements FamilyOverride {
 /// See also [getAccount].
 class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
   /// See also [getAccount].
-  GetAccountProvider([
+  GetAccountProvider({
     String? userId,
-  ]) : this._internal(
+    Duration? ttl,
+  }) : this._internal(
           (ref) => getAccount(
             ref as GetAccountRef,
-            userId,
+            userId: userId,
+            ttl: ttl,
           ),
           from: getAccountProvider,
           name: r'getAccountProvider',
@@ -129,6 +134,7 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
           allTransitiveDependencies:
               GetAccountFamily._allTransitiveDependencies,
           userId: userId,
+          ttl: ttl,
         );
 
   GetAccountProvider._internal(
@@ -139,9 +145,11 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.userId,
+    required this.ttl,
   }) : super.internal();
 
   final String? userId;
+  final Duration? ttl;
 
   @override
   Override overrideWith(
@@ -157,13 +165,20 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         userId: userId,
+        ttl: ttl,
       ),
     );
   }
 
   @override
-  (String?,) get argument {
-    return (userId,);
+  ({
+    String? userId,
+    Duration? ttl,
+  }) get argument {
+    return (
+      userId: userId,
+      ttl: ttl,
+    );
   }
 
   @override
@@ -182,18 +197,22 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
       debugGetCreateSourceHash: debugGetCreateSourceHash,
       from: from,
       userId: userId,
+      ttl: ttl,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetAccountProvider && other.userId == userId;
+    return other is GetAccountProvider &&
+        other.userId == userId &&
+        other.ttl == ttl;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, userId.hashCode);
+    hash = _SystemHash.combine(hash, ttl.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -202,6 +221,9 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
 mixin GetAccountRef on AutoDisposeFutureProviderRef<Optional<Account>> {
   /// The parameter `userId` of this provider.
   String? get userId;
+
+  /// The parameter `ttl` of this provider.
+  Duration? get ttl;
 }
 
 class _GetAccountProviderElement
@@ -211,6 +233,8 @@ class _GetAccountProviderElement
 
   @override
   String? get userId => (origin as GetAccountProvider).userId;
+  @override
+  Duration? get ttl => (origin as GetAccountProvider).ttl;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

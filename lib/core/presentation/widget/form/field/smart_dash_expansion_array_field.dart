@@ -56,7 +56,7 @@ class SmartDashExpansionArrayField<T> extends StatelessWidget {
           childPadding: childPadding,
           initiallyExpanded: initiallyExpanded,
           trailing: Icons.add,
-          onTrailing: () async {
+          onPressed: () async {
             if (onAdd != null) {
               final item = await onAdd!.call();
               if (item != null) {

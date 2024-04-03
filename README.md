@@ -4,6 +4,10 @@ A Smart Dashboard App for my personal use.
 
 ## Roadmap
 
+- [x] Implement Location service (point and/or place)
+    * [x] Add geocoder for address and reverse lookup
+    * [ ] Add location field to Device
+    * [ ] Refactor location in Home, Weather and Snow features
 - [ ] Implement support for editable control flows
     * [x] Blocks with triggers, conditions and actions
     * [x] Screen for creating new flows
@@ -25,10 +29,6 @@ A Smart Dashboard App for my personal use.
 - [ ] Implement scrollable bottom bar using [scrollable_reorderable_navbar](https://pub.dev/packages/scrollable_reorderable_navbar) 
 - [ ] Implement configurable processing delays and throttling
 - [ ] Implement pane-based settings screen on desktop
-- [ ] Implement Location service (point and/or place)
-    * [ ] Add geocoder for address and reverse lookup
-    * [ ] Add location field to Device
-    * [ ] Refactor location in Home, Weather and Snow features
 - [ ] Making a button that turns on/off "the whole cabin" (at home / away from home) 
 - [ ] Move state and integrations to backend
 

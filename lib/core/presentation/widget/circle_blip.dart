@@ -60,9 +60,11 @@ class _CircleBlipState extends State<CircleBlip>
       setState(() => _isVisible = state);
       _animController.forward().then((_) {
         Future.delayed(const Duration(milliseconds: 300), () {
-          _animController.reverse().then((_) {
-            setState(() => _isVisible = false);
-          });
+          if (mounted) {
+            _animController.reverse().then((_) {
+              setState(() => _isVisible = false);
+            });
+          }
         });
       });
     }

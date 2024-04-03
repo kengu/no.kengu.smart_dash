@@ -7,6 +7,7 @@ part of 'home.dart';
 // **************************************************************************
 
 _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
+      id: json['id'] as String,
       name: json['name'] as String,
       members: (json['members'] as List<dynamic>)
           .map((e) => HomeMember.fromJson(e as Map<String, dynamic>))
@@ -14,26 +15,27 @@ _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
       services: (json['services'] as List<dynamic>)
           .map((e) => ServiceConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
-      address: json['address'] as String?,
+      location: Location.fromJson(json['location'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'members': instance.members.map((e) => e.toJson()).toList(),
       'services': instance.services.map((e) => e.toJson()).toList(),
-      'address': instance.address,
+      'location': instance.location.toJson(),
     };
 
 _$CurrentHomeImpl _$$CurrentHomeImplFromJson(Map<String, dynamic> json) =>
     _$CurrentHomeImpl(
-      name: json['name'] as String,
+      homeId: json['homeId'] as String,
       userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$$CurrentHomeImplToJson(_$CurrentHomeImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'homeId': instance.homeId,
       'userId': instance.userId,
     };
 

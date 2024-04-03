@@ -1,16 +1,20 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ProgressIndicator;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
+import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
+import 'package:smart_dash/core/presentation/widget/list/expansion_list.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
@@ -18,7 +22,9 @@ import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
+import 'package:smart_dash/feature/home/application/location_manager.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
+import 'package:smart_dash/feature/home/domain/location.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
@@ -131,13 +137,13 @@ class _CurrentHomeSetup extends ConsumerWidget {
         final homes = array.value!
             .whereNotNull()
             .map(Home.fromJson)
-            .map((e) => e.name)
+            .map((e) => e.id)
             .toList();
         final current = currentHome.value;
-        final index = homes.indexOf(current.name);
+        final index = homes.indexOf(current.id);
         assert(
           index > -1,
-          'Current home ${current.name} not found in homes [${homes.join(',')}]',
+          'Current home ${current.id} not found in homes [${homes.join(',')}]',
         );
 
         final controller = AccountFormScreenController.forCurrentUser(ref);
@@ -147,8 +153,6 @@ class _CurrentHomeSetup extends ConsumerWidget {
             _HomeInfoField(
               index: index,
               homes: array,
-              controller: controller,
-              integrations: integrations,
             ),
             _HomeMembersField(
               controller: controller,
@@ -175,19 +179,15 @@ class _HomeInfoField extends StatelessWidget {
   const _HomeInfoField({
     required this.index,
     required this.homes,
-    required this.controller,
-    required this.integrations,
   });
 
   final int index;
   final FormArray<JsonObject> homes;
-  final IntegrationMap integrations;
-  final AccountFormScreenController controller;
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: const Text('Information'),
+      title: const Text('Home'),
       subtitle: Text(
         'Manage home information',
         style: getLegendTextStyle(context),
@@ -214,11 +214,119 @@ class _HomeInfoField extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16.0),
-        SmartDashTextField<String>(
-          labelText: 'Address',
-          formControlName: '$index.${HomeFields.address}',
+        _LocationField(
+          index: index,
+          group: homes.controls[index] as FormGroup,
         ),
       ],
+    );
+  }
+}
+
+class _LocationField extends ConsumerWidget {
+  const _LocationField({
+    required this.index,
+    required this.group,
+  });
+
+  final int index;
+  final FormGroup group;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _buildGroup(
+      context,
+      () async {
+        final formGroup = (group.control(HomeFields.location) as FormGroup);
+        final result = await showSearchDialog<Location>(
+          context,
+          title: 'Find location',
+          query: formGroup.value[LocationField.name] as String,
+          search: (query) => ref
+              .read(locationManagerProvider)
+              .searchByNameAsStream(query: query),
+          resultBuilder: (location, selected) => ListTile(
+            selected: selected,
+            contentPadding: EdgeInsets.zero,
+            title: Text(location.address),
+            leading: const Icon(Icons.place),
+            subtitle: Text('${location.lon}, ${location.lat}'),
+          ),
+        );
+        if (result.isPresent) {
+          final location = result.value;
+          formGroup.value = {
+            LocationField.lon: location.lon,
+            LocationField.lat: location.lat,
+            LocationField.name: location.address,
+          };
+        }
+      },
+      (context, name, control) {
+        switch (name) {
+          case LocationField.name:
+            return SmartDashTextField<String>(
+              labelText: 'Place',
+              allowEmpty: false,
+              formPath: [index, HomeFields.location],
+              formControlName: LocationField.name,
+              validationMessages: {
+                ValidationMessage.required: (_) => 'Please enter place',
+              },
+            );
+          case LocationField.lon:
+            return SmartDashTextField<double>(
+              labelText: 'Longitude',
+              allowEmpty: false,
+              formPath: [index, HomeFields.location],
+              formControlName: LocationField.lon,
+              valueAccessor: DoubleValueAccessor(fractionDigits: 4),
+              validationMessages: {
+                ValidationMessage.required: (_) => 'Please enter longitude',
+                ValidationMessage.pattern: (_) => 'Not decimal degrees',
+              },
+            );
+          case LocationField.lat:
+            return SmartDashTextField<double>(
+              labelText: 'Latitude',
+              allowEmpty: false,
+              formPath: [index, HomeFields.location],
+              formControlName: LocationField.lat,
+              valueAccessor: DoubleValueAccessor(fractionDigits: 4),
+              validationMessages: {
+                ValidationMessage.required: (_) => 'Please enter latitude',
+                ValidationMessage.pattern: (_) => 'Not decimal degrees',
+              },
+            );
+        }
+        return Container();
+      },
+    );
+  }
+
+  SmartDashExpansionList<dynamic> _buildGroup(
+    BuildContext context,
+    VoidCallback onSearch,
+    SmartDashExpansionGroupFieldItemBuilder itemBuilder,
+  ) {
+    int index = 0;
+    final formGroup = (group.control(HomeFields.location) as FormGroup);
+    final keys = formGroup.controls.keys.toList();
+    return SmartDashExpansionList(
+      title: const Text('Location'),
+      description: Text(
+        'Manage home location',
+        style: getLegendTextStyle(context),
+      ),
+      trailing: Icons.search,
+      onPressed: onSearch,
+      children: formGroup.controls.values
+          .map((e) => itemBuilder(
+                context,
+                keys[index++],
+                e as AbstractControl,
+              ))
+          .toList(),
     );
   }
 }

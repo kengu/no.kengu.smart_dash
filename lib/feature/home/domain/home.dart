@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
+import 'package:smart_dash/feature/home/domain/location.dart';
 
 part 'home.freezed.dart';
 part 'home.g.dart';
@@ -10,10 +11,11 @@ class Home with _$Home {
   const Home._();
 
   const factory Home({
+    required String id,
     required String name,
     required List<HomeMember> members,
     required List<ServiceConfig> services,
-    String? address,
+    required Location location,
   }) = _Home;
 
   factory Home.fromJson(Map<String, Object?> json) => _$HomeFromJson(json);
@@ -39,7 +41,7 @@ class CurrentHome with _$CurrentHome {
   const CurrentHome._();
 
   const factory CurrentHome({
-    required String name,
+    required String homeId,
     required String userId,
   }) = _CurrentHome;
 
@@ -61,9 +63,10 @@ class HomeMember with _$HomeMember {
 }
 
 class HomeFields {
+  static const String id = 'id';
   static const String name = 'name';
-  static const String address = 'address';
   static const String members = 'members';
+  static const String location = 'location';
   static const String services = 'services';
 }
 

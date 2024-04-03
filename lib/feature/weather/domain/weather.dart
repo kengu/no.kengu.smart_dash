@@ -146,19 +146,18 @@ class Weather with _$Weather {
     required asRain,
     required bool asSnow,
   }) {
+    double amount = 0.0;
     final amountInMm = data.precipitationAmount ?? 0.0;
     final avg = _calcTempAvg(airTemp, data);
     final temp = avg.isPresent ? avg.value : 0.0;
 
-    if (asRain) {
-      return temp > 0 ? amountInMm : 0.0;
+    if (asRain && temp > 0) {
+      amount += amountInMm;
     }
-    if (asSnow) {
-      return temp <= 0
-          ? amountInMm * _calcSnowRatioInInches(temp) * 0.254
-          : 0.0;
+    if (asSnow && temp <= 0) {
+      amount += amountInMm * _calcSnowRatioInInches(temp) * 0.254;
     }
-    return 0.0;
+    return amount;
   }
 
   // From https://goodcalculators.com/rain-to-snow-calculator/

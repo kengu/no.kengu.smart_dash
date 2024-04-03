@@ -34,7 +34,7 @@ class Presence with _$Presence {
       label: home.name,
       capability: DeviceCapability.value,
       // TODO: Add unique home id using nanoid
-      name: 'presence:${home.name.toLowerCase()}',
+      name: 'presence:${home.id.toLowerCase()}',
     );
   }
 

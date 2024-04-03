@@ -44,7 +44,7 @@ class SmartDashExpansionGroupField<T> extends StatelessWidget {
       description: description,
       childPadding: childPadding,
       trailing: onDelete == null ? null : Icons.delete,
-      onTrailing: onDelete,
+      onPressed: onDelete,
       children: formGroup.controls.values
           .map((e) => itemBuilder(
                 context,

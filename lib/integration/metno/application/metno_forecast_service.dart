@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/weather/application/weather_forecast_service.dart';
 import 'package:smart_dash/feature/weather/data/weather_forecast_client.dart';
-import 'package:smart_dash/integration/metno/data/metno_location_forecast_client.dart';
+import 'package:smart_dash/integration/metno/data/metno_forecast_client.dart';
 import 'package:smart_dash/integration/metno/metno.dart';
 
 part 'metno_forecast_service.g.dart';

@@ -7,7 +7,9 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_controller.d
 import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/account/domain/account.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
+import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
+import 'package:smart_dash/feature/home/domain/location.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
@@ -68,12 +70,17 @@ class AccountFormScreenController extends _$AccountFormScreenController
 
   FormGroup buildHomeFieldsForm(Home data) {
     return fb.group(<String, Object>{
+      // Hidden fields
+      HomeFields.id: FormControl<String>(
+        value: data.id,
+      ),
+      // Rendered fields
       HomeFields.name: FormControl<String>(
         value: data.name,
         validators: [Validators.required],
       ),
-      HomeFields.address: FormControl<String>(
-        value: data.address,
+      HomeFields.location: buildLocationFieldsForm(
+        data.location,
       ),
       HomeFields.members: FormArray<JsonObject>([
         ...data.members.map(buildMemberFieldsForm),
@@ -81,6 +88,33 @@ class AccountFormScreenController extends _$AccountFormScreenController
       HomeFields.services: FormArray<JsonObject>([
         ...toServices(data).map(buildServiceFieldsForm),
       ]),
+    });
+  }
+
+  FormGroup buildLocationFieldsForm(Location? data) {
+    return fb.group(<String, Object>{
+      // Hidden fields
+      LocationField.data: FormControl<JsonObject>(
+        value: data?.data,
+      ),
+      // Rendered fields
+      LocationField.name: FormControl<String>(value: data?.name, validators: [
+        Validators.required,
+      ]),
+      LocationField.lon: FormControl<double>(
+        value: data?.lon,
+        validators: [
+          Validators.required,
+          Validators.pattern(r'(^\d*\.?\d*)'),
+        ],
+      ),
+      LocationField.lat: FormControl<double>(
+        value: data?.lat,
+        validators: [
+          Validators.required,
+          Validators.pattern(r'(^\d*\.?\d*)'),
+        ],
+      ),
     });
   }
 
@@ -170,12 +204,28 @@ class AccountFormScreenController extends _$AccountFormScreenController
   }
 
   @override
-  Future<Optional<Account>> load(AccountQuery query) {
-    return ref.read(accountServiceProvider).getAccount(query.userId);
+  Future<Optional<Account>> load(AccountQuery query) async {
+    final accounts = ref.read(accountServiceProvider);
+    final result = await accounts.getAccount(userId: query.userId);
+    if (result.isPresent) {
+      final account = result.value;
+      final homes = ref.read(homeServiceProvider);
+      final current = await homes.getCurrentHome(userId: query.userId);
+      if (current.isPresent) {
+        final home = current.value;
+        final data = Optional.of(
+          account.copyWith(
+            homes: account.homes.where((e) => e.id == home.id).toList(),
+          ),
+        );
+        return data;
+      }
+    }
+    return const Optional.empty();
   }
 
   @override
-  Future<bool> save(Account data) async {
-    return await ref.read(accountServiceProvider).addOrUpdate(data);
+  Future<bool> save(Account data) {
+    return ref.read(accountServiceProvider).addOrUpdate(data);
   }
 }

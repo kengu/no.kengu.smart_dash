@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/account/application/account_service.dart';
 import 'package:smart_dash/feature/home/domain/home.dart';
+import 'package:smart_dash/feature/home/domain/location.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/guard.dart';
 
@@ -34,7 +36,7 @@ class HomeRepository {
     bool isCurrent = true,
   }) async {
     final service = ref.read(accountServiceProvider);
-    final result = await service.getAccount(userId);
+    final result = await service.getAccount(userId: userId);
     if (!result.isPresent) {
       return const Optional.empty();
     }
@@ -42,7 +44,13 @@ class HomeRepository {
     final uid = result.value.userId;
     final homes = result.value.homes;
 
-    final it = Home(name: name, members: [], services: []);
+    final it = Home(
+      id: nanoid(),
+      name: name,
+      members: [],
+      services: [],
+      location: Location.empty(),
+    );
     final added = await service.addOrUpdate(
       account.copyWith(homes: [...homes, it]),
     );
@@ -67,7 +75,9 @@ class HomeRepository {
   /// yet. The method will return [Optional.empty]
   /// result if current user is not found.
   Future<Optional<Home>> getCurrentHome([String? userId]) async {
-    final account = await ref.read(accountServiceProvider).getAccount(userId);
+    final account = await ref.read(accountServiceProvider).getAccount(
+          userId: userId,
+        );
     if (!account.isPresent || account.value.homes.isNotEmpty != true) {
       return const Optional.empty();
     }
@@ -84,6 +94,7 @@ class HomeRepository {
       return Optional.of(homes.first);
     }
 
+    // TODO: Make selected home persisted
     final home = homes.firstWhereOptional(
       (home) => current.value.userId == uid,
     );
@@ -98,13 +109,15 @@ class HomeRepository {
 
   /// Get list of homes for given [userId].
   Future<List<Home>> getHomes(String userId) async {
-    final account = await ref.read(accountServiceProvider).getAccount(userId);
+    final account =
+        await ref.read(accountServiceProvider).getAccount(userId: userId);
     return account.value.homes;
   }
 
   /// Set current home for [userId]
   Future<bool> setCurrentHome(String userId, Home home) async {
-    final account = await ref.read(accountServiceProvider).getAccount(userId);
+    final account =
+        await ref.read(accountServiceProvider).getAccount(userId: userId);
     if (!account.isPresent) {
       return false;
     }
@@ -113,12 +126,15 @@ class HomeRepository {
       'User $userId have no homes',
     );
     assert(
-      account.value.homeWhere(home.name).isPresent,
-      'User $userId have no home with name ${home.name}',
+      account.value.homeWhere(home.id).isPresent,
+      'User $userId have no home with name ${home.id}',
     );
 
     final homes = await _loadAll();
-    final current = CurrentHome(userId: userId, name: home.name);
+    final current = CurrentHome(userId: userId, homeId: home.id);
+    if (homes.isEmpty) {
+      return _setAll([current]);
+    }
     final next = homes.map((e) => _replace(e, current)).toList();
     return _setAll(next);
   }
