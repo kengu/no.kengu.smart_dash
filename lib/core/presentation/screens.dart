@@ -17,6 +17,7 @@ class Screens {
 
   static const camera = '/camera';
 
+  static const flowCopy = FlowRoutes.copy;
   static const flowSelect = FlowRoutes.select;
   static const flowCreate = FlowRoutes.create;
   static const flowDetails = FlowRoutes.details;
@@ -33,6 +34,7 @@ class Screens {
     Screens.pairingListDeviceTypes,
     Screens.pairingListNewDevices,
     Screens.camera,
+    Screens.flowCopy,
     Screens.flowSelect,
     Screens.flowCreate,
     Screens.flowDetails,

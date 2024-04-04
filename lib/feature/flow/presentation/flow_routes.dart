@@ -7,10 +7,12 @@ import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_screen
 import 'package:smart_dash/feature/flow/presentation/select/select_flow_screen.dart';
 
 class FlowRoutes {
+  static const copy = '${Pages.flows}/$_copy';
   static const select = '${Pages.flows}/$_select';
   static const create = '${Pages.flows}/$_create';
   static const details = '${Pages.flows}/$_details';
 
+  static const _copy = 'copy';
   static const _select = 'select';
   static const _create = 'create';
   static const _details = 'details';
@@ -18,6 +20,13 @@ class FlowRoutes {
   static String toDetails(BlockModel model) => Uri(
         path: FlowRoutes.details,
         queryParameters: {'id': model.id},
+      ).toString();
+
+  static String toCopy(BlockModel model) => Uri(
+        path: FlowRoutes.copy,
+        queryParameters: {
+          'id': model.id,
+        },
       ).toString();
 }
 
@@ -54,6 +63,18 @@ GoRoute buildFlowRoutes() {
         restorationId: Routes.setLastLocation,
         builder: (context, state) {
           return BlockFlowFormScreen(
+            location: Routes.lastLocationOnStack,
+            id: state.uri.queryParameters['id']!,
+          );
+        },
+      ),
+      Routes.buildGoRoute(
+        fullscreenDialog: true,
+        path: FlowRoutes._copy,
+        restorationId: Routes.setLastLocation,
+        builder: (context, state) {
+          return BlockFlowFormScreen(
+            copy: true,
             location: Routes.lastLocationOnStack,
             id: state.uri.queryParameters['id']!,
           );

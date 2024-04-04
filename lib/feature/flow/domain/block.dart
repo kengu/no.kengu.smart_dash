@@ -42,12 +42,7 @@ class BlockModel with _$BlockModel {
         id: id,
         label: label,
         enabled: true,
-        state: BlockState(
-          tags: [],
-          repeated: 0,
-          value: false,
-          lastChanged: DateTime.now(),
-        ),
+        state: BlockState.empty(),
         description: label,
         trigger: const BlockTrigger(
           any: false,
@@ -135,6 +130,15 @@ class BlockState with _$BlockState {
     final when = lastChanged ?? ifNull;
     return ttl > 0 &&
         (when == null || DateTime.now().difference(when).inSeconds > ttl);
+  }
+
+  factory BlockState.empty() {
+    return BlockState(
+      tags: [],
+      repeated: 0,
+      value: false,
+      lastChanged: DateTime.now(),
+    );
   }
 
   factory BlockState.fromTags({

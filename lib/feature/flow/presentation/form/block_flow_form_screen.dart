@@ -25,11 +25,13 @@ import 'block_flow_form_controller.dart';
 class BlockFlowFormScreen extends ConsumerWidget {
   const BlockFlowFormScreen({
     super.key,
-    this.id,
     required this.location,
+    this.id,
+    this.copy = false,
   });
 
   final String? id;
+  final bool copy;
   final String location;
 
   @override
@@ -38,10 +40,10 @@ class BlockFlowFormScreen extends ConsumerWidget {
           data: (currentHome) {
             return AsyncFormScreen<BlockFlowFormQuery, BlockModel,
                 BlockFlowFormController>(
-              title: 'Edit Flow',
+              title: '${id == null || copy ? 'New' : 'Edit'} Flow',
               scrollable: true,
               submitText: id == null ? 'CREATE' : 'SAVE',
-              query: BlockFlowFormQuery(id: id),
+              query: BlockFlowFormQuery(id: id, copy: copy),
               provider: blockFlowFormControllerProvider.call,
               onClose: () => context.go(location),
               onSubmitted: (data) => SnackbarController.showSnackBarByRef(

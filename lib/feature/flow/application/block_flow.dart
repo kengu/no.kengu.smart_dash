@@ -160,7 +160,9 @@ class BlockFlow extends Flow {
         );
 
         if (repeated < trigger.debounceCount ||
-            trigger.debounceAfter > 0 && !shouldDebounce) return;
+            trigger.debounceAfter > 0 && !shouldDebounce) {
+          return;
+        }
 
         final shouldRepeat = repeated <= trigger.repeatCount;
 

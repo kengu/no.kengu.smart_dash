@@ -56,13 +56,26 @@ class FlowCard extends ConsumerWidget {
                         leading: const Icon(SmartDashIcons.process_outlined),
                         contentPadding:
                             const EdgeInsets.only(left: 16, right: 8.0),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            context.go(
-                              FlowRoutes.toDetails(model),
-                            );
-                          },
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.copy),
+                              onPressed: () {
+                                context.go(
+                                  FlowRoutes.toCopy(model),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                context.go(
+                                  FlowRoutes.toDetails(model),
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),

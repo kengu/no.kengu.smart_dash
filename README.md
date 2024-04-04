@@ -4,16 +4,20 @@ A Smart Dashboard App for my personal use.
 
 ## Roadmap
 
+- [ ] Improve Camera updates
+    * [ ] Add update stream using timing service
+    * [ ] Add snapshot persistence driven by update stream
 - [x] Implement Location service (point and/or place)
-    * [x] Add geocoder for address and reverse lookup
-    * [ ] Add location field to Device
-    * [ ] Refactor location in Home, Weather and Snow features
+  * [x] Add geocoder for address and reverse lookup
+  * [ ] Add location field to Device
+  * [ ] Refactor location in Home, Weather and Snow features
 - [ ] Implement support for editable control flows
     * [x] Blocks with triggers, conditions and actions
     * [x] Screen for creating new flows
     * [x] Page with list of flows
     * [x] Flow notification action
     * [x] Human-readable summary
+    * [x] Add support for copy flow 
     * [ ] Refactor trigger into single list
     * [ ] New flow from templates
 - [ ] Implement network connectivity handling (tolerance and events)

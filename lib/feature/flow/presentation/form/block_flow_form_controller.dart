@@ -12,8 +12,12 @@ import 'package:smart_dash/util/data/json.dart';
 part 'block_flow_form_controller.g.dart';
 
 class BlockFlowFormQuery {
-  BlockFlowFormQuery({required this.id});
+  BlockFlowFormQuery({
+    required this.id,
+    this.copy = false,
+  });
 
+  final bool copy;
   final String? id;
 
   @override
@@ -21,10 +25,11 @@ class BlockFlowFormQuery {
       identical(this, other) ||
       other is BlockFlowFormQuery &&
           runtimeType == other.runtimeType &&
-          id == other.id;
+          id == other.id &&
+          copy == other.copy;
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => id.hashCode ^ copy.hashCode;
 }
 
 @riverpod
@@ -202,7 +207,16 @@ class BlockFlowFormController extends _$BlockFlowFormController
         'New Flow',
       ));
     }
-    return ref.read(blockRepositoryProvider).get(query.id!);
+    final model = await ref.read(blockRepositoryProvider).get(query.id!);
+    if (model.isPresent && query.copy) {
+      final current = model.value;
+      return Optional.of(model.value.copyWith(
+        id: nanoid(),
+        state: BlockState.empty(),
+        label: '${current.label} Copy',
+      ));
+    }
+    return model;
   }
 
   @override

@@ -1,6 +1,6 @@
 [
   {
-    "id": "a1b2c3",
+    "id": "d:1",
     "enabled": true,
     "label": "Power Limit Notification",
     "description": "Notify when power exceeds limit",
@@ -11,8 +11,12 @@
     },
     "trigger": {
       "any": true,
-      "onTypes": ["device"],
-      "onTags": ["measure_power:sikom:device:541905"],
+      "onTypes": [
+        "device"
+      ],
+      "onTags": [
+        "measure_power:sikom:device:541905"
+      ],
       "repeatCount": 3,
       "repeatAfter": 300,
       "debounceCount": 0,
@@ -54,5 +58,79 @@
       }
     ],
     "whenFalse": []
+  },
+  {
+    "id": "d:2",
+    "label": "Snow Weight Limit Notification",
+    "enabled": true,
+    "state": {
+      "value": false,
+      "repeated": 257,
+      "tags": [
+        {
+          "tag": "snowDepth",
+          "name": "snowDepth",
+          "value": 132,
+          "type": "int",
+          "unit": "snowDepth"
+        },
+        {
+          "tag": "snowWeight",
+          "name": "snowWeight",
+          "value": 398,
+          "type": "int",
+          "unit": "snowWeight"
+        }
+      ],
+      "lastChanged": "2024-04-04T18:09:37.692912"
+    },
+    "description": "Notify when snow weight exceeds limit",
+    "trigger": {
+      "any": false,
+      "repeatCount": 3,
+      "repeatAfter": 300,
+      "debounceCount": 0,
+      "debounceAfter": 0,
+      "onTags": [
+        "measure_snow_weight:nysny:device:skirvedalen"
+      ],
+      "onTypes": [
+        "device"
+      ]
+    },
+    "whenTrue": [
+      {
+        "label": "Snow Weight Limit Notification",
+        "description": "Snow Weight exceeded ${limit}",
+        "type": "notification"
+      }
+    ],
+    "whenFalse": [],
+    "parameters": [
+      {
+        "tag": "limit",
+        "name": "limit",
+        "value": 600,
+        "type": "int",
+        "unit": "snowWeight"
+      }
+    ],
+    "conditions": [
+      {
+        "label": "Limit",
+        "expression": "snowWeight > limit",
+        "description": "Snow Weight limit",
+        "variables": [
+          {
+            "tag": "snowWeight",
+            "name": "measure_snow_weight:nysny:device:skirvedalen",
+            "label": "Snøtyngde",
+            "type": "int",
+            "unit": "snowWeight",
+            "description": "Snøtyngde"
+          }
+        ]
+      }
+    ]
   }
 ]
