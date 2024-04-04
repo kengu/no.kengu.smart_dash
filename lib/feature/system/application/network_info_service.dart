@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
@@ -30,6 +31,8 @@ class NetworkInfoService {
   }
 
   final Ref ref;
+
+  final _log = Logger('$NetworkInfoService');
 
   // TODO: Make configurable
   final liveCheck = Duration(minutes: Platform.isDesktop ? 1 : 5);
@@ -75,24 +78,25 @@ class NetworkInfoService {
         await ref.read(networkDeviceInfoRepositoryProvider.notifier).load();
     _devices.addAll(state);
 
-    _timing = ref.read(timingServiceProvider).events.throttle(liveCheck).listen(
-      (e) {
-        if (isEnabled && isIdle) {
-          _discover(_needFullScan(e, fullCheck));
-        }
-      },
-      cancelOnError: false,
-    );
+    _timing = ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(liveCheck)
+        .listen(_onCheck, cancelOnError: false);
 
     if (kDebugMode) {
       _events.stream.listen(
-        (e) => debugPrint(
-          '----------------------------\n'
-          '$NetworkInfoService >> ${e.runtimeType}::${e.data.ipAddress}\n'
-          '----------------------------',
+        (e) => _log.fine(
+          '${e.runtimeType}::${e.data.ipAddress}',
         ),
         cancelOnError: false,
       );
+    }
+  }
+
+  void _onCheck(e) {
+    if (isEnabled && isIdle) {
+      _discover(_needFullScan(e, fullCheck));
     }
   }
 
@@ -206,11 +210,9 @@ class NetworkInfoService {
         if (kDebugMode) {
           final left = (fullCheck -
               DateTime.now().difference(_lastFullScan ?? DateTime.now()));
-          debugPrint(
-            '----------------------------\n'
-            '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan: [${hostIds.join(',')}]. Full Scan in ${left.inMinutes} min'}\n'
-            '----------------------------',
-          );
+          _log.fine(fullScan
+              ? 'Full Scan'
+              : 'Live Scan: [${hostIds.join(',')}]. Full Scan in ${left.inMinutes} min');
         }
 
         _progress.add(
@@ -221,10 +223,9 @@ class NetworkInfoService {
           subnet,
           hostIds: hostIds,
           progressCallback: (e) {
-            debugPrint(
-              '----------------------------\n'
-              '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: ${e.toStringAsFixed(1)} %\n'
-              '----------------------------',
+            _log.fine(
+              '${fullScan ? 'Full Scan' : 'Live Scan'} '
+              'PROGRESS: ${e.toStringAsFixed(1)} %',
             );
             _progress.add(
               _lastProgress = NetworkScanProgress(fullScan, e),
@@ -296,10 +297,8 @@ class NetworkInfoService {
 
       _states.add(newState.values.toList());
 
-      debugPrint(
-        '----------------------------\n'
-        '$NetworkInfoService >> ${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: 100 %\n'
-        '----------------------------',
+      _log.fine(
+        '${fullScan ? 'Full Scan' : 'Live Scan'} PROGRESS: 100 %',
       );
       _progress.add(
         _lastProgress = NetworkScanProgress.done(fullScan),

@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:optional/optional.dart';
@@ -32,11 +35,16 @@ class MqttClient {
   }
 
   final MqttServerClient _api;
+
   final Map<String, MqttSubscriptionStatus> _subscriptions = {};
+
   final StreamController<s.MqttMessage> _controller =
       StreamController.broadcast();
 
+  final _log = Logger('$MqttClient');
+
   int _aliveCount = 0;
+
   StreamSubscription? _updateSubscription;
 
   MqttConnectionState _state = MqttConnectionState.disconnected;
@@ -49,7 +57,7 @@ class MqttClient {
   Future<bool> connect({String? username, String? password}) async {
     assert(isDisconnected, 'Already connected');
 
-    debugPrint(
+    _log.info(
       'MqttClient >> Connect :: Client is connecting',
     );
 
@@ -68,17 +76,17 @@ class MqttClient {
         _state = status.state;
         return isConnected;
       }
-    } on NoConnectionException catch (e) {
+    } on NoConnectionException catch (e, stackTrace) {
       // Raised by the client when connection fails.
-      debugPrint('MqttClient >> client exception :: $e');
+      _log.severe('Connection failed', e, stackTrace);
       _api.disconnect();
-    } on io.SocketException catch (e) {
+    } on io.SocketException catch (e, stackTrace) {
       // Raised by the socket layer
-      debugPrint('MqttClient >> socket exception :: $e');
+      _log.severe('Connection failed', e, stackTrace);
       _api.disconnect();
-    } on io.HttpException catch (e) {
+    } on io.HttpException catch (e, stackTrace) {
       // Raised by the socket layer
-      debugPrint('MqttClient >> http exception :: $e');
+      _log.severe('Connection failed', e, stackTrace);
       _api.disconnect();
     }
     return false;
@@ -142,39 +150,39 @@ class MqttClient {
       }
     }, cancelOnError: false);
 
-    debugPrint(
-      'MqttClient >> OnConnected :: '
+    _log.info(
+      'OnConnected :: '
       'Client connection was successful',
     );
   }
 
   void _pong() {
-    debugPrint(
-      'MqttClient >> Pong :: '
+    _log.fine(
+      'Pong :: '
       'Ping response client callback invoked',
     );
     _aliveCount++;
   }
 
   void _onSubscribed(String topic) {
-    debugPrint(
-      'MqttClient >> OnSubscribed :: '
+    _log.info(
+      'OnSubscribed :: '
       'Confirmed for topic :: $topic',
     );
     _subscriptions[topic] = _api.getSubscriptionsStatus(topic);
   }
 
   void _onSubscribeFail(String topic) {
-    debugPrint(
-      'MqttClient >> OnSubscribedFail :: '
-      'Not subscribed to topic :: $topic',
+    _log.warning(
+      'OnSubscribedFail :: '
+      'Not subscribed to topic [$topic]',
     );
     _subscriptions.remove(topic);
   }
 
   void _onUnsubscribed(String? topic) {
-    debugPrint(
-      'MqttClient >> OnUnsubscribed :: '
+    _log.info(
+      'OnUnsubscribed :: '
       'Confirmed for topic :: $topic',
     );
     _subscriptions.remove(topic);
@@ -182,39 +190,40 @@ class MqttClient {
 
   // The unsolicited disconnect callback
   void _onDisconnected() {
-    debugPrint(
-      'MqttClient >> OnDisconnected :: Client disconnected',
+    _log.info(
+      'OnDisconnected :: '
+      'Client disconnected',
     );
     if (_api.connectionStatus!.disconnectionOrigin ==
         MqttDisconnectionOrigin.solicited) {
-      debugPrint(
-        'MqttClient >> OnDisconnected :: '
+      _log.info(
+        'OnDisconnected :: '
         'Is solicited, this is CORRECT',
       );
     } else {
-      debugPrint(
-        'MqttClient >> OnDisconnected :: '
+      _log.warning(
+        'OnDisconnected :: '
         'Is unsolicited or none, this is INCORRECT',
       );
     }
     if (_aliveCount == 3) {
-      debugPrint(
-        'MqttClient >> OnDisconnected :: '
+      _log.info(
+        'OnDisconnected :: '
         'Pong count is correct [$_aliveCount]',
       );
     } else {
-      debugPrint(
-        'MqttClient >> OnDisconnected :: '
+      _log.warning(
+        'OnDisconnected :: '
         'Pong count is incorrect, expected 3, actual is $_aliveCount',
       );
     }
   }
 
   void _onAutoReconnect() {
-    debugPrint('MqttClient >> Auto reconnect :: STARTED');
+    _log.info('Auto reconnect :: STARTED');
   }
 
   void _onAutoReconnected() {
-    debugPrint('MqttClient >> Auto reconnect :: COMPLETED');
+    _log.info('Auto reconnect :: COMPLETED');
   }
 }

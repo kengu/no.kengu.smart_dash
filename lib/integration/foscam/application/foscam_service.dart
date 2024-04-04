@@ -6,18 +6,14 @@ import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/integration/foscam/data/foscam_client.dart';
+import 'package:smart_dash/integration/foscam/foscam.dart';
 import 'package:smart_dash/util/future.dart';
 import 'package:smart_dash/util/guard.dart';
 
 part 'foscam_service.g.dart';
 
-class FoscamService implements CameraService {
-  FoscamService(this.ref);
-
-  @override
-  final String key = 'foscam';
-
-  final Ref ref;
+class FoscamService extends CameraService {
+  FoscamService(Ref ref) : super(ref: ref, key: Foscam.key);
 
   final _cache = FutureCache(prefix: '$FoscamService');
 

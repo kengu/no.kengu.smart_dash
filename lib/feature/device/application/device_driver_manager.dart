@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
@@ -24,6 +27,8 @@ class DeviceDriverManager {
 
   final StreamController<DriverEvent> _controller =
       StreamController.broadcast();
+
+  final _log = Logger('$DeviceDriverManager');
 
   StreamSubscription<DateTime>? _timing;
 
@@ -48,8 +53,9 @@ class DeviceDriverManager {
   /// [DeviceDriver] should call this to register
   void register(DeviceDriver driver) {
     _drivers[driver.key] = driver;
-    debugPrint('DeviceDriverManager: '
-        '${driver.runtimeType}[key:${driver.key}] registered');
+    _log.info(
+      '${driver.runtimeType}[key:${driver.key}] registered',
+    );
   }
 
   /// Start pumping update events to registered
@@ -122,9 +128,9 @@ class DeviceDriverManager {
         // ignore: invalid_use_of_protected_member
         final event = await driver.onUpdate();
         if (_shouldProcess(event)) {
-          debugPrint(
-            '$DeviceDriverManager: fetched [${event.devices.length}] devices from ${driver.key} '
-            'after ${event.duration.inSeconds} sec.',
+          _log.fine(
+            'Fetched [${event.devices.length}] devices '
+            'from [${driver.key}] after ${event.duration.inSeconds} sec.',
           );
           if (event.isNotEmpty) {
             _controller.add(event);

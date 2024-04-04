@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_server_client.dart' as m;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
@@ -24,6 +27,8 @@ class MqttService {
   final StreamController<MqttMessage> _controller =
       StreamController.broadcast();
 
+  final _log = Logger('$MqttService');
+
   String get key => 'mqtt';
 
   Stream<MqttMessage> get updates => _controller.stream;
@@ -37,7 +42,7 @@ class MqttService {
       // Start listening to mqtt messages from known topics
       for (final config in configs) {
         final url = '${config.host}';
-        debugPrint('MqttService >> Connecting to [$url]...');
+        _log.info('Connecting to [$url]...');
 
         final client = MqttClient(
           m.MqttServerClient(url, 'SmartDash::${user.userId}')
@@ -50,37 +55,39 @@ class MqttService {
         );
 
         if (connected) {
-          debugPrint('MqttService >> Connecting to [$url]... DONE');
+          _log.info(
+            'Connecting to [$url]... DONE',
+          );
 
           // Needed for disposal when driver is uninitialized
           _clients.add(client);
           _subscriptions.add(client.updates.listen(
             (e) {
-              debugPrint(
-                'MqttService >> Received :: ${e.topic} :: ${e.payload}',
+              _log.fine(
+                'Received :: ${e.topic} :: ${e.payload}',
               );
               _controller.add(e);
             },
             cancelOnError: false,
           ));
 
-          debugPrint(
-            'MqttService >> Subscribing to topics [${config.topics}]...',
+          _log.fine(
+            'Subscribing to topics [${config.topics}]...',
           );
           for (final topic in config.topics!.split(',')) {
             final result = client.subscribe(topic);
             if (result.isPresent) {
-              debugPrint(
-                'MqttService >> Subscribing to topics [${config.topics}]...DONE',
+              _log.info(
+                'Subscribing to topics [${config.topics}]...DONE',
               );
             } else {
-              debugPrint(
-                'MqttService >> Subscribing to topics [${config.topics}]...FAILED',
+              _log.warning(
+                'Subscribing to topics [${config.topics}]...FAILED',
               );
             }
           }
         } else {
-          debugPrint('MqttService >> Connecting to [$url]... FAILED');
+          _log.warning('Connecting to [$url]... FAILED');
         }
       }
       return;
@@ -94,7 +101,7 @@ class MqttService {
     for (final it in _clients) {
       await it.dispose();
     }
-    debugPrint('MqttService >> Disposed');
+    _log.info('Service was disposed');
   }
 }
 

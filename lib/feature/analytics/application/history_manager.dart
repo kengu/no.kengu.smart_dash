@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
@@ -285,7 +285,8 @@ Stream<HistoryEvent> history(HistoryRef ref, [Token? token]) {
     (e) {
       final match = token == null || e.token == token;
       if (match) {
-        debugPrint('history >> ${e.runtimeType}[${e.token.name}]');
+        final log = Logger('history()');
+        log.fine('${e.runtimeType}[${e.token.name}]');
       }
       return match;
     },

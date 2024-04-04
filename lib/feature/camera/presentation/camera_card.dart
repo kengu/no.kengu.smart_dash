@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:optional/optional.dart';
@@ -249,7 +250,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
       await _videoPlayer.open(Media(url));
       _snapshotTimer?.cancel();
       setState(() {});
-      debugPrint(
+      Logger('$runtimeType').fine(
         'Started RTSP video stream on camera '
         '[${config.device}]: $url',
       );
@@ -261,7 +262,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
       await _videoPlayer.stop();
       _startSnapshots();
       setState(() {});
-      debugPrint(
+      Logger('$runtimeType').fine(
         'Stopped RTSP video stream on camera '
         '[${_videoConfig.value.$1.device}]: ${_videoConfig.value.$2}}',
       );

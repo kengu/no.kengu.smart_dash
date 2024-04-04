@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
@@ -16,6 +16,8 @@ class SikomClient {
   SikomClient(this.ref, this.api);
   final Dio api;
   final Ref ref;
+
+  final _log = Logger('$SikomClient');
 
   static String toBasicAuth(ServiceConfig config) => ServiceConfig.toBasicAuth(
         config.username!,
@@ -43,15 +45,16 @@ class SikomClient {
             validateStatus: (status) {
               final success = status != null && status < 400;
               if (!success) {
-                debugPrint(
+                _log.warning(
                   'Sikom request failed: [$status] /VerifyCredentials',
                 );
               }
               return success;
             },
           ));
-      debugPrint(
-        'Verified Sikom credentials: [${response.statusCode}] ${response.realUri}',
+      _log.fine(
+        'Verified Sikom credentials: '
+        '[${response.statusCode}] ${response.realUri}',
       );
       final result = SikomResponse.fromJson(response.data);
       return result.data.scalarResult == 'True';
@@ -70,7 +73,7 @@ class SikomClient {
             validateStatus: (status) {
               final success = status != null && status < 400;
               if (!success) {
-                debugPrint(
+                _log.warning(
                   'Sikom request failed: [$status] /Gateway/All',
                 );
               }
@@ -78,8 +81,9 @@ class SikomClient {
             },
           ));
       final result = SikomResponse.fromJson(response.data);
-      debugPrint(
-        'Fetched Sikom Gateways: [${response.statusCode}] ${response.realUri}',
+      _log.fine(
+        'Fetched Sikom Gateways: '
+        '[${response.statusCode}] ${response.realUri}',
       );
       final gateways = result.isArray
           ? result.data.bpapiArray!
@@ -132,7 +136,7 @@ class SikomClient {
             validateStatus: (status) {
               final success = status != null && status < 400;
               if (!success) {
-                debugPrint(
+                _log.warning(
                   'Sikom request failed: [$status] $path',
                 );
               }
@@ -140,8 +144,9 @@ class SikomClient {
             },
           ),
         );
-        debugPrint(
-          'Fetched Sikom Devices: [${response.statusCode}] ${response.realUri}',
+        _log.fine(
+          'Fetched Sikom Devices: '
+          '[${response.statusCode}] ${response.realUri}',
         );
         final result = SikomResponse.fromJson(response.data);
         if (result.isArray) {
@@ -174,7 +179,7 @@ class SikomClient {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
+              _log.warning(
                 'Sikom request failed: [$status] $path',
               );
             }
@@ -185,8 +190,9 @@ class SikomClient {
 
       final result = SikomResponse.fromJson(response.data);
       final value = result.data.scalarResult.toString();
-      debugPrint(
-        'Fetched Sikom Property: [${response.statusCode}] ${response.realUri}[$value]',
+      _log.fine(
+        'Fetched Sikom Property: '
+        '[${response.statusCode}] ${response.realUri}[$value]',
       );
       return Optional.ofNullable(value);
     });
@@ -207,7 +213,7 @@ class SikomClient {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
+              _log.warning(
                 'Sikom request failed: [$status] $path',
               );
             }
@@ -215,7 +221,7 @@ class SikomClient {
           },
         ),
       );
-      debugPrint(
+      _log.fine(
         'Applied Sikom Property: [${response.statusCode}] ${response.realUri}',
       );
 
@@ -241,8 +247,10 @@ class SikomClient {
           }
           attempt++;
         } while (attempt < 20);
-        debugPrint(
-          'Applied Sikom Property: [${response.statusCode}] ${response.realUri}[failed after 20 attempts]',
+        _log.warning(
+          'Applied Sikom Property: '
+          '[${response.statusCode}] ${response.realUri} '
+          'failed after 20 attempts',
         );
       }
       return const Optional.empty();

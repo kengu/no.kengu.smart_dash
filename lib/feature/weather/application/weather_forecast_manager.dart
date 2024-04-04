@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
@@ -16,6 +19,8 @@ class WeatherForecastManager {
 
   final Ref ref;
 
+  final _log = Logger('$WeatherForecastManager');
+
   final Map<String, WeatherForecastService> _services = {};
 
   /// Check if [WeatherForecastService] for given [ServiceConfig.key] exists
@@ -26,8 +31,9 @@ class WeatherForecastManager {
     assert(_services[service.key] == null,
         'Weather service integration [${service.key}] exists already');
     _services[service.key] = service;
-    debugPrint('$WeatherForecastManager: '
-        '${service.runtimeType}[key:${service.key}] registered');
+    _log.info(
+      '${service.runtimeType}[key:${service.key}] registered',
+    );
   }
 
   /// Get [Weather] for given [IntegrationFields.key]

@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/home/domain/location.dart';
 import 'package:smart_dash/util/data/json.dart';
@@ -19,6 +22,8 @@ abstract class LocationClientBase {
   final Ref ref;
   final String service;
 
+  final _log = Logger('$LocationClientBase');
+
   Location toLocation(JsonObject data);
 
   String getReverseSearchPath(double lat, double lon);
@@ -35,7 +40,7 @@ abstract class LocationClientBase {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
+              _log.warning(
                 'Fetching reverse location search from [$service] failed: [$status] $path',
               );
             }
@@ -43,7 +48,7 @@ abstract class LocationClientBase {
           },
         ),
       );
-      debugPrint(
+      _log.fine(
         'Fetched reverse location search from [$service]: ${response.realUri}',
       );
 
@@ -62,7 +67,7 @@ abstract class LocationClientBase {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
+              _log.warning(
                 'Fetching search location by name from [$service] failed: [$status] $path',
               );
             }
@@ -70,7 +75,7 @@ abstract class LocationClientBase {
           },
         ),
       );
-      debugPrint(
+      _log.fine(
         'Fetched search location by name from [$service]: ${response.realUri}',
       );
       final items = response.data as List<JsonObject>;

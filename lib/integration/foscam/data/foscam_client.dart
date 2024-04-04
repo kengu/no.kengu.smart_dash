@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -142,6 +145,8 @@ class FoscamCommand {
 
   final Map<String, dynamic> params;
 
+  final _log = Logger('$FoscamCommand');
+
   String get baseUrl => '/cgi-bin/CGIProxy.fcgi?'
       'cmd=$name'
       '&usr=${creds.username}'
@@ -158,7 +163,7 @@ class FoscamCommand {
         validateStatus(status) {
           final success = status != null && status < 400;
           if (!success) {
-            debugPrint(
+            _log.warning(
               'Foscam request failed: [$status] $url',
             );
           }
@@ -179,8 +184,9 @@ class FoscamCommand {
         final contentType = response.headers['content-type'];
 
         if (contentType?.contains('image/jpeg') == true) {
-          debugPrint(
-            'Fetched camera image [$name][${response.statusCode}]: ${response.realUri}',
+          _log.fine(
+            'Fetched camera image '
+            '[$name][${response.statusCode}]: ${response.realUri}',
           );
           return FoscamResponse(
             type: FoscamResultType.success,
@@ -189,8 +195,9 @@ class FoscamCommand {
         }
 
         type = FoscamResponse.parser.getResult(response.data);
-        debugPrint(
-          'Fetched camera data [$name][${response.statusCode}][${type.name}]: ${response.realUri}',
+        _log.fine(
+          'Fetched camera data '
+          '[$name][${response.statusCode}][${type.name}]: ${response.realUri}',
         );
         if (type != FoscamResultType.invalidResponse) {
           return FoscamResponse(
@@ -199,9 +206,7 @@ class FoscamCommand {
           );
         }
       } catch (e, stackTrace) {
-        // Fall through
-        debugPrint(e.toString());
-        debugPrintStack(stackTrace: stackTrace);
+        _log.severe('exec() failed', e, stackTrace);
       }
       return FoscamResponse(
         type: type,

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:sentry/sentry.dart';
 
 /// Perform guarded execution on main isolate
@@ -13,8 +13,7 @@ Future<T> guard<T>(
   try {
     return await execute();
   } catch (e, stackTrace) {
-    debugPrint(e.toString());
-    debugPrint(stackTrace.toString());
+    Logger('guard()').severe('error captured', e, stackTrace);
     await Sentry.captureException(e, stackTrace: stackTrace);
     rethrow;
   } finally {
@@ -36,8 +35,7 @@ T guardSync<T>(
   try {
     return execute();
   } catch (e, stackTrace) {
-    debugPrint(e.toString());
-    debugPrint(stackTrace.toString());
+    Logger('guardSync()').severe('error captured', e, stackTrace);
     Sentry.captureException(e, stackTrace: stackTrace);
     rethrow;
   } finally {

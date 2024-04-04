@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/util/data/data_array.dart';
@@ -10,6 +10,8 @@ import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/data/list.dart';
 import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/util/time/time_scale.dart';
+
+final _log = Logger('$TimeSeries');
 
 extension TimeSeriesX on TimeSeries {
   TimeScale get scale => TimeScale.from(span);
@@ -280,18 +282,18 @@ extension TimeSeriesX on TimeSeries {
         final padFrom = length;
         data = data.padAt(padFrom, padding, pad ?? value);
         coords = coords.padAt(padFrom, padding, {});
-        debugPrint(
-          'record($name): PAD [$padFrom][$padding](length:${data.length}) ${pad ?? value}'
-          ' @ $ts [$end](+${ts.difference(end).inSeconds} s)',
+        _log.fine(
+          'record($name): PAD [$padFrom][$padding](length:${data.length}) '
+          '${pad ?? value} @ $ts [$end](+${ts.difference(end).inSeconds} s)',
         );
       }
 
       // Addend point to end (tail) of timeseries
       data.add(value);
       coords.add({'ts': ts.millisecondsSinceEpoch});
-      debugPrint(
-        'record($name): APPEND [${data.length - 1}][1](length:${data.length}) $value'
-        ' @ $ts [$end](+${ts.difference(end).inSeconds} s)',
+      _log.fine(
+        'record($name): APPEND [${data.length - 1}][1](length:${data.length}) '
+        '$value @ $ts [$end](+${ts.difference(end).inSeconds} s)',
       );
 
       return _next<T>(begin, data, coords, min, max, pad, value);
@@ -305,9 +307,9 @@ extension TimeSeriesX on TimeSeries {
       final padding = delta - 1;
       data = data.padAt(0, padding, pad ?? value);
       coords = coords.padAt(0, padding, {});
-      debugPrint(
-        'record($name): PAD [$point][$padding](length:${data.length}) ${pad ?? value}'
-        ' @ $ts [$end](${ts.difference(end).inSeconds} s)',
+      _log.fine(
+        'record($name): PAD [$point][$padding](length:${data.length}) '
+        '${pad ?? value} @ $ts [$end](${ts.difference(end).inSeconds} s)',
       );
     }
 
@@ -315,9 +317,9 @@ extension TimeSeriesX on TimeSeries {
     begin = tsAt(point + 1);
     data.insert(0, value);
     coords.insert(0, {'ts': ts.millisecondsSinceEpoch});
-    debugPrint(
-      'record($name): PREPEND [0][1](length:${data.length}) $value '
-      '@ $ts [$offset](${ts.difference(offset).inSeconds} s)',
+    _log.fine(
+      'record($name): PREPEND [0][1](length:${data.length}) '
+      '$value @ $ts [$offset](${ts.difference(offset).inSeconds} s)',
     );
 
     return _next<T>(begin, data, coords, min, max, pad, value);

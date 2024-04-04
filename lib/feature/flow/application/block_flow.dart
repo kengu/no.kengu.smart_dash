@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_flow.dart';
@@ -191,7 +194,7 @@ class BlockFlow extends Flow {
       final next = _model.value.copyWith(state: state);
       _model = Optional.of(next);
       await ref.read(blockRepositoryProvider).addOrUpdate([next]);
-      debugPrint(
+      Logger('$runtimeType').fine(
         '$BlockFlow: Updated Block ['
         'id: $id, '
         'value: ${next.state.value}, '

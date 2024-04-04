@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
+import 'package:logging/logging.dart';
 import 'package:universal_io/io.dart';
 
 Future<BoxCollection> openCollection(String key, Set<String> boxNames) async {
@@ -24,7 +24,7 @@ Future<HiveCipher> getHiveCipher(String key) async {
       key: key,
       value: base64UrlEncode(data),
     );
-    debugPrint('Created Cipher for Hive key $key');
+    Logger('$Hive').info('Created Cipher for Hive key $key');
   }
   final data = await storage.read(key: key);
   if (data == null) {

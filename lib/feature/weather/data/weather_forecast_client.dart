@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/util/data/json.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -13,6 +16,8 @@ abstract class WeatherForecastClient {
   final Dio api;
   final Ref ref;
   final String service;
+
+  final _log = Logger('$WeatherForecastClient');
 
   static final df = DateFormat('E, d MMM yyyy hh:mm:ss Z');
 
@@ -34,7 +39,7 @@ abstract class WeatherForecastClient {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
+              _log.warning(
                 'Fetching weather forecast from [$service] failed: [$status] $path',
               );
             }
@@ -42,7 +47,7 @@ abstract class WeatherForecastClient {
           },
         ),
       );
-      debugPrint(
+      _log.fine(
         'Fetched weather forecast from [$service]: ${response.realUri}',
       );
 

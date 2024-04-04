@@ -1,34 +1,45 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
+import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_manager.g.dart';
 
 class CameraManager {
   CameraManager(this.ref);
-
   final Ref ref;
   final Map<String, CameraService> _services = {};
+
+  final _log = Logger('$CameraManager');
 
   /// Check if [CameraService] for given [ServiceConfig.key] exists
   bool exists(String key) => _services.containsKey(key);
 
   /// [Camera] should call this to register
   void register(CameraService service) {
-    assert(_services[service.key] == null,
-        'Camera service integration [${service.key}] exists already');
+    assert(
+      _services[service.key] == null,
+      'Camera service integration [${service.key}] exists already',
+    );
 
     _services[service.key] = service;
-    debugPrint('CameraManager: '
-        '${service.runtimeType}[key:${service.key}] registered');
+    _log.fine(
+      '${service.runtimeType}[key:${service.key}] registered',
+    );
   }
 
-  Future<void> init() => getConfigs();
+  Future<List<ServiceConfig>> init() {
+    // Prefetch into caches
+    return getConfigs();
+  }
 
   /// Get [Camera] for given [IntegrationFields.key]
   T getService<T extends CameraService>(String key) {
@@ -68,6 +79,19 @@ class CameraManager {
     );
   }
 
+  Stream<Camera> getCameraAsStream(ServiceConfig config,
+      {Duration period = CameraService.defaultPeriod}) async* {
+    final stream = StreamGroup.merge(
+      _services.values.map(
+        (e) => e.events.whereType<CameraDataEvent>().throttle(period),
+      ),
+    );
+
+    await for (final it in stream) {
+      yield it.camera;
+    }
+  }
+
   Optional<List<Camera>> getCachedCameras() {
     final cameras = <Camera>[];
     for (final service in _services.values) {
@@ -92,6 +116,19 @@ class CameraManager {
     Duration? ttl,
   }) {
     return getService(device.service).getSnapshot(device, ttl: ttl);
+  }
+
+  Stream<CameraSnapshot> getSnapshotAsStream(Camera device,
+      {Duration period = CameraService.defaultPeriod}) async* {
+    final stream = StreamGroup.merge(
+      _services.values.map(
+        (e) => e.events.whereType<CameraSnapshotEvent>().throttle(period),
+      ),
+    );
+
+    await for (final it in stream) {
+      yield it.snapshot;
+    }
   }
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device) {

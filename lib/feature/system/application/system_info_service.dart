@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/system/domain/system_info.dart';
@@ -12,6 +15,8 @@ class SystemInfoService {
   SystemInfoService(this.ref);
 
   final Ref ref;
+
+  final _log = Logger('$SystemInfoService');
 
   static const _loadChanel = MethodChannel('no.kengu.smart_dash/load');
   static const _batteryChannel = MethodChannel('no.kengu.smart_dash/battery');
@@ -52,8 +57,8 @@ class SystemInfoService {
         usage['app'] as double?,
         usage['total'] as double,
       );
-    } on Exception catch (e) {
-      debugPrint(e.toString());
+    } on Exception catch (e, stackTrace) {
+      _log.severe('_getCpuUsage() failed', e, stackTrace);
       return (0.0, 0.0);
     }
   }
@@ -68,8 +73,8 @@ class SystemInfoService {
         usage['total'] as int,
         (usage['lowMemory'] ?? false) as bool,
       );
-    } catch (e) {
-      debugPrint(e.toString());
+    } catch (e, stackTrace) {
+      _log.severe('_getMemUsage() failed', e, stackTrace);
       return (0, 0, 0, false);
     }
   }
@@ -78,8 +83,8 @@ class SystemInfoService {
     try {
       final level = await _batteryChannel.invokeMethod('getBatteryLevel');
       return (level as int).toDouble();
-    } on Exception catch (e) {
-      debugPrint(e.toString());
+    } on Exception catch (e, stackTrace) {
+      _log.severe('_getBatteryLevel() failed', e, stackTrace);
       return 100;
     }
   }

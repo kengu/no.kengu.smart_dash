@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
@@ -23,6 +26,8 @@ class FlowManager {
 
   final Ref ref;
   final _flows = <String, Flow>{};
+
+  final _log = Logger('$FlowManager');
 
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
@@ -51,8 +56,8 @@ class FlowManager {
     );
 
     _flows[flow.key] = flow;
-    debugPrint(
-      'FlowManager: $Flow[key:${flow.key}] registered',
+    _log.info(
+      '$Flow[key:${flow.key}] registered',
     );
   }
 

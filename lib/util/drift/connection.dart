@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry/sentry.dart';
 
@@ -24,7 +25,9 @@ class ConnectionManager {
   }
 
   Future<void> dispose() {
-    debugPrint('Disposing connections: ${_connections.length}');
+    Logger('$ConnectionManager').info(
+      'Disposing connections: ${_connections.length}',
+    );
     return Future.wait(_connections.map(
       (e) => e.close(),
     ));
@@ -41,7 +44,7 @@ mixin ConnectionDisposer<T extends GeneratedDatabase> on GeneratedDatabase {
 mixin DatabaseHelper<T extends GeneratedDatabase> on GeneratedDatabase {
   void logOnUpgrade(int from, int to) {
     if (kDebugMode) {
-      debugPrint(
+      Logger('$ConnectionManager').info(
         '$T: Migration [v$from->v$to] started',
       );
     } else {
@@ -53,7 +56,7 @@ mixin DatabaseHelper<T extends GeneratedDatabase> on GeneratedDatabase {
 
   void logHadUpgrade(OpeningDetails details, int modifications) {
     if (kDebugMode) {
-      debugPrint(
+      Logger('$ConnectionManager').info(
         '$T: Migration '
         '[v${details.versionBefore}->v${details.versionNow}] '
         'modified $modifications rows',

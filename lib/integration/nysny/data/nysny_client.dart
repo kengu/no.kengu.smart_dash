@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:sentry/sentry.dart';
 import 'package:smart_dash/feature/snow/data/snow_client.dart';
@@ -16,7 +19,10 @@ class NySnyClient extends SnowClient {
 
   final NySnyCredentials credentials;
 
+  final _log = Logger('$NySnyClient');
+
   static final df = DateFormat("d. MMMM HH:mm", 'nb_NO');
+
   static final mf = DateFormat("d. MMMM", 'nb_NO');
 
   @override
@@ -50,7 +56,7 @@ class NySnyClient extends SnowClient {
             validateStatus: (status) {
               final success = status != null && status < 400;
               if (!success) {
-                debugPrint(
+                _log.warning(
                   'Fetching NySny table failed: [$status] /table.php',
                 );
               }
@@ -79,7 +85,9 @@ class NySnyClient extends SnowClient {
             return json;
           }).toList();
 
-          debugPrint('Fetched snow state: ${tableResponse.realUri}');
+          _log.fine(
+            'Fetched snow state: ${tableResponse.realUri}',
+          );
 
           return Optional.ofNullable(
             await _map(
@@ -87,16 +95,17 @@ class NySnyClient extends SnowClient {
             ),
           );
         } else {
-          debugPrint(
-            'Failed to load snow state from table: [${tableResponse.statusCode}] ${tableResponse.realUri}',
+          _log.warning(
+            'Failed to load snow state from table: '
+            '[${tableResponse.statusCode}] ${tableResponse.realUri}',
           );
         }
       } else {
-        debugPrint(
-            'Snow state login failed: [${loginResponse.statusCode}] ${loginResponse.realUri}');
+        _log.warning('Snow state login failed: '
+            '[${loginResponse.statusCode}] ${loginResponse.realUri}');
       }
-    } catch (e) {
-      debugPrint('Fetching snow state error occurred: $e');
+    } catch (e, stackTrace) {
+      _log.severe('Fetching snow state error', e, stackTrace);
     }
     return const Optional.empty();
   }

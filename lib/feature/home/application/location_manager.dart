@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/home/application/location_service.dart';
@@ -15,6 +18,8 @@ class LocationManager {
 
   final Ref ref;
 
+  final _log = Logger('$LocationManager');
+
   final Map<String, LocationService> _services = {};
 
   /// Check if [LocationService] for given [ServiceConfig.key] exists
@@ -25,8 +30,9 @@ class LocationManager {
     assert(_services[service.key] == null,
         'Location service integration [${service.key}] exists already');
     _services[service.key] = service;
-    debugPrint('$LocationManager: '
-        '${service.runtimeType}[key:${service.key}] registered');
+    _log.info(
+      '${service.runtimeType}[key:${service.key}] registered',
+    );
   }
 
   /// Get [Location] for given [IntegrationFields.key]

@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
@@ -16,6 +19,8 @@ class SnowManager {
 
   final Ref ref;
 
+  final _log = Logger('$SnowManager');
+
   final Map<String, SnowService> _services = {};
 
   /// Check if [SnowService] for given [ServiceConfig.key] exists
@@ -23,11 +28,16 @@ class SnowManager {
 
   /// [Snow] should call this to register
   void register(SnowService service) {
-    assert(_services[service.key] == null,
-        'Snow service integration [${service.key}] exists already');
+    assert(
+      _services[service.key] == null,
+      'Snow service integration [${service.key}] exists already',
+    );
+
     _services[service.key] = service;
-    debugPrint('SnowManager: '
-        '${service.runtimeType}[key:${service.key}] registered');
+
+    _log.info(
+      '${service.runtimeType}[key:${service.key}] registered',
+    );
   }
 
   /// Get [Snow] for given [IntegrationFields.key]

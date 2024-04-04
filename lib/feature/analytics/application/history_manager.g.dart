@@ -21,7 +21,7 @@ final historyManagerProvider = Provider<HistoryManager>.internal(
 );
 
 typedef HistoryManagerRef = ProviderRef<HistoryManager>;
-String _$historyHash() => r'f2c9812b203c97507b7e102738f6621787d5f825';
+String _$historyHash() => r'96509ad72954ffff7b11019de5d334ff5e4ee78f';
 
 /// Copied from Dart SDK
 class _SystemHash {

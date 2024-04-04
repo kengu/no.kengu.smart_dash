@@ -5,7 +5,7 @@ A Smart Dashboard App for my personal use.
 ## Roadmap
 
 - [ ] Improve Camera updates
-    * [ ] Add update stream using timing service
+    * [ ] Add camera and snapshot update streams
     * [ ] Add snapshot persistence driven by update stream
 - [x] Implement Location service (point and/or place)
   * [x] Add geocoder for address and reverse lookup

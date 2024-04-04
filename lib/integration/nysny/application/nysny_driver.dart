@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
@@ -25,9 +28,11 @@ class NySnyDriver extends ThrottledDeviceDriver {
           ),
         );
 
+  final _log = Logger('$NySnyDriver');
+
   @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
-    debugPrint(
+    _log.fine(
       '$NySny throttled updates for '
       '${event.difference(lastEvent.last).inSeconds} sec.',
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:logging/logging.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:network_tools/network_tools.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +25,21 @@ import 'package:window_manager/window_manager.dart';
 const sentryDNS =
     'https://49ed9a96f02544e1ab064eb451a5b01c@o288287.ingest.sentry.io/4504854610444288';
 
+final log = Logger('main');
+
 void main() async {
+  Logger.root.level =
+      kDebugMode ? Level.FINE : Level.INFO; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    // TODO: Store logs locally with hive
+    debugPrint([
+      record.time,
+      record.level.name,
+      record.loggerName,
+      record.message
+    ].join(': '));
+  });
+
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   await initializeDateFormatting('nb_NO');
@@ -108,6 +123,6 @@ ProviderContainer initProviders() {
   container.read(timingServiceProvider).start();
   container.read(historyManagerProvider).pump();
 
-  debugPrint('Providers: Initialized');
+  log.info('Providers: Initialized');
   return container;
 }

@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
@@ -29,10 +32,12 @@ class SikomDriver extends ThrottledDeviceDriver {
           ),
         );
 
+  final _log = Logger('$SikomDriver');
+
   @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
-    debugPrint(
-      'Sikom throttled updates for '
+    _log.fine(
+      '$Sikom throttled updates for '
       '${event.difference(lastEvent.last).inSeconds} sec.',
     );
     final paired = await getPairedDevices();

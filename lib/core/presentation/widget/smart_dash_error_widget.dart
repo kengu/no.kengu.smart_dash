@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 class SmartDashErrorWidget extends StatelessWidget {
   const SmartDashErrorWidget({
@@ -39,7 +40,7 @@ class SmartDashErrorWidget extends StatelessWidget {
   }
 
   Widget buildText(Object text) {
-    debugPrint(text.toString());
+    Logger('$runtimeType').severe(text);
     return SelectableText(
       text.toString(),
       style: const TextStyle(color: Colors.white),

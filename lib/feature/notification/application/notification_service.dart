@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class NotificationService {
   static NotificationService? _singleton;
 
   static bool _initialize = isPlatformSupported;
+
+  final _log = Logger('$NotificationService');
 
   static final _plugin = FlutterLocalNotificationsPlugin();
 
@@ -91,9 +94,8 @@ class NotificationService {
       }
     }
 
-    debugPrint(
-      'NotificationService '
-      '>> Initialization '
+    _log.info(
+      'Initialization '
       '${_initialize ? 'Failed' : 'Completed (${_activeIds.length} active)'}',
     );
 
@@ -311,9 +313,8 @@ class NotificationService {
   }
 
   void _onForeground(NotificationResponse details) {
-    debugPrint(
-      '$NotificationService: _onForeground '
-      '>> Clicked on id: ${details.id}',
+    _log.fine(
+      '_onForeground >> Clicked on id: ${details.id}',
     );
     if (details.id != null) {
       _ackAll([details.id!]);
@@ -322,9 +323,8 @@ class NotificationService {
 
   void _onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) {
-    debugPrint(
-      '$NotificationService: _onDidReceiveLocalNotification '
-      '>> Clicked on id: $id',
+    _log.fine(
+      '_onDidReceiveLocalNotification >> Clicked on id: $id',
     );
     _ackAll([id]);
   }

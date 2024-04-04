@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash/util/guard.dart';
 
@@ -10,6 +10,8 @@ class ElectricityPriceClient {
   ElectricityPriceClient(this.ref, this.api);
   final Dio api;
   final Ref ref;
+
+  final _log = Logger('$ElectricityPriceClient');
 
   Future<List<ElectricityPrice>> getPriceHourly(
       String area, DateTime when) async {
@@ -23,15 +25,16 @@ class ElectricityPriceClient {
           validateStatus: (status) {
             final success = status != null && status < 400;
             if (!success) {
-              debugPrint(
-                'Fetching electricity prices for [$when] failed: [$status] $path',
+              _log.warning(
+                'Fetching electricity prices '
+                'for [$when] failed: [$status] $path',
               );
             }
             return success;
           },
         ),
       );
-      debugPrint('Fetched electricity prices for [$when]: ${response.realUri}');
+      _log.fine('Fetched electricity prices for [$when]: ${response.realUri}');
       return ElectricityPriceResponse.fromJson(
         {'data': response.data},
       ).prices;

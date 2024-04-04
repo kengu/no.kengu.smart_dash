@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+// ignore: unused_import
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
@@ -29,8 +31,11 @@ class Rtl433Driver extends ThrottledDeviceDriver {
           ),
         );
 
-  final List<StreamSubscription> _subscriptions = [];
+  final _log = Logger('$Rtl433Driver');
+
   final Map<Identity, Device> _devices = {};
+
+  final List<StreamSubscription> _subscriptions = [];
 
   @override
   Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
@@ -105,8 +110,8 @@ class Rtl433Driver extends ThrottledDeviceDriver {
 
   @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
-    debugPrint(
-      'Rtl433 throttled updates for '
+    _log.fine(
+      '$Rtl433 throttled updates for '
       '${event.difference(lastEvent.last).inSeconds} sec.',
     );
     final paired = await getPairedDevices();
