@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash/util/time/date_time.dart';
 
 part 'snow_state.freezed.dart';
 part 'snow_state.g.dart';
@@ -47,14 +46,13 @@ class SnowState with _$SnowState {
       {Duration limit = const Duration(minutes: 5)}) {
     final now = DateTime.now();
     final next = DateTime.fromMillisecondsSinceEpoch(
-      states.map((e) => e.nextUpdate).where((e) => e.isFuture).fold(
+      states.map((e) => e.nextUpdate).fold(
             now.add(const Duration(days: 1)).millisecondsSinceEpoch,
             (earliest, e) => e.difference(now).isNegative
                 ? now.subtract(limit).millisecondsSinceEpoch
                 : min(earliest, e.millisecondsSinceEpoch),
           ),
     );
-    final span = next.difference(now) - limit;
-    return span.isNegative ? next.add(span.abs()) : next;
+    return next;
   }
 }

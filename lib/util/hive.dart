@@ -5,6 +5,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:universal_io/io.dart';
 
+Future<BoxCollection> openCollection(String key, Set<String> boxNames) async {
+  return BoxCollection.open(
+    // TODO: Replace workaround for missing collection name separator leading to wrong collection path
+    key,
+    boxNames,
+    key: Platform.isAndroid ? await getHiveCipher(key) : null,
+  );
+}
+
 Future<HiveCipher> getHiveCipher(String key) async {
   final storage = _get();
   // if key not exists return null
