@@ -140,7 +140,7 @@ class FlowManager {
   Future<bool> addOrUpdate(BlockModel data, {bool notify = true}) async {
     final repo = ref.read(blockRepositoryProvider);
     final exists = await repo.get(data.id);
-    final result = await repo.addOrUpdate([data]);
+    final result = await repo.updateAll([data]);
     if (notify) {
       final builder =
           (exists.isPresent ? BlockUpdatedEvent.new : BlockAddedEvent.new);

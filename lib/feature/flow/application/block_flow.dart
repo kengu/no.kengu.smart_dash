@@ -193,7 +193,7 @@ class BlockFlow extends Flow {
     if (_model.isPresent) {
       final next = _model.value.copyWith(state: state);
       _model = Optional.of(next);
-      await ref.read(blockRepositoryProvider).addOrUpdate([next]);
+      await ref.read(blockRepositoryProvider).updateAll([next]);
       Logger('$runtimeType').fine(
         '$BlockFlow: Updated Block ['
         'id: $id, '

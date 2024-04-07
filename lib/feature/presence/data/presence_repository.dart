@@ -5,34 +5,23 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
-import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/hive.dart';
 
 part 'presence_repository.g.dart';
 
-const _typeId = 2;
+class PresenceRepository extends HiveRepository<Token, Presence> {
+  PresenceRepository()
+      : super(
+          key: 'presences',
+          box: 'registered',
+          adapter: PresenceAdapter(),
+        );
 
-class PresenceRepository {
-  PresenceRepository() {
-    if (!Hive.isAdapterRegistered(_typeId)) {
-      Hive.registerAdapter(PresenceAdapter());
-    }
-  }
+  @override
+  String toKey(Token id) => id.name;
 
-  static const key = 'presences';
-
-  Future<List<Presence>> getAll() async {
-    return await _load();
-  }
-
-  Future<Optional<Presence>> get(Token token) async {
-    final presences = await _load();
-    return presences.isEmpty
-        ? const Optional.empty()
-        : presences.firstWhereOptional(
-            (e) => e.token == token,
-          );
-  }
+  @override
+  Token toId(Presence item) => item.token;
 
   Future<Optional<Presence>> getOrAdd(Token token) async {
     final presence = await get(token);
@@ -44,78 +33,6 @@ class PresenceRepository {
     }
     return presence;
   }
-
-  /// Attempt to sett all given presences to
-  /// repository. Returns list of actual added presences.
-  Future<List<Presence>> updateAll(Iterable<Presence> presences) async {
-    final unique = presences.toSet();
-    final success = await _putAll([...unique]);
-    return [if (success) ...unique];
-  }
-
-  /// Attempt to remove all given presences from
-  /// repository. Returns list of actual removed presences.
-  Future<List<Presence>> removeAll(Iterable<Presence> presences) async {
-    final current = await _load();
-    final currentIds = current.map((e) => e.id);
-    final unique = presences..toSet().where((e) => currentIds.contains(e.id));
-    final success = await _removeAll(unique);
-    return [if (success) ...unique];
-  }
-
-  Future<void> clear() async {
-    return guard(
-      () => Hive.deleteBoxFromDisk(
-        'presences_registered',
-      ),
-      task: 'clear',
-      name: '$PresenceRepository',
-    );
-  }
-
-  Future<CollectionBox<T>> _open<T>(String name) async {
-    final db = await openCollection(
-      key,
-      {'registered'},
-    );
-    return db.openBox<T>(name);
-  }
-
-  Future<List<Presence>> _load() => guard(
-        () async {
-          final box = await _open<Presence>('registered');
-          final result = await box.getAll(await box.getAllKeys());
-          return result.whereType<Presence>().toList();
-        },
-        task: '_load',
-        name: '$PresenceRepository',
-      );
-
-  Future<bool> _removeAll(Iterable<Presence> presences) => guard(
-        () async {
-          final box = await _open<Presence>('registered');
-          final ids = presences.map((e) => e.id).toList();
-          await box.deleteAll(ids);
-          return true;
-        },
-        task: '_removeAll',
-        name: '$PresenceRepository',
-      );
-
-  Future<bool> _putAll(List<Presence> presences) => guard(
-        () async {
-          final box = await _open<Presence>('registered');
-          for (final presence in presences) {
-            await box.put(
-              presence.id,
-              presence,
-            );
-          }
-          return true;
-        },
-        task: '_putAll',
-        name: '$PresenceRepository',
-      );
 }
 
 @Riverpod(keepAlive: true)
@@ -123,9 +40,8 @@ PresenceRepository presenceRepository(PresenceRepositoryRef ref) {
   return PresenceRepository();
 }
 
-class PresenceAdapter extends TypeAdapter<Presence> {
-  @override
-  final typeId = _typeId;
+class PresenceAdapter extends TypedAdapter<Presence> {
+  PresenceAdapter() : super(HiveTypeId.presence);
 
   @override
   Presence read(BinaryReader reader) {

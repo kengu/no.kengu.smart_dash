@@ -162,15 +162,23 @@ class NySnyClient extends SnowClient {
                 parse: df.parse,
                 defaultValue: now,
               ).copyWith(year: now.year),
-              nextUpdate: df
-                  .parse(
-                    '${mf.format(now)} ${data['Neste lesing']}',
-                  )
-                  .copyWith(year: now.year),
+              nextUpdate: _toNextUpdate(now, data),
             ),
           )
           .toList());
     });
+  }
+
+  DateTime _toNextUpdate(DateTime now, JsonObject data) {
+    final next = df
+        .parse(
+          '${mf.format(now)} ${data['Neste lesing']}',
+        )
+        .copyWith(year: now.year);
+    if (next.difference(now).isNegative) {
+      return next.add(const Duration(days: 1));
+    }
+    return next;
   }
 
   T _parse<T>(

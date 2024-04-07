@@ -10,6 +10,8 @@ import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/util/future.dart';
 
 abstract class SnowService {
+  static const ttl = Duration(hours: 1);
+
   SnowService(this.key, this.ref);
 
   final Ref ref;
@@ -25,7 +27,7 @@ abstract class SnowService {
 
   Future<Optional<SnowState>> getState(
     String location, {
-    Duration? ttl = const Duration(minutes: 5),
+    Duration? ttl = ttl,
   }) async {
     final states = await getStates(ttl: ttl);
     if (states.isPresent) {
@@ -47,7 +49,7 @@ abstract class SnowService {
   }
 
   Future<Optional<List<SnowState>>> getStates({
-    Duration? ttl = const Duration(minutes: 5),
+    Duration? ttl = ttl,
   }) async {
     final states = await _cache.getOrFetch(
       'states',
@@ -64,20 +66,22 @@ abstract class SnowService {
         return const Optional<List<SnowState>>.empty();
       },
       ttl: ttl?.clamp(
-        const Duration(minutes: 5),
+        ttl,
         const Duration(days: 1),
       ),
     );
 
+    /*
     if (states.isPresent) {
       _cache.setTTL(
         'states',
         SnowState.toEarliestNextUpdate(
           states.value,
-          limit: const Duration(minutes: 5),
+          limit: SnowService.ttl,
         ),
       );
     }
+    */
     return states;
   }
 

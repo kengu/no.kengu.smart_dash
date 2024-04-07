@@ -36,8 +36,12 @@ void main() async {
       record.time,
       record.level.name,
       record.loggerName,
-      record.message
-    ].join(': '));
+      record.message,
+      [
+        if (record.error != null) record.error,
+        if (record.stackTrace != null) record.stackTrace,
+      ].join('\n'),
+    ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
 
   WidgetsFlutterBinding.ensureInitialized();
