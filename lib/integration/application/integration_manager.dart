@@ -25,7 +25,7 @@ class IntegrationManager {
     // Register camera service providers and init manager
     container.read(cameraManagerProvider)
       ..register(container.read(foscamServiceProvider))
-      ..init();
+      ..init(withStorage: true);
 
     // Register location service providers
     container.read(locationManagerProvider).register(

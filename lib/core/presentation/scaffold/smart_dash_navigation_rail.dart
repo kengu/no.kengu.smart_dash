@@ -10,7 +10,7 @@ import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 import 'smart_dash_menu.dart';
 

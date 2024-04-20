@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash/util/drift/connection.dart';
+import 'package:smart_dash/core/data/drift/connection.dart';
 
 part 'electricity_price_database.g.dart';
 

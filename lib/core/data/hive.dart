@@ -4,22 +4,25 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/core/data/data.dart';
 import 'package:smart_dash/util/guard.dart';
 import 'package:universal_io/io.dart';
 
 enum HiveTypeId {
   // ========== IMPORTANT ==========
   // Hive adapter type ids is order-sensitive
-  // Only add new enums to end of list
-  // Never reorder or insert above last enum
+  // 1. ONLY add new enums to end of list
+  // 2. NEVER reorder or insert above last enum
+  // ===============================
+
+  // TODO: Find a better way to ensure unique Hive type ids with less coupling
   device,
   presence,
   block,
   notification,
-  snapshot,
 }
 
-abstract class HiveRepository<I, T> {
+abstract class HiveRepository<I, T> extends Repository<I, T> {
   HiveRepository({
     required this.key,
     required this.box,
@@ -35,13 +38,8 @@ abstract class HiveRepository<I, T> {
 
   CollectionBox<T>? _db;
 
-  I toId(T item);
-
-  String toKey(I id);
-
-  Future<List<T>> seed() async => const [];
-
   /// Get given item from repository.
+  @override
   Future<Optional<T>> get(I id) => guard(
         () async {
           final box = await _open();
@@ -65,10 +63,12 @@ abstract class HiveRepository<I, T> {
   }
 
   /// Get all given items to repository.
+  @override
   Future<List<T>> getAll([List<I> ids = const []]) async {
     return await _loadAll(ids.map(toKey).toList());
   }
 
+  @override
   Future<List<T>> where(bool Function(T element) test) async {
     return (await _loadAll()).where(test).toList();
   }
@@ -76,6 +76,7 @@ abstract class HiveRepository<I, T> {
   /// Attempt to sett all given items to repository.
   ///
   /// Returns list of actual added items.
+  @override
   Future<List<T>> updateAll(Iterable<T> items) async {
     final unique = items.toSet();
     final success = await _putAll([...unique]);
@@ -85,6 +86,7 @@ abstract class HiveRepository<I, T> {
   /// Attempt to remove all given items from repository.
   ///
   /// Returns list of actual removed items.
+  @override
   Future<List<T>> removeAll(Iterable<T> items) async {
     final ids = items.map(toId).map(toKey).toSet();
     final current = await _loadAll(ids.toList());

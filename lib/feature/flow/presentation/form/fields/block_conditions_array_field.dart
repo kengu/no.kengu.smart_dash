@@ -12,7 +12,7 @@ import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_controller.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class BlockConditionsArrayField extends ConsumerWidget {
   const BlockConditionsArrayField({super.key});

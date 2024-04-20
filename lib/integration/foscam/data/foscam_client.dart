@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/feature/camera/data/camera_client.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/util/guard.dart';
 
 import 'foscam_response.dart';
 
-class FoscamClient {
+class FoscamClient extends CameraClient {
   FoscamClient({
     required String host,
     required int port,
@@ -28,6 +29,7 @@ class FoscamClient {
     });
   }
 
+  @override
   Future<Optional<Camera>> getCamera() async {
     return guard(() async {
       final info = await _command('getDevInfo').exec(api);
@@ -43,6 +45,7 @@ class FoscamClient {
     });
   }
 
+  @override
   Future<Optional<MotionDetectConfig>> getMotionConfig() async {
     return guard(() async {
       final motion = await _command('getMotionDetectConfig').exec(api);
@@ -53,6 +56,7 @@ class FoscamClient {
     });
   }
 
+  @override
   Future<Optional<MotionDetectConfig>> setMotionConfig(
       String name, MotionDetectConfig config) async {
     return guard(() async {
@@ -82,6 +86,7 @@ class FoscamClient {
     });
   }
 
+  @override
   Future<Optional<CameraSnapshot>> getSnapshot() async {
     return guard(() async {
       final snapshot = await _command(
@@ -95,6 +100,7 @@ class FoscamClient {
     });
   }
 
+  @override
   void close() => api.close();
 
   FoscamCommand _command(

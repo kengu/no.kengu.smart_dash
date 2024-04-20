@@ -5,7 +5,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
-import 'package:smart_dash/util/hive.dart';
+import 'package:smart_dash/core/data/hive.dart';
 
 part 'presence_repository.g.dart';
 

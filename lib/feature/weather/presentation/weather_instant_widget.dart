@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 import 'weather.dart';
 

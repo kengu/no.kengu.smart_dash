@@ -16,7 +16,7 @@ import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class SmartDashScaffold extends ConsumerStatefulWidget {
   const SmartDashScaffold({

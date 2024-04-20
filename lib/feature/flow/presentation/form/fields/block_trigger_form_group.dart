@@ -11,7 +11,7 @@ import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_f
 import 'package:smart_dash/core/presentation/widget/list/expansion_list.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:strings/strings.dart';
 
 class BlockTriggerFormGroup extends ConsumerWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pretty_bytes/pretty_bytes.dart';
 import 'package:smart_dash/feature/system/domain/system_info.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class MemPieChart extends StatelessWidget {
   const MemPieChart({

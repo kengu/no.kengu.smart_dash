@@ -30,7 +30,7 @@ import 'package:smart_dash/feature/system/application/network_info_service.dart'
 import 'package:smart_dash/integration/data/integration_repository.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 import 'account_form_screen_controller.dart';
 

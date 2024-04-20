@@ -9,7 +9,7 @@ import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/feature/device/presentation/knob/thermostat_knob.dart';
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class ThermostatTile extends ConsumerStatefulWidget {
   const ThermostatTile({

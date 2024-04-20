@@ -11,7 +11,7 @@ import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_f
 import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_controller.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class BlockActionsArrayField extends ConsumerWidget {
   const BlockActionsArrayField({

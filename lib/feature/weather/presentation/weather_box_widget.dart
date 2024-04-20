@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/feature/weather/presentation/weather.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 class WeatherBoxWidget extends StatelessWidget {
   const WeatherBoxWidget({

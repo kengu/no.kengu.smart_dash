@@ -7,7 +7,7 @@ import 'package:drift_dev/api/migrations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:smart_dash/util/drift/connection.dart';
+import 'package:smart_dash/core/data/drift/connection.dart';
 
 DatabaseConnection connectDrift(
   Ref ref,

@@ -6,7 +6,7 @@ import 'package:smart_dash/feature/notification/application/notification_service
 import 'package:smart_dash/feature/notification/domain/notification.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
 import 'package:smart_dash/util/time/date_time.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 
 import 'notification_screen_controller.dart';
 

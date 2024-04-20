@@ -8,7 +8,7 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/feature/device/presentation/utils.dart';
 import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/util/widget.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
 

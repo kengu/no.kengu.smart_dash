@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/hive.dart';
+import 'package:smart_dash/core/data/hive.dart';
 
 part 'block_repository.g.dart';
 

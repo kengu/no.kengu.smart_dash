@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:smart_dash/util/data/list.dart';
 import 'package:smart_dash/util/data/num.dart';
-import 'package:smart_dash/util/drift/connection.dart';
+import 'package:smart_dash/core/data/drift/connection.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 
 import 'schemas/versions.dart';

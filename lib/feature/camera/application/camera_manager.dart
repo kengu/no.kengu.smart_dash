@@ -7,18 +7,24 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
+import 'package:smart_dash/feature/camera/data/snapshot_repository.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash/util/guard.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_manager.g.dart';
 
 class CameraManager {
   CameraManager(this.ref);
+
   final Ref ref;
-  final Map<String, CameraService> _services = {};
 
   final _log = Logger('$CameraManager');
+
+  final Map<String, CameraService> _services = {};
+
+  StreamSubscription? _storageSubscription;
 
   /// Check if [CameraService] for given [ServiceConfig.key] exists
   bool exists(String key) => _services.containsKey(key);
@@ -36,9 +42,50 @@ class CameraManager {
     );
   }
 
-  Future<List<ServiceConfig>> init() {
-    // Prefetch into caches
-    return getConfigs();
+  Future<void> init({
+    bool withStorage = false,
+    Duration period = CameraService.period,
+  }) {
+    return guard(() async {
+      // Prefetch into caches
+      await getConfigs();
+      if (withStorage) {
+        enableStorage(period);
+      }
+    });
+  }
+
+  bool get isStorageEnabled => _storageSubscription != null;
+
+  bool enableStorage([Duration period = CameraService.period]) {
+    if (!isStorageEnabled) {
+      _storageSubscription = getSnapshotsAsStream(period: period)
+          .listen(_writeSnapshot, cancelOnError: false);
+    }
+    return isStorageEnabled;
+  }
+
+  void _writeSnapshot(CameraSnapshotEvent e) {
+    guard(
+      () async {
+        final repo = ref.read(snapshotRepositoryProvider);
+        final snapshot = await repo.addOrUpdate(Snapshot.of(e));
+        final file = repo.toFile(repo.toId(snapshot));
+        _log.fine(
+          'Saved snapshot from '
+          'camera [${e.service}:${e.name}] to [${file.path}]',
+        );
+      },
+      task: '_writeSnapshot',
+      name: '$CameraManager',
+    );
+  }
+
+  bool disableStorage() {
+    if (!isStorageEnabled) return false;
+    _storageSubscription?.cancel();
+    _storageSubscription = null;
+    return true;
   }
 
   /// Get [Camera] for given [IntegrationFields.key]
@@ -80,10 +127,16 @@ class CameraManager {
   }
 
   Stream<Camera> getCameraAsStream(ServiceConfig config,
-      {Duration period = CameraService.defaultPeriod}) async* {
+      {Duration period = CameraService.period}) async* {
+    final result = await getCamera(config);
+    if (!result.isPresent) return;
+    final camera = result.value;
     final stream = StreamGroup.merge(
       _services.values.map(
-        (e) => e.events.whereType<CameraDataEvent>().throttle(period),
+        (e) => e.events
+            .whereType<CameraDataEvent>()
+            .where((e) => e.service == camera.service && e.name == camera.name)
+            .throttle(period),
       ),
     );
 
@@ -111,6 +164,19 @@ class CameraManager {
     return cameras;
   }
 
+  Stream<Camera> getCamerasAsStream(
+      {Duration period = CameraService.period}) async* {
+    final stream = StreamGroup.merge(
+      _services.values.map(
+        (e) => e.events.whereType<CameraDataEvent>().throttle(period),
+      ),
+    );
+
+    await for (final it in stream) {
+      yield it.camera;
+    }
+  }
+
   Future<Optional<CameraSnapshot>> getSnapshot(
     Camera device, {
     Duration? ttl,
@@ -119,16 +185,28 @@ class CameraManager {
   }
 
   Stream<CameraSnapshot> getSnapshotAsStream(Camera device,
-      {Duration period = CameraService.defaultPeriod}) async* {
+      {Duration period = CameraService.period}) async* {
     final stream = StreamGroup.merge(
       _services.values.map(
-        (e) => e.events.whereType<CameraSnapshotEvent>().throttle(period),
+        (e) => e.events
+            .whereType<CameraSnapshotEvent>()
+            .where((e) => e.service == device.service && e.name == device.name)
+            .throttle(period),
       ),
     );
 
     await for (final it in stream) {
       yield it.snapshot;
     }
+  }
+
+  Stream<CameraSnapshotEvent> getSnapshotsAsStream(
+      {Duration period = CameraService.period}) {
+    return StreamGroup.merge(
+      _services.values.map(
+        (e) => e.events.whereType<CameraSnapshotEvent>().throttle(period),
+      ),
+    );
   }
 
   Optional<CameraSnapshot> getCachedSnapshot(Camera device) {

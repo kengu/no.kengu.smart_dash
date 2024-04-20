@@ -25,7 +25,7 @@ PODS:
     - FlutterMacOS
   - Sentry/HybridSDK (8.21.0):
     - SentryPrivate (= 8.21.0)
-  - sentry_flutter (0.0.1):
+  - sentry_flutter (7.19.0):
     - Flutter
     - FlutterMacOS
     - Sentry/HybridSDK (= 8.21.0)
@@ -123,12 +123,12 @@ SPEC CHECKSUMS:
   media_kit_libs_macos_video: b3e2bbec2eef97c285f2b1baa7963c67c753fb82
   media_kit_native_event_loop: 81fd5b45192b72f8b5b69eaf5b540f45777eb8d5
   media_kit_video: c75b07f14d59706c775778e4dd47dd027de8d1e5
-  package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
+  package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   screen_brightness_macos: 2d6d3af2165592d9a55ffcd95b7550970e41ebda
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   Sentry: ebc12276bd17613a114ab359074096b6b3725203
-  sentry_flutter: dff1df05dc39c83d04f9330b36360fc374574c5e
+  sentry_flutter: 88ebea3f595b0bc16acc5bedacafe6d60c12dcd5
   SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqlite3: 73b7fc691fdc43277614250e04d183740cb15078
