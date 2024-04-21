@@ -26,8 +26,8 @@ class NySnyClient extends SnowClient {
   static final mf = DateFormat("d. MMMM", 'nb_NO');
 
   @override
-  Future<Optional<List<SnowState>>> getStates() async {
-    try {
+  Future<Optional<List<SnowState>>> getStates() {
+    return guard(() async {
       // Step 1: Log in
       final loginResponse = await api.post(
         '/main.php',
@@ -104,10 +104,8 @@ class NySnyClient extends SnowClient {
         _log.warning('Snow state login failed: '
             '[${loginResponse.statusCode}] ${loginResponse.realUri}');
       }
-    } catch (e, stackTrace) {
-      _log.severe('Fetching snow state error', e, stackTrace);
-    }
-    return const Optional.empty();
+      return const Optional.empty();
+    }, error: check_client_error);
   }
 
   final regex = RegExp(r'\(.*?\)');

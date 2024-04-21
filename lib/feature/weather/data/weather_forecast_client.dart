@@ -60,6 +60,6 @@ abstract class WeatherForecastClient {
           response.headers.value('last-modified')!,
         ),
       );
-    });
+    }, error: check_client_error);
   }
 }

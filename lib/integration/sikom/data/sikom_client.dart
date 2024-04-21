@@ -30,7 +30,7 @@ class SikomClient {
       final home = await ref.read(homeServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
       return home.value.firstServiceWhere(Sikom.key);
-    });
+    }, error: check_client_error);
   }
 
   Future<bool> verifyCredentials() async {
@@ -58,7 +58,7 @@ class SikomClient {
       );
       final result = SikomResponse.fromJson(response.data);
       return result.data.scalarResult == 'True';
-    });
+    }, error: check_client_error);
   }
 
   Future<Optional<List<SikomGateway>>> getGateways() async {
@@ -92,7 +92,7 @@ class SikomClient {
               .toList()
           : <SikomGateway>[];
       return Optional.ofNullable(gateways);
-    });
+    }, error: check_client_error);
   }
 
   Future<Optional<List<SikomDevice>>> getDevices(
@@ -110,7 +110,7 @@ class SikomClient {
             ? devices.value.where((d) => type.isAny || d.type == type).toList()
             : [],
       );
-    });
+    }, error: check_client_error);
   }
 
   Future<Optional<List<SikomDevice>>> getAllDevices({
@@ -161,7 +161,7 @@ class SikomClient {
         }
       }
       return Optional.ofNullable(devices);
-    });
+    }, error: check_client_error);
   }
 
   Future<Optional<String>> getDevicePropertyValue(
@@ -195,7 +195,7 @@ class SikomClient {
         '[${response.statusCode}] ${response.realUri}[$value]',
       );
       return Optional.ofNullable(value);
-    });
+    }, error: check_client_error);
   }
 
   Future<Optional<SikomProperty>> setDeviceProperty(
@@ -254,7 +254,7 @@ class SikomClient {
         );
       }
       return const Optional.empty();
-    });
+    }, error: check_client_error);
   }
 }
 

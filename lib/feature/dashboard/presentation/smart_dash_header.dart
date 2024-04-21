@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
+import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 
 class SmartDashHeader extends ConsumerWidget {
   const SmartDashHeader({
@@ -33,31 +34,59 @@ class SmartDashHeader extends ConsumerWidget {
           ),
           const Spacer(flex: 1),
           if (withFullscreenAction)
-            if (ResponsiveWidget.isMobile(context))
-              PopupMenuButton<String>(
-                onSelected: (value) {
-                  context.go(value);
-                },
-                itemBuilder: (context) {
-                  return [
-                    if (withFullscreenAction)
-                      PopupMenuItem(
-                          child: isFullscreen
+            IconButton(
+              icon: _buildHealth(ref),
+              onPressed: () {},
+            ),
+          if (ResponsiveWidget.isMobile(context))
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                context.go(value);
+              },
+              itemBuilder: (context) {
+                return [
+                  if (withFullscreenAction)
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          isFullscreen
                               ? const Icon(Icons.fullscreen_exit)
                               : const Icon(Icons.fullscreen),
-                          onTap: () => FullscreenState.notifier(ref).toggle())
-                  ];
-                },
-              )
-            else
-              IconButton(
-                icon: isFullscreen
-                    ? const Icon(Icons.fullscreen_exit)
-                    : const Icon(Icons.fullscreen),
-                onPressed: () => FullscreenState.notifier(ref).toggle(),
-              )
+                          const SizedBox(width: 16),
+                          const Text('Fullscreen'),
+                        ],
+                      ),
+                      onTap: () => FullscreenState.notifier(ref).toggle(),
+                    ),
+                ];
+              },
+            )
+          else
+            IconButton(
+              icon: isFullscreen
+                  ? const Icon(Icons.fullscreen_exit)
+                  : const Icon(Icons.fullscreen),
+              onPressed: () => FullscreenState.notifier(ref).toggle(),
+            ),
         ],
       ),
     );
+  }
+
+  Widget _buildHealth(WidgetRef ref) {
+    final connectivity = ref.read(connectivityServiceProvider);
+    return StreamBuilder(
+        stream: connectivity.events,
+        builder: (context, snapshot) {
+          return connectivity.isOK
+              ? const Tooltip(
+                  message: 'System is OK',
+                  child: Icon(Icons.info_outline, color: Colors.green),
+                )
+              : Tooltip(
+                  message: '${connectivity.failCount} connections has failed',
+                  child: const Icon(Icons.info_outline, color: Colors.red),
+                );
+        });
   }
 }

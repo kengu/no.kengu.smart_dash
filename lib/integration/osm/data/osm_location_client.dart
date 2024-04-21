@@ -17,14 +17,14 @@ class OsmLocationClient extends LocationClient {
       {required double lon, required double lat}) async {
     return guard(() async {
       final result = await Nominatim.reverseSearch(
-        lat: 50.1,
-        lon: 6.2,
-        addressDetails: true,
+        lon: lon,
+        lat: lat,
         extraTags: true,
         nameDetails: true,
+        addressDetails: true,
       );
       return Optional.of(toLocation(result));
-    });
+    }, error: check_client_error);
   }
 
   @override
@@ -37,7 +37,7 @@ class OsmLocationClient extends LocationClient {
         nameDetails: true,
       );
       return result.map(toLocation).toList();
-    });
+    }, error: check_client_error);
   }
 
   static Location toLocation(Place data) {

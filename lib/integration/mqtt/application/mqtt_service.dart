@@ -11,6 +11,7 @@ import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/mqtt/data/mqtt_client.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart';
+import 'package:smart_dash/integration/mqtt/mqtt.dart';
 import 'package:smart_dash/util/guard.dart';
 
 part 'mqtt_service.g.dart';
@@ -29,7 +30,7 @@ class MqttService {
 
   final _log = Logger('$MqttService');
 
-  String get key => 'mqtt';
+  String get key => Mqtt.key;
 
   Stream<MqttMessage> get updates => _controller.stream;
 
@@ -45,8 +46,11 @@ class MqttService {
         _log.info('Connecting to [$url]...');
 
         final client = MqttClient(
-          m.MqttServerClient(url, 'SmartDash::${user.userId}')
-            ..port = config.port!,
+          ref,
+          m.MqttServerClient(
+            url,
+            'SmartDash::${user.userId}',
+          )..port = config.port!,
         );
 
         final connected = await client.connect(

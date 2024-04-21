@@ -38,7 +38,7 @@ class Rtl433Driver extends ThrottledDeviceDriver {
   final List<StreamSubscription> _subscriptions = [];
 
   @override
-  Future<Stream<DriverDevicesEvent>> onInit(Completer<void> completer) async {
+  Future<Stream<DriverEvent>> onInit(Completer<void> completer) async {
     return guard(
       () async {
         final service = ref.read(mqttServiceProvider);

@@ -3,16 +3,20 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart' as s;
+import 'package:smart_dash/integration/mqtt/mqtt.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:universal_io/io.dart' as io;
 
 class MqttClient {
-  MqttClient(MqttServerClient api, {bool logging = false}) : _api = api {
+  MqttClient(this.ref, MqttServerClient api, {bool logging = false})
+      : _api = api {
     _api.autoReconnect = true;
     _api.resubscribeOnAutoReconnect = true;
 
@@ -34,6 +38,8 @@ class MqttClient {
     _api.onAutoReconnected = _onAutoReconnected;
   }
 
+  final Ref ref;
+
   final MqttServerClient _api;
 
   final Map<String, MqttSubscriptionStatus> _subscriptions = {};
@@ -50,6 +56,7 @@ class MqttClient {
   MqttConnectionState _state = MqttConnectionState.disconnected;
 
   bool get isDisconnected => !isConnected;
+
   bool get isConnected => _state == MqttConnectionState.connected;
 
   Stream<s.MqttMessage> get updates => _controller.stream;
@@ -148,7 +155,10 @@ class MqttClient {
           ),
         ));
       }
+      ref.read(connectivityServiceProvider).setOK(Mqtt.key);
     }, cancelOnError: false);
+
+    ref.read(connectivityServiceProvider).setOK(Mqtt.key);
 
     _log.info(
       'OnConnected :: '
@@ -194,17 +204,20 @@ class MqttClient {
       'OnDisconnected :: '
       'Client disconnected',
     );
+    final connectivity = ref.read(connectivityServiceProvider);
     if (_api.connectionStatus!.disconnectionOrigin ==
         MqttDisconnectionOrigin.solicited) {
       _log.info(
         'OnDisconnected :: '
         'Is solicited, this is CORRECT',
       );
+      connectivity.setFailed(Mqtt.key, 'Disconnected by System');
     } else {
       _log.warning(
         'OnDisconnected :: '
         'Is unsolicited or none, this is INCORRECT',
       );
+      connectivity.setFailed(Mqtt.key, 'Disconnected by Broker');
     }
     if (_aliveCount == 3) {
       _log.info(
@@ -220,10 +233,15 @@ class MqttClient {
   }
 
   void _onAutoReconnect() {
+    ref.read(connectivityServiceProvider).setFailed(
+          Mqtt.key,
+          'Auto reconnect in progress',
+        );
     _log.info('Auto reconnect :: STARTED');
   }
 
   void _onAutoReconnected() {
+    ref.read(connectivityServiceProvider).setOK(Mqtt.key);
     _log.info('Auto reconnect :: COMPLETED');
   }
 }

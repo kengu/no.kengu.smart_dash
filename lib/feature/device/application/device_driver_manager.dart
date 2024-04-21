@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/util/guard.dart';
@@ -128,14 +129,31 @@ class DeviceDriverManager {
         // ignore: invalid_use_of_protected_member
         final event = await driver.onUpdate();
         if (_shouldProcess(event)) {
-          _log.fine(
-            'Fetched [${event.devices.length}] devices '
-            'from [${driver.key}] after ${event.duration.inSeconds} sec.',
-          );
-          if (event.isNotEmpty) {
-            _controller.add(event);
-            // Update devices
-            await ref.read(deviceRepositoryProvider).updateAll(event.devices);
+          final connectivity = ref.read(connectivityServiceProvider);
+          switch (event) {
+            case DriverDevicesEvent _:
+              _log.fine(
+                'Fetched [${event.devices.length}] devices '
+                'from [${driver.key}] after ${event.duration.inSeconds} sec.',
+              );
+              if (event.isNotEmpty) {
+                _controller.add(event);
+                // Update devices
+                await ref
+                    .read(deviceRepositoryProvider)
+                    .updateAll(event.devices);
+              }
+              connectivity.setOK(driver.key);
+            case DriverIOErrorEvent _:
+              _log.fine(
+                'Failed to fetch devices '
+                'from [${driver.key}] after ${event.duration.inSeconds} sec '
+                'with IO error [${event.error.toString()}]',
+              );
+              connectivity.setFailed(
+                driver.key,
+                event.error,
+              );
           }
         }
       },
@@ -144,7 +162,7 @@ class DeviceDriverManager {
     );
   }
 
-  bool _shouldProcess(DriverDevicesEvent event) =>
+  bool _shouldProcess(DriverEvent event) =>
       event is! ThrottledDriverUpdatedEvent || !event.wasThrottled;
 
   Iterable<DeviceDriver> _ready(bool isReady) =>
