@@ -12,17 +12,14 @@ import 'paired_devices_controller.dart';
 class PairedDevicesScreen extends ConsumerWidget {
   const PairedDevicesScreen({
     super.key,
-    required this.location,
   });
-
-  final String location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncLoadScreen<PairedDeviceQuery, List<Device>,
         PairedDevicesScreenController>(
       title: 'Paired devices',
-      onClose: () => context.go(location),
+      onClose: () => context.pop(),
       query: PairedDeviceQuery(),
       provider: pairedDevicesScreenControllerProvider.call,
       builder: (context, ref, data, child) {

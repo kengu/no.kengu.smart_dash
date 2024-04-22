@@ -20,6 +20,10 @@ class IntegrationRepository extends _$IntegrationRepository {
     return _drivers;
   }
 
+  Optional<Integration> get(String key) {
+    return Optional.ofNullable(state.value?[key]);
+  }
+
   Optional<IntegrationMap> supports(Iterable<String> features) {
     return where((e) => e.features.any(features.contains));
   }

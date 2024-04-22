@@ -2,27 +2,24 @@ import 'package:smart_dash/feature/device/presentation/device_routes.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_routes.dart';
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
+import 'package:smart_dash/feature/system/presentation/system_routes.dart';
 
 class Screens {
   static const account = '/account';
-
   static const settings = '/settings';
-
   static const devices = DeviceScreens.home;
   static const deviceDetails = DeviceScreens.details;
-
   static const pairing = PairingScreens.home;
   static const pairingListNewDevices = PairingScreens.listNewDevices;
   static const pairingListDeviceTypes = PairingScreens.listDeviceTypes;
-
   static const camera = '/camera';
-
   static const flowCopy = FlowRoutes.copy;
   static const flowSelect = FlowRoutes.select;
   static const flowCreate = FlowRoutes.create;
   static const flowDetails = FlowRoutes.details;
-
   static const notifications = NotificationScreens.home;
+  static const system = SystemScreens.home;
+  static const systemHealth = SystemScreens.health;
 
   // TODO: Make list this dynamic, easy to forget to update this list
   static const List<String> locations = [
@@ -39,6 +36,8 @@ class Screens {
     Screens.flowCreate,
     Screens.flowDetails,
     Screens.notifications,
+    Screens.system,
+    Screens.systemHealth,
   ];
 
   static String toPath(List<String> segments) => segments.join('/');

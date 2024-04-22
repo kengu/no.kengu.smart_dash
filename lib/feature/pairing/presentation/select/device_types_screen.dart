@@ -11,11 +11,9 @@ import 'device_types_controller.dart';
 class DeviceTypesScreen extends ConsumerWidget {
   const DeviceTypesScreen({
     super.key,
-    required this.location,
     required this.serviceKey,
   });
 
-  final String location;
   final String serviceKey;
 
   @override
@@ -23,7 +21,7 @@ class DeviceTypesScreen extends ConsumerWidget {
     return AsyncLoadScreen<DeviceTypesQuery, List<DeviceDefinition>,
         DeviceTypesScreenController>(
       title: 'Device types',
-      onClose: () => context.go(location),
+      onClose: () => context.pop(),
       query: DeviceTypesQuery(serviceKey),
       provider: deviceTypesScreenControllerProvider.call,
       builder: (context, ref, data, child) {

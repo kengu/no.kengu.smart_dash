@@ -37,10 +37,7 @@ import 'account_form_screen_controller.dart';
 class AccountFormScreen extends ConsumerWidget {
   const AccountFormScreen({
     super.key,
-    required this.location,
   });
-
-  final String location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,13 +57,12 @@ class AccountFormScreen extends ConsumerWidget {
                             .map((e) => e.key),
                       ),
                       provider: accountFormScreenControllerProvider.call,
-                      onClose: () => context.go(location),
+                      onClose: () => context.pop(),
                       onSubmitted: (account) =>
                           SnackbarController.showSnackBarByRef(
                         context,
                         ref,
                         'Saved account for ${jsonEncode(account.name)}',
-                        location: location,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
@@ -427,11 +423,8 @@ class _HomeMembersField extends ConsumerWidget {
                           style: getLegendTextStyle(context),
                         ),
                         trailing: IconButton(
-                          onPressed: () => context.push(
-                            Screens.settings,
-                            extra: Screens.account,
-                          ),
                           icon: const Icon(Icons.arrow_forward_ios),
+                          onPressed: () => context.push(Screens.settings),
                         ),
                       ),
                   ],

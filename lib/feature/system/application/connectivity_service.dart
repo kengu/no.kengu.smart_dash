@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/system/domain/connectivity.dart';
 
 part 'connectivity_service.g.dart';
 
@@ -37,11 +38,13 @@ class ConnectivityService {
       );
 
   void set(String key, bool isOK, [Object? reason]) {
+    final prev = _states[key];
     final state = ConnectivityState(
       key: key,
       isOK: isOK,
       reason: reason,
       when: DateTime.now(),
+      counter: (prev?.counter ?? 0) + 1,
     );
     _states[key] = state;
     _controller.add(state);
@@ -49,21 +52,6 @@ class ConnectivityService {
       'Connection for [$key] ${isOK ? 'is OK' : 'has FAILED'}',
     );
   }
-}
-
-class ConnectivityState {
-  ConnectivityState({
-    required this.key,
-    required this.isOK,
-    required this.when,
-    required this.reason,
-  });
-  final bool isOK;
-  final String key;
-  final DateTime when;
-  final Object? reason;
-
-  bool get isFailed => !isOK;
 }
 
 @Riverpod(keepAlive: true)

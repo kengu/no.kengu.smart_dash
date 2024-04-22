@@ -15,7 +15,7 @@ class NotificationScreens {
       ).toString();
 }
 
-GoRoute buildNotificationRoutes() {
+GoRoute buildNotificationRoute() {
   return Routes.buildGoRoute(
     fullscreenDialog: true,
     path: NotificationScreens.home,

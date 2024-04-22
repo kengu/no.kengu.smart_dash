@@ -35,40 +35,33 @@ class PairingScreens {
       ).toString();
 }
 
-GoRoute buildParingRoutes() {
-  return Routes.buildGoRoute(
-    fullscreenDialog: true,
-    path: PairingScreens.home,
-    restorationId: Routes.setLastLocation,
-    builder: (context, state) {
-      return PairingScreen(
-        location: Routes.lastLocationOnStack,
-      );
-    },
-    routes: [
-      // Route to device type selection screen
+List<GoRoute> buildParingRoutes() => [
       Routes.buildGoRoute(
         fullscreenDialog: true,
-        path: PairingScreens._listDeviceTypes,
+        path: PairingScreens.home,
+        restorationId: Routes.setLastLocation,
+        builder: (context, state) {
+          return const PairingScreen();
+        },
+      ),
+      Routes.buildGoRoute(
+        fullscreenDialog: true,
+        path: PairingScreens.listDeviceTypes,
         builder: (context, state) {
           return DeviceTypesScreen(
             serviceKey: state.uri.queryParameters['key']!,
-            location: Routes.lastLocationOnStack,
           );
         },
       ),
       // Route to device pairing screen
       Routes.buildGoRoute(
         fullscreenDialog: true,
-        path: PairingScreens._listNewDevices,
+        path: PairingScreens.listNewDevices,
         builder: (context, state) {
           return NewDevicesScreen(
             serviceKey: state.uri.queryParameters['key']!,
-            location: Routes.lastLocationOnStack,
             type: DeviceType.from(state.uri.queryParameters['type']!),
           );
         },
       ),
-    ],
-  );
-}
+    ];

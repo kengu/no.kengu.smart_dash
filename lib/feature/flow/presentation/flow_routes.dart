@@ -30,7 +30,7 @@ class FlowRoutes {
       ).toString();
 }
 
-GoRoute buildFlowRoutes() {
+GoRoute buildFlowRoute() {
   return Routes.buildGoRoute(
     fullscreenDialog: false,
     path: Pages.flows,

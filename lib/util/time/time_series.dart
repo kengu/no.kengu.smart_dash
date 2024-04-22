@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:logging/logging.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/analytics/domain/data_array.dart';
 import 'package:smart_dash/feature/analytics/domain/time_series.dart';
+import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/util/data/data_array.dart';
 import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/util/time/duration.dart';
@@ -356,10 +358,14 @@ extension TimeSeriesX on TimeSeries {
       return TimeSeriesStatistics.empty();
     }
     final zs = zeros(span: span, begin: begin).lastRow.cast<int>();
+    final name = array.dims.last['capability'];
+    final capability = name is String
+        ? DeviceCapability.of(name)
+        : const Optional<DeviceCapability>.empty();
     return TimeSeriesStatistics<T>(
       zeros: zs,
       count: zs.length,
-      unit: array.dims.last['unit']?.toString() ?? '',
+      unit: capability.isPresent ? capability.value.unit.name : '',
       min: min<T>(span: span, begin: begin).lastRow.cast<T>(),
       max: max<T>(span: span, begin: begin).lastRow.cast<T>(),
       avg: avg<T>(span: span, begin: begin, cum: cum).lastRow.cast<T>(),

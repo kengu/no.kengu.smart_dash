@@ -25,10 +25,7 @@ import 'package:smart_dash/feature/system/data/network_device_info_repository.da
 class SettingFormScreen extends ConsumerWidget {
   const SettingFormScreen({
     super.key,
-    required this.location,
   });
-
-  final String location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +35,7 @@ class SettingFormScreen extends ConsumerWidget {
       query: const SettingsQuery(),
       autoSubmit: true,
       provider: settingsFormScreenControllerProvider.call,
-      onClose: () => context.go(location),
+      onClose: () => context.pop(),
       onSubmitted: (settings) => SnackbarController.showSnackBarByRef(
         context,
         ref,

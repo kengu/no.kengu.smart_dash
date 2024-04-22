@@ -10,17 +10,14 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart'
 class PairingScreen extends ConsumerWidget {
   const PairingScreen({
     super.key,
-    required this.location,
   });
-
-  final String location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncLoadScreen<PairingQuery, IntegrationMap,
         PairingScreenController>(
       title: 'Pair home with device',
-      onClose: () => context.go(location),
+      onClose: () => context.pop(),
       query: PairingQuery(),
       provider: pairingScreenControllerProvider.call,
       builder: (context, ref, services, child) {

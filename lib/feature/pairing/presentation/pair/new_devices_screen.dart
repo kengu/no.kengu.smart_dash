@@ -12,12 +12,10 @@ import 'package:smart_dash/feature/pairing/presentation/pair/new_devices_control
 class NewDevicesScreen extends ConsumerStatefulWidget {
   const NewDevicesScreen({
     super.key,
-    required this.location,
     required this.type,
     required this.serviceKey,
   });
 
-  final String location;
   final DeviceType type;
   final String serviceKey;
 
@@ -65,7 +63,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
           child: const Icon(Icons.check),
         )
       ],
-      onClose: () => context.go(widget.location),
+      onClose: () => context.pop(),
       provider: newDevicesScreenControllerProvider.call,
       builder: (context, ref, data, child) {
         _set(data);

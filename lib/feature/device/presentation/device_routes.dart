@@ -18,30 +18,23 @@ class DeviceScreens {
       ).toString();
 }
 
-GoRoute buildDeviceRoutes() {
-  return Routes.buildGoRoute(
-    fullscreenDialog: true,
-    path: DeviceScreens.home,
-    restorationId: Routes.setLastLocation,
-    builder: (context, state) {
-      return PairedDevicesScreen(
-        location: Routes.lastLocationOnStack,
-      );
-    },
-    routes: [
-      // Route to device type selection screen
+List<GoRoute> buildDeviceRoutes() => [
+      Routes.buildGoRoute(
+          fullscreenDialog: true,
+          path: DeviceScreens.home,
+          restorationId: Routes.setLastLocation,
+          builder: (context, state) {
+            return const PairedDevicesScreen();
+          }),
       Routes.buildGoRoute(
         fullscreenDialog: true,
-        path: DeviceScreens._details,
+        path: DeviceScreens.details,
         builder: (context, state) {
           return PairedDeviceDetailsScreen(
             identity: Identity.fromJson(
               state.uri.queryParameters,
             ),
-            location: Routes.lastLocationOnStack,
           );
         },
       ),
-    ],
-  );
-}
+    ];

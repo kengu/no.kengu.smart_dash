@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/device/domain/thermostat.dart';
 import 'package:smart_dash/feature/flow/domain/token.dart';
@@ -548,10 +549,14 @@ enum DeviceCapability {
   }
 
   const DeviceCapability(this.variable, this.description, this.unit, this.type);
+
   final TokenType type;
   final TokenUnit unit;
   final String variable;
   final String description;
+
+  static Optional<DeviceCapability> of(String name) =>
+      values.firstWhereOptional((e) => e.name == name);
 }
 
 extension DeviceCapabilityX on List<DeviceCapability> {

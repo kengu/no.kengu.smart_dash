@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/feature/system/application/connectivity_service.dart';
+import 'package:smart_dash/feature/system/presentation/system_routes.dart';
 
 class SmartDashHeader extends ConsumerWidget {
   const SmartDashHeader({
@@ -36,7 +37,9 @@ class SmartDashHeader extends ConsumerWidget {
           if (withFullscreenAction)
             IconButton(
               icon: _buildHealth(ref),
-              onPressed: () {},
+              onPressed: () {
+                context.push(SystemScreens.health);
+              },
             ),
           if (ResponsiveWidget.isMobile(context))
             PopupMenuButton<String>(

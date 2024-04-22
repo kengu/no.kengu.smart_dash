@@ -13,10 +13,8 @@ class PairedDeviceDetailsScreen extends ConsumerStatefulWidget {
   const PairedDeviceDetailsScreen({
     super.key,
     required this.identity,
-    required this.location,
   });
 
-  final String location;
   final Identity identity;
 
   @override
@@ -33,7 +31,7 @@ class _PairedDeviceDetailsScreenState
     return AsyncLoadScreen<PairedDeviceDetailsQuery, Device,
         PairedDeviceDetailsScreenController>(
       title: 'Paired device',
-      onClose: () => context.go(widget.location),
+      onClose: () => context.pop(),
       query: PairedDeviceDetailsQuery(widget.identity),
       provider: pairedDeviceDetailsScreenControllerProvider.call,
       actions: [
@@ -51,7 +49,7 @@ class _PairedDeviceDetailsScreenState
               final unpaired = await _unpair(context);
               if (unpaired) {
                 setState(() {
-                  context.go(widget.location);
+                  context.pop();
                 });
               }
             },

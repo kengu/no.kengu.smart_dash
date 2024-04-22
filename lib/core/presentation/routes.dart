@@ -19,6 +19,7 @@ import 'package:smart_dash/feature/notification/presentation/notification_routes
 import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 import 'package:smart_dash/feature/room/presentation/rooms_page.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen.dart';
+import 'package:smart_dash/feature/system/presentation/system_routes.dart';
 
 sealed class Routes {
   /// Get last location routed to
@@ -71,20 +72,14 @@ sealed class Routes {
             path: Screens.account,
             fullscreenDialog: true,
             builder: (context, state) {
-              return AccountFormScreen(
-                location: lastLocationOnStack,
-              );
+              return const AccountFormScreen();
             },
           ),
           buildGoRoute(
             path: Screens.settings,
             fullscreenDialog: true,
             builder: (context, state) {
-              return SettingFormScreen(
-                location: state.extra is String
-                    ? state.extra as String
-                    : lastLocationOnStack,
-              );
+              return const SettingFormScreen();
             },
           ),
           buildGoRoute(
@@ -98,10 +93,11 @@ sealed class Routes {
                   : const Optional.empty(),
             ),
           ),
-          buildFlowRoutes(),
-          buildDeviceRoutes(),
-          buildParingRoutes(),
-          buildNotificationRoutes(),
+          buildFlowRoute(),
+          ...buildParingRoutes(),
+          ...buildDeviceRoutes(),
+          ...buildSystemRoutes(),
+          buildNotificationRoute(),
           // These are displayed on the ShellRoute's Navigator
           // (path to each rail/menu/bottom destinations)
           buildGoRoute(
