@@ -7,7 +7,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'device_service.dart';

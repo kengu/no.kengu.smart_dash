@@ -5,11 +5,8 @@ import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
-import 'package:smart_dash/feature/flow/application/block_flow.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/data/block_repository.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_card.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 class FlowsPage extends ConsumerStatefulWidget {
   const FlowsPage({super.key});

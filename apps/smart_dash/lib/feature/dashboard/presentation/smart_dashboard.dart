@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
-
-import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 typedef DashboardItemSlotBuilder<T extends DashboardItem> = Widget Function(
     ResponsiveType type, int slotCount, T item);

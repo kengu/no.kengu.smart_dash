@@ -6,8 +6,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'network_device_info_repository.g.dart';
 

@@ -11,9 +11,9 @@ _$SikomResponseImpl _$$SikomResponseImplFromJson(Map<String, dynamic> json) =>
       contentEncoding: json['ContentEncoding'] as String?,
       contentType: json['ContentType'] as String?,
       data: SikomResponseData.fromJson(json['Data'] as Map<String, dynamic>),
-      jsonRequestBehavior: json['JsonRequestBehavior'] as int,
-      maxJsonLength: json['MaxJsonLength'] as int?,
-      recursionLimit: json['RecursionLimit'] as int?,
+      jsonRequestBehavior: (json['JsonRequestBehavior'] as num).toInt(),
+      maxJsonLength: (json['MaxJsonLength'] as num?)?.toInt(),
+      recursionLimit: (json['RecursionLimit'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$SikomResponseImplToJson(_$SikomResponseImpl instance) =>

@@ -4,13 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
-import 'package:smart_dash/util/time/duration.dart';
-import 'package:smart_dash/util/time/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class EnergyUsageTile<T extends num> extends ConsumerWidget {
   EnergyUsageTile({
@@ -22,7 +18,7 @@ class EnergyUsageTile<T extends num> extends ConsumerWidget {
     assert(
       energy.orElseNull?.isEnergy == true,
       'Only token with '
-      'unit [${TokenUnit.energy.name}] expected, found'
+      'unit [${ValueUnit.energy.name}] expected, found'
       'unit [${energy.orElseNull?.unit.name}]',
     );
   }

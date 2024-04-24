@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/flow/presentation/flows_controller.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 class SelectFlowScreen extends ConsumerWidget {
   const SelectFlowScreen({

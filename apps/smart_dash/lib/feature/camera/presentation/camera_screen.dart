@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_card.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 class CameraScreen extends StatelessWidget {
   const CameraScreen({

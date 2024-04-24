@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/util/typedefs.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 typedef AsyncLoadWidgetBuilder<Data> = Widget Function(
   BuildContext context,

@@ -7,12 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_server_client.dart' as m;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/integration/mqtt/data/mqtt_client.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart';
 import 'package:smart_dash/integration/mqtt/mqtt.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'mqtt_service.g.dart';
 

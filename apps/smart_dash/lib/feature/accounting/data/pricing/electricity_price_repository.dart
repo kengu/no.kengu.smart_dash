@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'drift/electricity_price_database.dart';
 

@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/data/units.dart';
 import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash/feature/weather/domain/weather.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'weather.dart';
 

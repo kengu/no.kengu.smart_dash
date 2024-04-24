@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'dashboard.freezed.dart';
 part 'dashboard.g.dart';

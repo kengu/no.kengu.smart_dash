@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'home_controller.g.dart';

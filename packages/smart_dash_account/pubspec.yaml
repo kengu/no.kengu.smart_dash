@@ -1,0 +1,38 @@
+name: smart_dash_account
+description: Provides core functionality for managing user identities, profiles, and configurations.
+version: 1.0.0
+repository: https://github.com/kengu/no.kengu.smart_dash.git/packages/smart_dash_account
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+# Add regular dependencies here.
+dependencies:
+
+  # Smart Dash packages (managed by Mesos)
+  smart_dash_common: any
+
+  dio: ^5.4.3+1
+
+  nanoid: ^1.0.0
+  logging: ^1.2.0
+  optional: ^6.1.0+1
+  riverpod: ^3.0.0-dev.3
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
+  riverpod_annotation: ^3.0.0-dev.3
+
+dev_dependencies:
+  test: ^1.25.8
+  lints: ^3.0.0
+  custom_lint: ^0.5.11
+
+  freezed: ^2.5.7
+  build_runner: ^2.4.13
+  riverpod_lint: ^3.0.0-dev.4
+  riverpod_generator: ^3.0.0-dev.11
+  json_serializable: ^6.8.0
+
+dependency_overrides:
+  analyzer: 6.7.0

@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/core/data/file.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:path/path.dart' as p;
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'snapshot_repository.g.dart';
 

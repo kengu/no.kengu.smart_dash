@@ -5,7 +5,7 @@ import 'package:smart_dash/core/presentation/widget/smart_knob.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:strings/strings.dart';
 
 class ThermostatKnob extends ConsumerStatefulWidget {

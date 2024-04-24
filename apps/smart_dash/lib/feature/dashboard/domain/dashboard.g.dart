@@ -39,7 +39,7 @@ Map<String, dynamic> _$$DashboardImplToJson(_$DashboardImpl instance) =>
 _$DashboardLayoutImpl _$$DashboardLayoutImplFromJson(
         Map<String, dynamic> json) =>
     _$DashboardLayoutImpl(
-      slotCount: json['slotCount'] as int,
+      slotCount: (json['slotCount'] as num).toInt(),
       slotHeight: (json['slotHeight'] as num).toDouble(),
       items: (json['items'] as List<dynamic>)
           .map((e) => DashboardItem.fromJson(e as Map<String, dynamic>))
@@ -70,14 +70,14 @@ Map<String, dynamic> _$$DashboardItemImplToJson(_$DashboardItemImpl instance) =>
 _$DashboardItemLayoutImpl _$$DashboardItemLayoutImplFromJson(
         Map<String, dynamic> json) =>
     _$DashboardItemLayoutImpl(
-      width: json['w'] as int,
-      height: json['h'] as int,
-      minWidth: json['min_W'] as int,
-      minHeight: json['min_H'] as int,
-      maxWidth: json['max_W'] as int?,
-      maxHeight: json['max_H'] as int?,
-      startX: json['s_X'] as int?,
-      startY: json['s_Y'] as int?,
+      width: (json['w'] as num).toInt(),
+      height: (json['h'] as num).toInt(),
+      minWidth: (json['min_W'] as num).toInt(),
+      minHeight: (json['min_H'] as num).toInt(),
+      maxWidth: (json['max_W'] as num?)?.toInt(),
+      maxHeight: (json['max_H'] as num?)?.toInt(),
+      startX: (json['s_X'] as num?)?.toInt(),
+      startY: (json['s_Y'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$DashboardItemLayoutImplToJson(

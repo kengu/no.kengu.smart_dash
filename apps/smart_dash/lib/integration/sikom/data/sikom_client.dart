@@ -3,14 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/integration/sikom/data/sikom_response.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class SikomClient {
   SikomClient(this.ref, this.api);

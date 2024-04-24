@@ -24,7 +24,9 @@ mixin _$SystemInfo {
   bool get memIsLow => throw _privateConstructorUsedError;
   double get batteryLevel => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SystemInfoCopyWith<SystemInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +57,8 @@ class _$SystemInfoCopyWithImpl<$Res, $Val extends SystemInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,6 +129,8 @@ class __$$SystemInfoImplCopyWithImpl<$Res>
       _$SystemInfoImpl _value, $Res Function(_$SystemInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -224,7 +230,9 @@ class _$SystemInfoImpl extends _SystemInfo {
   int get hashCode => Object.hash(runtimeType, cpuApp, cpuTotal, memApp,
       memFree, memTotal, memIsLow, batteryLevel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SystemInfoImplCopyWith<_$SystemInfoImpl> get copyWith =>
@@ -256,8 +264,11 @@ abstract class _SystemInfo extends SystemInfo {
   bool get memIsLow;
   @override
   double get batteryLevel;
+
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SystemInfoImplCopyWith<_$SystemInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

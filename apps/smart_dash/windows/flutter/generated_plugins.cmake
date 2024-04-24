@@ -9,14 +9,14 @@ list(APPEND FLUTTER_PLUGIN_LIST
   media_kit_video
   permission_handler_windows
   screen_brightness_windows
-  screen_retriever
-  sentry_flutter
+  screen_retriever_windows
   sqlite3_flutter_libs
   window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
   media_kit_native_event_loop
+  sentry_flutter
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

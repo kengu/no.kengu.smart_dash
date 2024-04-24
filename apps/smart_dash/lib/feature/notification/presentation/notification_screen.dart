@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:smart_dash/feature/notification/application/notification_service.dart';
-import 'package:smart_dash/feature/notification/domain/notification.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
-import 'package:smart_dash/util/time/date_time.dart';
 import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 import 'notification_screen_controller.dart';
 

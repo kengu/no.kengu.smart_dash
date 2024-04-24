@@ -10,14 +10,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/presentation/smart_dash_app.dart';
-import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
+import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/presence/application/presence_service.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
 import 'package:smart_dash/integration/application/integration_manager.dart';
 import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash/util/platform.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:universal_io/io.dart' as io;
 import 'package:window_manager/window_manager.dart';
@@ -112,11 +115,18 @@ ProviderContainer initProviders() {
   final container = ProviderContainer();
 
   // Initialize core services
-  container.read(flowManagerProvider).init();
+  container.read(flutterDirsProvider);
+  container.read(notificationServiceProvider);
+  container.read(deviceServiceProvider);
+  container.read(flowManagerProvider);
   container.read(mqttServiceProvider).init();
+  container.read(blockManagerProvider).init();
 
   // Bind with dependencies
-  container.read(historyManagerProvider).bind();
+  container.read(historyManagerProvider).bind(
+        container.read(flowManagerProvider).events.map((e) => e.tags),
+        container.read(deviceServiceProvider).getTokens,
+      );
   container.read(networkInfoServiceProvider).bind();
   container.read(presenceServiceProvider).bind();
 

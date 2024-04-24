@@ -8,9 +8,9 @@ import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/circle_blip.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({

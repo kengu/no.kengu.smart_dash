@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
-import 'package:smart_dash/util/typedefs.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 /// A async load fullscreen dialog with [Scaffold]
 class AsyncLoadScreen<Query, Data,

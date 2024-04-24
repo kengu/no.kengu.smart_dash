@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'weather_now_service.g.dart';
@@ -115,14 +115,14 @@ class WeatherNowService {
         ],
         meta: WeatherMeta(
           units: WeatherUnits(
-            windSpeed: TokenUnit.windSpeed.symbol,
-            precipitationAmount: TokenUnit.rain.symbol,
-            lightLuminance: TokenUnit.luminance.symbol,
-            relativeHumidity: TokenUnit.humidity.symbol,
-            windSpeedOfGust: TokenUnit.gustSpeed.symbol,
-            airTemperature: TokenUnit.temperature.symbol,
-            windFromDirection: TokenUnit.windAngle.symbol,
-            ultravioletRadiation: TokenUnit.ultraviolet.symbol,
+            windSpeed: ValueUnit.windSpeed.symbol,
+            precipitationAmount: ValueUnit.rain.symbol,
+            lightLuminance: ValueUnit.luminance.symbol,
+            relativeHumidity: ValueUnit.humidity.symbol,
+            windSpeedOfGust: ValueUnit.gustSpeed.symbol,
+            airTemperature: ValueUnit.temperature.symbol,
+            windFromDirection: ValueUnit.windAngle.symbol,
+            ultravioletRadiation: ValueUnit.ultraviolet.symbol,
           ),
           updatedAt: device.lastUpdated,
         ),

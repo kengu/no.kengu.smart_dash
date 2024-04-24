@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/core/presentation/widget/chart/smart_dash_sparkline.dart';
-import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash/util/time/time_series.dart';
-import 'package:smart_dash/util/typedefs.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_animator_widget.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class SparklineTile<T extends num> extends StatelessWidget {
   const SparklineTile({

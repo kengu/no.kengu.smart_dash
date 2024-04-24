@@ -4,16 +4,15 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_dropdown_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_array_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/typed_value_accessor.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
 import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_controller.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 class BlockParametersArrayField extends ConsumerWidget {
   const BlockParametersArrayField({super.key});
@@ -40,8 +39,8 @@ class BlockParametersArrayField extends ConsumerWidget {
               tag: name!,
               name: name,
               value: 0,
-              type: TokenType.int,
-              unit: TokenUnit.value,
+              type: ValueType.int,
+              unit: ValueUnit.any,
             ),
           );
         }
@@ -140,7 +139,7 @@ class _BlockParameterField extends StatelessWidget {
                     final source = group.findControl(
                       BlockParameterFields.type,
                     );
-                    final type = TokenType.of(source!.value);
+                    final type = ValueType.of(source!.value);
                     return type.tryParse(value);
                   }
                   return value;
@@ -161,16 +160,16 @@ class _BlockParameterField extends StatelessWidget {
                 final target = group.findControl(
                   BlockParameterFields.value,
                 );
-                final type = TokenType.of(source.value);
+                final type = ValueType.of(source.value);
                 target!.value = type.tryParse(target.value);
               },
-              items: TokenType.values
+              items: ValueType.values
                   .map((type) => DropdownMenuItem(
                         value: type.name,
                         child: Text(switch (type) {
-                          TokenType.int => 'Integer',
-                          TokenType.bool => 'Boolean',
-                          TokenType.double => 'Double',
+                          ValueType.int => 'Integer',
+                          ValueType.bool => 'Boolean',
+                          ValueType.double => 'Double',
                         }),
                       ))
                   .toList(),
@@ -183,7 +182,7 @@ class _BlockParameterField extends StatelessWidget {
               validationMessages: {
                 ValidationMessage.required: (_) => 'Please select unit',
               },
-              items: TokenUnit.values
+              items: ValueUnit.values
                   .map((unit) => DropdownMenuItem(
                         value: unit.name,
                         child: Text(unit.name),

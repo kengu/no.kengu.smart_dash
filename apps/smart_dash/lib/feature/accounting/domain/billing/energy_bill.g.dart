@@ -38,7 +38,7 @@ Map<String, dynamic> _$$EnergyBillDayImplToJson(_$EnergyBillDayImpl instance) =>
 
 _$EnergyBillHourImpl _$$EnergyBillHourImplFromJson(Map<String, dynamic> json) =>
     _$EnergyBillHourImpl(
-      vat: json['vat'] as int,
+      vat: (json['vat'] as num).toInt(),
       end: DateTime.parse(json['end'] as String),
       begin: DateTime.parse(json['begin'] as String),
       energy: (json['energy'] as num).toDouble(),

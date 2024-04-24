@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class SnowService {
   static const ttl = Duration(hours: 1);

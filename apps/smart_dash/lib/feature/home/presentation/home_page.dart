@@ -5,7 +5,6 @@ import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicato
 import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
-import 'package:smart_dash/feature/analytics/application/history_manager.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard_page.dart';
 import 'package:smart_dash/feature/device/presentation/tile/energy_usage_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dart';
@@ -21,8 +20,7 @@ import 'package:smart_dash/feature/system/presentation/network_now_tile.dart';
 import 'package:smart_dash/feature/system/presentation/system_now_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_forecast_tile.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_now_tile.dart';
-import 'package:smart_dash/util/time/date_time.dart';
-import 'package:smart_dash/util/time/time_scale.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({

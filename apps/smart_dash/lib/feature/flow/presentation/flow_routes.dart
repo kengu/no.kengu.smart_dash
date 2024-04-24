@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/presentation/flows_page.dart';
 import 'package:smart_dash/feature/flow/presentation/form/block_flow_form_screen.dart';
 import 'package:smart_dash/feature/flow/presentation/select/select_flow_screen.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 class FlowRoutes {
   static const copy = '${Pages.flows}/$_copy';

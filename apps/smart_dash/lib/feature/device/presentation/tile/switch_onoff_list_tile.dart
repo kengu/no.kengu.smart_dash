@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/feature/device/presentation/utils.dart';
-import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
 
@@ -250,12 +250,12 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
             showSelectedIcon: widget.showSelectedIcon,
             onSelectionChanged: _onSelectionChanged,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled)) {
+              backgroundColor: WidgetStateProperty.resolveWith(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.disabled)) {
                   return null;
                 }
-                if (states.contains(MaterialState.selected)) {
+                if (states.contains(WidgetState.selected)) {
                   return _errorState
                       ? Colors.red.withOpacity(0.6)
                       : Theme.of(context).colorScheme.secondaryContainer;

@@ -5,10 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/snow/application/snow_service.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:async/async.dart';
 

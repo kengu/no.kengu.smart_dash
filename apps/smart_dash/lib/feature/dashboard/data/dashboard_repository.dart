@@ -4,7 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/dashboard/domain/dashboard.dart';
-import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'dashboard_repository.g.dart';
 

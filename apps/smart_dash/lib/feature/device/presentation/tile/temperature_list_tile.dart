@@ -4,8 +4,7 @@ import 'package:smart_dash/core/presentation/widget/tile/barchart_tile.dart';
 import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_service.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/data/num.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 class TemperatureListTile extends ConsumerStatefulWidget {

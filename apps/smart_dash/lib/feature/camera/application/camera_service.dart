@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/data/camera_client.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/util/future.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 abstract class CameraService {

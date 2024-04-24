@@ -27,8 +27,12 @@ mixin _$WeatherResponse {
   @JsonKey(name: 'last_modified')
   DateTime get lastModified => throw _privateConstructorUsedError;
 
+  /// Serializes this WeatherResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeatherResponseCopyWith<WeatherResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$WeatherResponseCopyWithImpl<$Res, $Val extends WeatherResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class _$WeatherResponseCopyWithImpl<$Res, $Val extends WeatherResponse>
     ) as $Val);
   }
 
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WeatherCopyWith<$Res> get data {
@@ -114,6 +122,8 @@ class __$$WeatherResponseImplCopyWithImpl<$Res>
       _$WeatherResponseImpl _value, $Res Function(_$WeatherResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,11 +186,13 @@ class _$WeatherResponseImpl extends _WeatherResponse {
                 other.lastModified == lastModified));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, data, expires, lastModified);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeatherResponseImplCopyWith<_$WeatherResponseImpl> get copyWith =>
@@ -215,8 +227,11 @@ abstract class _WeatherResponse extends WeatherResponse {
   @override
   @JsonKey(name: 'last_modified')
   DateTime get lastModified;
+
+  /// Create a copy of WeatherResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeatherResponseImplCopyWith<_$WeatherResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

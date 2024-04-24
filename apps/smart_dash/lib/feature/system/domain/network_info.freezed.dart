@@ -19,7 +19,9 @@ mixin _$NetworkInfo {
   NetworkDeviceInfo get local => throw _privateConstructorUsedError;
   List<NetworkDeviceInfo> get devices => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NetworkInfoCopyWith<NetworkInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$NetworkInfoCopyWithImpl<$Res, $Val extends NetworkInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,6 +67,8 @@ class _$NetworkInfoCopyWithImpl<$Res, $Val extends NetworkInfo>
     ) as $Val);
   }
 
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NetworkDeviceInfoCopyWith<$Res> get local {
@@ -94,6 +100,8 @@ class __$$NetworkInfoImplCopyWithImpl<$Res>
       _$NetworkInfoImpl _value, $Res Function(_$NetworkInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,7 +156,9 @@ class _$NetworkInfoImpl implements _NetworkInfo {
   int get hashCode => Object.hash(
       runtimeType, local, const DeepCollectionEquality().hash(_devices));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NetworkInfoImplCopyWith<_$NetworkInfoImpl> get copyWith =>
@@ -164,8 +174,11 @@ abstract class _NetworkInfo implements NetworkInfo {
   NetworkDeviceInfo get local;
   @override
   List<NetworkDeviceInfo> get devices;
+
+  /// Create a copy of NetworkInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NetworkInfoImplCopyWith<_$NetworkInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -185,8 +198,12 @@ mixin _$NetworkDeviceInfo {
   String? get vendorName => throw _privateConstructorUsedError;
   DateTime? get aliveWhen => throw _privateConstructorUsedError;
 
+  /// Serializes this NetworkDeviceInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NetworkDeviceInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NetworkDeviceInfoCopyWith<NetworkDeviceInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -218,6 +235,8 @@ class _$NetworkDeviceInfoCopyWithImpl<$Res, $Val extends NetworkDeviceInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NetworkDeviceInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -294,6 +313,8 @@ class __$$NetworkDeviceInfoImplCopyWithImpl<$Res>
       $Res Function(_$NetworkDeviceInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkDeviceInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -404,12 +425,14 @@ class _$NetworkDeviceInfoImpl extends _NetworkDeviceInfo {
                 other.aliveWhen == aliveWhen));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hostId, ipAddress, deviceName,
       isAvailable, hostName, macAddress, vendorName, aliveWhen);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkDeviceInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NetworkDeviceInfoImplCopyWith<_$NetworkDeviceInfoImpl> get copyWith =>
@@ -455,8 +478,11 @@ abstract class _NetworkDeviceInfo extends NetworkDeviceInfo {
   String? get vendorName;
   @override
   DateTime? get aliveWhen;
+
+  /// Create a copy of NetworkDeviceInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NetworkDeviceInfoImplCopyWith<_$NetworkDeviceInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

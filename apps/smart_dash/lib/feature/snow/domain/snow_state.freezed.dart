@@ -48,8 +48,12 @@ mixin _$SnowState {
   @JsonKey(name: 'lastUpdated')
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
+  /// Serializes this SnowState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SnowState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SnowStateCopyWith<SnowState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -79,6 +83,8 @@ class _$SnowStateCopyWithImpl<$Res, $Val extends SnowState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SnowState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,6 +155,8 @@ class __$$SnowStateImplCopyWithImpl<$Res>
       _$SnowStateImpl _value, $Res Function(_$SnowStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SnowState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -269,12 +277,14 @@ class _$SnowStateImpl extends _SnowState {
                 other.lastUpdated == lastUpdated));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, location, depth, elevation,
       equivalent, temperature, nextUpdate, lastUpdated);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SnowState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SnowStateImplCopyWith<_$SnowStateImpl> get copyWith =>
@@ -303,43 +313,45 @@ abstract class _SnowState extends SnowState {
   factory _SnowState.fromJson(Map<String, dynamic> json) =
       _$SnowStateImpl.fromJson;
 
-  @override
-
   /// Measurement location
+  @override
   @JsonKey(name: 'location')
   String get location;
-  @override
 
   /// Snow depth in cm
+  @override
   @JsonKey(name: 'depth')
   int get depth;
-  @override
 
   /// Elevation above sea level
+  @override
   @JsonKey(name: 'elevation')
   int get elevation;
-  @override
 
   /// Water equivalent if all snow was melted (in kg/m2)
+  @override
   @JsonKey(name: 'equivalent')
   int get equivalent;
-  @override
 
   /// Air temperature at measurement time (in °C)
+  @override
   @JsonKey(name: 'temperature')
   double get temperature;
-  @override
 
   /// Time of next scheduled measurement update
+  @override
   @JsonKey(name: 'nextUpdate')
   DateTime get nextUpdate;
-  @override
 
   /// Time of current measurement update
+  @override
   @JsonKey(name: 'lastUpdated')
   DateTime get lastUpdated;
+
+  /// Create a copy of SnowState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SnowStateImplCopyWith<_$SnowStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

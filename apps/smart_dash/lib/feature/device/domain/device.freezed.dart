@@ -36,7 +36,7 @@ mixin _$Device {
   Map<String, Object?> get data => throw _privateConstructorUsedError;
 
   /// The device's capabilities array
-  List<DeviceCapability> get capabilities => throw _privateConstructorUsedError;
+  List<Capability> get capabilities => throw _privateConstructorUsedError;
 
   /// Get the timestamp for when device's was last updated
   DateTime get lastUpdated => throw _privateConstructorUsedError;
@@ -131,8 +131,12 @@ mixin _$Device {
   /// Get device's temperature forecast (in mm) next 24h (default null)
   double? get temperature1d => throw _privateConstructorUsedError;
 
+  /// Serializes this Device to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DeviceCopyWith<Device> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -147,7 +151,7 @@ abstract class $DeviceCopyWith<$Res> {
       String service,
       DeviceType type,
       Map<String, Object?> data,
-      List<DeviceCapability> capabilities,
+      List<Capability> capabilities,
       DateTime lastUpdated,
       double? rain,
       double? rainRate,
@@ -195,6 +199,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -260,7 +266,7 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
       capabilities: null == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<DeviceCapability>,
+              as List<Capability>,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -388,6 +394,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     ) as $Val);
   }
 
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ElectricStateCopyWith<$Res>? get electric {
@@ -400,6 +408,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     });
   }
 
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SwitchStateCopyWith<$Res>? get onOff {
@@ -412,6 +422,8 @@ class _$DeviceCopyWithImpl<$Res, $Val extends Device>
     });
   }
 
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ThermostatCopyWith<$Res>? get thermostat {
@@ -438,7 +450,7 @@ abstract class _$$DeviceImplCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       String service,
       DeviceType type,
       Map<String, Object?> data,
-      List<DeviceCapability> capabilities,
+      List<Capability> capabilities,
       DateTime lastUpdated,
       double? rain,
       double? rainRate,
@@ -487,6 +499,8 @@ class __$$DeviceImplCopyWithImpl<$Res>
       _$DeviceImpl _value, $Res Function(_$DeviceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -552,7 +566,7 @@ class __$$DeviceImplCopyWithImpl<$Res>
       capabilities: null == capabilities
           ? _value._capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as List<DeviceCapability>,
+              as List<Capability>,
       lastUpdated: null == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -690,7 +704,7 @@ class _$DeviceImpl extends _Device {
       required this.service,
       required this.type,
       required final Map<String, Object?> data,
-      required final List<DeviceCapability> capabilities,
+      required final List<Capability> capabilities,
       required this.lastUpdated,
       this.rain,
       this.rainRate,
@@ -757,11 +771,11 @@ class _$DeviceImpl extends _Device {
   }
 
   /// The device's capabilities array
-  final List<DeviceCapability> _capabilities;
+  final List<Capability> _capabilities;
 
   /// The device's capabilities array
   @override
-  List<DeviceCapability> get capabilities {
+  List<Capability> get capabilities {
     if (_capabilities is EqualUnmodifiableListView) return _capabilities;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_capabilities);
@@ -960,7 +974,7 @@ class _$DeviceImpl extends _Device {
                 other.temperature1d == temperature1d));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -1003,7 +1017,9 @@ class _$DeviceImpl extends _Device {
         temperature1d
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>
@@ -1024,7 +1040,7 @@ abstract class _Device extends Device {
       required final String service,
       required final DeviceType type,
       required final Map<String, Object?> data,
-      required final List<DeviceCapability> capabilities,
+      required final List<Capability> capabilities,
       required final DateTime lastUpdated,
       final double? rain,
       final double? rainRate,
@@ -1060,156 +1076,158 @@ abstract class _Device extends Device {
 
   factory _Device.fromJson(Map<String, dynamic> json) = _$DeviceImpl.fromJson;
 
-  @override
-
   /// Get the device's id
-  String get id;
   @override
+  String get id;
 
   /// Get the device's name
-  String get name;
   @override
+  String get name;
 
   /// Get the device's service
-  String get service;
   @override
+  String get service;
 
   /// Get the device's type
-  DeviceType get type;
   @override
+  DeviceType get type;
 
   /// Get the device's data object (is unmodifiable)
-  Map<String, Object?> get data;
   @override
+  Map<String, Object?> get data;
 
   /// The device's capabilities array
-  List<DeviceCapability> get capabilities;
   @override
+  List<Capability> get capabilities;
 
   /// Get the timestamp for when device's was last updated
-  DateTime get lastUpdated;
   @override
+  DateTime get lastUpdated;
 
   /// Get device's measured rain since last measurement (default null)
-  double? get rain;
   @override
+  double? get rain;
 
   /// Get device's measured rain rate. (default null)
-  double? get rainRate;
   @override
+  double? get rainRate;
 
   /// Get device's measured rain since last reset. Reset method is device dependent. (default null)
-  double? get rainTotal;
   @override
+  double? get rainTotal;
 
   /// Get device's measured ultraviolet radiation (default null)
-  int? get ultraviolet;
   @override
+  int? get ultraviolet;
 
   /// Get device's measured luminance (default null)
+  @override
   int? get luminance;
-  @override
 
   /// Get device's measured temperature (default null)
+  @override
   double? get humidity;
-  @override
 
   /// Get device's measured temperature (default null)
+  @override
   double? get windAngle;
-  @override
 
   /// Get device's measured temperature (default null)
-  double? get temperature;
   @override
+  double? get temperature;
 
   /// Get device's measured wind speed (default null)
-  double? get windSpeed;
   @override
+  double? get windSpeed;
 
   /// Get device's measured gust speed (default null)
-  double? get gustSpeed;
   @override
+  double? get gustSpeed;
 
   /// Get the device's electric state information (default null)
-  ElectricState? get electric;
   @override
+  ElectricState? get electric;
 
   /// Get the device's switch state information (default null)
-  SwitchState? get onOff;
   @override
+  SwitchState? get onOff;
 
   /// Get the device's thermostat information (default null)
+  @override
   Thermostat? get thermostat;
-  @override
 
   /// Get device's measured snow depth (default null)
+  @override
   int? get snowDepth;
-  @override
 
   /// Get device's measured snow depth (default null)
-  int? get snowWeight;
   @override
+  int? get snowWeight;
 
   /// Get device's rain forecast (in mm) next 24h (default null)
-  double? get rain1h;
   @override
+  double? get rain1h;
 
   /// Get device's rain forecast (in mm) next 3h (default null)
-  double? get rain3h;
   @override
+  double? get rain3h;
 
   /// Get device's rain forecast (in mm) next 6h (default null)
-  double? get rain6h;
   @override
+  double? get rain6h;
 
   /// Get device's rain forecast (in mm) next 12h (default null)
-  double? get rain12h;
   @override
+  double? get rain12h;
 
   /// Get device's rain forecast (in mm) next 24h (default null)
-  double? get rain1d;
   @override
+  double? get rain1d;
 
   /// Get device's snow forecast (in cm) next 24h (default null)
-  double? get snow1h;
   @override
+  double? get snow1h;
 
   /// Get device's snow forecast (in cm) next 3h (default null)
-  double? get snow3h;
   @override
+  double? get snow3h;
 
   /// Get device's snow forecast (in cm) next 6h (default null)
-  double? get snow6h;
   @override
+  double? get snow6h;
 
   /// Get device's snow forecast (in cm) next 12h (default null)
-  double? get snow12h;
   @override
+  double? get snow12h;
 
   /// Get device's snow forecast (in cm) next 24h (default null)
-  double? get snow1d;
   @override
+  double? get snow1d;
 
   /// Get device's temperature forecast (in mm) next 24h (default null)
-  double? get temperature1h;
   @override
+  double? get temperature1h;
 
   /// Get device's temperature forecast (in mm) next 3h (default null)
-  double? get temperature3h;
   @override
+  double? get temperature3h;
 
   /// Get device's temperature forecast (in mm) next 6h (default null)
-  double? get temperature6h;
   @override
+  double? get temperature6h;
 
   /// Get device's temperature forecast (in mm) next 12h (default null)
-  double? get temperature12h;
   @override
+  double? get temperature12h;
 
   /// Get device's temperature forecast (in mm) next 24h (default null)
-  double? get temperature1d;
   @override
-  @JsonKey(ignore: true)
+  double? get temperature1d;
+
+  /// Create a copy of Device
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DeviceImplCopyWith<_$DeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1223,8 +1241,12 @@ mixin _$Identity {
   String get deviceId => throw _privateConstructorUsedError;
   String get serviceKey => throw _privateConstructorUsedError;
 
+  /// Serializes this Identity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Identity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IdentityCopyWith<Identity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1247,6 +1269,8 @@ class _$IdentityCopyWithImpl<$Res, $Val extends Identity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Identity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1285,6 +1309,8 @@ class __$$IdentityImplCopyWithImpl<$Res>
       _$IdentityImpl _value, $Res Function(_$IdentityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Identity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1334,11 +1360,13 @@ class _$IdentityImpl extends _Identity {
                 other.serviceKey == serviceKey));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, deviceId, serviceKey);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Identity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IdentityImplCopyWith<_$IdentityImpl> get copyWith =>
@@ -1365,8 +1393,11 @@ abstract class _Identity extends Identity {
   String get deviceId;
   @override
   String get serviceKey;
+
+  /// Create a copy of Identity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IdentityImplCopyWith<_$IdentityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

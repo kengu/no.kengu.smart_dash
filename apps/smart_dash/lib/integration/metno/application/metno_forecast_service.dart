@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/weather/application/weather_forecast_service.dart';
 import 'package:smart_dash/feature/weather/data/weather_forecast_client.dart';
 import 'package:smart_dash/integration/metno/data/metno_forecast_client.dart';
 import 'package:smart_dash/integration/metno/metno.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 part 'metno_forecast_service.g.dart';
 

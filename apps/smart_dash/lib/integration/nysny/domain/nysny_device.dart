@@ -3,6 +3,7 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash/integration/nysny/nysny.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'nysny_device.freezed.dart';
 part 'nysny_device.g.dart';
@@ -31,8 +32,8 @@ class NySnyDevice with _$NySnyDevice, DeviceMapper {
         service: NySny.key,
         type: DeviceType.sensor,
         capabilities: [
-          DeviceCapability.snowDepth,
-          DeviceCapability.snowWeight,
+          Capability.snowDepth,
+          Capability.snowWeight,
         ],
         snowDepth: snowDepth,
         snowWeight: snowWeight,

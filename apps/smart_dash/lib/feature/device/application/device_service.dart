@@ -7,8 +7,7 @@ import 'package:smart_dash/feature/device/application/device_driver.dart';
 import 'package:smart_dash/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/util/future.dart';
-import 'package:smart_dash/util/stream.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'device_service.g.dart';
 

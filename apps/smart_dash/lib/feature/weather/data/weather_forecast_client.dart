@@ -3,11 +3,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/guard.dart';
-import 'package:intl/intl.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'weather_response.dart';
 

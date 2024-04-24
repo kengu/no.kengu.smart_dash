@@ -7,12 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/tile/sparkline_tile.dart';
-import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
-import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/util/time/duration.dart';
-import 'package:smart_dash/util/time/time_series.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class VoltageTile<T extends num> extends ConsumerWidget {
   VoltageTile({
@@ -24,7 +20,7 @@ class VoltageTile<T extends num> extends ConsumerWidget {
     assert(
       voltage.orElseNull?.isVoltage == true,
       'Only token with '
-      'unit [${TokenUnit.voltage.name}] expected, found'
+      'unit [${ValueUnit.voltage.name}] expected, found'
       'unit [${voltage.orElseNull?.unit.name}]',
     );
   }

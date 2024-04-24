@@ -44,8 +44,12 @@ mixin _$Thermostat {
   /// [DateTime] timestamp of when data was updated last
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
+  /// Serializes this Thermostat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Thermostat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ThermostatCopyWith<Thermostat> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -76,6 +80,8 @@ class _$ThermostatCopyWithImpl<$Res, $Val extends Thermostat>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Thermostat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,6 +152,8 @@ class __$$ThermostatImplCopyWithImpl<$Res>
       _$ThermostatImpl _value, $Res Function(_$ThermostatImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Thermostat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -265,7 +273,7 @@ class _$ThermostatImpl extends _Thermostat {
                 other.lastUpdated == lastUpdated));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -277,7 +285,9 @@ class _$ThermostatImpl extends _Thermostat {
       temperatureComfortAdjustment,
       lastUpdated);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Thermostat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThermostatImplCopyWith<_$ThermostatImpl> get copyWith =>
@@ -305,38 +315,40 @@ abstract class _Thermostat extends Thermostat {
   factory _Thermostat.fromJson(Map<String, dynamic> json) =
       _$ThermostatImpl.fromJson;
 
-  @override
-
   /// Minimum allowed temperature (default null)
-  double? get temperatureMin;
   @override
+  double? get temperatureMin;
 
   /// Maximum allowed temperature (default null)
-  double? get temperatureMax;
   @override
+  double? get temperatureMax;
 
   /// Thermostat target temperature in [SwitchMode.eco]
-  double? get temperatureEco;
   @override
+  double? get temperatureEco;
 
   /// Thermostat target temperature in [SwitchMode.comfort]
-  double? get temperatureComfort;
   @override
+  double? get temperatureComfort;
 
   /// The amount of temperature adjustment applied to
   /// [temperatureEco] when regulated
-  double? get temperatureEcoAdjustment;
   @override
+  double? get temperatureEcoAdjustment;
 
   /// The amount of temperature adjustment applied to
   /// [temperatureComfort] when regulated
-  double? get temperatureComfortAdjustment;
   @override
+  double? get temperatureComfortAdjustment;
 
   /// [DateTime] timestamp of when data was updated last
-  DateTime get lastUpdated;
   @override
-  @JsonKey(ignore: true)
+  DateTime get lastUpdated;
+
+  /// Create a copy of Thermostat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThermostatImplCopyWith<_$ThermostatImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

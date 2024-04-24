@@ -89,9 +89,9 @@ _$WeatherInstantDetailsImpl _$$WeatherInstantDetailsImplFromJson(
       windFromDirection: (json['wind_from_direction'] as num?)?.toDouble(),
       windSpeed: (json['wind_speed'] as num?)?.toDouble(),
       windSpeedOfGust: (json['wind_speed_of_gust'] as num?)?.toDouble(),
-      lightLuminance: json['light_luminance'] as int?,
+      lightLuminance: (json['light_luminance'] as num?)?.toInt(),
       relativeHumidity: (json['relative_humidity'] as num?)?.toDouble(),
-      ultravioletRadiation: json['ultraviolet_radiation'] as int?,
+      ultravioletRadiation: (json['ultraviolet_radiation'] as num?)?.toInt(),
       precipitationAmount: (json['precipitation_amount'] as num?)?.toDouble(),
     );
 

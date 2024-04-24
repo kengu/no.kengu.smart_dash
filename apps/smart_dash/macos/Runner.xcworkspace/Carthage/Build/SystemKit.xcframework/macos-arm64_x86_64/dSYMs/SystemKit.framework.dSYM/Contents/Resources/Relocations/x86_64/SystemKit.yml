@@ -1,6 +1,6 @@
 ---
 triple:          'x86_64-apple-darwin'
-binary-path:     '/Users/kengu/Library/Caches/org.carthage.CarthageKit/DerivedData/15.3_15E204a/SystemKit/v0.0.12/Build/Intermediates.noindex/ArchiveIntermediates/SystemKit/BuildProductsPath/Release/SystemKit.framework/SystemKit'
+binary-path:     '/Users/kengu/Library/Caches/org.carthage.CarthageKit/DerivedData/15.4_15F31d/SystemKit/v0.0.12/Build/Intermediates.noindex/ArchiveIntermediates/SystemKit-Package/BuildProductsPath/Release/SystemKit.framework/SystemKit'
 relocations:
   - { offsetInCU: 0xB6, offset: 0x87D87, size: 0x8, addend: 0x0, symName: '_$s9SystemKit7BatteryV15TemperatureUnitOSQAASQ2eeoiySbx_xtFZTW', symObjAddr: 0x70, symBinAddr: 0x1AA0, symSize: 0x10 }
   - { offsetInCU: 0xF0, offset: 0x87DC1, size: 0x8, addend: 0x0, symName: '_$s9SystemKit7BatteryV15TemperatureUnitOSHAASH9hashValueSivgTW', symObjAddr: 0x80, symBinAddr: 0x1AB0, symSize: 0x40 }
@@ -139,7 +139,7 @@ relocations:
   - { offsetInCU: 0xAF7, offset: 0x895AD, size: 0x8, addend: 0x0, symName: '_$s9SystemKit18kIOReturnIsoTooNews5Int32Vvau', symObjAddr: 0x300, symBinAddr: 0x2990, symSize: 0x10 }
   - { offsetInCU: 0xB15, offset: 0x895CB, size: 0x8, addend: 0x0, symName: '_$s9SystemKit16kIOReturnInvalids5Int32Vvau', symObjAddr: 0x310, symBinAddr: 0x29A0, symSize: 0xD }
   - { offsetInCU: 0x2B, offset: 0x89701, size: 0x8, addend: 0x0, symName: '_$ss2eeoiySbx_xtSYRzSQ8RawValueRpzlF9SystemKit0D0V12ThermalLevelO_Tgq5', symObjAddr: 0x0, symBinAddr: 0x29B0, symSize: 0x190 }
-  - { offsetInCU: 0x4F, offset: 0x89725, size: 0x8, addend: 0x0, symName: '_$s9SystemKit0A0V9PAGE_SIZESuvpZ', symObjAddr: 0x107B0, symBinAddr: 0xDD20, symSize: 0x0 }
+  - { offsetInCU: 0x4F, offset: 0x89725, size: 0x8, addend: 0x0, symName: '_$s9SystemKit0A0V9PAGE_SIZESuvpZ', symObjAddr: 0x107A8, symBinAddr: 0xDD20, symSize: 0x0 }
   - { offsetInCU: 0x69, offset: 0x8973F, size: 0x8, addend: 0x0, symName: '_$s9SystemKit0A0V8machHost33_23C605511CCE9C84C7DB6A57E39F329CLLs6UInt32VvpZ', symObjAddr: 0x2280, symBinAddr: 0xCF18, symSize: 0x0 }
   - { offsetInCU: 0xCB, offset: 0x897A1, size: 0x8, addend: 0x0, symName: '_$s9SystemKit0A0V12ThermalLevelOSYAASY8rawValuexSg03RawF0Qz_tcfCTW', symObjAddr: 0x760, symBinAddr: 0x3110, symSize: 0x30 }
   - { offsetInCU: 0xFC, offset: 0x897D2, size: 0x8, addend: 0x0, symName: '_$s9SystemKit0A0V12ThermalLevelOSYAASY8rawValue03RawF0QzvgTW', symObjAddr: 0x790, symBinAddr: 0x3140, symSize: 0x90 }

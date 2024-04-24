@@ -31,8 +31,8 @@ _$Rtl433DeviceImpl _$$Rtl433DeviceImplFromJson(Map<String, dynamic> json) =>
       gustStrengthInKilometerPerHour:
           (json['wind_max_km_h'] as num?)?.toDouble(),
       gustStrengthInMilesPerHour: (json['wind_max_mi_h'] as num?)?.toDouble(),
-      lightInLux: json['light_lux'] as int?,
-      uvRadiation: json['uv'] as int?,
+      lightInLux: (json['light_lux'] as num?)?.toInt(),
+      uvRadiation: (json['uv'] as num?)?.toInt(),
       rainInMillimeters: (json['rain_mm'] as num?)?.toDouble(),
       rainInInches: (json['rain_in'] as num?)?.toDouble(),
       rainRateMillimeterPerHour: (json['rain_rate_mm_h'] as num?)?.toDouble(),

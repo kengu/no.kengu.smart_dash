@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash/feature/notification/application/notification_service.dart';
 import 'package:smart_dash/core/presentation/widget/badge_stream_widget.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 class NotificationBadge extends ConsumerWidget {
   const NotificationBadge({super.key, required this.child});

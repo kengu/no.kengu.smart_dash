@@ -3,10 +3,9 @@ import 'dart:ui';
 
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_dash/core/presentation/widget/chart/axis_painter.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash/util/data/list.dart';
-import 'package:smart_dash/util/data/num.dart';
+import 'package:smart_dash/core/presentation/widget/chart/axis_painter.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 export 'package:chart_sparkline/chart_sparkline.dart';
 

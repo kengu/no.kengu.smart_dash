@@ -91,8 +91,12 @@ mixin _$Rtl433Device {
   @JsonKey(name: 'pressure_hPa')
   double? get pressureInhPa => throw _privateConstructorUsedError;
 
+  /// Serializes this Rtl433Device to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $Rtl433DeviceCopyWith<Rtl433Device> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -144,6 +148,8 @@ class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -337,6 +343,8 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
       _$Rtl433DeviceImpl _value, $Res Function(_$Rtl433DeviceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -681,7 +689,7 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
             (identical(other.pressureInhPa, pressureInhPa) || other.pressureInhPa == pressureInhPa));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -715,7 +723,9 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
         pressureInhPa
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Rtl433DeviceImplCopyWith<_$Rtl433DeviceImpl> get copyWith =>
@@ -838,33 +848,36 @@ abstract class _Rtl433Device extends Rtl433Device {
   @override
   @JsonKey(name: 'uv')
   int? get uvRadiation;
-  @override
 
   /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
+  @override
   @JsonKey(name: 'rain_mm')
   double? get rainInMillimeters;
-  @override
 
   /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
+  @override
   @JsonKey(name: 'rain_in')
   double? get rainInInches;
-  @override
 
   /// Rainfall rate from rain sensor (in mm) per hour.
+  @override
   @JsonKey(name: 'rain_rate_mm_h')
   double? get rainRateMillimeterPerHour;
-  @override
 
   /// Rainfall rate from rain sensor (in inches) per hour.
+  @override
   @JsonKey(name: 'rain_rate_in_h')
   double? get rainRateInchesPerHour;
-  @override
 
   /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
+  @override
   @JsonKey(name: 'pressure_hPa')
   double? get pressureInhPa;
+
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Rtl433DeviceImplCopyWith<_$Rtl433DeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

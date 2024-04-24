@@ -35,8 +35,12 @@ mixin _$SikomProperty {
   @JsonKey(name: 'CustomerId2')
   int get customerId2 => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomProperty to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomPropertyCopyWith<SikomProperty> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,6 +71,8 @@ class _$SikomPropertyCopyWithImpl<$Res, $Val extends SikomProperty>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomProperty
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,6 +143,8 @@ class __$$SikomPropertyImplCopyWithImpl<$Res>
       _$SikomPropertyImpl _value, $Res Function(_$SikomPropertyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomProperty
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -242,12 +250,14 @@ class _$SikomPropertyImpl extends _SikomProperty {
                 other.customerId2 == customerId2));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, value, created, deviceId,
       gatewayId, customerId1, customerId2);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomPropertyImplCopyWith<_$SikomPropertyImpl> get copyWith =>
@@ -297,8 +307,11 @@ abstract class _SikomProperty extends SikomProperty {
   @override
   @JsonKey(name: 'CustomerId2')
   int get customerId2;
+
+  /// Create a copy of SikomProperty
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomPropertyImplCopyWith<_$SikomPropertyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

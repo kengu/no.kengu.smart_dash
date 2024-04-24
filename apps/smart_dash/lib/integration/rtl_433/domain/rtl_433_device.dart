@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/integration/rtl_433/rtl_433.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'rtl_433_device.freezed.dart';
 part 'rtl_433_device.g.dart';
@@ -150,30 +151,30 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
       gustStrengthInKilometerPerHour != null ||
       gustStrengthInMilesPerHour != null;
 
-  /// Get [temperature] in unit [TokenUnit.temperature]
+  /// Get [temperature] in unit [ValueUnit.temperature]
   double? get temperature =>
       temperatureCelsius ??
       (temperatureFahrenheit == null
           ? null
           : (5 / 9 * (temperatureFahrenheit! - 32.0)));
 
-  /// Get [targetTemperature] in unit [TokenUnit.temperature]
+  /// Get [targetTemperature] in unit [ValueUnit.temperature]
   double? get targetTemperature =>
       targetTemperatureCelsius ??
       (targetTemperatureFahrenheit == null
           ? null
           : (5 / 9 * (targetTemperatureFahrenheit! - 32.0)));
 
-  /// Get [rainRate] in unit [TokenUnit.rainRate]
+  /// Get [rainRate] in unit [ValueUnit.rainRate]
   double? get rainRate =>
       rainRateMillimeterPerHour ??
       (rainRateInchesPerHour == null ? null : rainRateInchesPerHour! * 25.4);
 
-  /// Get [rainTotal] in unit [TokenUnit.rainTotal]
+  /// Get [rainTotal] in unit [ValueUnit.rainTotal]
   double? get rainTotal =>
       rainInMillimeters ?? (rainInInches == null ? null : rainInInches! * 25.4);
 
-  /// Get [windStrength] in unit [TokenUnit.windSpeed]
+  /// Get [windStrength] in unit [ValueUnit.windSpeed]
   double? get windStrength =>
       windStrengthInMeterPerSeconds ??
       (windStrengthInKilometerPerHour == null
@@ -182,7 +183,7 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
               : windStrengthInMilesPerHour! * 0.44704)
           : windStrengthInKilometerPerHour! * 5 / 18);
 
-  /// Get [gustStrength] in unit [TokenUnit.gustSpeed]
+  /// Get [gustStrength] in unit [ValueUnit.gustSpeed]
   double? get gustStrength =>
       gustStrengthInMeterPerSeconds ??
       (gustStrengthInKilometerPerHour == null
@@ -211,17 +212,17 @@ class Rtl433Device with _$Rtl433Device, DeviceMapper {
         serviceKey: Rtl433.key,
       );
 
-  List<DeviceCapability> get capabilities => [
-        if (hasHumidity) DeviceCapability.humidity,
-        if (hasRainRate) DeviceCapability.rainRate,
-        if (hasRainTotal) DeviceCapability.rainTotal,
-        if (hasWindAngle) DeviceCapability.windAngle,
-        if (hasLuminance) DeviceCapability.luminance,
-        if (hasUltraviolet) DeviceCapability.ultraviolet,
-        if (hasWindStrength) DeviceCapability.windSpeed,
-        if (hasGustStrength) DeviceCapability.gustSpeed,
-        if (hasUltraviolet) DeviceCapability.ultraviolet,
-        if (hasTemperature) DeviceCapability.temperature,
+  List<Capability> get capabilities => [
+        if (hasHumidity) Capability.humidity,
+        if (hasRainRate) Capability.rainRate,
+        if (hasRainTotal) Capability.rainTotal,
+        if (hasWindAngle) Capability.windAngle,
+        if (hasLuminance) Capability.luminance,
+        if (hasUltraviolet) Capability.ultraviolet,
+        if (hasWindStrength) Capability.windSpeed,
+        if (hasGustStrength) Capability.gustSpeed,
+        if (hasUltraviolet) Capability.ultraviolet,
+        if (hasTemperature) Capability.temperature,
 //          if (hasTargetTemperature) DeviceCapability.targetTemperature,
       ];
 

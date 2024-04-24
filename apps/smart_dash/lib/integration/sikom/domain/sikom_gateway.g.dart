@@ -8,7 +8,7 @@ part of 'sikom_gateway.dart';
 
 _$SikomGatewayImpl _$$SikomGatewayImplFromJson(Map<String, dynamic> json) =>
     _$SikomGatewayImpl(
-      id: json['GatewayId'] as int,
+      id: (json['GatewayId'] as num).toInt(),
       controller: SikomGatewayController.fromJson(
           json['Controller'] as Map<String, dynamic>),
       properties: SikomGatewayProperties.fromJson(

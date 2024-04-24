@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 class HomeSelector extends ConsumerWidget {
   const HomeSelector({

@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/camera/data/camera_client.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'foscam_response.dart';
 

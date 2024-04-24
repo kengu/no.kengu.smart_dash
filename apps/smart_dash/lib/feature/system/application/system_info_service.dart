@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/system/domain/system_info.dart';
-import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'system_info_service.g.dart';
 

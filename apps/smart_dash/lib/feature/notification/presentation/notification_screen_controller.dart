@@ -1,8 +1,7 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/feature/notification/application/notification_service.dart';
-import 'package:smart_dash/feature/notification/domain/notification.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 part 'notification_screen_controller.g.dart';
 

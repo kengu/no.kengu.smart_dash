@@ -1,4 +1,4 @@
-import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'device.dart';
 

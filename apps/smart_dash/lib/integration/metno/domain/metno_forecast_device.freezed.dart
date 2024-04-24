@@ -23,8 +23,12 @@ mixin _$MetNoForecastDevice {
   @JsonKey(name: 'state')
   Weather get state => throw _privateConstructorUsedError;
 
+  /// Serializes this MetNoForecastDevice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MetNoForecastDeviceCopyWith<MetNoForecastDevice> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$MetNoForecastDeviceCopyWithImpl<$Res, $Val extends MetNoForecastDevice>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,6 +69,8 @@ class _$MetNoForecastDeviceCopyWithImpl<$Res, $Val extends MetNoForecastDevice>
     ) as $Val);
   }
 
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WeatherCopyWith<$Res> get state {
@@ -94,6 +102,8 @@ class __$$MetNoForecastDeviceImplCopyWithImpl<$Res>
       $Res Function(_$MetNoForecastDeviceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,11 +144,13 @@ class _$MetNoForecastDeviceImpl extends _MetNoForecastDevice {
             (identical(other.state, state) || other.state == state));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, state);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MetNoForecastDeviceImplCopyWith<_$MetNoForecastDeviceImpl> get copyWith =>
@@ -165,8 +177,11 @@ abstract class _MetNoForecastDevice extends MetNoForecastDevice {
   @override
   @JsonKey(name: 'state')
   Weather get state;
+
+  /// Create a copy of MetNoForecastDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MetNoForecastDeviceImplCopyWith<_$MetNoForecastDeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

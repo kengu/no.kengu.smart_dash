@@ -33,8 +33,12 @@ mixin _$SikomResponseData {
   @JsonKey(name: 'device')
   SikomDevice? get device => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomResponseData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomResponseDataCopyWith<SikomResponseData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,6 +71,8 @@ class _$SikomResponseDataCopyWithImpl<$Res, $Val extends SikomResponseData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,6 +109,8 @@ class _$SikomResponseDataCopyWithImpl<$Res, $Val extends SikomResponseData>
     ) as $Val);
   }
 
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomDeviceCopyWith<$Res>? get device {
@@ -145,6 +153,8 @@ class __$$SikomResponseDataImplCopyWithImpl<$Res>
       $Res Function(_$SikomResponseDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -256,7 +266,7 @@ class _$SikomResponseDataImpl extends _SikomResponseData {
             (identical(other.device, device) || other.device == device));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -267,7 +277,9 @@ class _$SikomResponseDataImpl extends _SikomResponseData {
       const DeepCollectionEquality().hash(scalarResult),
       device);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomResponseDataImplCopyWith<_$SikomResponseDataImpl> get copyWith =>
@@ -314,8 +326,11 @@ abstract class _SikomResponseData extends SikomResponseData {
   @override
   @JsonKey(name: 'device')
   SikomDevice? get device;
+
+  /// Create a copy of SikomResponseData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomResponseDataImplCopyWith<_$SikomResponseDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -332,8 +347,12 @@ mixin _$SikomResponseDataArrayObject {
   @JsonKey(name: 'device')
   SikomDevice? get device => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomResponseDataArrayObject to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomResponseDataArrayObjectCopyWith<SikomResponseDataArrayObject>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -365,6 +384,8 @@ class _$SikomResponseDataArrayObjectCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -383,6 +404,8 @@ class _$SikomResponseDataArrayObjectCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomGatewayCopyWith<$Res>? get gateway {
@@ -395,6 +418,8 @@ class _$SikomResponseDataArrayObjectCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomDeviceCopyWith<$Res>? get device {
@@ -437,6 +462,8 @@ class __$$SikomResponseDataArrayObjectImplCopyWithImpl<$Res>
       $Res Function(_$SikomResponseDataArrayObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -489,11 +516,13 @@ class _$SikomResponseDataArrayObjectImpl
             (identical(other.device, device) || other.device == device));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, gateway, device);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomResponseDataArrayObjectImplCopyWith<
@@ -525,8 +554,11 @@ abstract class _SikomResponseDataArrayObject
   @override
   @JsonKey(name: 'device')
   SikomDevice? get device;
+
+  /// Create a copy of SikomResponseDataArrayObject
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomResponseDataArrayObjectImplCopyWith<
           _$SikomResponseDataArrayObjectImpl>
       get copyWith => throw _privateConstructorUsedError;

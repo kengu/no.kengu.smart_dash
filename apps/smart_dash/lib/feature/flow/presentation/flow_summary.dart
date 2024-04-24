@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
+import 'package:smart_dash/feature/device/application/device_service.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 /// Human readable flow summary
 class FlowSummary extends ConsumerWidget {
@@ -36,7 +36,8 @@ class FlowSummary extends ConsumerWidget {
     final hasActions = model.whenTrue.length > 1 || model.whenFalse.length > 1;
     final or = Text('OR', style: bold);
     final and = Text('AND', style: bold);
-    final manager = ref.read(flowManagerProvider);
+    // TODO: Implement Token Manager for all tokens
+    final manager = ref.read(deviceServiceProvider);
     return FutureBuilder<List<Token>>(
         future: manager.getTokens(),
         initialData: manager.getCachedTokens().orElseNull,

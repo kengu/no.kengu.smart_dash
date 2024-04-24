@@ -7,7 +7,6 @@ import 'package:smart_dash/core/presentation/pages.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_scaffold.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/widget/responsive_widget.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/account/presentation/account_form_screen.dart';
 import 'package:smart_dash/feature/analytics/presentation/history_page.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_screen.dart';
@@ -20,6 +19,7 @@ import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
 import 'package:smart_dash/feature/room/presentation/rooms_page.dart';
 import 'package:smart_dash/feature/setting/presentation/settings_form_screen.dart';
 import 'package:smart_dash/feature/system/presentation/system_routes.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 sealed class Routes {
   /// Get last location routed to
@@ -157,7 +157,7 @@ sealed class Routes {
         _stack.add(state, isDialog);
 
         if (isDialog) {
-          final color = Theme.of(context).colorScheme.background;
+          final color = Theme.of(context).colorScheme.surface;
           return DialogPage(
             // Only show barrier color on first dialog in stack
             barrierColor: isDialogShown ? Colors.transparent : Colors.black54,
@@ -233,7 +233,7 @@ class RouteStack {
     ));
   }
 
-  FutureOr<bool> onExit(BuildContext context) {
+  FutureOr<bool> onExit(BuildContext context, GoRouterState state) {
     if (_stack.isEmpty) return true;
     return _stack.remove(_stack.last);
   }

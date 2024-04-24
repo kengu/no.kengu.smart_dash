@@ -3,12 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash/feature/analytics/application/history_manager.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
-import 'package:smart_dash/util/data/units.dart';
-import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/util/time/time_series.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class HistoryPage extends ConsumerStatefulWidget {
   const HistoryPage({super.key});

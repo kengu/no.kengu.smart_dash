@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-// ignore: unused_import
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,8 +12,8 @@ import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart';
 import 'package:smart_dash/integration/rtl_433/domain/rtl_433_device.dart';
 import 'package:smart_dash/integration/rtl_433/rtl_433.dart';
-import 'package:smart_dash/util/guard.dart';
 import 'package:smart_dash/util/platform.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'rtl_433_driver.g.dart';
 

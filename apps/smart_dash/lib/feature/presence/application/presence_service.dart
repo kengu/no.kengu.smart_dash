@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/flow/domain/flow.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'presence_service.g.dart';
@@ -213,7 +211,7 @@ class PresenceEvent extends FlowEvent {
       : super(
           flow: PresenceService.key,
           tags: [
-            FlowTag<int>(
+            Tag<int>(
               when: state.when,
               token: state.token,
               data: state.members.length,
@@ -229,7 +227,7 @@ class MemberPresenceEvent extends FlowEvent {
       : super(
           flow: PresenceService.key,
           tags: [
-            FlowTag<bool>(
+            Tag<bool>(
               when: when,
               data: isHome,
               token: token,

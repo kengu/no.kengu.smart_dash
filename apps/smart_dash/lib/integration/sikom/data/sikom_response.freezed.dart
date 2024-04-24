@@ -33,8 +33,12 @@ mixin _$SikomResponse {
   @JsonKey(name: 'RecursionLimit')
   int? get recursionLimit => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomResponseCopyWith<SikomResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$SikomResponseCopyWithImpl<$Res, $Val extends SikomResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$SikomResponseCopyWithImpl<$Res, $Val extends SikomResponse>
     ) as $Val);
   }
 
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomResponseDataCopyWith<$Res> get data {
@@ -141,6 +149,8 @@ class __$$SikomResponseImplCopyWithImpl<$Res>
       _$SikomResponseImpl _value, $Res Function(_$SikomResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -237,12 +247,14 @@ class _$SikomResponseImpl extends _SikomResponse {
                 other.recursionLimit == recursionLimit));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, contentEncoding, contentType,
       data, jsonRequestBehavior, maxJsonLength, recursionLimit);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomResponseImplCopyWith<_$SikomResponseImpl> get copyWith =>
@@ -289,8 +301,11 @@ abstract class _SikomResponse extends SikomResponse {
   @override
   @JsonKey(name: 'RecursionLimit')
   int? get recursionLimit;
+
+  /// Create a copy of SikomResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomResponseImplCopyWith<_$SikomResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

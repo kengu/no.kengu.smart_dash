@@ -6,9 +6,9 @@ import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/widget/circle_blip.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_summary.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 class FlowCard extends ConsumerWidget {
   FlowCard({
