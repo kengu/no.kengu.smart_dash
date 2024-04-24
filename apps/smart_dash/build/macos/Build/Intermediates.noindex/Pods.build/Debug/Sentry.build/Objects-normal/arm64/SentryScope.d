@@ -1,0 +1,32 @@
+dependencies: \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/Sentry.build/module.modulemap \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/SentryScope.m \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Target\ Support\ Files/Sentry/Sentry-prefix.pch \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/NSMutableDictionary+Sentry.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryAttachment+Private.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryAttachment.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryDefines.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySerializable.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryBreadcrumb.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/HybridPublic/SentryEnvelopeItemType.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryEvent.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryGlobalEventProcessor.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryLevelMapper.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryLog.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/SentryPropagationContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryScope+Private.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryScope.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanProtocol.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySampleDecision.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanStatus.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryScopeObserver.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentrySession.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentrySpan.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTracer.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTracerConfiguration.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/HybridPublic/PrivatesHeader.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryTransactionContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryUser.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryGeo.h

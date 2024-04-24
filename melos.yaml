@@ -1,0 +1,29 @@
+name: smart_dash
+repository: https://github.com/kengu/no.kengu.smart_dash
+
+packages:
+  - apps/**
+  - packages/**
+
+command:
+  bootstrap:
+    environment:
+      sdk: ">=3.0.0 <4.0.0"
+    dependencies:
+      # Add here
+    dev_dependencies:
+      # Add here
+
+scripts:
+  prepare:
+    steps:
+      - melos bootstrap
+      - make -C apps/smart_dash configure
+  build:
+    exec: dart run build_runner watch --delete-conflicting-outputs
+    packageFilters:
+      scope: '*smart_dash*'
+  upgrade:
+    run: flutter pub upgrade --tighten --major-versions
+    exec:
+      orderDependents: true

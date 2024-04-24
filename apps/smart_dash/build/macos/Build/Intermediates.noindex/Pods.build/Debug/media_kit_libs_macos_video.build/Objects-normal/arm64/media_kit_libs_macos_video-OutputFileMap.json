@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/media_kit_libs_macos_video-master.dia",
+    "emit-module-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/media_kit_libs_macos_video-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/media_kit_libs_macos_video-master-emit-module.dia",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/media_kit_libs_macos_video-master.swiftdeps"
+  },
+  "/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_libs_macos_video-1.1.4/macos/Classes/MediaKitLibsMacosVideoPlugin.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/media_kit_libs_macos_video.build/Objects-normal/arm64/MediaKitLibsMacosVideoPlugin~partial.swiftmodule"
+  }
+}

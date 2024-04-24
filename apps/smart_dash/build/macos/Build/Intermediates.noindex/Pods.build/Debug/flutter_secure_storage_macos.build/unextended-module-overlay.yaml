@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Products/Debug/flutter_secure_storage_macos/flutter_secure_storage_macos.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/flutter_secure_storage_macos.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Products/Debug/flutter_secure_storage_macos/flutter_secure_storage_macos.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "flutter_secure_storage_macos-Swift.h",
+      'external-contents': "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/flutter_secure_storage_macos.build/unextended-interface-header.h",
+    }]
+    }]
+}

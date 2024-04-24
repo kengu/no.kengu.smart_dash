@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/Sentry.build/module.modulemap \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/SentryThreadInspector.m \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Target\ Support\ Files/Sentry/Sentry-prefix.pch \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryThreadInspector.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryCrashMachineContextWrapper.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashMachineContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashThread.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryDefines.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/HybridPublic/SentryBinaryImageCache.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryCrashDefaultMachineContextWrapper.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashStackCursor.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashStackCursor_MachineContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryCrashStackEntryMapper.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashDynamicLinker.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/SentryCrash/Recording/Tools/SentryCrashSymbolicator.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryFrame.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySerializable.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryInAppLogic.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryOptions.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryStacktrace.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryStacktraceBuilder.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryThread.h

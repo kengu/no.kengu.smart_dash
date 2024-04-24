@@ -1,0 +1,35 @@
+dependencies: \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/Sentry.build/module.modulemap \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Profiling/SentryLaunchProfiling.m \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Target\ Support\ Files/Sentry/Sentry-prefix.pch \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryLaunchProfiling.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryDefines.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryCurrentDateProvider.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/HybridPublic/SentryDependencyContainer.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryDispatchQueueWrapper.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryFileManager.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryDataCategory.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryId.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryInternalDefines.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryLog.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryOptions.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryProfiler.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryCompiler.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentrySpan.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanProtocol.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySerializable.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySampleDecision.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySpanStatus.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryRandom.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentrySamplerDecision.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentrySampling.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentrySamplingContext.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTraceOrigins.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTracer+Private.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTracer.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTracerConfiguration.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/HybridPublic/PrivatesHeader.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/include/SentryTransactionContext+Private.h \
+  /Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/Sentry/Sources/Sentry/Public/SentryTransactionContext.h

@@ -1,0 +1,1281 @@
+[
+  {
+    "key": "home",
+    "title": "Home",
+    "ids": [
+      {
+        "serviceKey": "rtl_433",
+        "deviceId": "cotech-367959-130"
+      },
+      {
+        "serviceKey": "rtl_433",
+        "deviceId": "fineoffset-telldusproove-199"
+      }
+    ],
+    "tokens": [
+      {
+        "tag": "energy",
+        "name": "meter_energy:sikom:device:541905",
+        "label": "Effektstyring",
+        "capability": "energy"
+      },
+      {
+        "tag": "power",
+        "name": "measure_power:sikom:device:541905",
+        "label": "Effektstyring",
+        "capability": "power"
+      },
+      {
+        "tag": "voltage",
+        "name": "measure_voltage:sikom:device:541905",
+        "label": "Effektstyring",
+        "capability": "voltage"
+      }
+    ],
+    "mobile": {
+      "slotCount": 3,
+      "slotHeight": 60,
+      "items": [
+        {
+          "item_id": "weather_now",
+          "layout": {
+            "w": 3,
+            "h": 3,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 3,
+            "max_H": 3
+          }
+        },      {
+          "item_id": "temp_backside",
+          "layout": {
+            "w": 3,
+            "h": 3,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 3,
+            "max_H": 3
+          }
+        },
+        {
+          "item_id": "weather_forecast",
+          "layout": {
+            "w": 3,
+            "h": 5,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "bill_hourly",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "bill_month",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "price_hourly",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "meter_energy:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "measure_voltage:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "measure_power:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "system_now",
+          "layout": {
+            "w": 3,
+            "h": 5,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "temperature",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "onOff",
+          "layout": {
+            "w": 3,
+            "h": 6,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 6,
+            "max_H": 6
+          }
+        },
+        {
+          "item_id": "snow_now",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "snow_now_list",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        }
+      ]
+    },
+    "mobileLarge": {
+      "slotCount": 6,
+      "slotHeight": 61,
+      "items": [
+        {
+          "item_id": "weather_now",
+          "layout": {
+            "w": 3,
+            "h": 3,
+            "s_Y": 0,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 3,
+            "max_H": 3
+          }
+        },
+        {
+          "item_id": "temp_backside",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "s_Y": 3,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 2,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "weather_forecast",
+          "layout": {
+            "w": 3,
+            "h": 5,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "meter_energy:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "measure_voltage:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "measure_power:sikom:device:541905",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "price_hourly",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "bill_hourly",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "bill_month",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "system_now",
+          "layout": {
+            "w": 6,
+            "h": 4,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "temperature",
+          "layout": {
+            "w": 6,
+            "h": 4,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "onOff",
+          "layout": {
+            "w": 6,
+            "h": 4,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "snow_now",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "snow_now_list",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "network_now",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        },
+        {
+          "item_id": "presence_now",
+          "layout": {
+            "w": 3,
+            "h": 4,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 4,
+            "max_H": 4
+          }
+        }
+      ]
+    },
+    "tablet": {
+      "slotCount": 12,
+      "slotHeight": 61,
+      "items": [
+        {
+          "item_id": "weather_now",
+          "layout": {
+            "w": 3,
+            "h": 3,
+            "s_Y": 0,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 3,
+            "max_H": 3
+          }
+        },
+        {
+          "item_id": "temp_backside",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "s_Y": 3,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 2,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "weather_forecast",
+          "layout": {
+            "w": 4,
+            "h": 5,
+            "min_W": 4,
+            "max_W": 4,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "meter_energy:sikom:device:541905",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "measure_power:sikom:device:541905",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "measure_voltage:sikom:device:541905",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "price_hourly",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "bill_hourly",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "bill_month",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "system_now",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "temperature",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "onOff",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "snow_now",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "snow_now_list",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "network_now",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        },
+        {
+          "item_id": "presence_now",
+          "layout": {
+            "w": 6,
+            "h": 5,
+            "min_W": 6,
+            "max_W": 6,
+            "min_H": 5,
+            "max_H": 5
+          }
+        }
+      ]
+    },
+    "desktop": {
+      "slotCount": 15,
+      "slotHeight": 61,
+      "items": [
+        {
+          "item_id": "weather_now",
+          "layout": {
+            "w": 3,
+            "h": 3,
+            "s_Y": 0,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 3,
+            "max_H": 3
+          }
+        },
+        {
+          "item_id": "temp_backside",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "s_Y": 3,
+            "min_W": 3,
+            "max_W": 3,
+            "min_H": 2,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "weather_forecast",
+          "layout": {
+            "w": 4,
+            "h": 5,
+            "min_W": 4,
+            "max_W": 4,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "meter_energy:sikom:device:541905",
+          "layout": {
+            "w": 4,
+            "h": 5,
+            "min_W": 4,
+            "max_W": 4,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "measure_power:sikom:device:541905",
+          "layout": {
+            "w": 4,
+            "h": 5,
+            "min_W": 4,
+            "max_W": 4,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "price_hourly",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "bill_hourly",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "bill_month",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "measure_voltage:sikom:device:541905",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "system_now",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "temperature",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "onOff",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "snow_now",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "snow_now_list",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "network_now",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        },
+        {
+          "item_id": "presence_now",
+          "layout": {
+            "w": 5,
+            "h": 5,
+            "min_W": 5,
+            "max_W": 5,
+            "min_H": 5
+          }
+        }
+      ]
+    }
+  },
+  {
+    "key": "rooms",
+    "title": "Rooms",
+    "ids": [],
+    "tokens": [
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540241",
+        "label": "Gang",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540242",
+        "label": "Vaskerom",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540243",
+        "label": "Bad forside",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540244",
+        "label": "Stue/spisestue",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:541890",
+        "label": "Bod",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540319",
+        "label": "Bad bakside",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540320",
+        "label": "Soverom gjester",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540321",
+        "label": "Soverom Ella",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540322",
+        "label": "Soverom foreldre",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540323",
+        "label": "Hems Emil",
+        "capability": "power"
+      },
+      {
+        "tag": "power",
+        "name": "measure_temperature:sikom:device:540324",
+        "label": "Hems Noah",
+        "capability": "power"
+      }
+    ],
+    "mobile": {
+      "slotCount": 4,
+      "slotHeight": 200,
+      "items": [
+        {
+          "item_id": "measure_temperature:sikom:device:540242",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540243",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540244",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:541890",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540319",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540241",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540320",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540321",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540322",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540323",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540324",
+          "layout": {
+            "w": 4,
+            "h": 2,
+            "min_W": 4,
+            "min_H": 1,
+            "max_W": 4
+          }
+        }
+      ]
+    },
+    "mobileLarge": {
+      "slotCount": 6,
+      "slotHeight": 200,
+      "items": [
+        {
+          "item_id": "measure_temperature:sikom:device:540242",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540243",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540244",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:541890",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540319",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540241",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540320",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540321",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540322",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540323",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540324",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 1,
+            "max_W": 3
+          }
+        }
+      ]
+    },
+    "tablet": {
+      "slotCount": 9,
+      "slotHeight": 200,
+      "items": [
+        {
+          "item_id": "measure_temperature:sikom:device:540242",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540243",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540244",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:541890",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540319",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540241",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540320",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540321",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540322",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540323",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540324",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 2,
+            "min_H": 2,
+            "max_W": 3
+          }
+        }
+      ]
+    },
+    "desktop":{
+      "slotCount": 15,
+      "slotHeight": 200,
+      "items": [
+        {
+          "item_id": "measure_temperature:sikom:device:540242",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540243",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540244",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:541890",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540319",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540241",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540320",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540321",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540322",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540323",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        },
+        {
+          "item_id": "measure_temperature:sikom:device:540324",
+          "layout": {
+            "w": 3,
+            "h": 2,
+            "min_W": 3,
+            "min_H": 2,
+            "max_W": 3,
+            "max_H": 2
+          }
+        }
+      ]
+    }
+  }
+]

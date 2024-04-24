@@ -1,0 +1,93 @@
+{
+  "main_library": {
+    "exported_symbols": [
+      {
+        "data": {
+          "global": [
+            "_$s12battery_plus22BatteryPlusMacosPluginCN",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandlerAcA0cd8ChargingH0C_tcfC",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCMn",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7context33_D3A7D8F41FE5B2C921612D171000EDBDLLSivM",
+            "_$s12battery_plus22BatteryPlusMacosPluginC09handleGetC15LevelMethodCall33_A14AEF02249FBC8C56C3990517EB2C9DLLyyyypSgXEF",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCMa",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7context33_D3A7D8F41FE5B2C921612D171000EDBDLLSivg",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC9eventSink33_D3A7D8F41FE5B2C921612D171000EDBDLLyypSgcSgvpfi",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandlerAcA0cd8ChargingH0C_tcfc",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC6source33_D3A7D8F41FE5B2C921612D171000EDBDLLSo18CFRunLoopSourceRefaSgvg",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC5startyyF",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC8onListen13withArguments9eventSinkSo12FlutterErrorCSgypSg_yAJctF",
+            "_$s12battery_plus22BatteryPlusMacosPluginCfD",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7runLoop33_D3A7D8F41FE5B2C921612D171000EDBDLLSo05CFRunH3RefaSgvpfi",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCACycfc",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC8onCancel13withArgumentsSo12FlutterErrorCSgypSg_tF",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC8onListen13withArguments9eventSinkSo12FlutterErrorCSgypSg_yAJctFTq",
+            "_$s12battery_plus22BatteryPlusMacosPluginCMn",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC6source33_D3A7D8F41FE5B2C921612D171000EDBDLLSo18CFRunLoopSourceRefaSgvs",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC5startyyFTq",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandler33_A14AEF02249FBC8C56C3990517EB2C9DLLAA0cd8ChargingH0Cvs",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCACycfC",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCfD",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC03getC6StatusSSyFTq",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC4stopyyF",
+            "_$s12battery_plus22BatteryPlusMacosPluginCACycfc",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC6source33_D3A7D8F41FE5B2C921612D171000EDBDLLSo18CFRunLoopSourceRefaSgvM",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7runLoop33_D3A7D8F41FE5B2C921612D171000EDBDLLSo05CFRunH3RefaSgvs",
+            "_$s12battery_plus22BatteryPlusMacosPluginC03getC5Level33_A14AEF02249FBC8C56C3990517EB2C9DLLSiyF",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC6source33_D3A7D8F41FE5B2C921612D171000EDBDLLSo18CFRunLoopSourceRefaSgvpfi",
+            "_$s12battery_plus22BatteryPlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7runLoop33_D3A7D8F41FE5B2C921612D171000EDBDLLSo05CFRunH3RefaSgvM",
+            "_battery_plusVersionString",
+            "_$s12battery_plus22BatteryPlusMacosPluginC09handleGetC15StateMethodCall33_A14AEF02249FBC8C56C3990517EB2C9DLLyyyypSgXEF",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandlerAcA0cd8ChargingH0C_tcfCTq",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC03getC6StatusSSyF",
+            "_$s12battery_plus22BatteryPlusMacosPluginCMa",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC4stopyyFTq",
+            "_battery_plusVersionNumber",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC9eventSink33_D3A7D8F41FE5B2C921612D171000EDBDLLyypSgcSgvM",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7context33_D3A7D8F41FE5B2C921612D171000EDBDLLSivpfi",
+            "_$s12battery_plus22BatteryPlusMacosPluginCACycfC",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC9eventSink33_D3A7D8F41FE5B2C921612D171000EDBDLLyypSgcSgvs",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandler33_A14AEF02249FBC8C56C3990517EB2C9DLLAA0cd8ChargingH0CvM",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7context33_D3A7D8F41FE5B2C921612D171000EDBDLLSivs",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC7runLoop33_D3A7D8F41FE5B2C921612D171000EDBDLLSo05CFRunH3RefaSgvg",
+            "_$s12battery_plus22BatteryPlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctFTq",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC9eventSink33_D3A7D8F41FE5B2C921612D171000EDBDLLyypSgcSgvg",
+            "_$s12battery_plus26BatteryPlusChargingHandlerC8onCancel13withArgumentsSo12FlutterErrorCSgypSg_tFTq",
+            "_$s12battery_plus22BatteryPlusMacosPluginC15chargingHandler33_A14AEF02249FBC8C56C3990517EB2C9DLLAA0cd8ChargingH0Cvg",
+            "_$s12battery_plus22BatteryPlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZ",
+            "_$s12battery_plus26BatteryPlusChargingHandlerCN"
+          ],
+          "objc_class": [
+            "_TtC12battery_plus22BatteryPlusMacosPlugin",
+            "_TtC12battery_plus26BatteryPlusChargingHandler",
+            "PodsDummy_battery_plus"
+          ]
+        }
+      }
+    ],
+    "flags": [
+      {
+        "attributes": [
+          "not_app_extension_safe"
+        ]
+      }
+    ],
+    "install_names": [
+      {
+        "name": "@rpath/battery_plus.framework/Versions/A/battery_plus"
+      }
+    ],
+    "swift_abi": [
+      {
+        "abi": 7
+      }
+    ],
+    "target_info": [
+      {
+        "min_deployment": "11",
+        "target": "arm64-macos"
+      }
+    ]
+  },
+  "tapi_tbd_version": 5
+}

@@ -1,0 +1,68 @@
+{
+  "" : {
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryPrivate-master.dia",
+    "emit-module-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryPrivate-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryPrivate-master-emit-module.dia",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryPrivate-master.swiftdeps"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/MetricKit/SentryMXCallStackTree.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXCallStackTree~partial.swiftmodule"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/MetricKit/SentryMXManager.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SentryMXManager~partial.swiftmodule"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/Sentry.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/Sentry~partial.swiftmodule"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/SwiftDescriptor.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/SwiftDescriptor~partial.swiftmodule"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/Tools/HTTPHeaderSanitizer.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/HTTPHeaderSanitizer~partial.swiftmodule"
+  },
+  "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/macos/Pods/SentryPrivate/Sources/Swift/Tools/UrlSanitized.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/SentryPrivate.build/Objects-normal/arm64/UrlSanitized~partial.swiftmodule"
+  }
+}

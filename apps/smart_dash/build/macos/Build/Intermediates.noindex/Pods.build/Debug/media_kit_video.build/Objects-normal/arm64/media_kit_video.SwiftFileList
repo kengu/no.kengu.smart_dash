@@ -1,0 +1,17 @@
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/MediaKitVideoPlugin.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/MPVHelpers.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/MPVVideoOutParams.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/gl/OpenGLHelpers.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/ResizableTextureProtocol.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/SafeResizableTexture.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/SwappableObjectManager.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/gl/TextureGLContext.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/TextureHW.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/TextureSW.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/TextureSWContext.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/Utils.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/UtilsProtocol.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/VideoOutput.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/VideoOutputConfiguration.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/VideoOutputManager.swift
+/Users/kengu/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4/macos/Classes/plugin/common/Worker.swift

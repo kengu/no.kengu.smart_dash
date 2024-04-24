@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/wakelock_plus-master.dia",
+    "emit-module-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/wakelock_plus-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/wakelock_plus-master-emit-module.dia",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/wakelock_plus-master.swiftdeps"
+  },
+  "/Users/kengu/.pub-cache/hosted/pub.dev/wakelock_plus-1.2.4/macos/Classes/WakelockPlusMacosPlugin.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/wakelock_plus.build/Objects-normal/arm64/WakelockPlusMacosPlugin~partial.swiftmodule"
+  }
+}

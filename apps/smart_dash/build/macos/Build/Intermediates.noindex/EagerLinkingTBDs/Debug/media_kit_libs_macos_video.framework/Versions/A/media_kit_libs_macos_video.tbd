@@ -1,0 +1,49 @@
+{
+  "main_library": {
+    "exported_symbols": [
+      {
+        "data": {
+          "global": [
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCMn",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCMa",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCN",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCfD",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCACycfc",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginC8register4withySo07FlutterK9Registrar_p_tFZ",
+            "_media_kit_libs_macos_videoVersionString",
+            "_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCACycfC",
+            "_media_kit_libs_macos_videoVersionNumber"
+          ],
+          "objc_class": [
+            "PodsDummy_media_kit_libs_macos_video",
+            "_TtC26media_kit_libs_macos_video28MediaKitLibsMacosVideoPlugin"
+          ]
+        }
+      }
+    ],
+    "flags": [
+      {
+        "attributes": [
+          "not_app_extension_safe"
+        ]
+      }
+    ],
+    "install_names": [
+      {
+        "name": "@rpath/media_kit_libs_macos_video.framework/Versions/A/media_kit_libs_macos_video"
+      }
+    ],
+    "swift_abi": [
+      {
+        "abi": 7
+      }
+    ],
+    "target_info": [
+      {
+        "min_deployment": "11",
+        "target": "arm64-macos"
+      }
+    ]
+  },
+  "tapi_tbd_version": 5
+}

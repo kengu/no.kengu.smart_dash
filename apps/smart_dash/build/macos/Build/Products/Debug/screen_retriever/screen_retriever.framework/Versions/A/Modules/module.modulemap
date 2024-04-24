@@ -1,0 +1,11 @@
+framework module screen_retriever {
+  umbrella header "screen_retriever-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module screen_retriever.Swift {
+  header "screen_retriever-Swift.h"
+  requires objc
+}

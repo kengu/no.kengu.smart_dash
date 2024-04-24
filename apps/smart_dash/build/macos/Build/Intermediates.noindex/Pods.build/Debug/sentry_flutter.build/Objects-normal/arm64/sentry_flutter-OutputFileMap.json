@@ -1,0 +1,28 @@
+{
+  "" : {
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/sentry_flutter-master.dia",
+    "emit-module-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/sentry_flutter-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/sentry_flutter-master-emit-module.dia",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/sentry_flutter-master.swiftdeps"
+  },
+  "/Users/kengu/.pub-cache/hosted/pub.dev/sentry_flutter-8.0.0/macos/Classes/SentryFlutter.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutter~partial.swiftmodule"
+  },
+  "/Users/kengu/.pub-cache/hosted/pub.dev/sentry_flutter-8.0.0/macos/Classes/SentryFlutterPluginApple.swift" : {
+    "const-values" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.swiftconstvalues",
+    "dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.d",
+    "diagnostics" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.o",
+    "llvm-bc" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.bc",
+    "object" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.o",
+    "swift-dependencies" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple.swiftdeps",
+    "swiftmodule" : "/Users/kengu/git/kengu/no.kengu.smart_dash/apps/smart_dash/build/macos/Build/Intermediates.noindex/Pods.build/Debug/sentry_flutter.build/Objects-normal/arm64/SentryFlutterPluginApple~partial.swiftmodule"
+  }
+}

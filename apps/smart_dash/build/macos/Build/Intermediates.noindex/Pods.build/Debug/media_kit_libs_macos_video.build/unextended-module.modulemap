@@ -1,0 +1,10 @@
+framework module media_kit_libs_macos_video {
+  umbrella header "media_kit_libs_macos_video-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module media_kit_libs_macos_video.__Swift {
+  exclude header "media_kit_libs_macos_video-Swift.h"
+}
