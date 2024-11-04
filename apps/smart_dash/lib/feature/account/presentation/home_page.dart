@@ -52,7 +52,7 @@ class HomePage extends ConsumerWidget {
                       key: GlobalObjectKey(item),
                       place: data.value.home.name,
                       device: home.getIdentity(
-                        'rtl_433:cotech-367959-130',
+                        'rtl_433:cotech-367959-29',
                       ),
                     );
                   case 'temp_backside':
