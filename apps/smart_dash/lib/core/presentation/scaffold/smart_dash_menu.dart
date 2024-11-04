@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_toolbar.dart';
-import 'package:smart_dash/feature/home/presentation/home_selector.dart';
+import 'package:smart_dash/feature/account/presentation/home_selector.dart';
 
 class SmartDashTopMenu extends StatelessWidget {
   const SmartDashTopMenu({

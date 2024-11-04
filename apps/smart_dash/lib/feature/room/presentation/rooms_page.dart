@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/feature/account/presentation/home_controller.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard_page.dart';
 import 'package:smart_dash/feature/device/presentation/tile/thermostat_tile.dart';
-import 'package:smart_dash/feature/home/presentation/home_controller.dart';
 
 class RoomsPage extends ConsumerWidget {
   const RoomsPage({

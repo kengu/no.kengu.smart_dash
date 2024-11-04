@@ -1443,7 +1443,7 @@ packages:
   smart_dash_account:
     dependency: "direct main"
     description:
-      path: "../../packages/smart_dash_account"
+      path: "../../features/smart_dash_account"
       relative: true
     source: path
     version: "1.0.0"

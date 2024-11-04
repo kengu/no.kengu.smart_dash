@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash/feature/account/presentation/home_controller.dart';
 import 'package:smart_dash/feature/accounting/presentation/electricity_price_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash/feature/accounting/presentation/energy_bill_month_tile.dart';
@@ -11,7 +12,6 @@ import 'package:smart_dash/feature/device/presentation/tile/power_usage_tile.dar
 import 'package:smart_dash/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/temperature_list_tile.dart';
 import 'package:smart_dash/feature/device/presentation/tile/voltage_usage_tile.dart';
-import 'package:smart_dash/feature/home/presentation/home_controller.dart';
 import 'package:smart_dash/feature/presence/presentation/presence_tile.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
 import 'package:smart_dash/feature/snow/presentation/snow_now_list_tile.dart';
