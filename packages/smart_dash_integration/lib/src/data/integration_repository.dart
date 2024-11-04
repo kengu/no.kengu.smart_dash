@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'integration_repository.g.dart';
 

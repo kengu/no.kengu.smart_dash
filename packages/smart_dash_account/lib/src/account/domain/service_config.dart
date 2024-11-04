@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'service_config.freezed.dart';
 part 'service_config.g.dart';
