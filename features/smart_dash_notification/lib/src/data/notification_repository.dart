@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 part 'notification_repository.g.dart';

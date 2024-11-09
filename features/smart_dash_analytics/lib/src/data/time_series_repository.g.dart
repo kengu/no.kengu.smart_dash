@@ -7,7 +7,7 @@ part of 'time_series_repository.dart';
 // **************************************************************************
 
 String _$timeSeriesRepositoryHash() =>
-    r'37c77626ff8af089d5d9eeb3374aa535e965092c';
+    r'59c66828f37d69ecb52d3144f30f7451de5fa74d';
 
 /// See also [timeSeriesRepository].
 @ProviderFor(timeSeriesRepository)

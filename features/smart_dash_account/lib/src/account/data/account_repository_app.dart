@@ -4,8 +4,8 @@ import 'package:optional/optional_internal.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
 import 'account_client.dart';
 import 'account_repository.dart';
@@ -50,8 +50,8 @@ class RemoteAccountRepository extends Repository<String, Account>
   Future<Optional<Account>> get(String userId) => _client().get(userId);
 
   @override
-  Future<List<Account>> getAll([List<String> ids = const []]) =>
-      _client().getAll(ids);
+  Future<List<Account>> getAll([List<String> userIds = const []]) =>
+      _client().getAll(userIds);
 
   @override
   Future<List<Account>> removeAll(Iterable<Account> items) {

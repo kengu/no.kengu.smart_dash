@@ -13,6 +13,7 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: ^1.0.0
+  smart_dash_datasource: any
 
   logging: ^1.3.0
 

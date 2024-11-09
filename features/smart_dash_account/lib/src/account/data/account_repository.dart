@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:optional/optional.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 typedef AccountRepository = Repository<String, Account>;
 
@@ -18,6 +18,9 @@ mixin AccountRepositoryMixin on AccountRepository {
 
   @override
   Future<Optional<Account>> get(String userId);
+
+  @override
+  Future<List<Account>> getAll([List<String> userIds = const []]);
 
   String toValue(Account item) => jsonEncode(item.toJson());
 

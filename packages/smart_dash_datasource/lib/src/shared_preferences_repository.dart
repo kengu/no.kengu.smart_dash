@@ -2,6 +2,8 @@ import 'package:optional/optional.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
+import 'repository.dart';
+
 abstract class SharedPreferencesRepository<I, T> extends Repository<I, T> {
   SharedPreferencesRepository(this.prefix);
 

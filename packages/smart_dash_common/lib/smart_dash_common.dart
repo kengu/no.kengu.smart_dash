@@ -3,9 +3,6 @@ library;
 
 export 'package:hive/hive.dart';
 
-export 'src/data/file_repository.dart';
-export 'src/data/hive_repository.dart';
-export 'src/data/repository.dart';
 export 'src/domain/capability.dart';
 export 'src/domain/tag.dart';
 export 'src/domain/token.dart';

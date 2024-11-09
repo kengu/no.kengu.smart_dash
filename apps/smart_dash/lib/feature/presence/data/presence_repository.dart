@@ -4,6 +4,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'presence_repository.g.dart';
 

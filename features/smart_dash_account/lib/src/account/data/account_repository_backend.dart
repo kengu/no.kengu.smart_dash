@@ -11,13 +11,13 @@ class BackendAccountRepository extends AccountRepository
   BackendAccountRepository();
 
   @override
-  Future<Optional<Account>> get(String id) {
+  Future<Optional<Account>> get(String userId) {
     // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Account>> getAll([List<String> ids = const []]) {
+  Future<List<Account>> getAll([List<String> userIds = const []]) {
     // TODO: implement getAll
     throw UnimplementedError();
   }
@@ -35,7 +35,7 @@ class BackendAccountRepository extends AccountRepository
   }
 
   @override
-  String toKey(String id) {
+  String toKey(String userId) {
     // TODO: implement toKey
     throw UnimplementedError();
   }

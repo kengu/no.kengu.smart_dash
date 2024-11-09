@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
 
   # FLUTTER
-  hive_flutter: ^1.1.0
   internet_connection_checker_plus: ^2.5.2
 
   # DART
@@ -37,10 +36,6 @@ dependencies:
   json_annotation: ^4.9.0
   freezed_annotation: ^2.4.4
   riverpod_annotation: ^3.0.0-dev.3
-
-  # FLUTTER
-  shared_preferences: ^2.3.2
-  flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   lints: ^3.0.0

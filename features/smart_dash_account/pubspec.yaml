@@ -15,6 +15,7 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
+  smart_dash_datasource: any
   smart_dash_integration: any
 
   dio: ^5.4.3+1

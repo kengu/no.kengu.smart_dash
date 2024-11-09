@@ -4,7 +4,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
 part 'current_home_repository_app.g.dart';
 

@@ -1,6 +1,8 @@
 import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
+import 'repository.dart';
+
 enum HiveTypeId {
   // ========== IMPORTANT ==========
   // Hive adapter type ids is order-sensitive

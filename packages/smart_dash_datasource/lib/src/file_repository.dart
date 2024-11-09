@@ -1,6 +1,7 @@
 import 'package:optional/optional.dart';
 import 'package:path/path.dart' as p;
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:universal_io/io.dart';
 
 abstract class FileRepository<I, T> extends Repository<I, T> {

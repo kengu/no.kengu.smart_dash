@@ -5,7 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'snapshot_repository.g.dart';
 
