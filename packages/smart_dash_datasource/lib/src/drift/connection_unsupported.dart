@@ -10,7 +10,7 @@ Never _unsupported() {
 DatabaseConnection connectDrift(
   Ref ref, {
   required String dbName,
-  String? dbPath,
+  required String dbPath,
   bool logStatements = false,
   bool inMemory = false,
 }) =>

@@ -9,9 +9,6 @@ environment:
 # Add regular dependencies here.
 dependencies:
 
-  # Smart Dash packages (managed by Mesos)
-  smart_dash_common: any
-
   path: ^1.9.0
   path_provider: ^2.1.5
 

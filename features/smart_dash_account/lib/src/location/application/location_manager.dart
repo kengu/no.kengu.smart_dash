@@ -3,7 +3,7 @@
 import 'package:logging/logging.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 part 'location_manager.g.dart';
 

@@ -5,7 +5,7 @@ import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions
 import 'package:optional/optional.dart';
 import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class SnowService {
@@ -87,7 +87,7 @@ abstract class SnowService {
   Future<Optional<ServiceConfig>> _getConfig(
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('config', () async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
       return home.value.firstServiceWhere(key);
     }, ttl: ttl);

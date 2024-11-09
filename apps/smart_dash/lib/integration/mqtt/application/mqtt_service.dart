@@ -10,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/integration/mqtt/data/mqtt_client.dart';
 import 'package:smart_dash/integration/mqtt/domain/mqtt_message.dart';
 import 'package:smart_dash/integration/mqtt/mqtt.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'mqtt_service.g.dart';
@@ -36,7 +36,7 @@ class MqttService {
   Future<void> init() async {
     return guard(() async {
       final user = ref.read(userRepositoryProvider).currentUser;
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return;
       final configs = home.value.services.where((e) => e.key == key).toList();
       // Start listening to mqtt messages from known topics

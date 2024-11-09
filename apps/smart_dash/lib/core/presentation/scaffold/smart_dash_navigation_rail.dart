@@ -10,7 +10,7 @@ import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 import 'smart_dash_menu.dart';
 
@@ -199,7 +199,7 @@ class CreateNewMenuButton extends ConsumerWidget {
                   );
                   if (name?.isNotEmpty == true) {
                     final home =
-                        await ref.read(homeServiceProvider).newHome(name!);
+                        await ref.read(accountServiceProvider).newHome(name!);
 
                     if (home.isPresent) {
                       if (!context.mounted) return;

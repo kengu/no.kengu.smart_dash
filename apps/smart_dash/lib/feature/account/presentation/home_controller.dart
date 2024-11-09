@@ -4,7 +4,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'home_controller.g.dart';
@@ -47,8 +47,8 @@ class HomeController extends _$HomeController
         it.cancel();
       }
     });
-    final homeService = ref.read(homeServiceProvider);
-    _subscriptions.add(homeService.events
+    final accountService = ref.read(accountServiceProvider);
+    _subscriptions.add(accountService.changes
         .whereType<CurrentHomeModifiedEvent>()
         .listen(_onUpdate));
 
@@ -72,8 +72,8 @@ class HomeController extends _$HomeController
   @override
   Future<Optional<HomeData>> load(HomeQuery query) async {
     final settings = await ref.read(settingRepositoryProvider.notifier).load();
-    final homeService = ref.read(homeServiceProvider);
-    final home = await homeService.getCurrentHome();
+    final accountService = ref.read(accountServiceProvider);
+    final home = await accountService.getCurrentHome();
     return Optional.of(HomeData(
       home: home.value,
       settings: settings.value,

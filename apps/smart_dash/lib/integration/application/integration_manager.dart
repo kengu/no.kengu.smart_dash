@@ -13,7 +13,7 @@ import 'package:smart_dash/integration/nysny/application/nysny_service.dart';
 import 'package:smart_dash/integration/osm/application/osm_location_service.dart';
 import 'package:smart_dash/integration/rtl_433/application/rtl_433_driver.dart';
 import 'package:smart_dash/integration/sikom/application/sikom_driver.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 part 'integration_manager.g.dart';
 

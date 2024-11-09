@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 import 'package:media_kit/media_kit.dart';
@@ -18,7 +17,7 @@ import 'package:smart_dash/integration/application/integration_manager.dart';
 import 'package:smart_dash/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash/util/platform.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;

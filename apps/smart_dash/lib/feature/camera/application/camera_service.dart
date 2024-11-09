@@ -5,7 +5,7 @@ import 'package:optional/optional_internal.dart';
 import 'package:smart_dash/feature/camera/data/camera_client.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -35,7 +35,7 @@ abstract class CameraService {
 
   Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
     return _cache.getOrFetch('configs', () async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return const [];
       return home.value.serviceWhere(key);
     }, ttl: ttl);

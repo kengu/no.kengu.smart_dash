@@ -8,12 +8,22 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  flutter:
+    sdk: flutter
+
+  # FLUTTER
+  hive_flutter: ^1.1.0
+  internet_connection_checker_plus: ^2.5.2
 
   # DART
   dio: ^5.7.0
   path: ^1.9.0
   compute: ^1.0.2
   optional: ^6.1.0+1
+
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  problem_details: ^0.0.2
 
   hive: ^2.2.3
   sentry: ^8.9.0

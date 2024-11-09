@@ -1,18 +1,19 @@
 /// Package with utilities by SmartDash modules
 library;
 
+export 'package:hive/hive.dart';
+
 export 'src/data/file_repository.dart';
 export 'src/data/hive_repository.dart';
 export 'src/data/repository.dart';
-export 'src/data/shared_preferences_repository.dart';
 export 'src/domain/capability.dart';
 export 'src/domain/tag.dart';
 export 'src/domain/token.dart';
 export 'src/domain/units.dart';
 export 'src/domain/value.dart';
-export 'src/path/flutter_dirs.dart';
-export 'src/path/linux_dirs.dart';
-export 'src/path/provider.dart';
+export 'src/io/connectivity.dart'
+    if (dart.library.flutter) 'src/io/connectivity_provider_flutter.dart';
+export 'src/io/problem_details.dart';
 export 'src/path/system_dirs.dart';
 export 'src/serialize/json.dart';
 export 'src/util/data/list.dart';

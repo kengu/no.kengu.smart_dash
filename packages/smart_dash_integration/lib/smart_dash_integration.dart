@@ -5,3 +5,4 @@ library;
 
 export 'src/data/integration_repository.dart';
 export 'src/domain/integration.dart';
+export 'src/domain/service_config.dart';

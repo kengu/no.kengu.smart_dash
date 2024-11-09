@@ -8,7 +8,7 @@ import 'package:smart_dash/integration/sikom/domain/sikom_device.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_gateway.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 class SikomClient {
@@ -26,7 +26,7 @@ class SikomClient {
 
   Future<Optional<ServiceConfig>> _getServiceConfig() async {
     return guard(() async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
       return home.value.firstServiceWhere(Sikom.key);
     }, error: check_client_error);

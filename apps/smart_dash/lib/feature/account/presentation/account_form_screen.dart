@@ -20,7 +20,7 @@ import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicato
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_form_screen_controller.dart';

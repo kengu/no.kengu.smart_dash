@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/src/location/domain/location.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class LocationClient {

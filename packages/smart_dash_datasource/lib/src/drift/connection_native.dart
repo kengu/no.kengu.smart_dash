@@ -5,14 +5,13 @@ import 'package:drift/native.dart';
 import 'package:drift_dev/api/migrations.dart';
 import 'package:path/path.dart' as p;
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'connection.dart';
 
 DatabaseConnection connectDrift(
   Ref ref, {
   required String dbName,
-  String? dbPath,
+  required String dbPath,
   bool logStatements = false,
   bool inMemory = false,
 }) {
@@ -24,9 +23,7 @@ DatabaseConnection connectDrift(
             NativeDatabase.memory(logStatements: logStatements),
           );
         }
-        final path = dbPath ?? systemDirs(ref).documentsDir.path;
-
-        final file = File(p.join(path, dbName));
+        final file = File(p.join(dbPath, dbName));
         return DatabaseConnection(NativeDatabase.createInBackground(
           file,
           logStatements: logStatements,

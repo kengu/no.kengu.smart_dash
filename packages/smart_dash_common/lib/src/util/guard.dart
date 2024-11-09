@@ -53,6 +53,7 @@ T guardSync<T>(
   }
 }
 
+// TODO: Move to smart_dash_datasource?
 bool check_client_error(Object error, [StackTrace? stackTrace]) {
   switch (error) {
     case DioException _:

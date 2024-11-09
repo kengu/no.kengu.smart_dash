@@ -16,7 +16,7 @@ import 'package:smart_dash/feature/flow/presentation/form/fields/block_action_ar
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_conditions_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_parameters_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_trigger_form_group.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 import 'block_flow_form_controller.dart';

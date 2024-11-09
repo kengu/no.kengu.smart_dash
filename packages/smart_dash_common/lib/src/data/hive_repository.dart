@@ -1,11 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
-import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
-import 'package:universal_io/io.dart';
 
 enum HiveTypeId {
   // ========== IMPORTANT ==========
@@ -19,6 +13,7 @@ enum HiveTypeId {
   presence,
   block,
   notification,
+  account,
 }
 
 abstract class HiveRepository<I, T> extends Repository<I, T> {
@@ -26,7 +21,8 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
     required this.key,
     required this.box,
     required TypedAdapter<T> adapter,
-  }) {
+    HiveCipherStorage? cipher,
+  }) : _cipher = cipher {
     if (!Hive.isAdapterRegistered(adapter.typeId)) {
       Hive.registerAdapter<T>(adapter);
     }
@@ -34,6 +30,7 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
 
   final String key;
   final String box;
+  final HiveCipherStorage? _cipher;
 
   CollectionBox<T>? _db;
 
@@ -42,8 +39,10 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
   Future<Optional<T>> get(I id) => guard(
         () async {
           final box = await _open();
+          final key = toKey(id);
+          final value = await box.get(key);
           return Optional.ofNullable(
-            await box.get(toKey(id)),
+            value,
           );
         },
         task: 'get',
@@ -98,7 +97,12 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
   Future<CollectionBox<T>> _open() => guard(
         () async {
           if (_db != null) return _db!;
-          final db = await openCollection(key, {box});
+          final db = await BoxCollection.open(
+            // TODO: Replace workaround for missing collection name separator leading to wrong collection path
+            key,
+            {box},
+            key: await _cipher?.get(key),
+          );
           return db.openBox<T>(box);
         },
         task: '_open',
@@ -165,41 +169,6 @@ abstract class TypedAdapter<T> extends TypeAdapter<T> {
   final int typeId;
 }
 
-Future<BoxCollection> openCollection(String key, Set<String> boxNames) async {
-  return BoxCollection.open(
-    // TODO: Replace workaround for missing collection name separator leading to wrong collection path
-    key,
-    boxNames,
-    key: Platform.isAndroid ? await getHiveCipher(key) : null,
-  );
-}
-
-Future<HiveCipher> getHiveCipher(String key) async {
-  final storage = _get();
-  // if key not exists return null
-  final encryptionKeyString = await storage.read(key: key);
-  if (encryptionKeyString == null) {
-    final data = Hive.generateSecureKey();
-    await storage.write(
-      key: key,
-      value: base64UrlEncode(data),
-    );
-    Logger('$Hive').info('Created Cipher for Hive key $key');
-  }
-  final data = await storage.read(key: key);
-  if (data == null) {
-    throw UnsupportedError('Unable to read from secure storage');
-  }
-  final encryptionKeyUint8List = base64Url.decode(data);
-  return HiveAesCipher(encryptionKeyUint8List);
-}
-
-FlutterSecureStorage _get() {
-  if (Platform.isMacOS) {
-    return const FlutterSecureStorage(
-        mOptions: MacOsOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ));
-  }
-  return const FlutterSecureStorage();
+abstract class HiveCipherStorage {
+  Future<HiveCipher?> get(String key);
 }

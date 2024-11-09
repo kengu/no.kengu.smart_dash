@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class LocationService {
@@ -67,7 +67,7 @@ abstract class LocationService {
   Future<Optional<ServiceConfig>> _getConfig(
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('config', () async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
       return home.value.firstServiceWhere(key);
     }, ttl: ttl);

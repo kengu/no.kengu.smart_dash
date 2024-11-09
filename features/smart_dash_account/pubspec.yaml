@@ -10,11 +10,16 @@ environment:
 # Add regular dependencies here.
 dependencies:
 
+  flutter:
+    sdk: flutter
+
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
   smart_dash_integration: any
 
   dio: ^5.4.3+1
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
 
   nanoid: ^1.0.0
   logging: ^1.2.0

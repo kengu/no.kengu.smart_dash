@@ -4,6 +4,7 @@ import 'package:smart_dash_account/smart_dash_account.dart';
 part 'user_repository.g.dart';
 
 class UserRepository {
+  // TODO: Implement authentication
   User get currentUser => const User(userId: 'u:123');
 }
 
