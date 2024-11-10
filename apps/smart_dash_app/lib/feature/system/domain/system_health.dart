@@ -1,5 +1,5 @@
-class ConnectivityState {
-  ConnectivityState({
+class SystemHealthState {
+  SystemHealthState({
     required this.key,
     required this.isOK,
     required this.when,

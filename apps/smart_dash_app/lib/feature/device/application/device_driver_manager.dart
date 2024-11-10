@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/device/application/device_block_flow.dart';
 import 'package:smart_dash_app/feature/device/data/device_repository.dart';
-import 'package:smart_dash_app/feature/system/application/connectivity_service.dart';
+import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_app/feature/system/application/timing_service.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';

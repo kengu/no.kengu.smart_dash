@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/feature/system/domain/connectivity.dart';
+import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 
-part 'connectivity_service.g.dart';
+part 'system_health_service.g.dart';
 
-class ConnectivityService {
-  ConnectivityService(this.ref) {
+class SystemHealthService {
+  SystemHealthService(this.ref) {
     ref.onDispose(() {
       _controller.close();
     });
@@ -16,19 +16,19 @@ class ConnectivityService {
 
   final Ref ref;
 
-  final _states = <String, ConnectivityState>{};
+  final _states = <String, SystemHealthState>{};
 
-  final _log = Logger('$ConnectivityService');
+  final _log = Logger('$SystemHealthService');
 
-  final _controller = StreamController<ConnectivityState>.broadcast();
+  final _controller = StreamController<SystemHealthState>.broadcast();
 
-  Stream<ConnectivityState> get events => _controller.stream;
+  Stream<SystemHealthState> get events => _controller.stream;
 
   bool get isOK => _states.values.every((state) => state.isOK);
 
   int get failCount => _states.values.where((state) => state.isFailed).length;
 
-  List<ConnectivityState> getStates() => _states.values.toList();
+  List<SystemHealthState> getStates() => _states.values.toList();
 
   void setOK(String key) => set(key, true);
   void setFailed(String key, Object reason) => set(
@@ -39,7 +39,7 @@ class ConnectivityService {
 
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
-    final state = ConnectivityState(
+    final state = SystemHealthState(
       key: key,
       isOK: isOK,
       reason: reason,
@@ -55,5 +55,5 @@ class ConnectivityService {
 }
 
 @Riverpod(keepAlive: true)
-ConnectivityService connectivityService(ConnectivityServiceRef ref) =>
-    ConnectivityService(ref);
+SystemHealthService connectivityService(ConnectivityServiceRef ref) =>
+    SystemHealthService(ref);

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
-import 'package:smart_dash_app/feature/system/application/connectivity_service.dart';
-import 'package:smart_dash_app/feature/system/domain/connectivity.dart';
-import 'package:smart_dash_app/feature/system/presentation/connectivity/connectivity_controller.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
+import 'package:smart_dash_app/feature/system/domain/system_health.dart';
+import 'package:smart_dash_app/feature/system/presentation/system_health/system_health_controller.dart';
 
-class ConnectivityScreen extends ConsumerStatefulWidget {
-  const ConnectivityScreen({
+class SystemHealthScreen extends ConsumerStatefulWidget {
+  const SystemHealthScreen({
     super.key,
     required this.location,
   });
@@ -17,19 +17,19 @@ class ConnectivityScreen extends ConsumerStatefulWidget {
   final String location;
 
   @override
-  ConsumerState<ConnectivityScreen> createState() => _ConnectivityScreenState();
+  ConsumerState<SystemHealthScreen> createState() => _SystemHealthScreenState();
 }
 
-class _ConnectivityScreenState extends ConsumerState<ConnectivityScreen> {
+class _SystemHealthScreenState extends ConsumerState<SystemHealthScreen> {
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadScreen<ConnectivityQuery, List<Connectivity>,
-        ConnectivityScreenController>(
+    return AsyncLoadScreen<SystemHealthQuery, List<SystemHealth>,
+        SystemHealthScreenController>(
       title: 'System Health',
       onClose: () => context.go(widget.location),
       scrollable: true,
-      query: ConnectivityQuery(),
-      provider: connectivityScreenControllerProvider.call,
+      query: SystemHealthQuery(),
+      provider: systemHealthScreenControllerProvider.call,
       actions: const [],
       builder: (context, ref, states, child) {
         return Column(
@@ -48,7 +48,7 @@ class _ConnectivityScreenState extends ConsumerState<ConnectivityScreen> {
                 if (states.isPresent)
                   ...states.value.map(
                     (e) => _buildWithUpdates(e.service.key,
-                        (context, Optional<ConnectivityState> state) {
+                        (context, Optional<SystemHealthState> state) {
                       final connectivity = state.orElseNull ?? e.state;
                       return ListTile(
                         title: Text(e.service.name),
@@ -77,7 +77,7 @@ class _ConnectivityScreenState extends ConsumerState<ConnectivityScreen> {
     String key,
     Widget Function(
       BuildContext context,
-      Optional<ConnectivityState> state,
+      Optional<SystemHealthState> state,
     ) builder,
   ) {
     final service = ref.read(connectivityServiceProvider);

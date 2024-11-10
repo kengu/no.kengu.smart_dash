@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/feature/system/application/connectivity_service.dart';
+import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_app/integration/mqtt/domain/mqtt_message.dart' as s;
 import 'package:smart_dash_app/integration/mqtt/mqtt.dart';
 import 'package:smart_dash_app/util/platform.dart';

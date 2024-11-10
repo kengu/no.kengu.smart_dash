@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
 import 'package:smart_dash_app/feature/device/domain/device.dart';
-import 'package:smart_dash_app/feature/system/presentation/connectivity/connectivity_screen.dart';
+import 'package:smart_dash_app/feature/system/presentation/system_health/system_health_screen.dart';
 
 class SystemScreens {
   static const home = '/system';
@@ -22,7 +22,7 @@ List<GoRoute> buildSystemRoutes() => [
         fullscreenDialog: true,
         path: SystemScreens.home,
         builder: (context, state) {
-          return ConnectivityScreen(
+          return SystemHealthScreen(
             location: Routes.lastLocationOnStack,
           );
         },
@@ -31,7 +31,7 @@ List<GoRoute> buildSystemRoutes() => [
         fullscreenDialog: true,
         path: SystemScreens.health,
         builder: (context, state) {
-          return ConnectivityScreen(
+          return SystemHealthScreen(
             location: Routes.lastLocationOnStack,
           );
         },

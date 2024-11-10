@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash_app/core/presentation/widget/responsive_widget.dart';
-import 'package:smart_dash_app/feature/system/application/connectivity_service.dart';
+import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_app/feature/system/presentation/system_routes.dart';
 
 class SmartDashHeader extends ConsumerWidget {
