@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/accounting/data/pricing/electricity_price_repository.dart';
@@ -16,10 +18,10 @@ import 'package:smart_dash_app/feature/setting/presentation/tile/dark_mode_tile.
 import 'package:smart_dash_app/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/setting_switch_tile.dart';
 import 'package:smart_dash_app/feature/system/data/network_device_info_repository.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
+
+import 'tile/connection_mode_tile.dart';
 
 class SettingFormScreen extends ConsumerWidget {
   const SettingFormScreen({
@@ -76,7 +78,8 @@ class SettingTilesWidget extends StatelessWidget {
                         title: const Text('Look and feel'),
                         tiles: [
                           DarkModeTile(
-                              formControlName: SettingType.darkMode.name),
+                            formControlName: SettingType.darkMode.name,
+                          ),
                         ],
                       ),
                       SettingsSection(
@@ -88,6 +91,14 @@ class SettingTilesWidget extends StatelessWidget {
                             type: SettingType.showSnackBar,
                             formControlName: SettingType.showSnackBar.name,
                           )
+                        ],
+                      ),
+                      SettingsSection(
+                        title: const Text('Connection'),
+                        tiles: [
+                          ConnectionModeTile(
+                            formControlName: SettingType.connectionMode.name,
+                          ),
                         ],
                       ),
                       SettingsSection(

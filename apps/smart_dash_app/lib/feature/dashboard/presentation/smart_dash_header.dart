@@ -77,7 +77,7 @@ class SmartDashHeader extends ConsumerWidget {
   }
 
   Widget _buildHealth(WidgetRef ref) {
-    final connectivity = ref.read(connectivityServiceProvider);
+    final connectivity = ref.read(systemHealthServiceProvider);
     return StreamBuilder(
         stream: connectivity.events,
         builder: (context, snapshot) {

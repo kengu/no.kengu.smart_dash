@@ -7,7 +7,7 @@ part of 'system_health_controller.dart';
 // **************************************************************************
 
 String _$systemHealthScreenControllerHash() =>
-    r'44e53f689dc7e6ead72174b9c7c6150963bf5a7d';
+    r'b07393a653c391e4115b618637fc1c1f9c2321b8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$SystemHealthScreenController
-    extends BuildlessAutoDisposeAsyncNotifier<Optional<List<SystemHealth>>> {
+    extends BuildlessAutoDisposeAsyncNotifier<Optional<SystemHealth>> {
   late final SystemHealthQuery query;
 
-  FutureOr<Optional<List<SystemHealth>>> build(
+  FutureOr<Optional<SystemHealth>> build(
     SystemHealthQuery query,
   );
 }
@@ -108,7 +108,7 @@ class _$SystemHealthScreenControllerFamilyOverride implements FamilyOverride {
 /// See also [SystemHealthScreenController].
 class SystemHealthScreenControllerProvider
     extends AutoDisposeAsyncNotifierProviderImpl<SystemHealthScreenController,
-        Optional<List<SystemHealth>>> {
+        Optional<SystemHealth>> {
   /// See also [SystemHealthScreenController].
   SystemHealthScreenControllerProvider(
     SystemHealthQuery query,
@@ -139,7 +139,7 @@ class SystemHealthScreenControllerProvider
   final SystemHealthQuery query;
 
   @override
-  FutureOr<Optional<List<SystemHealth>>> runNotifierBuild(
+  FutureOr<Optional<SystemHealth>> runNotifierBuild(
     covariant SystemHealthScreenController notifier,
   ) {
     return notifier.build(
@@ -170,7 +170,7 @@ class SystemHealthScreenControllerProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<SystemHealthScreenController,
-      Optional<List<SystemHealth>>> createElement() {
+      Optional<SystemHealth>> createElement() {
     return _SystemHealthScreenControllerProviderElement(this);
   }
 
@@ -204,7 +204,7 @@ class SystemHealthScreenControllerProvider
 }
 
 mixin SystemHealthScreenControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<Optional<List<SystemHealth>>> {
+    on AutoDisposeAsyncNotifierProviderRef<Optional<SystemHealth>> {
   /// The parameter `query` of this provider.
   SystemHealthQuery get query;
 }
@@ -212,7 +212,7 @@ mixin SystemHealthScreenControllerRef
 class _SystemHealthScreenControllerProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<
         SystemHealthScreenController,
-        Optional<List<SystemHealth>>> with SystemHealthScreenControllerRef {
+        Optional<SystemHealth>> with SystemHealthScreenControllerRef {
   _SystemHealthScreenControllerProviderElement(super.provider);
 
   @override

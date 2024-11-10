@@ -132,7 +132,7 @@ class DeviceDriverManager {
         // ignore: invalid_use_of_protected_member
         final event = await driver.onUpdate();
         if (_shouldProcess(event)) {
-          final connectivity = ref.read(connectivityServiceProvider);
+          final connectivity = ref.read(systemHealthServiceProvider);
           switch (event) {
             case DriverDevicesEvent _:
               _log.fine(

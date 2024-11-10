@@ -155,10 +155,10 @@ class MqttClient {
           ),
         ));
       }
-      ref.read(connectivityServiceProvider).setOK(Mqtt.key);
+      ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
     }, cancelOnError: false);
 
-    ref.read(connectivityServiceProvider).setOK(Mqtt.key);
+    ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
 
     _log.info(
       'OnConnected :: '
@@ -204,7 +204,7 @@ class MqttClient {
       'OnDisconnected :: '
       'Client disconnected',
     );
-    final connectivity = ref.read(connectivityServiceProvider);
+    final connectivity = ref.read(systemHealthServiceProvider);
     if (_api.connectionStatus!.disconnectionOrigin ==
         MqttDisconnectionOrigin.solicited) {
       _log.info(
@@ -233,7 +233,7 @@ class MqttClient {
   }
 
   void _onAutoReconnect() {
-    ref.read(connectivityServiceProvider).setFailed(
+    ref.read(systemHealthServiceProvider).setFailed(
           Mqtt.key,
           'Auto reconnect in progress',
         );
@@ -241,7 +241,7 @@ class MqttClient {
   }
 
   void _onAutoReconnected() {
-    ref.read(connectivityServiceProvider).setOK(Mqtt.key);
+    ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
     _log.info('Auto reconnect :: COMPLETED');
   }
 }

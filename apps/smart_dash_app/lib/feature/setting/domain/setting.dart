@@ -38,6 +38,7 @@ enum SettingType {
   darkMode(DarkMode.system),
   showSnackBar(true),
   enablePresence(false),
+  connectionMode(ConnectionMode.auto),
   priceArea('NO1', ['NO1', 'NO2', 'NO3', 'NO4', 'NO5']);
 
   const SettingType(this.defaultValue, [this.options = const []]);
@@ -59,6 +60,12 @@ enum SettingType {
     }
     throw 'Unknown SettingType $name';
   }
+}
+
+class ConnectionMode {
+  static const String auto = 'auto';
+  static const String online = 'online';
+  static const String offline = 'offline';
 }
 
 class DarkMode {

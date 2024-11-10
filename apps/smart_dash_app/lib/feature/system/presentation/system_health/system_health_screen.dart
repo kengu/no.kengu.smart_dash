@@ -23,7 +23,7 @@ class SystemHealthScreen extends ConsumerStatefulWidget {
 class _SystemHealthScreenState extends ConsumerState<SystemHealthScreen> {
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadScreen<SystemHealthQuery, List<SystemHealth>,
+    return AsyncLoadScreen<SystemHealthQuery, SystemHealth,
         SystemHealthScreenController>(
       title: 'System Health',
       onClose: () => context.go(widget.location),
@@ -31,25 +31,33 @@ class _SystemHealthScreenState extends ConsumerState<SystemHealthScreen> {
       query: SystemHealthQuery(),
       provider: systemHealthScreenControllerProvider.call,
       actions: const [],
-      builder: (context, ref, states, child) {
+      builder: (context, ref, health, child) {
         return Column(
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(16.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('See status overview for each integration below'),
+                child: Wrap(
+                  children: [
+                    if (health.isPresent)
+                      Text(
+                        'Connection mode is ${health.value.connectionMode}',
+                      ),
+                    Text('See status overview for each integration below'),
+                  ],
+                ),
               ),
             ),
             const Divider(),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (states.isPresent)
-                  ...states.value.map(
+                if (health.isPresent)
+                  ...health.value.states.map(
                     (e) => _buildWithUpdates(e.service.key,
                         (context, Optional<SystemHealthState> state) {
-                      final connectivity = state.orElseNull ?? e.state;
+                      final connectivity = state.orElseNull ?? e;
                       return ListTile(
                         title: Text(e.service.name),
                         subtitle: Text(
@@ -80,7 +88,7 @@ class _SystemHealthScreenState extends ConsumerState<SystemHealthScreen> {
       Optional<SystemHealthState> state,
     ) builder,
   ) {
-    final service = ref.read(connectivityServiceProvider);
+    final service = ref.read(systemHealthServiceProvider);
     final events = service.events.where((e) => e.key == key);
     return StreamBuilder(
         stream: events,
