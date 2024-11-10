@@ -316,14 +316,52 @@ abstract class _$AccountDatabase extends GeneratedDatabase {
   _$AccountDatabase(QueryExecutor e) : super(e);
   $AccountDatabaseManager get managers => $AccountDatabaseManager(this);
   late final AccountTable accountTable = AccountTable(this);
-  Selectable<AccountTableData> getAccountWithUserId(String? userId) {
+  Selectable<AccountTableData> getAll() {
+    return customSelect('SELECT * FROM AccountTable',
+        variables: [],
+        readsFrom: {
+          accountTable,
+        }).asyncMap(accountTable.mapFromRow);
+  }
+
+  Selectable<int> exists(String userId) {
+    return customSelect(
+        switch (executor.dialect) {
+          SqlDialect.sqlite => 'SELECT "rowId" FROM AccountTable WHERE id = ?1',
+          SqlDialect.postgres ||
+          _ =>
+            'SELECT "rowId" FROM AccountTable WHERE id = \$1',
+        },
+        variables: [
+          Variable<String>(userId)
+        ],
+        readsFrom: {
+          accountTable,
+        }).map((QueryRow row) => row.read<int>('rowid'));
+  }
+
+  Selectable<AccountTableData> entriesWithId(List<String> var1) {
+    var $arrayStartIndex = 1;
+    final expandedvar1 = $expandVar($arrayStartIndex, var1.length);
+    $arrayStartIndex += var1.length;
+    return customSelect(
+        'SELECT * FROM AccountTable WHERE id IN ($expandedvar1)',
+        variables: [
+          for (var $ in var1) Variable<String>($)
+        ],
+        readsFrom: {
+          accountTable,
+        }).asyncMap(accountTable.mapFromRow);
+  }
+
+  Selectable<AccountTableData> getAccountWithUserId(String userId) {
     return customSelect(
         switch (executor.dialect) {
           SqlDialect.sqlite =>
-            'SELECT * FROM AccountTable WHERE AccountTable.id IN (SELECT AccountTable.id FROM AccountTable,json_each(AccountTable.users)WHERE json_each.value -> \'userid\' = ?1)',
+            'SELECT * FROM AccountTable WHERE AccountTable.id IN (SELECT AccountTable.id FROM AccountTable,json_each(AccountTable.users)WHERE json_each.value ->> \'\$.userId\' = ?1)',
           SqlDialect.postgres ||
           _ =>
-            'SELECT * FROM AccountTable WHERE AccountTable.id IN (SELECT AccountTable.id FROM AccountTable,json_each(AccountTable.users)WHERE json_each.value -> \'userid\' = \$1)',
+            'SELECT * FROM AccountTable WHERE AccountTable.id IN (SELECT AccountTable.id FROM AccountTable,json_each(AccountTable.users)WHERE json_each.value ->> \'\$.userId\' = \$1)',
         },
         variables: [
           Variable<String>(userId)

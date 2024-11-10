@@ -36,13 +36,15 @@ class UsersConverter extends TypeConverter<List<User>, String>
 
   @override
   List<User> fromSql(String fromDb) {
-    final items = jsonDecode(fromDb) as List<JsonObject>;
-    return items.map(User.fromJson).toList();
+    final items = List.from(jsonDecode(fromDb));
+    return items.whereType<JsonObject>().map(User.fromJson).toList();
   }
 
   @override
   String toSql(List<User> value) {
-    return json.encode(value.map((e) => e.toJson()));
+    return jsonEncode(
+      value.map((e) => e.toJson()).toList(),
+    );
   }
 }
 
@@ -52,12 +54,14 @@ class HomesConverter extends TypeConverter<List<Home>, String>
 
   @override
   List<Home> fromSql(String fromDb) {
-    final items = jsonDecode(fromDb) as List<JsonObject>;
-    return items.map(Home.fromJson).toList();
+    final items = List.from(jsonDecode(fromDb));
+    return items.whereType<JsonObject>().map(Home.fromJson).toList();
   }
 
   @override
   String toSql(List<Home> value) {
-    return json.encode(value.map((e) => e.toJson()));
+    return jsonEncode(
+      value.map((e) => e.toJson()).toList(),
+    );
   }
 }

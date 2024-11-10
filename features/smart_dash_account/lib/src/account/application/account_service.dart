@@ -158,7 +158,7 @@ class AccountService {
   Future<bool> addOrUpdate(Account account) async {
     final repo = ref.read(appAccountRepositoryProvider);
     final result = await repo.addOrUpdate(account);
-    final changed = account != result;
+    final changed = account != result.item;
     if (changed) {
       _cache.set(
         'get_user_account:${account.userId}',

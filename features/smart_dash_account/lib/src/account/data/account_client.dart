@@ -14,6 +14,11 @@ class AccountClient {
 
   final _log = Logger('$AccountClient');
 
+  Future<bool> exists(String userId) async {
+    final result = await get(userId);
+    return result.isPresent;
+  }
+
   Future<Optional<Account>> get(String userId) async {
     return guard(() async {
       final uri = '/Account/$userId';

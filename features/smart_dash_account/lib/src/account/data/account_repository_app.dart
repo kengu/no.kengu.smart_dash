@@ -20,6 +20,18 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
   }) : super(checker: Connectivity.offline, local: local, remote: remote);
 
   @override
+  Future<Account> create(Account account) {
+    // TODO: implement updateAll
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> exists(String userId) async {
+    final result = await get(userId);
+    return result.isPresent;
+  }
+
+  @override
   Future<void> clear() {
     return (local as AccountRepositoryMixin).clear();
   }
@@ -36,6 +48,18 @@ class LocalAccountRepository
 //          adapter: AccountAdapter(),
 //          cipher: FlutterHiveCipherStorage(),
         );
+
+  @override
+  Future<bool> exists(String userId) async {
+    final result = await get(userId);
+    return result.isPresent;
+  }
+
+  @override
+  Future<Account> create(Account account) {
+    // TODO: implement updateAll
+    throw UnimplementedError();
+  }
 }
 
 class RemoteAccountRepository extends Repository<String, Account>
@@ -47,6 +71,9 @@ class RemoteAccountRepository extends Repository<String, Account>
   AccountClient _client() => ref.read(accountClientProvider);
 
   @override
+  Future<bool> exists(String userId) => _client().exists(userId);
+
+  @override
   Future<Optional<Account>> get(String userId) => _client().get(userId);
 
   @override
@@ -54,14 +81,22 @@ class RemoteAccountRepository extends Repository<String, Account>
       _client().getAll(userIds);
 
   @override
-  Future<List<Account>> removeAll(Iterable<Account> items) {
-    // TODO: implement removeAll
+  Future<Account> create(Account account) {
+    // TODO: implement updateAll
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Account>> updateAll(Iterable<Account> items) {
+  Future<BulkRepositoryResult<String, Account>> updateAll(
+      Iterable<Account> accounts) {
     // TODO: implement updateAll
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<BulkRepositoryResult<String, Account>> removeAll(
+      Iterable<Account> accounts) {
+    // TODO: implement removeAll
     throw UnimplementedError();
   }
 

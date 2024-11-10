@@ -73,22 +73,30 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
   }
 
   @override
-  Future<List<T>> updateAll(Iterable<T> items) async {
+  Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
     try {
       return guard(
         () async {
+          final created = <T>[];
           final updated = <T>[];
           for (final it in items) {
             final path = toKey(toId(it));
             final file = File(toAbsolutePath(path));
             if (!file.existsSync()) {
               file.createSync(recursive: true);
+              created.add(it);
             }
             if (await write(it, file)) {
-              updated.add(it);
+              if (!created.contains(it)) {
+                updated.add(it);
+              }
             }
           }
-          return updated;
+          return BulkRepositoryResult(
+            created,
+            updated,
+            [],
+          );
         },
         task: 'updateAll',
         name: '$runtimeType',
@@ -99,7 +107,7 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
   }
 
   @override
-  Future<List<T>> removeAll(Iterable<T> items) {
+  Future<BulkRepositoryResult<I, T>> removeAll(Iterable<T> items) {
     return guard(
       () async {
         final deleted = <T>[];
@@ -111,7 +119,7 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
             deleted.add(it);
           }
         }
-        return deleted;
+        return BulkRepositoryResult<I, T>.removed(deleted);
       },
       task: 'removeAll',
       name: '$runtimeType',

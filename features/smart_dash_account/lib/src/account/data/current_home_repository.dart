@@ -22,7 +22,8 @@ mixin CurrentHomeRepositoryMixin on CurrentHomeRepository {
   /// Set current home for [userId]
   Future<CurrentHome> set(String userId, String homeId) async {
     final current = CurrentHome(userId: userId, homeId: homeId);
-    return addOrUpdate(current);
+    final result = await addOrUpdate(current);
+    return result.item;
   }
 
   @override

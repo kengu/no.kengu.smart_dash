@@ -14,7 +14,9 @@ mixin AccountRepositoryMixin on AccountRepository {
   String toKey(String userId) => '$key:$userId';
 
   @override
-  String toId(Account item) => item.userId;
+  String toId(Account account) => account.userId;
+
+  Future<bool> exists(String userId);
 
   @override
   Future<Optional<Account>> get(String userId);
@@ -22,11 +24,31 @@ mixin AccountRepositoryMixin on AccountRepository {
   @override
   Future<List<Account>> getAll([List<String> userIds = const []]);
 
-  String toValue(Account item) => jsonEncode(item.toJson());
+  Future<Account> create(Account account);
+
+  @override
+  Future<SingleRepositoryResult<String, Account>> addOrUpdate(
+          Account account) =>
+      super.addOrUpdate(account);
+
+  /// Returns list of actual added accounts.
+  @override
+  Future<BulkRepositoryResult<String, Account>> updateAll(
+      Iterable<Account> accounts);
+
+  /// Attempt to remove all given accounts from repository.
+  ///
+  /// Returns list of actual removed account.
+  @override
+  Future<BulkRepositoryResult<String, Account>> removeAll(
+      Iterable<Account> accounts);
+
+  String toValue(Account account) => jsonEncode(account.toJson());
 
   Account? map(String key, String? data) {
     return data == null ? null : Account.fromJson(jsonDecode(data));
   }
 
+  /// Clear all account from storage
   Future<void> clear();
 }

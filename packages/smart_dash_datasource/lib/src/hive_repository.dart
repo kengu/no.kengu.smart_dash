@@ -75,25 +75,41 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
 
   /// Attempt to sett all given items to repository.
   ///
-  /// Returns list of actual added items.
+  /// Returns list of actual updated items.
   @override
-  Future<List<T>> updateAll(Iterable<T> items) async {
+  Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
     final unique = items.toSet();
+    final uniqueIds = unique.map(toId).map(toKey).toList();
+    final current = await _loadAll(uniqueIds);
     final success = await _putAll([...unique]);
-    return [if (success) ...unique];
+
+    if (!success) {
+      return BulkRepositoryResult<I, T>.empty();
+    }
+
+    final created = current.where((e) => !uniqueIds.contains(toKey(toId(e))));
+    final updated = current.where((e) => uniqueIds.contains(toKey(toId(e))));
+
+    return BulkRepositoryResult<I, T>(
+      created.toList(),
+      updated.toList(),
+      [],
+    );
   }
 
   /// Attempt to remove all given items from repository.
   ///
   /// Returns list of actual removed items.
   @override
-  Future<List<T>> removeAll(Iterable<T> items) async {
+  Future<BulkRepositoryResult<I, T>> removeAll(Iterable<T> items) async {
     final ids = items.map(toId).map(toKey).toSet();
     final current = await _loadAll(ids.toList());
     final currentIds = current.map(toId).map(toKey).toList();
     final unique = items..toSet().where((e) => currentIds.contains(toId(e)));
     final success = await _removeAll(currentIds);
-    return [if (success) ...unique];
+    return BulkRepositoryResult<I, T>.removed(
+      [if (success) ...unique],
+    );
   }
 
   Future<CollectionBox<T>> _open() => guard(

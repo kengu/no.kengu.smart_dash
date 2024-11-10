@@ -115,12 +115,12 @@ abstract class DeviceDriver {
     final supported = devices.where((e) => e.service == key);
     final repo = ref.read(deviceRepositoryProvider);
     final unique = await repo.updateAll(supported);
-    await onPaired(unique);
+    await onPaired(unique.all);
     _controller.add(DevicesPairedEvent.now(
       key,
-      unique,
+      unique.all,
     ));
-    return unique;
+    return unique.all;
   }
 
   /// Attempt to unpair with list of devices.
@@ -129,12 +129,12 @@ abstract class DeviceDriver {
     final supported = devices.where((e) => e.service == key);
     final repo = ref.read(deviceRepositoryProvider);
     final unique = await repo.removeAll(supported);
-    await onUnPaired(unique);
+    await onUnPaired(unique.all);
     _controller.add(DevicesUnpairedEvent.now(
       key,
-      unique,
+      unique.all,
     ));
-    return unique;
+    return unique.all;
   }
 
   /// Get list of all paired [Device]s
