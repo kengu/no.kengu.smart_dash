@@ -1,4 +1,4 @@
-# Smart Dash
+# Smart Dash App
 
 A Smart Dashboard App for my personal use.
 
