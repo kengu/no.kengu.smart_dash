@@ -1,0 +1,27 @@
+import 'account_database.dart';
+
+CREATE TABLE AccountTable (
+    id TEXT PRIMARY KEY NOT NULL,
+    fname TEXT NULL,
+    lname TEXT NULL,
+    users TEXT NOT NULL MAPPED BY `const UsersConverter()`,
+    homes TEXT NOT NULL MAPPED BY `const HomesConverter()`
+);
+
+-- Queries
+/*
+   After declaring your tables, you can put queries in here.
+   Just write the name of the query, a colon (:) and code for
+   the SQL query will generated for you
+ */
+
+-- Get Account from userId
+/**/
+getAccountWithUserId: SELECT *
+                      FROM AccountTable
+                      WHERE AccountTable.id IN (
+                          SELECT AccountTable.id
+                          FROM AccountTable,
+                              json_each(AccountTable.users)
+                          WHERE json_each.value -> 'userid' = :userId
+                      );

@@ -30,6 +30,12 @@ dependencies:
   freezed_annotation: ^2.4.4
   riverpod_annotation: ^3.0.0-dev.3
 
+  drift: ^2.21.0
+  drift_dev: ^2.21.2
+  drift_flutter: ^0.1.0
+  sqlite3: ^2.4.7
+  sqlite3_flutter_libs: ^0.5.26
+
 dev_dependencies:
   test: ^1.25.8
   lints: ^3.0.0
