@@ -25,8 +25,12 @@ mixin _$Presence {
   DateTime get when => throw _privateConstructorUsedError;
   List<Token> get members => throw _privateConstructorUsedError;
 
+  /// Serializes this Presence to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PresenceCopyWith<Presence> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$PresenceCopyWithImpl<$Res, $Val extends Presence>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +85,8 @@ class _$PresenceCopyWithImpl<$Res, $Val extends Presence>
     ) as $Val);
   }
 
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res> get token {
@@ -110,6 +118,8 @@ class __$$PresenceImplCopyWithImpl<$Res>
       _$PresenceImpl _value, $Res Function(_$PresenceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -183,12 +193,14 @@ class _$PresenceImpl extends _Presence {
             const DeepCollectionEquality().equals(other._members, _members));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, token, isHome, when,
       const DeepCollectionEquality().hash(_members));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
@@ -221,8 +233,11 @@ abstract class _Presence extends Presence {
   DateTime get when;
   @override
   List<Token> get members;
+
+  /// Create a copy of Presence
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PresenceImplCopyWith<_$PresenceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

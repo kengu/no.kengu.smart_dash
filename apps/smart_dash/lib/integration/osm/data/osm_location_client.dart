@@ -1,11 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:smart_dash/feature/home/data/location_client.dart';
-import 'package:smart_dash/feature/home/domain/location.dart';
-import 'package:smart_dash/integration/osm/osm.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash/integration/osm/osm.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class OsmLocationClient extends LocationClient {
   OsmLocationClient(this.ref);

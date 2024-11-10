@@ -5,12 +5,12 @@ import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/smart_dash_icons_icons.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_routes.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_badge.dart';
-import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 import 'smart_dash_menu.dart';
 
@@ -199,7 +199,7 @@ class CreateNewMenuButton extends ConsumerWidget {
                   );
                   if (name?.isNotEmpty == true) {
                     final home =
-                        await ref.read(homeServiceProvider).newHome(name!);
+                        await ref.read(accountServiceProvider).newHome(name!);
 
                     if (home.isPresent) {
                       if (!context.mounted) return;

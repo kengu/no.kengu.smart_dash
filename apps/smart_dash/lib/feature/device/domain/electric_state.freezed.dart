@@ -44,8 +44,12 @@ mixin _$ElectricState {
   /// [DateTime] timestamp of when data was updated last
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
+  /// Serializes this ElectricState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ElectricState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ElectricStateCopyWith<ElectricState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -77,6 +81,8 @@ class _$ElectricStateCopyWithImpl<$Res, $Val extends ElectricState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ElectricState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,6 +159,8 @@ class __$$ElectricStateImplCopyWithImpl<$Res>
       _$ElectricStateImpl _value, $Res Function(_$ElectricStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ElectricState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -280,7 +288,7 @@ class _$ElectricStateImpl extends _ElectricState {
                 other.lastUpdated == lastUpdated));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -293,7 +301,9 @@ class _$ElectricStateImpl extends _ElectricState {
       estimatedUnregulatedPower,
       lastUpdated);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ElectricState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ElectricStateImplCopyWith<_$ElectricStateImpl> get copyWith =>
@@ -322,40 +332,42 @@ abstract class _ElectricState extends ElectricState {
   factory _ElectricState.fromJson(Map<String, dynamic> json) =
       _$ElectricStateImpl.fromJson;
 
-  @override
-
   /// Get device's measured voltage (in V, default null)
-  int? get voltage;
   @override
+  int? get voltage;
 
   /// Last measured power usage (watt)
-  int? get currentPower;
   @override
+  int? get currentPower;
 
   /// Energy accumulated from start (in watt/h, default null)
-  int? get cumulative;
   @override
+  int? get cumulative;
 
   /// Energy accumulated from midnight (in watt/h, default null)
-  int? get cumulativeToday;
   @override
+  int? get cumulativeToday;
 
   /// Flag indicating that power is currently regulated (up or down)
-  bool? get isPowerRegulated;
   @override
+  bool? get isPowerRegulated;
 
   /// Last estimated regulated power usage reduction (in negative watts)
-  int? get estimatedRegulatedPower;
   @override
+  int? get estimatedRegulatedPower;
 
   /// Last estimated unregulated power usage (watt)
-  int? get estimatedUnregulatedPower;
   @override
+  int? get estimatedUnregulatedPower;
 
   /// [DateTime] timestamp of when data was updated last
-  DateTime get lastUpdated;
   @override
-  @JsonKey(ignore: true)
+  DateTime get lastUpdated;
+
+  /// Create a copy of ElectricState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ElectricStateImplCopyWith<_$ElectricStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -8,13 +8,15 @@ part of 'electric_state.dart';
 
 _$ElectricStateImpl _$$ElectricStateImplFromJson(Map<String, dynamic> json) =>
     _$ElectricStateImpl(
-      voltage: json['voltage'] as int?,
-      currentPower: json['currentPower'] as int?,
-      cumulative: json['cumulative'] as int?,
-      cumulativeToday: json['cumulativeToday'] as int?,
+      voltage: (json['voltage'] as num?)?.toInt(),
+      currentPower: (json['currentPower'] as num?)?.toInt(),
+      cumulative: (json['cumulative'] as num?)?.toInt(),
+      cumulativeToday: (json['cumulativeToday'] as num?)?.toInt(),
       isPowerRegulated: json['isPowerRegulated'] as bool?,
-      estimatedRegulatedPower: json['estimatedRegulatedPower'] as int?,
-      estimatedUnregulatedPower: json['estimatedUnregulatedPower'] as int?,
+      estimatedRegulatedPower:
+          (json['estimatedRegulatedPower'] as num?)?.toInt(),
+      estimatedUnregulatedPower:
+          (json['estimatedUnregulatedPower'] as num?)?.toInt(),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
     );
 

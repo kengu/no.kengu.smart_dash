@@ -23,8 +23,12 @@ mixin _$EnergyBillMonth {
   DateTime get begin => throw _privateConstructorUsedError;
   List<EnergyBillDay> get daily => throw _privateConstructorUsedError;
 
+  /// Serializes this EnergyBillMonth to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EnergyBillMonthCopyWith<EnergyBillMonth> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$EnergyBillMonthCopyWithImpl<$Res, $Val extends EnergyBillMonth>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$EnergyBillMonthImplCopyWithImpl<$Res>
       _$EnergyBillMonthImpl _value, $Res Function(_$EnergyBillMonthImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,12 +148,14 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
             const DeepCollectionEquality().equals(other._daily, _daily));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, begin, const DeepCollectionEquality().hash(_daily));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EnergyBillMonthImplCopyWith<_$EnergyBillMonthImpl> get copyWith =>
@@ -173,8 +183,11 @@ abstract class _EnergyBillMonth extends EnergyBillMonth {
   DateTime get begin;
   @override
   List<EnergyBillDay> get daily;
+
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EnergyBillMonthImplCopyWith<_$EnergyBillMonthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -188,8 +201,12 @@ mixin _$EnergyBillDay {
   DateTime get begin => throw _privateConstructorUsedError;
   List<EnergyBillHour> get hourly => throw _privateConstructorUsedError;
 
+  /// Serializes this EnergyBillDay to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EnergyBillDayCopyWith<EnergyBillDay> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -213,6 +230,8 @@ class _$EnergyBillDayCopyWithImpl<$Res, $Val extends EnergyBillDay>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -251,6 +270,8 @@ class __$$EnergyBillDayImplCopyWithImpl<$Res>
       _$EnergyBillDayImpl _value, $Res Function(_$EnergyBillDayImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -305,12 +326,14 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
             const DeepCollectionEquality().equals(other._hourly, _hourly));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, begin, const DeepCollectionEquality().hash(_hourly));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EnergyBillDayImplCopyWith<_$EnergyBillDayImpl> get copyWith =>
@@ -337,8 +360,11 @@ abstract class _EnergyBillDay extends EnergyBillDay {
   DateTime get begin;
   @override
   List<EnergyBillHour> get hourly;
+
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EnergyBillDayImplCopyWith<_$EnergyBillDayImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -356,8 +382,12 @@ mixin _$EnergyBillHour {
   ElectricityPrice get price => throw _privateConstructorUsedError;
   ElectricityTariff get tariff => throw _privateConstructorUsedError;
 
+  /// Serializes this EnergyBillHour to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EnergyBillHourCopyWith<EnergyBillHour> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -390,6 +420,8 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -428,6 +460,8 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
     ) as $Val);
   }
 
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ElectricityPriceCopyWith<$Res> get price {
@@ -436,6 +470,8 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
     });
   }
 
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ElectricityTariffCopyWith<$Res> get tariff {
@@ -475,6 +511,8 @@ class __$$EnergyBillHourImplCopyWithImpl<$Res>
       _$EnergyBillHourImpl _value, $Res Function(_$EnergyBillHourImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -560,12 +598,14 @@ class _$EnergyBillHourImpl extends _EnergyBillHour {
             (identical(other.tariff, tariff) || other.tariff == tariff));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, vat, end, begin, energy, price, tariff);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EnergyBillHourImplCopyWith<_$EnergyBillHourImpl> get copyWith =>
@@ -605,8 +645,11 @@ abstract class _EnergyBillHour extends EnergyBillHour {
   ElectricityPrice get price;
   @override
   ElectricityTariff get tariff;
+
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EnergyBillHourImplCopyWith<_$EnergyBillHourImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

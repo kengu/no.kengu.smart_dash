@@ -5,13 +5,8 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/tile/barchart_tile.dart';
 import 'package:smart_dash/feature/accounting/application/energy_bill_service.dart';
 import 'package:smart_dash/feature/accounting/domain/billing/energy_bill.dart';
-import 'package:smart_dash/feature/analytics/domain/data_array.dart';
-import 'package:smart_dash/feature/analytics/domain/time_series.dart';
-import 'package:smart_dash/feature/flow/domain/token.dart';
-import 'package:smart_dash/util/time/date_time.dart';
-import 'package:smart_dash/util/time/time_scale.dart';
-import 'package:smart_dash/util/time/time_series.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class EnergyBillMonthTile extends ConsumerWidget {
   const EnergyBillMonthTile({

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
-import 'package:smart_dash/core/data/drift/connection.dart';
 import 'package:smart_dash/util/platform.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:window_manager/window_manager.dart';
 
 class SmartDashApp extends ConsumerStatefulWidget {

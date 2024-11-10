@@ -1,8 +1,7 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/integration/data/integration_repository.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 part 'pairing_screen_controller.g.dart';
 

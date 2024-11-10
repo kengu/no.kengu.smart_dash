@@ -27,8 +27,12 @@ mixin _$SikomGateway {
   @JsonKey(name: 'Properties')
   SikomGatewayProperties get properties => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomGateway to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomGatewayCopyWith<SikomGateway> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$SikomGatewayCopyWithImpl<$Res, $Val extends SikomGateway>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +87,8 @@ class _$SikomGatewayCopyWithImpl<$Res, $Val extends SikomGateway>
     ) as $Val);
   }
 
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomGatewayControllerCopyWith<$Res> get controller {
@@ -89,6 +97,8 @@ class _$SikomGatewayCopyWithImpl<$Res, $Val extends SikomGateway>
     });
   }
 
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomGatewayPropertiesCopyWith<$Res> get properties {
@@ -125,6 +135,8 @@ class __$$SikomGatewayImplCopyWithImpl<$Res>
       _$SikomGatewayImpl _value, $Res Function(_$SikomGatewayImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -188,11 +200,13 @@ class _$SikomGatewayImpl extends _SikomGateway {
                 other.properties == properties));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, controller, properties);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomGatewayImplCopyWith<_$SikomGatewayImpl> get copyWith =>
@@ -227,8 +241,11 @@ abstract class _SikomGateway extends SikomGateway {
   @override
   @JsonKey(name: 'Properties')
   SikomGatewayProperties get properties;
+
+  /// Create a copy of SikomGateway
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomGatewayImplCopyWith<_$SikomGatewayImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -244,8 +261,12 @@ mixin _$SikomGatewayController {
   SikomGatewayControllerProperties get properties =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this SikomGatewayController to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomGatewayControllerCopyWith<SikomGatewayController> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -274,6 +295,8 @@ class _$SikomGatewayControllerCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -287,6 +310,8 @@ class _$SikomGatewayControllerCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomGatewayControllerPropertiesCopyWith<$Res> get properties {
@@ -324,6 +349,8 @@ class __$$SikomGatewayControllerImplCopyWithImpl<$Res>
       $Res Function(_$SikomGatewayControllerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -366,11 +393,13 @@ class _$SikomGatewayControllerImpl extends _SikomGatewayController {
                 other.properties == properties));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, properties);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomGatewayControllerImplCopyWith<_$SikomGatewayControllerImpl>
@@ -398,8 +427,11 @@ abstract class _SikomGatewayController extends SikomGatewayController {
   @override
   @JsonKey(name: 'Properties')
   SikomGatewayControllerProperties get properties;
+
+  /// Create a copy of SikomGatewayController
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomGatewayControllerImplCopyWith<_$SikomGatewayControllerImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -414,8 +446,12 @@ mixin _$SikomGatewayProperties {
   @JsonKey(name: 'gateway_type')
   SikomProperty get gatewayType => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomGatewayProperties to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomGatewayPropertiesCopyWith<SikomGatewayProperties> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -442,6 +478,8 @@ class _$SikomGatewayPropertiesCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -455,6 +493,8 @@ class _$SikomGatewayPropertiesCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res> get gatewayType {
@@ -489,6 +529,8 @@ class __$$SikomGatewayPropertiesImplCopyWithImpl<$Res>
       $Res Function(_$SikomGatewayPropertiesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -531,11 +573,13 @@ class _$SikomGatewayPropertiesImpl extends _SikomGatewayProperties {
                 other.gatewayType == gatewayType));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, gatewayType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomGatewayPropertiesImplCopyWith<_$SikomGatewayPropertiesImpl>
@@ -562,8 +606,11 @@ abstract class _SikomGatewayProperties extends SikomGatewayProperties {
   @override
   @JsonKey(name: 'gateway_type')
   SikomProperty get gatewayType;
+
+  /// Create a copy of SikomGatewayProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomGatewayPropertiesImplCopyWith<_$SikomGatewayPropertiesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -580,8 +627,12 @@ mixin _$SikomGatewayControllerProperties {
   @JsonKey(name: 'user_defined_name')
   SikomProperty? get userDefinedName => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomGatewayControllerProperties to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomGatewayControllerPropertiesCopyWith<SikomGatewayControllerProperties>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -613,6 +664,8 @@ class _$SikomGatewayControllerPropertiesCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -631,6 +684,8 @@ class _$SikomGatewayControllerPropertiesCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res> get bestEffortName {
@@ -639,6 +694,8 @@ class _$SikomGatewayControllerPropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get userDefinedName {
@@ -681,6 +738,8 @@ class __$$SikomGatewayControllerPropertiesImplCopyWithImpl<$Res>
       $Res Function(_$SikomGatewayControllerPropertiesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -736,11 +795,13 @@ class _$SikomGatewayControllerPropertiesImpl
                 other.userDefinedName == userDefinedName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, bestEffortName, userDefinedName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomGatewayControllerPropertiesImplCopyWith<
@@ -776,8 +837,11 @@ abstract class _SikomGatewayControllerProperties
   @override
   @JsonKey(name: 'user_defined_name')
   SikomProperty? get userDefinedName;
+
+  /// Create a copy of SikomGatewayControllerProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomGatewayControllerPropertiesImplCopyWith<
           _$SikomGatewayControllerPropertiesImpl>
       get copyWith => throw _privateConstructorUsedError;

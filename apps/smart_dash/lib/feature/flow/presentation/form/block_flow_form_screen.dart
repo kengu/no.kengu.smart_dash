@@ -11,14 +11,13 @@ import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_f
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
 import 'package:smart_dash/feature/flow/presentation/flow_summary.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_action_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_conditions_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_parameters_array_field.dart';
 import 'package:smart_dash/feature/flow/presentation/form/fields/block_trigger_form_group.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 import 'block_flow_form_controller.dart';
 
@@ -139,7 +138,7 @@ class BlockFlowFormScreen extends ConsumerWidget {
                                     );
                                     if (delete == true) {
                                       await ref
-                                          .read(flowManagerProvider)
+                                          .read(blockManagerProvider)
                                           .delete(block.id);
                                       if (context.mounted) {
                                         context.go(location);

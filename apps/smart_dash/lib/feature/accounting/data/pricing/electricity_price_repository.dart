@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/accounting/domain/pricing/electricity.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'drift/electricity_price_database.dart';
 
@@ -18,23 +18,24 @@ class ElectricityPriceRepository {
   Future<Optional<List<ElectricityPrice>>> getPriceHourly(
     String area,
     DateTime when,
-  ) =>
-      guard(() async {
-        final query = db.getFromExactNameAndDate(
-          area,
-          when,
-          when.add(const Duration(days: 1)),
-        );
-        final result = await query.get();
-        return Optional.of(result
-            .map((p) => ElectricityPrice(
-                nokPerKwh: p.nokPerKwh,
-                eurPerKwh: p.eurPerKwh,
-                eurToNokRate: p.eurToNokRate,
-                begin: p.ts0,
-                end: p.ts1))
-            .toList());
-      });
+  ) {
+    return guard(() async {
+      final query = db.getFromExactNameAndDate(
+        area,
+        when,
+        when.add(const Duration(days: 1)),
+      );
+      final result = await query.get();
+      return Optional.of(result
+          .map((p) => ElectricityPrice(
+              nokPerKwh: p.nokPerKwh,
+              eurPerKwh: p.eurPerKwh,
+              eurToNokRate: p.eurToNokRate,
+              begin: p.ts0,
+              end: p.ts1))
+          .toList());
+    });
+  }
 
   Future<void> save(String area, List<ElectricityPrice> prices) =>
       guard(() async {

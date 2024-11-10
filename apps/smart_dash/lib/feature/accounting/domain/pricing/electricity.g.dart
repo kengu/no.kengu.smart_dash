@@ -69,8 +69,8 @@ _$ElectricityConsumptionImpl _$$ElectricityConsumptionImplFromJson(
         Map<String, dynamic> json) =>
     _$ElectricityConsumptionImpl(
       nokPerKwh: (json['NOK_per_kWh'] as num).toDouble(),
-      fromHour: json['from_hour'] as int,
-      toHour: json['to_hour'] as int,
+      fromHour: (json['from_hour'] as num).toInt(),
+      toHour: (json['to_hour'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$ElectricityConsumptionImplToJson(

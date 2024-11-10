@@ -9,9 +9,9 @@ part of 'snow_state.dart';
 _$SnowStateImpl _$$SnowStateImplFromJson(Map<String, dynamic> json) =>
     _$SnowStateImpl(
       location: json['location'] as String,
-      depth: json['depth'] as int,
-      elevation: json['elevation'] as int,
-      equivalent: json['equivalent'] as int,
+      depth: (json['depth'] as num).toInt(),
+      elevation: (json['elevation'] as num).toInt(),
+      equivalent: (json['equivalent'] as num).toInt(),
       temperature: (json['temperature'] as num).toDouble(),
       nextUpdate: DateTime.parse(json['nextUpdate'] as String),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),

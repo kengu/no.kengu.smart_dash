@@ -4,10 +4,9 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/data/block_repository.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/util/data/json.dart';
+import 'package:smart_dash/feature/device/application/device_block_flow.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 part 'block_flow_form_controller.g.dart';
 
@@ -72,19 +71,19 @@ class BlockFlowFormController extends _$BlockFlowFormController
         ),
         BlockTriggerFields.debounceCount: FormControl<int>(
           value: model?.trigger.debounceCount,
-          validators: [Validators.required, Validators.number],
+          validators: [Validators.required, Validators.number()],
         ),
         BlockTriggerFields.debounceAfter: FormControl<int>(
           value: model?.trigger.debounceAfter,
-          validators: [Validators.required, Validators.number],
+          validators: [Validators.required, Validators.number()],
         ),
         BlockTriggerFields.repeatCount: FormControl<int>(
           value: model?.trigger.repeatCount,
-          validators: [Validators.required, Validators.number],
+          validators: [Validators.required, Validators.number()],
         ),
         BlockTriggerFields.repeatAfter: FormControl<int>(
           value: model?.trigger.repeatAfter,
-          validators: [Validators.required, Validators.number],
+          validators: [Validators.required, Validators.number()],
         ),
         BlockTriggerFields.onTags: FormControl<List<String>>(
           value: model?.trigger.onTags,
@@ -203,8 +202,10 @@ class BlockFlowFormController extends _$BlockFlowFormController
   Future<Optional<BlockModel>> load(BlockFlowFormQuery query) async {
     if (query.id == null) {
       return Optional.of(BlockModel.empty(
-        nanoid(),
-        'New Flow',
+        id: nanoid(),
+        label: 'New Flow',
+        // TODO: Make type of block flow selectable
+        type: '$DeviceBlockFlow',
       ));
     }
     final model = await ref.read(blockRepositoryProvider).get(query.id!);
@@ -221,6 +222,6 @@ class BlockFlowFormController extends _$BlockFlowFormController
 
   @override
   Future<bool> save(BlockModel data) async {
-    return ref.read(flowManagerProvider).addOrUpdate(data);
+    return ref.read(blockManagerProvider).addOrUpdate(data);
   }
 }

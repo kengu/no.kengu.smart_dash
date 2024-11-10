@@ -5,12 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_service.dart';
 import 'package:smart_dash/feature/camera/data/snapshot_repository.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_manager.g.dart';
@@ -70,7 +69,7 @@ class CameraManager {
       () async {
         final repo = ref.read(snapshotRepositoryProvider);
         final snapshot = await repo.addOrUpdate(Snapshot.of(e));
-        final file = repo.toFile(repo.toId(snapshot));
+        final file = repo.toFile(repo.toId(snapshot.item));
         _log.fine(
           'Saved snapshot from '
           'camera [${e.service}:${e.name}] to [${file.path}]',

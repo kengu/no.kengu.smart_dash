@@ -32,9 +32,9 @@ class SmartDashThemeData {
         backgroundColor: navigationSurfaceColor,
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.all(data.colorScheme.inversePrimary),
-        trackColor: MaterialStateProperty.resolveWith(
-          (states) => states.contains(MaterialState.selected)
+        thumbColor: WidgetStateProperty.all(data.colorScheme.inversePrimary),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
               ? data.colorScheme.inversePrimary
               : data.colorScheme.inversePrimary,
         ),

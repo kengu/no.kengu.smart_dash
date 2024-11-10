@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
 import 'package:smart_dash/feature/weather/data/weather_forecast_client.dart';
 import 'package:smart_dash/feature/weather/data/weather_response.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/future.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class WeatherForecastService {
   WeatherForecastService(this.key, this.ref);
@@ -64,7 +62,7 @@ abstract class WeatherForecastService {
   Future<Optional<ServiceConfig>> _getConfig(
       {Duration ttl = const Duration(seconds: 4)}) async {
     return _cache.getOrFetch('config', () async {
-      final home = await ref.read(homeServiceProvider).getCurrentHome();
+      final home = await ref.read(accountServiceProvider).getCurrentHome();
       if (!home.isPresent) return const Optional.empty();
       return home.value.firstServiceWhere(key);
     }, ttl: ttl);

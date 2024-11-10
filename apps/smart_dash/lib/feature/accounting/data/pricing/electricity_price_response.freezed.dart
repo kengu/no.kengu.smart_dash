@@ -24,8 +24,12 @@ mixin _$ElectricityPriceResponse {
   @JsonKey(name: 'data')
   List<ElectricityPrice> get prices => throw _privateConstructorUsedError;
 
+  /// Serializes this ElectricityPriceResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ElectricityPriceResponseCopyWith<ElectricityPriceResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$ElectricityPriceResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$ElectricityPriceResponseImplCopyWithImpl<$Res>
       $Res Function(_$ElectricityPriceResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,12 +140,14 @@ class _$ElectricityPriceResponseImpl implements _ElectricityPriceResponse {
             const DeepCollectionEquality().equals(other._prices, _prices));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_prices));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ElectricityPriceResponseImplCopyWith<_$ElectricityPriceResponseImpl>
@@ -164,8 +174,11 @@ abstract class _ElectricityPriceResponse implements ElectricityPriceResponse {
   @override
   @JsonKey(name: 'data')
   List<ElectricityPrice> get prices;
+
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ElectricityPriceResponseImplCopyWith<_$ElectricityPriceResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

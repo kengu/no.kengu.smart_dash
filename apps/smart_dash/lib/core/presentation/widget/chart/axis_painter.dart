@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:smart_dash/util/data/num.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 enum AxisType {
   x,

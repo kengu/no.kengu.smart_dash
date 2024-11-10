@@ -7,7 +7,7 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/weather/application/weather_now_service.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/feature/weather/presentation/weather_instant_widget.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class WeatherNowTile<T extends num> extends ConsumerStatefulWidget {
   const WeatherNowTile({

@@ -6,13 +6,8 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
-import 'package:smart_dash/feature/account/data/account_repository.dart';
 import 'package:smart_dash/feature/accounting/data/pricing/electricity_price_repository.dart';
-import 'package:smart_dash/feature/analytics/data/time_series_repository.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
-import 'package:smart_dash/feature/flow/data/block_repository.dart';
-import 'package:smart_dash/feature/home/data/home_repository.dart';
-import 'package:smart_dash/feature/notification/data/notification_repository.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
@@ -21,6 +16,10 @@ import 'package:smart_dash/feature/setting/presentation/tile/dark_mode_tile.dart
 import 'package:smart_dash/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash/feature/setting/presentation/tile/setting_switch_tile.dart';
 import 'package:smart_dash/feature/system/data/network_device_info_repository.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 class SettingFormScreen extends ConsumerWidget {
   const SettingFormScreen({
@@ -119,32 +118,12 @@ class SettingTilesWidget extends StatelessWidget {
                               'This will delete all local account data',
                             ),
                             onPressed: (_) async {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.remove(AccountRepository.key);
+                              await ref.read(accountServiceProvider).clear();
                               setState(() {
                                 SnackbarController.showSnackBarByRef(
                                   context,
                                   ref,
                                   'Account data deleted',
-                                );
-                              });
-                            },
-                          ),
-                          SettingsTile.navigation(
-                            title: const Text('Clear home data'),
-                            description: const Text(
-                              'This will delete all local home data',
-                            ),
-                            onPressed: (_) async {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.remove(HomeRepository.key);
-                              setState(() {
-                                SnackbarController.showSnackBarByRef(
-                                  context,
-                                  ref,
-                                  'Home data deleted',
                                 );
                               });
                             },

@@ -10,6 +10,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
@@ -17,20 +18,10 @@ import 'package:smart_dash/core/presentation/widget/list/expansion_list.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash/core/presentation/widget/snackbar/snackbar_controller.dart';
-import 'package:smart_dash/feature/account/application/account_service.dart';
-import 'package:smart_dash/feature/account/domain/account.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/home/application/location_manager.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
-import 'package:smart_dash/feature/home/domain/location.dart';
-import 'package:smart_dash/feature/identity/data/user_repository.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
-import 'package:smart_dash/integration/data/integration_repository.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_form_screen_controller.dart';
 
@@ -191,7 +182,7 @@ class _HomeInfoField extends StatelessWidget {
       tilePadding: const EdgeInsets.only(top: 16),
       leading: const Icon(Icons.home, size: 48),
       childrenPadding: const EdgeInsets.all(8.0),
-      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
+      backgroundColor: Theme.of(context).colorScheme.surface.lighten(0.02),
       children: [
         Text(
           'Set a nickname and address for '
@@ -472,7 +463,7 @@ class _HomeMemberFieldState extends State<_HomeMemberField> {
       collapsedShape: const Border(),
       tilePadding: const EdgeInsets.only(top: 0),
       childrenPadding: const EdgeInsets.all(8.0),
-      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
+      backgroundColor: Theme.of(context).colorScheme.surface.lighten(0.02),
       leading: const Icon(Icons.device_unknown),
       trailing: IconButton(
         icon: const Icon(Icons.delete),
@@ -689,7 +680,7 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
       collapsedShape: const Border(),
       tilePadding: const EdgeInsets.only(top: 16),
       childrenPadding: const EdgeInsets.all(8.0),
-      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
+      backgroundColor: Theme.of(context).colorScheme.surface.lighten(0.02),
       leading: Image.asset(
         'assets/images/${service.image}',
         fit: BoxFit.cover,

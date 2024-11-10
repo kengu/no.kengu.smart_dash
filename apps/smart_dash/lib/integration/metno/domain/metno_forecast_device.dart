@@ -3,6 +3,7 @@ import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 import 'package:smart_dash/integration/metno/metno.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'metno_forecast_device.freezed.dart';
 part 'metno_forecast_device.g.dart';
@@ -36,21 +37,21 @@ class MetNoForecastDevice with _$MetNoForecastDevice, DeviceMapper {
         service: MetNo.key,
         type: DeviceType.weatherForecast,
         capabilities: [
-          DeviceCapability.rain1h,
-          DeviceCapability.rain3h,
-          DeviceCapability.rain6h,
-          DeviceCapability.rain12h,
-          DeviceCapability.rain1d,
-          DeviceCapability.snow1h,
-          DeviceCapability.snow3h,
-          DeviceCapability.snow6h,
-          DeviceCapability.snow12h,
-          DeviceCapability.snow1d,
-          DeviceCapability.temperature1h,
-          DeviceCapability.temperature3h,
-          DeviceCapability.temperature6h,
-          DeviceCapability.temperature12h,
-          DeviceCapability.temperature1d,
+          Capability.rain1h,
+          Capability.rain3h,
+          Capability.rain6h,
+          Capability.rain12h,
+          Capability.rain1d,
+          Capability.snow1h,
+          Capability.snow3h,
+          Capability.snow6h,
+          Capability.snow12h,
+          Capability.snow1d,
+          Capability.temperature1h,
+          Capability.temperature3h,
+          Capability.temperature6h,
+          Capability.temperature12h,
+          Capability.temperature1d,
         ],
         lastUpdated: lastUpdated,
         rain1h: state.toRainForecastAmount(1),

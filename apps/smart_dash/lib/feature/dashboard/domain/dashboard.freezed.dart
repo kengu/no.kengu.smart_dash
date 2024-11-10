@@ -29,8 +29,12 @@ mixin _$Dashboard {
   DashboardLayout get desktop => throw _privateConstructorUsedError;
   DashboardLayout get mobileLarge => throw _privateConstructorUsedError;
 
+  /// Serializes this Dashboard to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DashboardCopyWith<Dashboard> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     ) as $Val);
   }
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get mobile {
@@ -122,6 +130,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     });
   }
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get tablet {
@@ -130,6 +140,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     });
   }
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get desktop {
@@ -138,6 +150,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     });
   }
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get mobileLarge {
@@ -183,6 +197,8 @@ class __$$DashboardImplCopyWithImpl<$Res>
       _$DashboardImpl _value, $Res Function(_$DashboardImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -301,7 +317,7 @@ class _$DashboardImpl extends _Dashboard {
                 other.mobileLarge == mobileLarge));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -314,7 +330,9 @@ class _$DashboardImpl extends _Dashboard {
       desktop,
       mobileLarge);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DashboardImplCopyWith<_$DashboardImpl> get copyWith =>
@@ -359,8 +377,11 @@ abstract class _Dashboard extends Dashboard {
   DashboardLayout get desktop;
   @override
   DashboardLayout get mobileLarge;
+
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardImplCopyWith<_$DashboardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -378,8 +399,12 @@ mixin _$DashboardLayout {
   @JsonKey(name: 'items')
   List<DashboardItem> get items => throw _privateConstructorUsedError;
 
+  /// Serializes this DashboardLayout to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DashboardLayoutCopyWith<DashboardLayout> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -406,6 +431,8 @@ class _$DashboardLayoutCopyWithImpl<$Res, $Val extends DashboardLayout>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -452,6 +479,8 @@ class __$$DashboardLayoutImplCopyWithImpl<$Res>
       _$DashboardLayoutImpl _value, $Res Function(_$DashboardLayoutImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -520,12 +549,14 @@ class _$DashboardLayoutImpl implements _DashboardLayout {
             const DeepCollectionEquality().equals(other._items, _items));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, slotCount, slotHeight,
       const DeepCollectionEquality().hash(_items));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DashboardLayoutImplCopyWith<_$DashboardLayoutImpl> get copyWith =>
@@ -559,8 +590,11 @@ abstract class _DashboardLayout implements DashboardLayout {
   @override
   @JsonKey(name: 'items')
   List<DashboardItem> get items;
+
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardLayoutImplCopyWith<_$DashboardLayoutImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -576,8 +610,12 @@ mixin _$DashboardItem {
   @JsonKey(name: 'layout')
   DashboardItemLayout get layout => throw _privateConstructorUsedError;
 
+  /// Serializes this DashboardItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DashboardItemCopyWith<DashboardItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -605,6 +643,8 @@ class _$DashboardItemCopyWithImpl<$Res, $Val extends DashboardItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -623,6 +663,8 @@ class _$DashboardItemCopyWithImpl<$Res, $Val extends DashboardItem>
     ) as $Val);
   }
 
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DashboardItemLayoutCopyWith<$Res> get layout {
@@ -656,6 +698,8 @@ class __$$DashboardItemImplCopyWithImpl<$Res>
       _$DashboardItemImpl _value, $Res Function(_$DashboardItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -706,11 +750,13 @@ class _$DashboardItemImpl implements _DashboardItem {
             (identical(other.layout, layout) || other.layout == layout));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, key, layout);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DashboardItemImplCopyWith<_$DashboardItemImpl> get copyWith =>
@@ -739,8 +785,11 @@ abstract class _DashboardItem implements DashboardItem {
   @override
   @JsonKey(name: 'layout')
   DashboardItemLayout get layout;
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardItemImplCopyWith<_$DashboardItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -768,8 +817,12 @@ mixin _$DashboardItemLayout {
   @JsonKey(name: 's_Y')
   int? get startY => throw _privateConstructorUsedError;
 
+  /// Serializes this DashboardItemLayout to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DashboardItemLayoutCopyWith<DashboardItemLayout> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -801,6 +854,8 @@ class _$DashboardItemLayoutCopyWithImpl<$Res, $Val extends DashboardItemLayout>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -877,6 +932,8 @@ class __$$DashboardItemLayoutImplCopyWithImpl<$Res>
       $Res Function(_$DashboardItemLayoutImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -991,12 +1048,14 @@ class _$DashboardItemLayoutImpl implements _DashboardItemLayout {
             (identical(other.startY, startY) || other.startY == startY));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, width, height, minWidth,
       minHeight, maxWidth, maxHeight, startX, startY);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DashboardItemLayoutImplCopyWith<_$DashboardItemLayoutImpl> get copyWith =>
@@ -1049,8 +1108,11 @@ abstract class _DashboardItemLayout implements DashboardItemLayout {
   @override
   @JsonKey(name: 's_Y')
   int? get startY;
+
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardItemLayoutImplCopyWith<_$DashboardItemLayoutImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

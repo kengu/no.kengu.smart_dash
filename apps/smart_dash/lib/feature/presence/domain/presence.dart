@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'presence.freezed.dart';
 part 'presence.g.dart';
@@ -32,7 +32,7 @@ class Presence with _$Presence {
     return Token(
       tag: 'presence',
       label: home.name,
-      capability: DeviceCapability.value,
+      capability: Capability.any,
       // TODO: Add unique home id using nanoid
       name: 'presence:${home.id.toLowerCase()}',
     );
@@ -42,7 +42,7 @@ class Presence with _$Presence {
     return Token(
       tag: 'presence',
       label: data.readableName,
-      capability: DeviceCapability.onOff,
+      capability: Capability.onOff,
       name: data.macAddress == null
           ? 'presence:ip:${data.ipAddress}'
           : 'presence:mac:${data.macAddress}',

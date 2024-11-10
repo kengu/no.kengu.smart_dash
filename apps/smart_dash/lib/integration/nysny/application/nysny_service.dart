@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/snow/application/snow_service.dart';
 import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/integration/nysny/data/nysny_client.dart';
 import 'package:smart_dash/integration/nysny/nysny.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 part 'nysny_service.g.dart';
 

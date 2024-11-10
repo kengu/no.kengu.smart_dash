@@ -6,7 +6,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash/util/time/date_time.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 
 class SnowNowTile extends ConsumerWidget {
   SnowNowTile({

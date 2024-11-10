@@ -6,6 +6,7 @@ import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/device/domain/switch_state.dart';
 import 'package:smart_dash/integration/sikom/domain/sikom_property.dart';
 import 'package:smart_dash/integration/sikom/sikom.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'sikom_device.freezed.dart';
 part 'sikom_device.g.dart';
@@ -165,13 +166,13 @@ class SikomDevice with _$SikomDevice, DeviceMapper {
         type: properties.type.toDeviceType(),
         temperature: properties.temperature?.toDouble(),
         capabilities: [
-          if (properties.hasOnOff) DeviceCapability.onOff,
-          if (properties.hasEnergy) DeviceCapability.energy,
-          if (properties.hasVoltage) DeviceCapability.voltage,
-          if (properties.hasTemperature) DeviceCapability.temperature,
+          if (properties.hasOnOff) Capability.onOff,
+          if (properties.hasEnergy) Capability.energy,
+          if (properties.hasVoltage) Capability.voltage,
+          if (properties.hasTemperature) Capability.temperature,
           if (properties.hasPower || properties.hasEstimatedPower)
-            DeviceCapability.power,
-          if (properties.isThermostat) DeviceCapability.targetTemperature,
+            Capability.power,
+          if (properties.isThermostat) Capability.targetTemperature,
         ],
         lastUpdated: properties.lastUpdated.isPresent
             ? properties.lastUpdated.value

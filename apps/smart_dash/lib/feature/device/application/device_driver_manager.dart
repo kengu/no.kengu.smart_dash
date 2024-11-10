@@ -6,16 +6,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash/feature/device/application/device_block_flow.dart';
 import 'package:smart_dash/feature/device/data/device_repository.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
 import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 import 'package:smart_dash/feature/system/application/timing_service.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'device_driver.dart';
-import 'device_flow.dart';
+import 'device_tokens_flow.dart';
 
 part 'device_driver_manager.g.dart';
 
@@ -80,10 +80,13 @@ class DeviceDriverManager {
       (e) => _onInit(e),
     ));
 
-    // Register device flow with manager
+    // Register device token flow
     ref.read(flowManagerProvider)
       ..register(DeviceTokensFlow())
       ..bind(events);
+
+    // Register device block flow builder
+    ref.read(blockManagerProvider).register<DeviceBlockFlow>(_builder);
 
     _timing = ref.read(timingServiceProvider).events.listen(
         (_) => Future.wait(_ready(true).map(_onUpdate)),
@@ -167,6 +170,10 @@ class DeviceDriverManager {
 
   Iterable<DeviceDriver> _ready(bool isReady) =>
       _drivers.values.where((e) => e.isReady == isReady);
+
+  DeviceBlockFlow _builder(Ref ref, String id) {
+    return DeviceBlockFlow(ref: ref, id: id);
+  }
 }
 
 @Riverpod(keepAlive: true)

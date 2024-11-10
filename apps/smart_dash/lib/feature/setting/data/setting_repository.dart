@@ -6,8 +6,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash/feature/setting/domain/setting.dart';
-import 'package:smart_dash/util/guard.dart';
-import 'package:smart_dash/util/type.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'setting_repository.g.dart';
 

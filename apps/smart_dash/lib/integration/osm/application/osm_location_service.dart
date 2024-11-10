@@ -1,10 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
-import 'package:smart_dash/feature/home/application/location_service.dart';
-import 'package:smart_dash/feature/home/data/location_client.dart';
 import 'package:smart_dash/integration/osm/data/osm_location_client.dart';
 import 'package:smart_dash/integration/osm/osm.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 part 'osm_location_service.g.dart';
 

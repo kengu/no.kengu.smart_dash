@@ -23,8 +23,12 @@ mixin _$SikomDevice {
   @JsonKey(name: 'Properties')
   SikomDeviceProperties get properties => throw _privateConstructorUsedError;
 
+  /// Serializes this SikomDevice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomDeviceCopyWith<SikomDevice> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$SikomDeviceCopyWithImpl<$Res, $Val extends SikomDevice>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,6 +69,8 @@ class _$SikomDeviceCopyWithImpl<$Res, $Val extends SikomDevice>
     ) as $Val);
   }
 
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomDevicePropertiesCopyWith<$Res> get properties {
@@ -94,6 +102,8 @@ class __$$SikomDeviceImplCopyWithImpl<$Res>
       _$SikomDeviceImpl _value, $Res Function(_$SikomDeviceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,11 +146,13 @@ class _$SikomDeviceImpl extends _SikomDevice {
                 other.properties == properties));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, properties);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomDeviceImplCopyWith<_$SikomDeviceImpl> get copyWith =>
@@ -166,8 +178,11 @@ abstract class _SikomDevice extends SikomDevice {
   @override
   @JsonKey(name: 'Properties')
   SikomDeviceProperties get properties;
+
+  /// Create a copy of SikomDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomDeviceImplCopyWith<_$SikomDeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -305,8 +320,12 @@ mixin _$SikomDeviceProperties {
   SikomProperty? get estimatedUnregulatedPower =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this SikomDeviceProperties to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SikomDevicePropertiesCopyWith<SikomDeviceProperties> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -413,6 +432,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -591,6 +612,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res> get vendorType {
@@ -599,6 +622,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res> get bestEffortName {
@@ -607,6 +632,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get latestUpdateFromDevice {
@@ -620,6 +647,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get pushUpdateIntervalMinutes {
@@ -633,6 +662,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get dummy {
@@ -645,6 +676,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get connection {
@@ -657,6 +690,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get gprsNetname {
@@ -669,6 +704,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get productCode {
@@ -681,6 +718,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get modelName {
@@ -693,6 +732,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get deviceType {
@@ -705,6 +746,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get deviceModel {
@@ -717,6 +760,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get userDefinedName {
@@ -729,6 +774,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get deviceModelReadable {
@@ -741,6 +788,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get vendorAndDeviceModelReadable {
@@ -755,6 +804,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get currentPowerUsage {
@@ -767,6 +818,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get cumulativeEnergy {
@@ -779,6 +832,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get cumulativeEnergyToday {
@@ -791,6 +846,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get powerVoltage {
@@ -803,6 +860,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get switchMode {
@@ -815,6 +874,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get switchReadableMode {
@@ -827,6 +888,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get switchState {
@@ -839,6 +902,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get switchReductionMode {
@@ -851,6 +916,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get switchThermostatActive {
@@ -864,6 +931,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperature {
@@ -876,6 +945,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureMin {
@@ -888,6 +959,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureMax {
@@ -900,6 +973,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureEco {
@@ -912,6 +987,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureEcoAdjustment {
@@ -925,6 +1002,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureComfort {
@@ -937,6 +1016,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get temperatureComfortAdjustment {
@@ -951,6 +1032,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get regulatedState {
@@ -963,6 +1046,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get regulationPriority {
@@ -975,6 +1060,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get estimatedRegulatedPower {
@@ -988,6 +1075,8 @@ class _$SikomDevicePropertiesCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SikomPropertyCopyWith<$Res>? get estimatedUnregulatedPower {
@@ -1139,6 +1228,8 @@ class __$$SikomDevicePropertiesImplCopyWithImpl<$Res>
       $Res Function(_$SikomDevicePropertiesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1599,7 +1690,7 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
             (identical(other.estimatedUnregulatedPower, estimatedUnregulatedPower) || other.estimatedUnregulatedPower == estimatedUnregulatedPower));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -1639,7 +1730,9 @@ class _$SikomDevicePropertiesImpl extends _SikomDeviceProperties {
         estimatedUnregulatedPower
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SikomDevicePropertiesImplCopyWith<_$SikomDevicePropertiesImpl>
@@ -1753,15 +1846,17 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
   SikomProperty? get deviceModelReadable;
   @override
   @JsonKey(name: 'vendor_and_device_model_readable')
-  SikomProperty? get vendorAndDeviceModelReadable;
-  @override // DO NOT USE 'ams_current_power_usage', it is quite "random"
+  SikomProperty?
+      get vendorAndDeviceModelReadable; // DO NOT USE 'ams_current_power_usage', it is quite "random"
 // since only given each minute according to Sikom. Use 'ams_iap_slp_avg'
 // (Average Imported Active Power since last push) instead.
+  @override
   @JsonKey(name: 'ams_iap_slp_avg')
-  SikomProperty? get currentPowerUsage;
-  @override // This is the most frequently updated total meter reading in [Wh]
+  SikomProperty?
+      get currentPowerUsage; // This is the most frequently updated total meter reading in [Wh]
 // consisting of the "official" value 'ams_cumulative_imported_energy'
 // (active energy) from the meter itself (updated every hour)"
+  @override
   @JsonKey(name: 'ams_cumulative_plus_calculated_energy')
   SikomProperty? get cumulativeEnergy;
   @override
@@ -1769,8 +1864,8 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
   SikomProperty? get cumulativeEnergyToday;
   @override
   @JsonKey(name: 'ams_power_voltage')
-  SikomProperty? get powerVoltage;
-  @override // Commanded mode of a switch. May differ from switch_state (actual relay-state) for instance
+  SikomProperty?
+      get powerVoltage; // Commanded mode of a switch. May differ from switch_state (actual relay-state) for instance
 // when under thermostat control. Now how (for thermostats) a value of 0 does not have a single meaning
 // (it may mean either "eco", "anti_freeze" and "off"). A value of 1 on the other hand is usually precise
 // (Meaning "on" if dumb switch and "comfort" if thermostat). Note that for products like
@@ -1778,80 +1873,98 @@ abstract class _SikomDeviceProperties extends SikomDeviceProperties {
 // "DeviceProperty.switch_thermostat_active" is 0. Same issues with "ProductCode.CTMmTouchDim"
 // and percent level == 99. See also "DeviceProperty.switch_reduction_mode" which explains (in plain text)
 // what is the precise meaning of 0 and 1.
+  @override
   @JsonKey(name: 'switch_mode')
-  SikomProperty? get switchMode;
-  @override // Human-readable text explaining current "DeviceProperty.switch_mode" (off, eco, comfort, etc.)
+  SikomProperty?
+      get switchMode; // Human-readable text explaining current "DeviceProperty.switch_mode" (off, eco, comfort, etc.)
+  @override
   @JsonKey(name: 'switch_readable_mode')
-  SikomProperty? get switchReadableMode;
-  @override // The actual relay state of the switch (on / off)
+  SikomProperty?
+      get switchReadableMode; // The actual relay state of the switch (on / off)
+  @override
   @JsonKey(name: 'switch_state')
-  SikomProperty? get switchState;
-  @override // The precise meaning of values 0 and 1 in "DeviceProperty.switch_mode".
+  SikomProperty?
+      get switchState; // The precise meaning of values 0 and 1 in "DeviceProperty.switch_mode".
+  @override
   @JsonKey(name: 'switch_reduction_mode')
-  SikomProperty? get switchReductionMode;
-  @override // Eco / comfort active or not. If 0 then switch_mode 0 will usually mean "off" or "anti_freeze"
+  SikomProperty?
+      get switchReductionMode; // Eco / comfort active or not. If 0 then switch_mode 0 will usually mean "off" or "anti_freeze"
 // and 1 will not have any meaning. If 1 then switch_mode 0 will mean "eco" and 1 will mean "comfort".
 // Not relevant to set for some kind of thermostats (for instance SI-3, SI-4 or CTM mTouch One).
 // Not desired to set for other thermostats (because of danger of freezing water for instance).
+  @override
   @JsonKey(name: 'switch_thermostat_active')
-  SikomProperty? get switchThermostatActive;
-  @override // Air temperature (inside). Note that will always be the most important temperature (the one used for controlling)
+  SikomProperty?
+      get switchThermostatActive; // Air temperature (inside). Note that will always be the most important temperature (the one used for controlling)
 // while "DeviceProperty.temperature_2" will be the secondary temperature. This is (pr Feb 2019) only relevant for
 // "ProductCode.CTMmTouchOne" which can control based on either air or floor-temperature.
+  @override
   @JsonKey(name: 'temperature')
-  SikomProperty? get temperature;
-  @override // Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  SikomProperty?
+      get temperature; // Minimum allowed temperature (at or above this value will result in temperature_notification_triggered).
+  @override
   @JsonKey(name: 'temperature_min')
-  SikomProperty? get temperatureMin;
-  @override // Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  SikomProperty?
+      get temperatureMin; // Maximum allowed temperature (at or below this value will result in temperature_notification_triggered).
+  @override
   @JsonKey(name: 'temperature_max')
-  SikomProperty? get temperatureMax;
-  @override // Thermostat temperature in switch_mode 'eco'
+  SikomProperty?
+      get temperatureMax; // Thermostat temperature in switch_mode 'eco'
+  @override
   @JsonKey(name: 'temperature_eco')
-  SikomProperty? get temperatureEco;
-  @override // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+  SikomProperty?
+      get temperatureEco; // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
 // has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
 // that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
 // upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
 // morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
 // value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
 // temperature_comfort.
+  @override
   @JsonKey(name: 'temperature_eco_prlsa')
-  SikomProperty? get temperatureEcoAdjustment;
-  @override // Thermostat temperature in switch_mode 'comfort'
+  SikomProperty?
+      get temperatureEcoAdjustment; // Thermostat temperature in switch_mode 'comfort'
+  @override
   @JsonKey(name: 'temperature_comfort')
-  SikomProperty? get temperatureComfort;
-  @override // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
+  SikomProperty?
+      get temperatureComfort; // (prlsa = PowerRegulatorListenerSilentAdjustment). Number of degrees Celsius that the PowerRegulatorListener
 // has silently adjusted the temperature in the background. (As of Feb 2019 will always be a negative value,
 // that is, adjustment is done by lowering the temperature. But, in principle we might also adjust the temperature
 // upwards, for instance heating the house extra before morning, in order for the thermostats to turn off in the
 // morning). While silent adjustment is in force, temperature_eco / temperature_comfort will be adjusted with this
 // value, keeping the fact of a adjustment "hidden" from BPAPI-user only relating to temperature_eco /
 // temperature_comfort.
+  @override
   @JsonKey(name: 'temperature_comfort_prlsa')
-  SikomProperty? get temperatureComfortAdjustment;
-  @override // Tells whether the device is currently being regulated
+  SikomProperty?
+      get temperatureComfortAdjustment; // Tells whether the device is currently being regulated
 // or not (0 = not regulated 1 = import regulated 2 = export regulated)
+  @override
   @JsonKey(name: 'ams_regulated_state')
-  SikomProperty? get regulatedState;
-  @override // The power (in W) that this device releases when regulated out, as estimated by
+  SikomProperty?
+      get regulatedState; // The power (in W) that this device releases when regulated out, as estimated by
 // the system itself, compared to when regulated in (raw value, no PWM or other partial
 // regulation scheme accounted for). Will be a negative value (representing the power
 // "added" when the device is regulated out. Only relevant to set for devices which have
 // switch_mode (and when an ECOEnergyController is installed)
+  @override
   @JsonKey(name: 'ams_regulation_priority')
   SikomProperty? get regulationPriority;
   @override
   @JsonKey(name: 'estimated_reg_power')
-  SikomProperty? get estimatedRegulatedPower;
-  @override // The power (in W) that this device draws when unregulated, as estimated by the system itself,
+  SikomProperty?
+      get estimatedRegulatedPower; // The power (in W) that this device draws when unregulated, as estimated by the system itself,
 // compared to when regulated out (raw value, no PWM or other partial regulation scheme accounted for).
 // Will be a positive value. Only relevant to set for devices which have
 // switch_mode (and when an ECOEnergyController)
+  @override
   @JsonKey(name: 'estimated_unreg_power')
   SikomProperty? get estimatedUnregulatedPower;
+
+  /// Create a copy of SikomDeviceProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SikomDevicePropertiesImplCopyWith<_$SikomDevicePropertiesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

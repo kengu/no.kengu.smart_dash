@@ -6,7 +6,7 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart'
 import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 import 'package:smart_dash/feature/system/domain/connectivity.dart';
 import 'package:smart_dash/feature/system/presentation/connectivity/connectivity_controller.dart';
-import 'package:smart_dash/util/time/date_time.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 
 class ConnectivityScreen extends ConsumerStatefulWidget {
   const ConnectivityScreen({

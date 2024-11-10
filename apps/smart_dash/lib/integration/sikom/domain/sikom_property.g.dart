@@ -13,10 +13,10 @@ _$SikomPropertyImpl _$$SikomPropertyImplFromJson(Map<String, dynamic> json) =>
       created: json['Created'] == null
           ? null
           : DateTime.parse(json['Created'] as String),
-      deviceId: json['DeviceId'] as int,
-      gatewayId: json['GatewayId'] as int,
-      customerId1: json['CustomerId1'] as int,
-      customerId2: json['CustomerId2'] as int,
+      deviceId: (json['DeviceId'] as num).toInt(),
+      gatewayId: (json['GatewayId'] as num).toInt(),
+      customerId1: (json['CustomerId1'] as num).toInt(),
+      customerId2: (json['CustomerId2'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$SikomPropertyImplToJson(_$SikomPropertyImpl instance) =>

@@ -5,7 +5,7 @@ import 'package:smart_dash/core/presentation/widget/form/async_form_controller.d
 import 'package:smart_dash/core/presentation/widget/form/async_form_widget.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash/core/presentation/widget/smart_dash_screen.dart';
-import 'package:smart_dash/util/typedefs.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 /// A async Fullscreen dialog form widget with [Scaffold].
 class AsyncFormScreen<Query, Data,

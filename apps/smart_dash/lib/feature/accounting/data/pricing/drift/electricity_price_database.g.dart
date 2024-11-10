@@ -226,6 +226,21 @@ class ElectricityPriceTableData extends DataClass
         eurToNokRate: eurToNokRate ?? this.eurToNokRate,
         area: area ?? this.area,
       );
+  ElectricityPriceTableData copyWithCompanion(
+      ElectricityPriceTableCompanion data) {
+    return ElectricityPriceTableData(
+      id: data.id.present ? data.id.value : this.id,
+      ts0: data.ts0.present ? data.ts0.value : this.ts0,
+      ts1: data.ts1.present ? data.ts1.value : this.ts1,
+      nokPerKwh: data.nokPerKwh.present ? data.nokPerKwh.value : this.nokPerKwh,
+      eurPerKwh: data.eurPerKwh.present ? data.eurPerKwh.value : this.eurPerKwh,
+      eurToNokRate: data.eurToNokRate.present
+          ? data.eurToNokRate.value
+          : this.eurToNokRate,
+      area: data.area.present ? data.area.value : this.area,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ElectricityPriceTableData(')
@@ -371,6 +386,8 @@ class ElectricityPriceTableCompanion
 
 abstract class _$ElectricityPriceDatabase extends GeneratedDatabase {
   _$ElectricityPriceDatabase(QueryExecutor e) : super(e);
+  $ElectricityPriceDatabaseManager get managers =>
+      $ElectricityPriceDatabaseManager(this);
   late final ElectricityPriceTable electricityPriceTable =
       ElectricityPriceTable(this);
   Selectable<ElectricityPriceTableData> getFromExactNameAndDate(
@@ -392,4 +409,213 @@ abstract class _$ElectricityPriceDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [electricityPriceTable];
+}
+
+typedef $ElectricityPriceTableCreateCompanionBuilder
+    = ElectricityPriceTableCompanion Function({
+  Value<int> id,
+  required DateTime ts0,
+  required DateTime ts1,
+  required double nokPerKwh,
+  required double eurPerKwh,
+  required double eurToNokRate,
+  required String area,
+});
+typedef $ElectricityPriceTableUpdateCompanionBuilder
+    = ElectricityPriceTableCompanion Function({
+  Value<int> id,
+  Value<DateTime> ts0,
+  Value<DateTime> ts1,
+  Value<double> nokPerKwh,
+  Value<double> eurPerKwh,
+  Value<double> eurToNokRate,
+  Value<String> area,
+});
+
+class $ElectricityPriceTableFilterComposer
+    extends Composer<_$ElectricityPriceDatabase, ElectricityPriceTable> {
+  $ElectricityPriceTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get ts0 => $composableBuilder(
+      column: $table.ts0, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get ts1 => $composableBuilder(
+      column: $table.ts1, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get nokPerKwh => $composableBuilder(
+      column: $table.nokPerKwh, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get eurPerKwh => $composableBuilder(
+      column: $table.eurPerKwh, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get eurToNokRate => $composableBuilder(
+      column: $table.eurToNokRate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get area => $composableBuilder(
+      column: $table.area, builder: (column) => ColumnFilters(column));
+}
+
+class $ElectricityPriceTableOrderingComposer
+    extends Composer<_$ElectricityPriceDatabase, ElectricityPriceTable> {
+  $ElectricityPriceTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get ts0 => $composableBuilder(
+      column: $table.ts0, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get ts1 => $composableBuilder(
+      column: $table.ts1, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get nokPerKwh => $composableBuilder(
+      column: $table.nokPerKwh, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get eurPerKwh => $composableBuilder(
+      column: $table.eurPerKwh, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get eurToNokRate => $composableBuilder(
+      column: $table.eurToNokRate,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get area => $composableBuilder(
+      column: $table.area, builder: (column) => ColumnOrderings(column));
+}
+
+class $ElectricityPriceTableAnnotationComposer
+    extends Composer<_$ElectricityPriceDatabase, ElectricityPriceTable> {
+  $ElectricityPriceTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get ts0 =>
+      $composableBuilder(column: $table.ts0, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get ts1 =>
+      $composableBuilder(column: $table.ts1, builder: (column) => column);
+
+  GeneratedColumn<double> get nokPerKwh =>
+      $composableBuilder(column: $table.nokPerKwh, builder: (column) => column);
+
+  GeneratedColumn<double> get eurPerKwh =>
+      $composableBuilder(column: $table.eurPerKwh, builder: (column) => column);
+
+  GeneratedColumn<double> get eurToNokRate => $composableBuilder(
+      column: $table.eurToNokRate, builder: (column) => column);
+
+  GeneratedColumn<String> get area =>
+      $composableBuilder(column: $table.area, builder: (column) => column);
+}
+
+class $ElectricityPriceTableTableManager extends RootTableManager<
+    _$ElectricityPriceDatabase,
+    ElectricityPriceTable,
+    ElectricityPriceTableData,
+    $ElectricityPriceTableFilterComposer,
+    $ElectricityPriceTableOrderingComposer,
+    $ElectricityPriceTableAnnotationComposer,
+    $ElectricityPriceTableCreateCompanionBuilder,
+    $ElectricityPriceTableUpdateCompanionBuilder,
+    (
+      ElectricityPriceTableData,
+      BaseReferences<_$ElectricityPriceDatabase, ElectricityPriceTable,
+          ElectricityPriceTableData>
+    ),
+    ElectricityPriceTableData,
+    PrefetchHooks Function()> {
+  $ElectricityPriceTableTableManager(
+      _$ElectricityPriceDatabase db, ElectricityPriceTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $ElectricityPriceTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $ElectricityPriceTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $ElectricityPriceTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<DateTime> ts0 = const Value.absent(),
+            Value<DateTime> ts1 = const Value.absent(),
+            Value<double> nokPerKwh = const Value.absent(),
+            Value<double> eurPerKwh = const Value.absent(),
+            Value<double> eurToNokRate = const Value.absent(),
+            Value<String> area = const Value.absent(),
+          }) =>
+              ElectricityPriceTableCompanion(
+            id: id,
+            ts0: ts0,
+            ts1: ts1,
+            nokPerKwh: nokPerKwh,
+            eurPerKwh: eurPerKwh,
+            eurToNokRate: eurToNokRate,
+            area: area,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required DateTime ts0,
+            required DateTime ts1,
+            required double nokPerKwh,
+            required double eurPerKwh,
+            required double eurToNokRate,
+            required String area,
+          }) =>
+              ElectricityPriceTableCompanion.insert(
+            id: id,
+            ts0: ts0,
+            ts1: ts1,
+            nokPerKwh: nokPerKwh,
+            eurPerKwh: eurPerKwh,
+            eurToNokRate: eurToNokRate,
+            area: area,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $ElectricityPriceTableProcessedTableManager = ProcessedTableManager<
+    _$ElectricityPriceDatabase,
+    ElectricityPriceTable,
+    ElectricityPriceTableData,
+    $ElectricityPriceTableFilterComposer,
+    $ElectricityPriceTableOrderingComposer,
+    $ElectricityPriceTableAnnotationComposer,
+    $ElectricityPriceTableCreateCompanionBuilder,
+    $ElectricityPriceTableUpdateCompanionBuilder,
+    (
+      ElectricityPriceTableData,
+      BaseReferences<_$ElectricityPriceDatabase, ElectricityPriceTable,
+          ElectricityPriceTableData>
+    ),
+    ElectricityPriceTableData,
+    PrefetchHooks Function()>;
+
+class $ElectricityPriceDatabaseManager {
+  final _$ElectricityPriceDatabase _db;
+  $ElectricityPriceDatabaseManager(this._db);
+  $ElectricityPriceTableTableManager get electricityPriceTable =>
+      $ElectricityPriceTableTableManager(_db, _db.electricityPriceTable);
 }

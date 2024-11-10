@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/core/data/hive.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'device_repository.g.dart';
 

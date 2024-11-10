@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash/feature/pairing/presentation/pairing_screen_controller.dart';
-import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
 import 'package:smart_dash/core/presentation/widget/list/route_selector.dart';
 import 'package:smart_dash/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash/feature/pairing/presentation/pairing_screen_controller.dart';
+import 'package:smart_dash/feature/pairing/presentation/paring_routes.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 class PairingScreen extends ConsumerWidget {
   const PairingScreen({

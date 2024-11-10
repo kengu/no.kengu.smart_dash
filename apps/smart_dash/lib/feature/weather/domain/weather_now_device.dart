@@ -5,6 +5,7 @@ import 'package:smart_dash/feature/device/domain/device_definition.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
 // ignore: unused_import
 import 'package:smart_dash/integration/metno/metno.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'weather_now_device.freezed.dart';
 part 'weather_now_device.g.dart';
@@ -89,15 +90,15 @@ class WeatherNowDevice with _$WeatherNowDevice, DeviceMapper {
         type: DeviceType.sensor,
         service: '$Weather'.toLowerCase(),
         capabilities: [
-          if (hasRain) DeviceCapability.rain,
+          if (hasRain) Capability.rain,
           // TODO: Implement DeviceCapability.pressure
           //if (hasPressure) DeviceCapability.pressure,
-          if (hasHumidity) DeviceCapability.humidity,
-          if (hasLuminance) DeviceCapability.luminance,
-          if (hasTemperature) DeviceCapability.temperature,
-          if (hasWindSpeed) DeviceCapability.windSpeed,
-          if (hasGustSpeed) DeviceCapability.gustSpeed,
-          if (hasUltraviolet) DeviceCapability.ultraviolet,
+          if (hasHumidity) Capability.humidity,
+          if (hasLuminance) Capability.luminance,
+          if (hasTemperature) Capability.temperature,
+          if (hasWindSpeed) Capability.windSpeed,
+          if (hasGustSpeed) Capability.gustSpeed,
+          if (hasUltraviolet) Capability.ultraviolet,
         ],
         rain: rain,
         humidity: humidity,

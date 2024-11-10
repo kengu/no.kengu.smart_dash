@@ -4,7 +4,7 @@ import 'package:smart_dash/core/presentation/widget/load/async_load_controller.d
 import 'package:smart_dash/feature/system/application/connectivity_service.dart';
 import 'package:smart_dash/feature/system/domain/connectivity.dart';
 import 'package:smart_dash/integration/application/integration_manager.dart';
-import 'package:smart_dash/integration/domain/integration.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 part 'connectivity_controller.g.dart';
 

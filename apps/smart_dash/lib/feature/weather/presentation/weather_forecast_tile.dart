@@ -5,7 +5,7 @@ import 'package:smart_dash/core/presentation/widget/selectable_row_widget.dart';
 import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash/feature/weather/application/weather_forecast_manager.dart';
 import 'package:smart_dash/feature/weather/domain/weather.dart';
-import 'package:smart_dash/util/data/units.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'weather_box_widget.dart';
 import 'weather_instant_widget.dart';

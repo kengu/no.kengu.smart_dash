@@ -27,8 +27,12 @@ mixin _$Camera {
   @JsonKey(name: 'motion')
   MotionDetectConfig? get motion => throw _privateConstructorUsedError;
 
+  /// Serializes this Camera to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CameraCopyWith<Camera> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -55,6 +59,8 @@ class _$CameraCopyWithImpl<$Res, $Val extends Camera>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -78,6 +84,8 @@ class _$CameraCopyWithImpl<$Res, $Val extends Camera>
     ) as $Val);
   }
 
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MotionDetectConfigCopyWith<$Res>? get motion {
@@ -115,6 +123,8 @@ class __$$CameraImplCopyWithImpl<$Res>
       _$CameraImpl _value, $Res Function(_$CameraImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,11 +186,13 @@ class _$CameraImpl extends _Camera {
             (identical(other.motion, motion) || other.motion == motion));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, service, motion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CameraImplCopyWith<_$CameraImpl> get copyWith =>
@@ -213,8 +225,11 @@ abstract class _Camera extends Camera {
   @override
   @JsonKey(name: 'motion')
   MotionDetectConfig? get motion;
+
+  /// Create a copy of Camera
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CameraImplCopyWith<_$CameraImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -229,8 +244,12 @@ mixin _$MotionDetectConfig {
   MotionDetectSensitivityLevel get sensitivity =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MotionDetectConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MotionDetectConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MotionDetectConfigCopyWith<MotionDetectConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -254,6 +273,8 @@ class _$MotionDetectConfigCopyWithImpl<$Res, $Val extends MotionDetectConfig>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MotionDetectConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -292,6 +313,8 @@ class __$$MotionDetectConfigImplCopyWithImpl<$Res>
       $Res Function(_$MotionDetectConfigImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MotionDetectConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -341,11 +364,13 @@ class _$MotionDetectConfigImpl extends _MotionDetectConfig {
                 other.sensitivity == sensitivity));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, enabled, sensitivity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MotionDetectConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MotionDetectConfigImplCopyWith<_$MotionDetectConfigImpl> get copyWith =>
@@ -374,8 +399,11 @@ abstract class _MotionDetectConfig extends MotionDetectConfig {
   bool get enabled;
   @override
   MotionDetectSensitivityLevel get sensitivity;
+
+  /// Create a copy of MotionDetectConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MotionDetectConfigImplCopyWith<_$MotionDetectConfigImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

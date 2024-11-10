@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash/util/data/num.dart';
 import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class BarChartTile<T extends num> extends StatelessWidget {
   const BarChartTile({

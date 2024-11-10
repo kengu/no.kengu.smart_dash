@@ -8,13 +8,13 @@ import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash/core/presentation/screens.dart';
-import 'package:smart_dash/feature/account/domain/service_config.dart';
 import 'package:smart_dash/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash/feature/camera/domain/camera.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_card.dart';
 import 'package:smart_dash/feature/camera/presentation/camera_group_controls.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash/feature/dashboard/presentation/smart_dashboard.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 class CamerasPage extends ConsumerStatefulWidget {
   const CamerasPage({super.key});

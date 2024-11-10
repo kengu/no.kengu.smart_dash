@@ -9,8 +9,7 @@ import 'package:optional/optional.dart';
 import 'package:sentry/sentry.dart';
 import 'package:smart_dash/feature/snow/data/snow_client.dart';
 import 'package:smart_dash/feature/snow/domain/snow_state.dart';
-import 'package:smart_dash/util/data/json.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class NySnyClient extends SnowClient {
   NySnyClient(this.api, this.credentials);
@@ -199,10 +198,10 @@ class NySnyClient extends SnowClient {
 
     try {
       return parse == null ? item as T : parse(item);
-    } catch (e, _) {
+    } catch (e, stackTrace) {
       Sentry.captureException(
         e,
-        stackTrace: _,
+        stackTrace: stackTrace,
         hint: Hint.withMap({
           'clue': 'Have www.nysny.no changed data format in field $field?',
           'field': field,

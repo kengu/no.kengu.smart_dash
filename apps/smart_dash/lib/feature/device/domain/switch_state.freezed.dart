@@ -35,8 +35,12 @@ mixin _$SwitchState {
   /// [DateTime] timestamp of when data was updated last
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
+  /// Serializes this SwitchState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SwitchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SwitchStateCopyWith<SwitchState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +69,8 @@ class _$SwitchStateCopyWithImpl<$Res, $Val extends SwitchState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SwitchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,6 +129,8 @@ class __$$SwitchStateImplCopyWithImpl<$Res>
       _$SwitchStateImpl _value, $Res Function(_$SwitchStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SwitchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -209,12 +217,14 @@ class _$SwitchStateImpl extends _SwitchState {
                 other.lastUpdated == lastUpdated));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, state, mode, onMode, offMode, lastUpdated);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SwitchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SwitchStateImplCopyWith<_$SwitchStateImpl> get copyWith =>
@@ -240,28 +250,30 @@ abstract class _SwitchState extends SwitchState {
   factory _SwitchState.fromJson(Map<String, dynamic> json) =
       _$SwitchStateImpl.fromJson;
 
-  @override
-
   /// Device switch state (true:on/false:off)
-  bool get state;
   @override
+  bool get state;
 
   /// Current switch mode
-  SwitchMode get mode;
   @override
+  SwitchMode get mode;
 
   /// Switch mode when on
-  SwitchMode get onMode;
   @override
+  SwitchMode get onMode;
 
   /// Switch mode when off
-  SwitchMode get offMode;
   @override
+  SwitchMode get offMode;
 
   /// [DateTime] timestamp of when data was updated last
-  DateTime get lastUpdated;
   @override
-  @JsonKey(ignore: true)
+  DateTime get lastUpdated;
+
+  /// Create a copy of SwitchState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SwitchStateImplCopyWith<_$SwitchStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

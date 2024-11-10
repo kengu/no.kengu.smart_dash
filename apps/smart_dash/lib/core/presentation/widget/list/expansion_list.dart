@@ -91,7 +91,7 @@ class _SmartDashExpansionListState<T> extends State<SmartDashExpansionList<T>>
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       tilePadding: const EdgeInsets.all(0),
       childrenPadding: const EdgeInsets.all(0),
-      backgroundColor: Theme.of(context).colorScheme.background.lighten(0.02),
+      backgroundColor: Theme.of(context).colorScheme.surface.lighten(0.02),
       leading:
           widget.icon == null ? null : Icon(widget.icon, size: widget.iconSize),
       children: widget.children.isEmpty

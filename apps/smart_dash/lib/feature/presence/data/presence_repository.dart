@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
-import 'package:smart_dash/core/data/hive.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'presence_repository.g.dart';
 
@@ -29,7 +28,7 @@ class PresenceRepository extends HiveRepository<Token, Presence> {
       final updated = await updateAll(
         [Presence.empty(token)],
       );
-      return updated.firstOptional;
+      return updated.all.firstOptional;
     }
     return presence;
   }
@@ -52,8 +51,8 @@ class PresenceAdapter extends TypedAdapter<Presence> {
       return Presence.fromJson(json);
     } catch (e) {
       // Fix schema mutation
-      json['token']['unit'] = TokenUnit.value.name;
-      json['token']['capability'] = DeviceCapability.value.name;
+      json['token']['unit'] = ValueUnit.any.name;
+      json['token']['capability'] = Capability.any.name;
       return Presence.fromJson(json);
     }
   }

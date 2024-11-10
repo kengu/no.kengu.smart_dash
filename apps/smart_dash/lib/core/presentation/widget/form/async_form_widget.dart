@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash/util/typedefs.dart';
-import 'package:smart_dash/core/presentation/widget/load/async_load_widget.dart';
 import 'package:smart_dash/core/presentation/widget/form/async_form_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash/core/presentation/widget/load/async_load_widget.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 typedef AsyncFormWidgetBuilder<Data> = Widget Function(
   BuildContext context,

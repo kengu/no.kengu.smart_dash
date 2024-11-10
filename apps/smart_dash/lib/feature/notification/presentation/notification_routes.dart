@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash/core/presentation/routes.dart';
-import 'package:smart_dash/feature/notification/domain/notification.dart';
 import 'package:smart_dash/feature/notification/presentation/notification_screen.dart';
+import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 class NotificationScreens {
   static const home = '/notifications';

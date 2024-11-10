@@ -4,14 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash/core/presentation/dialog.dart';
 import 'package:smart_dash/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash/core/presentation/widget.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/default_value_accessor.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_switch_field.dart';
 import 'package:smart_dash/core/presentation/widget/form/field/smart_dash_text_field.dart';
 import 'package:smart_dash/core/presentation/widget/list/expansion_list.dart';
-import 'package:smart_dash/feature/flow/application/flow_manager.dart';
-import 'package:smart_dash/feature/flow/domain/block.dart';
-import 'package:smart_dash/core/presentation/widget.dart';
+import 'package:smart_dash/feature/device/application/device_service.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:strings/strings.dart';
 
 class BlockTriggerFormGroup extends ConsumerWidget {
@@ -67,7 +67,8 @@ class BlockTriggerFormGroup extends ConsumerWidget {
             return _BlockTriggerOnList(
               type: 'tag',
               resolver: () async {
-                final tags = await ref.read(flowManagerProvider).getTokens();
+                // TODO: Implement TokenManager that handles all tokens
+                final tags = await ref.read(deviceServiceProvider).getTokens();
                 return Future.value(
                   Map.fromEntries(
                     tags.map(

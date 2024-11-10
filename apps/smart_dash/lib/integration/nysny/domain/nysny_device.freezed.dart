@@ -23,8 +23,12 @@ mixin _$NySnyDevice {
   @JsonKey(name: 'state')
   SnowState get state => throw _privateConstructorUsedError;
 
+  /// Serializes this NySnyDevice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NySnyDeviceCopyWith<NySnyDevice> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$NySnyDeviceCopyWithImpl<$Res, $Val extends NySnyDevice>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,6 +69,8 @@ class _$NySnyDeviceCopyWithImpl<$Res, $Val extends NySnyDevice>
     ) as $Val);
   }
 
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SnowStateCopyWith<$Res> get state {
@@ -94,6 +102,8 @@ class __$$NySnyDeviceImplCopyWithImpl<$Res>
       _$NySnyDeviceImpl _value, $Res Function(_$NySnyDeviceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,11 +144,13 @@ class _$NySnyDeviceImpl extends _NySnyDevice {
             (identical(other.state, state) || other.state == state));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, state);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NySnyDeviceImplCopyWith<_$NySnyDeviceImpl> get copyWith =>
@@ -164,8 +176,11 @@ abstract class _NySnyDevice extends NySnyDevice {
   @override
   @JsonKey(name: 'state')
   SnowState get state;
+
+  /// Create a copy of NySnyDevice
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NySnyDeviceImplCopyWith<_$NySnyDeviceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash/feature/device/domain/device.dart';
-import 'package:smart_dash/feature/flow/domain/flow.dart';
-import 'package:smart_dash/feature/home/application/home_service.dart';
-import 'package:smart_dash/feature/home/domain/home.dart';
 import 'package:smart_dash/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash/feature/presence/domain/presence.dart';
 import 'package:smart_dash/feature/system/application/network_info_service.dart';
 import 'package:smart_dash/feature/system/domain/network_info.dart';
-import 'package:smart_dash/util/guard.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'presence_service.g.dart';
@@ -104,8 +102,9 @@ class PresenceFlow extends Flow {
       _lastEvent.isPresent ? state.value.members.length : 0;
 
   Future<void> init() async {
-    HomeService homeService = await _setHome();
-    _subscription = homeService.events.listen((event) async {
+    AccountService service = await _setCurrentHome();
+    _subscription =
+        service.changes.whereType<HomeEvent>().listen((event) async {
       if (event is NewHomeEvent || event is CurrentHomeSetEvent) {
         final token = Presence.toHomeToken(event.home);
         _setState(token);
@@ -113,16 +112,16 @@ class PresenceFlow extends Flow {
     }, cancelOnError: false);
   }
 
-  Future<HomeService> _setHome() async {
-    final homeService = ref.read(homeServiceProvider);
-    final next = await homeService.getCurrentHome();
+  Future<AccountService> _setCurrentHome() async {
+    final accountService = ref.read(accountServiceProvider);
+    final next = await accountService.getCurrentHome();
     if (next.isPresent && next.value.id != _home.orElseNull?.id) {
       _home = next;
       final home = _home.value;
       final token = Presence.toHomeToken(home);
       await _setState(token);
     }
-    return homeService;
+    return accountService;
   }
 
   Future<void> _setState(Token token) async {
@@ -138,7 +137,7 @@ class PresenceFlow extends Flow {
     if (when(event)) {
       if (event is NetworkDeviceEvent) {
         // TODO: Fix eager lookup of current home
-        await _setHome();
+        await _setCurrentHome();
 
         late MemberPresenceEvent member;
         switch (event.runtimeType) {
@@ -213,7 +212,7 @@ class PresenceEvent extends FlowEvent {
       : super(
           flow: PresenceService.key,
           tags: [
-            FlowTag<int>(
+            Tag<int>(
               when: state.when,
               token: state.token,
               data: state.members.length,
@@ -229,7 +228,7 @@ class MemberPresenceEvent extends FlowEvent {
       : super(
           flow: PresenceService.key,
           tags: [
-            FlowTag<bool>(
+            Tag<bool>(
               when: when,
               data: isHome,
               token: token,
