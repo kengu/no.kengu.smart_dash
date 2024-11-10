@@ -16,6 +16,11 @@ Prepare development environment (macOS only for now)
 melos run prepare
 ```
 
+Run each time you add or remove a feature or package
+```bash
+melos bootstrap
+```
+
 Upgrade all dependencies at once
 ```bash
 melos run upgrade
