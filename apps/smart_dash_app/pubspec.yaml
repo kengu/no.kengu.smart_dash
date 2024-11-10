@@ -1,0 +1,136 @@
+name: smart_dash_app
+description: A custom smart home assistant for personal use
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Smart Dash packages (managed by Mesos)
+  smart_dash_flow: any
+  smart_dash_common: any
+  smart_dash_account: any
+  smart_dash_analytics: any
+  smart_dash_datasource: any
+  smart_dash_notification: any
+
+  dio: ^5.4.3+1
+  xml: ^6.5.0
+  http: ^1.2.1
+  path: ^1.9.0
+  intl: ^0.19.0
+  html: ^0.15.4
+  async: ^2.11.0
+  universal_io: ^2.2.2
+  path_provider: ^2.1.3
+  window_manager: ^0.4.3
+
+  nanoid: ^1.0.0
+  logging: ^1.2.0
+  strings: ^3.1.1
+  timeago: ^3.6.1
+  optional: ^6.1.0+1
+  collection: ^1.18.0
+  pretty_bytes: ^6.1.0
+  stream_transform: ^2.1.0
+  battery_indicator: ^0.1.2
+
+  # Local storage
+  shared_preferences: ^2.2.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  drift: ^2.21.0
+  drift_dev: ^2.21.2
+  sqlite3: ^2.4.7
+  sqlite3_flutter_libs: ^0.5.26
+
+  # UI
+  fl_chart: ^0.69.0
+  dashboard: ^0.0.5
+  go_router: ^14.3.0
+  settings_ui: ^2.0.2
+  charts_painter: ^3.1.1
+  reactive_forms: ^17.0.1
+  cupertino_icons: ^1.0.8
+  chart_sparkline: ^1.0.15+1
+  flutter_gravatar: ^2.0.2
+  flutter_json_view: ^1.1.4
+  flutter_riverpod: ^3.0.0-dev.3
+  flutter_wall_layout: ^2.1.1
+  adaptive_breakpoints: ^0.1.7
+  flutter_secure_storage: ^9.0.0
+
+  eval_ex: ^1.1.8
+
+  osm_nominatim: ^3.0.0
+
+  media_kit: ^1.1.10+1
+  media_kit_video: ^1.2.4
+  media_kit_libs_video: ^1.0.4
+  media_kit_libs_android_video: ^1.3.6
+
+  mqtt_client: ^10.2.1
+  network_tools: ^5.0.2
+  internet_connection_checker_plus: ^2.5.2
+
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.1
+  riverpod_annotation: ^3.0.0-dev.3
+
+  device_info_plus: ^11.1.0
+  permission_handler: ^11.3.1
+  flutter_local_notifications: ^18.0.0
+
+  sentry: ^8.0.0
+  sentry_flutter: ^8.0.0
+
+  stack_trace: ^1.11.1
+
+  restoration_web_plugin: ^1.0.0
+
+dev_dependencies:
+
+  custom_lint: ^0.5.11
+  flutter_lints: ^5.0.0
+
+  freezed: ^2.5.2
+  build_runner: ^2.4.9
+  json_serializable: ^6.7.1
+  riverpod_lint: ^3.0.0-dev.4
+  riverpod_generator: ^3.0.0-dev.11
+
+dependency_overrides:
+  dashboard:
+    git:
+      url: https://github.com/DISCOOS/dashboard.git
+      ref: issue/update_item_controller
+#      ref: master
+#   path: ../../discoos/dashboard
+  chart_sparkline:
+    git:
+      url: https://github.com/DISCOOS/chart_sparkline.git
+      ref: master
+#  network_tools:
+#    path: ../network_tools
+
+flutter:
+
+  # Use Material Icons fonts.
+  uses-material-design: true
+
+  assets:
+    - assets/data/
+    - assets/images/
+    - assets/images/weather/
+    - assets/images/weather/
+
+  fonts:
+    - family: SmartDashIcons
+      fonts:
+        - asset: fonts/SmartDashIcons.ttf

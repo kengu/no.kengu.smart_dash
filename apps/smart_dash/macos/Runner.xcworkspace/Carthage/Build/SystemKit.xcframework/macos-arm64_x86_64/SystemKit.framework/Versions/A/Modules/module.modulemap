@@ -1,4 +1,0 @@
-framework module SystemKit {
-  header "SystemKit-Swift.h"
-  requires objc
-}

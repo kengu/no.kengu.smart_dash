@@ -24,7 +24,7 @@ melos run upgrade
 # Modules
 Following modules (app, backend, feature or package) have additional development scripts
 
-* [SmartDash App (app)](apps/smart_dash/README.md)
+* [SmartDash App (app)](apps/smart_dash_app/README.md)
 * [SmartDash Cloud (backend)](backends/smart_dash_cloud/README.md)
 * [SmartDash Daemon (backend)](backends/smart_dash_daemon/README.md)
 * [SmartDash Account (feature)](features/smart_dash_account/README.md)
