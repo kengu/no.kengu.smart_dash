@@ -1,6 +1,9 @@
 import 'package:optional/optional_internal.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/src/account/data/drift/account_database.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_repository.dart';
 
@@ -8,12 +11,30 @@ part 'account_repository_backend.g.dart';
 
 class BackendAccountRepository extends AccountRepository
     with AccountRepositoryMixin {
-  BackendAccountRepository();
+  BackendAccountRepository(this.ref, this.db);
+
+  Ref ref;
+  AccountDatabase db;
 
   @override
   Future<Optional<Account>> get(String userId) {
-    // TODO: implement get
-    throw UnimplementedError();
+    return guard(
+      () async {
+        final query = db.getAccountWithUserId(userId);
+        final result = await query.get();
+        final data = result.firstOptional;
+        if (!data.isPresent) return Optional.empty();
+        return Optional.of(Account(
+          userId: userId,
+          homes: data.value.homes,
+          fname: data.value.fname,
+          lname: data.value.lname,
+        ));
+      },
+      error: (error, [stackTrace]) {
+        return true;
+      },
+    );
   }
 
   @override
@@ -55,6 +76,9 @@ class BackendAccountRepository extends AccountRepository
 
 @Riverpod(keepAlive: true)
 BackendAccountRepository backendAccountRepository(
-    BackendAccountRepositoryRef ref) {
-  return BackendAccountRepository();
+    BackendAccountRepositoryRef ref, String dbPath) {
+  return BackendAccountRepository(
+    ref,
+    AccountDatabase(ref, dbPath).autoDispose(ref),
+  );
 }

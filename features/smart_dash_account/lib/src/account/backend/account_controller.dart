@@ -10,9 +10,9 @@ import 'package:smart_dash_account/src/account/data/account_repository.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 class AccountController {
-  AccountController(this._repo);
+  AccountController(this.repo);
 
-  final AccountRepositoryMixin _repo;
+  final AccountRepositoryMixin repo;
   final Logger _logger = Logger('$AccountController');
 
   Router get router {
@@ -22,7 +22,7 @@ class AccountController {
       '/account',
       (Request request) async {
         try {
-          final account = await _repo.getAll();
+          final account = await repo.getAll();
           return Response.ok(
             account.map((e) => e.toJson()),
             headers: {
@@ -49,7 +49,7 @@ class AccountController {
       '/account/<userId>',
       (Request request, String userId) async {
         try {
-          final account = await _repo.get(userId);
+          final account = await repo.get(userId);
           if (!account.isPresent) {
             return Problems.notFound(
               type: 'account-not-found',
@@ -86,7 +86,7 @@ class AccountController {
         final json = jsonDecode(payload);
         final userId = json['userId'] = nanoid();
         final account = Account.fromJson(json);
-        final result = await _repo.addOrUpdate(account);
+        final result = await repo.addOrUpdate(account);
         return Response(
           201,
           body: {
@@ -119,7 +119,7 @@ class AccountController {
         final userId = Optional.ofNullable(json['userId'] as String?);
         if (userId.isPresent) {
           final account = Account.fromJson(json);
-          final existing = await _repo.get(userId.value);
+          final existing = await repo.get(userId.value);
           if (!existing.isPresent) {
             return Problems.notFound(
               type: 'account-not-found',
@@ -128,7 +128,7 @@ class AccountController {
               detail: 'You need to create an account with POST /account',
             );
           }
-          final result = await _repo.addOrUpdate(account);
+          final result = await repo.addOrUpdate(account);
           return Response.ok(result.toJson(), headers: {
             'Content-Type': 'application/json',
           });
