@@ -74,28 +74,41 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T> {
   ///
   /// Returns list of actual updated items.
   @override
-  Future<List<T>> updateAll(Iterable<T> items) async {
-    final ids = items.map(toId).toList();
+  Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
+    final ids = items.toSet().map(toId).toList();
     final current = await getAll(ids);
-    final changed = items.where((e) => !current.contains(e)).toList();
-    if (changed.isEmpty) return [];
+    final currentIds = current.map(toId);
     final success = await _putAll(
       ids.map(toKey),
-      changed.map(toValue),
+      items.map(toValue),
     );
-    return [if (success) ...changed];
+
+    if (!success) {
+      return BulkRepositoryResult<I, T>.empty();
+    }
+
+    final created = items.where((e) => !currentIds.contains(toId(e))).toList();
+    final updated = items.where((e) => currentIds.contains(toId(e))).toList();
+
+    return BulkRepositoryResult<I, T>(
+      created.toList(),
+      updated.toList(),
+      [],
+    );
   }
 
   /// Attempt to remove all given items from repository.
   ///
   /// Returns list of actual removed items.
   @override
-  Future<List<T>> removeAll(Iterable<T> items) async {
+  Future<BulkRepositoryResult<I, T>> removeAll(Iterable<T> items) async {
     final ids = items.map(toId);
     final keys = ids.map(toKey);
     final current = await _loadAll(keys);
     final success = await _removeAll(keys);
-    return [if (success) ...current.values.whereType<T>()];
+    return BulkRepositoryResult<I, T>.removed(
+      [if (success) ...current.values.whereType<T>()],
+    );
   }
 
   Future<SharedPreferences> _open() => guard(

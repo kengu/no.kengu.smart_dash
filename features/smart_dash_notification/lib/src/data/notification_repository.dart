@@ -27,7 +27,8 @@ class NotificationRepository extends HiveRepository<int, NotificationModel> {
     final acked = current.where((e) => ids.contains(e.id)).map(
           (e) => e.copyWith(isAcked: true, when: DateTime.now()),
         );
-    return updateAll(acked);
+    final result = await updateAll(acked);
+    return result.all;
   }
 }
 

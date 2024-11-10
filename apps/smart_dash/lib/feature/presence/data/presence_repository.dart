@@ -28,7 +28,7 @@ class PresenceRepository extends HiveRepository<Token, Presence> {
       final updated = await updateAll(
         [Presence.empty(token)],
       );
-      return updated.firstOptional;
+      return updated.all.firstOptional;
     }
     return presence;
   }

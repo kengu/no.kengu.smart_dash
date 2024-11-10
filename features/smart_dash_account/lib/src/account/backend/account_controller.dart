@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:logging/logging.dart';
-import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -24,7 +23,9 @@ class AccountController {
         try {
           final account = await repo.getAll();
           return Response.ok(
-            account.map((e) => e.toJson()),
+            jsonEncode(
+              account.map((e) => e.toJson()).toList(),
+            ),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -38,8 +39,8 @@ class AccountController {
           return Problems.internalServerError(
             type: 'account-get-failed',
             title: 'Failed to get accounts',
-            instance: '/account',
             detail: 'Internal server error: $error',
+            instance: '/account',
           );
         }
       },
@@ -55,11 +56,13 @@ class AccountController {
               type: 'account-not-found',
               title: 'Account not found',
               instance: '/account/$userId',
-              detail: 'You need to create an account with POST /account',
+              detail: 'Account [$userId] not found. Use POST /account instead',
             );
           }
           return Response.ok(
-            account.value.toJson(),
+            jsonEncode(
+              account.value.toJson(),
+            ),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -73,8 +76,8 @@ class AccountController {
           return Problems.internalServerError(
             type: 'account-get-failed',
             title: 'Failed to get account',
-            instance: '/account/$userId',
             detail: 'Internal server error: $error',
+            instance: '/account/$userId',
           );
         }
       },
@@ -84,30 +87,45 @@ class AccountController {
       try {
         final payload = await request.readAsString();
         final json = jsonDecode(payload);
-        final userId = json['userId'] = nanoid();
+        final userId = Optional.ofNullable(json['userId'] as String?);
+        if (!userId.isPresent) {
+          return Problems.badRequest(
+            type: 'account-data-invalid',
+            title: 'Account has invalid data',
+            detail: 'Account.userId is missing (string)',
+            instance: '/account',
+          );
+        }
         final account = Account.fromJson(json);
-        final result = await repo.addOrUpdate(account);
+        if (await repo.exists(account.userId)) {
+          return Problems.forbidden(
+            type: 'account-exists',
+            title: 'Account exists',
+            detail: 'Account [${account.userId}] exists. '
+                'Use PUT /account/${account.userId} to update',
+            instance: '/account',
+          );
+        }
+
+        final result = await repo.create(account);
         return Response(
           201,
-          body: {
-            'message': 'Account created for userid: $userId',
-            'account': result.toJson(),
-          },
+          body: jsonEncode(result.toJson()),
           headers: {
             'Content-Type': 'application/json',
           },
         );
       } catch (error, stackTrace) {
         _logger.shout(
-          'POST /account [$request] failed',
+          'POST /account failed',
           error,
           stackTrace,
         );
         return Problems.internalServerError(
           type: 'account-not-created',
           title: 'Account was not created',
-          instance: '/account',
           detail: 'Failed to create new account: $error',
+          instance: '/account',
         );
       }
     });
@@ -116,40 +134,72 @@ class AccountController {
       try {
         final payload = await request.readAsString();
         final json = jsonDecode(payload);
-        final userId = Optional.ofNullable(json['userId'] as String?);
-        if (userId.isPresent) {
-          final account = Account.fromJson(json);
-          final existing = await repo.get(userId.value);
-          if (!existing.isPresent) {
-            return Problems.notFound(
-              type: 'account-not-found',
-              title: 'Account not found',
-              instance: '/account/$userId',
-              detail: 'You need to create an account with POST /account',
-            );
-          }
-          final result = await repo.addOrUpdate(account);
-          return Response.ok(result.toJson(), headers: {
-            'Content-Type': 'application/json',
-          });
+        json['userId'] = userId; // Overwrite
+        final account = Account.fromJson(json);
+        if (!await repo.exists(userId)) {
+          return Problems.notFound(
+            type: 'account-not-found',
+            title: 'Account not found',
+            detail: 'Account [${account.userId}] not found. '
+                'Use POST /account/${account.userId} to create an new account',
+            instance: '/account/$userId',
+          );
         }
-        return Problems.notFound(
-          type: 'account-not-found',
-          title: 'Account not found',
-          instance: '/account/$userId',
-          detail: 'You need to create an account with POST /account',
+        final result = await repo.addOrUpdate(account);
+        return Response.ok(
+          jsonEncode(
+            result.item.toJson(),
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         );
       } catch (error, stackTrace) {
         _logger.shout(
-          'PUT /account [$request] failed',
+          'PUT /account failed',
           error,
           stackTrace,
         );
         return Problems.internalServerError(
           type: 'account-not-updated',
           title: 'Account was not updated',
-          instance: '/account/$userId',
           detail: 'Failed to update account: $error',
+          instance: '/account/$userId',
+        );
+      }
+    });
+
+    router.delete('/account/<userId>', (Request request, String userId) async {
+      try {
+        final account = await repo.get(userId);
+        if (!account.isPresent) {
+          return Problems.notFound(
+            type: 'account-not-found',
+            title: 'Account not found',
+            detail: 'Account [$userId] not found',
+            instance: '/account/$userId',
+          );
+        }
+        final result = await repo.removeAll(
+          [account.value],
+        );
+        return Response.ok(
+          jsonEncode(result.first),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        );
+      } catch (error, stackTrace) {
+        _logger.shout(
+          'PUT /account failed',
+          error,
+          stackTrace,
+        );
+        return Problems.internalServerError(
+          type: 'account-not-updated',
+          title: 'Account was not updated',
+          detail: 'Failed to update account: $error',
+          instance: '/account/$userId',
         );
       }
     });

@@ -69,7 +69,7 @@ class CameraManager {
       () async {
         final repo = ref.read(snapshotRepositoryProvider);
         final snapshot = await repo.addOrUpdate(Snapshot.of(e));
-        final file = repo.toFile(repo.toId(snapshot));
+        final file = repo.toFile(repo.toId(snapshot.item));
         _log.fine(
           'Saved snapshot from '
           'camera [${e.service}:${e.name}] to [${file.path}]',
