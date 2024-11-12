@@ -41,8 +41,7 @@ class AccountClient {
 
   Future<List<Account>> getAll([List<String> userIds = const []]) async {
     return guard(() async {
-      final uri =
-          '/Account${userIds.isEmpty ? '' : 'ids=${userIds.join(',')}'}';
+      final uri = '/Account${_toIdsQueryParams(userIds)}';
       final response = await api.get(
         uri,
         options: _options('GET $uri'),
@@ -51,14 +50,70 @@ class AccountClient {
         'GET $uri: '
         '[${response.statusCode}] ${response.realUri}',
       );
-      if (response.statusCode == 404) {
-        return [];
-      }
       return List<JsonObject>.from(
         jsonDecode(response.data),
       ).map(Account.fromJson).toList();
     }, error: check_client_error);
   }
+
+  Future<Account> create(Account account) {
+    return guard(() async {
+      final uri = '/Account';
+      final response = await api.post(
+        uri,
+        data: account.toJson(),
+        options: _options('POST $uri'),
+      );
+      _log.fine(
+        'POST $uri: '
+        '[${response.statusCode}] ${response.realUri}',
+      );
+      return Account.fromJson(
+        jsonDecode(response.data),
+      );
+    }, error: check_client_error);
+  }
+
+  Future<Optional<Account>> update(Account account) {
+    return guard(() async {
+      final uri = '/Account/${account.userId}';
+      final response = await api.put(
+        uri,
+        data: account.toJson(),
+        options: _options('PUT $uri'),
+      );
+      _log.fine(
+        'PUT $uri: '
+        '[${response.statusCode}] ${response.realUri}',
+      );
+      if (response.statusCode == 404) {
+        return Optional.empty();
+      }
+      return Optional.of(Account.fromJson(
+        jsonDecode(response.data),
+      ));
+    }, error: check_client_error);
+  }
+
+  Future<Account> delete(Account account) {
+    return guard(() async {
+      final uri = '/Account/${account.userId}';
+      final response = await api.delete(
+        uri,
+        options: _options('DELETE $uri'),
+      );
+      _log.fine(
+        'DELETE $uri: '
+        '[${response.statusCode}] ${response.realUri}',
+      );
+      return Account.fromJson(
+        jsonDecode(response.data),
+      );
+    }, error: check_client_error);
+  }
+
+  String _toIdsQueryParams(List<String> userIds) =>
+      userIds.isEmpty ? '' : 'ids=${userIds.join(',')}';
 
   Options _options(String request) {
     return Options(

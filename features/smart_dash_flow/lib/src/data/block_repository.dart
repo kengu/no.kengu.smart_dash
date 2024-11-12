@@ -7,7 +7,7 @@ import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 part 'block_repository.g.dart';
 
-class BlockRepository extends HiveRepository<String, BlockModel> {
+class BlockRepository extends BulkHiveRepository<String, BlockModel> {
   BlockRepository(List<JsonObject> defaults)
       : _defaults = defaults,
         super(

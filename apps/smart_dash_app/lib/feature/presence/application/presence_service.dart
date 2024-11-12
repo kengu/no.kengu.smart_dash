@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash_app/feature/presence/domain/presence.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_app/feature/system/domain/network_info.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -126,7 +126,7 @@ class PresenceFlow extends Flow {
 
   Future<void> _setState(Token token) async {
     final repo = ref.read(presenceRepositoryProvider);
-    final state = await repo.getOrAdd(token);
+    final state = await repo.put(token);
     _lastEvent = state.isPresent
         ? Optional.of(PresenceEvent(state.value))
         : const Optional.empty();

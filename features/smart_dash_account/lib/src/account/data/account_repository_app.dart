@@ -20,12 +20,6 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
   }) : super(checker: Connectivity.offline, local: local, remote: remote);
 
   @override
-  Future<Account> create(Account account) {
-    // TODO: implement updateAll
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> exists(String userId) async {
     final result = await get(userId);
     return result.isPresent;
@@ -39,7 +33,7 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
 
 class LocalAccountRepository
     extends SharedPreferencesRepository<String, Account>
-    with AccountRepositoryMixin, AccountRepositoryMixin {
+    with AccountRepositoryMixin {
   LocalAccountRepository()
       : super(
           AccountRepositoryMixin.key,
@@ -48,18 +42,6 @@ class LocalAccountRepository
 //          adapter: AccountAdapter(),
 //          cipher: FlutterHiveCipherStorage(),
         );
-
-  @override
-  Future<bool> exists(String userId) async {
-    final result = await get(userId);
-    return result.isPresent;
-  }
-
-  @override
-  Future<Account> create(Account account) {
-    // TODO: implement updateAll
-    throw UnimplementedError();
-  }
 }
 
 class RemoteAccountRepository extends Repository<String, Account>
@@ -81,28 +63,22 @@ class RemoteAccountRepository extends Repository<String, Account>
       _client().getAll(userIds);
 
   @override
-  Future<Account> create(Account account) {
-    // TODO: implement updateAll
-    throw UnimplementedError();
+  Future<SingleRepositoryResult<String, Account>> addOrUpdate(
+      Account account) async {
+    final items = await _client().create(account);
+    return SingleRepositoryResult<String, Account>.updated(items);
   }
 
   @override
-  Future<BulkRepositoryResult<String, Account>> updateAll(
-      Iterable<Account> accounts) {
-    // TODO: implement updateAll
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<BulkRepositoryResult<String, Account>> removeAll(
-      Iterable<Account> accounts) {
-    // TODO: implement removeAll
-    throw UnimplementedError();
+  Future<SingleRepositoryResult<String, Account>> remove(
+      Account account) async {
+    final items = await _client().delete(account);
+    return SingleRepositoryResult<String, Account>.removed(items);
   }
 
   @override
   Future<void> clear() {
-    // TODO: implement delete
+    // TODO: implement clear
     throw UnimplementedError();
   }
 }

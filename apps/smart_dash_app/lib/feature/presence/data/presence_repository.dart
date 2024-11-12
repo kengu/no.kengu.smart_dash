@@ -8,7 +8,7 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'presence_repository.g.dart';
 
-class PresenceRepository extends HiveRepository<Token, Presence> {
+class PresenceRepository extends BulkHiveRepository<Token, Presence> {
   PresenceRepository()
       : super(
           key: 'presences',
@@ -22,13 +22,16 @@ class PresenceRepository extends HiveRepository<Token, Presence> {
   @override
   Token toId(Presence item) => item.token;
 
-  Future<Optional<Presence>> getOrAdd(Token token) async {
+  Future<Optional<Presence>> put(Token token) async {
     final presence = await get(token);
     if (!presence.isPresent) {
-      final updated = await updateAll(
-        [Presence.empty(token)],
+      final updated = await addOrUpdate(
+        Presence.empty(token),
       );
-      return updated.all.firstOptional;
+      if (updated.isEmpty) {
+        return Optional.empty();
+      }
+      return Optional.of(updated.item);
     }
     return presence;
   }

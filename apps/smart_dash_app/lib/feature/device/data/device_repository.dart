@@ -6,7 +6,7 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'device_repository.g.dart';
 
-class DeviceRepository extends HiveRepository<Identity, Device> {
+class DeviceRepository extends BulkHiveRepository<Identity, Device> {
   DeviceRepository()
       : super(
           key: 'devices',

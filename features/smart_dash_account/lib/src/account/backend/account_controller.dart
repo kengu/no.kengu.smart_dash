@@ -107,10 +107,10 @@ class AccountController {
           );
         }
 
-        final result = await repo.create(account);
+        final result = await repo.addOrUpdate(account);
         return Response(
           201,
-          body: jsonEncode(result.toJson()),
+          body: jsonEncode(result.item.toJson()),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -180,11 +180,11 @@ class AccountController {
             instance: '/account/$userId',
           );
         }
-        final result = await repo.removeAll(
-          [account.value],
+        final result = await repo.remove(
+          account.value,
         );
         return Response.ok(
-          jsonEncode(result.first),
+          jsonEncode(result.item),
           headers: {
             'Content-Type': 'application/json',
           },

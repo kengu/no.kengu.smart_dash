@@ -36,20 +36,38 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
 
   CollectionBox<T>? _db;
 
+  @override
+  Future<bool> exists(I id) {
+    return guard(
+      () async {
+        final box = await _open();
+        final key = toKey(id);
+        final value = await box.get(key);
+        return Optional.ofNullable(
+          value,
+        ).isPresent;
+      },
+      task: 'get',
+      name: '$runtimeType',
+    );
+  }
+
   /// Get given item from repository.
   @override
-  Future<Optional<T>> get(I id) => guard(
-        () async {
-          final box = await _open();
-          final key = toKey(id);
-          final value = await box.get(key);
-          return Optional.ofNullable(
-            value,
-          );
-        },
-        task: 'get',
-        name: '$runtimeType',
-      );
+  Future<Optional<T>> get(I id) {
+    return guard(
+      () async {
+        final box = await _open();
+        final key = toKey(id);
+        final value = await box.get(key);
+        return Optional.ofNullable(
+          value,
+        );
+      },
+      task: 'get',
+      name: '$runtimeType',
+    );
+  }
 
   Future<List<String>> getKeys() async {
     return guard(
@@ -72,6 +90,99 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
   Future<List<T>> where(bool Function(T element) test) async {
     return (await _loadAll()).where(test).toList();
   }
+
+  @override
+  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) {
+    return guard(
+      () async {
+        final box = await _open();
+        final key = toKey(toId(item));
+        final exists = Optional.ofNullable(
+          await box.get(key),
+        );
+        await box.put(toKey(toId(item)), item);
+        return exists.isPresent
+            ? SingleRepositoryResult<I, T>.updated(item)
+            : SingleRepositoryResult<I, T>.created(item);
+      },
+      task: '_put',
+      name: '$runtimeType',
+    );
+  }
+
+  @override
+  Future<SingleRepositoryResult<I, T>> remove(T item) {
+    return guard(
+      () async {
+        final box = await _open();
+        await box.delete(toKey(toId(item)));
+        return SingleRepositoryResult<I, T>.removed(item);
+      },
+      task: 'remove',
+      name: '$runtimeType',
+    );
+  }
+
+  Future<CollectionBox<T>> _open() {
+    return guard(
+      () async {
+        if (_db != null) return _db!;
+        final db = await BoxCollection.open(
+          // TODO: Replace workaround for missing collection
+          //  name separator leading to wrong collection path
+          key,
+          {box},
+          key: await _cipher?.get(key),
+        );
+        return db.openBox<T>(box);
+      },
+      task: '_open',
+      name: '$runtimeType',
+    );
+  }
+
+  Future<List<T>> _loadAll([List<String> keys = const []]) {
+    return guard(
+      () async {
+        final box = await _open();
+        final result = await box.getAll(
+          keys.isEmpty ? await box.getAllKeys() : keys,
+        );
+        if (keys.isEmpty && result.isEmpty) {
+          final items = await seed();
+          await _putAll(items);
+          return items;
+        }
+        return result.whereType<T>().toList();
+      },
+      task: '_loadAll',
+      name: '$runtimeType',
+    );
+  }
+
+  Future<bool> _putAll(List<T> items) {
+    return guard(
+      () async {
+        final box = await _open();
+        for (final item in items) {
+          await box.put(toKey(toId(item)), item);
+        }
+        return true;
+      },
+      task: '_putAll',
+      name: '$runtimeType',
+    );
+  }
+}
+
+abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
+    with BulkWriteRepositoryMixin<I, T> {
+  BulkHiveRepository({
+    required super.key,
+    required super.box,
+    required super.adapter,
+    super.cipher,
+  });
 
   /// Attempt to sett all given items to repository.
   ///
@@ -112,38 +223,6 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
     );
   }
 
-  Future<CollectionBox<T>> _open() => guard(
-        () async {
-          if (_db != null) return _db!;
-          final db = await BoxCollection.open(
-            // TODO: Replace workaround for missing collection name separator leading to wrong collection path
-            key,
-            {box},
-            key: await _cipher?.get(key),
-          );
-          return db.openBox<T>(box);
-        },
-        task: '_open',
-        name: '$runtimeType',
-      );
-
-  Future<List<T>> _loadAll([List<String> keys = const []]) => guard(
-        () async {
-          final box = await _open();
-          final result = await box.getAll(
-            keys.isEmpty ? await box.getAllKeys() : keys,
-          );
-          if (keys.isEmpty && result.isEmpty) {
-            final items = await seed();
-            await _putAll(items);
-            return items;
-          }
-          return result.whereType<T>().toList();
-        },
-        task: '_loadAll',
-        name: '$runtimeType',
-      );
-
   Future<bool> _removeAll(List<String> ids) => guard(
         () async {
           final box = await _open();
@@ -154,18 +233,7 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
         name: '$runtimeType',
       );
 
-  Future<bool> _putAll(List<T> items) => guard(
-        () async {
-          final box = await _open();
-          for (final item in items) {
-            await box.put(toKey(toId(item)), item);
-          }
-          return true;
-        },
-        task: '_putAll',
-        name: '$runtimeType',
-      );
-
+  @override
   Future<void> clear() async {
     return guard(
       () => Hive.deleteBoxFromDisk(

@@ -6,7 +6,8 @@ import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 part 'notification_repository.g.dart';
 
-class NotificationRepository extends HiveRepository<int, NotificationModel> {
+class NotificationRepository
+    extends BulkHiveRepository<int, NotificationModel> {
   NotificationRepository()
       : super(
           key: 'notifications',

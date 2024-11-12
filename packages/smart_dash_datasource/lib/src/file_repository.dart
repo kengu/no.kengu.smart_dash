@@ -4,7 +4,8 @@ import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:universal_io/io.dart';
 
-abstract class FileRepository<I, T> extends Repository<I, T> {
+abstract class FileRepository<I, T> extends Repository<I, T>
+    with BulkWriteRepositoryMixin {
   FileRepository(
     this.dir,
     this.extension, {
@@ -34,6 +35,18 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
   }
 
   @override
+  Future<bool> exists(I id) {
+    return guard(
+      () async {
+        final file = toFile(id);
+        return file.exists();
+      },
+      task: 'exists',
+      name: '$FileRepository',
+    );
+  }
+
+  @override
   Future<Optional<T>> get(I id) {
     return guard(
       () async {
@@ -44,6 +57,57 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
       task: 'get',
       name: '$FileRepository',
     );
+  }
+
+  @override
+  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) {
+    try {
+      return guard(
+        () async {
+          final created = <T>[];
+          final updated = <T>[];
+          final path = toKey(toId(item));
+          final file = File(toAbsolutePath(path));
+          if (!file.existsSync()) {
+            file.createSync(recursive: true);
+            created.add(item);
+          }
+          if (await write(item, file)) {
+            if (!created.contains(item)) {
+              updated.add(item);
+            }
+          }
+          return updated.isEmpty
+              ? SingleRepositoryResult.created(item)
+              : SingleRepositoryResult.updated(item);
+        },
+        task: 'addOrUpdate',
+        name: '$runtimeType',
+      );
+    } finally {
+      _compact();
+    }
+  }
+
+  @override
+  Future<SingleRepositoryResult<I, T>> remove(T item) {
+    try {
+      return guard(
+        () async {
+          final path = toKey(toId(item));
+          final file = File(toAbsolutePath(path));
+          if (file.existsSync()) {
+            file.deleteSync();
+            return SingleRepositoryResult<I, T>.removed(item);
+          }
+          return SingleRepositoryResult<I, T>.empty(item);
+        },
+        task: 'remove',
+        name: '$runtimeType',
+      );
+    } finally {
+      _compact();
+    }
   }
 
   @override
@@ -142,6 +206,15 @@ abstract class FileRepository<I, T> extends Repository<I, T> {
   }
 
   Optional<DateTime> _compacted = const Optional.empty();
+
+  @override
+  Future<void> clear() async {
+    final files = <File>[];
+    for (final it in getFileEntities()) {
+      files.add(File(p.join(dir.path, it.path)));
+    }
+    await Future.wait(files.map((e) => e.delete()));
+  }
 
   void _compact() {
     final now = DateTime.now();

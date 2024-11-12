@@ -54,94 +54,56 @@ class BackendAccountRepository extends AccountRepository
   }
 
   @override
-  Future<Account> create(Account account) {
+  Future<SingleRepositoryResult<String, Account>> addOrUpdate(Account account) {
     return guard(() async {
-      await db.transaction(() async {
-        final write = db.into(db.accountTable);
-        await write.insert(
-          _toRow(account),
-          mode: InsertMode.insert,
-        );
-      });
-      return account;
-    });
-  }
-
-  @override
-  Future<BulkRepositoryResult<String, Account>> updateAll(
-      Iterable<Account> accounts) {
-    if (accounts.isEmpty) {
-      return Future.value(
-        BulkRepositoryResult<String, Account>.empty(),
-      );
-    }
-    return guard(() async {
-      final updated = <Account>[];
       // Using a transaction instead of a batch to handle the
       // insert/update operations. This allows for finer control,
       // ensuring each account can be conditionally checked for
       // existence or change and logged if an error occurs, while
       // maintaining atomicity. Batch operations return void, making
       // it difficult to track each individual update.
-      await db.transaction(() async {
+      return db.transaction(() async {
         final write = db.into(db.accountTable);
-        for (final account in accounts) {
-          try {
-            if (await _check(account, remove: false)) {
-              updated.add(account);
-            }
-            await write.insertOnConflictUpdate(_toRow(account));
-          } catch (e) {
-            _logger.severe(
-              'Failed to upsert account [${account.userId}]: $e',
-            );
-            rethrow;
-          }
+        try {
+          final exists = await _check(account, remove: false);
+          await write.insertOnConflictUpdate(_toRow(account));
+          return exists
+              ? SingleRepositoryResult<String, Account>.updated(account)
+              : SingleRepositoryResult<String, Account>.created(account);
+        } catch (e) {
+          _logger.severe(
+            'Failed to upsert account [${account.userId}]: $e',
+          );
+          rethrow;
         }
       });
-      return BulkRepositoryResult<String, Account>.updated(
-        updated,
-      );
     });
   }
 
   @override
-  Future<BulkRepositoryResult<String, Account>> removeAll(
-      Iterable<Account> accounts) {
-    if (accounts.isEmpty) {
-      return Future.value(
-        BulkRepositoryResult<String, Account>.empty(),
-      );
-    }
+  Future<SingleRepositoryResult<String, Account>> remove(Account account) {
     return guard(() async {
       // Using a transaction instead of a batch to handle the remove
       // operations. This allows for finer control, ensuring each account
       // can be conditionally checked for existence and logged if an error
       // occurs, while maintaining atomicity. Batch operations return void,
       // making it difficult to track each individual update.
-      final removed = accounts.toList();
-      await db.transaction(() async {
+      return db.transaction(() async {
         final write = db.delete(db.accountTable);
-        for (final account in accounts) {
-          try {
-            if (await _check(account, remove: true)) {
-              removed.add(account);
-            }
-            final count = await write.delete(_toRow(account));
-            if (count > 0) {
-              removed.add(account);
-            }
-          } catch (e) {
-            _logger.severe(
-              'Failed to remove account [${account.userId}]: $e',
-            );
-            rethrow;
-          }
+        try {
+          final exists = await _check(account, remove: true);
+          final count = await write.delete(_toRow(account));
+          assert(count != 1, 'Expected one deleted row, actual was $count');
+          return exists
+              ? SingleRepositoryResult<String, Account>.removed(account)
+              : SingleRepositoryResult<String, Account>.empty(account);
+        } catch (e) {
+          _logger.severe(
+            'Failed to remove account [${account.userId}]: $e',
+          );
+          rethrow;
         }
       });
-      return BulkRepositoryResult<String, Account>.removed(
-        removed,
-      );
     });
   }
 
