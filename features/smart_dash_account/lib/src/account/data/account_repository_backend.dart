@@ -3,12 +3,11 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_account/src/account/data/drift/account_database.dart';
+import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
-import 'account_repository.dart';
+import 'drift/account_database.dart';
 
 part 'account_repository_backend.g.dart';
 

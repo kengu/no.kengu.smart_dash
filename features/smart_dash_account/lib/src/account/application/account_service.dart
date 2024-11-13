@@ -5,8 +5,6 @@ import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_account/src/account/data/account_repository_app.dart';
-import 'package:smart_dash_account/src/account/data/current_home_repository_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'account_service.g.dart';
@@ -36,6 +34,30 @@ class AccountService {
     return _cache.get('get_user_account:$uid');
   }
 
+  /// Onboard [userId] with new account
+  Future<Optional<Account>> onboardIfAbsent(
+    Future<Optional<Account>> Function(String userId) onboard, {
+    String? userId,
+    Duration? ttl = Duration.zero,
+  }) {
+    final uid = userId ?? currentUser.userId;
+    return _cache.getOrFetch('get_user_account:$uid', () async {
+      final repo = ref.read(appAccountRepositoryProvider);
+      final account = await ref.read(appAccountRepositoryProvider).get(uid);
+      if (account.isPresent) {
+        account;
+      }
+      final newAccount = await onboard(uid);
+      if (!newAccount.isPresent) {
+        return Optional.empty();
+      }
+      final result = await repo.addOrUpdate(
+        newAccount.value,
+      );
+      return result.item.toOptional;
+    }, ttl: ttl);
+  }
+
   /// Get [Account] for [userId] if given.
   /// If not given, get [Account] for [currentUser]
   Future<Optional<Account>> getAccount({
@@ -44,8 +66,7 @@ class AccountService {
   }) {
     final uid = userId ?? currentUser.userId;
     return _cache.getOrFetch('get_user_account:$uid', () async {
-      final data = await ref.read(appAccountRepositoryProvider).get(uid);
-      return data;
+      return ref.read(appAccountRepositoryProvider).get(uid);
     }, ttl: ttl);
   }
 

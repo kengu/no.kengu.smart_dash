@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
@@ -21,7 +19,7 @@ class AccountClient {
 
   Future<Optional<Account>> get(String userId) async {
     return guard(() async {
-      final uri = '/Account/$userId';
+      final uri = '/account/$userId';
       final response = await api.get(
         uri,
         options: _options('GET $uri'),
@@ -34,14 +32,14 @@ class AccountClient {
         return Optional.empty();
       }
       return Optional.of(Account.fromJson(
-        jsonDecode(response.data),
+        response.data,
       ));
     }, error: check_client_error);
   }
 
   Future<List<Account>> getAll([List<String> userIds = const []]) async {
     return guard(() async {
-      final uri = '/Account${_toIdsQueryParams(userIds)}';
+      final uri = '/account${_toIdsQueryParams(userIds)}';
       final response = await api.get(
         uri,
         options: _options('GET $uri'),
@@ -51,14 +49,14 @@ class AccountClient {
         '[${response.statusCode}] ${response.realUri}',
       );
       return List<JsonObject>.from(
-        jsonDecode(response.data),
+        response.data,
       ).map(Account.fromJson).toList();
     }, error: check_client_error);
   }
 
   Future<Account> create(Account account) {
     return guard(() async {
-      final uri = '/Account';
+      final uri = '/account';
       final response = await api.post(
         uri,
         data: account.toJson(),
@@ -69,14 +67,14 @@ class AccountClient {
         '[${response.statusCode}] ${response.realUri}',
       );
       return Account.fromJson(
-        jsonDecode(response.data),
+        response.data,
       );
     }, error: check_client_error);
   }
 
   Future<Optional<Account>> update(Account account) {
     return guard(() async {
-      final uri = '/Account/${account.userId}';
+      final uri = '/account/${account.userId}';
       final response = await api.put(
         uri,
         data: account.toJson(),
@@ -90,14 +88,14 @@ class AccountClient {
         return Optional.empty();
       }
       return Optional.of(Account.fromJson(
-        jsonDecode(response.data),
+        response.data,
       ));
     }, error: check_client_error);
   }
 
   Future<Account> delete(Account account) {
     return guard(() async {
-      final uri = '/Account/${account.userId}';
+      final uri = '/account/${account.userId}';
       final response = await api.delete(
         uri,
         options: _options('DELETE $uri'),
@@ -107,7 +105,7 @@ class AccountClient {
         '[${response.statusCode}] ${response.realUri}',
       );
       return Account.fromJson(
-        jsonDecode(response.data),
+        response.data,
       );
     }, error: check_client_error);
   }
@@ -137,7 +135,7 @@ class AccountClient {
 
 final accountClientProvider = Provider((ref) => AccountClient(
       ref,
-      Dio(BaseOptions(headers: {}, baseUrl: 'http://localhost'))
+      Dio(BaseOptions(headers: {}, baseUrl: 'http://localhost:8080'))
         // Process json in the background
         ..transformer = BackgroundTransformer(),
     ));

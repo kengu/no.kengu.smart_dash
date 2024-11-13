@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:optional/optional_internal.dart';
+import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
 import 'account_client.dart';
-import 'account_repository.dart';
 
 part 'account_repository_app.g.dart';
 
@@ -17,7 +16,11 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
   AppAccountRepository({
     required AccountRepositoryMixin local,
     required AccountRepositoryMixin remote,
-  }) : super(checker: Connectivity.offline, local: local, remote: remote);
+  }) : super(
+          local: local,
+          remote: remote,
+          checker: Connectivity.online,
+        );
 
   @override
   Future<bool> exists(String userId) async {

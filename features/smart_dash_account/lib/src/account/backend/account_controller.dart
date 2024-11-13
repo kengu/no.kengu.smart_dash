@@ -4,8 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_account/src/account/data/account_repository.dart';
+import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 class AccountController {
@@ -21,7 +20,9 @@ class AccountController {
       '/account',
       (Request request) async {
         try {
-          final account = await repo.getAll();
+          final query = Optional.ofNullable(request.url.queryParameters['ids']);
+          final ids = query.isPresent ? query.value.split(',') : <String>[];
+          final account = await repo.getAll(ids);
           return Response.ok(
             jsonEncode(
               account.map((e) => e.toJson()).toList(),
