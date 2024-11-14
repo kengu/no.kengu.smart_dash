@@ -68,15 +68,6 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - name: Setup Flutter
-        uses: flutter-actions/setup-flutter@v3
-        with:
-          channel: stable
-          version: latest
-
-      - name: Setup melos
-        uses: bluefireteam/melos-action@v3
-
       - name: Create Build Folder
         run: mkdir -p build/${{ matrix.runs-on }}
 
