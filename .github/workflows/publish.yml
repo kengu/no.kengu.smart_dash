@@ -75,8 +75,6 @@ jobs:
           cd build/sdk
           wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
           tar xf flutter_linux_3.24.5-stable.tar.xz
-          export PATH="$PATH:`pwd`/flutter/bin"
-          flutter doctor
 
       - name: Build Cloud Backend
         uses: pguyot/arm-runner-action@v2
@@ -93,7 +91,7 @@ jobs:
           bind_mount_repository: true
           commands: |
             sudo apt-get update -y
-            sudo apt-get install -y git-all
+            sudo apt-get install -y git
             ls -al build/sdk
             export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
             flutter doctor
