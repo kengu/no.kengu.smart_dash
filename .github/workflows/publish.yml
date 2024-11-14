@@ -7,13 +7,20 @@ on:
   pull_request:
     branches: [ "main" ]
 
-defaults:
-  run:
-    working-directory: backends/smart_dash_cloud
-
 jobs:
+  prepare:
+    name: prepare project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - run: dart pub global activate melos
+      - run: melos bootstrap
   compile:
     name: dart compile exe
+    defaults:
+      run:
+        working-directory: backends/smart_dash_cloud
     strategy:
       matrix:
         include:
@@ -26,7 +33,6 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
-#      - uses: dart-lang/setup-dart@v2
       - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
       - run: dart pub get
       - run: mkdir -p build/${{ matrix.runs-on }}
