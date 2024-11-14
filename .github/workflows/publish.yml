@@ -36,8 +36,7 @@ jobs:
         run: mkdir -p build/${{ matrix.runs-on }}
 
       - name: Build Cloud Backend   
-        run: dart compile exe bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}
-        working-directory: ./backends/smart_dash_cloud
+        run: dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}
       
       - uses: actions/upload-artifact@v3
         with:
