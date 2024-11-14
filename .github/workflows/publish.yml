@@ -91,7 +91,7 @@ jobs:
           bind_mount_repository: true
           commands: |
             ls -al build/sdk
-            export PATH="$PATH:`pwd`build/sdk/flutter/bin"
+            export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
             flutter doctor
             dart pub global activate melos
             melos bootstrap
