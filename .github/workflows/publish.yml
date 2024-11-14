@@ -1,0 +1,58 @@
+name: Publish
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: '[0-9]+\.[0-9]+\.[0-9]+'
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  compile:
+    name: dart compile exe
+    strategy:
+      matrix:
+        include:
+          - runs-on: ubuntu-latest
+            binary-name: mycli_linux_amd64
+          - runs-on: macos-latest
+            binary-name: mycli_macos_amd64
+          - runs-on: windows-latest
+            binary-name: mycli_windows.exe
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+#      - uses: dart-lang/setup-dart@v2
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - run: dart pub get
+      - run: mkdir -p build/${{ matrix.runs-on }}
+      - run: dart compile exe backends/smart_dash_cloud/bin/cloud.dart -o build/${{ matrix.runs-on }}/${{ matrix.binary-name }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bin-${{ matrix.runs-on }}
+          path: build/${{ matrix.runs-on }}
+
+  release:
+    needs: compile
+    name: github release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: bin-ubuntu-latest
+          path: bin-linux
+      - uses: actions/download-artifact@v3
+        with:
+          name: bin-macos-latest
+          path: bin-macos
+      - uses: actions/download-artifact@v3
+        with:
+          name: bin-windows-latest
+          path: bin-windows
+      - uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: bin-*/*
+      - name: Post release details
+        if: success()
+        run: echo "Release draft created successfully."
