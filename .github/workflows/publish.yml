@@ -17,7 +17,6 @@ jobs:
         with:
             channel: stable
             version: latest
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
       - run: dart pub global activate melos
       - run: melos bootstrap
   compile:
