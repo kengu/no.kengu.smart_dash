@@ -14,11 +14,11 @@ jobs:
       matrix:
         include:
           - runs-on: ubuntu-latest
-            binary-name: mycli_linux_amd64
+            binary-name: linux_amd64
           - runs-on: macos-latest
-            binary-name: mycli_macos_amd64
+            binary-name: macos_amd64
           - runs-on: windows-latest
-            binary-name: mycli_windows.exe
+            binary-name: windows.exe
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
@@ -36,8 +36,8 @@ jobs:
         run: mkdir -p build/${{ matrix.runs-on }}
 
       - name: Build Cloud Backend   
-        run: dart compile exe bin/main.dart -o build/${{ matrix.runs-on }}/${{ matrix.binary-name }}
-        working-directory: backends/smart_dash_cloud
+        run: dart compile exe bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}
+        working-directory: ./backends/smart_dash_cloud
       
       - uses: actions/upload-artifact@v3
         with:
