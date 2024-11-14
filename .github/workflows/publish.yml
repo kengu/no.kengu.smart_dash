@@ -92,6 +92,8 @@ jobs:
           #            mkdir -p build/${{ matrix.runs-on }}
           bind_mount_repository: true
           commands: |
+            sudo apt-get update -y
+            sudo apt-get install -y git-all
             ls -al build/sdk
             export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
             flutter doctor
