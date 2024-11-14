@@ -71,8 +71,8 @@ jobs:
         with:
           base_image: ${{ matrix.base_image }}
           commands: |
-            sudo apt update
-            sudo apt install snapd
+            sudo apt-get update
+            sudo apt-get --yes install snapd
             sudo snap install snapd
             sudo snap install flutter --classic
             dart pub global activate melos
