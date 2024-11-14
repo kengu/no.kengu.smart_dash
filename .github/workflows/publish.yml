@@ -20,6 +20,7 @@ jobs:
       - run: dart pub global activate melos
       - run: melos bootstrap
   compile:
+    needs: prepare
     name: dart compile exe
     defaults:
       run:
