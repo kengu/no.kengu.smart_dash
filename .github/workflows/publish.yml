@@ -93,6 +93,15 @@ jobs:
           #            melos bootstrap
           #            mkdir -p build/${{ matrix.runs-on }}
           commands: |
+            mkdir -p build/sdk
+            cd build/sdk
+            wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
+            tar -vxf flutter_linux_3.24.5-stable.tar.xz
+            export PATH="$PATH:`pwd`/flutter/bin"
+            cd ..
+            flutter doctor
+            dart pub global activate melos
+            melos bootstrap
             dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
 
       - uses: actions/upload-artifact@v3
