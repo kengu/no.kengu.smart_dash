@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+defaults:
+  run:
+    working-directory: backends/smart_dash_cloud
+
 jobs:
   compile:
     name: dart compile exe
@@ -21,7 +25,6 @@ jobs:
             binary-name: mycli_windows.exe
     runs-on: ${{ matrix.runs-on }}
     steps:
-      - working-directory: backends/smart_dash_cloud/
       - uses: actions/checkout@v3
 #      - uses: dart-lang/setup-dart@v2
       - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
