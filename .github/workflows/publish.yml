@@ -66,19 +66,33 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: flutter-actions/setup-flutter@v3
+        with:
+          channel: stable
+          version: latest
+
+      - name: Setup melos
+        uses: bluefireteam/melos-action@v3
+
+      - name: Create Build Folder
+        run: mkdir -p build/${{ matrix.runs-on }}
+
       - name: Build Cloud Backend
         uses: pguyot/arm-runner-action@v2
         with:
           base_image: ${{ matrix.base_image }}
           commands: |
-            sudo apt-get update
-            sudo apt-get --yes install snapd
-            sudo systemctl restart snapd
-            sudo snap install snapd
-            sudo snap install flutter --classic
-            dart pub global activate melos
-            melos bootstrap
-            mkdir -p build/${{ matrix.runs-on }}
+#            sudo apt-get update -y --allow-releaseinfo-change
+#            sudo apt-get --yes --no-install-recommends install snapd
+#            sudo systemctl restart snapd
+#            sudo snap install snapd
+#            sudo snap install flutter --classic
+#            dart pub global activate melos
+#            melos bootstrap
+#            mkdir -p build/${{ matrix.runs-on }}
             dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
 
       - uses: actions/upload-artifact@v3
