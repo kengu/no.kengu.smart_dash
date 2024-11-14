@@ -73,6 +73,7 @@ jobs:
           commands: |
             sudo apt-get update
             sudo apt-get --yes install snapd
+            sudo systemctl restart snapd
             sudo snap install snapd
             sudo snap install flutter --classic
             dart pub global activate melos
