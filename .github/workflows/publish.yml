@@ -101,6 +101,7 @@ jobs:
             export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
             sudo apt-get update -y
             sudo apt-get install -y git
+            git config --global --add safe.directory /no.kengu.smart_dash/build/sdk/flutter
             dart pub global activate melos
             melos bootstrap
             dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
