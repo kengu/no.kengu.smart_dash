@@ -13,14 +13,17 @@ part 'account_repository_app.g.dart';
 
 class AppAccountRepository extends ConnectionAwareRepository<String, Account>
     with AccountRepositoryMixin {
-  AppAccountRepository({
+  AppAccountRepository(
+    this.ref, {
     required AccountRepositoryMixin local,
     required AccountRepositoryMixin remote,
   }) : super(
           local: local,
           remote: remote,
-          checker: Connectivity.online,
+          checker: ref.read(connectivityProvider),
         );
+
+  final Ref ref;
 
   @override
   Future<bool> exists(String userId) async {
@@ -107,6 +110,7 @@ class AccountAdapter extends TypedAdapter<Account> {
 @Riverpod(keepAlive: true)
 AppAccountRepository appAccountRepository(AppAccountRepositoryRef ref) {
   return AppAccountRepository(
+    ref,
     local: LocalAccountRepository(),
     remote: RemoteAccountRepository(ref),
   );
