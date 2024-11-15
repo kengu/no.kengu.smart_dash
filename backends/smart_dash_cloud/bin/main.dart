@@ -52,7 +52,7 @@ void main(List<String> args) async {
       Pipeline().addMiddleware(logRequests()).addHandler(router.call);
 
   final server = await serve(handler, ip, port);
-  logger.info('Cloud: Server listening on port ${server.port}');
+  logger.info('Server listening on port ${server.port}');
 }
 
 Logger _initLogger(String name) {
