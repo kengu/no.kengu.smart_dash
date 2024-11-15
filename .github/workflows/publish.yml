@@ -97,7 +97,7 @@ jobs:
             cd build/sdk
             wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
             tar xf flutter_linux_3.24.5-stable.tar.xz
-            cd ..
+            cd ../..
             export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
             sudo apt-get update -y
             sudo apt-get install -y git
