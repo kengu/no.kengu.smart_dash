@@ -10,26 +10,29 @@ import 'package:smart_dash_account/smart_dash_account_backend.dart';
 
 const argPort = 'port';
 const argDbPath = 'db-path';
+const argLogLevel = 'log-level';
 
 void main(List<String> args) async {
   final parser = ArgParser()
     ..addOption(
       argPort,
       abbr: 'p',
+      // For running in containers, we respect
+      // the PORT environment variable.
       defaultsTo: Platform.environment['PORT'] ?? '8080',
     )
-    ..addOption(argDbPath, abbr: 'd', defaultsTo: '.data');
+    ..addOption(argDbPath, abbr: 'd', defaultsTo: '.db')
+    ..addOption(argLogLevel, abbr: 'l', defaultsTo: 'INFO');
 
+  // Get properties
   ArgResults argResults = parser.parse(args);
 
-  // TODO: Get logging level from args
-  _initLogger(Level.FINE);
-
-  // TODO: Get data path from args
+  _initLogger(argResults[argLogLevel] as String);
   final dbPath = argResults[argDbPath] as String;
   Directory(dbPath).createSync();
 
   final ip = InternetAddress.anyIPv4;
+  final port = int.parse(argResults[argPort] as String);
 
   final container = ProviderContainer();
 
@@ -46,14 +49,18 @@ void main(List<String> args) async {
   final handler =
       Pipeline().addMiddleware(logRequests()).addHandler(router.call);
 
-  // For running in containers, we respect the PORT environment variable.
-  final port = int.parse(argResults[argPort] as String);
   final server = await serve(handler, ip, port);
   print('Server listening on port ${server.port}');
 }
 
-void _initLogger(Level level) {
+void _initLogger(String name) {
+  final level = Level.LEVELS.firstWhere(
+    (e) => e.name.toLowerCase() == name.toLowerCase(),
+    orElse: () => Level.INFO,
+  );
+
   Logger.root.level = level;
+
   Logger.root.onRecord.listen((record) {
     // TODO: Store logs locally with hive
     print([
@@ -67,4 +74,5 @@ void _initLogger(Level level) {
       ].join('\n'),
     ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
+  print('Log level set to ${level.name}');
 }
