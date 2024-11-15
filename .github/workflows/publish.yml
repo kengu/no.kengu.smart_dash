@@ -11,40 +11,40 @@ on:
     branches: [ "main" ]
 
 jobs:
-  compile:
-    name: Compile Backends
-    strategy:
-      matrix:
-        include:
-          - runs-on: ubuntu-latest
-            binary-name: linux_amd64
-          - runs-on: macos-latest
-            binary-name: macos_amd64
-          - runs-on: windows-latest
-            binary-name: windows.exe
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Flutter
-        uses: flutter-actions/setup-flutter@v3
-        with:
-          channel: stable
-          version: latest
-
-      - name: Setup melos
-        uses: bluefireteam/melos-action@v3
-
-      - name: Create Build Folder
-        run: mkdir -p build/${{ matrix.runs-on }}
-
-      - name: Build Cloud Backend
-        run: dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: bin-${{ matrix.runs-on }}
-          path: build/${{ matrix.runs-on }}
+#  compile:
+#    name: Compile Backends
+#    strategy:
+#      matrix:
+#        include:
+#          - runs-on: ubuntu-latest
+#            binary-name: linux_amd64
+#          - runs-on: macos-latest
+#            binary-name: macos_amd64
+#          - runs-on: windows-latest
+#            binary-name: windows.exe
+#    runs-on: ${{ matrix.runs-on }}
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Setup Flutter
+#        uses: flutter-actions/setup-flutter@v3
+#        with:
+#          channel: stable
+#          version: latest
+#
+#      - name: Setup melos
+#        uses: bluefireteam/melos-action@v3
+#
+#      - name: Create Build Folder
+#        run: mkdir -p build/${{ matrix.runs-on }}
+#
+#      - name: Build Cloud Backend
+#        run: dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}
+#
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: bin-${{ matrix.runs-on }}
+#          path: build/${{ matrix.runs-on }}
 
 
   compile-rpi:
@@ -52,12 +52,6 @@ jobs:
     runs-on: [self-hosted, sjokoladehuset, arm64, rpi4b]
     steps:
       - uses: actions/checkout@v3
-
-#      - name: Setup Flutter
-#        uses: flutter-actions/setup-flutter@v3
-#        with:
-#          channel: stable
-#          version: latest
 
       - name: Setup melos
         uses: bluefireteam/melos-action@v3
@@ -76,23 +70,23 @@ jobs:
 
   release:
     needs:
-      - compile
+#      - compile
       - compile-rpi
     name: Github Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: bin-ubuntu-latest
-          path: bin-linux
-      - uses: actions/download-artifact@v3
-        with:
-          name: bin-macos-latest
-          path: bin-macos
-      - uses: actions/download-artifact@v3
-        with:
-          name: bin-windows-latest
-          path: bin-windows
+#      - uses: actions/download-artifact@v3
+#        with:
+#          name: bin-ubuntu-latest
+#          path: bin-linux
+#      - uses: actions/download-artifact@v3
+#        with:
+#          name: bin-macos-latest
+#          path: bin-macos
+#      - uses: actions/download-artifact@v3
+#        with:
+#          name: bin-windows-latest
+#          path: bin-windows
       - uses: actions/download-artifact@v3
         with:
           name: bin-rpi4b-arm64
