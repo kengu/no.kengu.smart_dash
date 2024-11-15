@@ -27,9 +27,11 @@ void main(List<String> args) async {
   // Get properties
   ArgResults argResults = parser.parse(args);
 
-  _initLogger(argResults[argLogLevel] as String);
+  final logger = _initLogger(argResults[argLogLevel] as String);
+
   final dbPath = argResults[argDbPath] as String;
-  Directory(dbPath).createSync();
+  final dbDir = Directory(dbPath)..createSync();
+  logger.info('Database path is ${dbDir.absolute.path}');
 
   final ip = InternetAddress.anyIPv4;
   final port = int.parse(argResults[argPort] as String);
@@ -50,10 +52,10 @@ void main(List<String> args) async {
       Pipeline().addMiddleware(logRequests()).addHandler(router.call);
 
   final server = await serve(handler, ip, port);
-  print('Server listening on port ${server.port}');
+  logger.info('Cloud: Server listening on port ${server.port}');
 }
 
-void _initLogger(String name) {
+Logger _initLogger(String name) {
   final level = Level.LEVELS.firstWhere(
     (e) => e.name.toLowerCase() == name.toLowerCase(),
     orElse: () => Level.INFO,
@@ -74,5 +76,7 @@ void _initLogger(String name) {
       ].join('\n'),
     ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
-  print('Log level set to ${level.name}');
+  final logger = Logger('Cloud');
+  logger.info('Log level set to ${level.name}');
+  return logger;
 }
