@@ -8,11 +8,17 @@ part 'connectivity_provider_flutter.g.dart';
 final InternetConnection _checker = InternetConnection.createInstance();
 
 @Riverpod(keepAlive: true)
-Connectivity connectivity(ConnectivityRef _) => Connectivity(
-      () async => _toStatus(await _checker.internetStatus),
-      changes: _checker.onStatusChange.map(_toStatus),
-      checkInterval: _checker.checkInterval,
-    );
+Connectivity connectivity(ConnectivityRef _) {
+  return Connectivity(
+    _check,
+    changes: _checker.onStatusChange.map(_toStatus),
+    checkInterval: _checker.checkInterval,
+  );
+}
+
+Future<ConnectivityStatus> _check() async {
+  return _toStatus(await _checker.internetStatus);
+}
 
 ConnectivityStatus _toStatus(InternetStatus status) {
   return switch (status) {

@@ -8,8 +8,7 @@ export 'src/domain/tag.dart';
 export 'src/domain/token.dart';
 export 'src/domain/units.dart';
 export 'src/domain/value.dart';
-export 'src/io/connectivity.dart'
-    if (dart.library.flutter) 'src/io/connectivity_provider_flutter.dart';
+export 'src/io/connectivity.dart';
 export 'src/io/problem_details.dart';
 export 'src/path/system_dirs.dart';
 export 'src/serialize/json.dart';
