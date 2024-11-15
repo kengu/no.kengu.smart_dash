@@ -95,8 +95,8 @@ jobs:
           path: bin-windows
       - uses: actions/download-artifact@v3
         with:
-          name: rpi4b-arm64
-          path: rpi4b-arm64
+          name: bin-rpi4b-arm64
+          path: bin-rpi4b-arm64
       - uses: softprops/action-gh-release@v1
         with:
           draft: true
