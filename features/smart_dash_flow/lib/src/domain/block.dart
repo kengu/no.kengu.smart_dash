@@ -6,7 +6,7 @@ part 'block.g.dart';
 
 class BlockFields {
   static const String id = 'id';
-  static const String type = 'id';
+  static const String type = 'type';
   static const String label = 'label';
   static const String state = 'state';
   static const String enabled = 'enabled';

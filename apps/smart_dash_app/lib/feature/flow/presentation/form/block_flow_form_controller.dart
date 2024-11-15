@@ -48,6 +48,9 @@ class BlockFlowFormController extends _$BlockFlowFormController
       BlockFields.id: FormControl<String>(
         value: model?.id,
       ),
+      BlockFields.type: FormControl<String>(
+        value: model?.type,
+      ),
       BlockFields.state: FormControl<JsonObject>(
         value: model?.state.toJson(),
       ),
