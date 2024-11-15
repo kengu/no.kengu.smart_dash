@@ -47,75 +47,75 @@ jobs:
           path: build/${{ matrix.runs-on }}
 
 
-  compile-rpi:
-    name: Compile Backends for RPI
-    strategy:
-      matrix:
-        arch: [armv6l, armv7l, aarch64]
-        include:
-          - arch: armv6l
-            runs-on: ubuntu-latest
-            base_image: raspios_lite:latest
-          - arch: armv7l
-            runs-on: ubuntu-latest
-            base_image: raspios_lite:latest
-          - arch: aarch64
-            runs-on: ubuntu-latest
-            base_image: raspios_lite_arm64:latest
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Prepare Build
-        #          export PATH="$PATH:`pwd`/flutter/bin"
-        #          flutter doctor
-        #          cd build/sdk
-        #          wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
-        #          tar xf flutter_linux_3.24.5-stable.tar.xz
-        run: |
-          mkdir -p build/sdk
-          mkdir -p build/${{ matrix.runs-on }}
-
-      - name: Build Cloud Backend
-        uses: pguyot/arm-runner-action@v2
-        with:
-          base_image: ${{ matrix.base_image }}
-          #            sudo apt-get update -y --allow-releaseinfo-change
-          #            sudo apt-get --yes --no-install-recommends install snapd
-          #            sudo systemctl restart snapd
-          #            sudo snap install snapd
-          #            sudo snap install flutter --classic
-          #            dart pub global activate melos
-          #            melos bootstrap
-          #            mkdir -p build/${{ matrix.runs-on }}
-          #            sudo apt-get update -y
-          #            sudo apt-get install -y git
-          #            ls -al build/sdk
-          #            flutter doctor
-          bind_mount_repository: true
-          image_additional_mb: 4096
-          commands: |
-            cd build/sdk
-            wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
-            tar xf flutter_linux_3.24.5-stable.tar.xz
-            cd ../..
-            export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
-            sudo apt-get update -y
-            sudo apt-get install -y git
-            git config --global --add safe.directory /no.kengu.smart_dash/build/sdk/flutter
-            dart pub global activate melos
-            melos bootstrap
-            dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: bin-${{ matrix.runs-on }}
-          path: build/${{ matrix.runs-on }}
+#  compile-rpi:
+#    name: Compile Backends for RPI
+#    strategy:
+#      matrix:
+#        arch: [armv6l, armv7l, aarch64]
+#        include:
+#          - arch: armv6l
+#            runs-on: ubuntu-latest
+#            base_image: raspios_lite:latest
+#          - arch: armv7l
+#            runs-on: ubuntu-latest
+#            base_image: raspios_lite:latest
+#          - arch: aarch64
+#            runs-on: ubuntu-latest
+#            base_image: raspios_lite_arm64:latest
+#    runs-on: ${{ matrix.runs-on }}
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Prepare Build
+#        #          export PATH="$PATH:`pwd`/flutter/bin"
+#        #          flutter doctor
+#        #          cd build/sdk
+#        #          wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
+#        #          tar xf flutter_linux_3.24.5-stable.tar.xz
+#        run: |
+#          mkdir -p build/sdk
+#          mkdir -p build/${{ matrix.runs-on }}
+#
+#      - name: Build Cloud Backend
+#        uses: pguyot/arm-runner-action@v2
+#        with:
+#          base_image: ${{ matrix.base_image }}
+#          #            sudo apt-get update -y --allow-releaseinfo-change
+#          #            sudo apt-get --yes --no-install-recommends install snapd
+#          #            sudo systemctl restart snapd
+#          #            sudo snap install snapd
+#          #            sudo snap install flutter --classic
+#          #            dart pub global activate melos
+#          #            melos bootstrap
+#          #            mkdir -p build/${{ matrix.runs-on }}
+#          #            sudo apt-get update -y
+#          #            sudo apt-get install -y git
+#          #            ls -al build/sdk
+#          #            flutter doctor
+#          bind_mount_repository: true
+#          image_additional_mb: 4096
+#          commands: |
+#            cd build/sdk
+#            wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
+#            tar xf flutter_linux_3.24.5-stable.tar.xz
+#            cd ../..
+#            export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
+#            sudo apt-get update -y
+#            sudo apt-get install -y git
+#            git config --global --add safe.directory /no.kengu.smart_dash/build/sdk/flutter
+#            dart pub global activate melos
+#            melos bootstrap
+#            dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
+#
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: bin-${{ matrix.runs-on }}
+#          path: build/${{ matrix.runs-on }}
 
 
   release:
     needs:
       - compile
-      - compile-rpi
+#      - compile-rpi
     name: Github Release
     runs-on: ubuntu-latest
     steps:
