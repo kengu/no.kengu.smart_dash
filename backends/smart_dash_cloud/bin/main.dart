@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
@@ -7,12 +8,26 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 
+const argPort = 'port';
+const argDbPath = 'db-path';
+
 void main(List<String> args) async {
+  final parser = ArgParser()
+    ..addOption(
+      argPort,
+      abbr: 'p',
+      defaultsTo: Platform.environment['PORT'] ?? '8080',
+    )
+    ..addOption(argDbPath, abbr: 'd', defaultsTo: '.data');
+
+  ArgResults argResults = parser.parse(args);
+
   // TODO: Get logging level from args
   _initLogger(Level.FINE);
 
   // TODO: Get data path from args
-  final dbPath = '.data';
+  final dbPath = argResults[argDbPath] as String;
+  Directory(dbPath).createSync();
 
   final ip = InternetAddress.anyIPv4;
 
@@ -32,7 +47,7 @@ void main(List<String> args) async {
       Pipeline().addMiddleware(logRequests()).addHandler(router.call);
 
   // For running in containers, we respect the PORT environment variable.
-  final port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final port = int.parse(argResults[argPort] as String);
   final server = await serve(handler, ip, port);
   print('Server listening on port ${server.port}');
 }
