@@ -66,14 +66,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Prepare Build
+        #          export PATH="$PATH:`pwd`/flutter/bin"
+        #          flutter doctor
         run: |
           mkdir -p build/sdk
           mkdir -p build/${{ matrix.runs-on }}
           cd build/sdk
           wget --no-verbose https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
           tar xf flutter_linux_3.24.5-stable.tar.xz
-#          export PATH="$PATH:`pwd`/flutter/bin"
-#          flutter doctor
 
       - name: Build Cloud Backend
         uses: pguyot/arm-runner-action@v2
@@ -87,13 +87,13 @@ jobs:
           #            dart pub global activate melos
           #            melos bootstrap
           #            mkdir -p build/${{ matrix.runs-on }}
+          #            sudo apt-get update -y
+          #            sudo apt-get install -y git
+          #            ls -al build/sdk
+          #            flutter doctor
           bind_mount_repository: true
           commands: |
-#            sudo apt-get update -y
-#            sudo apt-get install -y git
-#            ls -al build/sdk
             export PATH="$PATH:`pwd`/build/sdk/flutter/bin"
-#            flutter doctor
             dart pub global activate melos
             melos bootstrap
             dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/${{ matrix.runs-on }}/cloud_${{ matrix.binary-name }}_${{ matrix.arch }}
