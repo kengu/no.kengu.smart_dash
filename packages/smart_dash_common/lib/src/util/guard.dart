@@ -15,7 +15,7 @@ Future<T> guard<T>(
   try {
     return await execute();
   } catch (e, stackTrace) {
-    Logger('guard()').severe('error captured', e, stackTrace);
+    Logger(name).severe('error captured', e, stackTrace);
     if (error == null || error(e, stackTrace)) {
       await Sentry.captureException(e, stackTrace: stackTrace);
     }
@@ -40,7 +40,7 @@ T guardSync<T>(
   try {
     return execute();
   } catch (e, stackTrace) {
-    Logger('guardSync()').severe('error captured', e, stackTrace);
+    Logger(name).severe('error captured', e, stackTrace);
     if (error == null || error(e, stackTrace)) {
       Sentry.captureException(e, stackTrace: stackTrace);
     }
