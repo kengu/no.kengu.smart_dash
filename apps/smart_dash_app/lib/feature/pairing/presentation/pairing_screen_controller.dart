@@ -1,7 +1,7 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
 
 part 'pairing_screen_controller.g.dart';
 
@@ -20,7 +20,7 @@ class PairingScreenController extends _$PairingScreenController
       integrationRepositoryProvider.future,
     );
     return Optional.of(Map.fromEntries(services.entries.where(
-      (e) => e.value.features.contains(IntegrationFeature.device),
+      (e) => e.value.type == IntegrationType.device,
     )));
   }
 }

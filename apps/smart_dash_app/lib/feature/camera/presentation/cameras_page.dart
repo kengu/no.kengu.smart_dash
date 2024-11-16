@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
 import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
@@ -14,7 +15,6 @@ import 'package:smart_dash_app/feature/camera/presentation/camera_card.dart';
 import 'package:smart_dash_app/feature/camera/presentation/camera_group_controls.dart';
 import 'package:smart_dash_app/feature/dashboard/presentation/smart_dash_header.dart';
 import 'package:smart_dash_app/feature/dashboard/presentation/smart_dashboard.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
 
 class CamerasPage extends ConsumerStatefulWidget {
   const CamerasPage({super.key});
@@ -115,7 +115,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
         (e) => DashboardItem(
           width: 1,
           height: 1,
-          identifier: e.device!,
+          identifier: e.id!,
         ),
       ),
       DashboardItem(width: 1, height: 1, identifier: 'group'),
@@ -125,7 +125,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   Optional<ServiceConfig> _toConfig(
       Optional<List<ServiceConfig>> configs, DashboardItem item) {
     return configs.isPresent
-        ? configs.value.where((e) => e.device == item.identifier).firstOptional
+        ? configs.value.where((e) => e.id == item.identifier).firstOptional
         : const Optional.empty();
   }
 

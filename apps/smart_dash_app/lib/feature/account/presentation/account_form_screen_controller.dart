@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'account_form_screen_controller.g.dart';
@@ -123,60 +123,59 @@ class AccountFormScreenController extends _$AccountFormScreenController
     });
   }
 
-  FormGroup buildServiceFieldsForm(ServiceConfig data) {
+  FormGroup buildServiceFieldsForm(ServiceConfig config) {
     return fb.group(<String, Object>{
       // Hidden fields
       ServiceConfigFields.key: FormControl<String>(
-        value: data.key,
+        value: config.key,
       ),
       ServiceConfigFields.name: FormControl<String>(
-        value: data.name,
+        value: config.name,
       ),
-      ServiceConfigFields.fields: FormControl<List<String>>(
-        value: data.fields.map((e) => e.name).toList(),
-      ),
-      // Rendered fields
-      if (data.fields.contains(ServiceField.device))
-        ServiceConfigFields.device: FormControl<String>(
-          value: data.device,
-          validators: [Validators.required],
-        ),
-      if (data.fields.contains(ServiceField.host))
-        ServiceConfigFields.host: FormControl<String>(
-          value: data.host,
-          validators: [
-            Validators.required,
-            Validators.pattern(
-              r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}'
-              r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^'
-              r'(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+'
-              r'([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$',
-            )
-          ],
-        ),
-      if (data.fields.contains(ServiceField.port))
-        ServiceConfigFields.port: FormControl<int>(
-          value: data.port,
-          validators: [
-            Validators.required,
-            Validators.number(),
-          ],
-        ),
-      if (data.fields.contains(ServiceField.username))
-        ServiceConfigFields.username: FormControl<String>(
-          value: data.username,
-          validators: [Validators.required],
-        ),
-      if (data.fields.contains(ServiceField.password))
-        ServiceConfigFields.password: FormControl<String>(
-          value: data.password,
-          validators: [Validators.required],
-        ),
-      if (data.fields.contains(ServiceField.topics))
-        ServiceConfigFields.topics: FormControl<String>(
-          value: data.topics,
-          validators: [Validators.required],
-        )
+      ServiceConfigFields.data: fb.group({
+        // Rendered fields
+        if (config.data.containsKey(IntegrationField.id))
+          ServiceConfigDataFields.id: FormControl<String>(
+            value: config.get(IntegrationField.id),
+            validators: [Validators.required],
+          ),
+        if (config.data.containsKey(IntegrationField.host))
+          ServiceConfigDataFields.host: FormControl<String>(
+            value: config.get(IntegrationField.host),
+            validators: [
+              Validators.required,
+              Validators.pattern(
+                r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}'
+                r'(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^'
+                r'(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+'
+                r'([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$',
+              )
+            ],
+          ),
+        if (config.data.containsKey(IntegrationField.port))
+          ServiceConfigDataFields.port: FormControl<String>(
+            value: config.port,
+            validators: [
+              Validators.required,
+              Validators.number(),
+            ],
+          ),
+        if (config.data.containsKey(IntegrationField.username))
+          ServiceConfigDataFields.username: FormControl<String>(
+            value: config.username,
+            validators: [Validators.required],
+          ),
+        if (config.data.containsKey(IntegrationField.password))
+          ServiceConfigDataFields.password: FormControl<String>(
+            value: config.password,
+            validators: [Validators.required],
+          ),
+        if (config.data.containsKey(IntegrationField.topics))
+          ServiceConfigDataFields.topics: FormControl<String>(
+            value: config.topics,
+            validators: [Validators.required],
+          )
+      }),
     });
   }
 

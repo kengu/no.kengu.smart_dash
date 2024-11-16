@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'home_controller.g.dart';
@@ -74,6 +74,9 @@ class HomeController extends _$HomeController
     final settings = await ref.read(settingRepositoryProvider.notifier).load();
     final accountService = ref.read(accountServiceProvider);
     final home = await accountService.getCurrentHome();
+    if (!home.isPresent) {
+      return Optional.empty();
+    }
     return Optional.of(HomeData(
       home: home.value,
       settings: settings.value,

@@ -16,8 +16,9 @@ class Integration with _$Integration {
     required int instances,
     required String category,
     required String description,
-    required List<ServiceField> fields,
-    required List<IntegrationFeature> features,
+    required IntegrationType type,
+    required List<String> dependsOn,
+    required List<IntegrationField> fields,
   }) = _Integration;
 
   factory Integration.fromJson(Map<String, Object?> json) =>
@@ -25,36 +26,39 @@ class Integration with _$Integration {
 }
 
 class IntegrationFields {
-  /// Service key
+  /// Integration key
   static const String key = 'key';
 
-  /// Service name
+  /// Integration type
+  static const String type = 'type';
+
+  /// Integration name
   static const String name = 'name';
 
-  /// Service image
+  /// Integration image
   static const String image = 'image';
 
-  /// Service fields
+  /// Integration fields
   static const String fields = 'fields';
 
-  /// Service enabled
+  /// Integration enabled
   static const String enabled = 'enabled';
 
-  /// Service category
+  /// Integration category
   static const String category = 'category';
 
-  /// Service features
-  static const String features = 'features';
+  /// Integration features
+  static const String dependsOn = 'dependsOn';
 
   /// Maximum number of instances of this service
   static const String instances = 'instances';
 
-  /// Service description
+  /// Integration description
   static const String description = 'description';
 }
 
-enum ServiceField {
-  device,
+enum IntegrationField {
+  id,
   host,
   port,
   username,
@@ -62,10 +66,10 @@ enum ServiceField {
   topics,
 }
 
-enum IntegrationFeature {
-  data,
+enum IntegrationType {
+  mqtt,
   device,
+  location,
   camera,
-  weather,
   snow,
 }

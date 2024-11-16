@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/dialog.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
@@ -20,7 +21,6 @@ import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indi
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/presence/domain/presence.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_form_screen_controller.dart';
@@ -571,7 +571,7 @@ class _HomeServicesField extends StatelessWidget {
                 onSelected: (String service) {
                   services.add(
                     controller.buildServiceFieldsForm(
-                      ServiceConfig.fromDriver(integrations[service]!),
+                      ServiceConfig.fromDefinition(integrations[service]!),
                     ),
                     emitEvent: true,
                     updateParent: true,
@@ -669,72 +669,54 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
   @override
   Widget build(BuildContext context) {
     final service = widget.integrations[widget.serviceKey]!;
+    if (service.fields.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: ListTile(
+          title: Text(service.name),
+          subtitle: _buildTitle(service, context),
+          shape: const Border(),
+          leading: _buildTileIcon(service),
+          contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          trailing: _buildDeleteButton(context, service),
+        ),
+      );
+    }
     return ExpansionTile(
       title: Text(service.name),
-      subtitle: Text(
-        service.description,
-        style: getLegendTextStyle(context),
-      ),
+      subtitle: _buildTitle(service, context),
       maintainState: true,
       shape: const Border(),
       collapsedShape: const Border(),
       tilePadding: const EdgeInsets.only(top: 16),
       childrenPadding: const EdgeInsets.all(8.0),
       backgroundColor: Theme.of(context).colorScheme.surface.lighten(0.02),
-      leading: Image.asset(
-        'assets/images/${service.image}',
-        fit: BoxFit.cover,
-        cacheHeight: 32,
-        cacheWidth: 32,
-      ),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () async {
-          final remove = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: Text('Remove ${service.name}'),
-              content: const Text(
-                'This will remove all use and pairing.\n'
-                'Do you want to proceed?',
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text('NO'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  child: const Text('YES'),
-                ),
-              ],
-            ),
-          );
-          if (remove == true) {
-            widget.services.removeAt(
-              widget.index,
-              emitEvent: true,
-              updateParent: true,
-            );
-          }
-        },
-      ),
+      leading: _buildTileIcon(service),
+      trailing: _buildDeleteButton(context, service),
       children: [
-        if (service.fields.contains(ServiceField.device)) ...[
+        if (service.fields.isEmpty) Text('No parameters'),
+        if (service.fields.contains(IntegrationField.id)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
-            labelText: 'Device',
-            formControlName: '${widget.index}.${ServiceConfigFields.device}',
+            labelText: switch (service.type) {
+              IntegrationType.device => 'Device',
+              IntegrationType.camera => 'Camera',
+              IntegrationType.location => 'Location',
+              _ => 'Name',
+            },
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.id}',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter an device name',
             },
           ),
         ],
-        if (service.fields.contains(ServiceField.host)) ...[
+        if (service.fields.contains(IntegrationField.host)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
             labelText: 'Host',
-            formControlName: '${widget.index}.${ServiceConfigFields.host}',
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.host}',
             validationMessages: {
               ValidationMessage.required: (_) =>
                   'Please enter an ip address or host name',
@@ -743,32 +725,35 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
             },
           ),
         ],
-        if (service.fields.contains(ServiceField.port)) ...[
+        if (service.fields.contains(IntegrationField.port)) ...[
           const SizedBox(height: 16.0),
-          SmartDashTextField<int>(
+          SmartDashTextField<String>(
             labelText: 'Port',
-            formControlName: '${widget.index}.${ServiceConfigFields.port}',
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.port}',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter a host port',
               ValidationMessage.pattern: (_) => 'Please enter a host port',
             },
           ),
         ],
-        if (service.fields.contains(ServiceField.username)) ...[
+        if (service.fields.contains(IntegrationField.username)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
             labelText: 'Username',
-            formControlName: '${widget.index}.${ServiceConfigFields.username}',
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.username}',
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter an username',
             },
           ),
         ],
-        if (service.fields.contains(ServiceField.password)) ...[
+        if (service.fields.contains(IntegrationField.password)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
             labelText: 'Password',
-            formControlName: '${widget.index}.${ServiceConfigFields.password}',
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.password}',
             obscureText: !_passwordVisible,
             validationMessages: {
               ValidationMessage.required: (_) => 'Please enter an password',
@@ -777,13 +762,14 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
             textInputAction: TextInputAction.send,
           ),
         ],
-        if (service.fields.contains(ServiceField.topics)) ...[
+        if (service.fields.contains(IntegrationField.topics)) ...[
           const SizedBox(height: 16.0),
           SmartDashTextField<String>(
             labelText: 'Topics (comma separated)',
             minLines: 1,
             maxLines: 3,
-            formControlName: '${widget.index}.${ServiceConfigFields.topics}',
+            formControlName:
+                '${widget.index}.data.${ServiceConfigDataFields.topics}',
             validationMessages: {
               ValidationMessage.required: (_) =>
                   'Please enter at least one topic',
@@ -793,6 +779,57 @@ class _HomeServiceFieldState extends State<_HomeServiceField> {
           ),
         ],
       ],
+    );
+  }
+
+  Text _buildTitle(Integration service, BuildContext context) {
+    return Text(
+      service.description,
+      style: getLegendTextStyle(context),
+    );
+  }
+
+  Image _buildTileIcon(Integration service) {
+    return Image.asset(
+      'assets/images/${service.image}',
+      fit: BoxFit.cover,
+      cacheHeight: 32,
+      cacheWidth: 32,
+    );
+  }
+
+  IconButton _buildDeleteButton(BuildContext context, Integration service) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        final remove = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text('Remove ${service.name}'),
+            content: const Text(
+              'This will remove all use and pairing.\n'
+              'Do you want to proceed?',
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('NO'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('YES'),
+              ),
+            ],
+          ),
+        );
+        if (remove == true) {
+          widget.services.removeAt(
+            widget.index,
+            emitEvent: true,
+            updateParent: true,
+          );
+        }
+      },
     );
   }
 

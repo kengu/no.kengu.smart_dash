@@ -22,13 +22,7 @@ ServiceConfig _$ServiceConfigFromJson(Map<String, dynamic> json) {
 mixin _$ServiceConfig {
   String get key => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<ServiceField> get fields => throw _privateConstructorUsedError;
-  int? get port => throw _privateConstructorUsedError;
-  String? get host => throw _privateConstructorUsedError;
-  String? get device => throw _privateConstructorUsedError;
-  String? get username => throw _privateConstructorUsedError;
-  String? get password => throw _privateConstructorUsedError;
-  String? get topics => throw _privateConstructorUsedError;
+  Map<IntegrationField, String> get data => throw _privateConstructorUsedError;
 
   /// Serializes this ServiceConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,16 +40,7 @@ abstract class $ServiceConfigCopyWith<$Res> {
           ServiceConfig value, $Res Function(ServiceConfig) then) =
       _$ServiceConfigCopyWithImpl<$Res, ServiceConfig>;
   @useResult
-  $Res call(
-      {String key,
-      String name,
-      List<ServiceField> fields,
-      int? port,
-      String? host,
-      String? device,
-      String? username,
-      String? password,
-      String? topics});
+  $Res call({String key, String name, Map<IntegrationField, String> data});
 }
 
 /// @nodoc
@@ -75,13 +60,7 @@ class _$ServiceConfigCopyWithImpl<$Res, $Val extends ServiceConfig>
   $Res call({
     Object? key = null,
     Object? name = null,
-    Object? fields = null,
-    Object? port = freezed,
-    Object? host = freezed,
-    Object? device = freezed,
-    Object? username = freezed,
-    Object? password = freezed,
-    Object? topics = freezed,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -92,34 +71,10 @@ class _$ServiceConfigCopyWithImpl<$Res, $Val extends ServiceConfig>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      fields: null == fields
-          ? _value.fields
-          : fields // ignore: cast_nullable_to_non_nullable
-              as List<ServiceField>,
-      port: freezed == port
-          ? _value.port
-          : port // ignore: cast_nullable_to_non_nullable
-              as int?,
-      host: freezed == host
-          ? _value.host
-          : host // ignore: cast_nullable_to_non_nullable
-              as String?,
-      device: freezed == device
-          ? _value.device
-          : device // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topics: freezed == topics
-          ? _value.topics
-          : topics // ignore: cast_nullable_to_non_nullable
-              as String?,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<IntegrationField, String>,
     ) as $Val);
   }
 }
@@ -132,16 +87,7 @@ abstract class _$$ServiceConfigImplCopyWith<$Res>
       __$$ServiceConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String key,
-      String name,
-      List<ServiceField> fields,
-      int? port,
-      String? host,
-      String? device,
-      String? username,
-      String? password,
-      String? topics});
+  $Res call({String key, String name, Map<IntegrationField, String> data});
 }
 
 /// @nodoc
@@ -159,13 +105,7 @@ class __$$ServiceConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? key = null,
     Object? name = null,
-    Object? fields = null,
-    Object? port = freezed,
-    Object? host = freezed,
-    Object? device = freezed,
-    Object? username = freezed,
-    Object? password = freezed,
-    Object? topics = freezed,
+    Object? data = null,
   }) {
     return _then(_$ServiceConfigImpl(
       key: null == key
@@ -176,52 +116,23 @@ class __$$ServiceConfigImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      fields: null == fields
-          ? _value._fields
-          : fields // ignore: cast_nullable_to_non_nullable
-              as List<ServiceField>,
-      port: freezed == port
-          ? _value.port
-          : port // ignore: cast_nullable_to_non_nullable
-              as int?,
-      host: freezed == host
-          ? _value.host
-          : host // ignore: cast_nullable_to_non_nullable
-              as String?,
-      device: freezed == device
-          ? _value.device
-          : device // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topics: freezed == topics
-          ? _value.topics
-          : topics // ignore: cast_nullable_to_non_nullable
-              as String?,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<IntegrationField, String>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ServiceConfigImpl implements _ServiceConfig {
+class _$ServiceConfigImpl extends _ServiceConfig {
   const _$ServiceConfigImpl(
       {required this.key,
       required this.name,
-      required final List<ServiceField> fields,
-      this.port,
-      this.host,
-      this.device,
-      this.username,
-      this.password,
-      this.topics})
-      : _fields = fields;
+      required final Map<IntegrationField, String> data})
+      : _data = data,
+        super._();
 
   factory _$ServiceConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServiceConfigImplFromJson(json);
@@ -230,30 +141,17 @@ class _$ServiceConfigImpl implements _ServiceConfig {
   final String key;
   @override
   final String name;
-  final List<ServiceField> _fields;
+  final Map<IntegrationField, String> _data;
   @override
-  List<ServiceField> get fields {
-    if (_fields is EqualUnmodifiableListView) return _fields;
+  Map<IntegrationField, String> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fields);
+    return EqualUnmodifiableMapView(_data);
   }
 
   @override
-  final int? port;
-  @override
-  final String? host;
-  @override
-  final String? device;
-  @override
-  final String? username;
-  @override
-  final String? password;
-  @override
-  final String? topics;
-
-  @override
   String toString() {
-    return 'ServiceConfig(key: $key, name: $name, fields: $fields, port: $port, host: $host, device: $device, username: $username, password: $password, topics: $topics)';
+    return 'ServiceConfig(key: $key, name: $name, data: $data)';
   }
 
   @override
@@ -263,30 +161,13 @@ class _$ServiceConfigImpl implements _ServiceConfig {
             other is _$ServiceConfigImpl &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other._fields, _fields) &&
-            (identical(other.port, port) || other.port == port) &&
-            (identical(other.host, host) || other.host == host) &&
-            (identical(other.device, device) || other.device == device) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.topics, topics) || other.topics == topics));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      key,
-      name,
-      const DeepCollectionEquality().hash(_fields),
-      port,
-      host,
-      device,
-      username,
-      password,
-      topics);
+      runtimeType, key, name, const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of ServiceConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -304,17 +185,12 @@ class _$ServiceConfigImpl implements _ServiceConfig {
   }
 }
 
-abstract class _ServiceConfig implements ServiceConfig {
+abstract class _ServiceConfig extends ServiceConfig {
   const factory _ServiceConfig(
       {required final String key,
       required final String name,
-      required final List<ServiceField> fields,
-      final int? port,
-      final String? host,
-      final String? device,
-      final String? username,
-      final String? password,
-      final String? topics}) = _$ServiceConfigImpl;
+      required final Map<IntegrationField, String> data}) = _$ServiceConfigImpl;
+  const _ServiceConfig._() : super._();
 
   factory _ServiceConfig.fromJson(Map<String, dynamic> json) =
       _$ServiceConfigImpl.fromJson;
@@ -324,19 +200,7 @@ abstract class _ServiceConfig implements ServiceConfig {
   @override
   String get name;
   @override
-  List<ServiceField> get fields;
-  @override
-  int? get port;
-  @override
-  String? get host;
-  @override
-  String? get device;
-  @override
-  String? get username;
-  @override
-  String? get password;
-  @override
-  String? get topics;
+  Map<IntegrationField, String> get data;
 
   /// Create a copy of ServiceConfig
   /// with the given fields replaced by the non-null parameter values.

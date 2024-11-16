@@ -116,7 +116,7 @@ class DeviceDriverManager {
     }
   }
 
-  /// Get [DeviceDriver] for given [IntegrationFields.key]
+  /// Get [DeviceDriver] for given [key]
   DeviceDriver getDriver(String key) {
     assert(
       exists(key),

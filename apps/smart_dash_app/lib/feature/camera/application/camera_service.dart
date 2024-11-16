@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional_internal.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/feature/camera/data/camera_client.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
 import 'package:smart_dash_app/feature/system/application/timing_service.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -46,7 +46,7 @@ abstract class CameraService {
     final cached = getCachedConfigs();
     if (cached.isPresent) {
       for (var service in cached.value) {
-        final camera = getCachedCamera(service.device!);
+        final camera = getCachedCamera(service.id!);
         if (camera.isPresent) cameras.add(camera.value);
       }
     }
@@ -56,8 +56,8 @@ abstract class CameraService {
   Future<List<Camera>> getCameras({Duration? ttl}) async {
     return _cache.getOrFetch('cameras', () async {
       final cameras = <Camera>[];
-      for (var service in await getConfigs()) {
-        final camera = await getCamera(service.device!, ttl: ttl);
+      for (var config in await getConfigs()) {
+        final camera = await getCamera(config.id!, ttl: ttl);
         if (camera.isPresent) cameras.add(camera.value);
       }
       return cameras;
@@ -189,7 +189,7 @@ abstract class CameraService {
 
   Future<Optional<CameraClient>> _newClient(String name) async {
     final cameras = await getConfigs();
-    final found = cameras.firstWhereOptional((e) => e.device == name);
+    final found = cameras.firstWhereOptional((e) => e.id == name);
     if (!found.isPresent) const Optional.empty();
     final client = newClient(found.value);
     return Optional.of(client);

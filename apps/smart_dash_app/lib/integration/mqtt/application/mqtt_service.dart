@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_server_client.dart' as m;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/integration/mqtt/data/mqtt_client.dart';
 import 'package:smart_dash_app/integration/mqtt/domain/mqtt_message.dart';
 import 'package:smart_dash_app/integration/mqtt/mqtt.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'mqtt_service.g.dart';
@@ -49,7 +49,7 @@ class MqttService {
           m.MqttServerClient(
             url,
             'SmartDash::${user.userId}',
-          )..port = config.port!,
+          )..port = int.parse(config.port!),
         );
 
         final connected = await client.connect(

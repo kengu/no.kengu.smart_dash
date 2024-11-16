@@ -7,10 +7,10 @@ import 'package:logging/logging.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/widget/circle_blip.dart';
 import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
   const CameraCard({
@@ -154,7 +154,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
               title: Tooltip(
                 message: 'Updates ever ${widget.period.inSeconds}s',
                 child: Text(
-                  widget.config.orElseNull?.device ?? 'Camera',
+                  widget.config.orElseNull?.id ?? 'Camera',
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -252,7 +252,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
       setState(() {});
       Logger('$runtimeType').fine(
         'Started RTSP video stream on camera '
-        '[${config.device}]: $url',
+        '[${config.id}]: $url',
       );
     }
   }
@@ -264,7 +264,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
       setState(() {});
       Logger('$runtimeType').fine(
         'Stopped RTSP video stream on camera '
-        '[${_videoConfig.value.$1.device}]: ${_videoConfig.value.$2}}',
+        '[${_videoConfig.value.$1.id}]: ${_videoConfig.value.$2}}',
       );
     }
   }

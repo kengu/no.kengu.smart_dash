@@ -31,7 +31,7 @@ class LocationManager {
     );
   }
 
-  /// Get [Location] for given [IntegrationFields.key]
+  /// Get [Location] for given [key]
   T getService<T extends LocationService>(String key) {
     assert(
       exists(key),

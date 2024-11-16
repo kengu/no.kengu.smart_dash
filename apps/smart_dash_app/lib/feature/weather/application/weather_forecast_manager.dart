@@ -31,7 +31,7 @@ class WeatherForecastManager {
     );
   }
 
-  /// Get [Weather] for given [IntegrationFields.key]
+  /// Get [Weather] for given [key]
   T getService<T extends WeatherForecastService>(String key) {
     assert(
       exists(key),

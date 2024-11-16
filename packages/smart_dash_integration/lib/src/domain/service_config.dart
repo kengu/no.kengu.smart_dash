@@ -8,28 +8,34 @@ part 'service_config.g.dart';
 
 @freezed
 class ServiceConfig with _$ServiceConfig {
+  const ServiceConfig._();
   const factory ServiceConfig({
     required String key,
     required String name,
-    required List<ServiceField> fields,
-    int? port,
-    String? host,
-    String? device,
-    String? username,
-    String? password,
-    String? topics,
+    required Map<IntegrationField, String> data,
   }) = _ServiceConfig;
 
   factory ServiceConfig.fromJson(Map<String, Object?> json) =>
       _$ServiceConfigFromJson(json);
 
-  factory ServiceConfig.fromDriver(Integration service) => ServiceConfig(
-        username: '',
-        password: '',
+  factory ServiceConfig.fromDefinition(Integration service) => ServiceConfig(
         key: service.key,
         name: service.name,
-        fields: service.fields.toList(),
+        data: Map.fromEntries(
+          service.fields.map(
+            (e) => MapEntry(e, ''),
+          ),
+        ),
       );
+
+  String? get id => get(IntegrationField.id);
+  String? get host => get(IntegrationField.host);
+  String? get port => get(IntegrationField.port);
+  String? get topics => get(IntegrationField.topics);
+  String? get username => get(IntegrationField.username);
+  String? get password => get(IntegrationField.password);
+
+  String? get(IntegrationField key) => data[key];
 
   static String toBasicAuth(String username, String password) =>
       'Basic ${base64Encode(utf8.encode('$username:$password'))}';
@@ -38,10 +44,13 @@ class ServiceConfig with _$ServiceConfig {
 class ServiceConfigFields {
   static const String key = 'key';
   static const String name = 'name';
+  static const String data = 'data';
+}
+
+class ServiceConfigDataFields {
+  static const String id = 'id';
   static const String host = 'host';
   static const String port = 'port';
-  static const String device = 'device';
-  static const String fields = 'fields';
   static const String username = 'username';
   static const String password = 'password';
   static const String topics = 'topics';

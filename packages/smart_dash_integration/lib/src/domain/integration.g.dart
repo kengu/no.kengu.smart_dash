@@ -16,11 +16,11 @@ _$IntegrationImpl _$$IntegrationImplFromJson(Map<String, dynamic> json) =>
       instances: (json['instances'] as num).toInt(),
       category: json['category'] as String,
       description: json['description'] as String,
+      type: $enumDecode(_$IntegrationTypeEnumMap, json['type']),
+      dependsOn:
+          (json['dependsOn'] as List<dynamic>).map((e) => e as String).toList(),
       fields: (json['fields'] as List<dynamic>)
-          .map((e) => $enumDecode(_$ServiceFieldEnumMap, e))
-          .toList(),
-      features: (json['features'] as List<dynamic>)
-          .map((e) => $enumDecode(_$IntegrationFeatureEnumMap, e))
+          .map((e) => $enumDecode(_$IntegrationFieldEnumMap, e))
           .toList(),
     );
 
@@ -34,25 +34,25 @@ Map<String, dynamic> _$$IntegrationImplToJson(_$IntegrationImpl instance) =>
       'instances': instance.instances,
       'category': instance.category,
       'description': instance.description,
-      'fields': instance.fields.map((e) => _$ServiceFieldEnumMap[e]!).toList(),
-      'features': instance.features
-          .map((e) => _$IntegrationFeatureEnumMap[e]!)
-          .toList(),
+      'type': _$IntegrationTypeEnumMap[instance.type]!,
+      'dependsOn': instance.dependsOn,
+      'fields':
+          instance.fields.map((e) => _$IntegrationFieldEnumMap[e]!).toList(),
     };
 
-const _$ServiceFieldEnumMap = {
-  ServiceField.device: 'device',
-  ServiceField.host: 'host',
-  ServiceField.port: 'port',
-  ServiceField.username: 'username',
-  ServiceField.password: 'password',
-  ServiceField.topics: 'topics',
+const _$IntegrationTypeEnumMap = {
+  IntegrationType.mqtt: 'mqtt',
+  IntegrationType.device: 'device',
+  IntegrationType.location: 'location',
+  IntegrationType.camera: 'camera',
+  IntegrationType.snow: 'snow',
 };
 
-const _$IntegrationFeatureEnumMap = {
-  IntegrationFeature.data: 'data',
-  IntegrationFeature.device: 'device',
-  IntegrationFeature.camera: 'camera',
-  IntegrationFeature.weather: 'weather',
-  IntegrationFeature.snow: 'snow',
+const _$IntegrationFieldEnumMap = {
+  IntegrationField.id: 'id',
+  IntegrationField.host: 'host',
+  IntegrationField.port: 'port',
+  IntegrationField.username: 'username',
+  IntegrationField.password: 'password',
+  IntegrationField.topics: 'topics',
 };

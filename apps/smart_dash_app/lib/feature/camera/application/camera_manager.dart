@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/feature/camera/application/camera_service.dart';
 import 'package:smart_dash_app/feature/camera/data/snapshot_repository.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -87,7 +87,7 @@ class CameraManager {
     return true;
   }
 
-  /// Get [Camera] for given [IntegrationFields.key]
+  /// Get [Camera] for given [key]
   T getService<T extends CameraService>(String key) {
     assert(
       exists(key),
@@ -118,9 +118,9 @@ class CameraManager {
 
   Future<Optional<Camera>> getCamera(ServiceConfig config,
       {Duration? ttl}) async {
-    assert(config.device != null, 'ServiceConfig.device is null');
+    assert(config.id != null, 'ServiceConfig.id is null');
     return getService(config.key).getCamera(
-      config.device!,
+      config.id!,
       ttl: ttl,
     );
   }

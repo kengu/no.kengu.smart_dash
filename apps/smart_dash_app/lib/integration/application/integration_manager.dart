@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash_app/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash_app/feature/snow/application/snow_manager.dart';
@@ -13,7 +14,6 @@ import 'package:smart_dash_app/integration/nysny/application/nysny_service.dart'
 import 'package:smart_dash_app/integration/osm/application/osm_location_service.dart';
 import 'package:smart_dash_app/integration/rtl_433/application/rtl_433_driver.dart';
 import 'package:smart_dash_app/integration/sikom/application/sikom_driver.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 part 'integration_manager.g.dart';
 
@@ -60,8 +60,8 @@ class IntegrationManager {
     return ref.read(integrationRepositoryProvider.notifier).get(key);
   }
 
-  Optional<IntegrationMap> supports(Iterable<String> features) {
-    return ref.read(integrationRepositoryProvider.notifier).supports(features);
+  Optional<IntegrationMap> supports(Iterable<IntegrationType> types) {
+    return ref.read(integrationRepositoryProvider.notifier).supports(types);
   }
 
   Optional<IntegrationMap> where(bool Function(Integration element) test) {

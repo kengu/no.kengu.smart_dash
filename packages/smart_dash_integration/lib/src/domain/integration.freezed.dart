@@ -28,8 +28,9 @@ mixin _$Integration {
   int get instances => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  List<ServiceField> get fields => throw _privateConstructorUsedError;
-  List<IntegrationFeature> get features => throw _privateConstructorUsedError;
+  IntegrationType get type => throw _privateConstructorUsedError;
+  List<String> get dependsOn => throw _privateConstructorUsedError;
+  List<IntegrationField> get fields => throw _privateConstructorUsedError;
 
   /// Serializes this Integration to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,8 +57,9 @@ abstract class $IntegrationCopyWith<$Res> {
       int instances,
       String category,
       String description,
-      List<ServiceField> fields,
-      List<IntegrationFeature> features});
+      IntegrationType type,
+      List<String> dependsOn,
+      List<IntegrationField> fields});
 }
 
 /// @nodoc
@@ -83,8 +85,9 @@ class _$IntegrationCopyWithImpl<$Res, $Val extends Integration>
     Object? instances = null,
     Object? category = null,
     Object? description = null,
+    Object? type = null,
+    Object? dependsOn = null,
     Object? fields = null,
-    Object? features = null,
   }) {
     return _then(_value.copyWith(
       key: null == key
@@ -119,14 +122,18 @@ class _$IntegrationCopyWithImpl<$Res, $Val extends Integration>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as IntegrationType,
+      dependsOn: null == dependsOn
+          ? _value.dependsOn
+          : dependsOn // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       fields: null == fields
           ? _value.fields
           : fields // ignore: cast_nullable_to_non_nullable
-              as List<ServiceField>,
-      features: null == features
-          ? _value.features
-          : features // ignore: cast_nullable_to_non_nullable
-              as List<IntegrationFeature>,
+              as List<IntegrationField>,
     ) as $Val);
   }
 }
@@ -148,8 +155,9 @@ abstract class _$$IntegrationImplCopyWith<$Res>
       int instances,
       String category,
       String description,
-      List<ServiceField> fields,
-      List<IntegrationFeature> features});
+      IntegrationType type,
+      List<String> dependsOn,
+      List<IntegrationField> fields});
 }
 
 /// @nodoc
@@ -173,8 +181,9 @@ class __$$IntegrationImplCopyWithImpl<$Res>
     Object? instances = null,
     Object? category = null,
     Object? description = null,
+    Object? type = null,
+    Object? dependsOn = null,
     Object? fields = null,
-    Object? features = null,
   }) {
     return _then(_$IntegrationImpl(
       key: null == key
@@ -209,14 +218,18 @@ class __$$IntegrationImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as IntegrationType,
+      dependsOn: null == dependsOn
+          ? _value._dependsOn
+          : dependsOn // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       fields: null == fields
           ? _value._fields
           : fields // ignore: cast_nullable_to_non_nullable
-              as List<ServiceField>,
-      features: null == features
-          ? _value._features
-          : features // ignore: cast_nullable_to_non_nullable
-              as List<IntegrationFeature>,
+              as List<IntegrationField>,
     ));
   }
 }
@@ -233,10 +246,11 @@ class _$IntegrationImpl implements _Integration {
       required this.instances,
       required this.category,
       required this.description,
-      required final List<ServiceField> fields,
-      required final List<IntegrationFeature> features})
-      : _fields = fields,
-        _features = features;
+      required this.type,
+      required final List<String> dependsOn,
+      required final List<IntegrationField> fields})
+      : _dependsOn = dependsOn,
+        _fields = fields;
 
   factory _$IntegrationImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntegrationImplFromJson(json);
@@ -257,25 +271,27 @@ class _$IntegrationImpl implements _Integration {
   final String category;
   @override
   final String description;
-  final List<ServiceField> _fields;
   @override
-  List<ServiceField> get fields {
+  final IntegrationType type;
+  final List<String> _dependsOn;
+  @override
+  List<String> get dependsOn {
+    if (_dependsOn is EqualUnmodifiableListView) return _dependsOn;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dependsOn);
+  }
+
+  final List<IntegrationField> _fields;
+  @override
+  List<IntegrationField> get fields {
     if (_fields is EqualUnmodifiableListView) return _fields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fields);
   }
 
-  final List<IntegrationFeature> _features;
-  @override
-  List<IntegrationFeature> get features {
-    if (_features is EqualUnmodifiableListView) return _features;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_features);
-  }
-
   @override
   String toString() {
-    return 'Integration(key: $key, name: $name, system: $system, image: $image, enabled: $enabled, instances: $instances, category: $category, description: $description, fields: $fields, features: $features)';
+    return 'Integration(key: $key, name: $name, system: $system, image: $image, enabled: $enabled, instances: $instances, category: $category, description: $description, type: $type, dependsOn: $dependsOn, fields: $fields)';
   }
 
   @override
@@ -294,8 +310,10 @@ class _$IntegrationImpl implements _Integration {
                 other.category == category) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            const DeepCollectionEquality().equals(other._fields, _fields) &&
-            const DeepCollectionEquality().equals(other._features, _features));
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._dependsOn, _dependsOn) &&
+            const DeepCollectionEquality().equals(other._fields, _fields));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -310,8 +328,9 @@ class _$IntegrationImpl implements _Integration {
       instances,
       category,
       description,
-      const DeepCollectionEquality().hash(_fields),
-      const DeepCollectionEquality().hash(_features));
+      type,
+      const DeepCollectionEquality().hash(_dependsOn),
+      const DeepCollectionEquality().hash(_fields));
 
   /// Create a copy of Integration
   /// with the given fields replaced by the non-null parameter values.
@@ -339,8 +358,9 @@ abstract class _Integration implements Integration {
       required final int instances,
       required final String category,
       required final String description,
-      required final List<ServiceField> fields,
-      required final List<IntegrationFeature> features}) = _$IntegrationImpl;
+      required final IntegrationType type,
+      required final List<String> dependsOn,
+      required final List<IntegrationField> fields}) = _$IntegrationImpl;
 
   factory _Integration.fromJson(Map<String, dynamic> json) =
       _$IntegrationImpl.fromJson;
@@ -362,9 +382,11 @@ abstract class _Integration implements Integration {
   @override
   String get description;
   @override
-  List<ServiceField> get fields;
+  IntegrationType get type;
   @override
-  List<IntegrationFeature> get features;
+  List<String> get dependsOn;
+  @override
+  List<IntegrationField> get fields;
 
   /// Create a copy of Integration
   /// with the given fields replaced by the non-null parameter values.

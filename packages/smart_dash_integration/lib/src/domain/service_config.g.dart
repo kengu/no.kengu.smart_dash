@@ -10,35 +10,25 @@ _$ServiceConfigImpl _$$ServiceConfigImplFromJson(Map<String, dynamic> json) =>
     _$ServiceConfigImpl(
       key: json['key'] as String,
       name: json['name'] as String,
-      fields: (json['fields'] as List<dynamic>)
-          .map((e) => $enumDecode(_$ServiceFieldEnumMap, e))
-          .toList(),
-      port: (json['port'] as num?)?.toInt(),
-      host: json['host'] as String?,
-      device: json['device'] as String?,
-      username: json['username'] as String?,
-      password: json['password'] as String?,
-      topics: json['topics'] as String?,
+      data: (json['data'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry($enumDecode(_$IntegrationFieldEnumMap, k), e as String),
+      ),
     );
 
 Map<String, dynamic> _$$ServiceConfigImplToJson(_$ServiceConfigImpl instance) =>
     <String, dynamic>{
       'key': instance.key,
       'name': instance.name,
-      'fields': instance.fields.map((e) => _$ServiceFieldEnumMap[e]!).toList(),
-      'port': instance.port,
-      'host': instance.host,
-      'device': instance.device,
-      'username': instance.username,
-      'password': instance.password,
-      'topics': instance.topics,
+      'data': instance.data
+          .map((k, e) => MapEntry(_$IntegrationFieldEnumMap[k]!, e)),
     };
 
-const _$ServiceFieldEnumMap = {
-  ServiceField.device: 'device',
-  ServiceField.host: 'host',
-  ServiceField.port: 'port',
-  ServiceField.username: 'username',
-  ServiceField.password: 'password',
-  ServiceField.topics: 'topics',
+const _$IntegrationFieldEnumMap = {
+  IntegrationField.id: 'id',
+  IntegrationField.host: 'host',
+  IntegrationField.port: 'port',
+  IntegrationField.username: 'username',
+  IntegrationField.password: 'password',
+  IntegrationField.topics: 'topics',
 };

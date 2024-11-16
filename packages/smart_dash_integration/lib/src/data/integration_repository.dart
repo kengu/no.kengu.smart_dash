@@ -23,8 +23,8 @@ class IntegrationRepository extends _$IntegrationRepository {
     return Optional.ofNullable(state.value?[key]);
   }
 
-  Optional<IntegrationMap> supports(Iterable<String> features) {
-    return where((e) => e.features.any(features.contains));
+  Optional<IntegrationMap> supports(Iterable<IntegrationType> types) {
+    return where((e) => types.contains(e.type));
   }
 
   Optional<IntegrationMap> where(bool Function(Integration element) test) {
@@ -49,108 +49,117 @@ class IntegrationRepository extends _$IntegrationRepository {
 [
   {
     "key": "sikom",
+    "type": "device",
     "name": "Sikom Living API",
     "image": "sikom.png",
     "category": "Smart Home & IoT",
-    "features": ["device"],
     "description": "Enter account email and password",
     "fields": ["username", "password"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true
   },
   {
-    "key": "mqtt",
+    "key": "mqtt_broker",
+    "type": "mqtt",
     "name": "MQTT API",
     "image": "mqtt.png",
     "category": "Smart Home & IoT",
-    "features": ["data"],
     "description": "Enter client information",
     "fields": ["host", "port", "username", "password", "topics"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true
   },
   {
     "key": "rtl_433",
+    "type": "mqtt",
     "name": "RF Data Receiver (rtl_433)",
     "image": "generic.png",
     "category": "Smart Home & IoT",
-    "description": "Enable processing of RF data",
-    "features": ["device"],
+    "description": "Enables processing of RF data",
     "fields": [],
+    "dependsOn": ["mqtt_broker"],
     "instances": 1,
     "system": false,
     "enabled": true
   },
   {
     "key": "homey",
+    "type": "device",
     "name": "Homey API",
     "image": "homey.png",
     "category": "Smart Home & IoT",
-    "features": ["device"],
     "description": "Enter account email and password",
     "fields": ["username", "password"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": false
   },
   {
     "key": "home_assistant",
+    "type": "device",
     "name": "Home Assistant API",
     "image": "home_assistant.png",
     "category": "Smart Home & IoT",
-    "features": ["device"],
-    "fields": ["username", "password"],
     "description": "Enter account email and password",
+    "fields": ["username", "password"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": false
   },
   {
     "key": "foscam",
+    "type": "camera",
     "name": "Foscam CGI API",
     "image": "foscam.png",
     "category": "Security Cameras",
-    "features": ["camera"],
     "description": "Enter camera information",
-    "fields": ["device", "host", "port", "username", "password"],
+    "fields": ["id", "host", "port", "username", "password"],
+    "dependsOn": [],
     "instances": 4,
     "system": false,
     "enabled": true
   },
   {
     "key": "metno",
+    "type": "device",
     "name": "MET Location Forecast API",
     "image": "met.png",
     "category": "Weather Services",
-    "features": ["data", "device", "weather"],
-    "description": "Enable weather forecasts",
+    "description": "Enables weather forecasts",
     "fields": [],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true
   },
   {
     "key": "nysny",
+    "type": "device",
     "name": "NySny Web",
     "image": "nysny.png",
-    "category": "Weather Services",
-    "features": ["data", "device", "snow"],
+    "category": "Snow Depth Services",
     "description": "Enter account information",
     "fields": ["username", "password"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true
   },
   {
     "key": "osm",
+    "type": "location",
     "name": "OSM Nominatim API",
     "image": "osm.png",
     "category": "Location Services",
-    "features": ["data"],
-    "description": "Enable location search",
+    "description": "Enables location search",
     "fields": [],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true

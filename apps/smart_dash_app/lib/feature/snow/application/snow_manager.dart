@@ -39,7 +39,7 @@ class SnowManager {
     );
   }
 
-  /// Get [Snow] for given [IntegrationFields.key]
+  /// Get [Snow] for given [key]
   T getService<T extends SnowService>(String key) {
     assert(
       exists(key),
