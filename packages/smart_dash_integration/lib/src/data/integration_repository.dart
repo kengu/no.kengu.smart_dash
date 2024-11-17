@@ -113,19 +113,6 @@ class IntegrationRepository extends _$IntegrationRepository {
     "enabled": false
   },
   {
-    "key": "foscam",
-    "type": "camera",
-    "name": "Foscam CGI API",
-    "image": "foscam.png",
-    "category": "Security Cameras",
-    "description": "Enter camera information",
-    "fields": ["id", "host", "port", "username", "password"],
-    "dependsOn": [],
-    "instances": 4,
-    "system": false,
-    "enabled": true
-  },
-  {
     "key": "metno",
     "type": "device",
     "name": "MET Location Forecast API",

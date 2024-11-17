@@ -9,15 +9,16 @@ import 'package:network_tools/network_tools.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/smart_dash_app.dart';
 import 'package:smart_dash_app/feature/device/application/device_service.dart';
 import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_app/feature/system/application/timing_service.dart';
 import 'package:smart_dash_app/integration/application/integration_manager.dart';
+import 'package:smart_dash_app/integration/foscam/foscam.dart';
 import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash_app/util/platform.dart';
-import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
@@ -131,7 +132,9 @@ ProviderContainer initProviders() {
   container.read(presenceServiceProvider).bind();
 
   // Initialize integrations
-  container.read(integrationManagerProvider).init(container);
+  container.read(integrationManagerProvider)
+    ..register(Foscam.definition, Foscam.register)
+    ..build(container);
 
   // Start pumping events
   container.read(timingServiceProvider).start();

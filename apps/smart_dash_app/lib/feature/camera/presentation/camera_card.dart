@@ -9,7 +9,7 @@ import 'package:media_kit_video/media_kit_video.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/widget/circle_blip.dart';
-import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
+import 'package:smart_dash_app/feature/camera/application/camera_service.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
 
 class CameraCard extends ConsumerStatefulWidget {
@@ -20,6 +20,7 @@ class CameraCard extends ConsumerStatefulWidget {
     this.onDoubleTap,
     this.cachedWidth,
     this.cachedHeight,
+    this.isUpdating = false,
     this.withVideoControl = false,
     this.withMotionControl = false,
     this.withRefreshControl = true,
@@ -31,6 +32,8 @@ class CameraCard extends ConsumerStatefulWidget {
   final Duration period;
 
   final BoxFit? fit;
+
+  final bool isUpdating;
 
   final int? cachedWidth;
 
@@ -68,11 +71,13 @@ class _VideoCardState extends ConsumerState<CameraCard>
   @override
   void initState() {
     _startSnapshots();
+    _isUpdating = widget.isUpdating;
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant CameraCard oldWidget) {
+    _isUpdating = widget.isUpdating;
     if (widget.period != oldWidget.period) {
       if (isVideoPlaying) {
         _restartVideo();
@@ -133,13 +138,16 @@ class _VideoCardState extends ConsumerState<CameraCard>
                                 cacheWidth: widget.cachedWidth,
                                 cacheHeight: widget.cachedHeight,
                               ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: CircleBlip(
-                                enabled: !isVideoPlaying,
+                            if (!_isUpdating &&
+                                ConnectionState.done ==
+                                    snapshot.connectionState)
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: CircleBlip(
+                                  enabled: !isVideoPlaying,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -231,7 +239,9 @@ class _VideoCardState extends ConsumerState<CameraCard>
     _snapshotTimer?.cancel();
     _snapshotTimer = Timer.periodic(
       widget.period,
-      (timer) => setState(() {}),
+      (timer) {
+        setState(() {});
+      },
     );
   }
 
@@ -279,7 +289,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
   Future<Optional<Camera>> _fetchCamera({Duration? ttl}) async {
     if (!widget.config.isPresent) return const Optional.empty();
     _camera = await ref
-        .read(cameraManagerProvider)
+        .read(cameraServiceProvider)
         .getCamera(widget.config.value, ttl: ttl);
     return _camera;
   }
@@ -287,7 +297,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
   Future<Optional<CameraSnapshot>> _fetchSnapshot() async {
     await _fetchCamera(ttl: widget.period);
     if (!_camera.isPresent) return const Optional.empty();
-    return ref.read(cameraManagerProvider).getSnapshot(
+    return ref.read(cameraServiceProvider).getSnapshot(
           _camera.value,
           ttl: widget.period,
         );
@@ -295,7 +305,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   Optional<CameraSnapshot> _fetchCachedSnapshot() {
     if (!_camera.isPresent) return const Optional.empty();
-    return ref.read(cameraManagerProvider).getCachedSnapshot(
+    return ref.read(cameraServiceProvider).getCachedSnapshot(
           _camera.value,
         );
   }
@@ -316,7 +326,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
       update() async {
         final result = await ref
-            .read(cameraManagerProvider)
+            .read(cameraServiceProvider)
             .setMotionConfig(_camera.value, enabled: enabled);
 
         if (result.isPresent) {

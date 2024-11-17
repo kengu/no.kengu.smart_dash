@@ -2,11 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash_app/feature/device/application/device_driver_manager.dart';
 import 'package:smart_dash_app/feature/snow/application/snow_manager.dart';
 import 'package:smart_dash_app/feature/weather/application/weather_forecast_manager.dart';
-import 'package:smart_dash_app/integration/foscam/application/foscam_service.dart';
 import 'package:smart_dash_app/integration/metno/application/metno_forecast_driver.dart';
 import 'package:smart_dash_app/integration/metno/application/metno_forecast_service.dart';
 import 'package:smart_dash_app/integration/nysny/application/nysny_driver.dart';
@@ -17,19 +15,50 @@ import 'package:smart_dash_app/integration/sikom/application/sikom_driver.dart';
 
 part 'integration_manager.g.dart';
 
+typedef IntegrationBuilder = DriverManager Function(
+  Ref ref,
+  Integration config,
+);
+
 // TODO: Add system integrations to new homes automatically
 class IntegrationManager {
   IntegrationManager(this.ref);
+
   final Ref ref;
+  final Map<String, Integration> _integrations = {};
+  final Map<Integration, DriverManager> _managers = {};
+  final Map<Integration, IntegrationBuilder> _builders = {};
 
-  void init(ProviderContainer container) async {
-    // Prepare integrations
-    await ref.read(integrationRepositoryProvider.future);
+  void register(Integration definition, IntegrationBuilder builder) {
+    assert(
+      !_builders.keys.any((e) => e.key == definition.key),
+      '$IntegrationManager: '
+      '$Integration [${definition.key}] already registered',
+    );
+    _builders[definition] = builder;
+  }
 
-    // Register camera service providers and init manager
-    container.read(cameraManagerProvider)
-      ..register(container.read(foscamServiceProvider))
-      ..init(withStorage: true);
+  /// Build integrations from definitions
+  Future<void> build(ProviderContainer container) async {
+    // TODO: Remove integration repository (not needed)
+    final definitions = await ref.read(integrationRepositoryProvider.future);
+    for (final definition in definitions.values) {
+      _integrations[definition.key] = definition;
+    }
+
+    final home = await ref.read(accountServiceProvider).getCurrentHome();
+    assert(home.isPresent, 'TODO: Handle no home better!');
+
+    // Build integrations
+    for (final definition in _builders.keys) {
+      final builder = _builders[definition]!;
+      final manager = _managers[definition] = builder(
+        ref,
+        definition,
+      );
+      manager.build(home.value.serviceWhere);
+      _integrations[definition.key] = definition;
+    }
 
     // Register location service providers
     container.read(locationManagerProvider).register(
@@ -56,16 +85,10 @@ class IntegrationManager {
       ..bind();
   }
 
+  Map<String, Integration> get integrations => Map.of(_integrations);
+
   Optional<Integration> get(String key) {
-    return ref.read(integrationRepositoryProvider.notifier).get(key);
-  }
-
-  Optional<IntegrationMap> supports(Iterable<IntegrationType> types) {
-    return ref.read(integrationRepositoryProvider.notifier).supports(types);
-  }
-
-  Optional<IntegrationMap> where(bool Function(Integration element) test) {
-    return ref.read(integrationRepositoryProvider.notifier).where(test);
+    return Optional.ofNullable(_integrations[key]);
   }
 }
 

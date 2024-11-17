@@ -28,6 +28,9 @@ class ServiceConfig with _$ServiceConfig {
         ),
       );
 
+  static String toBasicAuth(String username, String password) =>
+      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+
   String? get id => get(IntegrationField.id);
   String? get host => get(IntegrationField.host);
   String? get port => get(IntegrationField.port);
@@ -36,9 +39,6 @@ class ServiceConfig with _$ServiceConfig {
   String? get password => get(IntegrationField.password);
 
   String? get(IntegrationField key) => data[key];
-
-  static String toBasicAuth(String username, String password) =>
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 }
 
 class ServiceConfigFields {

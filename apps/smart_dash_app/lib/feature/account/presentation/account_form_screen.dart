@@ -21,6 +21,7 @@ import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indi
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/presence/domain/presence.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
+import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_form_screen_controller.dart';
@@ -33,61 +34,56 @@ class AccountFormScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.read(userRepositoryProvider).currentUser;
-    return ref.watch(integrationRepositoryProvider).when(
-          data: (integrations) {
-            return ref.watch(getCurrentHomeProvider()).when(
-                  data: (currentHome) {
-                    return AsyncFormScreen<AccountQuery, Account,
-                        AccountFormScreenController>(
-                      title: 'Edit account',
-                      scrollable: true,
-                      query: AccountQuery(
-                        userId: user.userId,
-                        serviceKeys: integrations.entries
-                            .where((e) => !e.value.system)
-                            .map((e) => e.key),
-                      ),
-                      provider: accountFormScreenControllerProvider.call,
-                      onClose: () => context.pop(),
-                      onSubmitted: (account) =>
-                          SnackbarController.showSnackBarByRef(
-                        context,
-                        ref,
-                        'Saved account for ${jsonEncode(account.name)}',
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                          children: [
-                            SmartDashTextField<String>(
-                              labelText: 'First name',
-                              formControlName: AccountFields.fname,
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'Please enter firstname',
-                              },
-                            ),
-                            const SizedBox(height: 16.0),
-                            SmartDashTextField<String>(
-                              labelText: 'Last name',
-                              formControlName: AccountFields.lname,
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'Please enter lastname',
-                              },
-                            ),
-                            _CurrentHomeSetup(
-                              currentHome: currentHome,
-                              integrations: integrations,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  error: SmartDashErrorWidget.from,
-                  loading: SmartDashProgressIndicator.new,
-                );
+    final integrations = ref.read(integrationManagerProvider).integrations;
+
+    return ref.watch(getCurrentHomeProvider()).when(
+          data: (currentHome) {
+            return AsyncFormScreen<AccountQuery, Account,
+                AccountFormScreenController>(
+              title: 'Edit account',
+              scrollable: true,
+              query: AccountQuery(
+                userId: user.userId,
+                serviceKeys: integrations.values
+                    .where((e) => !e.system)
+                    .map((e) => e.key),
+              ),
+              provider: accountFormScreenControllerProvider.call,
+              onClose: () => context.pop(),
+              onSubmitted: (account) => SnackbarController.showSnackBarByRef(
+                context,
+                ref,
+                'Saved account for ${jsonEncode(account.name)}',
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    SmartDashTextField<String>(
+                      labelText: 'First name',
+                      formControlName: AccountFields.fname,
+                      validationMessages: {
+                        ValidationMessage.required: (_) =>
+                            'Please enter firstname',
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    SmartDashTextField<String>(
+                      labelText: 'Last name',
+                      formControlName: AccountFields.lname,
+                      validationMessages: {
+                        ValidationMessage.required: (_) =>
+                            'Please enter lastname',
+                      },
+                    ),
+                    _CurrentHomeSetup(
+                      currentHome: currentHome,
+                      integrations: integrations,
+                    ),
+                  ],
+                ),
+              ),
+            );
           },
           error: SmartDashErrorWidget.from,
           loading: SmartDashProgressIndicator.new,

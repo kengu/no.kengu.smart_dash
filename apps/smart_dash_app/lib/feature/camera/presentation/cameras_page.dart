@@ -9,7 +9,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/scaffold/fullscreen_state.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
-import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
+import 'package:smart_dash_app/feature/camera/application/camera_service.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
 import 'package:smart_dash_app/feature/camera/presentation/camera_card.dart';
 import 'package:smart_dash_app/feature/camera/presentation/camera_group_controls.dart';
@@ -28,6 +28,8 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   int _refreshRate = 5;
 
+  bool _isUpdating = false;
+
   Optional<bool> _motionDetectEnabled = const Optional.empty();
 
   bool get isFullscreen => FullscreenState.watch(ref);
@@ -40,78 +42,74 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ServiceConfig>>(
-        future: ref.read(cameraManagerProvider).getConfigs(),
-        initialData:
-            ref.read(cameraManagerProvider).getCachedConfigs().orElseNull,
-        builder: (context, configs) {
-          return Padding(
-            padding: !isFullscreen
-                ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
-                : const EdgeInsets.all(16.0),
-            child: Stack(
-              children: [
-                if (!isFullscreen)
-                  const SmartDashHeader(
-                    title: 'Cameras',
-                  ),
-                Padding(
-                  padding: !isFullscreen
-                      ? const EdgeInsets.only(top: 56.0)
-                      : const EdgeInsets.only(top: 0.0),
-                  child: SmartDashboard(
-                    slotHeight: (slotCount) => 380,
-                    storage: SmartDashboardItemStorage(
-                      cacheItems: true,
-                      mobileSlotCount: 1,
-                      tabletSlotCount: 2,
-                      desktopSlotCount: 3,
-                      mobile: _items(configs),
-                      tablet: _items(configs),
-                      desktop: _items(configs),
-                    ),
-                    itemBuilder: (type, slotsCount, item) {
-                      switch (item.identifier) {
-                        case 'group':
-                          return CameraGroupControls(
-                            refreshRate: _refreshRate,
-                            motionDetectEnabled: _motionDetectEnabled,
-                            onChangedMotionDetect: _setMotionConfigs,
-                            onChangedRefreshRate: (int value) {
-                              setState(() {
-                                _refreshRate = value;
-                              });
-                            },
-                          );
-                        default:
-                          final config = _toConfig(
-                            Optional.ofNullable(configs.data),
-                            item,
-                          );
-                          return CameraCard(
-                            period: Duration(seconds: _refreshRate),
-                            cachedWidth: 600,
-                            fit: BoxFit.fitWidth,
-                            config: config,
-                            onDoubleTap: () {
-                              context.push(Screens.camera, extra: config);
-                            },
-                          );
-                      }
-                    },
-                  ),
-                ),
-              ],
+    final configs = ref.read(cameraServiceProvider).configs;
+    return Padding(
+      padding: !isFullscreen
+          ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
+          : const EdgeInsets.all(16.0),
+      child: Stack(
+        children: [
+          if (!isFullscreen)
+            const SmartDashHeader(
+              title: 'Cameras',
             ),
-          );
-        });
+          Padding(
+            padding: !isFullscreen
+                ? const EdgeInsets.only(top: 56.0)
+                : const EdgeInsets.only(top: 0.0),
+            child: SmartDashboard(
+              slotHeight: (slotCount) => 380,
+              storage: SmartDashboardItemStorage(
+                cacheItems: true,
+                mobileSlotCount: 1,
+                tabletSlotCount: 2,
+                desktopSlotCount: 3,
+                mobile: _items(configs),
+                tablet: _items(configs),
+                desktop: _items(configs),
+              ),
+              itemBuilder: (type, slotsCount, item) {
+                switch (item.identifier) {
+                  case 'group':
+                    return CameraGroupControls(
+                      refreshRate: _refreshRate,
+                      motionDetectEnabled: _motionDetectEnabled,
+                      onChangedMotionDetect: _setMotionConfigs,
+                      onChangedRefreshRate: (int value) {
+                        setState(() {
+                          _refreshRate = value;
+                        });
+                      },
+                    );
+                  default:
+                    final config = _toConfig(
+                      Optional.ofNullable(configs),
+                      item,
+                    );
+                    return CameraCard(
+                      config: config,
+                      cachedWidth: 600,
+                      fit: BoxFit.fitWidth,
+                      isUpdating: _isUpdating,
+                      period: Duration(seconds: _refreshRate),
+                      onDoubleTap: () {
+                        context.push(Screens.camera, extra: config);
+                      },
+                    );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   List<DashboardItem> _items(
-    AsyncSnapshot<List<ServiceConfig>> configs,
+    List<ServiceConfig> configs,
   ) {
     return [
-      ...configs.data!.map(
+      ...configs.map(
         (e) => DashboardItem(
           width: 1,
           height: 1,
@@ -130,11 +128,11 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   }
 
   Future<void> _checkCameras() async {
-    final configs =
-        await ref.read(cameraManagerProvider).getConfigs(ttl: const Duration());
+    final service = ref.read(cameraServiceProvider);
+    final configs = service.configs;
     final cameras = await Future.wait(
       configs.map((e) => ref
-          .read(cameraManagerProvider)
+          .read(cameraServiceProvider)
           .getCamera(e, ttl: Duration(seconds: _refreshRate))),
     );
     if (mounted) {
@@ -149,16 +147,16 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   }
 
   Future<Optional<bool>> _setMotionConfigs(bool enabled) async {
+    _isUpdating = true;
     final motions = <Optional<MotionDetectConfig>>[];
-    final cameras = await ref
-        .read(cameraManagerProvider)
-        .getCameras(ttl: Duration(seconds: _refreshRate));
+    final service = ref.read(cameraServiceProvider);
+    final cameras =
+        await service.getCameras(ttl: Duration(seconds: _refreshRate));
     for (final camera in cameras) {
-      motions.add(await ref
-          .read(cameraManagerProvider)
-          .setMotionConfig(camera, enabled: enabled));
+      motions.add(await service.setMotionConfig(camera, enabled: enabled));
       setState(() {});
     }
+    _isUpdating = false;
     _motionDetectEnabled = Optional.of(
       motions.where((e) => e.isPresent).any((e) => e.value.enabled),
     );

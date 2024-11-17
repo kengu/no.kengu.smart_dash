@@ -1,224 +1,220 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:optional/optional_internal.dart';
+import 'package:optional/optional.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/feature/camera/data/camera_client.dart';
+import 'package:smart_dash_app/feature/camera/application/camera_driver.dart';
+import 'package:smart_dash_app/feature/camera/application/camera_manager.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
-import 'package:smart_dash_app/feature/system/application/timing_service.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-abstract class CameraService {
-  CameraService({required this.key, required this.ref}) {
-    ref.onDispose(
-      () => _controller.close(),
-    );
-  }
+part 'camera_service.g.dart';
 
-  static const Duration period = Duration(seconds: 3);
+class CameraService {
+  CameraService(this.ref);
 
   final Ref ref;
 
-  final String key;
+  CameraManager get _manager => ref.read(cameraManagerProvider);
 
   final _cache = FutureCache(prefix: '$CameraService');
-
-  final StreamController<CameraEvent> _controller =
-      StreamController.broadcast();
-
-  Stream<CameraEvent> get events => _controller.stream;
-
-  Optional<List<ServiceConfig>> getCachedConfigs() {
-    return _cache.get<List<ServiceConfig>>('configs');
+  String _cacheKey(String prefix, ServiceConfig config) {
+    return '$prefix:${config.key}:${config.id}';
   }
 
-  Future<List<ServiceConfig>> getConfigs({Duration? ttl}) async {
-    return _cache.getOrFetch('configs', () async {
-      final home = await ref.read(accountServiceProvider).getCurrentHome();
-      if (!home.isPresent) return const [];
-      return home.value.serviceWhere(key);
-    }, ttl: ttl);
+  List<ServiceConfig> get configs => _manager.configs;
+
+  bool get isStorageEnabled => _manager.isStorageEnabled;
+
+  bool enableStorage([Duration period = CameraDriver.period]) {
+    return _manager.enableStorage(period);
+  }
+
+  bool disableStorage() {
+    return _manager.disableStorage();
+  }
+
+  Future<Optional<Camera>> getCamera(
+    ServiceConfig config, {
+    Duration? ttl,
+  }) async {
+    return _cache.getOrFetch(
+      _cacheKey('camera', config),
+      () {
+        return _manager.get(config).getCamera();
+      },
+      ttl: ttl,
+    );
+  }
+
+  Stream<Camera> getCameraAsStream(
+    ServiceConfig config, {
+    Duration period = CameraDriver.period,
+  }) async* {
+    final result = await getCamera(config);
+    if (!result.isPresent) return;
+    final camera = result.value;
+    final stream = StreamGroup.merge(
+      _manager.drivers.map(
+        (e) => e.events
+            .whereType<CameraDataEvent>()
+            .where((e) => e.service == camera.service && e.name == camera.name)
+            .throttle(period),
+      ),
+    );
+
+    await for (final it in stream) {
+      yield it.camera;
+    }
   }
 
   Optional<List<Camera>> getCachedCameras() {
     final cameras = <Camera>[];
-    final cached = getCachedConfigs();
-    if (cached.isPresent) {
-      for (var service in cached.value) {
-        final camera = getCachedCamera(service.id!);
-        if (camera.isPresent) cameras.add(camera.value);
+    for (final driver in _manager.drivers) {
+      final camera = _cache.get(
+        _cacheKey('camera', driver.config),
+      );
+      if (camera.isPresent) {
+        cameras.add(camera.value);
       }
     }
     return Optional.of(cameras);
   }
 
   Future<List<Camera>> getCameras({Duration? ttl}) async {
-    return _cache.getOrFetch('cameras', () async {
-      final cameras = <Camera>[];
-      for (var config in await getConfigs()) {
-        final camera = await getCamera(config.id!, ttl: ttl);
-        if (camera.isPresent) cameras.add(camera.value);
+    final cameras = <Camera>[];
+    for (final driver in _manager.drivers) {
+      final camera = await getCamera(
+        driver.config,
+        ttl: ttl,
+      );
+      if (camera.isPresent) {
+        cameras.add(camera.value);
       }
-      return cameras;
-    }, ttl: ttl);
+    }
+    return cameras;
   }
 
-  Optional<Camera> getCachedCamera(String name) {
-    return _cache.get<Camera>('camera:$name');
-  }
+  Stream<Camera> getCamerasAsStream({
+    Duration period = CameraDriver.period,
+  }) async* {
+    final stream = StreamGroup.merge(
+      _manager.drivers.map(
+        (e) => e.getCameraAsStream(period: period).throttle(period),
+      ),
+    );
 
-  Future<Optional<Camera>> getCamera(String name, {Duration? ttl}) async {
-    return _cache.getOrFetch('camera:$name', () async {
-      final client = await _newClient(name);
-      if (client.isPresent) {
-        final camera = await client.value.getCamera();
-        client.value.close();
-        if (camera.isPresent) {
-          _controller.add(
-            CameraDataEvent(
-              camera: camera.value,
-            ),
-          );
-        }
-        return camera;
-      }
-      return const Optional.empty();
-    }, ttl: ttl);
-  }
-
-  Stream<Camera> getCameraAsStream(String name, {Duration period = period}) {
-    return ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getCamera(name, ttl: period))
-        .where((e) => e.isPresent)
-        .map((e) => e.value);
-  }
-
-  Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
-    return _cache.get<CameraSnapshot>('snapshot:${device.name}');
-  }
-
-  Future<Optional<CameraSnapshot>> getSnapshot(Camera device,
-      {Duration? ttl}) async {
-    return _cache.getOrFetch('snapshot:${device.name}', () async {
-      final client = await _newClient(device.name);
-      if (client.isPresent) {
-        final snapshot = await client.value.getSnapshot();
-        client.value.close();
-        if (snapshot.isPresent) {
-          _controller.add(
-            CameraSnapshotEvent(
-              name: device.name,
-              service: device.service,
-              snapshot: snapshot.value,
-            ),
-          );
-        }
-        return snapshot;
-      }
-      return const Optional.empty();
-    }, ttl: ttl);
-  }
-
-  Stream<CameraSnapshot> getSnapshotAsStream(Camera device,
-      {Duration period = period}) async* {
-    final stream = ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getSnapshot(device, ttl: period))
-        .where((e) => e.isPresent)
-        .map((e) => e.value);
-
-    await for (final it in stream) {
-      yield it;
+    await for (final camera in stream) {
+      yield camera;
     }
   }
 
-  Future<Optional<MotionDetectConfig>> getMotionConfig(String name) async {
-    // Ensure latest values are used (CGI commands replaces all values)
-    return guard(() async {
-      final client = await _newClient(name);
-      if (client.isPresent) {
-        final actual = await client.value.getMotionConfig();
-        client.value.close();
-        return actual;
-      }
-      return const Optional.empty();
-    });
+  Stream<CameraSnapshotEvent> getSnapshotsAsStream({
+    Duration period = CameraDriver.period,
+  }) {
+    return StreamGroup.merge(
+      _manager.drivers.map(
+        (e) => e.getSnapshotAsStream(period: period),
+      ),
+    );
+  }
+
+  Future<Optional<CameraSnapshot>> getSnapshot(
+    Camera device, {
+    Duration? ttl,
+  }) async {
+    final found = find(device);
+
+    if (!found.isPresent) {
+      return Optional.empty();
+    }
+
+    return _cache.getOrFetch(
+      _cacheKey('snapshot', found.value),
+      () {
+        return _manager.get(found.value).getSnapshot();
+      },
+      ttl: ttl,
+    );
+  }
+
+  Optional<CameraSnapshot> getCachedSnapshot(Camera device) {
+    final found = find(device);
+
+    if (!found.isPresent) {
+      return Optional.empty();
+    }
+
+    return _cache.get<CameraSnapshot>(
+      _cacheKey('snapshot', found.value),
+    );
+  }
+
+  Optional<ServiceConfig> find(Camera device) {
+    return _manager.find(device);
+  }
+
+  Stream<CameraSnapshotEvent> getSnapshotAsStream(
+    Camera device, {
+    Duration period = CameraDriver.period,
+  }) {
+    final stream = StreamGroup.merge(
+      _manager.drivers.map(
+        (e) => e.getSnapshotAsStream(period: period),
+      ),
+    );
+
+    return stream;
+  }
+
+  Future<Optional<MotionDetectConfig>> getMotionConfig(Camera device) async {
+    final found = find(device);
+
+    if (!found.isPresent) {
+      return Optional.empty();
+    }
+    final driver = _manager.get(found.value);
+
+    return driver.getMotionConfig();
   }
 
   Future<Optional<MotionDetectConfig>> setMotionConfig(
-    String name, {
+    Camera device, {
     bool? enabled,
     MotionDetectSensitivityLevel? sensitivity,
   }) async {
-    // Ensure latest values are used (CGI commands replaces all values)
-    return guard(() async {
-      final result = await getMotionConfig(name);
-      if (!result.isPresent) return result;
-      final now = result.value;
-      final next = now.copyWith(
-        enabled: enabled ?? now.enabled,
-        sensitivity: sensitivity ?? now.sensitivity,
-      );
-      final client = await _newClient(name);
-      try {
-        if (client.isPresent) {
-          final update = await client.value.setMotionConfig(name, next);
-          if (update.isPresent) {
-            final camera = _cache.get<Camera>('camera:$name');
-            if (camera.isPresent) {
-              _cache.set<Camera>(
-                'camera:$name',
-                Optional.of(camera.value.copyWith(motion: update.value)),
-              );
-            }
-          }
-          return update;
-        }
-        return const Optional.empty();
-      } finally {
-        client.value.close();
+    final found = find(device);
+
+    if (!found.isPresent) {
+      return Optional.empty();
+    }
+    final config = found.value;
+    final driver = _manager.get(config);
+
+    final update = await driver.setMotionConfig(
+      enabled: enabled,
+      sensitivity: sensitivity,
+    );
+
+    if (update.isPresent) {
+      final key = _cacheKey('camera', config);
+      final camera = _cache.get<Camera>(key);
+      if (camera.isPresent) {
+        _cache.set<Camera>(
+          key,
+          Optional.of(camera.value.copyWith(
+            motion: update.value,
+          )),
+        );
       }
-    });
+    }
+    return update;
   }
-
-  Future<Optional<CameraClient>> _newClient(String name) async {
-    final cameras = await getConfigs();
-    final found = cameras.firstWhereOptional((e) => e.id == name);
-    if (!found.isPresent) const Optional.empty();
-    final client = newClient(found.value);
-    return Optional.of(client);
-  }
-
-  CameraClient newClient(ServiceConfig config);
 }
 
-class CameraEvent {
-  CameraEvent({required this.name, required this.service});
-  final String name;
-  final String service;
-}
-
-class CameraDataEvent extends CameraEvent {
-  CameraDataEvent({
-    required this.camera,
-  }) : super(name: camera.name, service: camera.service);
-  final Camera camera;
-}
-
-class CameraSnapshotEvent extends CameraEvent {
-  CameraSnapshotEvent({
-    required super.name,
-    required super.service,
-    required this.snapshot,
-    DateTime? when,
-  }) : when = when ?? DateTime.now();
-
-  final DateTime when;
-  final CameraSnapshot snapshot;
-}
+@Riverpod(keepAlive: true)
+CameraService cameraService(CameraServiceRef ref) => CameraService(ref);

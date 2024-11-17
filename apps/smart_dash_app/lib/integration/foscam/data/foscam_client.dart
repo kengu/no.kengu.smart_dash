@@ -6,16 +6,22 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_app/feature/camera/data/camera_client.dart';
 import 'package:smart_dash_app/feature/camera/domain/camera.dart';
+import 'package:smart_dash_app/integration/foscam/application/foscam_service.dart';
+import 'package:smart_dash_app/integration/foscam/foscam.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'foscam_response.dart';
 
 class FoscamClient extends CameraClient {
   FoscamClient({
-    required String host,
-    required int port,
+    required super.config,
     required this.credentials,
-  }) : api = Dio(BaseOptions(headers: {}, baseUrl: 'http://$host:$port'))
+  }) : api = Dio(
+          BaseOptions(
+            headers: {},
+            baseUrl: 'http://${config.host}:${config.port}',
+          ),
+        )
           // Process json in the background
           ..transformer = BackgroundTransformer();
 
@@ -36,7 +42,7 @@ class FoscamClient extends CameraClient {
       final motion = await getMotionConfig();
       return Optional.ofNullable(switch (info.type) {
         FoscamResultType.success => Camera(
-            service: 'foscam',
+            service: Foscam.key,
             motion: motion.orElseNull,
             name: info.get('devName', ''),
           ),
@@ -58,7 +64,7 @@ class FoscamClient extends CameraClient {
 
   @override
   Future<Optional<MotionDetectConfig>> setMotionConfig(
-      String name, MotionDetectConfig config) async {
+      MotionDetectConfig config) async {
     return guard(() async {
       // Modifying CGI commands expects all parameters to be replaced (aka PUT)
       final motion = await _command('getMotionDetectConfig').exec(api);
