@@ -126,19 +126,6 @@ class IntegrationRepository extends _$IntegrationRepository {
     "enabled": true
   },
   {
-    "key": "nysny",
-    "type": "device",
-    "name": "NySny Web",
-    "image": "nysny.png",
-    "category": "Snow Depth Services",
-    "description": "Enter account information",
-    "fields": ["username", "password"],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
-  },
-  {
     "key": "osm",
     "type": "location",
     "name": "OSM Nominatim API",

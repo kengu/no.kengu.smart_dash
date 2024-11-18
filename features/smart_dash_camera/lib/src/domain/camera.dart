@@ -9,6 +9,7 @@ part 'camera.g.dart';
 class Camera with _$Camera {
   const Camera._();
   const factory Camera({
+    // ignore: invalid_annotation_target
     @JsonKey(name: 'name') required String name,
     @JsonKey(name: 'service') required String service,
     @JsonKey(name: 'motion') required MotionDetectConfig? motion,

@@ -16,6 +16,7 @@ import 'package:smart_dash_app/feature/presence/application/presence_service.dar
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
+import 'package:smart_dash_app/integration/nysny/nysny.dart';
 import 'package:smart_dash_app/util/platform.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
@@ -132,7 +133,8 @@ Future<ProviderContainer> initProviders() async {
 
   // Initialize integrations
   final manager = container.read(integrationManagerProvider)
-    ..register(Foscam.definition, Foscam.register);
+    ..register(Foscam.definition, Foscam.register)
+    ..register(NySny.definition, NySny.register);
 
   await manager.build(container);
 

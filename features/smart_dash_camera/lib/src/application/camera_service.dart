@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -46,6 +46,10 @@ class CameraService {
       },
       ttl: ttl,
     );
+  }
+
+  Optional<Camera> getCachedCamera(ServiceConfig config) {
+    return _cache.get(_cacheKey('camera', config));
   }
 
   Stream<Camera> getCameraAsStream(

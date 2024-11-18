@@ -31,8 +31,16 @@ analyzer:
     lib/**/*.g.dart,
     lib/**/*.freezed.dart,
   ]
+
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints
 
 # For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options
+
+custom_lint:
+  rules:
+    # Explicitly disable one lint rule
+    - avoid_build_context_in_providers: false
+    - avoid_public_notifier_properties: false
+    - avoid_manual_providers_as_generated_provider_dependency: false

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/snow/application/snow_manager.dart';
-import 'package:smart_dash_app/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
 
 class SnowNowTile extends ConsumerWidget {
   SnowNowTile({
@@ -27,7 +26,7 @@ class SnowNowTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.read(snowManagerProvider);
+    final manager = ref.read(snowServiceProvider);
     final textStyle = Theme.of(context).textTheme.labelMedium;
     return StreamBuilder<SnowState>(
       stream: manager.getStateAsStream(location),

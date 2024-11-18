@@ -15,6 +15,7 @@ export 'src/path/system_dirs.dart';
 export 'src/serialize/json.dart';
 export 'src/util/data/list.dart';
 export 'src/util/data/num.dart';
+export 'src/util/duration.dart';
 export 'src/util/future.dart';
 export 'src/util/guard.dart';
 export 'src/util/stream.dart';

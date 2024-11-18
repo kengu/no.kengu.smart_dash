@@ -7,12 +7,19 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:sentry/sentry.dart';
-import 'package:smart_dash_app/feature/snow/data/snow_client.dart';
-import 'package:smart_dash_app/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
 
 class NySnyClient extends SnowClient {
-  NySnyClient(this.api, this.credentials);
+  NySnyClient(this.credentials)
+      : api = Dio(
+          BaseOptions(
+            headers: {},
+            baseUrl: 'https://nysny.no/',
+          ),
+        )
+          // Process json in the background
+          ..transformer = BackgroundTransformer();
 
   final Dio api;
 
@@ -106,6 +113,9 @@ class NySnyClient extends SnowClient {
       return const Optional.empty();
     }, error: check_client_error);
   }
+
+  @override
+  void close() => api.close();
 
   final regex = RegExp(r'\(.*?\)');
 

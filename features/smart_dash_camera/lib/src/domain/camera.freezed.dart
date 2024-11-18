@@ -20,6 +20,7 @@ Camera _$CameraFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Camera {
+// ignore: invalid_annotation_target
   @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'service')
@@ -161,6 +162,7 @@ class _$CameraImpl extends _Camera {
   factory _$CameraImpl.fromJson(Map<String, dynamic> json) =>
       _$$CameraImplFromJson(json);
 
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'name')
   final String name;
@@ -216,6 +218,7 @@ abstract class _Camera extends Camera {
 
   factory _Camera.fromJson(Map<String, dynamic> json) = _$CameraImpl.fromJson;
 
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'name')
   String get name;

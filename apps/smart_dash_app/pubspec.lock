@@ -1547,7 +1547,7 @@ packages:
     source: path
     version: "1.0.0"
   smart_dash_integration:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../packages/smart_dash_integration"
       relative: true
@@ -1557,6 +1557,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../../features/smart_dash_notification"
+      relative: true
+    source: path
+    version: "1.0.0"
+  smart_dash_snow:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_snow"
       relative: true
     source: path
     version: "1.0.0"

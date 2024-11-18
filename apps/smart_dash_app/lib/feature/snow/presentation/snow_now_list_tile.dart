@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/snow/application/snow_manager.dart';
-import 'package:smart_dash_app/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
 
 class SnowNowListTile extends ConsumerWidget {
   const SnowNowListTile({super.key});
@@ -17,11 +16,11 @@ class SnowNowListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.read(snowManagerProvider);
+    final service = ref.read(snowServiceProvider);
     final trailingTextStyle = Theme.of(context).textTheme.labelLarge;
     return StreamBuilder<List<SnowState>>(
-      stream: manager.getStatesAsStream(),
-      initialData: manager.getCachedStates().orElseNull,
+      stream: service.getStatesAsStream(),
+      initialData: service.getCachedStates().orElseNull,
       builder: (context, snapshot) {
         final states = snapshot.hasData ? snapshot.data! : <SnowState>[];
         return SmartDashTile(

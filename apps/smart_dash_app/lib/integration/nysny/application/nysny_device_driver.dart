@@ -9,15 +9,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/device/application/device_driver.dart';
 import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_app/feature/device/domain/device_definition.dart';
-import 'package:smart_dash_app/feature/snow/application/snow_manager.dart';
+import 'package:smart_dash_app/feature/device/domain/driver.dart';
 import 'package:smart_dash_app/integration/nysny/domain/nysny_device.dart';
 import 'package:smart_dash_app/integration/nysny/nysny.dart';
 import 'package:smart_dash_app/util/platform.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
 
-part 'nysny_driver.g.dart';
+part 'nysny_device_driver.g.dart';
 
-class NySnyDriver extends ThrottledDeviceDriver {
-  NySnyDriver(Ref ref)
+class NySnyDeviceDriver extends ThrottledDeviceDriver {
+  NySnyDeviceDriver(Ref ref)
       : super(
           NySny.key,
           ref,
@@ -28,7 +29,7 @@ class NySnyDriver extends ThrottledDeviceDriver {
           ),
         );
 
-  final _log = Logger('$NySnyDriver');
+  final _log = Logger('$NySnyDeviceDriver');
 
   @override
   Future<List<Device>> onThrottledUpdate(DateTime event) async {
@@ -58,8 +59,10 @@ class NySnyDriver extends ThrottledDeviceDriver {
     Iterable<String> ids = const [],
   }) async {
     final devices = <NySnyDevice>[];
-    for (final states in await ref.read(snowManagerProvider).getStates()) {
-      devices.add(NySnyDevice(state: states));
+    for (final states in await ref.read(snowServiceProvider).getStates()) {
+      for (final state in states) {
+        devices.add(NySnyDevice(state: state));
+      }
     }
     return devices
         .map((e) => e.toDevice())
@@ -70,4 +73,5 @@ class NySnyDriver extends ThrottledDeviceDriver {
 }
 
 @Riverpod(keepAlive: true)
-NySnyDriver nySnyDriver(NySnyDriverRef ref) => NySnyDriver(ref);
+NySnyDeviceDriver nySnyDeviceDriver(NySnyDeviceDriverRef ref) =>
+    NySnyDeviceDriver(ref);

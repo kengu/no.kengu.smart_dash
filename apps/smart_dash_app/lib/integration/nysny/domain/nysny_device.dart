@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_app/feature/device/domain/device_definition.dart';
-import 'package:smart_dash_app/feature/snow/domain/snow_state.dart';
 import 'package:smart_dash_app/integration/nysny/nysny.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
 
 part 'nysny_device.freezed.dart';
 part 'nysny_device.g.dart';

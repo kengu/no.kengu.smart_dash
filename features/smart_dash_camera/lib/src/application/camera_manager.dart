@@ -68,48 +68,6 @@ class CameraManager extends DriverManager<CameraDriver> {
       name: '$CameraManager',
     );
   }
-
-  /*
-
-  Future<Optional<CameraSnapshot>> getSnapshot(Camera device) async {
-    final found = find(device);
-
-    if (!found.isPresent) {
-      return Optional.empty();
-    }
-
-    return get(found.value).getSnapshot();
-  }
-
-
-  Stream<CameraSnapshot> getSnapshotAsStream(Camera device,
-      {Duration period = CameraDriver.period}) async* {
-    final stream = StreamGroup.merge(
-      drivers.map(
-        (e) => e.events
-            .whereType<CameraSnapshotEvent>()
-            .where((e) => e.service == device.service && e.name == device.name)
-            .throttle(period),
-      ),
-    );
-
-    await for (final it in stream) {
-      yield it.snapshot;
-    }
-  }
-
-  Stream<CameraSnapshot> getSnapshotsAsStream({
-    Duration period = CameraDriver.period,
-  }) {
-    return StreamGroup.merge(
-      drivers.map(
-        (e) => e.getSnapshotAsStream(period: period),
-      ),
-    );
-  }
-
-
-   */
 }
 
 @Riverpod(keepAlive: true)
