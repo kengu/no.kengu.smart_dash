@@ -9,7 +9,6 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
-import 'package:smart_dash_app/feature/system/application/timing_service.dart';
 import 'package:smart_dash_app/feature/system/data/network_device_info_repository.dart';
 import 'package:smart_dash_app/feature/system/domain/network_info.dart';
 import 'package:smart_dash_app/util/platform.dart';
