@@ -14,11 +14,10 @@ import 'package:smart_dash_app/core/presentation/smart_dash_app.dart';
 import 'package:smart_dash_app/feature/device/application/device_service.dart';
 import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_app/feature/system/application/timing_service.dart';
 import 'package:smart_dash_app/integration/application/integration_manager.dart';
-import 'package:smart_dash_app/integration/foscam/foscam.dart';
 import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash_app/util/platform.dart';
+import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
@@ -77,12 +76,14 @@ void main() async {
       // Initialize desktop-specific capabilities
       await _initOnDesktop();
 
+      final container = await initProviders();
+
       return runApp(
         // For widgets to be able to read providers, we need to wrap the entire
         // application in a "UncontrolledProviderScope" widget. This is where
         // the state of our providers will be stored.
         UncontrolledProviderScope(
-          container: initProviders(),
+          container: container,
           child: const SmartDashApp(),
         ),
       );
@@ -112,16 +113,14 @@ Future<void> _initOnDesktop() async {
 }
 
 // TODO: Make code generator for initProviders
-ProviderContainer initProviders() {
+Future<ProviderContainer> initProviders() async {
   final container = ProviderContainer();
 
-  // Initialize core services
+  // Register core services
   container.read(flutterDirsProvider);
   container.read(notificationServiceProvider);
   container.read(deviceServiceProvider);
   container.read(flowManagerProvider);
-  container.read(mqttServiceProvider).init();
-  container.read(blockManagerProvider).init();
 
   // Bind with dependencies
   container.read(historyManagerProvider).bind(
@@ -132,9 +131,14 @@ ProviderContainer initProviders() {
   container.read(presenceServiceProvider).bind();
 
   // Initialize integrations
-  container.read(integrationManagerProvider)
-    ..register(Foscam.definition, Foscam.register)
-    ..build(container);
+  final manager = container.read(integrationManagerProvider)
+    ..register(Foscam.definition, Foscam.register);
+
+  await manager.build(container);
+
+  // Start services
+  container.read(mqttServiceProvider).start();
+  container.read(blockManagerProvider).start();
 
   // Start pumping events
   container.read(timingServiceProvider).start();

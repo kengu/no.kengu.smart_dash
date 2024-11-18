@@ -3,6 +3,7 @@ library;
 
 export 'package:hive/hive.dart';
 
+export 'src/core/timing_service.dart';
 export 'src/domain/capability.dart';
 export 'src/domain/tag.dart';
 export 'src/domain/token.dart';

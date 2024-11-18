@@ -81,8 +81,9 @@ class IntegrationManager {
       ..register(container.read(sikomDriverProvider))
       ..register(container.read(rtl433DriverProvider))
       ..register(container.read(metNoForecastDriverProvider))
-      ..register(container.read(nySnyDriverProvider))
-      ..bind();
+      ..register(container.read(nySnyDriverProvider));
+
+    await manager.bind();
   }
 
   Map<String, Integration> get integrations => Map.of(_integrations);

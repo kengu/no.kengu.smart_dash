@@ -4,12 +4,9 @@ import 'package:async/async.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/feature/camera/application/camera_driver.dart';
-import 'package:smart_dash_app/feature/camera/data/snapshot_repository.dart';
-import 'package:smart_dash_app/feature/camera/domain/camera.dart';
+import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_manager.g.dart';

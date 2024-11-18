@@ -1,6 +1,6 @@
 import 'package:optional/optional.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_app/feature/camera/domain/camera.dart';
+import 'package:smart_dash_camera/smart_dash_camera.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 abstract class CameraClient {
   CameraClient({required this.config});

@@ -4,10 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/feature/camera/data/camera_client.dart';
-import 'package:smart_dash_app/feature/camera/domain/camera.dart';
-import 'package:smart_dash_app/integration/foscam/application/foscam_service.dart';
-import 'package:smart_dash_app/integration/foscam/foscam.dart';
+import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'foscam_response.dart';

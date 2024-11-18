@@ -61,7 +61,7 @@ class IntegrationRepository extends _$IntegrationRepository {
     "enabled": true
   },
   {
-    "key": "mqtt_broker",
+    "key": "mqtt",
     "type": "mqtt",
     "name": "MQTT API",
     "image": "mqtt.png",

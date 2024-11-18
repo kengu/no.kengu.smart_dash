@@ -1518,6 +1518,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_camera:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_camera"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_common:
     dependency: "direct main"
     description:

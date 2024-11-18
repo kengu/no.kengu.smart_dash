@@ -46,8 +46,8 @@ class BlockManager {
     );
   }
 
-  Future<void> init() async {
-    assert(_init, '$BlockManager is initialized already');
+  Future<void> start() async {
+    assert(_init, '$BlockManager is started already');
     final flows = ref.read(flowManagerProvider);
     for (final model in await ref.read(blockRepositoryProvider).getAll()) {
       final type = model.type;

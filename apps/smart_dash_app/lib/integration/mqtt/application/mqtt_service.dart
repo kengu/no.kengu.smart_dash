@@ -33,7 +33,7 @@ class MqttService {
 
   Stream<MqttMessage> get updates => _controller.stream;
 
-  Future<void> init() async {
+  Future<void> start() async {
     return guard(() async {
       final user = ref.read(userRepositoryProvider).currentUser;
       final home = await ref.read(accountServiceProvider).getCurrentHome();

@@ -1,4 +1,6 @@
-# Smart Dash Project
+# Smart Dash Project 
+
+[![Publish](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml/badge.svg)](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml)
 
 A Smart Dashboard project for my personal use.
 
@@ -35,6 +37,7 @@ Following modules (app, backend, feature or package) have additional development
 * [SmartDash Account (feature)](features/smart_dash_account/README.md)
 * [SmartDash Analytics (feature)](features/smart_dash_analytics/README.md)
 * [SmartDash Flow (feature)](features/smart_dash_flow/README.md)
+* [SmartDash Camera (feature)](features/smart_dash_camera/README.md)
 * [SmartDash Notification (feature)](features/smart_dash_notification/README.md)
 * [SmartDash Common (package)](packages/smart_dash_common/README.md)
 * [SmartDash Datasource (package)](packages/smart_dash_datasource/README.md)
