@@ -35,13 +35,13 @@ Map<String, dynamic> _$$BlockModelImplToJson(_$BlockModelImpl instance) =>
       'type': instance.type,
       'label': instance.label,
       'enabled': instance.enabled,
-      'state': instance.state,
+      'state': instance.state.toJson(),
       'description': instance.description,
-      'trigger': instance.trigger,
-      'whenTrue': instance.whenTrue,
-      'whenFalse': instance.whenFalse,
-      'parameters': instance.parameters,
-      'conditions': instance.conditions,
+      'trigger': instance.trigger.toJson(),
+      'whenTrue': instance.whenTrue.map((e) => e.toJson()).toList(),
+      'whenFalse': instance.whenFalse.map((e) => e.toJson()).toList(),
+      'parameters': instance.parameters.map((e) => e.toJson()).toList(),
+      'conditions': instance.conditions.map((e) => e.toJson()).toList(),
     };
 
 _$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>
@@ -106,7 +106,7 @@ Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
     <String, dynamic>{
       'value': instance.value,
       'repeated': instance.repeated,
-      'tags': instance.tags,
+      'tags': instance.tags.map((e) => e.toJson()).toList(),
       'lastChanged': instance.lastChanged?.toIso8601String(),
     };
 
@@ -158,7 +158,7 @@ Map<String, dynamic> _$$BlockConditionImplToJson(
       'label': instance.label,
       'expression': instance.expression,
       'description': instance.description,
-      'variables': instance.variables,
+      'variables': instance.variables.map((e) => e.toJson()).toList(),
     };
 
 _$BlockVariableImpl _$$BlockVariableImplFromJson(Map<String, dynamic> json) =>
