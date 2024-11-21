@@ -21,7 +21,7 @@ part 'integration_manager.g.dart';
 typedef IntegrationBuilder = DriverManager Function(Ref ref);
 
 // TODO: Add system integrations to new homes automatically
-@Riverpod(keepAlive: true)
+@Riverpod()
 class IntegrationManager extends _$IntegrationManager {
   IntegrationManager();
 
@@ -54,12 +54,7 @@ class IntegrationManager extends _$IntegrationManager {
   /// Build integrations from definitions
   @override
   Future<IntegrationManager> build() async {
-    if (!_init) {
-      return this;
-    }
-    ref.onDispose(() {
-      _log.warning('Jmmm');
-    });
+    assert(_init, '$IntegrationManager should only build once!');
 
     // Register integrations
     register(Rtl433.definition, Rtl433.register);
@@ -91,6 +86,7 @@ class IntegrationManager extends _$IntegrationManager {
           ref.read(flowManagerProvider).events.map((e) => e.tags),
           ref.read(deviceServiceProvider).getTokens,
         );
+
     ref.read(networkInfoServiceProvider).bind();
     ref.read(presenceServiceProvider).bind();
     ref.read(systemHealthServiceProvider).bind(
