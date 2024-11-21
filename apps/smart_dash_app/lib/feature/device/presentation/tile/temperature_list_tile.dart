@@ -27,11 +27,11 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
 
   @override
   Widget build(BuildContext context) {
-    //return Placeholder();
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
-      stream: service.deviceEvents
+      stream: service.driverEvents
           .whereType<DriverDevicesEvent>()
+          .where(DeviceDriverManager.shouldProcess)
           .where((e) => e.devices.any((e) => e.hasTemperature)),
       builder: (context, snapshot) {
         final devices = _set(snapshot);

@@ -35,7 +35,10 @@ class _SwitchOnOffListTileListTileState
   Widget build(BuildContext context) {
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
-      stream: service.deviceEvents.whereType<DriverDevicesEvent>().where(
+      stream: service.driverEvents
+          .whereType<DriverDevicesEvent>()
+          .where(DeviceDriverManager.shouldProcess)
+          .where(
             (e) => e.devices.any(
               (e) => e.hasOnOff,
             ),
