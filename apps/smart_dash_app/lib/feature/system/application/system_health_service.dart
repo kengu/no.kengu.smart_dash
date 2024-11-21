@@ -7,6 +7,7 @@ import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 import 'package:smart_dash_app/integration/application/integration_manager.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'system_health_service.g.dart';
@@ -34,12 +35,17 @@ class SystemHealthService {
 
   List<SystemHealthState> getStates() => _states.values.toList();
 
-  void setOK(String key) => set(key, true);
-  void setFailed(String key, Object reason) => set(
-        key,
-        false,
-        reason,
-      );
+  void setOK(String key) {
+    return set(key, true);
+  }
+
+  void setFailed(String key, Object reason) {
+    return set(
+      key,
+      false,
+      reason,
+    );
+  }
 
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
@@ -75,6 +81,9 @@ class SystemHealthService {
       switch (e) {
         case DriverFailureEvent _:
           setFailed(e.key, e.error);
+          break;
+        case DriverDevicesEvent _:
+          setOK(e.key);
           break;
         case _:
           setOK(e.key);
