@@ -9,7 +9,7 @@ import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/accounting/data/pricing/electricity_price_repository.dart';
-import 'package:smart_dash_app/feature/device/data/device_repository.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_app/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';

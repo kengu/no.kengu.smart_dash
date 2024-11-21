@@ -48,19 +48,6 @@ class IntegrationRepository extends _$IntegrationRepository {
       '''
 [
   {
-    "key": "sikom",
-    "type": "device",
-    "name": "Sikom Living API",
-    "image": "sikom.png",
-    "category": "Smart Home & IoT",
-    "description": "Enter account email and password",
-    "fields": ["username", "password"],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
-  },
-  {
     "key": "mqtt",
     "type": "mqtt",
     "name": "MQTT API",
@@ -74,14 +61,14 @@ class IntegrationRepository extends _$IntegrationRepository {
     "enabled": true
   },
   {
-    "key": "rtl_433",
-    "type": "mqtt",
-    "name": "RF Data Receiver (rtl_433)",
-    "image": "generic.png",
-    "category": "Smart Home & IoT",
-    "description": "Enables processing of RF data",
+    "key": "osm",
+    "type": "location",
+    "name": "OSM Nominatim API",
+    "image": "osm.png",
+    "category": "Location Services",
+    "description": "Enables location search",
     "fields": [],
-    "dependsOn": ["mqtt_broker"],
+    "dependsOn": [],
     "instances": 1,
     "system": false,
     "enabled": true
@@ -111,40 +98,16 @@ class IntegrationRepository extends _$IntegrationRepository {
     "instances": 1,
     "system": false,
     "enabled": false
-  },
-  {
-    "key": "metno",
-    "type": "device",
-    "name": "MET Location Forecast API",
-    "image": "met.png",
-    "category": "Weather Services",
-    "description": "Enables weather forecasts",
-    "fields": [],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
-  },
-  {
-    "key": "osm",
-    "type": "location",
-    "name": "OSM Nominatim API",
-    "image": "osm.png",
-    "category": "Location Services",
-    "description": "Enables location search",
-    "fields": [],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
   }
 ]
 ''',
     );
     final list = List.from(json as List).cast<JsonObject>();
+    /*
     for (final it in list) {
       print(it);
     }
+     */
     return list;
   }
 }

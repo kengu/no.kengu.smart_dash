@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 /// Human readable flow summary

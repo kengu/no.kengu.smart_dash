@@ -10,7 +10,7 @@ import 'package:smart_dash_app/core/presentation/widget/form/field/smart_dash_ex
 import 'package:smart_dash_app/core/presentation/widget/form/field/smart_dash_switch_field.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/field/smart_dash_text_field.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/expansion_list.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:strings/strings.dart';
 

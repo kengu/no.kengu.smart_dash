@@ -9,19 +9,8 @@ import 'package:network_tools/network_tools.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/smart_dash_app.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
-import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
-import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
-import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
-import 'package:smart_dash_app/integration/nysny/nysny.dart';
 import 'package:smart_dash_app/util/platform.dart';
-import 'package:smart_dash_camera/smart_dash_camera.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
-import 'package:smart_dash_flow/smart_dash_flow.dart';
-import 'package:smart_dash_notification/smart_dash_notification.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:universal_io/io.dart' as io;
 import 'package:window_manager/window_manager.dart';
@@ -77,14 +66,11 @@ void main() async {
       // Initialize desktop-specific capabilities
       await _initOnDesktop();
 
-      final container = await initProviders();
-
       return runApp(
         // For widgets to be able to read providers, we need to wrap the entire
-        // application in a "UncontrolledProviderScope" widget. This is where
-        // the state of our providers will be stored.
-        UncontrolledProviderScope(
-          container: container,
+        // application in a "ProviderScope" widget. This is where the state of
+        // our providers will be stored.
+        ProviderScope(
           child: const SmartDashApp(),
         ),
       );
@@ -111,41 +97,4 @@ Future<void> _initOnDesktop() async {
     await windowManager.ensureInitialized();
     await windowManager.waitUntilReadyToShow(windowOptions);
   }
-}
-
-// TODO: Make code generator for initProviders
-Future<ProviderContainer> initProviders() async {
-  final container = ProviderContainer();
-
-  // Register core services
-  container.read(flutterDirsProvider);
-  container.read(notificationServiceProvider);
-  container.read(deviceServiceProvider);
-  container.read(flowManagerProvider);
-
-  // Bind with dependencies
-  container.read(historyManagerProvider).bind(
-        container.read(flowManagerProvider).events.map((e) => e.tags),
-        container.read(deviceServiceProvider).getTokens,
-      );
-  container.read(networkInfoServiceProvider).bind();
-  container.read(presenceServiceProvider).bind();
-
-  // Initialize integrations
-  final manager = container.read(integrationManagerProvider)
-    ..register(Foscam.definition, Foscam.register)
-    ..register(NySny.definition, NySny.register);
-
-  await manager.build(container);
-
-  // Start services
-  container.read(mqttServiceProvider).start();
-  container.read(blockManagerProvider).start();
-
-  // Start pumping events
-  container.read(timingServiceProvider).start();
-  container.read(historyManagerProvider).pump();
-
-  log.info('Providers: Initialized');
-  return container;
 }

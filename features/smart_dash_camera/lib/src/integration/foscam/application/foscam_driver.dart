@@ -7,11 +7,7 @@ class FoscamDriver extends CameraDriver {
   FoscamDriver(
     Ref ref,
     ServiceConfig config,
-  ) : super(
-          ref: ref,
-          config: config,
-          key: Foscam.key,
-        );
+  ) : super(ref: ref, config: config, key: Foscam.key, last: DriverInitializedEvent.now(Foscam.key),);
 
   @override
   CameraClient newClient() {

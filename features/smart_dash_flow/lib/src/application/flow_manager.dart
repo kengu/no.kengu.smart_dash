@@ -59,21 +59,14 @@ class FlowManager {
       !_subscriptions.containsKey(type),
       'Stream of $type already bound',
     );
-    _subscriptions[type] =
-        events.delayed(delay).listen(trigger, cancelOnError: false);
-  }
-
-  /// Unbind from stream of [T] events
-  void unbind<T extends Object>(Stream<T> events) {
-    final type = typeOf<T>();
-    final subscription = _subscriptions[type];
-    assert(subscription != null, 'Stream of $type not bound');
-    subscription!.cancel();
-    _subscriptions.remove(type);
+    _subscriptions[type] = events.delayed(delay).listen(
+          trigger,
+          cancelOnError: false,
+        );
   }
 
   /// Unbind from all streams
-  void unbindAll() {
+  void unbind() {
     for (final it in _subscriptions.values) {
       it.cancel();
     }
@@ -83,7 +76,7 @@ class FlowManager {
   Future<void> trigger(Object event) {
     return guard<void>(
       () async {
-        for (final evaluate in _flows.values.where(
+        for (final evaluate in List.of(_flows.values).where(
           (flow) => flow.when(event),
         )) {
           // NOTE: We should not add events too fast to stream for

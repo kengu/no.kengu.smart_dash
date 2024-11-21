@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/route_selector.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_app/feature/device/presentation/device_routes.dart';
 import 'package:smart_dash_app/feature/device/presentation/utils.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 import 'paired_devices_controller.dart';
 

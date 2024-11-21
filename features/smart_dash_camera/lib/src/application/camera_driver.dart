@@ -11,19 +11,11 @@ abstract class CameraDriver extends Driver<CameraDriver> {
   CameraDriver({
     required super.ref,
     required super.key,
+    required super.last,
     required super.config,
-  }) {
-    ref.onDispose(
-      () => _controller.close(),
-    );
-  }
+  }) : super(type: IntegrationType.camera);
 
   static const Duration period = Duration(seconds: 3);
-
-  final StreamController<CameraEvent> _controller =
-      StreamController.broadcast();
-
-  Stream<CameraEvent> get events => _controller.stream;
 
   @protected
   CameraClient newClient();
@@ -33,9 +25,9 @@ abstract class CameraDriver extends Driver<CameraDriver> {
     try {
       final camera = await client.getCamera();
       if (camera.isPresent) {
-        _controller.add(
-          CameraDataEvent(
-            camera: camera.value,
+        raise(
+          CameraDataEvent.now(
+            camera.value,
           ),
         );
         return camera;
@@ -66,7 +58,7 @@ abstract class CameraDriver extends Driver<CameraDriver> {
     try {
       final snapshot = await client.getSnapshot();
       if (snapshot.isPresent) {
-        _controller.add(
+        raise(
           _asSnapshotEvent(snapshot),
         );
       }
@@ -127,7 +119,7 @@ abstract class CameraDriver extends Driver<CameraDriver> {
   }
 
   CameraSnapshotEvent _asSnapshotEvent(Optional<CameraSnapshot> snapshot) {
-    return CameraSnapshotEvent(
+    return CameraSnapshotEvent.now(
       name: config.name,
       service: config.key,
       snapshot: snapshot.value,
@@ -135,8 +127,24 @@ abstract class CameraDriver extends Driver<CameraDriver> {
   }
 }
 
-class CameraEvent {
-  CameraEvent({required this.name, required this.service});
+class CameraEvent extends DriverEvent {
+  CameraEvent({
+    required this.name,
+    required this.service,
+    required super.when,
+    required super.last,
+  }) : super(key: service);
+
+  factory CameraEvent.now({required String name, required String service}) {
+    final when = DateTime.now();
+    return CameraEvent(
+      name: name,
+      service: service,
+      when: when,
+      last: when,
+    );
+  }
+
   final String name;
   final String service;
 }
@@ -144,7 +152,19 @@ class CameraEvent {
 class CameraDataEvent extends CameraEvent {
   CameraDataEvent({
     required this.camera,
+    required super.when,
+    required super.last,
   }) : super(name: camera.name, service: camera.service);
+
+  factory CameraDataEvent.now(Camera camera) {
+    final when = DateTime.now();
+    return CameraDataEvent(
+      camera: camera,
+      when: when,
+      last: when,
+    );
+  }
+
   final Camera camera;
 }
 
@@ -153,9 +173,23 @@ class CameraSnapshotEvent extends CameraEvent {
     required super.name,
     required super.service,
     required this.snapshot,
-    DateTime? when,
-  }) : when = when ?? DateTime.now();
+    required super.when,
+    required super.last,
+  });
 
-  final DateTime when;
+  factory CameraSnapshotEvent.now(
+      {required String name,
+      required String service,
+      required CameraSnapshot snapshot}) {
+    final when = DateTime.now();
+    return CameraSnapshotEvent(
+      name: name,
+      when: when,
+      last: when,
+      service: service,
+      snapshot: snapshot,
+    );
+  }
+
   final CameraSnapshot snapshot;
 }

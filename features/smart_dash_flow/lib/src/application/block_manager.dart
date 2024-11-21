@@ -36,13 +36,13 @@ class BlockManager {
   void register<T extends BlockFlow>(BlockFlowBuilder builder) {
     assert(
       !exists<T>(),
-      '$BlockManager: $BlockFlowBuilder for type '
+      '$BlockManager: $BlockFlow for type '
       '[${typeOf<T>()}] already registered',
     );
 
     _builders['${typeOf<T>()}'] = builder;
     _log.info(
-      '$BlockFlowBuilder for type [${typeOf<T>()}] registered',
+      '$BlockFlow for type [${typeOf<T>()}] registered',
     );
   }
 

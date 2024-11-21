@@ -16,7 +16,9 @@ dependencies:
   smart_dash_snow: any
   smart_dash_common: any
   smart_dash_camera: any
+  smart_dash_device: any
   smart_dash_account: any
+  smart_dash_weather: any
   smart_dash_analytics: any
   smart_dash_datasource: any
   smart_dash_integration: any

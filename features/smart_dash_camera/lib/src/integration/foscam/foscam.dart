@@ -27,10 +27,7 @@ class Foscam {
     enabled: true,
   );
 
-  static CameraManager register(
-    Ref ref,
-    Integration config,
-  ) {
+  static CameraManager register(Ref ref) {
     return ref.read(cameraManagerProvider)
       ..register(
         Foscam.key,

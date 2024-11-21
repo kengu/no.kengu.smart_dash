@@ -4,12 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_app/core/presentation/widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
-import 'package:smart_dash_app/feature/device/domain/switch_state.dart';
 import 'package:smart_dash_app/feature/device/presentation/knob/thermostat_knob.dart';
 import 'package:smart_dash_app/feature/device/presentation/tile/switch_onoff_list_tile.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 class ThermostatTile extends ConsumerStatefulWidget {
   const ThermostatTile({

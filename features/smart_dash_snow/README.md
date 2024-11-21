@@ -1,39 +1,49 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Smart Dash Snow Feature
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* Get snow as state (any)
+* Get snow state as device (any)
+
+Implements drivers for following snow state providers
+* NySny
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add dependency on this package in `pubspec.yaml`
+
+```yaml
+dependencies:
+  smart_dash_snow: any
+```
+
+You need to run bootstrap from project root (when used in [smart_dash](https://github.com/kengu/no.kengu.smart_dash))
+
+```
+melos bootstrap
+```
+
+The last step is to register supported snow states:
+
+```dart
+  final container = ProviderContainer();
+  final integrationManager = container.read(integrationManagerProvider);
+
+  // Initialize camera integrations
+  integrationManager.register(NySny.definition, NySny.register);
+    
+  // IMPORTANT: Ony build after all integrations are registered 
+  integrationManager.build(container);
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+This is a minimal example on usage:
 
 ```dart
-const like = 'sample';
+  final service = container.read(snowServiceProvider);
+  final states = await service.getStates();
 ```
 
-## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+

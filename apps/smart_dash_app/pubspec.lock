@@ -1539,6 +1539,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_device:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_device"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_flow:
     dependency: "direct main"
     description:
@@ -1564,6 +1571,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../../features/smart_dash_snow"
+      relative: true
+    source: path
+    version: "1.0.0"
+  smart_dash_weather:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_weather"
       relative: true
     source: path
     version: "1.0.0"

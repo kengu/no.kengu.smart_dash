@@ -17,7 +17,8 @@ class PairingScreenController extends _$PairingScreenController
 
   @override
   Future<Optional<IntegrationMap>> load(PairingQuery query) async {
-    final integrations = ref.read(integrationManagerProvider).integrations;
+    final manager = ref.watch(integrationManagerProvider).requireValue;
+    final integrations = manager.getAll();
     return Optional.of(Map.fromEntries(integrations.entries.where(
       (e) => e.value.type == IntegrationType.device,
     )));

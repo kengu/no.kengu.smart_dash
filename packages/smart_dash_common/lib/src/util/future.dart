@@ -10,6 +10,8 @@ class FutureCache {
   final Map<String, dynamic> _results = {};
   final Map<String, (DateTime, Future?)> _requests = {};
 
+  Map<String, dynamic> get results => Map.of(_results);
+
   bool contains(String key) {
     final value = _results[key];
     if (value is Optional) {
@@ -61,6 +63,7 @@ class FutureCache {
     return Optional.ofNullable(_requests[key]?.$1);
   }
 
+  // TODO: Pass existing item to fetch when expired
   Future<T> getOrFetch<T>(
     String key,
     Future<T> Function() fetch, {

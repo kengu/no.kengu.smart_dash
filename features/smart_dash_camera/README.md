@@ -6,6 +6,9 @@ Smart Dash Camera Feature
 * Get live video (RTSP only)
 * Control motion detection (if camera supports it)
 
+Implements drivers for following Cameras
+* Foscam
+
 ## Getting started
 
 Add dependency on this package in `pubspec.yaml` 

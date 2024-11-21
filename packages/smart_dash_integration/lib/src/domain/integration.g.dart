@@ -45,6 +45,7 @@ const _$IntegrationTypeEnumMap = {
   IntegrationType.device: 'device',
   IntegrationType.location: 'location',
   IntegrationType.camera: 'camera',
+  IntegrationType.weather: 'weather',
   IntegrationType.snow: 'snow',
 };
 

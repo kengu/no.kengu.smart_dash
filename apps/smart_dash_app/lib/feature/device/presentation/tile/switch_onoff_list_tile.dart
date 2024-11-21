@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/device/application/device_driver.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
-import 'package:smart_dash_app/feature/device/domain/switch_state.dart';
 import 'package:smart_dash_app/feature/device/presentation/utils.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
 
@@ -31,16 +28,18 @@ class SwitchOnOffListTile extends ConsumerStatefulWidget {
 
 class _SwitchOnOffListTileListTileState
     extends ConsumerState<SwitchOnOffListTile> {
-  final Map<Identity, Device> _devices = {};
   final Map<Identity, SwitchMode> _updating = {};
+  final Map<String, Map<Identity, Device>> _cache = {};
 
   @override
   Widget build(BuildContext context) {
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
-      stream: service.drivers
-          .whereType<DriverDevicesEvent>()
-          .where((e) => e.devices.any((e) => e.hasOnOff)),
+      stream: service.drivers.whereType<DriverDevicesEvent>().where(
+            (e) => e.devices.any(
+              (e) => e.hasOnOff,
+            ),
+          ),
       builder: (context, snapshot) {
         final devices = _set(snapshot);
         return SmartDashTile(
@@ -94,19 +93,31 @@ class _SwitchOnOffListTileListTileState
   }
 
   List<Device> _set(AsyncSnapshot<DriverDevicesEvent> snapshot) {
-    final result =
-        ref.read(deviceServiceProvider).whereCached((e) => e.hasOnOff);
-    if (result.isPresent) {
-      final devices = result.value;
+    if (snapshot.hasData) {
+      final event = snapshot.data!;
+      var devices = event.devices.where((e) => e.hasOnOff).toList();
+      _cache.update(
+        event.key,
+        (existing) => _toMap(
+          // Replace old with new devices, keep unchanged
+          <Device>{...devices, ...existing.values}.toList(),
+        ),
+        ifAbsent: () => _toMap(devices),
+      );
+      devices = _cache.values.fold(
+        <Device>[],
+        (devices, map) => devices..addAll(map.values),
+      ).toList();
       devices.sort((a, b) => a.name.compareTo(b.name));
-      _devices
-        ..clear()
-        ..addAll(Map.fromEntries(devices.map(
-          (e) => MapEntry(Identity.of(e), e),
-        )));
       return devices;
     }
     return [];
+  }
+
+  Map<Identity, Device> _toMap(List<Device> devices) {
+    return Map.fromEntries(devices.map(
+      (e) => MapEntry(Identity.of(e), e),
+    ));
   }
 
   Future<(bool, SwitchMode)> _apply(Device device, SwitchMode newMode) async {
@@ -117,7 +128,10 @@ class _SwitchOnOffListTileListTileState
         .update(device.setSwitchNode(newMode));
     _updating.remove(id);
     if (result.isPresent) {
-      _devices[id] = result.value;
+      _cache.update(device.service, (devices) {
+        devices[id] = result.value;
+        return devices;
+      }, ifAbsent: () => {id: device});
       return (true, result.value.onOff!.mode);
     }
     return (false, device.onOff!.mode);

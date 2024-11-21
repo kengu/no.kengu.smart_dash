@@ -1,11 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
-import 'package:smart_dash_app/feature/device/domain/device_definition.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/pair/new_devices_screen.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/pairing_screen.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/select/device_types_screen.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 class PairingScreens {
   static const home = '/pairing';

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_knob.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
-import 'package:smart_dash_app/feature/device/domain/switch_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:strings/strings.dart';
 
 class ThermostatKnob extends ConsumerStatefulWidget {

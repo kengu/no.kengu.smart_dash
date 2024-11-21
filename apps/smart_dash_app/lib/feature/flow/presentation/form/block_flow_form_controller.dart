@@ -4,8 +4,8 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_app/feature/device/application/device_block_flow.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 part 'block_flow_form_controller.g.dart';

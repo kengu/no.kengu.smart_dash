@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
+import 'package:optional/optional_internal.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 typedef ServiceConfigGetter = Iterable<ServiceConfig> Function(String key);
@@ -17,19 +19,24 @@ abstract class DriverManager<T extends Driver<T>> {
   final Map<ServiceConfig, T> _drivers = {};
   final Map<String, DriverBuilder<T>> _builders = {};
 
+  Stream<DriverEvent> get events {
+    return StreamGroup.merge(
+      _drivers.values.map((e) => e.events),
+    );
+  }
+
   /// Check if a [Driver] of type [T] for given [ServiceConfig] exists
-  bool exists(ServiceConfig config) => _drivers.containsKey(config);
+  bool exists(ServiceConfig config) =>
+      _drivers.keys.any((e) => _match(e, config));
+
+  bool _match(ServiceConfig test, ServiceConfig config) =>
+      test.key == config.key && (config.id == null || test.id == config.id);
 
   /// Register [builder] for driver [T] before calling [build]
   void register(
     String key,
     DriverBuilder<T> builder,
   ) {
-    assert(
-      _builders[key] == null,
-      'Builder for $T[key: $key] exists already',
-    );
-
     _builders[key] = builder;
     _log.fine(
       'Builder for $T[key: $key] registered',
@@ -37,28 +44,35 @@ abstract class DriverManager<T extends Driver<T>> {
   }
 
   /// Build driver [T] for [ServiceConfig] returned by [where]
-  Future<void> build(ServiceConfigGetter where) {
-    return guard(
-      () async {
-        final builders = <String, Iterable<ServiceConfig>>{};
-        for (final it in _builders.entries) {
-          builders[it.key] = where(it.key);
-        }
-        for (final it in builders.entries) {
-          final builder = _builders[it.key];
-          assert(
-            builder != null,
-            '$DriverBuilder for $T[${it.key}] '
-            'not found. Did you forget to register a builder for it?',
-          );
-          for (final config in it.value) {
-            _drivers[config] = builder!(config);
-          }
-        }
-      },
-      task: 'build()',
-      name: '$runtimeType',
-    );
+  @mustCallSuper
+  Future<void> build(ServiceConfigGetter where) async {
+    if (_builders.isEmpty) {
+      _log.fine(
+        'Nothing to build (drivers installed: ${_drivers.length})',
+      );
+      return;
+    }
+    final builders = <String, Iterable<ServiceConfig>>{};
+    for (final it in _builders.entries) {
+      builders[it.key] = where(it.key);
+    }
+    for (final it in builders.entries) {
+      final builder = _builders[it.key];
+      assert(
+        builder != null,
+        '$DriverBuilder for $T[${it.key}] '
+        'not found. Did you forget to register a builder for it?',
+      );
+      for (final config in it.value) {
+        _drivers[config] = builder!(config);
+      }
+      _log.fine(
+        'Drivers installed: ${builders.length} (total: ${_drivers.length})',
+      );
+    }
+
+    // Reset to show it
+    _builders.clear();
   }
 
   List<T> get drivers {
@@ -76,6 +90,9 @@ abstract class DriverManager<T extends Driver<T>> {
       'Driver $T[key: ${config.key}] not found. '
       'Have you remembered to register it?',
     );
-    return _drivers[config] as T;
+    return _drivers.entries
+        .firstWhereOptional((it) => _match(it.key, config))
+        .value
+        .value;
   }
 }

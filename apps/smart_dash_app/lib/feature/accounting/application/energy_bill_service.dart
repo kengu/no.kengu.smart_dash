@@ -5,10 +5,10 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/feature/accounting/application/electricity_price_service.dart';
 import 'package:smart_dash_app/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash_app/feature/accounting/domain/pricing/electricity.dart';
-import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'energy_bill_service.g.dart';
@@ -19,11 +19,6 @@ class EnergyBillService {
   final Ref ref;
 
   final _cache = FutureCache(prefix: '$EnergyBillService');
-
-  ElectricityPriceService get priceService =>
-      ref.read(electricityPriceServiceProvider);
-
-  HistoryManager get historyManager => ref.read(historyManagerProvider);
 
   /// Get current [ElectricityTariff].
   Future<ElectricityTariff> getTariff({
@@ -54,8 +49,10 @@ class EnergyBillService {
       _toCacheKey(power, area, 'day', day),
       () async {
         final tariff = await getTariff();
-        final prices = await priceService.getPriceHourly(area, day);
-        final history = await historyManager.get(power, when: day, ttl: ttl);
+        final service = ref.read(electricityPriceServiceProvider);
+        final prices = await service.getPriceHourly(area, day);
+        final manager = ref.read(historyManagerProvider);
+        final history = await manager.get(power, when: day, ttl: ttl);
 
         final lines = <EnergyBillHour>[];
         if (history.isPresent) {

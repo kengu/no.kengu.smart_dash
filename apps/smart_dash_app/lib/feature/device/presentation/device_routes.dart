@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_app/feature/device/presentation/details/paired_device_details_screen.dart';
 import 'package:smart_dash_app/feature/device/presentation/list/paired_devices_screen.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 class DeviceScreens {
   static const home = '/devices';

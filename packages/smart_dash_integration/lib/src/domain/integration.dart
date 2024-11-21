@@ -71,5 +71,6 @@ enum IntegrationType {
   device,
   location,
   camera,
+  weather,
   snow,
 }

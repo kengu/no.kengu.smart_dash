@@ -7,6 +7,7 @@ import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 import 'package:smart_dash_app/integration/application/integration_manager.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'system_health_service.g.dart';
 
@@ -43,7 +44,7 @@ class SystemHealthService {
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
     final integrations = ref.read(integrationManagerProvider);
-    final service = integrations.get(key);
+    final service = integrations.requireValue.get(key);
     assert(service.isPresent, 'Service [$key] not found');
 
     final state = SystemHealthState(
@@ -57,7 +58,8 @@ class SystemHealthService {
     );
     _states[key] = state;
     _controller.add(state);
-    _log.fine(
+    _log.log(
+      isOK ? Level.FINEST : Level.WARNING,
       'Connection for [$key] ${isOK ? 'is OK' : 'has FAILED'}',
     );
   }
@@ -66,6 +68,19 @@ class SystemHealthService {
     final settings = ref.read(settingRepositoryProvider.notifier);
     return settings.get(SettingType.connectionMode).orElseNull?.toString() ??
         ConnectionMode.auto;
+  }
+
+  void bind(Stream<DriverEvent> events) async {
+    await for (final e in events) {
+      switch (e) {
+        case DriverFailureEvent _:
+          setFailed(e.key, e.error);
+          break;
+        case _:
+          setOK(e.key);
+          break;
+      }
+    }
   }
 }
 

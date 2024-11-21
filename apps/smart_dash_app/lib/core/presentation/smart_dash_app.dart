@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_app/util/platform.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:window_manager/window_manager.dart';
@@ -61,17 +64,42 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
       ),
       child: Consumer(
         builder: (context, ref, child) {
-          final settings = ref.watch(themeChangedProvider);
-          final brightness = ref.watch(platformBrightnessNotifierProvider);
-          return MaterialApp.router(
-            title: 'SmartDash',
-            restorationScopeId: 'app',
-            debugShowCheckedModeBanner: false,
-            routerConfig: Routes.router,
-            theme: SmartDashThemeData.build(settings, brightness),
-          );
+          // This will bootstrap services!
+          return ref.watch(integrationManagerProvider).when(
+                data: _buildApp,
+                error: _error,
+                loading: _loading,
+              );
         },
       ),
+    );
+  }
+
+  Widget _error(Object error, StackTrace stackTrace) {
+    return MaterialApp(
+      home: SmartDashErrorWidget.from(error, stackTrace),
+    );
+  }
+
+  Widget _loading() {
+    return MaterialApp(
+      home: SmartDashProgressIndicator(),
+    );
+  }
+
+  Consumer _buildApp(_) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final settings = ref.watch(themeChangedProvider);
+        final brightness = ref.watch(platformBrightnessNotifierProvider);
+        return MaterialApp.router(
+          title: 'SmartDash',
+          restorationScopeId: 'app',
+          routerConfig: Routes.router,
+          debugShowCheckedModeBanner: false,
+          theme: SmartDashThemeData.build(settings, brightness),
+        );
+      },
     );
   }
 

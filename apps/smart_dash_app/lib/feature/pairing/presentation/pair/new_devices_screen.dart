@@ -5,9 +5,8 @@ import 'package:optional/optional_internal.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/multi_selector.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
-import 'package:smart_dash_app/feature/device/application/device_driver_manager.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/pair/new_devices_controller.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 class NewDevicesScreen extends ConsumerStatefulWidget {
   const NewDevicesScreen({

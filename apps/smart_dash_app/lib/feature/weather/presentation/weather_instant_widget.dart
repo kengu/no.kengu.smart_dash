@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash_app/core/presentation/widget.dart';
-import 'package:smart_dash_app/feature/weather/domain/weather.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 import 'weather.dart';
 
@@ -27,10 +27,10 @@ class WeatherInstantWidget extends StatelessWidget {
 
   final int index;
   final int offset;
-  final Weather weather;
   final bool isForecast;
   final bool withWind;
   final bool withSymbol;
+  final WeatherState weather;
   final bool withPrecipitation;
   final bool withLightLuminance;
   final bool withRelativeHumidity;

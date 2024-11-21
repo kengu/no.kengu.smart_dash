@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 
 IconData toIconData(Device device) {
   return switch (device.type) {

@@ -3,14 +3,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 abstract class BlockFlow extends Flow {
-  BlockFlow({
-    required this.ref,
-    required this.id,
-  }) : super(toKey(id));
+  BlockFlow(
+    this.ref,
+    this.id,
+  ) : super(toKey(id));
 
   final Ref ref;
   final String id;
@@ -48,11 +49,11 @@ abstract class BlockFlow extends Flow {
           if (_isNameMatch(model, tags)) {
             for (final condition in model.conditions) {
               if (!_evaluate(model, condition, tags)) {
-                yield* _handle(false, model.whenFalse, tags);
+                yield* _handle(event, false, model.whenFalse, tags);
                 return;
               }
             }
-            yield* _handle(true, model.whenTrue, tags);
+            yield* _handle(event, true, model.whenTrue, tags);
           }
         }
       }
@@ -128,6 +129,7 @@ abstract class BlockFlow extends Flow {
   }
 
   Stream<FlowEvent> _handle(
+    Object event,
     bool value,
     List<BlockAction> actions,
     List<Tag<dynamic>> tags,
@@ -152,6 +154,14 @@ abstract class BlockFlow extends Flow {
       if (next != state) {
         // Only proceed if still flow exists
         if (await _save(next)) {
+          Logger('$runtimeType').fine(
+            'DriverEvent'
+            '[${(event is DriverEvent ? event.key.toUpperCase() : event.runtimeType)}]'
+            '@${event.hashCode} updated Block ['
+            'id: $id, '
+            'value: ${next.value}, '
+            'repeated: ${next.repeated}]',
+          );
           yield BlockUpdatedEvent(
             flow: key,
             tags: tags,
@@ -198,12 +208,6 @@ abstract class BlockFlow extends Flow {
       final next = _model.value.copyWith(state: state);
       _model = Optional.of(next);
       await ref.read(blockRepositoryProvider).updateAll([next]);
-      Logger('$runtimeType').fine(
-        '$BlockFlow: Updated Block ['
-        'id: $id, '
-        'value: ${next.state.value}, '
-        'repeated: ${next.state.repeated}]',
-      );
     }
     return _model.isPresent;
   }

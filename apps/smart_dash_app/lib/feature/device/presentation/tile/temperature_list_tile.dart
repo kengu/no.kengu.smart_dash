@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/barchart_tile.dart';
-import 'package:smart_dash_app/feature/device/application/device_driver.dart';
-import 'package:smart_dash_app/feature/device/application/device_service.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 class TemperatureListTile extends ConsumerStatefulWidget {
@@ -25,6 +23,8 @@ class TemperatureListTile extends ConsumerStatefulWidget {
 }
 
 class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
+  final Map<String, Map<Identity, Device>> _cache = {};
+
   @override
   Widget build(BuildContext context) {
     //return Placeholder();
@@ -59,13 +59,30 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
   }
 
   List<Device> _set(AsyncSnapshot<DriverDevicesEvent> snapshot) {
-    final result =
-        ref.read(deviceServiceProvider).whereCached((e) => e.hasTemperature);
-    if (result.isPresent) {
-      final devices = result.value;
+    if (snapshot.hasData) {
+      final event = snapshot.data!;
+      var devices = event.devices.where((e) => e.hasTemperature).toList();
+      _cache.update(
+        event.key,
+        (existing) => _toMap(
+          // Replace old with new devices, keep unchanged
+          <Device>{...devices, ...existing.values}.toList(),
+        ),
+        ifAbsent: () => _toMap(devices),
+      );
+      devices = _cache.values.fold(
+        <Device>[],
+        (devices, map) => devices..addAll(map.values),
+      ).toList();
       devices.sort((a, b) => a.temperature?.compareTo(b.temperature ?? 0) ?? 0);
       return devices;
     }
     return [];
+  }
+
+  Map<Identity, Device> _toMap(List<Device> devices) {
+    return Map.fromEntries(devices.map(
+      (e) => MapEntry(Identity.of(e), e),
+    ));
   }
 }

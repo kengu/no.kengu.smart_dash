@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 
@@ -26,68 +27,79 @@ class SnowNowTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.read(snowServiceProvider);
-    final textStyle = Theme.of(context).textTheme.labelMedium;
-    return StreamBuilder<SnowState>(
-      stream: manager.getStateAsStream(location),
-      initialData: manager.getCachedState(location).orElseNull,
-      builder: (context, snapshot) {
-        final state = Optional.ofNullable(snapshot.data);
-        final snow = state.orElseNull;
-        return SmartDashTile(
-          title: 'Snow Depth Now',
-          subtitle: '$location last updated '
-              '${state.isPresent ? state.value.lastUpdated.format(prefixAgo: '') : '-'} ago',
-          constraints: constraints.normalize(),
-          leading: const Icon(
-            CupertinoIcons.snow,
-            color: Colors.lightGreen,
-          ),
-          trailing: Text(
-            '${snow?.depth ?? '-'} cm',
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
-            ),
-            textScaler: const TextScaler.linear(1.2),
-          ),
-          body: ConstrainedBox(
-            constraints: constraints.normalize(),
-            child: state.isPresent
-                ? ListView(children: [
-                    ListTile(
-                      leading: const Icon(Icons.scale),
-                      title: Text('Weight', style: textStyle),
-                      trailing:
-                          Text('${snow!.equivalent} kg/m²', style: textStyle),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.height),
-                      title: Text('Elevation', style: textStyle),
-                      trailing: Text('${snow.elevation} m', style: textStyle),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.refresh),
-                      title: Text('Next update', style: textStyle),
-                      trailing: Text(
-                          snow.nextUpdate.isToday
-                              ? hf.format(snow.nextUpdate)
-                              : df.format(snow.nextUpdate),
-                          style: textStyle),
-                    ),
-                  ])
-                : Center(
-                    child: SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: CircularProgressIndicator(
-                        color: Colors.lightGreen.withOpacity(0.6),
-                      ),
-                    ),
-                  ),
+    return ref.read(snowServiceProvider).when(
+          data: (service) {
+            return StreamBuilder<SnowState>(
+              stream: service.getStateAsStream(refresh: true, location),
+              initialData: service.getCachedState(location).orElseNull,
+              builder: (context, snapshot) {
+                final state = Optional.ofNullable(snapshot.data);
+                return _buildTile(context, state);
+              },
+            );
+          },
+          error: SmartDashErrorWidget.from,
+          loading: () => _buildTile(
+            context,
+            Optional.empty(),
           ),
         );
-      },
+  }
+
+  SmartDashTile _buildTile(BuildContext context, Optional<SnowState> state) {
+    final snow = state.orElseNull;
+    final textStyle = Theme.of(context).textTheme.labelMedium;
+    return SmartDashTile(
+      title: 'Snow Depth Now',
+      subtitle: '$location last updated '
+          '${state.isPresent ? state.value.lastUpdated.format(prefixAgo: '') : '-'} ago',
+      constraints: constraints.normalize(),
+      leading: const Icon(
+        CupertinoIcons.snow,
+        color: Colors.lightGreen,
+      ),
+      trailing: Text(
+        '${snow?.depth ?? '-'} cm',
+        style: const TextStyle(
+          color: Colors.lightGreen,
+          fontWeight: FontWeight.bold,
+        ),
+        textScaler: const TextScaler.linear(1.2),
+      ),
+      body: ConstrainedBox(
+        constraints: constraints.normalize(),
+        child: state.isPresent
+            ? ListView(children: [
+                ListTile(
+                  leading: const Icon(Icons.scale),
+                  title: Text('Weight', style: textStyle),
+                  trailing: Text('${snow!.equivalent} kg/m²', style: textStyle),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.height),
+                  title: Text('Elevation', style: textStyle),
+                  trailing: Text('${snow.elevation} m', style: textStyle),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.refresh),
+                  title: Text('Next update', style: textStyle),
+                  trailing: Text(
+                      snow.nextUpdate.isToday
+                          ? hf.format(snow.nextUpdate)
+                          : df.format(snow.nextUpdate),
+                      style: textStyle),
+                ),
+              ])
+            : Center(
+                child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: CircularProgressIndicator(
+                    color: Colors.lightGreen.withOpacity(0.6),
+                  ),
+                ),
+              ),
+      ),
     );
   }
 }

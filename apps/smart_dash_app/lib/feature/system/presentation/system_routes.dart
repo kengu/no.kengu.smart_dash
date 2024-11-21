@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
-import 'package:smart_dash_app/feature/device/domain/device.dart';
+import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_app/feature/system/presentation/system_health/system_health_screen.dart';
 
 class SystemScreens {
