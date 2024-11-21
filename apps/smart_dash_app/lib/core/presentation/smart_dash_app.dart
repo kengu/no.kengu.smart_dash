@@ -76,18 +76,42 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
   }
 
   Widget _error(Object error, StackTrace stackTrace) {
-    return MaterialApp(
-      home: SmartDashErrorWidget.from(error, stackTrace),
+    return Consumer(
+      builder: (context, ref, child) {
+        final settings = ref.watch(themeChangedProvider);
+        final brightness = ref.watch(platformBrightnessNotifierProvider);
+        return MaterialApp(
+          title: 'SmartDash',
+          restorationScopeId: 'app',
+          home: Scaffold(
+            body: SmartDashErrorWidget.from(error, stackTrace),
+          ),
+          theme: SmartDashThemeData.build(settings, brightness),
+        );
+      },
     );
   }
 
   Widget _loading() {
-    return MaterialApp(
-      home: SmartDashProgressIndicator(),
+    return Consumer(
+      builder: (context, ref, child) {
+        final settings = ref.watch(themeChangedProvider);
+        final brightness = ref.watch(platformBrightnessNotifierProvider);
+        return MaterialApp(
+          title: 'SmartDash',
+          restorationScopeId: 'app',
+          home: Scaffold(
+            body: SmartDashProgressIndicator(
+              message: 'Loading modules...',
+            ),
+          ),
+          theme: SmartDashThemeData.build(settings, brightness),
+        );
+      },
     );
   }
 
-  Consumer _buildApp(_) {
+  Widget _buildApp(_) {
     return Consumer(
       builder: (context, ref, child) {
         final settings = ref.watch(themeChangedProvider);
