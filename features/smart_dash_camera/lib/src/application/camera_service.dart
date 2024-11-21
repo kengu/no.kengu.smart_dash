@@ -4,9 +4,10 @@ import 'package:async/async.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
+import 'package:smart_dash_camera/src/integration/foscam/application/foscam_driver.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
-import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_service.g.dart';
@@ -221,4 +222,16 @@ class CameraService {
 }
 
 @Riverpod(keepAlive: true)
-CameraService cameraService(CameraServiceRef ref) => CameraService(ref);
+Future<CameraService> cameraService(CameraServiceRef ref) async {
+  final home = await ref.read(getCurrentHomeProvider().future);
+  final manager = ref.read(cameraManagerProvider);
+
+  // Register SnowState integrations
+  manager.register(
+    Foscam.key,
+    (config) => FoscamDriver(ref, config),
+  );
+  await manager.build(home.value.serviceWhere);
+
+  return CameraService(ref);
+}

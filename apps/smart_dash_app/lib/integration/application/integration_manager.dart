@@ -70,7 +70,6 @@ class IntegrationManager extends _$IntegrationManager {
 
     // TODO: Move all registration to services
     register(Rtl433.definition, Rtl433.register);
-    register(Foscam.definition, Foscam.register);
     register(Sikom.definition, Sikom.register);
 
     // TODO: Move registration to feature services
@@ -84,7 +83,9 @@ class IntegrationManager extends _$IntegrationManager {
     // Register system health tracking for services
     ref.read(systemHealthServiceProvider)
       ..onDriverEvents(ref.read(deviceServiceProvider).driverEvents)
-      ..onDriverEvents(ref.read(cameraServiceProvider).driverEvents)
+      ..onDriverEvents(
+        (await ref.read(cameraServiceProvider.future)).driverEvents,
+      )
       ..onDriverEvents(
         (await ref.read(snowServiceProvider.future)).driverEvents,
       )

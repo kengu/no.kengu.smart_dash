@@ -41,7 +41,8 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   @override
   Widget build(BuildContext context) {
-    final configs = ref.read(cameraServiceProvider).configs;
+    final service = ref.read(cameraServiceProvider).requireValue;
+    final configs = service.configs;
     return Padding(
       padding: !isFullscreen
           ? const EdgeInsets.all(24.0).copyWith(bottom: 0.0)
@@ -127,12 +128,13 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   }
 
   Future<void> _checkCameras() async {
-    final service = ref.read(cameraServiceProvider);
+    final service = ref.read(cameraServiceProvider).requireValue;
     final configs = service.configs;
     final cameras = await Future.wait(
-      configs.map((e) => ref
-          .read(cameraServiceProvider)
-          .getCamera(e, ttl: Duration(seconds: _refreshRate))),
+      configs.map((e) => service.getCamera(e,
+          ttl: Duration(
+            seconds: _refreshRate,
+          ))),
     );
     if (mounted) {
       setState(() {
@@ -148,11 +150,16 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   Future<Optional<bool>> _setMotionConfigs(bool enabled) async {
     _isUpdating = true;
     final motions = <Optional<MotionDetectConfig>>[];
-    final service = ref.read(cameraServiceProvider);
-    final cameras =
-        await service.getCameras(ttl: Duration(seconds: _refreshRate));
+    final service = ref.read(cameraServiceProvider).requireValue;
+    final cameras = await service.getCameras(
+        ttl: Duration(
+      seconds: _refreshRate,
+    ));
     for (final camera in cameras) {
-      motions.add(await service.setMotionConfig(camera, enabled: enabled));
+      motions.add(await service.setMotionConfig(
+        camera,
+        enabled: enabled,
+      ));
       setState(() {});
     }
     _isUpdating = false;
