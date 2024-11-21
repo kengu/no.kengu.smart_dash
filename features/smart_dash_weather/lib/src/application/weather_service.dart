@@ -15,6 +15,9 @@ part 'weather_service.g.dart';
 
 @Riverpod(keepAlive: true)
 class WeatherService extends _$WeatherService {
+  /// Get stream of driver events
+  Stream<DriverEvent> get driverEvents => _weatherManager.events;
+
   @override
   Future<WeatherService> build() async {
     final home = await ref.read(getCurrentHomeProvider().future);
@@ -90,7 +93,7 @@ class WeatherService extends _$WeatherService {
       if (next.isPresent) yield next.value;
     }
 
-    await for (final e in _service.devices
+    await for (final e in _service.deviceEvents
         .throttle(period)
         .where((e) => e.device.capabilities.isWeatherNow)
         .where((e) => Identity.of(e.device) == id)) {

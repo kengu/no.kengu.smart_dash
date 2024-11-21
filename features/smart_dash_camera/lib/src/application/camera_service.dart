@@ -27,6 +27,9 @@ class CameraService {
 
   bool get isStorageEnabled => _manager.isStorageEnabled;
 
+  /// Get stream of driver events
+  Stream<DriverEvent> get driverEvents => _manager.events;
+
   bool enableStorage([Duration period = CameraDriver.period]) {
     return _manager.enableStorage(period);
   }

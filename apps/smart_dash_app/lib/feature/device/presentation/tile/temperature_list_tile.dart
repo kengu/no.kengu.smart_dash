@@ -30,7 +30,7 @@ class _TemperatureListTileState extends ConsumerState<TemperatureListTile> {
     //return Placeholder();
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
-      stream: service.drivers
+      stream: service.deviceEvents
           .whereType<DriverDevicesEvent>()
           .where((e) => e.devices.any((e) => e.hasTemperature)),
       builder: (context, snapshot) {

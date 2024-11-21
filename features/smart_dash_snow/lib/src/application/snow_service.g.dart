@@ -6,7 +6,7 @@ part of 'snow_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snowServiceHash() => r'f7145f5352b9f58c9625de73e5ab90b35a2511ff';
+String _$snowServiceHash() => r'a8cc7a2d65883ca2fa3a691672e9385932f1d82f';
 
 /// See also [SnowService].
 @ProviderFor(SnowService)

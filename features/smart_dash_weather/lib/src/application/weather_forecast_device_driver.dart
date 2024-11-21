@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:logging/logging.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -21,8 +20,6 @@ class WeatherForecastDeviceDriver extends ThrottledDeviceDriver {
           trailing: true,
           throttle: const Duration(seconds: 60),
         );
-
-  final _log = Logger('$WeatherForecastDeviceDriver');
 
   final _lastUpdated = <PointGeometry, DateTime>{};
 

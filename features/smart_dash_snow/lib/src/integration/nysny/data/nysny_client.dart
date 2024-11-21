@@ -9,6 +9,7 @@ import 'package:optional/optional.dart';
 import 'package:sentry/sentry.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
+import 'package:smart_dash_snow/src/data/snow_client.dart';
 
 class NySnyClient extends SnowClient {
   NySnyClient(this.credentials)

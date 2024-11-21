@@ -6,13 +6,20 @@ import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
+import 'package:smart_dash_snow/src/application/snow_driver.dart';
 import 'package:smart_dash_snow/src/integration/nysny/application/nysny_driver.dart';
 import 'package:stream_transform/stream_transform.dart';
+
+import 'snow_device_driver.dart';
+import 'snow_manager.dart';
 
 part 'snow_service.g.dart';
 
 @Riverpod(keepAlive: true)
 class SnowService extends _$SnowService {
+  /// Get stream of driver events
+  Stream<DriverEvent> get driverEvents => _snowManager.events;
+
   @override
   Future<SnowService> build() async {
     final home = await ref.read(getCurrentHomeProvider().future);

@@ -35,11 +35,11 @@ class DeviceService {
   final _driverController = StreamController<DriverEvent>.broadcast();
 
   /// Get stream of device events
-  Stream<DeviceEvent> get devices =>
+  Stream<DeviceEvent> get deviceEvents =>
       _listen(_deviceController.stream).distinct();
 
   /// Get stream of driver events
-  Stream<DriverEvent> get drivers =>
+  Stream<DriverEvent> get driverEvents =>
       _listen(_driverController.stream).distinct();
 
   Stream<T> _listen<T>(Stream<T> stream) {
@@ -49,6 +49,7 @@ class DeviceService {
         manager.events.listen(_handle, cancelOnError: false),
       );
     }
+
     return stream;
   }
 

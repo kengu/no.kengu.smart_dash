@@ -5,6 +5,7 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
+import 'package:smart_dash_snow/src/data/snow_client.dart';
 
 abstract class SnowDriver extends Driver<SnowDriver> {
   SnowDriver({

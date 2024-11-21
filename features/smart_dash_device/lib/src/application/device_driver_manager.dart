@@ -84,7 +84,7 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
 
     final devicesEvents = events
         .whereType<DriverDevicesEvent>()
-        .where(_shouldProcess)
+        .where(shouldProcess)
         .asBroadcastStream();
 
     // Listen for all incoming driver events
@@ -146,7 +146,7 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
       () async {
         // ignore: invalid_use_of_protected_member
         final event = await driver.onUpdate();
-        if (_shouldProcess(event)) {
+        if (shouldProcess(event)) {
           switch (event) {
             case DriverDevicesEvent _:
               _log.fine(
@@ -173,7 +173,7 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
     );
   }
 
-  bool _shouldProcess(DriverEvent event) =>
+  static bool shouldProcess(DriverEvent event) =>
       event is! ThrottledDriverUpdatedEvent || !event.wasThrottled;
 
   Iterable<DeviceDriver> _ready(bool isReady) =>

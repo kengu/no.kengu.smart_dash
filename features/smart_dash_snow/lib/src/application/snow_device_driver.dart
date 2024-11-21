@@ -4,6 +4,9 @@ import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 import 'package:smart_dash_snow/src/data/snow_device_client.dart';
 
+import 'snow_driver.dart';
+import 'snow_manager.dart';
+
 class SnowDeviceDriver extends ThrottledDeviceDriver {
   SnowDeviceDriver({
     required super.key,

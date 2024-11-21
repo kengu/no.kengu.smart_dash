@@ -1,5 +1,6 @@
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
+import 'package:smart_dash_snow/src/application/snow_driver.dart';
 
 class SnowDeviceClient extends DeviceClient {
   SnowDeviceClient(this.driver) : super(driver.config);

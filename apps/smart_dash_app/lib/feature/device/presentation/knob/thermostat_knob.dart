@@ -50,7 +50,7 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DeviceEvent>(
-        stream: ref.watch(deviceServiceProvider).devices.where(
+        stream: ref.watch(deviceServiceProvider).deviceEvents.where(
             (e) => widget.device.isPresent && e.isDevice(widget.device.value)),
         builder: (context, snapshot) {
           final device = _set(snapshot);

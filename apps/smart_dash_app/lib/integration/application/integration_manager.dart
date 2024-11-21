@@ -15,6 +15,8 @@ import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_snow/smart_dash_snow.dart';
+import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 part 'integration_manager.g.dart';
 
@@ -56,12 +58,8 @@ class IntegrationManager extends _$IntegrationManager {
   Future<IntegrationManager> build() async {
     assert(_init, '$IntegrationManager should only build once!');
 
-    // Register integrations
-    register(Rtl433.definition, Rtl433.register);
-    register(Foscam.definition, Foscam.register);
-
-    _init = false;
     _log.info('Providers: Initializing...');
+    _init = false;
 
     // Initialize root providers
     final dirs = await ref.read(flutterDirsProvider.future);
@@ -70,11 +68,32 @@ class IntegrationManager extends _$IntegrationManager {
     final home = await ref.read(accountServiceProvider).getCurrentHome();
     assert(home.isPresent, 'TODO: Handle no home better!');
 
-    // Do this last
+    // TODO: Move all registration to services
+    register(Rtl433.definition, Rtl433.register);
+    register(Foscam.definition, Foscam.register);
     register(Sikom.definition, Sikom.register);
+
+    // TODO: Move registration to feature services
+    _integrations[Foscam.key] = Foscam.definition;
+    _integrations[MetNo.key] = MetNo.definition;
+    _integrations[NySny.key] = NySny.definition;
 
     // Build integrations
     await _build(home.value.serviceWhere);
+
+    // Register system health tracking for services
+    ref.read(systemHealthServiceProvider)
+      ..onDriverEvents(ref.read(deviceServiceProvider).driverEvents)
+      ..onDriverEvents(ref.read(cameraServiceProvider).driverEvents)
+      ..onDriverEvents(
+        (await ref.read(snowServiceProvider.future)).driverEvents,
+      )
+      ..onDriverEvents(
+        (await ref.read(weatherServiceProvider.future)).driverEvents,
+      )
+      ..onDriverEvents(
+        StreamGroup.merge(_managers.values.map((e) => e.events)),
+      );
 
     // Register location service providers
     ref.read(locationManagerProvider).register(
@@ -89,11 +108,6 @@ class IntegrationManager extends _$IntegrationManager {
 
     ref.read(networkInfoServiceProvider).bind();
     ref.read(presenceServiceProvider).bind();
-    ref.read(systemHealthServiceProvider).bind(
-          StreamGroup.merge(
-            _managers.values.map((e) => e.events),
-          ),
-        );
 
     // Start services
     ref.read(mqttServiceProvider).start();

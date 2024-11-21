@@ -64,6 +64,7 @@ class SystemHealthService {
     );
     _states[key] = state;
     _controller.add(state);
+    // TODO: Store history to file
     _log.log(
       isOK ? Level.FINEST : Level.WARNING,
       'Connection for [$key] ${isOK ? 'is OK' : 'has FAILED'}',
@@ -76,17 +77,21 @@ class SystemHealthService {
         ConnectionMode.auto;
   }
 
-  void bind(Stream<DriverEvent> events) async {
+  void onDriverEvents(Stream<DriverEvent> events) async {
     await for (final e in events) {
       switch (e) {
         case DriverFailureEvent _:
           setFailed(e.key, e.error);
           break;
-        case DriverDevicesEvent _:
+        case ThrottledDriverUpdatedEvent _:
+          if (!e.wasThrottled) {
+            setOK(e.key);
+          }
+          break;
+        case DevicesUpdatedEvent _:
           setOK(e.key);
           break;
         case _:
-          setOK(e.key);
           break;
       }
     }

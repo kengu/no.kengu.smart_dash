@@ -35,7 +35,7 @@ class _SwitchOnOffListTileListTileState
   Widget build(BuildContext context) {
     final service = ref.read(deviceServiceProvider);
     return StreamBuilder<DriverDevicesEvent>(
-      stream: service.drivers.whereType<DriverDevicesEvent>().where(
+      stream: service.deviceEvents.whereType<DriverDevicesEvent>().where(
             (e) => e.devices.any(
               (e) => e.hasOnOff,
             ),
@@ -166,7 +166,7 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
     return StreamBuilder<DeviceEvent>(
         stream: ref
             .watch(deviceServiceProvider)
-            .devices
+            .deviceEvents
             .where((e) => e.isDevice(widget.device)),
         builder: (context, snapshot) {
           final device = snapshot.data?.device ?? widget.device;

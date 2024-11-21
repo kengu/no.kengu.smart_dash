@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
-import 'package:smart_dash_snow/smart_dash_snow.dart';
+
+import 'snow_driver.dart';
 
 part 'snow_manager.g.dart';
 
