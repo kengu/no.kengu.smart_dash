@@ -27,10 +27,22 @@ abstract class DriverManager<T extends Driver<T>> {
 
   /// Check if a [Driver] of type [T] for given [ServiceConfig] exists
   bool exists(ServiceConfig config) =>
-      _drivers.keys.any((e) => _match(e, config));
+      _drivers.keys.any((e) => _match(e, config.key, config.id));
 
-  bool _match(ServiceConfig test, ServiceConfig config) =>
-      test.key == config.key && (config.id == null || test.id == config.id);
+  /// Find [ServiceConfig] for [WeatherForecastDriver] with given [Integration.key]
+  Optional<ServiceConfig> firstConfig(String key, [String? id]) {
+    return configs.where((e) => _match(e, key, id)).firstOptional;
+  }
+
+  /// Find a [Driver] of type [T] for given [ServiceConfig]
+  Optional<T> firstDriver(ServiceConfig config) {
+    return drivers
+        .where((e) => _match(e.config, config.key, config.id))
+        .firstOptional;
+  }
+
+  bool _match(ServiceConfig test, String key, String? id) =>
+      test.key == key && (id == null || test.id == id);
 
   /// Register [builder] for driver [T] before calling [build]
   void register(
@@ -91,7 +103,7 @@ abstract class DriverManager<T extends Driver<T>> {
       'Have you remembered to register it?',
     );
     return _drivers.entries
-        .firstWhereOptional((it) => _match(it.key, config))
+        .firstWhereOptional((it) => _match(it.key, config.key, config.id))
         .value
         .value;
   }

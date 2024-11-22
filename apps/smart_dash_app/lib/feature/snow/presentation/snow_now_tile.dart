@@ -31,7 +31,7 @@ class SnowNowTile extends ConsumerWidget {
           data: (service) {
             return StreamBuilder<SnowState>(
               stream: service.getStateAsStream(refresh: true, location),
-              initialData: service.getCachedState(location).orElseNull,
+              initialData: service.getStateCached(location).orElseNull,
               builder: (context, snapshot) {
                 final state = Optional.ofNullable(snapshot.data);
                 return _buildTile(context, state);

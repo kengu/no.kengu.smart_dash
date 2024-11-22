@@ -241,13 +241,15 @@ extension CapabilityX on Capability {
 }
 
 extension DeviceX on Device {
+  bool get hasPower => capabilities.hasPower;
+  bool get hasEnergy => capabilities.hasEnergy;
+  bool get hasVoltage => capabilities.hasVoltage;
+
+  // Environmental measurements
   bool get hasRain => capabilities.hasRain;
   bool get hasRainRate => capabilities.hasRainRate;
   bool get hasRainTotal => capabilities.hasRainTotal;
   bool get hasOnOff => capabilities.hasOnOff;
-  bool get hasPower => capabilities.hasPower;
-  bool get hasEnergy => capabilities.hasEnergy;
-  bool get hasVoltage => capabilities.hasVoltage;
   bool get hasHumidity => capabilities.hasHumidity;
   bool get hasWindAngle => capabilities.hasWindAngle;
   bool get hasLuminance => capabilities.hasLuminance;
@@ -258,7 +260,8 @@ extension DeviceX on Device {
   bool get hasTargetTemperature => capabilities.hasTargetTemperature;
   bool get hasSnowDepth => capabilities.hasSnowDepth;
   bool get hasSnowWeight => capabilities.hasSnowWeight;
-  bool get isWeatherNow => capabilities.isWeatherNow;
+
+  bool get isWeather => capabilities.isWeather;
 
   bool get hasRain1h => capabilities.hasRain1d;
   bool get hasRain3h => capabilities.hasRain1d;
@@ -270,6 +273,8 @@ extension DeviceX on Device {
   bool get hasSnow6h => capabilities.hasRain1d;
   bool get hasSnow12h => capabilities.hasRain1d;
   bool get hasSnow1d => capabilities.hasRain1d;
+  bool get isWeatherNow => capabilities.isWeatherNow;
+
   bool get isRainForecast => capabilities.isRainForecast;
   bool get isSnowForecast => capabilities.isSnowForecast;
   bool get isWeatherForecast => capabilities.isWeatherForecast;

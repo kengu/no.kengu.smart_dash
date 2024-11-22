@@ -7,7 +7,7 @@ part of 'integration_manager.dart';
 // **************************************************************************
 
 String _$integrationManagerHash() =>
-    r'2cbec5563869e8168f99fb1395e8c07a2a4cc60e';
+    r'72fdcebdb6b549eb4c4397d2d567a25043baa911';
 
 /// See also [IntegrationManager].
 @ProviderFor(IntegrationManager)

@@ -353,6 +353,8 @@ extension CapabilityX on List<Capability> {
   bool get hasTemperature12h => any((c) => c.hasTemperature1d);
   bool get hasTemperature1d => any((c) => c.hasTemperature1d);
 
+  bool get isWeather => isWeatherNow || isWeatherForecast;
+
   bool get isWeatherNow => any(
         (c) => const [
           Capability.rain,

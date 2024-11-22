@@ -83,14 +83,14 @@ class Weather {
   }
 }
 
-class WeatherEvent extends DriverEvent {
+class WeatherEvent extends DriverDataEvent<WeatherState> {
   WeatherEvent(
-    this.data, {
+    super.data, {
     required super.key,
     required super.last,
     required super.when,
   });
-  final WeatherState data;
+
   factory WeatherEvent.now(String key, WeatherState data) {
     final when = DateTime.now();
     return WeatherEvent(

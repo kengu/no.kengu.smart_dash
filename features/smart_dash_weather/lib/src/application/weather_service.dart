@@ -1,11 +1,12 @@
-import 'package:async/async.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
 import 'package:smart_dash_weather/src/application/weather_forecast_device_driver.dart';
+import 'package:smart_dash_weather/src/application/weather_forecast_driver.dart';
 import 'package:smart_dash_weather/src/application/weather_forecast_manager.dart';
 import 'package:smart_dash_weather/src/data/weather_response.dart';
 import 'package:smart_dash_weather/src/integration/metno/application/metno_forecast_driver.dart';
@@ -13,61 +14,42 @@ import 'package:stream_transform/stream_transform.dart';
 
 part 'weather_service.g.dart';
 
-@Riverpod(keepAlive: true)
-class WeatherService extends _$WeatherService {
-  /// Get stream of driver events
-  Stream<DriverEvent> get driverEvents => _weatherManager.events;
+typedef WeatherStateSelect = WeatherState Function(List<WeatherState>);
 
-  @override
-  Future<WeatherService> build() async {
-    final home = await ref.read(getCurrentHomeProvider().future);
+/// A [WeatherService] for [WeatherState] lookup from [WeatherForecastDriver]
+/// that implements [IntegrationType.weather] integrations.
 
-    // Register SnowState integrations
-    _weatherManager.register(
-      MetNo.key,
-      (config) => MetNoForecastDriver(ref, config),
-    );
-    await _weatherManager.build(home.value.serviceWhere);
+class WeatherService extends DriverService<WeatherState, WeatherEvent,
+    WeatherForecastDriver, WeatherForecastManager> {
+  WeatherService(Ref ref) : super(ref, FutureCache(prefix: '$WeatherService'));
 
-    // Register snow device driver for each integration
-    _deviceManager.register(
-      MetNo.key,
-      (config) => WeatherForecastDeviceDriver(
-        ref,
-        MetNo.key,
-        config,
-      ),
-    );
-    await _deviceManager.build(home.value.serviceWhere);
-
-    return this;
-  }
-
-  WeatherForecastManager get _weatherManager =>
-      ref.read(weatherForecastManagerProvider);
-
-  DeviceDriverManager get _deviceManager =>
-      ref.read(deviceDriverManagerProvider);
+  static const Duration ttl = WeatherForecastDriver.ttl;
+  static const Duration max = WeatherForecastDriver.max;
+  static const Duration period = Duration(seconds: 5);
 
   DeviceService get _service => ref.read(deviceServiceProvider);
 
-  final _cache = FutureCache(prefix: '$WeatherService');
   String _cacheKey(String prefix, double lat, double lon) {
     return '$prefix:$lat:$lon';
   }
 
-  Stream<WeatherState> get forecasts {
-    return _weatherManager.events.whereType<WeatherEvent>().map((e) => e.data);
-  }
+  @override
+  WeatherForecastManager get manager =>
+      ref.read(weatherForecastManagerProvider);
 
-  Optional<WeatherState> getCachedNow(Identity id) {
+  /// Get [WeatherState] for given [id] from [cache]
+  Optional<WeatherState> getNowCached(Identity id) {
     return Optional.ofNullable(
-      _cache.get<WeatherState>('device:$id').orElseNull,
+      cache.get<WeatherState>('device:$id').orElseNull,
     );
   }
 
-  Future<Optional<WeatherState>> getNow(Identity id, {Duration? ttl}) async {
-    return _cache.getOrFetch(
+  /// Get [WeatherState] for given [id]
+  Future<Optional<WeatherState>> getNow(
+    Identity id, {
+    Duration? ttl,
+  }) async {
+    return cache.getOrFetch(
       'device:$id',
       () async {
         final result = await _service.get(id);
@@ -83,6 +65,24 @@ class WeatherService extends _$WeatherService {
     );
   }
 
+  /// Get all [WeatherState]s
+  Future<List<WeatherState>> getNowAll({
+    Duration ttl = const Duration(seconds: 10),
+  }) async {
+    return cache.getOrFetch(
+      'device:all',
+      () async {
+        final devices = await _service.where(
+          (e) => e.capabilities.isWeatherNow,
+        );
+        return devices.map(Weather.toNow).toList();
+      },
+      ttl: ttl,
+    );
+  }
+
+  /// Get a stream of actual [WeatherState]s now
+  /// periodically pulled from [getNow] for given [id].
   Stream<WeatherState> getNowAsStream(
     Identity id, {
     bool refresh = false,
@@ -93,63 +93,84 @@ class WeatherService extends _$WeatherService {
       if (next.isPresent) yield next.value;
     }
 
-    await for (final e in _service.deviceEvents
-        .throttle(period)
-        .where((e) => e.device.capabilities.isWeatherNow)
-        .where((e) => Identity.of(e.device) == id)) {
-      final weather = Weather.toNow(e.device);
-      _cache.set<WeatherState>(
-        'device:$id',
-        Optional.of(weather),
-      );
-      yield weather;
-    }
+    yield* ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(period.clamp(ttl, max))
+        .asyncMap((e) => getNow(id))
+        .where((e) => e.isPresent)
+        .map((e) => e.value);
   }
 
-  Future<List<WeatherState>> getAllNow({
-    Duration ttl = const Duration(seconds: 10),
+  /// Get [WeatherState] forecasts for given [point].
+  /// If [select] is not given, first [WeatherState]
+  /// in list of [WeatherState] matches from each
+  /// [Driver] is selected.
+  Future<Optional<WeatherState>> getForecast(
+    PointGeometry point, {
+    String? service,
+    Duration? ttl,
+    WeatherStateSelect? select,
   }) async {
-    return _cache.getOrFetch(
-      'device:all',
-      () async {
-        final devices =
-            await _service.where((e) => e.capabilities.isWeatherNow);
-        return devices.map(Weather.toNow).toList();
-      },
-      ttl: ttl,
-    );
+    final states = await getForecasts(point, service: service, ttl: ttl);
+    if (states.isNotEmpty) {
+      return select != null
+          ? Optional.of(select(states))
+          : states.first.toOptional;
+    }
+    return Optional.empty();
   }
 
-  Future<List<WeatherState>> getForecasts({
-    required PointGeometry place,
+  /// Get first cached [WeatherState] forecast for given [point].
+  Optional<WeatherState> getForecastCached(PointGeometry point) {
+    final states = getForecastsCached(point: point);
+    if (states.isPresent) {
+      return states.value.firstOptional;
+    }
+    return Optional.empty();
+  }
+
+  /// Get a stream of [WeatherState] forecasts
+  /// periodically pulled from [getForecasts] for given [point].
+  /// If [select]  is not given, first [WeatherState] in list
+  /// of [WeatherState] matches from each [Driver] is selected.
+  Stream<WeatherState> getForecastAsStream(
+    PointGeometry point, {
+    String? service,
+    bool refresh = false,
+    Duration period = period,
+    WeatherStateSelect? select,
+  }) {
+    return getForecastsAsStream(
+      point,
+      service: service,
+      refresh: refresh,
+      period: period,
+    ).map((e) => select == null ? e.first : select(e));
+  }
+
+  /// Get [WeatherState] forecasts for given [point].
+  Future<List<WeatherState>> getForecasts(
+    PointGeometry point, {
+    String? service,
     Duration? ttl,
   }) async {
-    final key = _cacheKey('forecasts', place.lat, place.lon);
-    final result = await _cache.getOrFetch<List<WeatherResponse>>(
+    final key = _cacheKey('forecasts', point.lat, point.lon);
+    final result = await cache.getOrFetch<List<WeatherResponse>>(
       key,
       () async {
         final forecasts = <WeatherResponse>[];
-        final cached = _cache.get<List<WeatherResponse>>(key);
-        final requests = cached.isPresent
-            ? cached.value.map((e) => (e.data.service, e.lastModified)).toList()
-            : [];
+        Map<dynamic, dynamic> lastModified = _lastModified(key, service);
 
-        if (requests.isEmpty) {
-          for (final driver in _weatherManager.drivers) {
-            final result = await driver.getForecast(place.lat, place.lon);
-            if (result.isPresent) {
-              forecasts.add(result.value);
-            }
-          }
-          return forecasts;
-        }
+        final drivers = manager.drivers.where(
+          (e) => service == null || e.key == service,
+        );
 
-        for (final (key, lastModified) in requests) {
-          final driver = _weatherManager.getDriver(key);
+        for (final driver in drivers) {
           final result = await driver.getForecast(
-            place.lat,
-            place.lon,
-            lastModified,
+            point.lat,
+            point.lon,
+            lastModified[driver.key],
           );
           if (result.isPresent) {
             forecasts.add(result.value);
@@ -157,21 +178,19 @@ class WeatherService extends _$WeatherService {
         }
         return forecasts;
       },
-      ttl: ttl?.clamp(
-        ttl,
-        const Duration(days: 1),
-      ),
+      ttl: ttl?.clamp(ttl, max),
     );
     return result.map((e) => e.data).toList();
   }
 
-  Optional<List<WeatherState>> getCachedForecasts({
-    PointGeometry? place,
+  /// Get cached [WeatherState] forecasts for given [point].
+  Optional<List<WeatherState>> getForecastsCached({
+    PointGeometry? point,
   }) {
     // Get all cached forecasts?
-    if (place == null) {
+    if (point == null) {
       final states = <WeatherState>[];
-      for (final it in _cache.results.values) {
+      for (final it in cache.results.values) {
         switch (it) {
           case List<WeatherState> _:
             states.addAll(it);
@@ -187,8 +206,8 @@ class WeatherService extends _$WeatherService {
       return Optional.of(states);
     }
 
-    final cached = _cache.get<List<WeatherResponse>>(
-      _cacheKey('forecasts', place.lat, place.lon),
+    final cached = cache.get<List<WeatherResponse>>(
+      _cacheKey('forecasts', point.lat, point.lon),
     );
     if (cached.isPresent) {
       return Optional.of(
@@ -198,38 +217,66 @@ class WeatherService extends _$WeatherService {
     return const Optional.empty();
   }
 
-  Stream<WeatherState> getForecastAsStream({
-    required PointGeometry place,
+  /// Get a stream of [WeatherState]s forecasts
+  /// periodically pulled from [getForecasts] for given [point].
+  Stream<List<WeatherState>> getForecastsAsStream(
+    PointGeometry point, {
     String? service,
     bool refresh = false,
-    Duration period = const Duration(minutes: 5),
+    Duration period = period,
   }) async* {
     if (refresh) {
-      for (final weather in await getForecasts(place: place)) {
-        yield weather;
+      final states = await getForecasts(point, service: service);
+      if (states.isNotEmpty) {
+        yield states;
       }
     }
 
-    final stream = StreamGroup.merge(
-      _weatherManager.drivers.map((e) => e.events
-          .whereType<WeatherEvent>()
-          .map((e) => e.data)
-          .where(
-              (e) => e.geometry.lat == place.lat && e.geometry.lon == place.lon)
-          .throttle(period)),
-    );
-
-    await for (final weather in stream) {
-      yield weather;
-    }
+    yield* ref
+        .read(timingServiceProvider)
+        .events
+        .throttle(period.clamp(ttl, max))
+        .asyncMap((e) => getForecasts(point))
+        .where((e) => e.isNotEmpty);
   }
 
-  Optional<WeatherState> getCachedForecast({
-    required double lat,
-    required double lon,
-  }) {
-    return Optional.ofNullable(
-      _cache.get<WeatherResponse>('forecast:$lat:$lon').orElseNull?.data,
-    );
+  Map<String, DateTime> _lastModified(String key, String? service) {
+    final cached = cache.get<List<WeatherResponse>>(key);
+
+    // Get last modified
+    return cached.isPresent
+        ? Map.fromEntries(
+            cached.value
+                .where((e) => service == null || service == e.data.service)
+                .map((e) => MapEntry(e.data.service, e.lastModified)),
+          )
+        : <String, DateTime>{};
   }
+}
+
+@Riverpod(keepAlive: true)
+Future<WeatherService> weatherService(WeatherServiceRef ref) async {
+  final home = await ref.read(getCurrentHomeProvider().future);
+
+  // Register SnowState integrations
+  final weatherManager = ref.read(weatherForecastManagerProvider)
+    ..register(
+      MetNo.key,
+      (config) => MetNoForecastDriver(ref, config),
+    );
+  await weatherManager.build(home.value.serviceWhere);
+
+  // Register snow device driver for each integration
+  final deviceManager = ref.read(deviceDriverManagerProvider)
+    ..register(
+      MetNo.key,
+      (config) => WeatherForecastDeviceDriver(
+        ref,
+        MetNo.key,
+        config,
+      ),
+    );
+  await deviceManager.build(home.value.serviceWhere);
+
+  return WeatherService(ref);
 }

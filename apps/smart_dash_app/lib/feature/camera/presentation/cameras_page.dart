@@ -156,7 +156,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
       seconds: _refreshRate,
     ));
     for (final camera in cameras) {
-      motions.add(await service.setMotionConfig(
+      motions.add(await service.setCameraMotionConfig(
         camera,
         enabled: enabled,
       ));

@@ -5,16 +5,16 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 abstract class CameraDriver extends Driver<CameraDriver> {
   CameraDriver({
     required super.ref,
     required super.key,
-    required super.last,
     required super.config,
   }) : super(type: IntegrationType.camera);
 
+  static const ttl = Duration(hours: 1);
+  static const max = Duration(hours: 24);
   static const Duration period = Duration(seconds: 3);
 
   @protected
@@ -26,7 +26,7 @@ abstract class CameraDriver extends Driver<CameraDriver> {
       final camera = await client.getCamera();
       if (camera.isPresent) {
         raise(
-          CameraDataEvent.now(
+          CameraEvent.now(
             camera.value,
           ),
         );
@@ -38,29 +38,16 @@ abstract class CameraDriver extends Driver<CameraDriver> {
     }
   }
 
-  Stream<Camera> getCameraAsStream({Duration period = period}) async* {
-    final stream = ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getCamera())
-        .where((e) => e.isPresent)
-        .map((e) => e.value);
-
-    // For easier debugging
-    await for (final it in stream) {
-      yield it;
-    }
-  }
-
-  Future<Optional<CameraSnapshot>> getSnapshot() async {
+  Future<Optional<CameraSnapshot>> getCameraSnapshot() async {
     final client = newClient();
     try {
       final snapshot = await client.getSnapshot();
       if (snapshot.isPresent) {
-        raise(
-          _asSnapshotEvent(snapshot),
-        );
+        raise(CameraSnapshotEvent.now(
+          snapshot.value,
+          name: config.name,
+          service: config.key,
+        ));
       }
       return snapshot;
     } finally {
@@ -68,24 +55,7 @@ abstract class CameraDriver extends Driver<CameraDriver> {
     }
   }
 
-  Stream<CameraSnapshotEvent> getSnapshotAsStream({
-    Duration period = period,
-  }) async* {
-    final stream = ref
-        .read(timingServiceProvider)
-        .events
-        .throttle(period)
-        .asyncMap((_) => getSnapshot())
-        .where((e) => e.isPresent)
-        .map(_asSnapshotEvent);
-
-    // For easier debugging
-    await for (final it in stream) {
-      yield it;
-    }
-  }
-
-  Future<Optional<MotionDetectConfig>> getMotionConfig() async {
+  Future<Optional<MotionDetectConfig>> getCameraMotionConfig() async {
     return guard(() async {
       final client = newClient();
       try {
@@ -96,13 +66,13 @@ abstract class CameraDriver extends Driver<CameraDriver> {
     });
   }
 
-  Future<Optional<MotionDetectConfig>> setMotionConfig({
+  Future<Optional<MotionDetectConfig>> setCameraMotionConfig({
     bool? enabled,
     MotionDetectSensitivityLevel? sensitivity,
   }) async {
     // Ensure latest values are used (CGI commands replaces all values)
     return guard(() async {
-      final result = await getMotionConfig();
+      final result = await getCameraMotionConfig();
       if (!result.isPresent) return result;
       final now = result.value;
       final next = now.copyWith(
@@ -117,72 +87,49 @@ abstract class CameraDriver extends Driver<CameraDriver> {
       }
     });
   }
+}
 
-  CameraSnapshotEvent _asSnapshotEvent(Optional<CameraSnapshot> snapshot) {
-    return CameraSnapshotEvent.now(
-      name: config.name,
-      service: config.key,
-      snapshot: snapshot.value,
+class CameraEvent extends DriverDataEvent<Camera> {
+  CameraEvent(
+    super.data, {
+    required super.when,
+    required super.last,
+  }) : super(key: data.service);
+
+  String get name => data.name;
+  String get service => data.service;
+
+  factory CameraEvent.now(Camera camera) {
+    final when = DateTime.now();
+    return CameraEvent(
+      camera,
+      when: when,
+      last: when,
     );
   }
 }
 
-class CameraEvent extends DriverEvent {
-  CameraEvent({
+class CameraSnapshotEvent extends DriverDataEvent<CameraSnapshot> {
+  CameraSnapshotEvent(
+    super.data, {
     required this.name,
     required this.service,
+    required this.snapshot,
     required super.when,
     required super.last,
   }) : super(key: service);
 
-  factory CameraEvent.now({required String name, required String service}) {
-    final when = DateTime.now();
-    return CameraEvent(
-      name: name,
-      service: service,
-      when: when,
-      last: when,
-    );
-  }
-
   final String name;
   final String service;
-}
-
-class CameraDataEvent extends CameraEvent {
-  CameraDataEvent({
-    required this.camera,
-    required super.when,
-    required super.last,
-  }) : super(name: camera.name, service: camera.service);
-
-  factory CameraDataEvent.now(Camera camera) {
-    final when = DateTime.now();
-    return CameraDataEvent(
-      camera: camera,
-      when: when,
-      last: when,
-    );
-  }
-
-  final Camera camera;
-}
-
-class CameraSnapshotEvent extends CameraEvent {
-  CameraSnapshotEvent({
-    required super.name,
-    required super.service,
-    required this.snapshot,
-    required super.when,
-    required super.last,
-  });
 
   factory CameraSnapshotEvent.now(
-      {required String name,
-      required String service,
-      required CameraSnapshot snapshot}) {
+    CameraSnapshot snapshot, {
+    required String name,
+    required String service,
+  }) {
     final when = DateTime.now();
     return CameraSnapshotEvent(
+      snapshot,
       name: name,
       when: when,
       last: when,

@@ -11,12 +11,10 @@ abstract class WeatherForecastDriver extends Driver<WeatherForecastDriver> {
     required super.ref,
     required super.key,
     required super.config,
-  }) : super(
-          type: IntegrationType.weather,
-          last: DriverInitializedEvent.now(key),
-        );
+  }) : super(type: IntegrationType.weather);
 
-  static const Duration period = Duration(seconds: 3);
+  static const ttl = Duration(hours: 1);
+  static const max = Duration(hours: 24);
 
   @protected
   WeatherForecastClient newClient();

@@ -17,10 +17,7 @@ abstract class DeviceDriver extends Driver<DeviceDriver> {
     required super.ref,
     required super.key,
     required super.config,
-  }) : super(
-          type: IntegrationType.device,
-          last: DevicesUpdatedEvent.now(key),
-        ) {
+  }) : super(type: IntegrationType.device) {
     ref.onDispose(onUnInit);
   }
 

@@ -27,12 +27,6 @@ class CameraManager extends DriverManager<CameraDriver> {
 
   bool get isStorageEnabled => _storageSubscription != null;
 
-  Optional<ServiceConfig> find(Camera device) {
-    return configs
-        .where((e) => e.key == device.service && e.id == device.name)
-        .firstOptional;
-  }
-
   bool enableStorage([Duration period = CameraDriver.period]) {
     if (!isStorageEnabled) {
       final stream = StreamGroup.merge(drivers.map(

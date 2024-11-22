@@ -296,7 +296,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
     await _fetchCamera(ttl: widget.period);
     if (!_camera.isPresent) return const Optional.empty();
     final service = ref.read(cameraServiceProvider).requireValue;
-    return service.getSnapshot(
+    return service.getCameraSnapshot(
       _camera.value,
       ttl: widget.period,
     );
@@ -305,7 +305,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
   Optional<CameraSnapshot> _fetchCachedSnapshot() {
     if (!_camera.isPresent) return const Optional.empty();
     final service = ref.read(cameraServiceProvider).requireValue;
-    return service.getCachedSnapshot(
+    return service.getCameraSnapshotCached(
       _camera.value,
     );
   }
@@ -326,7 +326,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
       update() async {
         final service = ref.read(cameraServiceProvider).requireValue;
-        final result = await service.setMotionConfig(
+        final result = await service.setCameraMotionConfig(
           _camera.value,
           enabled: enabled,
         );

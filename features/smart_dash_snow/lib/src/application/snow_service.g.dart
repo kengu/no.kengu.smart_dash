@@ -6,13 +6,14 @@ part of 'snow_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snowServiceHash() => r'a8cc7a2d65883ca2fa3a691672e9385932f1d82f';
+String _$snowServiceHash() => r'ac5aa2068e6fd3873aac7b3996da5342a1a481e3';
 
-/// See also [SnowService].
-@ProviderFor(SnowService)
-final snowServiceProvider =
-    AsyncNotifierProvider<SnowService, SnowService>.internal(
-  SnowService.new,
+/// Build a new [SnowService] instance.
+///
+/// Copied from [snowService].
+@ProviderFor(snowService)
+final snowServiceProvider = FutureProvider<SnowService>.internal(
+  snowService,
   name: r'snowServiceProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$snowServiceHash,
@@ -20,6 +21,6 @@ final snowServiceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SnowService = AsyncNotifier<SnowService>;
+typedef SnowServiceRef = FutureProviderRef<SnowService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

@@ -47,15 +47,14 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
           data: (service) {
             return StreamBuilder<WeatherState>(
               initialData: service
-                  .getCachedForecast(
-                    lat: widget.lat,
-                    lon: widget.lon,
+                  .getForecastCached(
+                    PointGeometry.from(widget.lon, widget.lat),
                   )
                   .orElseNull,
               stream: service.getForecastAsStream(
+                PointGeometry.from(widget.lon, widget.lat),
                 refresh: true,
                 period: widget.period,
-                place: PointGeometry.from(widget.lon, widget.lat),
               ),
               builder: (context, snapshot) {
                 final now = DateTime.now();

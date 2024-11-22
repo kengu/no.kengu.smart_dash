@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -15,97 +16,47 @@ import 'snow_manager.dart';
 
 part 'snow_service.g.dart';
 
-@Riverpod(keepAlive: true)
-class SnowService extends _$SnowService {
-  /// Get stream of driver events
-  Stream<DriverEvent> get driverEvents => _snowManager.events;
-
-  @override
-  Future<SnowService> build() async {
-    final home = await ref.read(getCurrentHomeProvider().future);
-
-    // Register SnowState integrations
-    _snowManager.register(
-      NySny.key,
-      (config) => NySnyDriver(ref, config),
-    );
-    await _snowManager.build(home.value.serviceWhere);
-
-    // Register snow device driver for each integration
-    _deviceManager.register(
-      NySny.key,
-      (config) => SnowDeviceDriver(
-        key: NySny.key,
-        ref: ref,
-        config: config,
-      ),
-    );
-    await _deviceManager.build(home.value.serviceWhere);
-
-    return this;
-  }
+/// A [DriverService] for [SnowState] lookup from [DeviceDriver]
+/// that implements [IntegrationType.snow] integrations.
+class SnowService extends DriverService<List<SnowState>, SnowDataEvent,
+    SnowDriver, SnowManager> {
+  SnowService(Ref ref) : super(ref, FutureCache(prefix: '$SnowService'));
 
   static const Duration ttl = SnowDriver.ttl;
   static const Duration max = SnowDriver.max;
   static const Duration period = Duration(seconds: 5);
 
-  SnowManager get _snowManager => ref.read(snowManagerProvider);
-  DeviceDriverManager get _deviceManager =>
-      ref.read(deviceDriverManagerProvider);
+  /// Get [DriverManager] of [SnowDriver] instances
+  @override
+  SnowManager get manager => ref.read(snowManagerProvider);
 
-  Stream<List<SnowState>> get updates {
-    return _snowManager.events.whereType<SnowDataEvent>().map((e) => e.data);
-  }
-
-  Optional<SnowState> getCachedState(String location) {
-    for (final config in _snowManager.configs) {
-      final found = _snowManager.get(config).getCachedState(location);
-      if (found.isPresent) {
-        return found;
-      }
-    }
-    return const Optional.empty();
-  }
-
+  /// Get [SnowState] for given [location] from [Snow] integrations
   Future<Optional<SnowState>> getState(
     String location, [
     Duration? ttl = ttl,
   ]) async {
-    for (final config in _snowManager.configs) {
-      final found = await _snowManager.get(config).getState(location, ttl);
-      if (found.isPresent) {
-        return found;
-      }
-    }
-    return const Optional.empty();
+    return cache.getOrFetch(
+      'state:$location',
+      () async {
+        for (final config in manager.configs) {
+          final found = await manager.get(config).getState(location);
+          if (found.isPresent) {
+            return found;
+          }
+        }
+        return const Optional.empty();
+      },
+      ttl: ttl?.clamp(ttl, max),
+    );
   }
 
-  Optional<List<SnowState>> getCachedStates() {
-    final states = <SnowState>[];
-    for (final config in _snowManager.configs) {
-      final found = _snowManager.get(config).getCachedStates();
-      if (found.isPresent) {
-        states.addAll(found.value);
-      }
-      return Optional.of(states);
-    }
-    return const Optional.empty();
+  /// Get cached [SnowState] for given [location]
+  Optional<SnowState> getStateCached(String location) {
+    return cache.get('state:$location');
   }
 
-  Future<Optional<List<SnowState>>> getStates([
-    Duration? ttl = ttl,
-  ]) async {
-    final states = <SnowState>[];
-    for (final config in _snowManager.configs) {
-      final found = await _snowManager.get(config).getStates(ttl);
-      if (found.isPresent) {
-        states.addAll(found.value);
-      }
-      return Optional.of(states);
-    }
-    return const Optional.empty();
-  }
-
+  /// Get a stream of [SnowState]s periodically
+  /// pulled from [getState] for given [location].
   Stream<SnowState> getStateAsStream(
     String location, {
     bool refresh = false,
@@ -118,19 +69,39 @@ class SnowService extends _$SnowService {
       }
     }
 
-    final stream = ref
+    yield* ref
         .read(timingServiceProvider)
         .events
         .throttle(period.clamp(ttl, max))
         .asyncMap((e) => getState(location))
         .where((e) => e.isPresent)
         .map((e) => e.value);
-
-    await for (final it in stream) {
-      yield it;
-    }
   }
 
+  /// Get all [SnowState]s
+  Future<Optional<List<SnowState>>> getStates([
+    Duration? ttl = ttl,
+  ]) async {
+    return cache.getOrFetch('states', () async {
+      final states = <SnowState>[];
+      for (final config in manager.configs) {
+        final found = await manager.get(config).getStates();
+        if (found.isPresent) {
+          states.addAll(found.value);
+        }
+        return Optional.of(states);
+      }
+      return const Optional.empty();
+    }, ttl: ttl?.clamp(period, max));
+  }
+
+  /// Get all [SnowState]s from [cache]
+  Optional<List<SnowState>> getStatesCached() {
+    return cache.get('states');
+  }
+
+  /// Get a stream of all [SnowState]s periodically
+  /// pulled from [getStates].
   Stream<List<SnowState>> getStatesAsStream({
     bool refresh = false,
     Duration max = max,
@@ -142,16 +113,40 @@ class SnowService extends _$SnowService {
       }
     }
 
-    final stream = ref
+    yield* ref
         .read(timingServiceProvider)
         .events
         .throttle(period.clamp(ttl, max))
         .asyncMap((e) => getStates(ttl))
         .where((e) => e.isPresent)
         .map((e) => e.value);
-
-    await for (final it in stream) {
-      yield it;
-    }
   }
+}
+
+/// Build a new [SnowService] instance.
+@Riverpod(keepAlive: true)
+Future<SnowService> snowService(SnowServiceRef ref) async {
+  final home = await ref.read(getCurrentHomeProvider().future);
+
+  // Register SnowState integrations
+  final snowManager = ref.read(snowManagerProvider)
+    ..register(
+      NySny.key,
+      (config) => NySnyDriver(ref, config),
+    );
+  await snowManager.build(home.value.serviceWhere);
+
+  // Register snow device driver for each integration
+  final deviceManager = ref.read(deviceDriverManagerProvider)
+    ..register(
+      NySny.key,
+      (config) => SnowDeviceDriver(
+        key: NySny.key,
+        ref: ref,
+        config: config,
+      ),
+    );
+  await deviceManager.build(home.value.serviceWhere);
+
+  return SnowService(ref);
 }

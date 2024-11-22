@@ -62,7 +62,7 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
                 refresh: true,
                 period: widget.period,
               ),
-              initialData: service.getCachedNow(widget.device.value).orElseNull,
+              initialData: service.getNowCached(widget.device.value).orElseNull,
               builder: (context, snapshot) {
                 final now = DateTime.now();
                 final data = snapshot.data;

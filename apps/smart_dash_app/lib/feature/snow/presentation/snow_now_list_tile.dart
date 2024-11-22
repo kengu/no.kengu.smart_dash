@@ -21,7 +21,7 @@ class SnowNowListTile extends ConsumerWidget {
           data: (service) {
             return StreamBuilder<List<SnowState>>(
               stream: service.getStatesAsStream(refresh: true),
-              initialData: service.getCachedStates().orElseNull,
+              initialData: service.getStatesCached().orElseNull,
               builder: (context, snapshot) {
                 final states =
                     snapshot.hasData ? snapshot.data! : <SnowState>[];

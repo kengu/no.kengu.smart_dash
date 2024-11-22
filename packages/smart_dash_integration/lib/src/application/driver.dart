@@ -13,8 +13,7 @@ abstract class Driver<T extends Driver<T>> {
     required this.key,
     required this.type,
     required this.config,
-    required DriverEvent last,
-  }) : _lastEvent = last {
+  }) : _lastEvent = DriverInitializedEvent.now(key) {
     ref.onDispose(dispose);
   }
 
@@ -92,6 +91,17 @@ abstract class DriverEvent {
   final DateTime when;
 
   Duration get duration => when.difference(last);
+}
+
+abstract class DriverDataEvent<D> extends DriverEvent {
+  const DriverDataEvent(
+    this.data, {
+    required super.key,
+    required super.last,
+    required super.when,
+  });
+
+  final D data;
 }
 
 class DriverInitializedEvent extends DriverEvent {

@@ -84,14 +84,15 @@ class IntegrationManager extends _$IntegrationManager {
     ref.read(systemHealthServiceProvider)
       ..onDriverEvents(ref.read(deviceServiceProvider).driverEvents)
       ..onDriverEvents(
-        (await ref.read(cameraServiceProvider.future)).driverEvents,
+        (await ref.read(cameraServiceProvider.future)).events,
       )
       ..onDriverEvents(
-        (await ref.read(snowServiceProvider.future)).driverEvents,
+        (await ref.read(snowServiceProvider.future)).events,
       )
       ..onDriverEvents(
-        (await ref.read(weatherServiceProvider.future)).driverEvents,
+        (await ref.read(weatherServiceProvider.future)).events,
       )
+      // TODO: Move locally registered managers over to driver services
       ..onDriverEvents(
         StreamGroup.merge(_managers.values.map((e) => e.events)),
       );
