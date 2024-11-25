@@ -1553,6 +1553,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_geocoder:
+    dependency: "direct overridden"
+    description:
+      path: "../../features/smart_dash_geocoder"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_integration:
     dependency: "direct main"
     description:

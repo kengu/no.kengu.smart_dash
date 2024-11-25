@@ -48,19 +48,6 @@ class IntegrationRepository extends _$IntegrationRepository {
       '''
 [
   {
-    "key": "osm",
-    "type": "location",
-    "name": "OSM Nominatim API",
-    "image": "osm.png",
-    "category": "Location Services",
-    "description": "Enables location search",
-    "fields": [],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
-  },
-  {
     "key": "homey",
     "type": "device",
     "name": "Homey API",

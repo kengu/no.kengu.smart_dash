@@ -6,7 +6,7 @@ part of 'camera_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cameraServiceHash() => r'aae2b8ee80ee4c67e9f8a10ed8c80cfeb5031696';
+String _$cameraServiceHash() => r'bfb2a4d7c270269a963d5ca65e157678e6c39077';
 
 /// See also [cameraService].
 @ProviderFor(cameraService)

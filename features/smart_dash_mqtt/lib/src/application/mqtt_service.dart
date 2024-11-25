@@ -60,7 +60,7 @@ Future<MqttService> mqttService(MqttServiceRef ref) async {
       Mqtt.key,
       (config) => MqttDriver(ref, config),
     );
-  await mqttManager.build(home.value.serviceWhere);
+  mqttManager.build(home.value.serviceWhere);
 
   final deviceManager = ref.read(deviceDriverManagerProvider)
     ..register(

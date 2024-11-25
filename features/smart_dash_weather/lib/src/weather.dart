@@ -1,6 +1,6 @@
+import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
-import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 import 'domain/weather_state.dart';
 

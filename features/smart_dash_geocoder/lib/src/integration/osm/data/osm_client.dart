@@ -1,23 +1,18 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:optional/optional_internal.dart';
+import 'package:optional/optional.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
-import 'package:smart_dash_app/integration/osm/osm.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_geocoder/smart_dash_geocoder_app.dart';
 
-class OsmLocationClient extends LocationClient {
-  OsmLocationClient(this.ref);
-
-  Ref ref;
+class OsmClient extends GeocoderClient {
+  OsmClient() : super();
 
   @override
-  Future<Optional<Location>> reverseSearch(
-      {required double lon, required double lat}) async {
+  Future<Optional<Location>> reverseSearch(PointGeometry point) async {
     return guard(() async {
       final result = await Nominatim.reverseSearch(
-        lon: lon,
-        lat: lat,
+        lon: point.lon,
+        lat: point.lat,
         extraTags: true,
         nameDetails: true,
         addressDetails: true,
@@ -27,7 +22,7 @@ class OsmLocationClient extends LocationClient {
   }
 
   @override
-  Future<List<Location>> searchByName({required String query}) {
+  Future<List<Location>> searchByName(String query) {
     return guard(() async {
       final result = await Nominatim.searchByName(
         query: query,
@@ -56,5 +51,10 @@ class OsmLocationClient extends LocationClient {
       postalCode: data.address?['postcode'] as String?,
       municipality: data.address?['municipality'] as String?,
     );
+  }
+
+  @override
+  Future<void> close() async {
+    // Not used
   }
 }

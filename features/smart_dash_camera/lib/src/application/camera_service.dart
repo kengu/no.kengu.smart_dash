@@ -319,7 +319,7 @@ Future<CameraService> cameraService(CameraServiceRef ref) async {
     Foscam.key,
     (config) => FoscamDriver(ref, config),
   );
-  await manager.build(home.value.serviceWhere);
+  manager.build(home.value.serviceWhere);
 
   return CameraService(ref);
 }

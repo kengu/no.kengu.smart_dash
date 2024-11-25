@@ -201,18 +201,6 @@ Map<String, dynamic> _$$WeatherMetaImplToJson(_$WeatherMetaImpl instance) =>
       'units': instance.units.toJson(),
     };
 
-_$PointGeometryImpl _$$PointGeometryImplFromJson(Map<String, dynamic> json) =>
-    _$PointGeometryImpl(
-      coords: (json['coordinates'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
-    );
-
-Map<String, dynamic> _$$PointGeometryImplToJson(_$PointGeometryImpl instance) =>
-    <String, dynamic>{
-      'coordinates': instance.coords,
-    };
-
 _$WeatherUnitsImpl _$$WeatherUnitsImplFromJson(Map<String, dynamic> json) =>
     _$WeatherUnitsImpl(
       airPressureAtSeaLevel: json['air_pressure_at_sea_level'] as String?,

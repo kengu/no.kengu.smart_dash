@@ -7,7 +7,7 @@ part of 'integration_repository.dart';
 // **************************************************************************
 
 String _$integrationRepositoryHash() =>
-    r'2885712e125ca44527ffbc8177dc07ae0a9d2cf1';
+    r'2ddc2918d92ce3b889c02d65cbba51c9436d460e';
 
 /// See also [IntegrationRepository].
 @ProviderFor(IntegrationRepository)

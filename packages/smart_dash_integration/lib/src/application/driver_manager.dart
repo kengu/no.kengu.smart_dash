@@ -57,7 +57,7 @@ abstract class DriverManager<T extends Driver<T>> {
 
   /// Build driver [T] for [ServiceConfig] returned by [where]
   @mustCallSuper
-  Future<void> build(ServiceConfigGetter where) async {
+  void build(ServiceConfigGetter where) {
     if (_builders.isEmpty) {
       _log.fine(
         'Nothing to build (drivers installed: ${_drivers.length})',

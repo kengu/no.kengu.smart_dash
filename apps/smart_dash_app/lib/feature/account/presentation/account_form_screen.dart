@@ -225,9 +225,8 @@ class _LocationField extends ConsumerWidget {
           context,
           title: 'Find location',
           query: formGroup.value[LocationField.name] as String,
-          search: (query) => ref
-              .read(locationManagerProvider)
-              .searchByNameAsStream(query: query),
+          search: (query) =>
+              ref.read(geocoderServiceProvider).searchByNameAsStream(query),
           resultBuilder: (location, selected) => ListTile(
             selected: selected,
             contentPadding: EdgeInsets.zero,

@@ -264,7 +264,7 @@ Future<WeatherService> weatherService(WeatherServiceRef ref) async {
       MetNo.key,
       (config) => MetNoForecastDriver(ref, config),
     );
-  await weatherManager.build(home.value.serviceWhere);
+  weatherManager.build(home.value.serviceWhere);
 
   // Register snow device driver for each integration
   final deviceManager = ref.read(deviceDriverManagerProvider)

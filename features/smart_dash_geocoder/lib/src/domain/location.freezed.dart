@@ -518,3 +518,167 @@ abstract class _Location extends Location {
   _$$LocationImplCopyWith<_$LocationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+PointGeometry _$PointGeometryFromJson(Map<String, dynamic> json) {
+  return _PointGeometry.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PointGeometry {
+  @JsonKey(name: 'coordinates')
+  List<double> get coords => throw _privateConstructorUsedError;
+
+  /// Serializes this PointGeometry to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PointGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PointGeometryCopyWith<PointGeometry> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PointGeometryCopyWith<$Res> {
+  factory $PointGeometryCopyWith(
+          PointGeometry value, $Res Function(PointGeometry) then) =
+      _$PointGeometryCopyWithImpl<$Res, PointGeometry>;
+  @useResult
+  $Res call({@JsonKey(name: 'coordinates') List<double> coords});
+}
+
+/// @nodoc
+class _$PointGeometryCopyWithImpl<$Res, $Val extends PointGeometry>
+    implements $PointGeometryCopyWith<$Res> {
+  _$PointGeometryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PointGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? coords = null,
+  }) {
+    return _then(_value.copyWith(
+      coords: null == coords
+          ? _value.coords
+          : coords // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PointGeometryImplCopyWith<$Res>
+    implements $PointGeometryCopyWith<$Res> {
+  factory _$$PointGeometryImplCopyWith(
+          _$PointGeometryImpl value, $Res Function(_$PointGeometryImpl) then) =
+      __$$PointGeometryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'coordinates') List<double> coords});
+}
+
+/// @nodoc
+class __$$PointGeometryImplCopyWithImpl<$Res>
+    extends _$PointGeometryCopyWithImpl<$Res, _$PointGeometryImpl>
+    implements _$$PointGeometryImplCopyWith<$Res> {
+  __$$PointGeometryImplCopyWithImpl(
+      _$PointGeometryImpl _value, $Res Function(_$PointGeometryImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PointGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? coords = null,
+  }) {
+    return _then(_$PointGeometryImpl(
+      coords: null == coords
+          ? _value._coords
+          : coords // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PointGeometryImpl extends _PointGeometry {
+  const _$PointGeometryImpl(
+      {@JsonKey(name: 'coordinates') required final List<double> coords})
+      : _coords = coords,
+        super._();
+
+  factory _$PointGeometryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PointGeometryImplFromJson(json);
+
+  final List<double> _coords;
+  @override
+  @JsonKey(name: 'coordinates')
+  List<double> get coords {
+    if (_coords is EqualUnmodifiableListView) return _coords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_coords);
+  }
+
+  @override
+  String toString() {
+    return 'PointGeometry(coords: $coords)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PointGeometryImpl &&
+            const DeepCollectionEquality().equals(other._coords, _coords));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_coords));
+
+  /// Create a copy of PointGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PointGeometryImplCopyWith<_$PointGeometryImpl> get copyWith =>
+      __$$PointGeometryImplCopyWithImpl<_$PointGeometryImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PointGeometryImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PointGeometry extends PointGeometry {
+  const factory _PointGeometry(
+          {@JsonKey(name: 'coordinates') required final List<double> coords}) =
+      _$PointGeometryImpl;
+  const _PointGeometry._() : super._();
+
+  factory _PointGeometry.fromJson(Map<String, dynamic> json) =
+      _$PointGeometryImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'coordinates')
+  List<double> get coords;
+
+  /// Create a copy of PointGeometry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PointGeometryImplCopyWith<_$PointGeometryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

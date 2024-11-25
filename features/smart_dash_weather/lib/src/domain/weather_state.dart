@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash_account/smart_dash_account.dart';
 
 part 'weather_state.freezed.dart';
 part 'weather_state.g.dart';
@@ -332,30 +333,6 @@ class WeatherMeta with _$WeatherMeta {
   }) = _WeatherMeta;
   factory WeatherMeta.fromJson(Map<String, Object?> json) =>
       _$WeatherMetaFromJson(json);
-}
-
-@freezed
-class PointGeometry with _$PointGeometry {
-  const PointGeometry._();
-
-  const factory PointGeometry({
-    @JsonKey(name: 'coordinates') required List<double> coords,
-  }) = _PointGeometry;
-
-  factory PointGeometry.from(double lon, double lat, [double? alt]) {
-    return PointGeometry(
-      coords: [lon, lat, alt].whereNotNull().toList(),
-    );
-  }
-
-  double get lon => coords.length > 1 ? coords[0] : double.nan;
-  double get lat => coords.length > 1 ? coords[1] : double.nan;
-  double get alt => coords.length > 2 ? coords[2] : double.nan;
-
-  factory PointGeometry.fromJson(Map<String, Object?> json) =>
-      _$PointGeometryFromJson(json);
-
-  bool isHere(double lon, double lat) => this.lon == lon && this.lat == lat;
 }
 
 @freezed

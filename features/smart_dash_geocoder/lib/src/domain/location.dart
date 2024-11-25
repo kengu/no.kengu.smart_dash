@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location.freezed.dart';
@@ -65,8 +66,34 @@ class Location with _$Location {
     ].nonNulls.join(', ');
   }
 
+  PointGeometry get point => PointGeometry(coords: [lon, lat]);
+
   factory Location.empty() => const Location(lat: 0.0, lon: 0.0);
 
   factory Location.fromJson(Map<String, Object?> json) =>
       _$LocationFromJson(json);
+}
+
+@freezed
+class PointGeometry with _$PointGeometry {
+  const PointGeometry._();
+
+  const factory PointGeometry({
+    @JsonKey(name: 'coordinates') required List<double> coords,
+  }) = _PointGeometry;
+
+  factory PointGeometry.from(double lon, double lat, [double? alt]) {
+    return PointGeometry(
+      coords: [lon, lat, alt].whereNotNull().toList(),
+    );
+  }
+
+  double get lon => coords.length > 1 ? coords[0] : double.nan;
+  double get lat => coords.length > 1 ? coords[1] : double.nan;
+  double get alt => coords.length > 2 ? coords[2] : double.nan;
+
+  factory PointGeometry.fromJson(Map<String, Object?> json) =>
+      _$PointGeometryFromJson(json);
+
+  bool isHere(double lon, double lat) => this.lon == lon && this.lat == lat;
 }

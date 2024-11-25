@@ -1,37 +1,35 @@
-// ignore_for_file: unused_import
-
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_account/src/location/domain/location.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 
-abstract class LocationClient {
-  Future<Optional<Location>> reverseSearch(
-      {required double lon, required double lat});
+abstract class GeocoderClient {
+  Future<Optional<Location>> reverseSearch(PointGeometry point);
 
-  Future<List<Location>> searchByName({required String query});
+  Future<List<Location>> searchByName(String query);
+
+  Future<void> close();
 }
 
-abstract class LocationClientBase {
-  LocationClientBase(this.service, this.ref, this.api);
-  final Dio api;
+abstract class GeocoderClientBase {
+  GeocoderClientBase(this.ref, this.service, this.api);
   final Ref ref;
+  final Dio api;
   final String service;
 
-  final _log = Logger('$LocationClientBase');
+  final _log = Logger('$GeocoderClientBase');
 
   Location toLocation(JsonObject data);
 
-  String getReverseSearchPath(double lat, double lon);
+  String getReverseSearchPath(PointGeometry point);
 
   String getSearchByNamePath(String query);
 
-  Future<Optional<Location>> reverseSearch(
-      {required double lon, required double lat}) async {
+  Future<Optional<Location>> reverseSearch(PointGeometry point) async {
     return guard(() async {
-      final path = getReverseSearchPath(lat, lon);
+      final path = getReverseSearchPath(point);
       final response = await api.get(
         path,
         options: Options(
@@ -39,7 +37,8 @@ abstract class LocationClientBase {
             final success = status != null && status < 400;
             if (!success) {
               _log.warning(
-                'Fetching reverse location search from [$service] failed: [$status] $path',
+                'Fetching reverse location search from '
+                '[$service] failed: [$status] $path',
               );
             }
             return success;
@@ -47,7 +46,8 @@ abstract class LocationClientBase {
         ),
       );
       _log.fine(
-        'Fetched reverse location search from [$service]: ${response.realUri}',
+        'Fetched reverse location search from '
+        '[$service]: ${response.realUri}',
       );
 
       return Optional.of(
@@ -56,7 +56,7 @@ abstract class LocationClientBase {
     });
   }
 
-  Future<List<Location>> searchByName({required String query}) async {
+  Future<List<Location>> searchByName(String query) async {
     return guard(() async {
       final path = getSearchByNamePath(query);
       final response = await api.get(
@@ -66,7 +66,8 @@ abstract class LocationClientBase {
             final success = status != null && status < 400;
             if (!success) {
               _log.warning(
-                'Fetching search location by name from [$service] failed: [$status] $path',
+                'Fetching search location by name '
+                'from [$service] failed: [$status] $path',
               );
             }
             return success;
@@ -74,7 +75,8 @@ abstract class LocationClientBase {
         ),
       );
       _log.fine(
-        'Fetched search location by name from [$service]: ${response.realUri}',
+        'Fetched search location by name from '
+        '[$service]: ${response.realUri}',
       );
       final items = response.data as List<JsonObject>;
       return items.map(toLocation).toList();

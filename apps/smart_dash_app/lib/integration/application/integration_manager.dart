@@ -8,7 +8,6 @@ import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
-import 'package:smart_dash_app/integration/osm/application/osm_location_service.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
@@ -77,6 +76,7 @@ class IntegrationManager extends _$IntegrationManager {
     _integrations[NySny.key] = NySny.definition;
     _integrations[Rtl433.key] = Rtl433.definition;
     _integrations[Mqtt.key] = Mqtt.definition;
+    _integrations[Osm.key] = Osm.definition;
 
     // Build integrations
     await _build(home.value.serviceWhere);
@@ -97,11 +97,6 @@ class IntegrationManager extends _$IntegrationManager {
       ..onDriverEvents(
         StreamGroup.merge(_managers.values.map((e) => e.events)),
       );
-
-    // Register location service providers
-    ref.read(locationManagerProvider).register(
-          ref.read(osmLocationServiceProvider),
-        );
 
     // Bind with dependencies
     ref.read(historyManagerProvider).bind(
@@ -139,7 +134,7 @@ class IntegrationManager extends _$IntegrationManager {
     for (final definition in _builders.keys) {
       final builder = _builders[definition]!;
       final manager = _managers[definition] = builder(ref);
-      await manager.build(where);
+      manager.build(where);
       _integrations[definition.key] = definition;
     }
   }

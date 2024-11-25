@@ -134,7 +134,7 @@ Future<SnowService> snowService(SnowServiceRef ref) async {
       NySny.key,
       (config) => NySnyDriver(ref, config),
     );
-  await snowManager.build(home.value.serviceWhere);
+  snowManager.build(home.value.serviceWhere);
 
   // Register snow device driver for each integration
   final deviceManager = ref.read(deviceDriverManagerProvider)
