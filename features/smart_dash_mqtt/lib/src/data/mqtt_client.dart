@@ -1,22 +1,19 @@
-// ignore_for_file: unused_import
-
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
-import 'package:smart_dash_app/integration/mqtt/domain/mqtt_message.dart' as s;
-import 'package:smart_dash_app/integration/mqtt/mqtt.dart';
-import 'package:smart_dash_app/util/platform.dart';
+import 'package:riverpod/riverpod.dart';
+import 'package:smart_dash_mqtt/smart_dash_mqtt.dart' as s;
 import 'package:universal_io/io.dart' as io;
 
 class MqttClient {
-  MqttClient(this.ref, MqttServerClient api, {bool logging = false})
-      : _api = api {
+  MqttClient(
+    this.ref,
+    MqttServerClient api, {
+    bool logging = false,
+  }) : _api = api {
     _api.autoReconnect = true;
     _api.resubscribeOnAutoReconnect = true;
 
@@ -42,16 +39,19 @@ class MqttClient {
 
   final MqttServerClient _api;
 
-  final Map<String, MqttSubscriptionStatus> _subscriptions = {};
+  final Map<String, MqttSubscriptionStatus> _topics = {};
 
-  final StreamController<s.MqttMessage> _controller =
+  final StreamController<MqttStatus> _statusController =
+      StreamController.broadcast();
+
+  final StreamController<s.MqttMessage> _messageController =
       StreamController.broadcast();
 
   final _log = Logger('$MqttClient');
 
-  int _aliveCount = 0;
+  final List<StreamSubscription> _subscriptions = [];
 
-  StreamSubscription? _updateSubscription;
+  int _aliveCount = 0;
 
   MqttConnectionState _state = MqttConnectionState.disconnected;
 
@@ -59,7 +59,8 @@ class MqttClient {
 
   bool get isConnected => _state == MqttConnectionState.connected;
 
-  Stream<s.MqttMessage> get updates => _controller.stream;
+  Stream<MqttStatus> get status => _statusController.stream;
+  Stream<s.MqttMessage> get messages => _messageController.stream;
 
   Future<bool> connect({String? username, String? password}) async {
     assert(isDisconnected, 'Already connected');
@@ -68,10 +69,7 @@ class MqttClient {
       'MqttClient >> Connect :: Client is connecting',
     );
 
-    final deviceId = await Platform.deviceId;
-
     _api.connectionMessage = MqttConnectMessage()
-        .withClientIdentifier('smart_dash::$deviceId')
         .withWillTopic('smart_dash/will')
         .withWillMessage('offline')
         .withWillQos(MqttQos.atLeastOnce)
@@ -85,15 +83,15 @@ class MqttClient {
       }
     } on NoConnectionException catch (e, stackTrace) {
       // Raised by the client when connection fails.
-      _log.severe('Connection failed', e, stackTrace);
+      _severe('Connection failed', e, stackTrace);
       _api.disconnect();
     } on io.SocketException catch (e, stackTrace) {
       // Raised by the socket layer
-      _log.severe('Connection failed', e, stackTrace);
+      _severe('Connection failed', e, stackTrace);
       _api.disconnect();
     } on io.HttpException catch (e, stackTrace) {
       // Raised by the socket layer
-      _log.severe('Connection failed', e, stackTrace);
+      _severe('Connection failed', e, stackTrace);
       _api.disconnect();
     }
     return false;
@@ -109,7 +107,7 @@ class MqttClient {
       _api.subscribe(topic, MqttQos.exactlyOnce),
     );
     if (subscription.isPresent) {
-      _subscriptions[topic] = _api.getSubscriptionsStatus(topic);
+      _topics[topic] = _api.getSubscriptionsStatus(topic);
     }
     return subscription;
   }
@@ -121,12 +119,12 @@ class MqttClient {
     );
 
     if (gracefully) {
-      for (final topic in _subscriptions.keys) {
+      for (final topic in _topics.keys) {
         _api.unsubscribe(topic, expectAcknowledge: gracefully);
       }
 
       // Wait for the unsubscribe messages from the broker
-      while (_subscriptions.isNotEmpty) {
+      while (_topics.isNotEmpty) {
         await MqttUtilities.asyncSleep(1);
       }
     }
@@ -136,29 +134,36 @@ class MqttClient {
 
   Future<void> dispose() async {
     await disconnect();
-    await _updateSubscription?.cancel();
-    _controller.close();
+    for (final it in _subscriptions) {
+      it.cancel();
+    }
+    _subscriptions.clear();
+    _statusController.close();
+    _messageController.close();
   }
 
   // The successful connect callback
   void _onConnected() {
-    _updateSubscription?.cancel();
-    _updateSubscription = _api.updates!.listen((
+    for (final it in _subscriptions) {
+      it.cancel();
+    }
+    _subscriptions.clear();
+    _subscriptions.add(_api.updates!.listen((
       List<MqttReceivedMessage<MqttMessage?>>? messages,
     ) {
       for (final message in messages ?? <MqttReceivedMessage<MqttMessage?>>[]) {
         final payload = message.payload as MqttPublishMessage;
-        _controller.add(s.MqttMessage(
+        _messageController.add(s.MqttMessage(
           topic: message.topic,
           payload: MqttPublishPayload.bytesToStringAsString(
             payload.payload.message,
           ),
         ));
       }
-      ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
-    }, cancelOnError: false);
+      _statusController.add(MqttStatus.alive);
+    }, cancelOnError: false));
 
-    ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
+    _statusController.add(MqttStatus.alive);
 
     _log.info(
       'OnConnected :: '
@@ -179,7 +184,7 @@ class MqttClient {
       'OnSubscribed :: '
       'Confirmed for topic :: $topic',
     );
-    _subscriptions[topic] = _api.getSubscriptionsStatus(topic);
+    _topics[topic] = _api.getSubscriptionsStatus(topic);
   }
 
   void _onSubscribeFail(String topic) {
@@ -187,7 +192,7 @@ class MqttClient {
       'OnSubscribedFail :: '
       'Not subscribed to topic [$topic]',
     );
-    _subscriptions.remove(topic);
+    _topics.remove(topic);
   }
 
   void _onUnsubscribed(String? topic) {
@@ -195,7 +200,7 @@ class MqttClient {
       'OnUnsubscribed :: '
       'Confirmed for topic :: $topic',
     );
-    _subscriptions.remove(topic);
+    _topics.remove(topic);
   }
 
   // The unsolicited disconnect callback
@@ -204,20 +209,19 @@ class MqttClient {
       'OnDisconnected :: '
       'Client disconnected',
     );
-    final connectivity = ref.read(systemHealthServiceProvider);
     if (_api.connectionStatus!.disconnectionOrigin ==
         MqttDisconnectionOrigin.solicited) {
       _log.info(
         'OnDisconnected :: '
         'Is solicited, this is CORRECT',
       );
-      connectivity.setFailed(Mqtt.key, 'Disconnected by System');
+      _closed('Disconnected by System');
     } else {
       _log.warning(
         'OnDisconnected :: '
         'Is unsolicited or none, this is INCORRECT',
       );
-      connectivity.setFailed(Mqtt.key, 'Disconnected by Broker');
+      _closed('Disconnected by Broker');
     }
     if (_aliveCount == 3) {
       _log.info(
@@ -233,15 +237,33 @@ class MqttClient {
   }
 
   void _onAutoReconnect() {
-    ref.read(systemHealthServiceProvider).setFailed(
-          Mqtt.key,
-          'Auto reconnect in progress',
-        );
+    _closed('Auto reconnect in progress');
     _log.info('Auto reconnect :: STARTED');
   }
 
   void _onAutoReconnected() {
-    ref.read(systemHealthServiceProvider).setOK(Mqtt.key);
-    _log.info('Auto reconnect :: COMPLETED');
+    _alive('Auto reconnect :: COMPLETED');
   }
+
+  void _alive(String message) {
+    _log.info(message);
+    _statusController.add(MqttStatus.alive);
+  }
+
+  void _closed(String message) {
+    _log.info(message);
+    _statusController.add(MqttStatus.closed);
+  }
+
+  void _severe(String message, Object error, StackTrace stackTrace) {
+    _log.severe(message, error, stackTrace);
+    _messageController.addError(error, stackTrace);
+    _messageController.addError(error, stackTrace);
+  }
+}
+
+enum MqttStatus {
+  alive,
+  closed,
+  failure,
 }

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
-import 'package:smart_dash_app/integration/mqtt/domain/mqtt_message.dart';
-import 'package:smart_dash_app/integration/rtl_433/domain/rtl_433_device.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
+import 'package:smart_dash_mqtt/src/application/mqtt_driver.dart';
+import 'package:smart_dash_mqtt/src/application/mqtt_manager.dart';
+import 'package:smart_dash_mqtt/src/integration/rtl_433/domain/rtl_433_device.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 class Rtl433DeviceClient extends DeviceClient {
   Rtl433DeviceClient(this.ref, super.config);
@@ -16,14 +17,15 @@ class Rtl433DeviceClient extends DeviceClient {
 
   Stream<Rtl433Device> get updates {
     // TODO: Add MQTT topics to Rtl433 configuration
-    final service = ref.read(mqttServiceProvider);
-    return service.updates
+    final manager = ref.read(mqttManagerProvider);
+    return manager.events
+        .whereType<MqttDataEvent>()
         .asyncMap(_onUpdate)
         .where((e) => e.isPresent)
         .map((e) => e.value);
   }
 
-  FutureOr<Optional<Rtl433Device>> _onUpdate(MqttMessage e) {
+  FutureOr<Optional<Rtl433Device>> _onUpdate(MqttDataEvent e) {
     return guard(
       () async {
         /// TODO: Make rtl_433 format matching more robust

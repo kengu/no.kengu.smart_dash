@@ -1,9 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_device/smart_dash_device.dart';
 
-import 'application/rtl_433_device_driver.dart';
 import 'domain/rtl_433_device.dart';
+
+export 'application/rtl_433_device_driver.dart';
+export 'domain/rtl_433_device.dart';
 
 class Rtl433 {
   static const String key = 'rtl_433';
@@ -31,12 +31,4 @@ class Rtl433 {
     system: false,
     enabled: true,
   );
-
-  static DeviceDriverManager register(Ref ref) {
-    return ref.read(deviceDriverManagerProvider)
-      ..register(
-        Rtl433.key,
-        (config) => Rtl433DeviceDriver(ref, config),
-      );
-  }
 }

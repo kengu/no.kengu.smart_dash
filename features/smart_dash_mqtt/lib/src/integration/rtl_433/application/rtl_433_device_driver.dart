@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash_app/integration/rtl_433/data/rtl_433_device_client.dart';
-import 'package:smart_dash_app/integration/rtl_433/domain/rtl_433_device.dart';
-import 'package:smart_dash_app/integration/rtl_433/rtl_433.dart';
-import 'package:smart_dash_app/util/platform.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
+import 'package:smart_dash_mqtt/src/integration/rtl_433/data/rtl_433_device_client.dart';
+import 'package:smart_dash_mqtt/src/integration/rtl_433/rtl_433.dart';
+import 'package:universal_io/io.dart';
 
 class Rtl433DeviceDriver extends ThrottledDeviceDriver {
   Rtl433DeviceDriver(Ref ref, ServiceConfig config)
@@ -18,9 +17,12 @@ class Rtl433DeviceDriver extends ThrottledDeviceDriver {
           config: config,
           throttle: Duration(
             // TODO Make throttle configurable
-            seconds: Platform.isDesktop ? 5 : 30,
+            seconds: _isDesktop ? 5 : 30,
           ),
         );
+
+  static bool get _isDesktop =>
+      Platform.isLinux || Platform.isMacOS || Platform.isWindows;
 
   final Map<Identity, Device> _devices = {};
 

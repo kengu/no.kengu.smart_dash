@@ -40,6 +40,7 @@ abstract class Driver<T extends Driver<T>> {
   DriverEvent get lastEvent => _lastEvent;
 
   @protected
+  @mustCallSuper
   void failed(Object error) {
     raise(
       DriverFailureEvent(

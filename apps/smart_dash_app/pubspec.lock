@@ -1560,6 +1560,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_mqtt:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_mqtt"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_notification:
     dependency: "direct main"
     description:

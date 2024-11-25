@@ -8,13 +8,12 @@ import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
-import 'package:smart_dash_app/integration/mqtt/application/mqtt_service.dart';
 import 'package:smart_dash_app/integration/osm/application/osm_location_service.dart';
-import 'package:smart_dash_app/integration/rtl_433/rtl_433.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_mqtt/smart_dash_mqtt.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
 
@@ -65,17 +64,19 @@ class IntegrationManager extends _$IntegrationManager {
     final dirs = await ref.read(flutterDirsProvider.future);
     _log.info('Working directory is ${dirs.documentsDir}');
 
+    final user = ref.read(userRepositoryProvider).currentUser;
     final home = await ref.read(accountServiceProvider).getCurrentHome();
     assert(home.isPresent, 'TODO: Handle no home better!');
 
     // TODO: Move all registration to services
-    register(Rtl433.definition, Rtl433.register);
     register(Sikom.definition, Sikom.register);
 
     // TODO: Move registration to feature services
     _integrations[Foscam.key] = Foscam.definition;
     _integrations[MetNo.key] = MetNo.definition;
     _integrations[NySny.key] = NySny.definition;
+    _integrations[Rtl433.key] = Rtl433.definition;
+    _integrations[Mqtt.key] = Mqtt.definition;
 
     // Build integrations
     await _build(home.value.serviceWhere);
@@ -112,7 +113,10 @@ class IntegrationManager extends _$IntegrationManager {
     ref.read(presenceServiceProvider).bind();
 
     // Start services
-    ref.read(mqttServiceProvider).start();
+    final mqtt = await ref.read(mqttServiceProvider.future);
+    await mqtt.connect(user.userId);
+
+    // TODO: Refactor into flowService
     ref.read(blockManagerProvider).start();
 
     // Start pumping events

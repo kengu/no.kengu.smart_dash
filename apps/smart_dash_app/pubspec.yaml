@@ -14,6 +14,7 @@ dependencies:
   # Smart Dash packages (managed by Mesos)
   smart_dash_flow: any
   smart_dash_snow: any
+  smart_dash_mqtt: any
   smart_dash_common: any
   smart_dash_camera: any
   smart_dash_device: any

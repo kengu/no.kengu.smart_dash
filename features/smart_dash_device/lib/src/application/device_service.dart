@@ -9,6 +9,7 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'device_service.g.dart';
 
+// TODO Refactor into using DriverService
 class DeviceService {
   static const String key = 'device';
 

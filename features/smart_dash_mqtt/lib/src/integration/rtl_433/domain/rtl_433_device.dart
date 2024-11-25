@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash_app/integration/rtl_433/rtl_433.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
+import 'package:smart_dash_mqtt/src/integration/rtl_433/rtl_433.dart';
 
 part 'rtl_433_device.freezed.dart';
 part 'rtl_433_device.g.dart';

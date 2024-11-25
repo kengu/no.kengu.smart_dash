@@ -48,19 +48,6 @@ class IntegrationRepository extends _$IntegrationRepository {
       '''
 [
   {
-    "key": "mqtt",
-    "type": "mqtt",
-    "name": "MQTT API",
-    "image": "mqtt.png",
-    "category": "Smart Home & IoT",
-    "description": "Enter client information",
-    "fields": ["host", "port", "username", "password", "topics"],
-    "dependsOn": [],
-    "instances": 1,
-    "system": false,
-    "enabled": true
-  },
-  {
     "key": "osm",
     "type": "location",
     "name": "OSM Nominatim API",
