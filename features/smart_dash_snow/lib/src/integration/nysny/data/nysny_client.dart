@@ -28,9 +28,11 @@ class NySnyClient extends SnowClient {
 
   final _log = Logger('$NySnyClient');
 
-  static final df = DateFormat("d. MMMM HH:mm", 'nb_NO');
+  static const String dateOnly = "d. MMM";
 
-  static final mf = DateFormat("d. MMMM", 'nb_NO');
+  static final df = DateFormat("$dateOnly HH:mm", 'nb_NO');
+
+  static final mf = DateFormat(dateOnly, 'nb_NO');
 
   @override
   Future<Optional<SnowState>> getState(String location) async {
