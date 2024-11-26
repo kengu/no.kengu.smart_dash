@@ -46,7 +46,7 @@ class Rtl433DeviceClient extends DeviceClient {
 
   Future<Rtl433Device> _estimate(Rtl433Device device) async {
     if (device.capabilities.hasRainTotal) {
-      final previous = await ref.read(deviceServiceProvider).get(
+      final previous = await ref.read(deviceServiceProvider).requireValue.get(
             Identity.of(device.toDevice()),
           );
       if (previous.isPresent) {

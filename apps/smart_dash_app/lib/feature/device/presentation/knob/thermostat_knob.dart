@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_knob.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
@@ -49,48 +51,54 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DeviceEvent>(
-        stream: ref.watch(deviceServiceProvider).deviceEvents.where(
-            (e) => widget.device.isPresent && e.isDevice(widget.device.value)),
-        builder: (context, snapshot) {
-          final device = _set(snapshot);
-          final mode = device?.onOff?.mode;
-          final enabled = widget.enabled && mode != SwitchMode.off;
-          final actual = device?.temperature ?? 0;
-          final thermostat = device?.thermostat;
-          final values = [if (enabled) actual];
-          return SmartKnob(
-            value: _target,
-            enabled: enabled,
-            minValue: thermostat?.temperatureMin ?? widget.minValue,
-            maxValue: thermostat?.temperatureMax ?? widget.maxValue,
-            updating: _updating,
-            onValueChanged: _onValueUpdated,
-            knobColor: _errorState ? Colors.red : null,
-            sections: [
-              if (enabled)
-                SmartKnobSectionData(
-                  value: actual,
-                  color: Colors.red,
-                )
-            ],
-            tickLabelBuilder: (index, count, value) =>
-                values.contains(index + widget.minValue)
-                    ? (index + widget.minValue).toTemperature()
-                    : '',
-            valueBuilder: (value) {
-              return Tooltip(
-                message:
-                    _errorState ? 'Unable to apply target temperature' : '',
-                child: enabled
-                    ? _buildValue(value, device)
-                    : Center(
-                        child: Text(SwitchMode.off.name.toCapitalised()),
-                      ),
-              );
-            },
-          );
-        });
+    return ref.watch(deviceServiceProvider).when(
+        data: (service) {
+          return StreamBuilder<DeviceEvent>(
+              stream: service.changes.where((e) =>
+                  widget.device.isPresent && e.isDevice(widget.device.value)),
+              builder: (context, snapshot) {
+                final device = _set(snapshot);
+                final mode = device?.onOff?.mode;
+                final enabled = widget.enabled && mode != SwitchMode.off;
+                final actual = device?.temperature ?? 0;
+                final thermostat = device?.thermostat;
+                final values = [if (enabled) actual];
+                return SmartKnob(
+                  value: _target,
+                  enabled: enabled,
+                  minValue: thermostat?.temperatureMin ?? widget.minValue,
+                  maxValue: thermostat?.temperatureMax ?? widget.maxValue,
+                  updating: _updating,
+                  onValueChanged: _onValueUpdated,
+                  knobColor: _errorState ? Colors.red : null,
+                  sections: [
+                    if (enabled)
+                      SmartKnobSectionData(
+                        value: actual,
+                        color: Colors.red,
+                      )
+                  ],
+                  tickLabelBuilder: (index, count, value) =>
+                      values.contains(index + widget.minValue)
+                          ? (index + widget.minValue).toTemperature()
+                          : '',
+                  valueBuilder: (value) {
+                    return Tooltip(
+                      message: _errorState
+                          ? 'Unable to apply target temperature'
+                          : '',
+                      child: enabled
+                          ? _buildValue(value, device)
+                          : Center(
+                              child: Text(SwitchMode.off.name.toCapitalised()),
+                            ),
+                    );
+                  },
+                );
+              });
+        },
+        error: SmartDashErrorWidget.from,
+        loading: SmartDashProgressIndicator.new);
   }
 
   Column _buildValue(double value, Device? device) {
@@ -133,7 +141,7 @@ class _ThermostatKnobState extends ConsumerState<ThermostatKnob> {
   }
 
   Device? _set(AsyncSnapshot<DeviceEvent> snapshot) {
-    final device = snapshot.data?.device ?? widget.device.orElseNull;
+    final device = snapshot.data?.data ?? widget.device.orElseNull;
     if (!_updating) {
       _target = device?.getTargetTemperature() ?? 0.0;
     }

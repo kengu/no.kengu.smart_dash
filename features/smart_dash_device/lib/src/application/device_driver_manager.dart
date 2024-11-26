@@ -18,7 +18,6 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
 
   void dispose() {
     ref.read(flowManagerProvider).unbind();
-    _deviceController.close();
     for (final e in _subscriptions) {
       e.cancel();
     }
@@ -28,7 +27,8 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
   final Duration delay = const Duration(milliseconds: 50);
   final Logger _log = Logger('$DeviceDriverManager');
   final List<StreamSubscription> _subscriptions = [];
-  final _deviceController = StreamController<DeviceEvent>.broadcast();
+  final StreamController<DriverEvent> _controller =
+      StreamController.broadcast();
 
   /// Get stream of [DevicesPairedEvent]s.
   Stream<DevicesPairedEvent> get paired =>
@@ -42,8 +42,14 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
   Stream<DevicesUnpairedEvent> get unpaired =>
       events.whereType<DevicesUnpairedEvent>();
 
+  @override
+  Stream<DriverEvent> get events {
+    return _controller.stream;
+  }
+
   /// Get stream of device events
-  Stream<DeviceEvent> get devices => _deviceController.stream.distinct();
+  Stream<DeviceEvent> get changes =>
+      _controller.stream.whereType<DeviceEvent>().distinct();
 
   /// Get [ServiceConfig] for given [Integration.key]
   Optional<ServiceConfig> find(String service) {
@@ -82,7 +88,12 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
       _subscriptions.clear();
     }
 
-    final devicesEvents = events
+    // Important to use super here since
+    // it's overridden with _controller.stream
+    // implement folding DevicesEvent to DeviceEvent
+    // with _handle() below
+    final devicesEvents = super
+        .events
         .whereType<DriverDevicesEvent>()
         .where(shouldProcess)
         .asBroadcastStream();
@@ -120,8 +131,9 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
     );
   }
 
-  // Processes incoming events from drivers
+  // Fold incoming DevicesEvents from drivers to DeviceEvents
   void _handle(DriverDevicesEvent event) async {
+    // Fold into
     final stream = Stream.fromIterable(event.devices);
     // NOTE: We should not add events too fast to stream for
     // overall performance reasons. And StreamProviders only
@@ -130,14 +142,18 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
     await for (final device in stream.delayed(delay)) {
       // Process list of flow events in order of completion
       final emit = switch (event.runtimeType) {
-        const (DevicesPairedEvent) => DevicePaired(device),
-        const (DevicesUpdatedEvent) => DeviceUpdated(device),
-        const (DevicesUnpairedEvent) => DeviceUnpaired(device),
-        const (ThrottledDriverUpdatedEvent) => DeviceUpdated(device),
+        const (DevicesPairedEvent) => DevicePaired.now(device),
+        const (DevicesUpdatedEvent) => DeviceUpdated.now(device),
+        const (DevicesUnpairedEvent) => DeviceUnpaired.now(device),
+        const (ThrottledDriverUpdatedEvent) => DeviceUpdated.now(device),
         Type() => throw UnimplementedError('Event $event not handled'),
       };
-      _deviceController.add(emit);
+      // fold
+      _controller.add(emit);
     }
+
+    // Complete with original event
+    _controller.add(event);
   }
 
   // Driver update triggered by each timing event

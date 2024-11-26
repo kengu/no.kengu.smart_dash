@@ -68,7 +68,10 @@ class BlockTriggerFormGroup extends ConsumerWidget {
               type: 'tag',
               resolver: () async {
                 // TODO: Implement TokenManager that handles all tokens
-                final tags = await ref.read(deviceServiceProvider).getTokens();
+                final tags = await ref
+                    .read(deviceServiceProvider)
+                    .requireValue
+                    .getTokens();
                 return Future.value(
                   Map.fromEntries(
                     tags.map(

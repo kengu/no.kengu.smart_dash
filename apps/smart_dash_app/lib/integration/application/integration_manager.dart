@@ -83,7 +83,9 @@ class IntegrationManager extends _$IntegrationManager {
 
     // Register system health tracking for services
     ref.read(systemHealthServiceProvider)
-      ..onDriverEvents(ref.read(deviceServiceProvider).driverEvents)
+      ..onDriverEvents(
+        (await ref.read(deviceServiceProvider.future)).events,
+      )
       ..onDriverEvents(
         (await ref.read(cameraServiceProvider.future)).events,
       )
@@ -101,7 +103,7 @@ class IntegrationManager extends _$IntegrationManager {
     // Bind with dependencies
     ref.read(historyManagerProvider).bind(
           ref.read(flowManagerProvider).events.map((e) => e.tags),
-          ref.read(deviceServiceProvider).getTokens,
+          ref.read(deviceServiceProvider).requireValue.getTokens,
         );
 
     ref.read(networkInfoServiceProvider).bind();

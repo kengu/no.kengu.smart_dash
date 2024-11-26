@@ -1,91 +1,75 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
-import 'package:smart_dash_integration/smart_dash_integration.dart';
+import 'package:smart_dash_device/src/integration/sikom/application/sikom_driver.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'device_service.g.dart';
 
-// TODO Refactor into using DriverService
-class DeviceService {
-  static const String key = 'device';
-
-  DeviceService(this.ref) {
+/// Service for managing [Device]s
+class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
+    DeviceDriver, DeviceDriverManager> {
+  DeviceService(Ref ref) : super(ref, FutureCache(prefix: '$DeviceService')) {
     ref.onDispose(() {
-      _deviceController.close();
+      _controller.close();
       for (final e in _subscriptions) {
         e.cancel();
       }
     });
   }
 
-  final Ref ref;
-
-  final _cache = FutureCache(prefix: '$DeviceService');
-
   final List<StreamSubscription> _subscriptions = [];
 
-  // TODO Make delay configurable
-  final Duration delay = const Duration(milliseconds: 50);
+  final _controller = StreamController<DriverEvent>.broadcast();
 
-  final _deviceController = StreamController<DeviceEvent>.broadcast();
+  @override
+  DeviceDriverManager get manager => ref.read(deviceDriverManagerProvider);
 
-  final _driverController = StreamController<DriverEvent>.broadcast();
-
-  /// Get stream of device events
-  Stream<DeviceEvent> get deviceEvents =>
-      _listen(_deviceController.stream).distinct();
-
-  /// Get stream of driver events
-  Stream<DriverEvent> get driverEvents =>
-      _listen(_driverController.stream).distinct();
-
-  Stream<T> _listen<T>(Stream<T> stream) {
-    if (_subscriptions.isEmpty) {
-      final manager = ref.read(deviceDriverManagerProvider);
-      _subscriptions.add(
-        manager.events.listen(_handle, cancelOnError: false),
-      );
-    }
-
-    return stream;
+  @override
+  Stream<DriverEvent> get events {
+    return StreamGroup.merge([super.events, _controller.stream]);
   }
 
-  void _handle(DriverEvent event) async {
-    if (event is DriverDevicesEvent) {
-      final stream = Stream.fromIterable(event.devices);
-      // NOTE: We should not add events too fast to stream for
-      // overall performance reasons. And StreamProviders only
-      // sees last event when events are added more frequently
-      // than 60 fps (less than 17 milliseconds between each event).
-      await for (final device in stream.delayed(delay)) {
-        // Process list of flow events in order of completion
-        final emit = switch (event.runtimeType) {
-          const (DevicesPairedEvent) => DevicePaired(device),
-          const (DevicesUpdatedEvent) => DeviceUpdated(device),
-          const (DevicesUnpairedEvent) => DeviceUnpaired(device),
-          const (ThrottledDriverUpdatedEvent) => DeviceUpdated(device),
-          Type() => throw UnimplementedError('Event $event not handled'),
-        };
-        _deviceController.add(emit);
-      }
-      _driverController.add(event);
-    }
+  /// Get stream of [DeviceEvent]s. This is a helper equivalent to
+  /// ```dart
+  /// events.whereType<DeviceEvent>()
+  /// ```
+  Stream<DeviceEvent> get changes {
+    return events.whereType<DeviceEvent>();
+  }
+
+  /// Get stream of [DriverDevicesEvent]s. This is a helper equivalent to
+  /// ```dart
+  /// events
+  ///   .whereType<DriverDevicesEvent>()
+  ///   .where(DeviceDriverManager.shouldProcess)
+  /// ```
+  /// Get changes in batches
+  Stream<DriverDevicesEvent> get batches {
+    return events
+        .whereType<DriverDevicesEvent>()
+        .where(DeviceDriverManager.shouldProcess);
   }
 
   /// Get [Device] with given [id] stored locally
-  Future<Optional<Device>> get(Identity id,
-      {Duration? ttl = const Duration(seconds: 5)}) {
-    return _cache.getOrFetch(
+  Future<Optional<Device>> get(
+    Identity id, {
+    bool notify = true,
+    Duration? ttl = const Duration(seconds: 5),
+  }) {
+    return cache.getOrFetch(
       'get:$id',
       () => ref.read(deviceRepositoryProvider).get(id),
       onResult: (data) {
-        if (data.isPresent) {
-          _deviceController.add(
-            DeviceUpdated(data.value),
+        if (notify && data.isPresent) {
+          _controller.add(
+            DeviceUpdated.now(data.value),
           );
         }
       },
@@ -95,32 +79,33 @@ class DeviceService {
 
   /// Set [Device] properties and store
   /// changes locally if successfully applied
-  Future<Optional<Device>> update(Device device,
-      {Duration? ttl = const Duration(seconds: 5)}) async {
+  Future<Optional<Device>> update(
+    Device device, {
+    Duration? ttl = const Duration(seconds: 5),
+  }) async {
     final id = Identity.of(device);
     final key = 'set:$id';
-    return _cache.getOrFetch(
+    return cache.getOrFetch(
       key,
       () async {
-        final manager = ref.read(deviceDriverManagerProvider);
         final driver = manager.getDriver(device.service);
         final success = await driver.updateDevice(device);
         if (success) {
-          _deviceController.add(
-            DeviceUpdatePending(device),
+          _controller.add(
+            DeviceUpdatePending.now(device),
           );
           await ref.read(deviceRepositoryProvider).updateAll([device]);
           // Update caches
-          _cache.setIfExists<List<Device>>(
+          cache.setIfExists<List<Device>>(
             'all',
             (all) => all
               ..removeWhere((e) => e.id == device.id)
               ..add(device),
           );
-          _deviceController.add(
-            DeviceUpdateCompleted(device),
+          _controller.add(
+            DeviceUpdateCompleted.now(device),
           );
-          return _cache.set(
+          return cache.set(
             key,
             Optional.of(device),
           );
@@ -133,17 +118,22 @@ class DeviceService {
 
   /// Get [Device] with given [id] stored in cache
   Optional<Device> getCached(Identity id) {
-    return _cache.get('get:$id');
+    return cache.get('get:$id');
   }
 
   /// Get all [Device]s stored locally
-  Future<List<Device>> getAll({Duration? ttl = const Duration(seconds: 5)}) {
-    return _cache.getOrFetch(
+  Future<List<Device>> getAll({
+    Duration? ttl = const Duration(seconds: 5),
+    bool notify = true,
+  }) {
+    return cache.getOrFetch(
       'all',
       () => ref.read(deviceRepositoryProvider).getAll(),
       onResult: (devices) {
-        for (final it in devices.map(DeviceUpdated.new)) {
-          _deviceController.add(it);
+        if (notify) {
+          for (final it in devices.map(DeviceUpdated.now)) {
+            _controller.add(it);
+          }
         }
       },
       ttl: ttl,
@@ -152,7 +142,7 @@ class DeviceService {
 
   /// Get all [Device]s cached i memory
   Optional<List<Device>> getAllCached() {
-    return _cache.get('all');
+    return cache.get('all');
   }
 
   Future<List<Device>> where(Function(Device e) compare,
@@ -180,14 +170,14 @@ class DeviceService {
     return const Optional.empty();
   }
 
-  Optional<List<Token>> getCachedTokens() {
-    return _cache.get('tokens');
+  Optional<List<Token>> getTokensCached() {
+    return cache.get('tokens');
   }
 
   Future<List<Token>> getTokens([
     Duration? ttl = const Duration(seconds: 5),
   ]) async {
-    return _cache.getOrFetch('tokens', () async {
+    return cache.getOrFetch('tokens', () async {
       final tokens = <Token>[];
       final repo = ref.read(deviceRepositoryProvider);
       for (final device in await repo.getAll()) {
@@ -199,32 +189,107 @@ class DeviceService {
 }
 
 @Riverpod(keepAlive: true)
-DeviceService deviceService(DeviceServiceRef ref) => DeviceService(ref);
+Future<DeviceService> deviceService(DeviceServiceRef ref) async {
+  final home = await ref.read(getCurrentHomeProvider().future);
+  final manager = ref.read(deviceDriverManagerProvider);
 
-abstract class DeviceEvent {
-  DeviceEvent(this.device);
-  final Device device;
+  // Register SnowState integrations
+  manager.register(
+    Sikom.key,
+    (config) => SikomDriver(ref, config),
+  );
+  manager.build(home.value.serviceWhere);
 
-  bool isDevice(Device device) =>
-      Identity.of(device) == Identity.of(this.device);
+  return DeviceService(ref);
+}
+
+abstract class DeviceEvent extends DriverDataEvent<Device> {
+  DeviceEvent(
+    super.data, {
+    required super.last,
+    required super.when,
+  }) : super(key: data.service);
+
+  bool isDevice(Device device) => Identity.of(device) == Identity.of(data);
 }
 
 class DevicePaired extends DeviceEvent {
-  DevicePaired(super.device);
+  DevicePaired(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+
+  factory DevicePaired.now(Device data) {
+    final when = DateTime.now();
+    return DevicePaired(
+      data,
+      when: when,
+      last: when,
+    );
+  }
 }
 
 class DeviceUpdated extends DeviceEvent {
-  DeviceUpdated(super.device);
+  DeviceUpdated(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdated.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdated(
+      data,
+      when: when,
+      last: when,
+    );
+  }
 }
 
 class DeviceUpdatePending extends DeviceEvent {
-  DeviceUpdatePending(super.device);
+  DeviceUpdatePending(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdatePending.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdatePending(
+      data,
+      when: when,
+      last: when,
+    );
+  }
 }
 
 class DeviceUpdateCompleted extends DeviceEvent {
-  DeviceUpdateCompleted(super.device);
+  DeviceUpdateCompleted(
+    super.device, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdateCompleted.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdateCompleted(
+      data,
+      when: when,
+      last: when,
+    );
+  }
 }
 
 class DeviceUnpaired extends DeviceEvent {
-  DeviceUnpaired(super.device);
+  DeviceUnpaired(
+    super.device, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUnpaired.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUnpaired(
+      data,
+      when: when,
+      last: when,
+    );
+  }
 }

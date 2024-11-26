@@ -27,7 +27,7 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
   static const Duration max = WeatherForecastDriver.max;
   static const Duration period = Duration(seconds: 5);
 
-  DeviceService get _service => ref.read(deviceServiceProvider);
+  DeviceService get _service => ref.read(deviceServiceProvider).requireValue;
 
   String _cacheKey(String prefix, double lat, double lon) {
     return '$prefix:$lat:$lon';

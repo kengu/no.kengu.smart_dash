@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_app/core/presentation/widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_app/feature/device/presentation/knob/thermostat_knob.dart';
 import 'package:smart_dash_app/feature/device/presentation/tile/switch_onoff_list_tile.dart';
@@ -29,73 +31,78 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.read(deviceServiceProvider);
-    final id = Identity.fromToken(widget.thermostat.value);
-    return FutureBuilder<Optional<Device>>(
-      future: service.get(id),
-      initialData: service.getCached(id),
-      builder: (context, snapshot) {
-        final device = _set(snapshot);
-        return SmartDashTile(
-          title: device.orElseNull?.name ?? 'Thermostat',
-          subtitle: widget.subTitle,
-          constraints: const BoxConstraints(
-            maxWidth: 330,
-            minWidth: 330,
-          ).normalize(),
-          leading: const Icon(
-            CupertinoIcons.thermometer,
-            color: Colors.lightGreen,
-          ),
-          trailing: Text(
-            device.orElseNull?.temperature?.toTemperature() ?? '0',
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
-            ),
-            textScaler: const TextScaler.linear(1.2),
-          ),
-          body: device.isPresent
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ThermostatKnob(
-                      device: device,
-                      enabled: device.isPresent,
-                      updating: _updating.orElseNull?.getTargetTemperature(),
-                      onValueChanged: (newValue) => _applyTarget(
-                        device.value,
-                        newValue,
-                      ),
-                    ),
-                    const SizedBox.square(
-                      dimension: 24,
-                    ),
-                    SwitchOnOffButton(
-                      device: device.value,
-                      showSelectedIcon: true,
-                      enabled: device.isPresent && !_updating.isPresent,
-                      updating: _updating.orElseNull?.onOff?.mode,
-                      onSelected: (newMode) => _applyMode(
-                        device.value,
-                        newMode,
-                      ),
-                    )
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        'No data',
-                        style: getLegendTextStyle(context),
-                      ),
-                    ),
-                  ],
+    return ref.watch(deviceServiceProvider).when(
+        data: (service) {
+          final id = Identity.fromToken(widget.thermostat.value);
+          return FutureBuilder<Optional<Device>>(
+            future: service.get(id),
+            initialData: service.getCached(id),
+            builder: (context, snapshot) {
+              final device = _set(snapshot);
+              return SmartDashTile(
+                title: device.orElseNull?.name ?? 'Thermostat',
+                subtitle: widget.subTitle,
+                constraints: const BoxConstraints(
+                  maxWidth: 330,
+                  minWidth: 330,
+                ).normalize(),
+                leading: const Icon(
+                  CupertinoIcons.thermometer,
+                  color: Colors.lightGreen,
                 ),
-        );
-      },
-    );
+                trailing: Text(
+                  device.orElseNull?.temperature?.toTemperature() ?? '0',
+                  style: const TextStyle(
+                    color: Colors.lightGreen,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textScaler: const TextScaler.linear(1.2),
+                ),
+                body: device.isPresent
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ThermostatKnob(
+                            device: device,
+                            enabled: device.isPresent,
+                            updating:
+                                _updating.orElseNull?.getTargetTemperature(),
+                            onValueChanged: (newValue) => _applyTarget(
+                              device.value,
+                              newValue,
+                            ),
+                          ),
+                          const SizedBox.square(
+                            dimension: 24,
+                          ),
+                          SwitchOnOffButton(
+                            device: device.value,
+                            showSelectedIcon: true,
+                            enabled: device.isPresent && !_updating.isPresent,
+                            updating: _updating.orElseNull?.onOff?.mode,
+                            onSelected: (newMode) => _applyMode(
+                              device.value,
+                              newMode,
+                            ),
+                          )
+                        ],
+                      )
+                    : Stack(
+                        children: [
+                          Center(
+                            child: Text(
+                              'No data',
+                              style: getLegendTextStyle(context),
+                            ),
+                          ),
+                        ],
+                      ),
+              );
+            },
+          );
+        },
+        error: SmartDashErrorWidget.from,
+        loading: SmartDashProgressIndicator.new);
   }
 
   Optional<Device> _set(AsyncSnapshot<Optional<Device>> snapshot) {
@@ -110,7 +117,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
     setState(() {
       _updating = Optional.of(next);
     });
-    _device = await ref.read(deviceServiceProvider).update(next);
+    _device = await ref.read(deviceServiceProvider).requireValue.update(next);
     if (mounted) {
       setState(() {
         _updating = const Optional.empty();
@@ -129,7 +136,7 @@ class _ThermostatTileState extends ConsumerState<ThermostatTile> {
     setState(() {
       _updating = Optional.of(next);
     });
-    _device = await ref.read(deviceServiceProvider).update(next);
+    _device = await ref.read(deviceServiceProvider).requireValue.update(next);
     if (mounted) {
       setState(() {
         _updating = const Optional.empty();

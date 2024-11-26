@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_app/feature/device/presentation/utils.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
 
 class SwitchOnOffListTile extends ConsumerStatefulWidget {
@@ -33,66 +34,68 @@ class _SwitchOnOffListTileListTileState
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.read(deviceServiceProvider);
-    return StreamBuilder<DriverDevicesEvent>(
-      stream: service.driverEvents
-          .whereType<DriverDevicesEvent>()
-          .where(DeviceDriverManager.shouldProcess)
-          .where(
-            (e) => e.devices.any(
-              (e) => e.hasOnOff,
-            ),
-          ),
-      builder: (context, snapshot) {
-        final devices = _set(snapshot);
-        return SmartDashTile(
-          title: widget.title,
-          subtitle: widget.subtitle,
-          constraints: BoxConstraints(
-            minWidth: 270,
-            minHeight: 180,
-            maxWidth: (72.0 + 6) * devices.length,
-          ).normalize(),
-          leading: const Icon(
-            CupertinoIcons.arrow_swap,
-            color: Colors.lightGreen,
-          ),
-          trailing: Text(
-            '${devices.length} switches',
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
-            ),
-            textScaler: const TextScaler.linear(1.2),
-          ),
-          body: devices.isEmpty
-              ? Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        'No data',
-                        style: getLegendTextStyle(context),
-                      ),
-                    ),
-                  ],
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: devices.length,
-                  itemBuilder: (context, index) {
-                    final device = devices[index];
-                    return SwitchOnOffTile(
-                      device: device,
-                      enabled: true,
-                      updating: _updating[Identity.of(device)],
-                      onSelected: (newMode) => _apply(device, newMode),
-                    );
-                  },
+    return ref.watch(deviceServiceProvider).when(
+          data: (service) {
+            return StreamBuilder<DriverDevicesEvent>(
+              stream: service.batches.where(
+                (e) => e.devices.any(
+                  (e) => e.hasOnOff,
                 ),
+              ),
+              builder: (context, snapshot) {
+                final devices = _set(snapshot);
+                return SmartDashTile(
+                  title: widget.title,
+                  subtitle: widget.subtitle,
+                  constraints: BoxConstraints(
+                    minWidth: 270,
+                    minHeight: 180,
+                    maxWidth: (72.0 + 6) * devices.length,
+                  ).normalize(),
+                  leading: const Icon(
+                    CupertinoIcons.arrow_swap,
+                    color: Colors.lightGreen,
+                  ),
+                  trailing: Text(
+                    '${devices.length} switches',
+                    style: const TextStyle(
+                      color: Colors.lightGreen,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textScaler: const TextScaler.linear(1.2),
+                  ),
+                  body: devices.isEmpty
+                      ? Stack(
+                          children: [
+                            Center(
+                              child: Text(
+                                'No data',
+                                style: getLegendTextStyle(context),
+                              ),
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: devices.length,
+                          itemBuilder: (context, index) {
+                            final device = devices[index];
+                            return SwitchOnOffTile(
+                              device: device,
+                              enabled: true,
+                              updating: _updating[Identity.of(device)],
+                              onSelected: (newMode) => _apply(device, newMode),
+                            );
+                          },
+                        ),
+                );
+              },
+            );
+          },
+          error: SmartDashErrorWidget.from,
+          loading: SmartDashProgressIndicator.new,
         );
-      },
-    );
   }
 
   List<Device> _set(AsyncSnapshot<DriverDevicesEvent> snapshot) {
@@ -128,6 +131,7 @@ class _SwitchOnOffListTileListTileState
     _updating[id] = newMode;
     final result = await ref
         .read(deviceServiceProvider)
+        .requireValue
         .update(device.setSwitchNode(newMode));
     _updating.remove(id);
     if (result.isPresent) {
@@ -169,10 +173,11 @@ class _SwitchOnOffTileState extends ConsumerState<SwitchOnOffTile> {
     return StreamBuilder<DeviceEvent>(
         stream: ref
             .watch(deviceServiceProvider)
-            .deviceEvents
+            .requireValue
+            .changes
             .where((e) => e.isDevice(widget.device)),
         builder: (context, snapshot) {
-          final device = snapshot.data?.device ?? widget.device;
+          final device = snapshot.data?.data ?? widget.device;
           return ListTile(
             leading: Icon(toIconData(device)),
             title: Row(
