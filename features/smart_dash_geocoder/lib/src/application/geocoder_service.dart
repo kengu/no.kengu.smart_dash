@@ -6,7 +6,6 @@ import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 import 'package:smart_dash_geocoder/src/application/geocoder_driver.dart';
 import 'package:smart_dash_geocoder/src/application/geocoder_manager.dart';
-import 'package:smart_dash_geocoder/src/integration/osm/application/osm_driver.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'geocoder_service.g.dart';
@@ -71,15 +70,5 @@ class GeocoderService extends DriverService<Location, LocationEvent,
 
 @Riverpod(keepAlive: true)
 GeocoderService geocoderService(GeocoderServiceRef ref) {
-  final manager = ref.read(geocoderManagerProvider);
-  final configs = [ServiceConfig.fromDefinition(Osm.definition)];
-
-  // Register SnowState integrations
-  manager.register(
-    Osm.definition,
-    (config) => OsmDriver(ref, config),
-  );
-  manager.build((e) => configs);
-
   return GeocoderService(ref);
 }

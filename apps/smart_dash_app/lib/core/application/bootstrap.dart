@@ -15,7 +15,7 @@ import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 part 'bootstrap.g.dart';
 
-typedef DriverServiceBuilder = Future<DriverService> Function();
+typedef DriverServiceBuilder = DriverService Function();
 
 @Riverpod(keepAlive: true)
 class Bootstrap extends _$Bootstrap {
@@ -38,29 +38,39 @@ class Bootstrap extends _$Bootstrap {
     final home = await ref.read(accountServiceProvider).getCurrentHome();
     assert(home.isPresent, 'TODO: Handle no home better!');
 
-    // Eager service initializations
-    await _build([
-      () => ref.read(mqttServiceProvider.future),
-      () => ref.read(deviceServiceProvider.future),
-      () => ref.read(cameraServiceProvider.future),
-      () => ref.read(snowServiceProvider.future),
-      () => ref.read(weatherServiceProvider.future),
-      () async => ref.read(geocoderServiceProvider),
-    ]);
+    // Install integrations
+    Snow.install(ref);
+    Mqtt.install(ref);
+    Devices.install(ref);
+    Cameras.install(ref);
+    Weather.install(ref);
+    Geocoder.install(ref);
+
+    // Build all integrations
+    final manager = ref.read(integrationManagerProvider);
+    final services = await manager.build(home.value.serviceWhere);
+
+    // Monitor integration health
+    final monitor = ref.read(systemHealthServiceProvider);
+    for (final service in services) {
+      monitor.onDriverEvents(service.events);
+    }
 
     // Bind with dependencies
     // TODO: Refactor into integration
-    ref.read(historyManagerProvider).bind(
+    await ref.read(historyManagerProvider).bind(
           ref.read(flowManagerProvider).events.map((e) => e.tags),
-          ref.read(deviceServiceProvider).requireValue.getTokens,
+          ref.read(deviceServiceProvider).getTokens,
         );
 
     // TODO: Refactor into smart_dash_system feature
     ref.read(networkInfoServiceProvider).bind();
+
+    // TODO: Refactor into smart_dash_presence feature
     ref.read(presenceServiceProvider).bind();
 
     // Start services
-    final mqtt = await ref.read(mqttServiceProvider.future);
+    final mqtt = ref.read(mqttServiceProvider);
     await mqtt.connect(user.userId);
 
     // TODO: Refactor into flowService
@@ -68,18 +78,12 @@ class Bootstrap extends _$Bootstrap {
 
     // Start pumping events
     ref.read(timingServiceProvider).start();
+
+    // Force first pump of events
     ref.read(historyManagerProvider).pump();
 
     _log.info('Bootstrap: Completed');
 
     return this;
-  }
-
-  Future<void> _build(Iterable<DriverServiceBuilder> builders) async {
-    final monitor = ref.read(systemHealthServiceProvider);
-    for (final builder in builders) {
-      final service = await builder();
-      monitor.onDriverEvents(service.events);
-    }
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 
@@ -27,23 +26,15 @@ class SnowNowTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.read(snowServiceProvider).when(
-          data: (service) {
-            return StreamBuilder<SnowState>(
-              stream: service.getStateAsStream(refresh: true, location),
-              initialData: service.getStateCached(location).orElseNull,
-              builder: (context, snapshot) {
-                final state = Optional.ofNullable(snapshot.data);
-                return _buildTile(context, state);
-              },
-            );
-          },
-          error: SmartDashErrorWidget.from,
-          loading: () => _buildTile(
-            context,
-            Optional.empty(),
-          ),
-        );
+    final service = ref.watch(snowServiceProvider);
+    return StreamBuilder<SnowState>(
+      stream: service.getStateAsStream(refresh: true, location),
+      initialData: service.getStateCached(location).orElseNull,
+      builder: (context, snapshot) {
+        final state = Optional.ofNullable(snapshot.data);
+        return _buildTile(context, state);
+      },
+    );
   }
 
   SmartDashTile _buildTile(BuildContext context, Optional<SnowState> state) {

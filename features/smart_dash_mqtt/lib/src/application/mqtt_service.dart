@@ -51,23 +51,6 @@ class MqttService
 }
 
 @Riverpod(keepAlive: true)
-Future<MqttService> mqttService(MqttServiceRef ref) async {
-  final home = await ref.read(getCurrentHomeProvider().future);
-
-  // Register SnowState integrations
-  final mqttManager = ref.read(mqttManagerProvider)
-    ..register(
-      Mqtt.definition,
-      (config) => MqttDriver(ref, config),
-    );
-  mqttManager.build(home.value.serviceWhere);
-
-  final deviceManager = ref.read(deviceManagerProvider)
-    ..register(
-      Rtl433.definition,
-      (config) => Rtl433DeviceDriver(ref, config),
-    );
-  await deviceManager.build(home.value.serviceWhere);
-
+MqttService mqttService(MqttServiceRef ref) {
   return MqttService(ref);
 }

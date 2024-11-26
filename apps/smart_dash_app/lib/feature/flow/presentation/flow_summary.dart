@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
@@ -38,128 +36,115 @@ class FlowSummary extends ConsumerWidget {
     final hasActions = model.whenTrue.length > 1 || model.whenFalse.length > 1;
     final or = Text('OR', style: bold);
     final and = Text('AND', style: bold);
-    return ref.watch(deviceServiceProvider).when(
-          data: (service) {
-            return FutureBuilder<List<Token>>(
-                // TODO: Implement Token Manager for all tokens
-                future: service.getTokens(),
-                initialData: service.getTokensCached().orElseNull,
-                builder: (context, snapshot) {
-                  final tags = _toTags(snapshot);
-                  return Padding(
-                    padding: contentPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLine(
-                          [
-                            _buildChip('Active', normal, green),
-                            Text('when', style: bold),
-                            _buildChip('event', normal, gray),
-                            if (types.isNotEmpty) ...[
-                              Text(types.length == 1 ? 'of type' : 'with types',
-                                  style: bold),
-                              ...types.map((e) => _buildChip(e, normal, brown)),
-                            ],
-                            if (tags.isNotEmpty || types.isNotEmpty) and,
-                            if (tags.isNotEmpty) ...[
-                              Text(tags.length == 1 ? 'with tag' : 'with tags',
-                                  style: bold),
-                              ...tags.map((e) => _buildChip(e, normal, brown)),
-                            ],
-                            Text('happens', style: bold),
-                            if (model.conditions.isNotEmpty) and,
-                          ],
-                        ),
-                        if (model.conditions.isNotEmpty) ...[
-                          for (final e in model.conditions) ...[
-                            const SizedBox(height: 8.0),
-                            _buildLine(
-                              [
-                                _buildChip('condition', normal, gray),
-                                _buildChip(e.expression, normal, brown),
-                                Text('is', style: bold),
-                                _buildChip('TRUE', normal, blue),
-                              ],
-                            )
-                          ],
-                        ],
-                        if (model.whenTrue.isNotEmpty) ...[
-                          const SizedBox(height: 8.0),
-                          _buildLine(
-                            [
-                              _buildChip('Active', normal, green),
-                              Text('triggers', style: bold),
-                              for (final e in model.whenTrue) ...[
-                                _buildChip(e.label, normal, brown),
-                              ],
-                            ],
-                          ),
-                        ],
-                        if (model.whenFalse.isNotEmpty) ...[
-                          const SizedBox(height: 8.0),
-                          _buildLine(
-                            [
-                              _buildChip('Inactive', normal, red),
-                              Text('triggers', style: bold),
-                              for (final e in model.whenFalse) ...[
-                                _buildChip(e.label, normal, brown),
-                              ],
-                            ],
-                          ),
-                        ],
-                        if (willSkip) ...[
-                          const SizedBox(height: 8.0),
-                          _buildLine(
-                            [
-                              _buildChip(hasActions ? 'Actions' : 'Action',
-                                  normal, gray),
-                              Text('${hasActions ? 'are' : 'is '} skipped',
-                                  style: bold),
-                              if (trigger.debounceCount > 0) ...[
-                                _buildChip(
-                                    '${trigger.debounceCount}', normal, blue),
-                                Text('times', style: bold)
-                              ],
-                              if (willSkip) or,
-                              if (trigger.debounceAfter > 0) ...[
-                                Text('for', style: bold),
-                                _buildChip(
-                                    '${trigger.debounceAfter}s', normal, blue),
-                              ],
-                            ],
-                          )
-                        ],
-                        const SizedBox(height: 8.0),
-                        _buildLine(
-                          [
-                            _buildChip(hasActions ? 'Actions' : 'Action',
-                                normal, gray),
-                            Text('${hasActions ? 'are' : 'is '} repeated',
-                                style: bold),
-                            if (trigger.repeatCount > 0) ...[
-                              _buildChip(
-                                  '${trigger.repeatCount}', normal, blue),
-                              Text('times', style: bold)
-                            ],
-                            if (trigger.repeatCount > 0 &&
-                                trigger.repeatAfter > 0)
-                              or,
-                            if (trigger.repeatAfter > 0) ...[
-                              Text('after', style: bold),
-                              _buildChip(
-                                  '${trigger.repeatAfter}s', normal, blue),
-                            ],
-                          ],
-                        ),
+    final service = ref.watch(deviceServiceProvider);
+    return FutureBuilder<List<Token>>(
+        // TODO: Implement Token Manager for all tokens
+        future: service.getTokens(),
+        initialData: service.getTokensCached().orElseNull,
+        builder: (context, snapshot) {
+          final tags = _toTags(snapshot);
+          return Padding(
+            padding: contentPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildLine(
+                  [
+                    _buildChip('Active', normal, green),
+                    Text('when', style: bold),
+                    _buildChip('event', normal, gray),
+                    if (types.isNotEmpty) ...[
+                      Text(types.length == 1 ? 'of type' : 'with types',
+                          style: bold),
+                      ...types.map((e) => _buildChip(e, normal, brown)),
+                    ],
+                    if (tags.isNotEmpty || types.isNotEmpty) and,
+                    if (tags.isNotEmpty) ...[
+                      Text(tags.length == 1 ? 'with tag' : 'with tags',
+                          style: bold),
+                      ...tags.map((e) => _buildChip(e, normal, brown)),
+                    ],
+                    Text('happens', style: bold),
+                    if (model.conditions.isNotEmpty) and,
+                  ],
+                ),
+                if (model.conditions.isNotEmpty) ...[
+                  for (final e in model.conditions) ...[
+                    const SizedBox(height: 8.0),
+                    _buildLine(
+                      [
+                        _buildChip('condition', normal, gray),
+                        _buildChip(e.expression, normal, brown),
+                        Text('is', style: bold),
+                        _buildChip('TRUE', normal, blue),
                       ],
-                    ),
-                  );
-                });
-          },
-          error: SmartDashErrorWidget.from,
-          loading: SmartDashProgressIndicator.new,
-        );
+                    )
+                  ],
+                ],
+                if (model.whenTrue.isNotEmpty) ...[
+                  const SizedBox(height: 8.0),
+                  _buildLine(
+                    [
+                      _buildChip('Active', normal, green),
+                      Text('triggers', style: bold),
+                      for (final e in model.whenTrue) ...[
+                        _buildChip(e.label, normal, brown),
+                      ],
+                    ],
+                  ),
+                ],
+                if (model.whenFalse.isNotEmpty) ...[
+                  const SizedBox(height: 8.0),
+                  _buildLine(
+                    [
+                      _buildChip('Inactive', normal, red),
+                      Text('triggers', style: bold),
+                      for (final e in model.whenFalse) ...[
+                        _buildChip(e.label, normal, brown),
+                      ],
+                    ],
+                  ),
+                ],
+                if (willSkip) ...[
+                  const SizedBox(height: 8.0),
+                  _buildLine(
+                    [
+                      _buildChip(
+                          hasActions ? 'Actions' : 'Action', normal, gray),
+                      Text('${hasActions ? 'are' : 'is '} skipped',
+                          style: bold),
+                      if (trigger.debounceCount > 0) ...[
+                        _buildChip('${trigger.debounceCount}', normal, blue),
+                        Text('times', style: bold)
+                      ],
+                      if (willSkip) or,
+                      if (trigger.debounceAfter > 0) ...[
+                        Text('for', style: bold),
+                        _buildChip('${trigger.debounceAfter}s', normal, blue),
+                      ],
+                    ],
+                  )
+                ],
+                const SizedBox(height: 8.0),
+                _buildLine(
+                  [
+                    _buildChip(hasActions ? 'Actions' : 'Action', normal, gray),
+                    Text('${hasActions ? 'are' : 'is '} repeated', style: bold),
+                    if (trigger.repeatCount > 0) ...[
+                      _buildChip('${trigger.repeatCount}', normal, blue),
+                      Text('times', style: bold)
+                    ],
+                    if (trigger.repeatCount > 0 && trigger.repeatAfter > 0) or,
+                    if (trigger.repeatAfter > 0) ...[
+                      Text('after', style: bold),
+                      _buildChip('${trigger.repeatAfter}s', normal, blue),
+                    ],
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   bool willSkip(BlockTrigger trigger) =>

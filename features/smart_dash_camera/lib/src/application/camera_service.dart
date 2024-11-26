@@ -5,7 +5,6 @@ import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
-import 'package:smart_dash_camera/src/integration/foscam/application/foscam_driver.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -310,16 +309,6 @@ class CameraService
 }
 
 @Riverpod(keepAlive: true)
-Future<CameraService> cameraService(CameraServiceRef ref) async {
-  final home = await ref.read(getCurrentHomeProvider().future);
-  final manager = ref.read(cameraManagerProvider);
-
-  // Register SnowState integrations
-  manager.register(
-    Foscam.definition,
-    (config) => FoscamDriver(ref, config),
-  );
-  manager.build(home.value.serviceWhere);
-
+CameraService cameraService(CameraServiceRef ref) {
   return CameraService(ref);
 }

@@ -287,7 +287,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   Future<Optional<Camera>> _fetchCamera({Duration? ttl}) async {
     if (!widget.config.isPresent) return const Optional.empty();
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     _camera = await service.getCamera(widget.config.value, ttl: ttl);
     return _camera;
   }
@@ -295,7 +295,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
   Future<Optional<CameraSnapshot>> _fetchSnapshot() async {
     await _fetchCamera(ttl: widget.period);
     if (!_camera.isPresent) return const Optional.empty();
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     return service.getCameraSnapshot(
       _camera.value,
       ttl: widget.period,
@@ -304,7 +304,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
 
   Optional<CameraSnapshot> _fetchCachedSnapshot() {
     if (!_camera.isPresent) return const Optional.empty();
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     return service.getCameraSnapshotCached(
       _camera.value,
     );
@@ -325,7 +325,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
       });
 
       update() async {
-        final service = ref.read(cameraServiceProvider).requireValue;
+        final service = ref.read(cameraServiceProvider);
         final result = await service.setCameraMotionConfig(
           _camera.value,
           enabled: enabled,

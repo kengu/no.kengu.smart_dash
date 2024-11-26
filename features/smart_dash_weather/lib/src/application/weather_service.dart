@@ -5,11 +5,9 @@ import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
-import 'package:smart_dash_weather/src/application/weather_forecast_device_driver.dart';
 import 'package:smart_dash_weather/src/application/weather_forecast_driver.dart';
 import 'package:smart_dash_weather/src/application/weather_forecast_manager.dart';
 import 'package:smart_dash_weather/src/data/weather_response.dart';
-import 'package:smart_dash_weather/src/integration/metno/application/metno_forecast_driver.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'weather_service.g.dart';
@@ -27,7 +25,7 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
   static const Duration max = WeatherForecastDriver.max;
   static const Duration period = Duration(seconds: 5);
 
-  DeviceService get _service => ref.read(deviceServiceProvider).requireValue;
+  DeviceService get _service => ref.read(deviceServiceProvider);
 
   String _cacheKey(String prefix, double lat, double lon) {
     return '$prefix:$lat:$lon';
@@ -255,28 +253,6 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
 }
 
 @Riverpod(keepAlive: true)
-Future<WeatherService> weatherService(WeatherServiceRef ref) async {
-  final home = await ref.read(getCurrentHomeProvider().future);
-
-  // Register SnowState integrations
-  final weatherManager = ref.read(weatherForecastManagerProvider)
-    ..register(
-      MetNo.definition,
-      (config) => MetNoForecastDriver(ref, config),
-    );
-  weatherManager.build(home.value.serviceWhere);
-
-  // Register snow device driver for each integration
-  final deviceManager = ref.read(deviceManagerProvider)
-    ..register(
-      MetNo.definition,
-      (config) => WeatherForecastDeviceDriver(
-        ref,
-        MetNo.key,
-        config,
-      ),
-    );
-  await deviceManager.build(home.value.serviceWhere);
-
+WeatherService weatherService(WeatherServiceRef ref) {
   return WeatherService(ref);
 }

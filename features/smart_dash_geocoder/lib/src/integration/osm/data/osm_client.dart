@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 import 'package:smart_dash_geocoder/smart_dash_geocoder_app.dart';
 
 class OsmClient extends GeocoderClient {

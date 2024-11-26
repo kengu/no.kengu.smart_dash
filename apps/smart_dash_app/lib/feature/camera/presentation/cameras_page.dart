@@ -41,7 +41,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
 
   @override
   Widget build(BuildContext context) {
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     final configs = service.configs;
     return Padding(
       padding: !isFullscreen
@@ -128,7 +128,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   }
 
   Future<void> _checkCameras() async {
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     final configs = service.configs;
     final cameras = await Future.wait(
       configs.map((e) => service.getCamera(e,
@@ -150,7 +150,7 @@ class _CameraPageState extends ConsumerState<CamerasPage> {
   Future<Optional<bool>> _setMotionConfigs(bool enabled) async {
     _isUpdating = true;
     final motions = <Optional<MotionDetectConfig>>[];
-    final service = ref.read(cameraServiceProvider).requireValue;
+    final service = ref.read(cameraServiceProvider);
     final cameras = await service.getCameras(
         ttl: Duration(
       seconds: _refreshRate,

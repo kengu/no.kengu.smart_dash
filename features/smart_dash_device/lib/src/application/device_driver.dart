@@ -446,3 +446,94 @@ class ThrottledDriverUpdatedEvent extends DevicesUpdatedEvent {
     return '$ThrottledDriverUpdatedEvent{wasThrottled: $wasThrottled}';
   }
 }
+
+abstract class DeviceEvent extends DriverDataEvent<Device> {
+  DeviceEvent(
+    super.data, {
+    required super.last,
+    required super.when,
+  }) : super(key: data.service);
+
+  bool isDevice(Device device) => Identity.of(device) == Identity.of(data);
+}
+
+class DevicePaired extends DeviceEvent {
+  DevicePaired(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+
+  factory DevicePaired.now(Device data) {
+    final when = DateTime.now();
+    return DevicePaired(
+      data,
+      when: when,
+      last: when,
+    );
+  }
+}
+
+class DeviceUpdated extends DeviceEvent {
+  DeviceUpdated(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdated.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdated(
+      data,
+      when: when,
+      last: when,
+    );
+  }
+}
+
+class DeviceUpdatePending extends DeviceEvent {
+  DeviceUpdatePending(
+    super.data, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdatePending.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdatePending(
+      data,
+      when: when,
+      last: when,
+    );
+  }
+}
+
+class DeviceUpdateCompleted extends DeviceEvent {
+  DeviceUpdateCompleted(
+    super.device, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUpdateCompleted.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUpdateCompleted(
+      data,
+      when: when,
+      last: when,
+    );
+  }
+}
+
+class DeviceUnpaired extends DeviceEvent {
+  DeviceUnpaired(
+    super.device, {
+    required super.last,
+    required super.when,
+  });
+  factory DeviceUnpaired.now(Device data) {
+    final when = DateTime.now();
+    return DeviceUnpaired(
+      data,
+      when: when,
+      last: when,
+    );
+  }
+}

@@ -7,7 +7,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
-import 'package:smart_dash_device/src/integration/sikom/application/sikom_driver.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'device_service.g.dart';
@@ -189,107 +188,6 @@ class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
 }
 
 @Riverpod(keepAlive: true)
-Future<DeviceService> deviceService(DeviceServiceRef ref) async {
-  final home = await ref.read(getCurrentHomeProvider().future);
-  final manager = ref.read(deviceManagerProvider);
-
-  // Register SnowState integrations
-  manager.register(
-    Sikom.definition,
-    (config) => SikomDriver(ref, config),
-  );
-  manager.build(home.value.serviceWhere);
-
+DeviceService deviceService(DeviceServiceRef ref) {
   return DeviceService(ref);
-}
-
-abstract class DeviceEvent extends DriverDataEvent<Device> {
-  DeviceEvent(
-    super.data, {
-    required super.last,
-    required super.when,
-  }) : super(key: data.service);
-
-  bool isDevice(Device device) => Identity.of(device) == Identity.of(data);
-}
-
-class DevicePaired extends DeviceEvent {
-  DevicePaired(
-    super.data, {
-    required super.last,
-    required super.when,
-  });
-
-  factory DevicePaired.now(Device data) {
-    final when = DateTime.now();
-    return DevicePaired(
-      data,
-      when: when,
-      last: when,
-    );
-  }
-}
-
-class DeviceUpdated extends DeviceEvent {
-  DeviceUpdated(
-    super.data, {
-    required super.last,
-    required super.when,
-  });
-  factory DeviceUpdated.now(Device data) {
-    final when = DateTime.now();
-    return DeviceUpdated(
-      data,
-      when: when,
-      last: when,
-    );
-  }
-}
-
-class DeviceUpdatePending extends DeviceEvent {
-  DeviceUpdatePending(
-    super.data, {
-    required super.last,
-    required super.when,
-  });
-  factory DeviceUpdatePending.now(Device data) {
-    final when = DateTime.now();
-    return DeviceUpdatePending(
-      data,
-      when: when,
-      last: when,
-    );
-  }
-}
-
-class DeviceUpdateCompleted extends DeviceEvent {
-  DeviceUpdateCompleted(
-    super.device, {
-    required super.last,
-    required super.when,
-  });
-  factory DeviceUpdateCompleted.now(Device data) {
-    final when = DateTime.now();
-    return DeviceUpdateCompleted(
-      data,
-      when: when,
-      last: when,
-    );
-  }
-}
-
-class DeviceUnpaired extends DeviceEvent {
-  DeviceUnpaired(
-    super.device, {
-    required super.last,
-    required super.when,
-  });
-  factory DeviceUnpaired.now(Device data) {
-    final when = DateTime.now();
-    return DeviceUnpaired(
-      data,
-      when: when,
-      last: when,
-    );
-  }
 }

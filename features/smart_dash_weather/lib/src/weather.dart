@@ -1,8 +1,11 @@
+import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
+import 'package:smart_dash_weather/smart_dash_weather.dart';
 
-import 'domain/weather_state.dart';
+import 'application/weather_forecast_device_driver.dart';
+import 'integration/metno/application/metno_forecast_driver.dart';
 
 class Weather {
   static const supportedTypes = [
@@ -70,6 +73,32 @@ class Weather {
         ),
       ),
     );
+  }
+
+  // Install
+  static IntegrationType install(Ref ref) {
+    final service = ref.read(weatherServiceProvider);
+    // Register weather service and integrations
+    ref.read(integrationManagerProvider).install(
+          IntegrationType.weather,
+          () => service
+            ..manager.install(
+              MetNo.definition,
+              (config) => MetNoForecastDriver(ref, config),
+            ),
+        );
+
+    // Register weather device driver for each integration
+    ref.read(deviceManagerProvider).install(
+          MetNo.definition,
+          (config) => WeatherForecastDeviceDriver(
+            ref,
+            MetNo.key,
+            config,
+          ),
+        );
+
+    return IntegrationType.weather;
   }
 }
 

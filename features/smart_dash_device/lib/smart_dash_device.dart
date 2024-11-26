@@ -3,8 +3,6 @@
 /// More dartdocs go here.
 library;
 
-// TODO: Export any libraries intended for clients of this package.
-
 export 'src/application/device_block_flow.dart';
 export 'src/application/device_driver.dart';
 export 'src/application/device_manager.dart';
@@ -12,6 +10,7 @@ export 'src/application/device_service.dart';
 export 'src/application/device_tokens_flow.dart';
 export 'src/data/device_client.dart';
 export 'src/data/device_repository.dart';
+export 'src/devices.dart';
 export 'src/domain/device.dart';
 export 'src/domain/device_definition.dart';
 export 'src/domain/driver.dart';

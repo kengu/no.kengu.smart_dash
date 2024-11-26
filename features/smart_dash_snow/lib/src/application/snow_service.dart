@@ -8,10 +8,8 @@ import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 import 'package:smart_dash_snow/src/application/snow_driver.dart';
-import 'package:smart_dash_snow/src/integration/nysny/application/nysny_driver.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-import 'snow_device_driver.dart';
 import 'snow_manager.dart';
 
 part 'snow_service.g.dart';
@@ -125,28 +123,6 @@ class SnowService extends DriverService<List<SnowState>, SnowDataEvent,
 
 /// Build a new [SnowService] instance.
 @Riverpod(keepAlive: true)
-Future<SnowService> snowService(SnowServiceRef ref) async {
-  final home = await ref.read(getCurrentHomeProvider().future);
-
-  // Register SnowState integrations
-  final snowManager = ref.read(snowManagerProvider)
-    ..register(
-      NySny.definition,
-      (config) => NySnyDriver(ref, config),
-    );
-  snowManager.build(home.value.serviceWhere);
-
-  // Register snow device driver for each integration
-  final deviceManager = ref.read(deviceManagerProvider)
-    ..register(
-      NySny.definition,
-      (config) => SnowDeviceDriver(
-        key: NySny.key,
-        ref: ref,
-        config: config,
-      ),
-    );
-  await deviceManager.build(home.value.serviceWhere);
-
+SnowService snowService(SnowServiceRef ref) {
   return SnowService(ref);
 }

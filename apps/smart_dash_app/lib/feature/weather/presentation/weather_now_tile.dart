@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_app/feature/weather/presentation/weather_instant_widget.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -54,68 +53,62 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
     if (!widget.device.isPresent) {
       return _buildEmptyTile();
     }
-    return ref.watch(weatherServiceProvider).when(
-          data: (service) {
-            return StreamBuilder<WeatherState>(
-              stream: service.getNowAsStream(
-                widget.device.value,
-                refresh: true,
-                period: widget.period,
+    final service = ref.watch(weatherServiceProvider);
+    return StreamBuilder<WeatherState>(
+      stream: service.getNowAsStream(
+        widget.device.value,
+        refresh: true,
+        period: widget.period,
+      ),
+      initialData: service.getNowCached(widget.device.value).orElseNull,
+      builder: (context, snapshot) {
+        final now = DateTime.now();
+        final data = snapshot.data;
+        final weather = snapshot.data?.select(now);
+        if (weather == null) {
+          return _buildEmptyTile();
+        }
+        final index = data!.props.timeseries.indexOf(weather);
+        return SmartDashTile(
+          title: widget.title,
+          subtitle: widget.place,
+          constraints: constraints,
+          leading: const Icon(
+            Icons.wb_sunny,
+            color: Colors.lightGreen,
+          ),
+          trailing: Text(
+            _toTemperature(weather.data.instant),
+            style: const TextStyle(
+              color: Colors.lightGreen,
+              fontWeight: FontWeight.bold,
+            ),
+            textScaler: const TextScaler.linear(1.2),
+          ),
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: WeatherInstantWidget(
+                  index: index,
+                  weather: data,
+                  isForecast: false,
+                  withWind: widget.withWind,
+                  withSymbol: widget.withSymbol,
+                  withPrecipitation: widget.withPrecipitation,
+                  withLightLuminance: widget.withLightLuminance,
+                  withRelativeHumidity: widget.withRelativeHumidity,
+                  withCloudAreaFraction: widget.withCloudAreaFraction,
+                  withUltravioletRadiation: widget.withUltravioletRadiation,
+                ),
               ),
-              initialData: service.getNowCached(widget.device.value).orElseNull,
-              builder: (context, snapshot) {
-                final now = DateTime.now();
-                final data = snapshot.data;
-                final weather = snapshot.data?.select(now);
-                if (weather == null) {
-                  return _buildEmptyTile();
-                }
-                final index = data!.props.timeseries.indexOf(weather);
-                return SmartDashTile(
-                  title: widget.title,
-                  subtitle: widget.place,
-                  constraints: constraints,
-                  leading: const Icon(
-                    Icons.wb_sunny,
-                    color: Colors.lightGreen,
-                  ),
-                  trailing: Text(
-                    _toTemperature(weather.data.instant),
-                    style: const TextStyle(
-                      color: Colors.lightGreen,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textScaler: const TextScaler.linear(1.2),
-                  ),
-                  body: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 800),
-                        child: WeatherInstantWidget(
-                          index: index,
-                          weather: data,
-                          isForecast: false,
-                          withWind: widget.withWind,
-                          withSymbol: widget.withSymbol,
-                          withPrecipitation: widget.withPrecipitation,
-                          withLightLuminance: widget.withLightLuminance,
-                          withRelativeHumidity: widget.withRelativeHumidity,
-                          withCloudAreaFraction: widget.withCloudAreaFraction,
-                          withUltravioletRadiation:
-                              widget.withUltravioletRadiation,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-          loading: _buildEmptyTile,
-          error: SmartDashErrorWidget.from,
+            ],
+          ),
         );
+      },
+    );
   }
 
   SmartDashTile _buildEmptyTile() {

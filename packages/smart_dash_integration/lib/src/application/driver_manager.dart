@@ -17,6 +17,7 @@ abstract class DriverManager<T extends Driver<T>> {
   Logger get _log => Logger('$runtimeType');
 
   final Map<ServiceConfig, T> _drivers = {};
+  final Map<String, Integration> _integrations = {};
   final Map<String, DriverBuilder<T>> _builders = {};
 
   Stream<DriverEvent> get events {
@@ -44,21 +45,24 @@ abstract class DriverManager<T extends Driver<T>> {
   bool _match(ServiceConfig test, String key, String? id) =>
       test.key == key && (id == null || test.id == id);
 
-  /// Register [builder] for driver [T] before calling [build]
-  void register(
+  /// Get list of registered [Integration]s
+  List<Integration> get integrations => _integrations.values.toList();
+
+  /// Install [builder] for driver [T] before calling [build]
+  void install(
     Integration definition,
     DriverBuilder<T> builder,
   ) {
     _builders[definition.key] = builder;
+    _integrations[definition.key] = definition;
     _log.fine(
-      'Builder for $T[key: ${definition.key}] registered',
+      'Builder for $T[key: ${definition.key}] installed',
     );
-    ref.read(integrationManagerProvider).register(definition);
   }
 
   /// Build driver [T] for [ServiceConfig] returned by [where]
   @mustCallSuper
-  void build(ServiceConfigGetter where) {
+  FutureOr<void> build(ServiceConfigGetter where) async {
     if (_builders.isEmpty) {
       _log.fine(
         'Nothing to build (drivers installed: ${_drivers.length})',
@@ -79,10 +83,10 @@ abstract class DriverManager<T extends Driver<T>> {
       for (final config in it.value) {
         _drivers[config] = builder!(config);
       }
-      _log.fine(
-        'Drivers installed: ${builders.length} (total: ${_drivers.length})',
-      );
     }
+    _log.fine(
+      'Drivers installed: ${builders.length} (total: ${_drivers.length})',
+    );
 
     // Reset to show it
     _builders.clear();

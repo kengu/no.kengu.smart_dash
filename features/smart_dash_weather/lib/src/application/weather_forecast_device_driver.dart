@@ -47,7 +47,7 @@ class WeatherForecastDeviceDriver extends ThrottledDeviceDriver {
   ];
 
   Future<List<PointGeometry>> getPlaces() async {
-    final service = await ref.read(weatherServiceProvider.future);
+    final service = ref.read(weatherServiceProvider);
     final places = service.getForecastsCached();
 
     return [

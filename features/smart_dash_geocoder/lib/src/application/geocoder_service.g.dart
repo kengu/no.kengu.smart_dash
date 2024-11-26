@@ -6,7 +6,7 @@ part of 'geocoder_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$geocoderServiceHash() => r'3c2c7d2e1eaad8939eec788cb5564f2b0e824c9c';
+String _$geocoderServiceHash() => r'a5478c261edfdf5df11e7a2bb26b4ca107479040';
 
 /// See also [geocoderService].
 @ProviderFor(geocoderService)
