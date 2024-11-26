@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
@@ -15,6 +16,7 @@ import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 part 'bootstrap.g.dart';
 
+typedef Installer = IntegrationType Function(Ref ref);
 typedef DriverServiceBuilder = DriverService Function();
 
 @Riverpod(keepAlive: true)
@@ -38,17 +40,15 @@ class Bootstrap extends _$Bootstrap {
     final home = await ref.read(accountServiceProvider).getCurrentHome();
     assert(home.isPresent, 'TODO: Handle no home better!');
 
-    // Install integrations
-    Snow.install(ref);
-    Mqtt.install(ref);
-    Devices.install(ref);
-    Cameras.install(ref);
-    Weather.install(ref);
-    Geocoder.install(ref);
-
-    // Build all integrations
-    final manager = ref.read(integrationManagerProvider);
-    final services = await manager.build(home.value.serviceWhere);
+    // Build integrations
+    final services = await _build(home.value, [
+      Snow.install,
+      Mqtt.install,
+      Cameras.install,
+      Weather.install,
+      Geocoder.install,
+      Devices.install,
+    ]);
 
     // Monitor integration health
     final monitor = ref.read(systemHealthServiceProvider);
@@ -85,5 +85,17 @@ class Bootstrap extends _$Bootstrap {
     _log.info('Bootstrap: Completed');
 
     return this;
+  }
+
+  Future<List<DriverService>> _build(Home home, List<Installer> list) async {
+    for (final install in list) {
+      install(ref);
+    }
+
+    // Build all integrations
+    final manager = ref.read(integrationManagerProvider);
+    final services = await manager.build(home.serviceWhere);
+
+    return services;
   }
 }
