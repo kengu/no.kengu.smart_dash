@@ -66,7 +66,17 @@ class FlowManager {
   }
 
   /// Unbind from all streams
-  void unbind() {
+  void unbind<T extends Object>() {
+    final type = typeOf<T>();
+    assert(
+      _subscriptions.containsKey(type),
+      'Stream of $type is not bound',
+    );
+    _subscriptions[type]!.cancel();
+  }
+
+  /// Unbind from all streams
+  void unbindAll() {
     for (final it in _subscriptions.values) {
       it.cancel();
     }

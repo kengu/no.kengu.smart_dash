@@ -47,11 +47,11 @@ class HistoryManager {
   late final TokensCallback _fetch;
 
   /// Start pumping history events by binding to device updates
-  void bind(Stream<Iterable<Tag>> events, TokensCallback fetch) async {
+  Future<void> bind(Stream<Iterable<Tag>> tags, TokensCallback fetch) async {
     assert(_subscriptions.isEmpty, 'HistoryManager is bound already');
     _fetch = fetch;
     _subscriptions.add(
-      events.listen(_onHandle, cancelOnError: false),
+      tags.listen(_onHandle, cancelOnError: false),
     );
   }
 

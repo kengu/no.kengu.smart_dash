@@ -17,7 +17,7 @@ class DeviceManager extends DriverManager<DeviceDriver> {
   }
 
   void dispose() {
-    ref.read(flowManagerProvider).unbind();
+    ref.read(flowManagerProvider).unbind<DriverDevicesEvent>();
     for (final e in _subscriptions) {
       e.cancel();
     }
@@ -84,7 +84,7 @@ class DeviceManager extends DriverManager<DeviceDriver> {
       flows.register(DeviceTokensFlow());
       blocks.register<DeviceBlockFlow>(DeviceBlockFlow.new);
     } else {
-      flows.unbind();
+      flows.unbind<DriverDevicesEvent>();
       _subscriptions.clear();
     }
 
