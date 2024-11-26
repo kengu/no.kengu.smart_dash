@@ -76,7 +76,7 @@ GeocoderService geocoderService(GeocoderServiceRef ref) {
 
   // Register SnowState integrations
   manager.register(
-    Osm.key,
+    Osm.definition,
     (config) => OsmDriver(ref, config),
   );
   manager.build((e) => configs);

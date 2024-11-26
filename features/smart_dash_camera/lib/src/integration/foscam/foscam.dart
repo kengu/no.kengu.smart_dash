@@ -1,8 +1,4 @@
-import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
-
-import 'application/foscam_driver.dart';
 
 class Foscam {
   static const key = 'foscam';
@@ -26,12 +22,4 @@ class Foscam {
     system: false,
     enabled: true,
   );
-
-  static CameraManager register(Ref ref) {
-    return ref.read(cameraManagerProvider)
-      ..register(
-        Foscam.key,
-        (config) => FoscamDriver(ref, config),
-      );
-  }
 }

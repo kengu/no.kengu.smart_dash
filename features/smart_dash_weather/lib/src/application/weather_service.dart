@@ -261,15 +261,15 @@ Future<WeatherService> weatherService(WeatherServiceRef ref) async {
   // Register SnowState integrations
   final weatherManager = ref.read(weatherForecastManagerProvider)
     ..register(
-      MetNo.key,
+      MetNo.definition,
       (config) => MetNoForecastDriver(ref, config),
     );
   weatherManager.build(home.value.serviceWhere);
 
   // Register snow device driver for each integration
-  final deviceManager = ref.read(deviceDriverManagerProvider)
+  final deviceManager = ref.read(deviceManagerProvider)
     ..register(
-      MetNo.key,
+      MetNo.definition,
       (config) => WeatherForecastDeviceDriver(
         ref,
         MetNo.key,

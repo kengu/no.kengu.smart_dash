@@ -6,7 +6,7 @@ part of 'weather_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$weatherServiceHash() => r'6bfdc2bdfe215f5b4898050837af8a14036a48d9';
+String _$weatherServiceHash() => r'baafb5387bdd0adc2eb682670d191849cf1a67df';
 
 /// See also [weatherService].
 @ProviderFor(weatherService)

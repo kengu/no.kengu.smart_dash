@@ -23,7 +23,7 @@ class NewDevicesScreenController extends _$NewDevicesScreenController
 
   @override
   Future<Optional<List<Device>>> load(NewDevicesQuery query) async {
-    final driver = ref.read(deviceDriverManagerProvider).getDriver(
+    final driver = ref.read(deviceManagerProvider).getDriver(
           query.serviceKey,
         );
     return Optional.of(

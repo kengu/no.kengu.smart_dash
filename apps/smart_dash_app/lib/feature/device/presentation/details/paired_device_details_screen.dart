@@ -125,7 +125,7 @@ class _PairedDeviceDetailsScreenState
           );
       if (result.isPresent) {
         final device = result.value;
-        final driver = ref.read(deviceDriverManagerProvider).getDriver(
+        final driver = ref.read(deviceManagerProvider).getDriver(
               device.service,
             );
         final unpaired = await driver.unpairAll([device]);

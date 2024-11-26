@@ -131,15 +131,15 @@ Future<SnowService> snowService(SnowServiceRef ref) async {
   // Register SnowState integrations
   final snowManager = ref.read(snowManagerProvider)
     ..register(
-      NySny.key,
+      NySny.definition,
       (config) => NySnyDriver(ref, config),
     );
   snowManager.build(home.value.serviceWhere);
 
   // Register snow device driver for each integration
-  final deviceManager = ref.read(deviceDriverManagerProvider)
+  final deviceManager = ref.read(deviceManagerProvider)
     ..register(
-      NySny.key,
+      NySny.definition,
       (config) => SnowDeviceDriver(
         key: NySny.key,
         ref: ref,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_dash_app/core/application/bootstrap.dart';
 import 'package:smart_dash_app/core/presentation/routes.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_app/util/platform.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:window_manager/window_manager.dart';
@@ -65,7 +65,7 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
       child: Consumer(
         builder: (context, ref, child) {
           // This will bootstrap services!
-          return ref.watch(integrationManagerProvider).when(
+          return ref.watch(bootstrapProvider).when(
                 data: _buildApp,
                 error: _error,
                 loading: _loading,

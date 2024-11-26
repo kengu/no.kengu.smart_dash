@@ -114,7 +114,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
   }
 
   void _onAddDevices(BuildContext context) {
-    final service = ref.read(deviceDriverManagerProvider).getDriver(
+    final service = ref.read(deviceManagerProvider).getDriver(
           widget.serviceKey,
         );
 

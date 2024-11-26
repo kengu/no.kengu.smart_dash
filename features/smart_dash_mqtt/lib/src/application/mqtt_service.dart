@@ -57,14 +57,14 @@ Future<MqttService> mqttService(MqttServiceRef ref) async {
   // Register SnowState integrations
   final mqttManager = ref.read(mqttManagerProvider)
     ..register(
-      Mqtt.key,
+      Mqtt.definition,
       (config) => MqttDriver(ref, config),
     );
   mqttManager.build(home.value.serviceWhere);
 
-  final deviceManager = ref.read(deviceDriverManagerProvider)
+  final deviceManager = ref.read(deviceManagerProvider)
     ..register(
-      Rtl433.key,
+      Rtl433.definition,
       (config) => Rtl433DeviceDriver(ref, config),
     );
   await deviceManager.build(home.value.serviceWhere);

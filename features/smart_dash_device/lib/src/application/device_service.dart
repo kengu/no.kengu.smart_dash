@@ -14,7 +14,7 @@ part 'device_service.g.dart';
 
 /// Service for managing [Device]s
 class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
-    DeviceDriver, DeviceDriverManager> {
+    DeviceDriver, DeviceManager> {
   DeviceService(Ref ref) : super(ref, FutureCache(prefix: '$DeviceService')) {
     ref.onDispose(() {
       _controller.close();
@@ -29,7 +29,7 @@ class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
   final _controller = StreamController<DriverEvent>.broadcast();
 
   @override
-  DeviceDriverManager get manager => ref.read(deviceDriverManagerProvider);
+  DeviceManager get manager => ref.read(deviceManagerProvider);
 
   @override
   Stream<DriverEvent> get events {
@@ -54,7 +54,7 @@ class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
   Stream<DriverDevicesEvent> get batches {
     return events
         .whereType<DriverDevicesEvent>()
-        .where(DeviceDriverManager.shouldProcess);
+        .where(DeviceManager.shouldProcess);
   }
 
   /// Get [Device] with given [id] stored locally
@@ -191,11 +191,11 @@ class DeviceService extends DriverService<Device, DriverDataEvent<Device>,
 @Riverpod(keepAlive: true)
 Future<DeviceService> deviceService(DeviceServiceRef ref) async {
   final home = await ref.read(getCurrentHomeProvider().future);
-  final manager = ref.read(deviceDriverManagerProvider);
+  final manager = ref.read(deviceManagerProvider);
 
   // Register SnowState integrations
   manager.register(
-    Sikom.key,
+    Sikom.definition,
     (config) => SikomDriver(ref, config),
   );
   manager.build(home.value.serviceWhere);

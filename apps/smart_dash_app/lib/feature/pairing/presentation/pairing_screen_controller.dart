@@ -2,7 +2,6 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
 
 part 'pairing_screen_controller.g.dart';
 
@@ -17,7 +16,7 @@ class PairingScreenController extends _$PairingScreenController
 
   @override
   Future<Optional<IntegrationMap>> load(PairingQuery query) async {
-    final manager = ref.watch(integrationManagerProvider).requireValue;
+    final manager = ref.watch(integrationManagerProvider);
     final integrations = manager.getAll();
     return Optional.of(Map.fromEntries(integrations.entries.where(
       (e) => e.value.type == IntegrationType.device,

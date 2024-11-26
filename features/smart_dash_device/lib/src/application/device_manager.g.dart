@@ -1,28 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_driver_manager.dart';
+part of 'device_manager.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$deviceDriverManagerHash() =>
-    r'6a9e75dfe3c3221a2d15a2fd1f05eaf6b8e0ec03';
+String _$deviceManagerHash() => r'd5c91584d3241be575a83093a67967e6c5cdb15f';
 
-/// See also [deviceDriverManager].
-@ProviderFor(deviceDriverManager)
-final deviceDriverManagerProvider = Provider<DeviceDriverManager>.internal(
-  deviceDriverManager,
-  name: r'deviceDriverManagerProvider',
+/// See also [deviceManager].
+@ProviderFor(deviceManager)
+final deviceManagerProvider = Provider<DeviceManager>.internal(
+  deviceManager,
+  name: r'deviceManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$deviceDriverManagerHash,
+      : _$deviceManagerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DeviceDriverManagerRef = ProviderRef<DeviceDriverManager>;
-String _$driverUpdatedHash() => r'f75a32dd94b95c20968dd99ed73b61e2174ffbff';
+typedef DeviceManagerRef = ProviderRef<DeviceManager>;
+String _$driverUpdatedHash() => r'69ee4b474d1375822030a2540c574cb6d8be1db8';
 
 /// See also [driverUpdated].
 @ProviderFor(driverUpdated)

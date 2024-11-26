@@ -46,13 +46,14 @@ abstract class DriverManager<T extends Driver<T>> {
 
   /// Register [builder] for driver [T] before calling [build]
   void register(
-    String key,
+    Integration definition,
     DriverBuilder<T> builder,
   ) {
-    _builders[key] = builder;
+    _builders[definition.key] = builder;
     _log.fine(
-      'Builder for $T[key: $key] registered',
+      'Builder for $T[key: ${definition.key}] registered',
     );
+    ref.read(integrationManagerProvider).register(definition);
   }
 
   /// Build driver [T] for [ServiceConfig] returned by [where]

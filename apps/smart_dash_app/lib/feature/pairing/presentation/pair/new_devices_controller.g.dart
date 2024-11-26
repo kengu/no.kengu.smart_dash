@@ -7,7 +7,7 @@ part of 'new_devices_controller.dart';
 // **************************************************************************
 
 String _$newDevicesScreenControllerHash() =>
-    r'9e4d7767ebcccb76c8ee482de8c5d96d357ab0e5';
+    r'3c10c59480267df8f992a4fc2807e4149a16bd6a';
 
 /// Copied from Dart SDK
 class _SystemHash {

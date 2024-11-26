@@ -5,7 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'account_form_screen_controller.g.dart';
@@ -27,7 +26,7 @@ class AccountFormScreenController extends _$AccountFormScreenController
         AsyncFormController<AccountQuery, Account> {
   static AccountFormScreenController forCurrentUser(WidgetRef ref) {
     final user = ref.read(userRepositoryProvider).currentUser;
-    final manager = ref.watch(integrationManagerProvider).requireValue;
+    final manager = ref.watch(integrationManagerProvider);
     final integrations = manager.getAll();
     return AsyncFormController.of(
         ref,

@@ -9,10 +9,10 @@ import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-part 'device_driver_manager.g.dart';
+part 'device_manager.g.dart';
 
-class DeviceDriverManager extends DriverManager<DeviceDriver> {
-  DeviceDriverManager(super.ref) {
+class DeviceManager extends DriverManager<DeviceDriver> {
+  DeviceManager(super.ref) {
     ref.onDispose(dispose);
   }
 
@@ -25,7 +25,7 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
 
   // TODO Make delay configurable
   final Duration delay = const Duration(milliseconds: 50);
-  final Logger _log = Logger('$DeviceDriverManager');
+  final Logger _log = Logger('$DeviceManager');
   final List<StreamSubscription> _subscriptions = [];
   final StreamController<DriverEvent> _controller =
       StreamController.broadcast();
@@ -185,7 +185,7 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
         }
       },
       task: '_onUpdate',
-      name: '$DeviceDriverManager',
+      name: '$DeviceManager',
     );
   }
 
@@ -197,9 +197,8 @@ class DeviceDriverManager extends DriverManager<DeviceDriver> {
 }
 
 @Riverpod(keepAlive: true)
-DeviceDriverManager deviceDriverManager(DeviceDriverManagerRef ref) =>
-    DeviceDriverManager(ref);
+DeviceManager deviceManager(DeviceManagerRef ref) => DeviceManager(ref);
 
 @riverpod
 Stream<DevicesUpdatedEvent> driverUpdated(DriverUpdatedRef ref) =>
-    ref.watch(deviceDriverManagerProvider).updated;
+    ref.watch(deviceManagerProvider).updated;

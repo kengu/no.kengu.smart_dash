@@ -6,7 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -50,7 +49,7 @@ class SystemHealthService {
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
     final integrations = ref.read(integrationManagerProvider);
-    final service = integrations.requireValue.get(key);
+    final service = integrations.get(key);
     assert(service.isPresent, 'Service [$key] not found');
 
     final state = SystemHealthState(

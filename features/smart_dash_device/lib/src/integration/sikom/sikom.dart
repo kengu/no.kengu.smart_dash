@@ -1,8 +1,5 @@
-import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
-import 'application/sikom_driver.dart';
 import 'domain/sikom_device.dart';
 
 class Sikom {
@@ -44,12 +41,4 @@ class Sikom {
     system: false,
     enabled: true,
   );
-
-  static DeviceDriverManager register(Ref ref) {
-    return ref.read(deviceDriverManagerProvider)
-      ..register(
-        Sikom.key,
-        (config) => SikomDriver(ref, config),
-      );
-  }
 }

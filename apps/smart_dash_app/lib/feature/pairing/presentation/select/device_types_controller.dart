@@ -21,7 +21,7 @@ class DeviceTypesScreenController extends _$DeviceTypesScreenController
 
   @override
   Future<Optional<List<DeviceDefinition>>> load(DeviceTypesQuery query) async {
-    final service = ref.read(deviceDriverManagerProvider).getDriver(
+    final service = ref.read(deviceManagerProvider).getDriver(
           query.serviceKey,
         );
     return Optional.ofNullable(

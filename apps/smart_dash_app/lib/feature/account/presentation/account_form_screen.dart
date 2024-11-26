@@ -21,7 +21,6 @@ import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indi
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/presence/domain/presence.dart';
 import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_app/integration/application/integration_manager.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 import 'account_form_screen_controller.dart';
@@ -34,7 +33,7 @@ class AccountFormScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userRepositoryProvider).currentUser;
-    final manager = ref.watch(integrationManagerProvider).requireValue;
+    final manager = ref.watch(integrationManagerProvider);
     final integrations = manager.getAll();
 
     return ref.watch(getCurrentHomeProvider()).when(

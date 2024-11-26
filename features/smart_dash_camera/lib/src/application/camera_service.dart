@@ -316,7 +316,7 @@ Future<CameraService> cameraService(CameraServiceRef ref) async {
 
   // Register SnowState integrations
   manager.register(
-    Foscam.key,
+    Foscam.definition,
     (config) => FoscamDriver(ref, config),
   );
   manager.build(home.value.serviceWhere);
