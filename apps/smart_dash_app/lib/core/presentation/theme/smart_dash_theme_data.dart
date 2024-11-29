@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 
@@ -87,13 +88,16 @@ class SmartDashAppThemeController extends _$SmartDashAppThemeController {
   FutureOr<Optional<SettingMap>> build(SmartDashAppThemeQuery query) =>
       load(query);
 
-  Future<Optional<SettingMap>> load(SmartDashAppThemeQuery query) =>
-      ref.read(settingRepositoryProvider.notifier).load();
+  Future<Optional<SettingMap>> load(SmartDashAppThemeQuery query) async {
+    return Optional.of(
+      await ref.read(settingServiceProvider).load(),
+    );
+  }
 }
 
 @riverpod
 SettingMap themeChanged(ThemeChangedRef ref) => Map.fromEntries(
-      ref.watch(settingRepositoryProvider).entries.where(
+      ref.watch(settingServiceProvider).settings.entries.where(
             (e) => SettingType.darkMode == e.key,
           ),
     );

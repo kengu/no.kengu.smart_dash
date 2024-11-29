@@ -6,7 +6,7 @@ import 'repository.dart';
 
 abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
     with BulkWriteRepositoryMixin<I, T> {
-  SharedPreferencesRepository(this.prefix);
+  SharedPreferencesRepository(super.ref, this.prefix);
 
   static SharedPreferences? _db;
 
@@ -94,17 +94,17 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
       return SingleRepositoryResult<I, T>.empty(item);
     }
 
-    return await exists(id)
+    return raise(await exists(id)
         ? SingleRepositoryResult<I, T>.updated(item)
-        : SingleRepositoryResult<I, T>.created(item);
+        : SingleRepositoryResult<I, T>.created(item));
   }
 
   @override
   Future<SingleRepositoryResult<I, T>> remove(T item) async {
     final success = await _removeAll([toKey(toId(item))]);
-    return success
+    return raise(success
         ? SingleRepositoryResult<I, T>.removed(item)
-        : SingleRepositoryResult<I, T>.empty(item);
+        : SingleRepositoryResult<I, T>.empty(item));
   }
 
   @override
@@ -124,11 +124,11 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
     final created = items.where((e) => !currentIds.contains(toId(e))).toList();
     final updated = items.where((e) => currentIds.contains(toId(e))).toList();
 
-    return BulkRepositoryResult<I, T>(
+    return raise(BulkRepositoryResult<I, T>(
       created.toList(),
       updated.toList(),
       [],
-    );
+    ));
   }
 
   @override
@@ -137,16 +137,16 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
     final keys = ids.map(toKey);
     final current = await _loadAll(keys);
     final success = await _removeAll(keys);
-    return BulkRepositoryResult<I, T>.removed(
+    return raise(BulkRepositoryResult<I, T>.removed(
       [if (success) ...current.values.whereType<T>()],
-    );
+    ));
   }
 
   @override
   Future<void> clear() async {
     return guard(
       () async {
-        await _removeAll(await getKeys());
+        await removeAll(await getAll());
       },
       task: 'clear',
       name: '$runtimeType',

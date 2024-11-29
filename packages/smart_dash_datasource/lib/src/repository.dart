@@ -1,9 +1,24 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class Repository<I, T> {
+  Repository(this.ref) {
+    ref.onDispose(() {
+      _controller.close();
+    });
+  }
+  final Ref ref;
+
+  final StreamController<RepositoryEvent<I, T>> _controller =
+      StreamController.broadcast();
+
+  Stream<RepositoryEvent<I, T>> get events => _controller.stream;
+
   /// Translate [item] to id of type [I]
   I toId(T item);
 
@@ -87,6 +102,16 @@ abstract class Repository<I, T> {
   ///
   /// Returns a [SingleRepositoryResult].
   Future<SingleRepositoryResult<I, T>> remove(T item);
+
+  @protected
+  R raise<R extends RepositoryResult<I, T>>(R result) {
+    if (result.isNotEmpty) {
+      _controller.add(
+        RepositoryEvent(result),
+      );
+    }
+    return result;
+  }
 }
 
 mixin BulkWriteRepositoryMixin<I, T> on Repository<I, T> {
@@ -109,7 +134,8 @@ mixin BulkWriteRepositoryMixin<I, T> on Repository<I, T> {
 abstract class BulkConnectionAwareRepository<I, T>
     extends ConnectionAwareRepository<I, T>
     with BulkWriteRepositoryMixin<I, T> {
-  BulkConnectionAwareRepository({
+  BulkConnectionAwareRepository(
+    super.ref, {
     required super.checker,
     required BulkWriteRepositoryMixin<I, T> super.local,
     required BulkWriteRepositoryMixin<I, T> super.remote,
@@ -163,7 +189,8 @@ abstract class BulkConnectionAwareRepository<I, T>
 /// Repository aware of connectivity status. It stores changes in a local
 /// repository when offline and commits changes to remote when status changes to online
 abstract class ConnectionAwareRepository<I, T> extends Repository<I, T> {
-  ConnectionAwareRepository({
+  ConnectionAwareRepository(
+    super.ref, {
     required this.checker,
     required this.local,
     required this.remote,
@@ -186,6 +213,9 @@ abstract class ConnectionAwareRepository<I, T> extends Repository<I, T> {
   bool get isOffline => checker.isOffline;
 
   ConnectivityStatus get status => checker.status;
+
+  @override
+  Stream<RepositoryEvent<I, T>> get events => local.events;
 
   @override
   I toId(T item) => local.toId(item);
@@ -319,17 +349,17 @@ abstract class ConnectionAwareRepository<I, T> extends Repository<I, T> {
           stackTrace,
         );
       }
-      _tasks.removeWhere(done.contains);
     }
+    _tasks.removeWhere(done.contains);
   }
 }
 
-abstract class RepositoryResult<I, T> {
+sealed class RepositoryResult<I, T> {
   bool get isEmpty;
   bool get isNotEmpty;
 }
 
-class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
+final class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
   SingleRepositoryResult(
     this.item,
     this.created,
@@ -361,7 +391,7 @@ class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
       SingleRepositoryResult<I, T>(item, true, false, false);
 }
 
-class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
+final class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
   BulkRepositoryResult(
     this.created,
     this.updated,
@@ -390,10 +420,11 @@ class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
   }
 
   @override
-  bool get isNotEmpty => !isEmpty;
+  bool get isEmpty => !isNotEmpty;
 
   @override
-  bool get isEmpty => created.isEmpty || updated.isEmpty || removed.isEmpty;
+  bool get isNotEmpty =>
+      created.isNotEmpty || updated.isNotEmpty || removed.isNotEmpty;
 
   List<T> get all => [...created, ...updated, ...removed];
 
@@ -408,4 +439,31 @@ class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
 
   factory BulkRepositoryResult.removed(Iterable<T> items) =>
       BulkRepositoryResult<I, T>([], [], items.toList());
+}
+
+class RepositoryEvent<I, T> {
+  RepositoryEvent(this.result);
+  final RepositoryResult<I, T> result;
+
+  bool get isEmpty => result.isEmpty;
+  bool get isNotEmpty => result.isNotEmpty;
+  bool get isBulk => result is BulkRepositoryResult<I, T>;
+
+  List<T> get created => isBulk
+      ? (result as BulkRepositoryResult<I, T>).created
+      : (result as SingleRepositoryResult<I, T>).created
+          ? [(result as SingleRepositoryResult<I, T>).item]
+          : [];
+
+  List<T> get updated => isBulk
+      ? (result as BulkRepositoryResult<I, T>).updated
+      : (result as SingleRepositoryResult<I, T>).updated
+          ? [(result as SingleRepositoryResult<I, T>).item]
+          : [];
+
+  List<T> get removed => isBulk
+      ? (result as BulkRepositoryResult<I, T>).removed
+      : (result as SingleRepositoryResult<I, T>).removed
+          ? [(result as SingleRepositoryResult<I, T>).item]
+          : [];
 }

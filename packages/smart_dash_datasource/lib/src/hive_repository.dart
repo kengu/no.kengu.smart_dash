@@ -17,10 +17,12 @@ enum HiveTypeId {
   notification,
   account,
   networkDevice,
+  setting,
 }
 
 abstract class HiveRepository<I, T> extends Repository<I, T> {
-  HiveRepository({
+  HiveRepository(
+    super.ref, {
     required this.key,
     required this.box,
     required TypedAdapter<T> adapter,
@@ -102,9 +104,9 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
           await box.get(key),
         );
         await box.put(toKey(toId(item)), item);
-        return exists.isPresent
+        return raise(exists.isPresent
             ? SingleRepositoryResult<I, T>.updated(item)
-            : SingleRepositoryResult<I, T>.created(item);
+            : SingleRepositoryResult<I, T>.created(item));
       },
       task: '_put',
       name: '$runtimeType',
@@ -117,7 +119,7 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
       () async {
         final box = await _open();
         await box.delete(toKey(toId(item)));
-        return SingleRepositoryResult<I, T>.removed(item);
+        return raise(SingleRepositoryResult<I, T>.removed(item));
       },
       task: 'remove',
       name: '$runtimeType',
@@ -178,7 +180,8 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
 
 abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
     with BulkWriteRepositoryMixin<I, T> {
-  BulkHiveRepository({
+  BulkHiveRepository(
+    super.ref, {
     required super.key,
     required super.box,
     required super.adapter,
@@ -200,13 +203,13 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
     }
 
     final created = current.where((e) => !uniqueIds.contains(toKey(toId(e))));
-    final updated = current.where((e) => uniqueIds.contains(toKey(toId(e))));
+    final updated = unique.where((e) => uniqueIds.contains(toKey(toId(e))));
 
-    return BulkRepositoryResult<I, T>(
+    return raise(BulkRepositoryResult<I, T>(
       created.toList(),
       updated.toList(),
       [],
-    );
+    ));
   }
 
   /// Attempt to remove all given items from repository.
@@ -219,9 +222,9 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
     final currentIds = current.map(toId).map(toKey).toList();
     final unique = items..toSet().where((e) => currentIds.contains(toId(e)));
     final success = await _removeAll(currentIds);
-    return BulkRepositoryResult<I, T>.removed(
+    return raise(BulkRepositoryResult<I, T>.removed(
       [if (success) ...unique],
-    );
+    ));
   }
 
   Future<bool> _removeAll(List<String> ids) => guard(
@@ -236,13 +239,15 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
 
   @override
   Future<void> clear() async {
-    return guard(
+    final items = await getAll();
+    await guard(
       () => Hive.deleteBoxFromDisk(
         '${key}_$box',
       ),
       task: 'clear',
       name: '$runtimeType',
     );
+    raise(BulkRepositoryResult<I, T>([], [], items));
   }
 }
 

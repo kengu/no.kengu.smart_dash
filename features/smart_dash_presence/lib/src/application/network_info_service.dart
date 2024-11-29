@@ -258,6 +258,10 @@ class NetworkInfoService {
           subnet,
           hostIds: hostIds,
           progressCallback: (e) {
+            if (_timing == null || !isEnabled) {
+              return;
+            }
+
             _log.fine(
               '${fullScan ? 'Full Scan' : 'Live Scan'} '
               'PROGRESS: ${e.toStringAsFixed(1)} %',
@@ -287,14 +291,14 @@ class NetworkInfoService {
 
       // Wait for discovery progress
       await for (final it in result) {
-        if (_timing == null) {
+        if (_timing == null || !isEnabled) {
           _log.fine(
             '${fullScan ? 'Full Scan' : 'Live Scan'} STOPPED',
           );
           _progress.add(
             _lastProgress = NetworkScanProgress.done(fullScan),
           );
-          break;
+          return pingable;
         }
 
         _cache.setTTL('all', DateTime.now());

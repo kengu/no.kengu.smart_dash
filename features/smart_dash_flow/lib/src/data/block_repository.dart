@@ -8,7 +8,7 @@ import 'package:smart_dash_flow/smart_dash_flow.dart';
 part 'block_repository.g.dart';
 
 class BlockRepository extends BulkHiveRepository<String, BlockModel> {
-  BlockRepository(List<JsonObject> defaults)
+  BlockRepository(super.ref, List<JsonObject> defaults)
       : _defaults = defaults,
         super(
           key: 'blocks',
@@ -35,7 +35,7 @@ class BlockRepository extends BulkHiveRepository<String, BlockModel> {
 
 @Riverpod(keepAlive: true)
 BlockRepository blockRepository(BlockRepositoryRef ref) {
-  return BlockRepository(_defaults);
+  return BlockRepository(ref, _defaults);
 }
 
 // TODO: Read from file system

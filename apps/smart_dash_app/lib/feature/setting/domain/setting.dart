@@ -23,6 +23,8 @@ class Setting with _$Setting {
   @override
   String toString() => value.toString();
 
+  SettingType get type => SettingType.of(name);
+
   static Setting of(SettingType e) => Setting(
         name: e.name,
         value: e.defaultValue,

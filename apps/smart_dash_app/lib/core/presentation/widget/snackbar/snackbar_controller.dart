@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/core/presentation/widget/responsive_widget.dart';
-import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 
 part 'snackbar_controller.g.dart';
@@ -21,7 +21,7 @@ class SnackbarController extends _$SnackbarController {
     String? location,
   }) {
     final shouldShow = ref
-        .read(settingRepositoryProvider.notifier)
+        .read(settingServiceProvider)
         .getOrDefault(SettingType.showSnackBar, false);
     if (shouldShow) {
       ref.read(snackbarControllerProvider.notifier).showSnackBar(

@@ -14,7 +14,7 @@ part 'account_repository_app.g.dart';
 class AppAccountRepository extends ConnectionAwareRepository<String, Account>
     with AccountRepositoryMixin {
   AppAccountRepository(
-    this.ref, {
+    super.ref, {
     required AccountRepositoryMixin local,
     required AccountRepositoryMixin remote,
   }) : super(
@@ -22,8 +22,6 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
           remote: remote,
           checker: ref.read(connectivityProvider),
         );
-
-  final Ref ref;
 
   @override
   Future<bool> exists(String userId) async {
@@ -40,8 +38,9 @@ class AppAccountRepository extends ConnectionAwareRepository<String, Account>
 class LocalAccountRepository
     extends SharedPreferencesRepository<String, Account>
     with AccountRepositoryMixin {
-  LocalAccountRepository()
+  LocalAccountRepository(Ref ref)
       : super(
+          ref,
           AccountRepositoryMixin.key,
 //          key: AccountRepositoryMixin.key,
 //          box: AccountRepositoryMixin.key,
@@ -52,9 +51,7 @@ class LocalAccountRepository
 
 class RemoteAccountRepository extends Repository<String, Account>
     with AccountRepositoryMixin {
-  RemoteAccountRepository(this.ref);
-
-  final Ref ref;
+  RemoteAccountRepository(super.ref);
 
   AccountClient _client() => ref.read(accountClientProvider);
 
@@ -71,8 +68,10 @@ class RemoteAccountRepository extends Repository<String, Account>
   @override
   Future<SingleRepositoryResult<String, Account>> addOrUpdate(
       Account account) async {
-    final items = await _client().create(account);
-    return SingleRepositoryResult<String, Account>.updated(items);
+    final result = await _client().update(account);
+    return result.isPresent
+        ? SingleRepositoryResult<String, Account>.updated(result.value)
+        : SingleRepositoryResult<String, Account>.empty(account);
   }
 
   @override
@@ -111,7 +110,7 @@ class AccountAdapter extends TypedAdapter<Account> {
 AppAccountRepository appAccountRepository(AppAccountRepositoryRef ref) {
   return AppAccountRepository(
     ref,
-    local: LocalAccountRepository(),
+    local: LocalAccountRepository(ref),
     remote: RemoteAccountRepository(ref),
   );
 }

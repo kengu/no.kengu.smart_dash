@@ -9,7 +9,7 @@ import 'package:smart_dash_presence/smart_dash_presence.dart';
 part 'presence_repository.g.dart';
 
 class PresenceRepository extends BulkHiveRepository<Token, Presence> {
-  PresenceRepository()
+  PresenceRepository(super.ref)
       : super(
           key: 'presences',
           box: 'registered',
@@ -39,7 +39,7 @@ class PresenceRepository extends BulkHiveRepository<Token, Presence> {
 
 @Riverpod(keepAlive: true)
 PresenceRepository presenceRepository(PresenceRepositoryRef ref) {
-  return PresenceRepository();
+  return PresenceRepository(ref);
 }
 
 class PresenceAdapter extends TypedAdapter<Presence> {

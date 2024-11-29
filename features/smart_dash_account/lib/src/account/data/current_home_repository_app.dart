@@ -46,9 +46,11 @@ mixin CurrentHomeRepositoryMixin
 class AppCurrentHomeRepository
     extends SharedPreferencesRepository<String, CurrentHome>
     with CurrentHomeRepositoryMixin {
-  AppCurrentHomeRepository(this.ref) : super(CurrentHomeRepositoryMixin.key);
-
-  final Ref ref;
+  AppCurrentHomeRepository(Ref ref)
+      : super(
+          ref,
+          CurrentHomeRepositoryMixin.key,
+        );
 }
 
 @Riverpod(keepAlive: true)

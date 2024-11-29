@@ -7,6 +7,7 @@ import 'package:universal_io/io.dart';
 abstract class FileRepository<I, T> extends Repository<I, T>
     with BulkWriteRepositoryMixin {
   FileRepository(
+    super.ref,
     this.dir,
     this.extension, {
     this.maxCount = 100,
@@ -77,9 +78,9 @@ abstract class FileRepository<I, T> extends Repository<I, T>
               updated.add(item);
             }
           }
-          return updated.isEmpty
+          return raise(updated.isEmpty
               ? SingleRepositoryResult.created(item)
-              : SingleRepositoryResult.updated(item);
+              : SingleRepositoryResult.updated(item));
         },
         task: 'addOrUpdate',
         name: '$runtimeType',
@@ -98,7 +99,9 @@ abstract class FileRepository<I, T> extends Repository<I, T>
           final file = File(toAbsolutePath(path));
           if (file.existsSync()) {
             file.deleteSync();
-            return SingleRepositoryResult<I, T>.removed(item);
+            return raise(
+              SingleRepositoryResult<I, T>.removed(item),
+            );
           }
           return SingleRepositoryResult<I, T>.empty(item);
         },
@@ -156,11 +159,11 @@ abstract class FileRepository<I, T> extends Repository<I, T>
               }
             }
           }
-          return BulkRepositoryResult(
+          return raise(BulkRepositoryResult(
             created,
             updated,
             [],
-          );
+          ));
         },
         task: 'updateAll',
         name: '$runtimeType',
@@ -183,7 +186,9 @@ abstract class FileRepository<I, T> extends Repository<I, T>
             deleted.add(it);
           }
         }
-        return BulkRepositoryResult<I, T>.removed(deleted);
+        return raise(
+          BulkRepositoryResult<I, T>.removed(deleted),
+        );
       },
       task: 'removeAll',
       name: '$runtimeType',
@@ -210,10 +215,14 @@ abstract class FileRepository<I, T> extends Repository<I, T>
   @override
   Future<void> clear() async {
     final files = <File>[];
+    final items = await getAll();
     for (final it in getFileEntities()) {
       files.add(File(p.join(dir.path, it.path)));
     }
     await Future.wait(files.map((e) => e.delete()));
+    raise(
+      BulkRepositoryResult<I, T>([], [], items),
+    );
   }
 
   void _compact() {

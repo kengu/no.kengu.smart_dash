@@ -8,7 +8,7 @@ part 'notification_repository.g.dart';
 
 class NotificationRepository
     extends BulkHiveRepository<int, NotificationModel> {
-  NotificationRepository()
+  NotificationRepository(super.ref)
       : super(
           key: 'notifications',
           box: 'registered',
@@ -35,7 +35,7 @@ class NotificationRepository
 
 @Riverpod(keepAlive: true)
 NotificationRepository notificationRepository(NotificationRepositoryRef ref) {
-  return NotificationRepository();
+  return NotificationRepository(ref);
 }
 
 class NotificationAdapter extends TypedAdapter<NotificationModel> {

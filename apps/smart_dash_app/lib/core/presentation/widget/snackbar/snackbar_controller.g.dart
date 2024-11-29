@@ -7,7 +7,7 @@ part of 'snackbar_controller.dart';
 // **************************************************************************
 
 String _$snackbarControllerHash() =>
-    r'1354b1891e5cb616d52768986df841bc9873bab8';
+    r'67c8dc36459505565ece539315fca432a8b06a17';
 
 /// See also [SnackbarController].
 @ProviderFor(SnackbarController)

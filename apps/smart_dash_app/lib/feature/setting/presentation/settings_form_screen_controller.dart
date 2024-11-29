@@ -3,6 +3,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 
@@ -43,11 +44,13 @@ class SettingsFormScreenController extends _$SettingsFormScreenController
   }
 
   @override
-  Future<Optional<SettingMap>> load(SettingsQuery query) =>
-      ref.read(settingRepositoryProvider.notifier).load();
+  Future<Optional<SettingMap>> load(SettingsQuery query) async {
+    final result = await ref.read(settingServiceProvider).load();
+    return Optional.of(result);
+  }
 
   @override
   Future<bool> save(SettingMap data) {
-    return ref.read(settingRepositoryProvider.notifier).save(data.values);
+    return ref.read(settingServiceProvider).save(data);
   }
 }

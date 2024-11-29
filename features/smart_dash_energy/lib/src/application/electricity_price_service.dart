@@ -4,7 +4,6 @@ import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_energy/smart_dash_energy.dart';
 import 'package:smart_dash_energy/src/data/pricing/electricity_price_client.dart';
-import 'package:smart_dash_energy/src/data/pricing/electricity_price_repository.dart';
 
 part 'electricity_price_service.g.dart';
 

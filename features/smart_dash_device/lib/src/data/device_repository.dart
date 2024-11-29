@@ -7,7 +7,7 @@ import 'package:smart_dash_device/smart_dash_device.dart';
 part 'device_repository.g.dart';
 
 class DeviceRepository extends BulkHiveRepository<Identity, Device> {
-  DeviceRepository()
+  DeviceRepository(super.ref)
       : super(
           key: 'devices',
           box: 'paired',
@@ -23,7 +23,7 @@ class DeviceRepository extends BulkHiveRepository<Identity, Device> {
 
 @Riverpod(keepAlive: true)
 DeviceRepository deviceRepository(DeviceRepositoryRef ref) {
-  return DeviceRepository();
+  return DeviceRepository(ref);
 }
 
 class DeviceAdapter extends TypedAdapter<Device> {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
@@ -9,7 +10,13 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 part 'snapshot_repository.g.dart';
 
 class SnapshotRepository extends FileRepository<String, Snapshot> {
-  SnapshotRepository() : super(Directory('snapshots'), 'binary', maxCount: 100);
+  SnapshotRepository(Ref ref)
+      : super(
+          ref,
+          Directory('snapshots'),
+          'binary',
+          maxCount: 100,
+        );
 
   @override
   String toId(Snapshot item) => item.name;
@@ -54,5 +61,5 @@ class Snapshot {
 
 @Riverpod(keepAlive: true)
 SnapshotRepository snapshotRepository(SnapshotRepositoryRef ref) {
-  return SnapshotRepository();
+  return SnapshotRepository(ref);
 }

@@ -6,7 +6,7 @@ part of 'smart_dash_theme_data.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$themeChangedHash() => r'cd3e0e903d06a25a8eae22695bcfb1a305686b25';
+String _$themeChangedHash() => r'b9a592feb3d5f20c3be12d0427150ed5cdbc9030';
 
 /// See also [themeChanged].
 @ProviderFor(themeChanged)
@@ -21,7 +21,7 @@ final themeChangedProvider = AutoDisposeProvider<SettingMap>.internal(
 
 typedef ThemeChangedRef = AutoDisposeProviderRef<SettingMap>;
 String _$smartDashAppThemeControllerHash() =>
-    r'd4ea96b3f4dfca2709e80f4fca3d7fa6755ae972';
+    r'50390e1cc92cc36761d7874d3d6b69a6e3e206e2';
 
 /// Copied from Dart SDK
 class _SystemHash {

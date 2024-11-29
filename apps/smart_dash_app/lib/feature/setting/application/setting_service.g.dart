@@ -1,24 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bootstrap.dart';
+part of 'setting_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bootstrapHash() => r'2fb5f759fff88d38eba7d680ba00a446fa583cc6';
+String _$settingServiceHash() => r'd59217a1dffc58bb510fb6ecae8be97124fcd6ac';
 
-/// See also [Bootstrap].
-@ProviderFor(Bootstrap)
-final bootstrapProvider = AsyncNotifierProvider<Bootstrap, Bootstrap>.internal(
-  Bootstrap.new,
-  name: r'bootstrapProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$bootstrapHash,
+/// See also [settingService].
+@ProviderFor(settingService)
+final settingServiceProvider = Provider<SettingService>.internal(
+  settingService,
+  name: r'settingServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$settingServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Bootstrap = AsyncNotifier<Bootstrap>;
+typedef SettingServiceRef = ProviderRef<SettingService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

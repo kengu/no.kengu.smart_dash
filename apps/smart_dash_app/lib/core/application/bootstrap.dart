@@ -3,7 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
@@ -64,17 +64,27 @@ class Bootstrap extends _$Bootstrap {
           ref.read(deviceServiceProvider).getTokens,
         );
 
+    // Load settings
+    final settings = ref.read(settingServiceProvider);
+    await settings.load();
+
     // Start presence discovery
     // TODO: Move to smart_dash_presence?
-    await ref.read(networkInfoServiceProvider).start();
+    final network = ref.read(networkInfoServiceProvider);
+    await network.start();
     await ref.read(presenceServiceProvider).start();
-    final enabled = ref
-        .read(settingRepositoryProvider.notifier)
-        .getOrDefault(SettingType.enablePresence, false);
+    final enabled = settings.getOrDefault(SettingType.enablePresence, false);
     if (enabled) {
-      // TODO: Implement listening to SettingType.enablePresence events
-      ref.read(networkInfoServiceProvider).enable(true);
+      network.enable(true);
     }
+
+    settings.events
+        .where((e) => e.isType(SettingType.enablePresence))
+        .listen((e) {
+      network.enable(
+        e.toBool(),
+      );
+    });
 
     // Start other services
     final mqtt = ref.read(mqttServiceProvider);

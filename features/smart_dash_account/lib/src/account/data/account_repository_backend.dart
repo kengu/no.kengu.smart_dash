@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -13,9 +12,8 @@ part 'account_repository_backend.g.dart';
 
 class BackendAccountRepository extends AccountRepository
     with AccountRepositoryMixin {
-  BackendAccountRepository(this.ref, this.db);
+  BackendAccountRepository(super.ref, this.db);
 
-  Ref ref;
   AccountDatabase db;
 
   final Logger _logger = Logger('$BackendAccountRepository');

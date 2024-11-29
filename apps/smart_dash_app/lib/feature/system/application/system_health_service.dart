@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
@@ -71,9 +71,10 @@ class SystemHealthService {
   }
 
   String get connectionMode {
-    final settings = ref.read(settingRepositoryProvider.notifier);
-    return settings.get(SettingType.connectionMode).orElseNull?.toString() ??
-        ConnectionMode.auto;
+    return ref.read(settingServiceProvider).getOrDefault(
+          SettingType.connectionMode,
+          ConnectionMode.auto,
+        );
   }
 
   void onDriverEvents(Stream<DriverEvent> events) async {

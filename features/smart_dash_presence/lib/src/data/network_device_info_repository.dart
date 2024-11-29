@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:optional/optional.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_presence/smart_dash_presence.dart';
@@ -13,14 +12,12 @@ typedef NetworkDeviceInfoMap = Map<String, NetworkDeviceInfo>;
 
 class NetworkDeviceInfoRepository
     extends BulkHiveRepository<String, NetworkDeviceInfo> {
-  NetworkDeviceInfoRepository(this.ref)
+  NetworkDeviceInfoRepository(super.ref)
       : super(
           key: 'network_devices',
           box: 'registered',
           adapter: NetworkDeviceInfoAdapter(),
         );
-
-  final Ref ref;
 
   @override
   String toId(NetworkDeviceInfo item) => item.hostId;

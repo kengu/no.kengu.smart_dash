@@ -4,6 +4,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -71,7 +72,7 @@ class HomeController extends _$HomeController
 
   @override
   Future<Optional<HomeData>> load(HomeQuery query) async {
-    final settings = await ref.read(settingRepositoryProvider.notifier).load();
+    final settings = ref.read(settingServiceProvider).settings;
     final accountService = ref.read(accountServiceProvider);
     final home = await accountService.getCurrentHome();
     if (!home.isPresent) {
@@ -79,7 +80,7 @@ class HomeController extends _$HomeController
     }
     return Optional.of(HomeData(
       home: home.value,
-      settings: settings.value,
+      settings: settings,
     ));
   }
 }
