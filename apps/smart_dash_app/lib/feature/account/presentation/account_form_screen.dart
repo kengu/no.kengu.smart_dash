@@ -19,9 +19,8 @@ import 'package:smart_dash_app/core/presentation/widget/list/expansion_list.dart
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
-import 'package:smart_dash_app/feature/presence/domain/presence.dart';
-import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 
 import 'account_form_screen_controller.dart';
 

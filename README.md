@@ -63,6 +63,7 @@ higher level modules need.
 * [SmartDash Device (feature)](features/smart_dash_device/README.md)
 * [SmartDash Camera (feature)](features/smart_dash_camera/README.md)
 * [SmartDash Weather (feature)](features/smart_dash_weather/README.md)
+* [SmartDash Presence (feature)](features/smart_dash_presence/README.md)
 * [SmartDash Notification (feature)](features/smart_dash_notification/README.md)
 
 ## Packages

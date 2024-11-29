@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_dash_app/feature/system/domain/network_info.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+
+import 'network_info.dart';
 
 part 'presence.freezed.dart';
 part 'presence.g.dart';
@@ -55,6 +56,13 @@ class Presence with _$Presence {
             ? 'presence:ip:${data.ipAddress}'
             : 'presence:mac:${data.macAddress}',
       );
+
+  static HomeMember homeMemberFromToken(Token token) {
+    return HomeMember(
+      key: token.name,
+      name: token.label,
+    );
+  }
 
   factory Presence.fromJson(Map<String, Object?> json) =>
       _$PresenceFromJson(json);

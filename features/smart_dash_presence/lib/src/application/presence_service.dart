@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/feature/presence/data/presence_repository.dart';
-import 'package:smart_dash_app/feature/presence/domain/presence.dart';
-import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_app/feature/system/domain/network_info.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'presence_service.g.dart';
@@ -19,7 +17,7 @@ class PresenceService {
 
   PresenceService(this.ref) {
     ref.onDispose(() {
-      unbind();
+      stop();
       _subscription?.cancel();
       _flow.dispose();
     });
@@ -28,6 +26,8 @@ class PresenceService {
   final Ref ref;
   late final PresenceFlow _flow;
 
+  final _log = Logger('$PresenceService');
+
   final _presence = StreamController<PresenceEvent>.broadcast();
 
   Optional<Presence> get state => _flow.state;
@@ -35,31 +35,47 @@ class PresenceService {
 
   bool get isHome => _flow.isHome;
   bool get isAway => _flow.isAway;
-  int get membersAtHome => _flow.membersAtHome;
 
   Stream<PresenceEvent> get events => _presence.stream;
 
+  List<HomeMember> get membersAway => _flow.membersAway;
+  List<HomeMember> get membersAtHome => _flow.membersAtHome;
+
   StreamSubscription<NetworkDeviceEvent>? _subscription;
 
+  bool get isStarted => _subscription != null;
+
   /// Start listing to network device events
-  Future<void> bind() async {
+  Future<void> start() async {
     assert(
-      _subscription == null,
-      '$PresenceService is already bound to $NetworkInfoService',
+      !isStarted,
+      '$PresenceService is already started',
     );
 
     _flow = PresenceFlow(ref);
-    await _flow.init();
+    await _flow.build();
 
     final service = ref.read(networkInfoServiceProvider);
-    await Future.wait(
-      service.devices.asEvents.map(_onHandle),
+    if (service.isEnabled) {
+      // Update current presence from current devices
+      await Future.wait(
+        service.devices.asEvents.map(_onHandle),
+      );
+    } else {
+      _log.warning(
+        '$NetworkInfoService is not started. '
+        'Presence detection will not start until it is!',
+      );
+    }
+
+    _subscription = service.events.listen(
+      _onHandle,
+      cancelOnError: false,
     );
-    _subscription = service.events.listen(_onHandle, cancelOnError: false);
   }
 
   /// Stop listing to network device events.
-  void unbind() {
+  void stop() {
     _flow.dispose();
     _subscription?.cancel();
     _subscription = null;
@@ -96,20 +112,36 @@ class PresenceFlow extends Flow {
   Optional<Token> get token =>
       Optional.ofNullable(_lastEvent.orElseNull?.state.token);
 
-  bool get isHome => _lastEvent.isPresent ? state.value.isHome : false;
-  bool get isAway => _lastEvent.isPresent ? state.value.isAway : false;
-  int get membersAtHome =>
-      _lastEvent.isPresent ? state.value.members.length : 0;
+  List<HomeMember> get membersAway {
+    if (!_home.isPresent) {
+      return [];
+    }
+    return _lastEvent.isPresent
+        ? _lastEvent.value.membersAway
+        : _home.value.members;
+  }
 
-  Future<void> init() async {
+  List<HomeMember> get membersAtHome {
+    if (!_home.isPresent || _lastEvent.isPresent) {
+      return [];
+    }
+    return _lastEvent.value.membersAtHome;
+  }
+
+  bool get isAway => _lastEvent.isPresent ? state.value.isAway : false;
+  bool get isHome => _lastEvent.isPresent ? state.value.isHome : false;
+
+  Future<void> build() async {
     AccountService service = await _setCurrentHome();
-    _subscription =
-        service.changes.whereType<HomeEvent>().listen((event) async {
-      if (event is NewHomeEvent || event is CurrentHomeSetEvent) {
-        final token = Presence.toHomeToken(event.home);
-        _setState(token);
-      }
-    }, cancelOnError: false);
+    _subscription = service.changes.whereType<HomeEvent>().listen(
+      (event) async {
+        if (event is NewHomeEvent || event is CurrentHomeSetEvent) {
+          final token = Presence.toHomeToken(event.home);
+          _setState(token);
+        }
+      },
+      cancelOnError: false,
+    );
   }
 
   Future<AccountService> _setCurrentHome() async {
@@ -128,7 +160,12 @@ class PresenceFlow extends Flow {
     final repo = ref.read(presenceRepositoryProvider);
     final state = await repo.put(token);
     _lastEvent = state.isPresent
-        ? Optional.of(PresenceEvent(state.value))
+        ? Optional.of(
+            PresenceEvent(
+              _home.value,
+              state.value,
+            ),
+          )
         : const Optional.empty();
   }
 
@@ -166,22 +203,28 @@ class PresenceFlow extends Flow {
   }
 
   PresenceEvent _add(MemberPresenceEvent e) {
-    return PresenceEvent(Presence(
-      token: token.value,
-      when: e.when,
-      isHome: true,
-      members: {...state.value.members, e.token}.toList(),
-    ));
+    return PresenceEvent(
+      _home.value,
+      Presence(
+        token: token.value,
+        when: e.when,
+        isHome: true,
+        members: {...state.value.members, e.token}.toList(),
+      ),
+    );
   }
 
   PresenceEvent _remove(MemberPresenceEvent e) {
     final members = state.value.members.toList()..remove(e.token);
-    return PresenceEvent(Presence(
-      token: token.value,
-      when: e.when,
-      members: members,
-      isHome: members.isNotEmpty,
-    ));
+    return PresenceEvent(
+      _home.value,
+      Presence(
+        token: token.value,
+        when: e.when,
+        members: members,
+        isHome: members.isNotEmpty,
+      ),
+    );
   }
 
   @override
@@ -208,7 +251,7 @@ class PresenceFlow extends Flow {
 }
 
 class PresenceEvent extends FlowEvent {
-  PresenceEvent(this.state)
+  PresenceEvent(this.home, this.state)
       : super(
           flow: PresenceService.key,
           tags: [
@@ -220,7 +263,18 @@ class PresenceEvent extends FlowEvent {
           ],
         );
 
+  final Home home;
   final Presence state;
+
+  List<HomeMember> get membersAway {
+    final members = membersAtHome.map((e) => e.name);
+    return home.members.where((e) => members.contains(e.key)).toList();
+  }
+
+  List<HomeMember> get membersAtHome {
+    final members = state.members;
+    return members.map(Presence.homeMemberFromToken).toList();
+  }
 }
 
 class MemberPresenceEvent extends FlowEvent {

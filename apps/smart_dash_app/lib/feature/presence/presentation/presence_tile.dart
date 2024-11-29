@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 
 class PresenceTile extends ConsumerWidget {
   const PresenceTile({super.key});

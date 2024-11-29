@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
-import 'package:smart_dash_app/feature/setting/domain/setting.dart';
-import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
-import 'package:smart_dash_app/feature/system/domain/network_info.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:strings/strings.dart';
 import 'package:timeago/timeago.dart';
 
@@ -37,9 +34,6 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
         stream: network.states,
         initialData: network.devices,
         builder: (_, snapshot) {
-          final isEnabled = ref
-              .read(settingRepositoryProvider.notifier)
-              .getOrDefault(SettingType.enablePresence, false);
           final devices = _where(snapshot);
           final lastUpdated = network.lastUpdated;
           final child = ListView.builder(
@@ -50,7 +44,7 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
               final e = devices[index];
               return ListTile(
                   dense: true,
-                  enabled: isEnabled,
+                  enabled: network.isEnabled,
                   horizontalTitleGap: 24,
                   title: Text(e.readableName),
                   leading: Icon(

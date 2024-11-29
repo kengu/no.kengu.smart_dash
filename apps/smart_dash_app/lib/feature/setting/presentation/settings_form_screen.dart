@@ -3,23 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
-import 'package:smart_dash_app/feature/presence/data/presence_repository.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/setting/presentation/settings_form_screen_controller.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/dark_mode_tile.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/setting_switch_tile.dart';
-import 'package:smart_dash_app/feature/system/data/network_device_info_repository.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_energy/smart_dash_energy.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 
 import 'tile/connection_mode_tile.dart';
 
@@ -213,10 +211,9 @@ class SettingTilesWidget extends StatelessWidget {
                               'This will delete all local network data',
                             ),
                             onPressed: (_) async {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs
-                                  .remove(NetworkDeviceInfoRepository.key);
+                              await ref
+                                  .read(networkDeviceInfoRepositoryProvider)
+                                  .clear();
                               setState(() {
                                 SnackbarController.showSnackBarByRef(
                                   context,

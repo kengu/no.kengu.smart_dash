@@ -1588,6 +1588,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_presence:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_presence"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_snow:
     dependency: "direct main"
     description:

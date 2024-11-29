@@ -16,6 +16,7 @@ enum HiveTypeId {
   block,
   notification,
   account,
+  networkDevice,
 }
 
 abstract class HiveRepository<I, T> extends Repository<I, T> {

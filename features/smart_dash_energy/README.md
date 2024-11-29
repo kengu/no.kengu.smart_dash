@@ -30,7 +30,7 @@ This is a minimal example on usage:
 import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 Future<List<ElectricityPrice>> getPriceHourly() {
-    final service = ref.watch(electricityPriceServiceProvider);
+    final service = ref.read(electricityPriceServiceProvider);
     return service.getPriceHourly('NO1', DateTime.now());
 }
 ```

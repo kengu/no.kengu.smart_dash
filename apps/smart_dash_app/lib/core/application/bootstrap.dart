@@ -3,14 +3,15 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/feature/presence/application/presence_service.dart';
-import 'package:smart_dash_app/feature/system/application/network_info_service.dart';
+import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
+import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 import 'package:smart_dash_mqtt/smart_dash_mqtt.dart';
+import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
 
@@ -57,19 +58,25 @@ class Bootstrap extends _$Bootstrap {
     }
 
     // Bind with dependencies
-    // TODO: Refactor into service
+    // TODO: Move into Devices.install
     await ref.read(historyManagerProvider).bind(
           ref.read(flowManagerProvider).events.map((e) => e.tags),
           ref.read(deviceServiceProvider).getTokens,
         );
 
-    // TODO: Refactor into smart_dash_system feature
-    ref.read(networkInfoServiceProvider).bind();
+    // Start presence discovery
+    // TODO: Move to smart_dash_presence?
+    await ref.read(networkInfoServiceProvider).start();
+    await ref.read(presenceServiceProvider).start();
+    final enabled = ref
+        .read(settingRepositoryProvider.notifier)
+        .getOrDefault(SettingType.enablePresence, false);
+    if (enabled) {
+      // TODO: Implement listening to SettingType.enablePresence events
+      ref.read(networkInfoServiceProvider).enable(true);
+    }
 
-    // TODO: Refactor into smart_dash_presence feature
-    ref.read(presenceServiceProvider).bind();
-
-    // Start services
+    // Start other services
     final mqtt = ref.read(mqttServiceProvider);
     await mqtt.connect(user.userId);
 
