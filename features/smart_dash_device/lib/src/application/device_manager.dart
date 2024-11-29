@@ -71,7 +71,7 @@ class DeviceManager extends DriverManager<DeviceDriver> {
   /// device drivers by binding it to the global timing event pump.
   @override
   Future<void> build(ServiceConfigGetter where) async {
-    super.build(where);
+    await super.build(where);
 
     final isInit = _subscriptions.isEmpty;
     final pending = _ready(false).where((e) => !e.isInitializing).toList();
