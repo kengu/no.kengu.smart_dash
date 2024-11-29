@@ -1,11 +1,10 @@
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/sparkline_tile.dart';
-import 'package:smart_dash_app/feature/accounting/application/electricity_price_service.dart';
-import 'package:smart_dash_app/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/tile/sparkline_tile.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 class ElectricityPriceHourlyTile<T extends num> extends ConsumerWidget {
   const ElectricityPriceHourlyTile({

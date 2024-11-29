@@ -52,7 +52,7 @@ class NetworkInfoService {
 
   List<NetworkDeviceInfo> get devices => [..._devices.values];
 
-  Stream<NetworkDeviceEvent> get stream => _events.stream;
+  Stream<NetworkDeviceEvent> get events => _events.stream;
   Stream<NetworkScanProgress> get progress => _progress.stream;
   Stream<List<NetworkDeviceInfo>> get states => _states.stream;
 

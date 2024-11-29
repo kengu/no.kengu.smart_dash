@@ -57,7 +57,7 @@ class Bootstrap extends _$Bootstrap {
     }
 
     // Bind with dependencies
-    // TODO: Refactor into integration
+    // TODO: Refactor into service
     await ref.read(historyManagerProvider).bind(
           ref.read(flowManagerProvider).events.map((e) => e.tags),
           ref.read(deviceServiceProvider).getTokens,

@@ -16,6 +16,7 @@ dependencies:
   smart_dash_snow: any
   smart_dash_mqtt: any
   smart_dash_common: any
+  smart_dash_energy: any
   smart_dash_camera: any
   smart_dash_device: any
   smart_dash_account: any

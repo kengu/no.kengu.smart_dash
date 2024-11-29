@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 import 'drift/electricity_price_database.dart';
 

@@ -55,7 +55,7 @@ class PresenceService {
     await Future.wait(
       service.devices.asEvents.map(_onHandle),
     );
-    _subscription = service.stream.listen(_onHandle, cancelOnError: false);
+    _subscription = service.events.listen(_onHandle, cancelOnError: false);
   }
 
   /// Stop listing to network device events.

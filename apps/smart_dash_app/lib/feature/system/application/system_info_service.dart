@@ -28,8 +28,13 @@ class SystemInfoService {
 
   final _cache = FutureCache(prefix: '$SystemInfoService');
 
-  Stream<String> getChargingEvents() =>
-      _chargingChannel.receiveBroadcastStream().map((e) => e.toString());
+  Stream<ChargingType> get chargingEvents =>
+      _chargingChannel.receiveBroadcastStream().map((e) => switch (e) {
+            null => ChargingType.discharging,
+            "charging" => ChargingType.charging,
+            "discharging" => ChargingType.discharging,
+            Object() => throw UnimplementedError(),
+          });
 
   Future<SystemInfo> getSystemInfo(
     Duration period, {
@@ -89,6 +94,8 @@ class SystemInfoService {
     }
   }
 }
+
+enum ChargingType { charging, discharging }
 
 class SystemInfoResult {
   SystemInfoResult(this.updated, this.info);

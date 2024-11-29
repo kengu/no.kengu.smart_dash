@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/barchart_tile.dart';
-import 'package:smart_dash_app/feature/accounting/application/energy_bill_service.dart';
-import 'package:smart_dash_app/feature/accounting/domain/billing/energy_bill.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/widget/tile/barchart_tile.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 class EnergyBillMonthTile extends ConsumerWidget {
   const EnergyBillMonthTile({

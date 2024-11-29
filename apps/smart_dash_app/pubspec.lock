@@ -1546,6 +1546,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_energy:
+    dependency: "direct main"
+    description:
+      path: "../../features/smart_dash_energy"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_flow:
     dependency: "direct main"
     description:

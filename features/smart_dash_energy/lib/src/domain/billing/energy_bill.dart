@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/feature/accounting/domain/pricing/electricity.dart';
+import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 part 'energy_bill.freezed.dart';
 part 'energy_bill.g.dart';

@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/feature/accounting/application/electricity_price_service.dart';
-import 'package:smart_dash_app/feature/accounting/domain/billing/energy_bill.dart';
-import 'package:smart_dash_app/feature/accounting/domain/pricing/electricity.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_energy/smart_dash_energy.dart';
 
 part 'energy_bill_service.g.dart';
 
@@ -26,11 +23,8 @@ class EnergyBillService {
   }) async {
     return _cache.getOrFetch(
       'tariff',
-      () async => ElectricityTariff.fromJson(jsonDecode(
-        await rootBundle.loadString(
-          'assets/data/electricity_tariff.json',
-        ),
-      )),
+      // TODO: Implement electricity tariff service
+      () async => ElectricityTariff.fromJson(_tariffs.first),
       ttl: ttl,
     );
   }
@@ -167,3 +161,75 @@ EnergyBillService energyBillService(EnergyBillServiceRef ref) =>
     EnergyBillService(
       ref,
     );
+
+// TODO: Move to electricity tariff service
+List<JsonObject> get _tariffs {
+  final json = jsonDecode(
+    '''
+{
+  "provider": "Stannum",
+  "validUntil": "2024-12-31T23:59:59.999",
+  "capacity": [
+    {
+      "from_kWh": 0.0,
+      "to_kWh": 2.0,
+      "NOK_per_month": 244.16666666666666
+    },
+    {
+      "from_kWh": 2.0,
+      "to_kWh": 5.0,
+      "NOK_per_month": 292.9166666666667
+    },
+    {
+      "from_kWh": 5.0,
+      "to_kWh": 10.0,
+      "NOK_per_month": 317.3333333333333
+    },
+    {
+      "from_kWh": 10.0,
+      "to_kWh": 15.0,
+      "NOK_per_month": 341.75
+    },
+    {
+      "from_kWh": 15.0,
+      "to_kWh": 20.0,
+      "NOK_per_month": 366.1666666666667
+    },
+    {
+      "from_kWh": 20.0,
+      "to_kWh": 25.0,
+      "NOK_per_month": 427.25
+    },
+    {
+      "from_kWh": 25.0,
+      "to_kWh": 50.0,
+      "NOK_per_month": 463.8333333333333
+    },
+    {
+      "from_kWh": 50.0,
+      "to_kWh": 75.0,
+      "NOK_per_month": 512.6666666666666
+    }
+  ],
+  "consumption": [
+    {
+      "NOK_per_kWh": 0.2545,
+      "from_hour": 0,
+      "to_hour": 6
+    },
+    {
+      "NOK_per_kWh": 0.2681,
+      "from_hour": 7,
+      "to_hour": 21
+    },
+    {
+      "NOK_per_kWh": 0.2545,
+      "from_hour": 22,
+      "to_hour": 24
+    }
+  ]
+}
+''',
+  );
+  return [json];
+}

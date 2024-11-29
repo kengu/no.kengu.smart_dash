@@ -71,14 +71,14 @@ drift-info:
 drift-export:
 	echo "Exporting Drift Schemas"
 	dart run drift_dev schema dump \
-		lib/src/data/drift/time_series_database.dart \
-		lib/src/data/drift/schemas/
+		lib/src/data/pricing/drift/electricity_price_database.dart \
+		lib/src/data/pricing/drift/schemas/
 
 drift-migration:
 	echo "Generating Drift Migration"
 	dart run drift_dev schema steps \
-		lib/src/data/drift/schemas/ \
-		lib/src/data/drift/schemas/versions.dart
+		lib/src/data/pricing/drift/schemas/ \
+		lib/src/data/pricing/drift/schemas/versions.dart
 
 drift-generate-tests:
 	echo "Generating Drift Migration Tests"

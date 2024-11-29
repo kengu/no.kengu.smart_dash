@@ -21,13 +21,13 @@ storeFile = "$$(grep "storeFile" android/key.properties | cut -d'=' -f2)"
 storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)"
 
 .PHONY: \
-	doctor configure drift-info drift-export drift-migration drift-generate-tests \
+	doctor configure drift-info \
 	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update \
 
 .SILENT: \
-	doctor toolchain drift-info drift-export drift-migration drift-generate-tests \
+	doctor toolchain drift-info \
 	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update \
@@ -87,30 +87,6 @@ drift-info:
 
 	echo "Listing drift databases"
 	dart run drift_dev identify-databases
-
-drift-export:
-	echo "Exporting Drift Schemas"
-	dart run drift_dev schema dump \
-		lib/feature/analytics/data/drift/time_series_database.dart \
-		lib/feature/analytics/data/drift/schemas/
-	dart run drift_dev schema dump \
-		lib/feature/accounting/data/pricing/drift/electricity_price_database.dart \
-		lib/feature/accounting/data/pricing/drift/schemas/
-
-drift-migration:
-	echo "Generating Drift Migration"
-	dart run drift_dev schema steps \
-		lib/feature/analytics/data/drift/schemas/ \
-		lib/feature/analytics/data/drift/schemas/versions.dart
-#	dart run drift_dev schema steps \
-		lib/feature/accounting/data/pricing/drift/schemas/ \
-		lib/feature/accounting/data/pricing/drift/schemas/versions.dart
-
-drift-generate-tests:
-	echo "Generating Drift Migration Tests"
-	dart run drift_dev schema generate --data-classes --companions \
-		lib/feature/analytics/data/drift/schemas/ \
-		test/feature/analytics/data/drift/
 
 build:
 	echo "Watch for buildable changes..."
