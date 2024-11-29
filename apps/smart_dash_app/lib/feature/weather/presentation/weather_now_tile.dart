@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:optional/optional.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_app/feature/weather/presentation/weather_instant_widget.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -77,13 +78,16 @@ class _WeatherNowTileState extends ConsumerState<WeatherNowTile> {
             Icons.wb_sunny,
             color: Colors.lightGreen,
           ),
-          trailing: Text(
-            _toTemperature(weather.data.instant),
-            style: const TextStyle(
-              color: Colors.lightGreen,
-              fontWeight: FontWeight.bold,
+          trailing: Tooltip(
+            message: weather.time.format(),
+            child: Text(
+              _toTemperature(weather.data.instant),
+              style: const TextStyle(
+                color: Colors.lightGreen,
+                fontWeight: FontWeight.bold,
+              ),
+              textScaler: const TextScaler.linear(1.2),
             ),
-            textScaler: const TextScaler.linear(1.2),
           ),
           body: Column(
             mainAxisSize: MainAxisSize.max,

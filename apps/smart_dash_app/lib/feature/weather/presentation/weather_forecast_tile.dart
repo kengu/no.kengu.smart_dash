@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/selectable_row_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -90,6 +91,7 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
           value: _toTemperature(_selected < 0
               ? details.data.instant
               : steps[_selected]?.data.instant),
+          when: details.time,
           body: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,6 +142,7 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
       title: 'Weather Forecast',
       value: _toTemperature(),
       subtitle: widget.place,
+      when: DateTime.now(),
       body: const Center(
         child: CircularProgressIndicator(
           color: Colors.lightGreen,
@@ -156,6 +159,7 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
     required String title,
     required String subtitle,
     required String value,
+    required DateTime when,
     required Widget body,
   }) {
     return SmartDashTile(
@@ -166,13 +170,16 @@ class _WeatherForecastTileState extends ConsumerState<WeatherForecastTile> {
         Icons.wb_sunny,
         color: Colors.lightGreen,
       ),
-      trailing: Text(
-        value,
-        style: const TextStyle(
-          color: Colors.lightGreen,
-          fontWeight: FontWeight.bold,
+      trailing: Tooltip(
+        message: when.format(),
+        child: Text(
+          value,
+          style: const TextStyle(
+            color: Colors.lightGreen,
+            fontWeight: FontWeight.bold,
+          ),
+          textScaler: const TextScaler.linear(1.2),
         ),
-        textScaler: const TextScaler.linear(1.2),
       ),
       body: body,
     );
