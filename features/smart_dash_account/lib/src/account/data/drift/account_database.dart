@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'account_database.g.dart';

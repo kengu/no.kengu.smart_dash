@@ -4,7 +4,6 @@ import 'package:logging/logging.dart';
 import 'package:mqtt_client/mqtt_server_client.dart' as m;
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_mqtt/smart_dash_mqtt.dart';
 import 'package:smart_dash_mqtt/src/data/mqtt_client.dart';

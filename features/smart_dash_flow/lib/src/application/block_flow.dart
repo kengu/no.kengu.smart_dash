@@ -4,7 +4,6 @@ import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 abstract class BlockFlow extends Flow {

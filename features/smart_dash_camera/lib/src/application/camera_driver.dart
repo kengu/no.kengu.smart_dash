@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 abstract class CameraDriver extends Driver<CameraDriver> {

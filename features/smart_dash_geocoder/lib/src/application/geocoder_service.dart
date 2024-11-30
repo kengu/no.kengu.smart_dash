@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 import 'package:smart_dash_geocoder/src/application/geocoder_driver.dart';
 import 'package:smart_dash_geocoder/src/application/geocoder_manager.dart';

@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_device/src/integration/sikom/data/sikom_response.dart';
 import 'package:smart_dash_device/src/integration/sikom/domain/sikom_device.dart';

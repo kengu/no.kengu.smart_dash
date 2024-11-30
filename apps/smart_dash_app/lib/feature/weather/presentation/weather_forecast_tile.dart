@@ -5,7 +5,6 @@ import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:smart_dash_app/core/presentation/widget/selectable_row_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 import 'weather_box_widget.dart';

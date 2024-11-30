@@ -2,16 +2,20 @@ import 'dart:convert';
 
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 
 class AccountController {
-  AccountController(this.repo);
+  AccountController(this.ref, this.dbPath);
 
-  final AccountRepositoryMixin repo;
+  final String dbPath;
+  final ProviderContainer ref;
   final Logger _logger = Logger('$AccountController');
+
+  AccountRepositoryMixin get repo =>
+      ref.read(backendAccountRepositoryProvider(dbPath));
 
   Router get router {
     final router = Router();

@@ -5,7 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 
 part 'account_form_screen_controller.g.dart';
 
