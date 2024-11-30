@@ -60,7 +60,7 @@ class SettingTilesWidget extends StatelessWidget {
             return StatefulBuilder(
               builder: (context, setState) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 0.0),
                   child: SettingsList(
                     platform: DevicePlatform.android,
                     lightTheme: SettingsThemeData(

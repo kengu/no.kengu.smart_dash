@@ -409,7 +409,7 @@ packages:
     source: hosted
     version: "2.0.0"
   drift:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: drift
       sha256: df027d168a2985a2e9da900adeba2ab0136f0d84436592cf3cd5135f82c8579c
@@ -417,7 +417,7 @@ packages:
     source: hosted
     version: "2.21.0"
   drift_dev:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: drift_dev
       sha256: "623649abe932fc17bd32e578e7e05f7ac5e7dd0b33e6c8669a0634105d1389bf"
@@ -441,7 +441,7 @@ packages:
     source: hosted
     version: "2.0.5"
   eval_ex:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: eval_ex
       sha256: "3f8853d996ee41955f2232ad3730e95698fb1040d03f6ebc6ab01f1c2bc3be53"
@@ -526,7 +526,7 @@ packages:
     source: hosted
     version: "5.0.0"
   flutter_local_notifications:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_local_notifications
       sha256: "725145682706fb0e5a30f93e5cb64f3df7ed7743de749bd555b22bf75ee718c0"
@@ -677,7 +677,7 @@ packages:
     source: hosted
     version: "2.3.2"
   hive:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: hive
       sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
@@ -685,7 +685,7 @@ packages:
     source: hosted
     version: "2.2.3"
   hive_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: hive_flutter
       sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
@@ -869,7 +869,7 @@ packages:
     source: hosted
     version: "0.11.1"
   media_kit:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: media_kit
       sha256: "1f1deee148533d75129a6f38251ff8388e33ee05fc2d20a6a80e57d6051b7b62"
@@ -877,7 +877,7 @@ packages:
     source: hosted
     version: "1.1.11"
   media_kit_libs_android_video:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: media_kit_libs_android_video
       sha256: "9dd8012572e4aff47516e55f2597998f0a378e3d588d0fad0ca1f11a53ae090c"
@@ -909,7 +909,7 @@ packages:
     source: hosted
     version: "1.1.4"
   media_kit_libs_video:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: media_kit_libs_video
       sha256: "20bb4aefa8fece282b59580e1cd8528117297083a6640c98c2e98cfc96b93288"
@@ -933,7 +933,7 @@ packages:
     source: hosted
     version: "1.0.9"
   media_kit_video:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: media_kit_video
       sha256: "2cc3b966679963ba25a4ce5b771e532a521ebde7c6aa20e9802bec95d9916c8f"
@@ -957,7 +957,7 @@ packages:
     source: hosted
     version: "2.0.0"
   mqtt_client:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: mqtt_client
       sha256: "37aae360fac0b3322cb37267696c1535e1ad2984a13064d877273ffe4b16ca7a"
@@ -981,7 +981,7 @@ packages:
     source: hosted
     version: "1.0.0"
   network_tools:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: network_tools
       sha256: cf5726a3c3edd82de5f6d6511cb618259a083225ccc2bdb8a55d87b37014cadf
@@ -1005,7 +1005,7 @@ packages:
     source: hosted
     version: "6.1.0+1"
   osm_nominatim:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: osm_nominatim
       sha256: "08c1b00dbf7869a64068970df913a299b11e056c8a905ed2397879b6a1f9d7ef"
@@ -1420,7 +1420,7 @@ packages:
     source: hosted
     version: "2.0.2"
   shared_preferences:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: shared_preferences
       sha256: "95f9997ca1fb9799d494d0cb2a780fd7be075818d59f00c43832ed112b158a82"
@@ -1642,7 +1642,7 @@ packages:
     source: hosted
     version: "7.0.0"
   sqlite3:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqlite3
       sha256: bb174b3ec2527f9c5f680f73a89af8149dd99782fbb56ea88ad0807c5638f2ed
@@ -1650,7 +1650,7 @@ packages:
     source: hosted
     version: "2.4.7"
   sqlite3_flutter_libs:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqlite3_flutter_libs
       sha256: "7ae52b23366e5295005022e62fa093f64bfe190810223ea0ebf733a4cd140bce"

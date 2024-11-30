@@ -78,13 +78,10 @@ class Bootstrap extends _$Bootstrap {
       network.enable(true);
     }
 
-    settings.events
-        .where((e) => e.isType(SettingType.enablePresence))
-        .listen((e) {
-      network.enable(
-        e.toBool(),
-      );
-    });
+    settings.onChange<bool>(
+      SettingType.enablePresence,
+      network.enable,
+    );
 
     // Start other services
     final mqtt = ref.read(mqttServiceProvider);

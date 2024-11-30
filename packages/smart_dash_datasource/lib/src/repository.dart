@@ -445,9 +445,14 @@ class RepositoryEvent<I, T> {
   RepositoryEvent(this.result);
   final RepositoryResult<I, T> result;
 
+  bool get isSingle => !isBulk;
   bool get isEmpty => result.isEmpty;
   bool get isNotEmpty => result.isNotEmpty;
   bool get isBulk => result is BulkRepositoryResult<I, T>;
+
+  T get item => isBulk
+      ? (result as BulkRepositoryResult<I, T>).first.item
+      : (result as SingleRepositoryResult<I, T>).item;
 
   List<T> get created => isBulk
       ? (result as BulkRepositoryResult<I, T>).created

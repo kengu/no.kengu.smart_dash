@@ -17,9 +17,10 @@ class PresenceTile extends ConsumerWidget {
       builder: (context, snapshot) {
         final e = snapshot.data;
         final members = e?.state.members ?? [];
-        final isEnabled = ref
-            .read(settingServiceProvider)
-            .getOrDefault(SettingType.enablePresence, false);
+        final isEnabled = ref.read(settingServiceProvider).getOrDefault(
+              SettingType.enablePresence,
+              false,
+            );
         return SmartDashTile(
             constraints: const BoxConstraints(
               minWidth: 270,

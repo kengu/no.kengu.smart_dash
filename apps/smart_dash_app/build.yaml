@@ -21,7 +21,3 @@ targets:
 #          generic_argument_factories: false
 #          ignore_unannotated: false
 #          include_if_null: true
-
-      drift_dev:
-        options:
-          data_class_to_companions: false

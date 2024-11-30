@@ -96,11 +96,14 @@ class SmartDashAppThemeController extends _$SmartDashAppThemeController {
 }
 
 @riverpod
-SettingMap themeChanged(ThemeChangedRef ref) => Map.fromEntries(
-      ref.watch(settingServiceProvider).settings.entries.where(
-            (e) => SettingType.darkMode == e.key,
-          ),
-    );
+SettingMap themeChanged(ThemeChangedRef ref) {
+  final settings = Map.fromEntries(
+    ref.watch(settingServiceProvider).settings.entries.where(
+          (e) => SettingType.darkMode == e.key,
+        ),
+  );
+  return settings;
+}
 
 @riverpod
 class PlatformBrightnessNotifier extends _$PlatformBrightnessNotifier {

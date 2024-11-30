@@ -49,7 +49,10 @@ enum SettingType {
 
   final List<Object> options;
 
+  bool get isInt => defaultValue is int;
   bool get isBool => defaultValue is bool;
+  bool get isEnum => defaultValue is Enum;
+  bool get isDouble => defaultValue is double;
 
   String toStringValue() => defaultValue.toString();
 

@@ -6,7 +6,7 @@ part of 'smart_dash_theme_data.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$themeChangedHash() => r'b9a592feb3d5f20c3be12d0427150ed5cdbc9030';
+String _$themeChangedHash() => r'1fc7c8e1e80d0f6e276e03ac8d07ad8ef633d040';
 
 /// See also [themeChanged].
 @ProviderFor(themeChanged)

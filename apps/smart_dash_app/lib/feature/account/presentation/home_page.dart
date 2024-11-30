@@ -14,6 +14,7 @@ import 'package:smart_dash_app/feature/energy/presentation/electricity_price_hou
 import 'package:smart_dash_app/feature/energy/presentation/energy_bill_hourly_tile.dart';
 import 'package:smart_dash_app/feature/energy/presentation/energy_bill_month_tile.dart';
 import 'package:smart_dash_app/feature/presence/presentation/presence_tile.dart';
+import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/snow/presentation/snow_now_list_tile.dart';
 import 'package:smart_dash_app/feature/snow/presentation/snow_now_tile.dart';
@@ -37,130 +38,134 @@ class HomePage extends ConsumerWidget {
         loading: SmartDashProgressIndicator.new,
         data: (data) {
           final now = DateTime.now();
-          final area = data.isPresent
-              ? data.value.settings[SettingType.priceArea]!.value.toString()
-              : SettingType.priceArea.toStringValue();
           final when = HistoryManager.toOffset(now);
-          return SmartDashboardPage(
-              name: 'home',
-              title: 'Home',
-              pageItemBuilder: (home, type, slotsCount, item) {
-                switch (item.identifier) {
-                  case 'weather_now':
-                    // TODO: Add support for device ids in
-                    return WeatherNowTile(
-                      key: GlobalObjectKey(item),
-                      place: data.value.home.name,
-                      device: home.getIdentity(
-                        'rtl_433:cotech-367959-29',
-                      ),
-                    );
-                  case 'temp_backside':
-                    // TODO: Add support for device ids in
-                    return WeatherNowTile(
-                      key: GlobalObjectKey(item),
-                      place: data.value.home.name,
-                      title: 'Front door',
-                      withWind: false,
-                      withPrecipitation: false,
-                      device: home.getIdentity(
-                        'rtl_433:fineoffset-telldusproove-199',
-                      ),
-                    );
-                  case 'weather_forecast':
-                    // TODO: Make location name configurable
-                    return WeatherForecastTile(
-                      key: GlobalObjectKey(item),
-                      lat: data.value.home.location.lat,
-                      lon: data.value.home.location.lon,
-                      place: data.value.home.name,
-                    );
-                  case 'meter_energy:sikom:device:541905':
-                    return EnergyUsageTile<int>(
-                      key: GlobalObjectKey(item),
-                      size: size,
-                      duration: TimeScale.minutes.to(size),
-                      energy: home.getToken(
-                        'meter_energy:sikom:device:541905',
-                      ),
-                    );
-                  case 'measure_power:sikom:device:541905':
-                    return PowerUsageTile<int>(
-                      key: GlobalObjectKey(item),
-                      size: size,
-                      duration: TimeScale.minutes.to(size),
-                      power: home.getToken(
-                        'measure_power:sikom:device:541905',
-                      ),
-                    );
-                  case 'measure_voltage:sikom:device:541905':
-                    return VoltageTile<int>(
-                      key: GlobalObjectKey(item),
-                      size: size,
-                      duration: TimeScale.minutes.to(size),
-                      voltage: home.getToken(
-                        'measure_voltage:sikom:device:541905',
-                      ),
-                    );
-                  case 'temperature':
-                    return TemperatureListTile(
-                      title: 'Temperatures Now',
-                      subtitle: 'Last $size minutes',
-                      key: GlobalObjectKey(item),
-                      duration: TimeScale.minutes.to(size),
-                    );
-                  case 'onOff':
-                    return SwitchOnOffListTile(
-                      title: 'Switches Now',
-                      subtitle: 'Last updated ${DateTime.now().format()}',
-                      key: GlobalObjectKey(item),
-                      duration: TimeScale.minutes.to(size),
-                    );
-                  case 'price_hourly':
-                    return ElectricityPriceHourlyTile(
-                      key: GlobalObjectKey(item),
-                      area: area,
-                      when: when,
-                    );
-                  case 'bill_hourly':
-                    return EnergyBillHourlyTile(
-                      key: GlobalObjectKey(item),
-                      power: home.getToken(
-                        'measure_power:sikom:device:541905',
-                      ),
-                      area: area,
-                      when: when,
-                    );
-                  case 'bill_month':
-                    return EnergyBillMonthTile(
-                      key: GlobalObjectKey(item),
-                      area: area,
-                      when: when,
-                      power: home.getToken(
-                        'measure_power:sikom:device:541905',
-                      ),
-                    );
-                  case 'snow_now':
-                    return SnowNowTile(
-                      location: 'Skirvedalen',
-                    );
-                  case 'snow_now_list':
-                    return const SnowNowListTile();
-                  case 'system_now':
-                    return SystemNowTile(
-                      key: GlobalObjectKey(item),
-                    );
-                  case 'network_now':
-                    return NetworkNowTile(
-                      key: GlobalObjectKey(item),
-                    );
-                  case 'presence_now':
-                    return PresenceTile(
-                      key: GlobalObjectKey(item),
-                    );
-                  default:
-                    return Text(item.identifier);
-                }
+          final settings = ref.read(settingServiceProvider);
+          return StreamBuilder<String>(
+              stream: settings.where<String>(SettingType.priceArea),
+              initialData: settings.getOrDefault<String>(SettingType.priceArea),
+              builder: (context, snapshot) {
+                final area = snapshot.data!;
+                return SmartDashboardPage(
+                    name: 'home',
+                    title: 'Home',
+                    pageItemBuilder: (home, type, slotsCount, item) {
+                      switch (item.identifier) {
+                        case 'weather_now':
+                          // TODO: Add support for device ids in
+                          return WeatherNowTile(
+                            key: GlobalObjectKey(item),
+                            place: data.value.home.name,
+                            device: home.getIdentity(
+                              'rtl_433:cotech-367959-29',
+                            ),
+                          );
+                        case 'temp_backside':
+                          // TODO: Add support for device ids in
+                          return WeatherNowTile(
+                            key: GlobalObjectKey(item),
+                            place: data.value.home.name,
+                            title: 'Front door',
+                            withWind: false,
+                            withPrecipitation: false,
+                            device: home.getIdentity(
+                              'rtl_433:fineoffset-telldusproove-199',
+                            ),
+                          );
+                        case 'weather_forecast':
+                          // TODO: Make location name configurable
+                          return WeatherForecastTile(
+                            key: GlobalObjectKey(item),
+                            lat: data.value.home.location.lat,
+                            lon: data.value.home.location.lon,
+                            place: data.value.home.name,
+                          );
+                        case 'meter_energy:sikom:device:541905':
+                          return EnergyUsageTile<int>(
+                            key: GlobalObjectKey(item),
+                            size: size,
+                            duration: TimeScale.minutes.to(size),
+                            energy: home.getToken(
+                              'meter_energy:sikom:device:541905',
+                            ),
+                          );
+                        case 'measure_power:sikom:device:541905':
+                          return PowerUsageTile<int>(
+                            key: GlobalObjectKey(item),
+                            size: size,
+                            duration: TimeScale.minutes.to(size),
+                            power: home.getToken(
+                              'measure_power:sikom:device:541905',
+                            ),
+                          );
+                        case 'measure_voltage:sikom:device:541905':
+                          return VoltageTile<int>(
+                            key: GlobalObjectKey(item),
+                            size: size,
+                            duration: TimeScale.minutes.to(size),
+                            voltage: home.getToken(
+                              'measure_voltage:sikom:device:541905',
+                            ),
+                          );
+                        case 'temperature':
+                          return TemperatureListTile(
+                            title: 'Temperatures Now',
+                            subtitle: 'Last $size minutes',
+                            key: GlobalObjectKey(item),
+                            duration: TimeScale.minutes.to(size),
+                          );
+                        case 'onOff':
+                          return SwitchOnOffListTile(
+                            title: 'Switches Now',
+                            subtitle: 'Last updated ${DateTime.now().format()}',
+                            key: GlobalObjectKey(item),
+                            duration: TimeScale.minutes.to(size),
+                          );
+                        case 'price_hourly':
+                          return ElectricityPriceHourlyTile(
+                            key: GlobalObjectKey(item),
+                            area: area,
+                            when: when,
+                          );
+                        case 'bill_hourly':
+                          return EnergyBillHourlyTile(
+                            key: GlobalObjectKey(item),
+                            power: home.getToken(
+                              'measure_power:sikom:device:541905',
+                            ),
+                            area: area,
+                            when: when,
+                          );
+                        case 'bill_month':
+                          return EnergyBillMonthTile(
+                            key: GlobalObjectKey(item),
+                            area: area,
+                            when: when,
+                            power: home.getToken(
+                              'measure_power:sikom:device:541905',
+                            ),
+                          );
+                        case 'snow_now':
+                          return SnowNowTile(
+                            location: 'Skirvedalen',
+                          );
+                        case 'snow_now_list':
+                          return const SnowNowListTile();
+                        case 'system_now':
+                          return SystemNowTile(
+                            key: GlobalObjectKey(item),
+                          );
+                        case 'network_now':
+                          return NetworkNowTile(
+                            key: GlobalObjectKey(item),
+                          );
+                        case 'presence_now':
+                          return PresenceTile(
+                            key: GlobalObjectKey(item),
+                          );
+                        default:
+                          return Text(item.identifier);
+                      }
+                    });
               });
         });
   }

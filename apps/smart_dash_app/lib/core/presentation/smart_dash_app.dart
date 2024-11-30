@@ -75,6 +75,22 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
     );
   }
 
+  Widget _buildApp(_) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final settings = ref.watch(themeChangedProvider);
+        final brightness = ref.watch(platformBrightnessNotifierProvider);
+        return MaterialApp.router(
+          title: 'SmartDash',
+          restorationScopeId: 'app',
+          routerConfig: Routes.router,
+          debugShowCheckedModeBanner: false,
+          theme: SmartDashThemeData.build(settings, brightness),
+        );
+      },
+    );
+  }
+
   Widget _error(Object error, StackTrace stackTrace) {
     return Consumer(
       builder: (context, ref, child) {
@@ -105,22 +121,6 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
               message: 'Loading modules...',
             ),
           ),
-          theme: SmartDashThemeData.build(settings, brightness),
-        );
-      },
-    );
-  }
-
-  Widget _buildApp(_) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final settings = ref.watch(themeChangedProvider);
-        final brightness = ref.watch(platformBrightnessNotifierProvider);
-        return MaterialApp.router(
-          title: 'SmartDash',
-          restorationScopeId: 'app',
-          routerConfig: Routes.router,
-          debugShowCheckedModeBanner: false,
           theme: SmartDashThemeData.build(settings, brightness),
         );
       },
