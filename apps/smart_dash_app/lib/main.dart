@@ -4,9 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:network_tools/network_tools.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_dash_app/core/presentation/smart_dash_app.dart';
@@ -38,13 +35,7 @@ void main() async {
   });
 
   WidgetsFlutterBinding.ensureInitialized();
-  MediaKit.ensureInitialized();
   await initializeDateFormatting('nb_NO');
-  final appDocDirectory = await getApplicationDocumentsDirectory();
-  await configureNetworkTools(
-    appDocDirectory.path,
-    enableDebugging: !kReleaseMode,
-  );
   await Hive.initFlutter(io.Platform.pathSeparator);
 
   // This is needed for riverpod error messages

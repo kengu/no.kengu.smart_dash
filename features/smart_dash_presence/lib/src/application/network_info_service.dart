@@ -6,7 +6,7 @@ import 'package:network_tools/network_tools.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
@@ -81,12 +81,23 @@ class NetworkInfoService {
   Optional<DateTime> get lastUpdated => Optional.ofNullable(_lastFullScan);
   DateTime? _lastFullScan;
 
+  bool _init = true;
+
   /// Start listing to timing events for periodic discovery
   Future<void> start() async {
     assert(
       !isStarted,
       '$NetworkInfoService is already started',
     );
+
+    if (_init) {
+      final dbPath = systemDirs(ref).documentsDir;
+      await configureNetworkTools(
+        dbPath.absolute.path,
+        enableDebugging: debug,
+      );
+      _init = true;
+    }
 
     final repo = ref.read(networkDeviceInfoRepositoryProvider);
     final items = await repo.load();
