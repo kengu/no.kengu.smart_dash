@@ -1,7 +1,4 @@
-// ignore_for_file: unused_import
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';

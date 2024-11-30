@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'camera_service.g.dart';

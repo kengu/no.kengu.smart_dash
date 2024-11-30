@@ -1,26 +1,23 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:media_kit/media_kit.dart';
+import 'package:nanoid/nanoid.dart';
+import 'package:path/path.dart' as path;
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
-import 'package:smart_dash_app/feature/setting/domain/setting.dart';
-import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_common/smart_dash_common_linux.dart';
+import 'package:smart_dash_common/smart_dash_common_native.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_mqtt/smart_dash_mqtt.dart';
-import 'package:smart_dash_notification/smart_dash_notification.dart';
-import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
+import 'package:universal_io/io.dart';
 
 part 'bootstrap.g.dart';
 
 typedef Installer = IntegrationType Function(Ref ref);
-typedef DriverServiceBuilder = DriverService Function();
 
 @Riverpod(keepAlive: true)
 class Bootstrap extends _$Bootstrap {
@@ -35,61 +32,35 @@ class Bootstrap extends _$Bootstrap {
     _log.info('Bootstrap: Initializing...');
     _init = false;
 
-    MediaKit.ensureInitialized();
-
     // Initialize system dirs provider for Flutter
-    final dirs = await FlutterDirs.init(ref);
+    final dirs = await _initSystemDirs();
     _log.info('Working directory is ${dirs.documentsDir.absolute.path}');
 
-    final user = ref.read(userRepositoryProvider).currentUser;
-    final home = await ref.read(accountServiceProvider).getCurrentHome();
-    assert(home.isPresent, 'TODO: Handle no home better!');
-
     // Build integrations
-    final services = await _build(home.value, [
+    /*final services =*/ await _build([
       Snow.install,
       Mqtt.install,
       Cameras.install,
       Weather.install,
-      Geocoder.install,
       Devices.install,
     ]);
 
-    // Monitor integration health
+    // TODO Monitor integration health
+    /*
     final monitor = ref.read(systemHealthServiceProvider);
     for (final service in services) {
       monitor.onDriverEvents(service.events);
     }
+    */
 
     // Bind with dependencies
     // TODO: Move into Devices.install
-    final flows = ref.read(flowManagerProvider);
     await ref.read(historyManagerProvider).bind(
-          flows.events.map((e) => e.tags),
+          ref.read(flowManagerProvider).events.map((e) => e.tags),
           ref.read(deviceServiceProvider).getTokens,
         );
 
-    // Handle for notification events
-    flows.events.listen(
-      (event) {
-        if (event is BlockEvent) {
-          switch (event.runtimeType) {
-            case const (BlockNotificationEvent):
-              final notification = event as BlockNotificationEvent;
-              ref.read(notificationServiceProvider).show(
-                    title: notification.label,
-                    body: notification.description,
-                  );
-              break;
-          }
-        }
-      },
-      onError: (error, stackTrace) {
-        _log.severe(error, stackTrace);
-      },
-      cancelOnError: false,
-    );
-
+    /*
     // Load settings
     final settings = ref.read(settingServiceProvider);
     await settings.load();
@@ -108,10 +79,11 @@ class Bootstrap extends _$Bootstrap {
       SettingType.enablePresence,
       network.enable,
     );
+     */
 
     // Start other services
     final mqtt = ref.read(mqttServiceProvider);
-    await mqtt.connect(user.userId);
+    await mqtt.connect(nanoid());
 
     // TODO: Refactor into flowService
     ref.read(blockManagerProvider).start();
@@ -127,15 +99,59 @@ class Bootstrap extends _$Bootstrap {
     return this;
   }
 
-  Future<List<DriverService>> _build(Home home, List<Installer> list) async {
+  Future<List<DriverService>> _build(List<Installer> list) async {
+    final repo = ref.read(serviceConfigRepositoryProvider);
+
+    final configs = await repo.getAll();
+
     for (final install in list) {
       install(ref);
     }
 
     // Build all integrations
     final manager = ref.read(integrationManagerProvider);
-    final services = await manager.build(home.serviceWhere);
+    final services = await manager.build(
+      (String key) => configs.where(
+        (e) {
+          return e.key == key;
+        },
+      ),
+    );
 
     return services;
+  }
+
+  // TODO: Move to utils for backends
+  Future<SystemDirs> _initSystemDirs() async {
+    late SystemDirs dirs;
+
+    // Register system paths
+    if (Platform.isLinux) {
+      _log.info(
+        'Platform is Linux: Initializing SystemDirs provider for Linux',
+      );
+      dirs = await LinuxDirs.init(ref);
+    } else {
+      _log.info(
+        'Platform is not Linux: Initializing SystemDirs provider native to daemon',
+      );
+      final root = Directory.current.absolute.path;
+
+      // TODO: Add system paths to command arguments
+      dirs = NativeDirs(
+        cacheDir: Directory(path.join(root, '.cache')),
+        supportDir: Directory(path.join(root, '.support')),
+        downloadsDir: Directory(path.join(root, '.download')),
+        documentsDir: Directory(path.join(root, '.documents')),
+        tempDir: Directory(Directory.systemTemp.absolute.path),
+      )..createSync();
+
+      // Only use native
+      systemDirsBuilder(() => dirs);
+    }
+
+    Hive.init(dirs.documentsDir.path);
+
+    return dirs;
   }
 }

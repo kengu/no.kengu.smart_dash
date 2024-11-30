@@ -6,41 +6,56 @@ import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:smart_dash_account/smart_dash_account_backend.dart';
+import 'package:smart_dash_daemon/bootstrap.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
+
+typedef Installer = IntegrationType Function(ProviderContainer ref);
 
 void main(List<String> args) async {
+  // Prepare
   final vars = _parseArgs(args);
+  final log = _initLogger(vars, 'Daemon');
 
-  final log = _initLogger(vars);
+  // Bootstrap integrations
+  final ref = await _bootstrap();
 
+  // Assembling the pipeline
   final handler = Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(_buildRouter(log, vars).call);
+      .addHandler(_buildHandler(ref).call);
 
+  // Launch the server
   final ip = InternetAddress.anyIPv4;
   final port = int.parse(vars[argPort] as String);
   final server = await serve(handler, ip, port);
+
   log.info('Server listening on port ${server.port}');
 }
 
-Router _buildRouter(Logger log, ArgResults vars) {
-  String dbPath = _getDbPath(vars);
-  log.info('Database path is $dbPath');
-
+Future<ProviderContainer> _bootstrap() async {
   final ref = ProviderContainer();
-
-  // Create controllers
-  final accounts = AccountController(ref, dbPath);
-
-  return Router()..mount('/', accounts.router.call);
+  await ref.read(bootstrapProvider.future);
+  return ref;
 }
 
+Router _buildHandler(ProviderContainer ref) {
+  // Build controllers
+  final configs = ServiceConfigController(ref);
+  final integrations = IntegrationController(ref);
+
+  return Router()
+    ..mount('/', configs.router.call)
+    ..mount('/', integrations.router.call);
+}
+
+// TODO: Move to utils for backends
 String _getDbPath(ArgResults argResults) {
   final dbPath = argResults[argDbPath] as String;
   final dbDir = Directory(dbPath)..createSync();
   return dbDir.absolute.path;
 }
 
+// TODO: Move to utils for backends
 const argPort = 'port';
 const argDbPath = 'db-path';
 const argLogLevel = 'log-level';
@@ -60,7 +75,8 @@ ArgResults _parseArgs(List<String> args) {
   return parser.parse(args);
 }
 
-Logger _initLogger(ArgResults args) {
+// TODO: Move to utils for backends
+Logger _initLogger(ArgResults args, String name) {
   final name = args[argLogLevel] as String;
   final level = Level.LEVELS.firstWhere(
     (e) => e.name.toLowerCase() == name.toLowerCase(),
@@ -82,7 +98,7 @@ Logger _initLogger(ArgResults args) {
       ].join('\n'),
     ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
-  final logger = Logger('Cloud');
+  final logger = Logger(name);
   logger.info('Log level set to ${level.name}');
   return logger;
 }

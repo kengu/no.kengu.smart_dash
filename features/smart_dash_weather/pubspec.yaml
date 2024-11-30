@@ -15,7 +15,7 @@ dependencies:
   smart_dash_flow: any
   smart_dash_common: any
   smart_dash_device: any
-  smart_dash_account: any
+  smart_dash_geocoder: any
   smart_dash_datasource: any
   smart_dash_integration: any
 

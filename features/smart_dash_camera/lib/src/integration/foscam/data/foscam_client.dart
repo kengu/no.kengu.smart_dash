@@ -1,7 +1,4 @@
-// ignore_for_file: unused_import
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';

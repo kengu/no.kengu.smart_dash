@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 abstract class BlockFlow extends Flow {
   BlockFlow(

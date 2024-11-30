@@ -1,17 +1,12 @@
-// ignore_for_file: unused_import
-
 import 'dart:async';
 
 import 'package:logging/logging.dart';
-import 'package:mqtt_client/mqtt_server_client.dart' as m;
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_device/smart_dash_device.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_mqtt/smart_dash_mqtt.dart';
 import 'package:smart_dash_mqtt/src/application/mqtt_driver.dart';
 import 'package:smart_dash_mqtt/src/application/mqtt_manager.dart';
-import 'package:smart_dash_mqtt/src/data/mqtt_client.dart';
 
 part 'mqtt_service.g.dart';
 

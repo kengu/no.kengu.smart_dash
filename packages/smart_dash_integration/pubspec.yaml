@@ -11,12 +11,18 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
-
+  smart_dash_datasource: any
 
   async: ^2.11.0
+  strings: ^3.1.1
   logging: ^1.2.0
   optional: ^6.1.0+1
+  universal_io: ^2.2.2
   stream_transform: ^2.1.0
+
+  dio: ^5.4.3+1
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
 
   riverpod: ^3.0.0-dev.3
   json_annotation: ^4.9.0

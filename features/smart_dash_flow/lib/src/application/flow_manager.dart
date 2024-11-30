@@ -5,7 +5,6 @@ import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
-import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 part 'flow_manager.g.dart';
 
@@ -94,18 +93,6 @@ class FlowManager {
           // sees last event when events are added more frequently
           // than 60 fps (less than 17 milliseconds between each event).
           await for (final event in evaluate(event).delayed(delay)) {
-            if (event is BlockEvent) {
-              switch (event.runtimeType) {
-                case const (BlockNotificationEvent):
-                  final notification = event as BlockNotificationEvent;
-                  // TODO: Extract notification feature or move to main.dart?
-                  ref.read(notificationServiceProvider).show(
-                        title: notification.label,
-                        body: notification.description,
-                      );
-                  break;
-              }
-            }
             // Process list of flow events in order of completion
             _controller.add(event);
           }

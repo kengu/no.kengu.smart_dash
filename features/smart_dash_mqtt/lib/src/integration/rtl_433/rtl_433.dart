@@ -1,4 +1,4 @@
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 import 'domain/rtl_433_device.dart';
 

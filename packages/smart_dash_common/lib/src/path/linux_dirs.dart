@@ -15,7 +15,7 @@ class LinuxDirs extends _$LinuxDirs implements SystemDirs {
   late final String? _applicationId;
 
   static Future<SystemDirs> init(
-    ProviderContainer ref, [
+    Ref ref, [
     String? applicationId,
   ]) async {
     return ref.read(linuxDirsProvider(

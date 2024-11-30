@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 
 part 'weather_state.freezed.dart';
 part 'weather_state.g.dart';

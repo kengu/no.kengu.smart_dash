@@ -18,6 +18,7 @@ enum HiveTypeId {
   account,
   networkDevice,
   setting,
+  integration,
 }
 
 abstract class HiveRepository<I, T> extends Repository<I, T> {

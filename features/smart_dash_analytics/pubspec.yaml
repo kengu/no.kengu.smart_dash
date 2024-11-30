@@ -13,7 +13,6 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
-  smart_dash_account: any
   smart_dash_datasource: any
 
   timeago: ^3.7.0

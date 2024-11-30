@@ -28,6 +28,12 @@ class IntegrationManager {
     return Map.from(_integrations);
   }
 
+  IntegrationMap where(Function(Integration e) test) {
+    return Map.fromEntries(
+      _integrations.entries.where((e) => test(e.value)),
+    );
+  }
+
   /// Build integrations
   Future<List<DriverService>> build(ServiceConfigGetter where) async {
     final services = <DriverService>[];

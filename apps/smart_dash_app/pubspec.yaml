@@ -52,6 +52,13 @@ dependencies:
   stream_transform: ^2.1.0
   battery_indicator: ^0.1.2
 
+  # Video
+  media_kit: ^1.1.10+1
+  media_kit_video: ^1.2.4
+  media_kit_libs_video: ^1.0.4
+  media_kit_libs_android_video: ^1.3.6
+
+
   # UI
   fl_chart: ^0.69.0
   dashboard: ^0.0.5

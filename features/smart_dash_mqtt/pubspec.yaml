@@ -14,7 +14,6 @@ dependencies:
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
   smart_dash_device: any
-  smart_dash_account: any
   smart_dash_integration: any
 
   async: ^2.11.0
