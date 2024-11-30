@@ -5,7 +5,7 @@ import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'time_series_repository.g.dart';
@@ -192,7 +192,7 @@ TimeSeriesRepository timeSeriesRepository(TimeSeriesRepositoryRef ref) {
         connectDrift(
           ref,
           dbName: 'time_series.sqlite',
-          dbPath: systemDirs(ref).documentsDir.path,
+          dbPath: ref.read(systemDirsProvider).documentsDir.path,
         ),
       ).autoDispose(ref));
 }

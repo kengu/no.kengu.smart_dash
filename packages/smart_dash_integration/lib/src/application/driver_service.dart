@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:stream_transform/stream_transform.dart';
 

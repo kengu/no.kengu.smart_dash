@@ -33,8 +33,8 @@ class Bootstrap extends _$Bootstrap {
     _log.info('Bootstrap: Initializing...');
     _init = false;
 
-    // Initialize root providers
-    final dirs = await ref.read(flutterDirsProvider.future);
+    // Initialize system dirs provider for Flutter
+    final dirs = await FlutterDirs.init(ref);
     _log.info('Working directory is ${dirs.documentsDir}');
 
     final user = ref.read(userRepositoryProvider).currentUser;

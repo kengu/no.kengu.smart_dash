@@ -6,7 +6,7 @@ import 'package:network_tools/network_tools.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_presence/smart_dash_presence.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:strings/strings.dart';
@@ -91,7 +91,7 @@ class NetworkInfoService {
     );
 
     if (_init) {
-      final dbPath = systemDirs(ref).documentsDir;
+      final dbPath = ref.read(systemDirsProvider).documentsDir;
       await configureNetworkTools(
         dbPath.absolute.path,
         enableDebugging: debug,

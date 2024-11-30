@@ -1,4 +1,5 @@
 import 'package:path_provider/path_provider.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:universal_io/io.dart';
@@ -11,6 +12,10 @@ class FlutterDirs extends _$FlutterDirs implements SystemDirs {
   late final Directory _documentsDir;
   late final Directory _supportDir;
   late final Directory _tempDir;
+
+  static Future<SystemDirs> init(Ref ref) async {
+    return ref.read(flutterDirsProvider.future);
+  }
 
   @override
   Directory get tempDir => _tempDir;
@@ -33,6 +38,7 @@ class FlutterDirs extends _$FlutterDirs implements SystemDirs {
     _cacheDir = await getApplicationCacheDirectory();
     _supportDir = await getApplicationSupportDirectory();
     _documentsDir = await getApplicationDocumentsDirectory();
+    systemDirsBuilder(() => this);
     return this;
   }
 }

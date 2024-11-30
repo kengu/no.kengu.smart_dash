@@ -1,4 +1,8 @@
+import 'package:optional/optional.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:universal_io/io.dart';
+
+part 'system_dirs.g.dart';
 
 /// Common interface for system paths
 abstract class SystemDirs {
@@ -32,4 +36,24 @@ abstract class SystemDirs {
   /// verify that it does before using it, and potentially create it
   /// if necessary.
   Directory? get downloadsDir;
+}
+
+typedef SystemDirsBuilder = SystemDirs Function();
+
+/// Register [SystemDirs] builder
+void systemDirsBuilder(SystemDirsBuilder builder) {
+  _builder = Optional.ofNullable(builder);
+}
+
+Optional<SystemDirsBuilder> _builder = Optional.empty();
+
+/// Get [SystemDirs]
+@riverpod
+SystemDirs systemDirs(SystemDirsRef ref) {
+  if (_builder.isPresent) {
+    return _builder.value();
+  }
+
+  throw 'SystemDirs not found. '
+      'Did you forget to register it with systemDirsBuilder()?';
 }

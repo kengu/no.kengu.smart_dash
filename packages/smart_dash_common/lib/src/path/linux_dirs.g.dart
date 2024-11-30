@@ -6,7 +6,7 @@ part of 'linux_dirs.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$linuxDirsHash() => r'0608af0a63e092e2333c34e900784f05f8e76824';
+String _$linuxDirsHash() => r'092f939ed901a225fbf255b48d634ddd731340ae';
 
 /// Copied from Dart SDK
 class _SystemHash {

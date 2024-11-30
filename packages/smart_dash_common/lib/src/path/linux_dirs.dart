@@ -1,4 +1,5 @@
 import 'package:path/path.dart' as path;
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:universal_io/io.dart';
@@ -12,6 +13,15 @@ class LinuxDirs extends _$LinuxDirs implements SystemDirs {
   late final Directory _cacheDir;
   late final Directory _supportDir;
   late final String? _applicationId;
+
+  static Future<SystemDirs> init(
+    ProviderContainer ref, [
+    String? applicationId,
+  ]) async {
+    return ref.read(linuxDirsProvider(
+      applicationId: applicationId,
+    ).future);
+  }
 
   String? _executableName;
 
@@ -42,6 +52,7 @@ class LinuxDirs extends _$LinuxDirs implements SystemDirs {
     _applicationId = applicationId;
     _supportDir = await _getSupportPath();
     _cacheDir = await _getApplicationCachePath();
+    systemDirsBuilder(() => this);
     return this;
   }
 

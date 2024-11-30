@@ -16,7 +16,7 @@ dependencies:
 
   # DART
   dio: ^5.7.0
-  path: ^1.9.0
+  path: ^1.9.1
   compute: ^1.0.2
   optional: ^6.1.0+1
 

@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common_flutter.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'electricity_price_database.g.dart';
@@ -11,7 +11,7 @@ class ElectricityPriceDatabase extends _$ElectricityPriceDatabase
   ElectricityPriceDatabase(Ref ref)
       : super(connectDrift(ref,
             dbName: 'electricity_price.sqlite',
-            dbPath: systemDirs(ref).documentsDir.path));
+            dbPath: ref.read(systemDirsProvider).documentsDir.path));
   @override
   int get schemaVersion => 1;
 
