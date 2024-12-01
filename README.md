@@ -51,6 +51,7 @@ higher level modules need.
 ## Backends
 * [SmartDash Cloud (backend)](backends/smart_dash_cloud/README.md)
 * [SmartDash Daemon (backend)](backends/smart_dash_daemon/README.md)
+* [SmartDash Gateway (backend)](backends/smart_dash_gateway/README.md)
 
 ## Features
 * [SmartDash Account (feature)](features/smart_dash_account/README.md)
