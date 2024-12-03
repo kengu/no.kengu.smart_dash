@@ -195,6 +195,9 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
   @override
   Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
     final unique = items.toSet();
+    if (unique.isEmpty) {
+      return BulkRepositoryResult.empty();
+    }
     final uniqueIds = unique.map(toId).map(toKey).toList();
     final current = await _loadAll(uniqueIds);
     final success = await _putAll([...unique]);
@@ -203,8 +206,14 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
       return BulkRepositoryResult<I, T>.empty();
     }
 
-    final created = current.where((e) => !uniqueIds.contains(toKey(toId(e))));
-    final updated = unique.where((e) => uniqueIds.contains(toKey(toId(e))));
+    final existingIds = current.map((e) => toKey(toId(e))).toList();
+
+    final created = unique.where(
+      (e) => !existingIds.contains(toKey(toId(e))),
+    );
+    final updated = unique.where(
+      (e) => existingIds.contains(toKey(toId(e))),
+    );
 
     return raise(BulkRepositoryResult<I, T>(
       created.toList(),

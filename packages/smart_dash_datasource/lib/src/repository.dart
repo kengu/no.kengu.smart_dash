@@ -385,7 +385,7 @@ final class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
       SingleRepositoryResult<I, T>(item, true, false, false);
 
   factory SingleRepositoryResult.updated(T item) =>
-      SingleRepositoryResult<I, T>(item, true, false, false);
+      SingleRepositoryResult<I, T>(item, false, true, false);
 
   factory SingleRepositoryResult.removed(T item) =>
       SingleRepositoryResult<I, T>(item, true, false, false);
