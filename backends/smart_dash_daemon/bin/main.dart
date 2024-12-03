@@ -40,7 +40,10 @@ Future<ProviderContainer> _bootstrap() async {
 
 Router _buildHandler(ProviderContainer ref) {
   // Build controllers
-  final configs = ServiceConfigController(ref);
+  final configs = ServiceConfigController(
+    ref,
+    ref.read(serviceConfigHiveRepositoryProvider),
+  );
   final integrations = IntegrationController(ref);
 
   return Router()

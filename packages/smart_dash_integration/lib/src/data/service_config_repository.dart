@@ -7,9 +7,11 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'service_config_repository.g.dart';
 
-class ServiceConfigRepository
+typedef ServiceConfigRepository = BulkHiveRepository<String, ServiceConfig>;
+
+class ServiceConfigHiveRepository
     extends BulkHiveRepository<String, ServiceConfig> {
-  ServiceConfigRepository(super.ref)
+  ServiceConfigHiveRepository(super.ref)
       : super(
           key: 'integration',
           box: 'configuration',
@@ -31,9 +33,9 @@ class ServiceConfigRepository
 }
 
 @Riverpod(keepAlive: true)
-ServiceConfigRepository serviceConfigRepository(
-    ServiceConfigRepositoryRef ref) {
-  return ServiceConfigRepository(ref);
+ServiceConfigHiveRepository serviceConfigHiveRepository(
+    ServiceConfigHiveRepositoryRef ref) {
+  return ServiceConfigHiveRepository(ref);
 }
 
 class ServiceConfigAdapter extends TypedAdapter<ServiceConfig> {

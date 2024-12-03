@@ -4,7 +4,7 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class ServiceConfigController extends BulkRepositoryController<String,
     ServiceConfig, ServiceConfigRepository> {
-  ServiceConfigController(super.ref);
+  ServiceConfigController(super.ref, this.repo);
 
   static const id = 'id';
   static const key = 'key';
@@ -13,7 +13,7 @@ class ServiceConfigController extends BulkRepositoryController<String,
   static const data = 'data';
 
   @override
-  ServiceConfigRepository get repo => ref.read(serviceConfigRepositoryProvider);
+  final ServiceConfigRepository repo;
 
   @override
   String toId(String key) {
