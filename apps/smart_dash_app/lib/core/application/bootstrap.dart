@@ -32,7 +32,7 @@ class Bootstrap extends _$Bootstrap {
   Future<Bootstrap> build() async {
     assert(_init, '$Bootstrap should only build once!');
 
-    _log.info('Bootstrap: Initializing...');
+    _log.info('Initializing...');
     _init = false;
 
     MediaKit.ensureInitialized();
@@ -122,7 +122,7 @@ class Bootstrap extends _$Bootstrap {
     // Force first pump of events
     ref.read(historyManagerProvider).pump();
 
-    _log.info('Bootstrap: Completed');
+    _log.info('Completed');
 
     return this;
   }

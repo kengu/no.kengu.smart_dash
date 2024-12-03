@@ -29,12 +29,14 @@ class Bootstrap extends _$Bootstrap {
   Future<Bootstrap> build() async {
     assert(_init, '$Bootstrap should only build once!');
 
-    _log.info('Bootstrap: Initializing...');
+    _log.info('Initializing...');
     _init = false;
 
     // Initialize system dirs provider for Flutter
     final dirs = await _initSystemDirs();
-    _log.info('Working directory is ${dirs.documentsDir.absolute.path}');
+    _log.info(
+      'Working directory is ${dirs.documentsDir.absolute.path}',
+    );
 
     // Build integrations
     /*final services =*/ await _build([
@@ -94,7 +96,7 @@ class Bootstrap extends _$Bootstrap {
     // Force first pump of events
     ref.read(historyManagerProvider).pump();
 
-    _log.info('Bootstrap: Completed');
+    _log.info('Completed');
 
     return this;
   }
