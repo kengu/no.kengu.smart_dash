@@ -4,7 +4,7 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class ServiceConfigController extends BulkRepositoryController<String,
     ServiceConfig, ServiceConfigRepository> {
-  ServiceConfigController(super.ref, this.repo);
+  ServiceConfigController(this.repo);
 
   static const id = 'id';
   static const key = 'key';

@@ -102,7 +102,7 @@ class Bootstrap extends _$Bootstrap {
   }
 
   Future<List<DriverService>> _build(List<Installer> list) async {
-    final repo = ref.read(serviceConfigRepositoryProvider);
+    final repo = ref.read(serviceConfigHiveRepositoryProvider);
 
     final configs = await repo.getAll();
 
