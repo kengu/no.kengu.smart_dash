@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -22,7 +23,7 @@ class ServiceConfigRepository
 
   @override
   String toId(ServiceConfig item) {
-    return item.key;
+    return [item.key, item.id].whereNotNull().join(':');
   }
 
   Future<List<ServiceConfig>> serviceWhere(String key) =>

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:optional/optional.dart';
 
 part 'integration.freezed.dart';
 part 'integration.g.dart';
@@ -72,5 +73,9 @@ enum IntegrationType {
   location,
   camera,
   weather,
-  snow,
+  snow;
+
+  static Optional<IntegrationType> of(String name) {
+    return values.firstWhereOptional((e) => e.name == name);
+  }
 }

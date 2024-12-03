@@ -49,15 +49,7 @@ Router _buildHandler(ProviderContainer ref) {
 }
 
 // TODO: Move to utils for backends
-String _getDbPath(ArgResults argResults) {
-  final dbPath = argResults[argDbPath] as String;
-  final dbDir = Directory(dbPath)..createSync();
-  return dbDir.absolute.path;
-}
-
-// TODO: Move to utils for backends
 const argPort = 'port';
-const argDbPath = 'db-path';
 const argLogLevel = 'log-level';
 
 ArgResults _parseArgs(List<String> args) {
@@ -67,9 +59,8 @@ ArgResults _parseArgs(List<String> args) {
       abbr: 'p',
       // For running in containers, we respect
       // the PORT environment variable.
-      defaultsTo: Platform.environment['PORT'] ?? '8080',
+      defaultsTo: Platform.environment['PORT'] ?? '8081',
     )
-    ..addOption(argDbPath, abbr: 'd', defaultsTo: '.db')
     ..addOption(argLogLevel, abbr: 'l', defaultsTo: 'INFO');
 
   return parser.parse(args);

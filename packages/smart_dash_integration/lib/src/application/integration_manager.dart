@@ -20,12 +20,12 @@ class IntegrationManager {
     _builders[type] = builder;
   }
 
-  Optional<Integration> get(String key) {
-    return Optional.ofNullable(_integrations[key]);
-  }
-
   IntegrationMap getAll() {
     return Map.from(_integrations);
+  }
+
+  Optional<Integration> get(String key) {
+    return Optional.ofNullable(_integrations[key]);
   }
 
   IntegrationMap where(Function(Integration e) test) {
@@ -46,6 +46,14 @@ class IntegrationManager {
       services.add(service);
     }
     return services;
+  }
+
+  bool supports(IntegrationType type) {
+    return _builders.containsKey(type);
+  }
+
+  bool exists(String key) {
+    return _integrations.containsKey(key);
   }
 }
 
