@@ -1,10 +1,12 @@
 import 'package:collection/collection.dart';
+import 'package:optional/optional.dart';
+import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class ServiceConfigController extends BulkRepositoryController<String,
     ServiceConfig, ServiceConfigRepository> {
-  ServiceConfigController(this.repo);
+  ServiceConfigController(this.integrations, this.repo);
 
   static const id = 'id';
   static const key = 'key';
@@ -14,6 +16,8 @@ class ServiceConfigController extends BulkRepositoryController<String,
 
   @override
   final ServiceConfigRepository repo;
+
+  final IntegrationManager integrations;
 
   @override
   String toId(String key) {
@@ -65,6 +69,44 @@ class ServiceConfigController extends BulkRepositoryController<String,
       }
     }
     return json;
+  }
+
+  @override
+  Future<Optional<ProblemDetails>> validate(Uri uri, ServiceConfig item) async {
+    final integration = integrations.get(item.key);
+    if (!integration.isPresent) {
+      return Optional.of(
+        ProblemDetails(
+          status: 400,
+          type: 'integration-not-found',
+          title: 'Integration not found',
+          detail: 'Integration[${integration.value.type.name}] '
+              'for $type[${item.key}] not found',
+          instance: '$uri',
+        ),
+      );
+    }
+
+    if (integration.value.instances > 0) {
+      final exists = await repo.exists(repo.toId(item));
+      if (!exists) {
+        final items = await repo.where((e) => e.key == item.key);
+        if (items.length >= integration.value.instances) {
+          return Optional.of(
+            ProblemDetails(
+              status: 400,
+              type: 'integration-instances-exceeded',
+              title: 'Integration instances exceeded',
+              detail: 'Integration[${integration.value.type.name}] '
+                  'instance limit is ${integration.value.instances}',
+              instance: '$uri',
+            ),
+          );
+        }
+      }
+    }
+
+    return Optional.empty();
   }
 
   @override

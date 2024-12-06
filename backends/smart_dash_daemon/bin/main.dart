@@ -39,11 +39,11 @@ Future<ProviderContainer> _bootstrap() async {
 }
 
 Router _buildHandler(ProviderContainer ref) {
-  // Build controllers
+  final integrations = IntegrationController(ref);
   final configs = ServiceConfigController(
+    integrations.manager,
     ref.read(serviceConfigHiveRepositoryProvider),
   );
-  final integrations = IntegrationController(ref);
 
   return Router()
     ..mount('/', configs.router.call)

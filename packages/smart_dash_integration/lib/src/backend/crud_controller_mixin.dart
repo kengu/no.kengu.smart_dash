@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:problem_details/problem_details.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -23,6 +24,10 @@ mixin CRUDControllerMixin<I, T> {
   Future<List<T>> getAll();
   Future<List<T>> where(Map<String, List<String>> query) {
     throw UnimplementedError('$runtimeType does not implement where()');
+  }
+
+  Future<Optional<ProblemDetails>> validate(Uri uri, T item) async {
+    return const Optional.empty();
   }
 
   Future<SingleRepositoryResult<I, T>> remove(T item) {
@@ -188,6 +193,14 @@ mixin CRUDControllerMixin<I, T> {
           );
         }
 
+        final problem = await validate(uri, item);
+        if (problem.isPresent) {
+          return Response.badRequest(
+            body: jsonEncode(problem.value.toJson()),
+            headers: {'content-type': 'application/problem+json'},
+          );
+        }
+
         final result = await addOrUpdate(item);
         return Response(
           201,
@@ -250,6 +263,15 @@ mixin CRUDControllerMixin<I, T> {
         }
 
         final item = fromJson(json);
+
+        final problem = await validate(uri, item);
+        if (problem.isPresent) {
+          return Response.badRequest(
+            body: jsonEncode(problem.value.toJson()),
+            headers: {'content-type': 'application/problem+json'},
+          );
+        }
+
         if (item == existing.value) {
           return Response.notModified(
             headers: {'Content-Type': 'application/json'},
@@ -370,6 +392,14 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
           }
 
           final item = fromJson(json);
+
+          final problem = await validate(uri, item);
+          if (problem.isPresent) {
+            return Response.badRequest(
+              body: jsonEncode(problem.value.toJson()),
+              headers: {'content-type': 'application/problem+json'},
+            );
+          }
           if (!existing.isPresent ||
               existing.isPresent && item != existing.value) {
             items.add(item);
@@ -450,6 +480,15 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
           }
 
           final item = fromJson(json);
+
+          final problem = await validate(uri, item);
+          if (problem.isPresent) {
+            return Response.badRequest(
+              body: jsonEncode(problem.value.toJson()),
+              headers: {'content-type': 'application/problem+json'},
+            );
+          }
+
           if (item != existing.value) {
             items.add(item);
           }
@@ -470,10 +509,8 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
 
         return Response(
           200,
-          body: jsonEncode({
-            'updated': result.updated.map(toJson).toList(),
-          }),
           headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'updated': result.updated.map(toJson).toList()}),
         );
       } catch (error, stackTrace) {
         log.shout(
