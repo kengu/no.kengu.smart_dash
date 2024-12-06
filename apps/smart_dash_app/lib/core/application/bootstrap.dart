@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:media_kit/media_kit.dart';
@@ -111,7 +113,9 @@ class Bootstrap extends _$Bootstrap {
 
     // Start other services
     final mqtt = ref.read(mqttServiceProvider);
-    await mqtt.connect(user.userId);
+
+    // We do not wait for connections to complete
+    unawaited(mqtt.connect(user.userId));
 
     // TODO: Refactor into flowService
     ref.read(blockManagerProvider).start();

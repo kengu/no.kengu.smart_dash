@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:logging/logging.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:path/path.dart' as path;
@@ -85,7 +87,8 @@ class Bootstrap extends _$Bootstrap {
 
     // Start other services
     final mqtt = ref.read(mqttServiceProvider);
-    await mqtt.connect(nanoid());
+    // We do not wait for connections to complete
+    unawaited(mqtt.connect(nanoid()));
 
     // TODO: Refactor into flowService
     ref.read(blockManagerProvider).start();
