@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:smart_dash_controller/smart_dash_controller.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class ServiceConfigController extends BulkRepositoryController<String,

@@ -66,6 +66,7 @@ where each module type serves a specific purpose:
 
 ## Packages
 * [SmartDash Common](packages/smart_dash_common/README.md): Shared utilities and functionality.
+* [SmartDash Controller](packages/smart_dash_controller/README.md): Shared functionality for API controllers.
 * [SmartDash Datasource](packages/smart_dash_datasource/README.md): Data access and persistence-related utilities.
 * [SmartDash Integration](packages/smart_dash_integration/README.md): Common logic for integrating with third-party services.
 * [Restoration Web Plugin](packages/restoration_web_plugin/README.md): Flutter plugin for the web to manage browser-related data persistence.

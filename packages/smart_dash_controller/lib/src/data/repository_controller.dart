@@ -1,8 +1,8 @@
 import 'package:optional/optional.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
+import 'package:smart_dash_controller/src/crud_controller_mixin.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
-import 'package:smart_dash_integration/src/backend/crud_controller_mixin.dart';
 
 abstract class RepositoryController<I, T, R extends Repository<I, T>>
     with CRUDControllerMixin<I, T> {

@@ -1,33 +1,30 @@
-name: smart_dash_daemon
-description: A Smart Dash daemon service for integrations with devices
+name: smart_dash_controller
+description: A starting point for Dart libraries or applications.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
+# Add regular dependencies here.
 dependencies:
+
   # Smart Dash packages (managed by Mesos)
-  smart_dash_snow: any
-  smart_dash_mqtt: any
-  smart_dash_flow: any
   smart_dash_common: any
-  smart_dash_camera: any
-  smart_dash_device: any
-  smart_dash_weather: any
-  smart_dash_analytics: any
-  smart_dash_controller: any
+  smart_dash_datasource: any
   smart_dash_integration: any
 
-  args: ^2.6.0
-  path: ^1.9.1
-  nanoid: ^1.0.0
+  async: ^2.11.0
+  strings: ^3.1.1
   logging: ^1.2.0
   optional: ^6.1.0+1
+  collection: ^1.18.0
+  universal_io: ^2.2.2
+  stream_transform: ^2.1.0
 
+  dio: ^5.4.3+1
   shelf: ^1.4.1
   shelf_router: ^1.1.4
-  universal_io: ^2.2.2
   problem_details: ^0.0.2
 
   riverpod: ^3.0.0-dev.3
@@ -36,8 +33,6 @@ dependencies:
   riverpod_annotation: ^3.0.0-dev.3
 
 dev_dependencies:
-  http: ^1.2.2
-
   test: ^1.25.8
   lints: ^3.0.0
   custom_lint: ^0.5.11

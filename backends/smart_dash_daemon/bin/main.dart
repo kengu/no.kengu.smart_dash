@@ -6,6 +6,7 @@ import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:smart_dash_controller/smart_dash_controller.dart';
 import 'package:smart_dash_daemon/bootstrap.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
