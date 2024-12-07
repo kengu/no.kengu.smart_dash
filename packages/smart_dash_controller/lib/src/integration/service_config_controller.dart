@@ -3,10 +3,16 @@ import 'package:optional/optional.dart';
 import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_controller/smart_dash_controller.dart';
+import 'package:smart_dash_controller/src/websocket/websocket_controller_mixin.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
+import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 
 class ServiceConfigController extends BulkRepositoryController<String,
-    ServiceConfig, ServiceConfigRepository> {
+        ServiceConfig, ServiceConfigRepository>
+    with
+        WebsocketCRUDControllerMixin<String, ServiceConfig>,
+        WebsocketRepositoryControllerMixin<String, ServiceConfig,
+            ServiceConfigRepository> {
   ServiceConfigController(this.integrations, this.repo);
 
   static const id = 'id';
@@ -126,6 +132,16 @@ class ServiceConfigController extends BulkRepositoryController<String,
       }
     }
     return query.length == matches;
+  }
+
+  @override
+  Future<WebSocketMessage> onMessage(WebSocketMessage message) async {
+    // TODO: Implement handling
+    return WebSocketMessage.response(
+      message: 'OK',
+      channel: message.channel,
+      action: WebSocketAction.cmd,
+    );
   }
 
   @override

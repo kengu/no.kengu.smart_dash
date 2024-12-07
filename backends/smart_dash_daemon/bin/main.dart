@@ -9,6 +9,7 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_controller/smart_dash_controller.dart';
 import 'package:smart_dash_daemon/bootstrap.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
+import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 
 typedef Installer = IntegrationType Function(ProviderContainer ref);
 
@@ -16,6 +17,7 @@ void main(List<String> args) async {
   // Prepare
   final vars = _parseArgs(args);
   final log = _initLogger(vars, 'Daemon');
+  final websocket = WebSocketServerMultiplexer();
 
   // Bootstrap integrations
   final ref = await _bootstrap();
@@ -23,12 +25,13 @@ void main(List<String> args) async {
   // Assembling the pipeline
   final handler = Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(_buildHandler(ref).call);
+      .addMiddleware(websocket.middleware('ws'))
+      .addHandler(_buildHandler(ref, websocket).call);
 
   // Launch the server
   final ip = InternetAddress.anyIPv4;
   final port = int.parse(vars[argPort] as String);
-  final server = await serve(handler, ip, port);
+  final server = (await serve(handler, ip, port))..autoCompress = true;
 
   log.info('Server listening on port ${server.port}');
 }
@@ -39,12 +42,14 @@ Future<ProviderContainer> _bootstrap() async {
   return ref;
 }
 
-Router _buildHandler(ProviderContainer ref) {
+Router _buildHandler(
+    ProviderContainer ref, WebSocketServerMultiplexer websocket) {
   final integrations = IntegrationController(ref);
   final configs = ServiceConfigController(
     integrations.manager,
     ref.read(serviceConfigHiveRepositoryProvider),
   );
+  configs.registerChannel(websocket);
 
   return Router()
     ..mount('/', configs.router.call)
@@ -60,8 +65,8 @@ ArgResults _parseArgs(List<String> args) {
     ..addOption(
       argPort,
       abbr: 'p',
-      // For running in containers, we respect
-      // the PORT environment variable.
+      // For running in containers,
+      // we respect the PORT environment variable.
       defaultsTo: Platform.environment['PORT'] ?? '8081',
     )
     ..addOption(argLogLevel, abbr: 'l', defaultsTo: 'INFO');
