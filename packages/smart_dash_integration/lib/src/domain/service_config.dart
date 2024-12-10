@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -27,6 +28,31 @@ class ServiceConfig with _$ServiceConfig {
           ),
         ),
       );
+
+  static String toKey(String id) {
+    return toParts(id).first;
+  }
+
+  static String toId(String id) {
+    final parts = toParts(id);
+    return parts.length == 2 ? parts.last : '';
+  }
+
+  static bool endsWithId(String id) {
+    return id.contains(':');
+  }
+
+  static List<String> toParts(String id) {
+    return id.split(':');
+  }
+
+  static String toUniqueId(ServiceConfig config) {
+    return toUniqueIdFromParts(config.key, config.id);
+  }
+
+  static String toUniqueIdFromParts(Object? key, Object? id) {
+    return [key, id].whereNotNull().join(':');
+  }
 
   static String toBasicAuth(String username, String password) =>
       'Basic ${base64Encode(utf8.encode('$username:$password'))}';

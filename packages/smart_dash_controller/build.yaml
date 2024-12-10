@@ -21,3 +21,7 @@ targets:
 #          generic_argument_factories: false
 #          ignore_unannotated: false
 #          include_if_null: true
+      freezed:
+        options:
+          explicit_to_json: true
+          generic_argument_factories: true

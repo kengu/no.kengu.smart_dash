@@ -547,6 +547,17 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
         final items = <T>[];
         final params = toParams(request, keys);
         for (final it in raw) {
+          final json = ensure(it, params);
+          final missing = toMissingKeys(json, params);
+          if (missing.isNotEmpty) {
+            return Problems.badRequest(
+              type: '${type.toLowerCase()}-body-invalid',
+              title: '$type has invalid data',
+              detail: '${missing.map((id) => '$type.$id')} '
+                  '${request.params.length == 1 ? 'is' : 'are'} missing',
+              instance: '/$uri',
+            );
+          }
           final id = toIdFromJson(it, params);
           final item = await get(id);
           if (!item.isPresent) {

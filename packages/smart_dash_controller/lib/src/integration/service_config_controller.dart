@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -36,10 +35,10 @@ class ServiceConfigController extends BulkRepositoryController<String,
     JsonObject json,
     Map<String, String?> params,
   ) {
-    return [
+    return ServiceConfig.toUniqueIdFromParts(
       params[key] ?? json[key],
       params[id] ?? (json[data]! as Map)[id],
-    ].whereNotNull().join(':');
+    );
   }
 
   @override
@@ -155,13 +154,12 @@ class ServiceConfigController extends BulkRepositoryController<String,
       ..post('/integration/config', handlePostAll([key], true))
       ..put('/integration/config', handlePutAll([key]))
       ..delete('/integration/config', handleDeleteAll([key]))
-      // Single commands on key
-      ..put('/integration/<$key>/config', handlePut([key]))
-      ..post('/integration/<$key>/config', handlePost([key]))
-      ..delete('/integration/<$key>/config', handleDelete([key]))
+      // Batch commands on key
+      ..post('/integration/<$key>/config', handlePostAll([key, id]))
+      ..put('/integration/<$key>/config', handlePutAll([key, id]))
+      ..delete('/integration/<$key>/config', handleDeleteAll([key, id]))
       // Single commands on key and id
       ..put('/integration/<$key>/config/<$id>', handlePut([key, id]))
-      ..post('/integration/<$key>/config/<$id>', handlePost([key, id]))
       ..delete('/integration/<$key>/config/<$id>', handleDelete([key, id]));
   }
 }

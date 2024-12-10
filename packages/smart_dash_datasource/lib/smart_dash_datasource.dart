@@ -9,3 +9,4 @@ export 'src/drift/connection.dart';
 export 'src/file_repository.dart';
 export 'src/hive_repository.dart';
 export 'src/repository.dart';
+export 'src/repository_client.dart';

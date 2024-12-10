@@ -9,7 +9,6 @@ export 'src/application/driver.dart';
 export 'src/application/driver_manager.dart';
 export 'src/application/driver_service.dart';
 export 'src/application/integration_manager.dart';
-export 'src/data/integration_client.dart';
 export 'src/data/service_config_repository.dart';
 export 'src/domain/integration.dart';
 export 'src/domain/service_config.dart';
