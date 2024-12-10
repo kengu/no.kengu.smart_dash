@@ -7,7 +7,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_daemon/bootstrap.dart';
-import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
+import 'package:smart_dash_home/smart_dash_home.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 

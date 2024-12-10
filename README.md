@@ -52,6 +52,7 @@ where each module type serves a specific purpose:
 
 ## Features
 * [SmartDash Account](features/smart_dash_account/README.md): Manages user accounts, authentication, and authorization.
+* [SmartDash Home](features/smart_dash_home/README.md): Manages integration for each home.
 * [SmartDash Geocoder](features/smart_dash_geocoder/README.md): Provides geolocation services and address resolution.
 * [SmartDash Analytics](features/smart_dash_analytics/README.md): Handles metrics and analysis of home and device data.
 * [SmartDash Flow](features/smart_dash_flow/README.md): Implements workflows and automations for smart homes.

@@ -2,7 +2,6 @@ import 'package:optional/optional.dart';
 import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
-import 'package:smart_dash_endpoint/src/websocket/websocket_controller_mixin.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 
