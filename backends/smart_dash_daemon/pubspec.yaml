@@ -15,9 +15,9 @@ dependencies:
   smart_dash_camera: any
   smart_dash_device: any
   smart_dash_weather: any
+  smart_dash_endpoint: any
   smart_dash_websocket: any
   smart_dash_analytics: any
-  smart_dash_controller: any
   smart_dash_integration: any
 
   args: ^2.6.0

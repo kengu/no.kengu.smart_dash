@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:smart_dash_controller/src/crud_controller_mixin.dart';
+import 'package:smart_dash_endpoint/src/crud_controller_mixin.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class IntegrationController with CRUDControllerMixin<String, Integration> {

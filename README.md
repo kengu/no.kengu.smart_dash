@@ -61,12 +61,12 @@ where each module type serves a specific purpose:
 * [SmartDash Device](features/smart_dash_device/README.md): Manages device-level interactions and control.
 * [SmartDash Camera](features/smart_dash_camera/README.md): Handles camera devices and related media streams.
 * [SmartDash Weather](features/smart_dash_weather/README.md): Integrates weather information services.
-* [SmartDash Presence)](features/smart_dash_presence/README.md): Manages presence detection and occupancy monitoring.
+* [SmartDash Presence](features/smart_dash_presence/README.md): Manages presence detection and occupancy monitoring.
 * [SmartDash Notification](features/smart_dash_notification/README.md): Sends notifications to users based on system events or alerts.
 
 ## Packages
 * [SmartDash Common](packages/smart_dash_common/README.md): Shared utilities and functionality.
-* [SmartDash Controller](packages/smart_dash_controller/README.md): Shared functionality for API controllers.
+* [SmartDash Endpoint](packages/smart_dash_endpoint/README.md): Shared functionality for API clients and controllers.
 * [SmartDash Integration](packages/smart_dash_integration/README.md): Common logic for integrating with third-party services.
 * [SmartDash Websocket](packages/smart_dash_websocket/README.md): Supports multiplexing messages over same connection.
 * [SmartDash Datasource](packages/smart_dash_datasource/README.md): Data access and persistence-related utilities.

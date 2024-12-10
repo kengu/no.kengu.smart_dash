@@ -1,5 +1,5 @@
 import 'package:smart_dash_common/smart_dash_common.dart';
-import 'package:smart_dash_controller/src/crud_controller_mixin.dart';
+import 'package:smart_dash_endpoint/src/crud_controller_mixin.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 

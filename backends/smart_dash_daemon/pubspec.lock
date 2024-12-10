@@ -1170,13 +1170,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  smart_dash_controller:
-    dependency: "direct main"
-    description:
-      path: "../../packages/smart_dash_controller"
-      relative: true
-    source: path
-    version: "1.0.0"
   smart_dash_datasource:
     dependency: "direct overridden"
     description:
@@ -1188,6 +1181,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../../features/smart_dash_device"
+      relative: true
+    source: path
+    version: "1.0.0"
+  smart_dash_endpoint:
+    dependency: "direct main"
+    description:
+      path: "../../packages/smart_dash_endpoint"
       relative: true
     source: path
     version: "1.0.0"

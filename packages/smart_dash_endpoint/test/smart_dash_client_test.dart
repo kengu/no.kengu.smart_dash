@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:smart_dash_controller/smart_dash_controller.dart';
-import 'package:smart_dash_datasource/smart_dash_datasource.dart';
+import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:test/test.dart';
 
@@ -249,7 +248,6 @@ void main() {
       final item1 = ServiceConfig.fromDefinition(foo);
       final item2 = ServiceConfig.fromDefinition(foo)
           .copyWith(data: {IntegrationField.id: '1'});
-      ;
       final items = [item1, item2];
       final url = '/integration/foo/config';
       when(mockDio.post(
