@@ -1546,6 +1546,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  smart_dash_endpoint:
+    dependency: "direct overridden"
+    description:
+      path: "../../packages/smart_dash_endpoint"
+      relative: true
+    source: path
+    version: "1.0.0"
   smart_dash_energy:
     dependency: "direct main"
     description:
@@ -1564,6 +1571,13 @@ packages:
     dependency: "direct overridden"
     description:
       path: "../../features/smart_dash_geocoder"
+      relative: true
+    source: path
+    version: "1.0.0"
+  smart_dash_home:
+    dependency: "direct overridden"
+    description:
+      path: "../../features/smart_dash_home"
       relative: true
     source: path
     version: "1.0.0"

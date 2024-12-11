@@ -1,6 +1,8 @@
 name: restoration_web_plugin
 description: A web platform plugin that implements missing state restoration support in flutter
 version: 1.0.0
+repository: https://github.com/kengu/no.kengu.smart_dash.git/packages/restoration_web_plugin
+publish_to: none
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

@@ -1,7 +1,8 @@
 name: smart_dash_gateway
 description: A server app using the shelf package and Docker.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/kengu/no.kengu.smart_dash.git/backends/smart_dash_gateway
+publish_to: none
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

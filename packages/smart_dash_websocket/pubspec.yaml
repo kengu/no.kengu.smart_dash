@@ -1,7 +1,8 @@
 name: smart_dash_websocket
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/kengu/no.kengu.smart_dash.git/packages/smart_dash_websocket
+publish_to: none
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

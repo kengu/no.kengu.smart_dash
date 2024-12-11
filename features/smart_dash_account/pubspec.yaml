@@ -1,7 +1,7 @@
 name: smart_dash_account
 description: Provides core functionality for managing user identities, profiles, and configurations.
 version: 1.0.0
-repository: https://github.com/kengu/no.kengu.smart_dash.git/packages/smart_dash_account
+repository: https://github.com/kengu/no.kengu.smart_dash.git/features/smart_dash_account
 publish_to: none
 
 environment:
@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
 
   # Smart Dash packages (managed by Mesos)
+  smart_dash_home: any
   smart_dash_common: any
   smart_dash_geocoder: any
   smart_dash_datasource: any

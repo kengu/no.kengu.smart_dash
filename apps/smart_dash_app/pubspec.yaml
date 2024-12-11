@@ -1,6 +1,7 @@
 name: smart_dash_app
 description: A custom smart home assistant for personal use
-publish_to: 'none'
+repository: https://github.com/kengu/no.kengu.smart_dash.git/apps/smart_dash_app
+publish_to: none
 
 version: 1.0.0+1
 
