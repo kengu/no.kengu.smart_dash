@@ -8,6 +8,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
+import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
 
 mixin CRUDControllerMixin<I, T> {
   String get type;
@@ -204,7 +205,11 @@ mixin CRUDControllerMixin<I, T> {
         final result = await addOrUpdate(item);
         return Response(
           201,
-          body: jsonEncode(toJson(result.item)),
+          body: jsonEncode(
+            SingleRepositoryResponse<I, T>.fromResult(
+              result,
+            ),
+          ),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (error, stackTrace) {
@@ -280,7 +285,11 @@ mixin CRUDControllerMixin<I, T> {
 
         final result = await addOrUpdate(item);
         return Response.ok(
-          jsonEncode(toJson(result.item)),
+          jsonEncode(
+            SingleRepositoryResponse<I, T>.fromResult(
+              result,
+            ).toJson((id) => id, toJson),
+          ),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (error, stackTrace) {
@@ -318,7 +327,11 @@ mixin CRUDControllerMixin<I, T> {
           item.value,
         );
         return Response.ok(
-          jsonEncode(result.item),
+          jsonEncode(
+            SingleRepositoryResponse<I, T>.fromResult(
+              result,
+            ).toJson((id) => id, toJson),
+          ),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (error, stackTrace) {
@@ -415,10 +428,11 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
         final result = await updateAll(items);
         return Response(
           result.updated.isEmpty ? 201 : 200,
-          body: jsonEncode({
-            'created': result.created.map(toJson).toList(),
-            'updated': result.updated.map(toJson).toList(),
-          }),
+          body: jsonEncode(
+            BulkRepositoryResponse.fromResult(
+              result,
+            ).toJson((id) => id, toJson),
+          ),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (error, stackTrace) {
@@ -510,7 +524,11 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
         return Response(
           200,
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'updated': result.updated.map(toJson).toList()}),
+          body: jsonEncode(
+            BulkRepositoryResponse.fromResult(
+              result,
+            ).toJson((id) => id, toJson),
+          ),
         );
       } catch (error, stackTrace) {
         log.shout(
@@ -574,12 +592,11 @@ mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
         final result = await removeAll(items);
         return Response(
           200,
-          body: jsonEncode({
-            'removed': result.removed
-                .map(toJson)
-                .map((e) => toIdFromJson(e, params))
-                .toList(),
-          }),
+          body: jsonEncode(
+            BulkRepositoryResponse.fromResult(
+              result,
+            ).toJson((id) => id, toJson),
+          ),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (error, stackTrace) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/equality.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
@@ -389,6 +390,20 @@ final class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
 
   factory SingleRepositoryResult.removed(T item) =>
       SingleRepositoryResult<I, T>(item, true, false, false);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SingleRepositoryResult<I, T> &&
+          runtimeType == other.runtimeType &&
+          item == other.item &&
+          updated == other.updated &&
+          created == other.created &&
+          removed == other.removed;
+
+  @override
+  int get hashCode =>
+      item.hashCode ^ updated.hashCode ^ created.hashCode ^ removed.hashCode;
 }
 
 final class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
@@ -439,6 +454,20 @@ final class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
 
   factory BulkRepositoryResult.removed(Iterable<T> items) =>
       BulkRepositoryResult<I, T>([], [], items.toList());
+
+  @override
+  bool operator ==(Object other) {
+    Function eq = const ListEquality().equals;
+    return identical(this, other) ||
+        other is BulkRepositoryResult<I, T> &&
+            runtimeType == other.runtimeType &&
+            eq(updated, other.updated) &&
+            eq(created, other.created) &&
+            eq(removed, other.removed);
+  }
+
+  @override
+  int get hashCode => updated.hashCode ^ created.hashCode ^ removed.hashCode;
 }
 
 class RepositoryEvent<I, T> {

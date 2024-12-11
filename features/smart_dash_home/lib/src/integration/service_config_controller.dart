@@ -85,7 +85,7 @@ class ServiceConfigController extends BulkRepositoryController<String,
           status: 400,
           type: 'integration-not-found',
           title: 'Integration not found',
-          detail: 'Integration[${integration.value.type.name}] '
+          detail: 'Integration[${item.key}] '
               'for $type[${item.key}] not found',
           instance: '$uri',
         ),
@@ -150,11 +150,11 @@ class ServiceConfigController extends BulkRepositoryController<String,
       ..get('/integration/<$key>/config', handleQuery([key], [ids]))
       ..get('/integration/<$key>/config/<$id>', handleGet([key, id]))
       // Batch commands
-      ..post('/integration/config', handlePostAll([key], true))
-      ..put('/integration/config', handlePutAll([key]))
-      ..delete('/integration/config', handleDeleteAll([key]))
+      ..post('/integration/config', handlePostAll([key, id], true))
+      ..put('/integration/config', handlePutAll([key, id]))
+      ..delete('/integration/config', handleDeleteAll([key, id]))
       // Batch commands on key
-      ..post('/integration/<$key>/config', handlePostAll([key, id]))
+      ..post('/integration/<$key>/config', handlePostAll([key, id], true))
       ..put('/integration/<$key>/config', handlePutAll([key, id]))
       ..delete('/integration/<$key>/config', handleDeleteAll([key, id]))
       // Single commands on key and id
