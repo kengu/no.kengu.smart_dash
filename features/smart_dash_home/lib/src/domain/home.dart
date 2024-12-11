@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_account/smart_dash_account.dart';
+import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
+import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'home.freezed.dart';
 part 'home.g.dart';
