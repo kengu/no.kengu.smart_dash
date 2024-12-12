@@ -16,7 +16,6 @@ typedef WeatherStateSelect = WeatherState Function(List<WeatherState>);
 
 /// A [WeatherService] for [WeatherState] lookup from [WeatherForecastDriver]
 /// that implements [IntegrationType.weather] integrations.
-
 class WeatherService extends DriverService<WeatherState, WeatherEvent,
     WeatherForecastDriver, WeatherForecastManager> {
   WeatherService(Ref ref) : super(ref, FutureCache(prefix: '$WeatherService'));
@@ -45,7 +44,7 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
   /// Get [WeatherState] for given [id]
   Future<Optional<WeatherState>> getNow(
     Identity id, {
-    Duration? ttl,
+    Duration? ttl = const Duration(seconds: 10),
   }) async {
     return cache.getOrFetch(
       'device:$id',
@@ -87,14 +86,14 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
     Duration period = const Duration(seconds: 10),
   }) async* {
     if (refresh) {
-      final next = await getNow(id);
+      final next = await getNow(id, ttl: period);
       if (next.isPresent) yield next.value;
     }
 
     yield* ref
         .read(timingServiceProvider)
         .events
-        .throttle(period.clamp(ttl, max))
+        .throttle(period.clamp(period, max))
         .asyncMap((e) => getNow(id))
         .where((e) => e.isPresent)
         .map((e) => e.value);
@@ -107,7 +106,7 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
   Future<Optional<WeatherState>> getForecast(
     PointGeometry point, {
     String? service,
-    Duration? ttl,
+    Duration? ttl = ttl,
     WeatherStateSelect? select,
   }) async {
     final states = await getForecasts(point, service: service, ttl: ttl);
@@ -151,7 +150,7 @@ class WeatherService extends DriverService<WeatherState, WeatherEvent,
   Future<List<WeatherState>> getForecasts(
     PointGeometry point, {
     String? service,
-    Duration? ttl,
+    Duration? ttl = ttl,
   }) async {
     final key = _cacheKey('forecasts', point.lat, point.lon);
     final result = await cache.getOrFetch<List<WeatherResponse>>(

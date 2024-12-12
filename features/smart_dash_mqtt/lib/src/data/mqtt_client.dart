@@ -79,6 +79,11 @@ class MqttClient {
       final status = await _api.connect(username, password);
       if (status != null) {
         _state = status.state;
+
+        _log.info(
+          'MqttClient >> Connect :: Client connection is [${_state.name.toUpperCase()}]',
+        );
+
         return isConnected;
       }
     } on NoConnectionException catch (e, stackTrace) {
