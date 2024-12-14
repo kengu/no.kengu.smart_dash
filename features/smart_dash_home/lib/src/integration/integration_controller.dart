@@ -2,10 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
-class IntegrationController with CRUDControllerMixin<String, Integration> {
+class IntegrationController
+    with RepositoryControllerMixin<String, Integration> {
   IntegrationController(this.ref);
 
   static const key = 'key';

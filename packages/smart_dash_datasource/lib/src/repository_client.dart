@@ -4,8 +4,6 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
-import 'repository_response.dart';
-
 enum RepositoryAction {
   query,
   create,
@@ -35,15 +33,23 @@ enum RepositoryAction {
 }
 
 abstract class RepositoryClient<I, T> {
-  RepositoryClient(this.api, this.type, {this.prefix = ''});
+  RepositoryClient(this.api, this.type, {this.prefix = ''}) {
+    if (api.interceptors.whereType<RepositoryClientInterceptor<T>>().isEmpty) {
+      _deserializer = Optional.of(RepositoryClientInterceptor<T>(this.toItem));
+      api.interceptors.add(_deserializer.value);
+    }
+  }
 
   final Dio api;
   final String type;
   final String prefix;
 
+  Optional<RepositoryClientInterceptor<T>> _deserializer = Optional.empty();
+
   Logger get log => Logger('$runtimeType');
 
   I toId(T item);
+  T toItem(JsonObject data);
 
   Future<bool> exists(I id) async {
     final result = await get(id);
@@ -178,6 +184,9 @@ abstract class RepositoryClient<I, T> {
 
   void close() {
     api.close(force: true);
+    if (_deserializer.isPresent) {
+      api.interceptors.remove(_deserializer.value);
+    }
   }
 
   bool _validateStatus(RepositoryAction action, int? status, String path) {
@@ -201,7 +210,7 @@ mixin BulkRepositoryClientMixin<I, T> on RepositoryClient<I, T> {
     );
   }
 
-  Future<BulkRepositoryResult<I, T>> updateAll(List<T> items) {
+  Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) {
     return guard(
       () => _executeBulk(RepositoryAction.update, items),
       task: 'updateAll',
@@ -210,7 +219,7 @@ mixin BulkRepositoryClientMixin<I, T> on RepositoryClient<I, T> {
     );
   }
 
-  Future<BulkRepositoryResult<I, T>> removeAll(List<T> items) {
+  Future<BulkRepositoryResult<I, T>> removeAll(Iterable<T> items) {
     return guard(
       () => _executeBulk(RepositoryAction.remove, items),
       task: 'removeAll',
@@ -220,11 +229,40 @@ mixin BulkRepositoryClientMixin<I, T> on RepositoryClient<I, T> {
   }
 
   Future<BulkRepositoryResult<I, T>> _executeBulk(
-      RepositoryAction action, List<T> items) async {
+      RepositoryAction action, Iterable<T> items) async {
     final response = await _execute<BulkRepositoryResponse<I, T>>(
         action, items, items.map(toId).toList());
     return response.isPresent
         ? response.value.toResult()
         : BulkRepositoryResult<I, T>.empty();
+  }
+}
+
+class RepositoryClientInterceptor<T> extends InterceptorsWrapper {
+  RepositoryClientInterceptor(this.toItem);
+
+  T Function(JsonObject data) toItem;
+
+  @override
+  Future onResponse(
+    Response response,
+    ResponseInterceptorHandler handler,
+  ) async {
+    if (response.data is JsonObject) {
+      super.onResponse(
+        Response<T>(
+          extra: response.extra,
+          headers: response.headers,
+          data: toItem(response.data),
+          redirects: response.redirects,
+          isRedirect: response.isRedirect,
+          statusCode: response.statusCode,
+          statusMessage: response.statusMessage,
+          requestOptions: response.requestOptions,
+        ),
+        handler,
+      );
+    }
+    return super.onResponse(response, handler);
   }
 }

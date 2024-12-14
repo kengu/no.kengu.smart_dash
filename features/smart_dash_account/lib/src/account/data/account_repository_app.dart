@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
-
-import 'account_client.dart';
 
 part 'account_repository_app.g.dart';
 
@@ -49,42 +46,18 @@ class LocalAccountRepository
         );
 }
 
-class RemoteAccountRepository extends Repository<String, Account>
-    with AccountRepositoryMixin {
-  RemoteAccountRepository(super.ref);
+class RemoteAccountRepository extends RemoteRepository<String, Account>
+    with BulkRemoteRepositoryMixin<String, Account>, AccountRepositoryMixin {
+  RemoteAccountRepository(super.ref, this.baseUrl);
 
-  AccountClient _client() => ref.read(accountClientProvider);
-
-  @override
-  Future<bool> exists(String userId) => _client().exists(userId);
+  final String baseUrl;
 
   @override
-  Future<Optional<Account>> get(String userId) => _client().get(userId);
-
-  @override
-  Future<List<Account>> getAll([List<String> userIds = const []]) =>
-      _client().getAll(userIds);
-
-  @override
-  Future<SingleRepositoryResult<String, Account>> addOrUpdate(
-      Account account) async {
-    final result = await _client().update(account);
-    return result.isPresent
-        ? SingleRepositoryResult<String, Account>.updated(result.value)
-        : SingleRepositoryResult<String, Account>.empty(account);
-  }
-
-  @override
-  Future<SingleRepositoryResult<String, Account>> remove(
-      Account account) async {
-    final items = await _client().delete(account);
-    return SingleRepositoryResult<String, Account>.removed(items);
-  }
+  AccountClient get client => ref.read(accountClientProvider(baseUrl));
 
   @override
   Future<void> clear() {
-    // TODO: implement clear
-    throw UnimplementedError();
+    throw UnsupportedError('$RemoteAccountRepository does not support clear');
   }
 }
 
@@ -111,6 +84,6 @@ AppAccountRepository appAccountRepository(AppAccountRepositoryRef ref) {
   return AppAccountRepository(
     ref,
     local: LocalAccountRepository(ref),
-    remote: RemoteAccountRepository(ref),
+    remote: RemoteAccountRepository(ref, 'http://localhost:8080'),
   );
 }

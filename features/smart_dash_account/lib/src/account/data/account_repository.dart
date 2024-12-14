@@ -37,6 +37,5 @@ mixin AccountRepositoryMixin on AccountRepository {
     return data == null ? null : Account.fromJson(jsonDecode(data));
   }
 
-  /// Clear all accounts from storage
   Future<void> clear();
 }

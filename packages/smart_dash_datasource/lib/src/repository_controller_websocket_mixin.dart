@@ -1,11 +1,10 @@
 import 'package:smart_dash_common/smart_dash_common.dart';
-import 'package:smart_dash_endpoint/src/crud_controller_mixin.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 
 typedef _SendMessage = void Function(WebSocketMessage message);
 
-mixin WebsocketCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
+mixin WebsocketCRUDControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
   late _SendMessage _sendMessage;
 
   String get channel => type.toLowerCase();

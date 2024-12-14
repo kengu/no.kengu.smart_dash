@@ -1,11 +1,10 @@
 import 'package:optional/optional.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
-import 'package:smart_dash_endpoint/src/crud_controller_mixin.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 abstract class RepositoryController<I, T, R extends Repository<I, T>>
-    with CRUDControllerMixin<I, T> {
+    with RepositoryControllerMixin<I, T> {
   RepositoryController() : type = typeOf<T>().toString();
 
   @override
@@ -42,7 +41,8 @@ abstract class RepositoryController<I, T, R extends Repository<I, T>>
 
 abstract class BulkRepositoryController<I, T,
         R extends BulkWriteRepositoryMixin<I, T>>
-    extends RepositoryController<I, T, R> with BulkCRUDControllerMixin<I, T> {
+    extends RepositoryController<I, T, R>
+    with BulkRepositoryControllerMixin<I, T> {
   BulkRepositoryController();
 
   @override

@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:universal_io/io.dart';
-
-import 'hive_repository.dart';
 
 class FlutterHiveCipherStorage extends HiveCipherStorage {
   static final storage = _build();

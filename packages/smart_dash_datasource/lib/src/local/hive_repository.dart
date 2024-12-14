@@ -1,7 +1,6 @@
 import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
-
-import 'repository.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 enum HiveTypeId {
   // ========== IMPORTANT ==========

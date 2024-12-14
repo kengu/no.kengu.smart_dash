@@ -7,8 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:optional/optional.dart';
 import 'package:shelf/shelf.dart' as s;
-import 'package:smart_dash_datasource/src/repository.dart';
-import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_home/smart_dash_home.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -29,6 +28,10 @@ void main() {
 
     setUp(() {
       mockDio = MockDio();
+      when(mockDio.interceptors).thenReturn(Interceptors());
+      mockDio.interceptors.add(
+        RepositoryClientInterceptor(ServiceConfig.fromJson),
+      );
       apiClient = ServiceConfigClient(mockDio);
     });
 

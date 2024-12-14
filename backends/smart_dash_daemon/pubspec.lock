@@ -1184,13 +1184,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  smart_dash_endpoint:
-    dependency: "direct main"
-    description:
-      path: "../../packages/smart_dash_endpoint"
-      relative: true
-    source: path
-    version: "1.0.0"
   smart_dash_flow:
     dependency: "direct main"
     description:

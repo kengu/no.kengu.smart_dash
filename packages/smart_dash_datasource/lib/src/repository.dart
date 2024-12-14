@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:collection/equality.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';

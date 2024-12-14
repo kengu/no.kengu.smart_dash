@@ -6,5 +6,5 @@ library;
 export 'package:hive_flutter/hive_flutter.dart';
 
 export 'smart_dash_datasource.dart';
-export 'src/hive_repository_flutter.dart';
-export 'src/shared_preferences_repository.dart';
+export 'src/local/hive_repository_flutter.dart';
+export 'src/local/shared_preferences_repository.dart';

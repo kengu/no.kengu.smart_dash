@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
+import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
@@ -9,6 +9,11 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
   @override
   String toId(ServiceConfig item) {
     return ServiceConfig.toUniqueId(item);
+  }
+
+  @override
+  ServiceConfig toItem(JsonObject data) {
+    return ServiceConfig.fromJson(data);
   }
 
   @override

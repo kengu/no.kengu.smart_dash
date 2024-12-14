@@ -8,9 +8,8 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
-import 'package:smart_dash_endpoint/smart_dash_endpoint.dart';
 
-mixin CRUDControllerMixin<I, T> {
+mixin RepositoryControllerMixin<I, T> {
   String get type;
   Logger get log => Logger('$runtimeType');
 
@@ -351,7 +350,7 @@ mixin CRUDControllerMixin<I, T> {
   }
 }
 
-mixin BulkCRUDControllerMixin<I, T> on CRUDControllerMixin<I, T> {
+mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
   @override
   Future<BulkRepositoryResult<I, T>> updateAll(List<T> items) {
     throw UnimplementedError('$runtimeType does not implement updateAll()');

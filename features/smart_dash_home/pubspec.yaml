@@ -14,9 +14,9 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
-  smart_dash_endpoint: any
   smart_dash_geocoder: any
   smart_dash_websocket: any
+  smart_dash_datasource: any
   smart_dash_integration: any
 
   optional: ^6.1.0+1
