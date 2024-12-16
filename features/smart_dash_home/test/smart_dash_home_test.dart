@@ -551,12 +551,15 @@ void main() {
       expect(result.removed, items);
     });
   });
+
   group('ServiceConfigController', () {
     late MockIntegrationManager mockManager;
     late MockServiceConfigRepository mockRepo;
     late ServiceConfigController controller;
     late s.Handler app;
+
     final foo = _define('foo');
+    const String host = 'http://example.com';
 
     setUp(() {
       mockManager = MockIntegrationManager();
@@ -578,52 +581,68 @@ void main() {
     });
 
     test(
-        'validate should return integration-not-found problem if integration is missing',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final item = _newConfig(foo);
+      'validate should return integration-not-found problem if integration is missing',
+      () async {
+        final testUri = Uri.parse(host);
+        final item = _newConfig(foo);
 
-      when(mockManager.get(any)).thenReturn(Optional.empty());
+        when(mockManager.get(any)).thenReturn(Optional.empty());
 
-      final result = await controller.validate(testUri, item);
+        final result = await controller.validate(
+          RepositoryAction.create,
+          testUri,
+          item,
+        );
 
-      expect(result.isPresent, isTrue);
-      expect(result.value.status, equals(400));
-      expect(result.value.type, equals('integration-not-found'));
-    });
-
-    test('validate should return empty optional for valid configuration',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final item = _newConfig(foo);
-
-      _mockIntegrationGet(mockManager, foo);
-      when(mockRepo.where(any)).thenAnswer((_) async => []);
-      _mockServiceConfigExistsNone(mockRepo);
-
-      final result = await controller.validate(testUri, item);
-
-      expect(result.isPresent, isFalse);
-    });
+        expect(result.isPresent, isTrue);
+        expect(result.value.status, equals(400));
+        expect(result.value.type, equals('integration-not-found'));
+      },
+    );
 
     test(
-        'validate should return integration-instances-exceeded problem if limit exceeded',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final bar = _define('bar', 1);
-      final item1 = _newConfig(bar, '1');
-      final item2 = _newConfig(bar, '2');
+      'validate should return empty optional for valid configuration',
+      () async {
+        final testUri = Uri.parse(host);
+        final item = _newConfig(foo);
 
-      _mockIntegrationGet(mockManager, bar);
-      _mockServiceConfigExistsNone(mockRepo);
-      _mockServiceConfigWhere(mockRepo, [item2]);
+        _mockIntegrationGet(mockManager, foo);
+        when(mockRepo.where(any)).thenAnswer((_) async => []);
+        _mockServiceConfigExistsNone(mockRepo);
 
-      final result = await controller.validate(testUri, item1);
+        final result = await controller.validate(
+          RepositoryAction.create,
+          testUri,
+          item,
+        );
 
-      expect(result.isPresent, isTrue);
-      expect(result.value.status, equals(400));
-      expect(result.value.type, equals('integration-instances-exceeded'));
-    });
+        expect(result.isPresent, isFalse);
+      },
+    );
+
+    test(
+      'validate should return integration-instances-exceeded problem if limit exceeded',
+      () async {
+        final testUri = Uri.parse(host);
+        final bar = _define('bar', 1);
+        final item1 = _newConfig(bar, '1');
+        final item2 = _newConfig(bar, '2');
+
+        _mockIntegrationGet(mockManager, bar);
+        _mockServiceConfigExistsNone(mockRepo);
+        _mockServiceConfigWhere(mockRepo, [item2]);
+
+        final result = await controller.validate(
+          RepositoryAction.create,
+          testUri,
+          item1,
+        );
+
+        expect(result.isPresent, isTrue);
+        expect(result.value.status, equals(400));
+        expect(result.value.type, equals('integration-instances-exceeded'));
+      },
+    );
 
     test('where should filter results based on query parameters', () async {
       final query = {
@@ -642,48 +661,67 @@ void main() {
 
     test('GET /integration/config should be configured', () async {
       // Arrange
-      final item = _newConfig(foo);
+      final item1 = _newConfig(foo, '1');
+      final item2 = _newConfig(foo, '2');
+      final expected = [item1, item2];
 
       _mockIntegrationGet(mockManager, foo);
-      _mockServiceConfigGetAll(mockRepo, [item]);
+      _mockServiceConfigGetAll(mockRepo, expected);
       _mockServiceConfigExistsNone(mockRepo);
 
       // Act
       final request = s.Request(
         'GET',
-        Uri.parse('http://localhost/integration/config'),
+        Uri.parse('$host/integration/config'),
       );
       final response = await app(request);
+      final reason = await response.readAsString();
 
       // Assert
       expect(
         response.statusCode,
         equals(200),
-        reason: await response.readAsString(),
+        reason: reason,
+      );
+      final json = jsonDecode(reason);
+      final actual = _toServiceConfigList(json);
+      expect(
+        actual,
+        equals(expected),
+        reason: 'Result does not match',
       );
     });
 
     test('GET /integration/<key>/config should be configured', () async {
       // Arrange
       final item = _newConfig(foo);
+      final expected = [item];
 
       _mockIntegrationGet(mockManager, foo);
-      _mockServiceConfigWhere(mockRepo, [item]);
-      _mockServiceConfigGetAll(mockRepo, [item]);
+      _mockServiceConfigWhere(mockRepo, expected);
+      _mockServiceConfigGetAll(mockRepo, expected);
       _mockServiceConfigExistsNone(mockRepo);
 
       // Act
       final request = s.Request(
         'GET',
-        Uri.parse('http://localhost/integration/foo/config'),
+        Uri.parse('$host/integration/foo/config'),
       );
       final response = await app(request);
+      final reason = await response.readAsString();
 
       // Assert
       expect(
         response.statusCode,
         equals(200),
-        reason: await response.readAsString(),
+        reason: reason,
+      );
+      final json = jsonDecode(reason);
+      final actual = _toServiceConfigList(json);
+      expect(
+        actual,
+        equals(expected),
+        reason: reason,
       );
     });
 
@@ -699,15 +737,23 @@ void main() {
       // Act
       final request = s.Request(
         'GET',
-        Uri.parse('http://localhost/integration/foo/config/123'),
+        Uri.parse('$host/integration/foo/config/123'),
       );
       final response = await app(request);
+      final reason = await response.readAsString();
 
       // Assert
       expect(
         response.statusCode,
         equals(200),
-        reason: await response.readAsString(),
+        reason: reason,
+      );
+      final json = jsonDecode(reason);
+      final actual = ServiceConfig.fromJson(json);
+      expect(
+        actual,
+        equals(item),
+        reason: reason,
       );
     });
 
@@ -730,7 +776,7 @@ void main() {
       // Act
       final request = s.Request(
         'POST',
-        Uri.parse('http://localhost/integration/config'),
+        Uri.parse('$host/integration/config'),
         body: jsonEncode([item1.toJson()]),
       );
       final response = await app(request);
@@ -775,7 +821,7 @@ void main() {
       // Act
       final request = s.Request(
         'PUT',
-        Uri.parse('http://localhost/integration/config'),
+        Uri.parse('$host/integration/config'),
         body: jsonEncode([item2v2.toJson()]),
       );
       final response = await app(request);
@@ -816,7 +862,7 @@ void main() {
       // Act
       final request = s.Request(
         'DELETE',
-        Uri.parse('http://localhost/integration/config'),
+        Uri.parse('$host/integration/config'),
         body: jsonEncode([item1.toJson(), item2.toJson()]),
       );
       final response = await app(request);
@@ -860,7 +906,7 @@ void main() {
       // Act
       final request = s.Request(
         'POST',
-        Uri.parse('http://localhost/integration/foo/config'),
+        Uri.parse('$host/integration/foo/config'),
         body: jsonEncode(
           created.map((e) => e.toJson()).toList(),
         ),
@@ -907,7 +953,7 @@ void main() {
       // Act
       final request = s.Request(
         'PUT',
-        Uri.parse('http://localhost/integration/config'),
+        Uri.parse('$host/integration/config'),
         body: jsonEncode([item2v2.toJson()]),
       );
       final response = await app(request);
@@ -948,7 +994,7 @@ void main() {
       // Act
       final request = s.Request(
         'DELETE',
-        Uri.parse('http://localhost/integration/foo/config'),
+        Uri.parse('$host/integration/foo/config'),
         body: jsonEncode([item1.toJson(), item2.toJson()]),
       );
       final response = await app(request);
@@ -993,7 +1039,7 @@ void main() {
       // Act
       final request = s.Request(
         'PUT',
-        Uri.parse('http://localhost/integration/foo/config/123'),
+        Uri.parse('$host/integration/foo/config/123'),
         body: jsonEncode(item1v2.toJson()),
       );
       final response = await app(request);
@@ -1035,7 +1081,7 @@ void main() {
       // Act
       final request = s.Request(
         'DELETE',
-        Uri.parse('http://localhost/integration/foo/config/123'),
+        Uri.parse('$host/integration/foo/config/123'),
         body: jsonEncode(item.toJson()),
       );
       final response = await app(request);
@@ -1144,6 +1190,13 @@ void _mockServiceConfigGet(
       (e) => ServiceConfig.toUniqueId(e) == id,
     );
   });
+}
+
+List<ServiceConfig> _toServiceConfigList(dynamic json) {
+  return (json as List)
+      .whereType<JsonObject>()
+      .map(ServiceConfig.fromJson)
+      .toList();
 }
 
 SingleRepositoryResponse<String, ServiceConfig> _toSingleRepositoryResponse(

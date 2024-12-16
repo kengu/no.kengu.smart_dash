@@ -4,6 +4,7 @@
 library;
 
 export 'package:hive/hive.dart';
+export 'package:problem_details/problem_details.dart';
 
 export 'src/drift/connection.dart';
 export 'src/local/file_repository.dart';

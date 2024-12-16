@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
-import 'package:problem_details/problem_details.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -26,7 +25,8 @@ mixin RepositoryControllerMixin<I, T> {
     throw UnimplementedError('$runtimeType does not implement where()');
   }
 
-  Future<Optional<ProblemDetails>> validate(Uri uri, T item) async {
+  Future<Optional<ProblemDetails>> validate(
+      RepositoryAction action, Uri uri, T item) async {
     return const Optional.empty();
   }
 
@@ -193,7 +193,7 @@ mixin RepositoryControllerMixin<I, T> {
           );
         }
 
-        final problem = await validate(uri, item);
+        final problem = await validate(RepositoryAction.create, uri, item);
         if (problem.isPresent) {
           return Response.badRequest(
             body: jsonEncode(problem.value.toJson()),
@@ -207,7 +207,7 @@ mixin RepositoryControllerMixin<I, T> {
           body: jsonEncode(
             SingleRepositoryResponse<I, T>.fromResult(
               result,
-            ),
+            ).toJson((id) => id, toJson),
           ),
           headers: {'Content-Type': 'application/json'},
         );
@@ -268,7 +268,7 @@ mixin RepositoryControllerMixin<I, T> {
 
         final item = fromJson(json);
 
-        final problem = await validate(uri, item);
+        final problem = await validate(RepositoryAction.update, uri, item);
         if (problem.isPresent) {
           return Response.badRequest(
             body: jsonEncode(problem.value.toJson()),
@@ -405,7 +405,7 @@ mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
 
           final item = fromJson(json);
 
-          final problem = await validate(uri, item);
+          final problem = await validate(RepositoryAction.create, uri, item);
           if (problem.isPresent) {
             return Response.badRequest(
               body: jsonEncode(problem.value.toJson()),
@@ -428,7 +428,7 @@ mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
         return Response(
           result.updated.isEmpty ? 201 : 200,
           body: jsonEncode(
-            BulkRepositoryResponse.fromResult(
+            BulkRepositoryResponse<I, T>.fromResult(
               result,
             ).toJson((id) => id, toJson),
           ),
@@ -494,7 +494,7 @@ mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
 
           final item = fromJson(json);
 
-          final problem = await validate(uri, item);
+          final problem = await validate(RepositoryAction.update, uri, item);
           if (problem.isPresent) {
             return Response.badRequest(
               body: jsonEncode(problem.value.toJson()),
@@ -524,7 +524,7 @@ mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
           200,
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(
-            BulkRepositoryResponse.fromResult(
+            BulkRepositoryResponse<I, T>.fromResult(
               result,
             ).toJson((id) => id, toJson),
           ),
@@ -592,7 +592,7 @@ mixin BulkRepositoryControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
         return Response(
           200,
           body: jsonEncode(
-            BulkRepositoryResponse.fromResult(
+            BulkRepositoryResponse<I, T>.fromResult(
               result,
             ).toJson((id) => id, toJson),
           ),

@@ -1,25 +1,30 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logging/logging.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
+import 'package:shelf/shelf.dart' as s;
 import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 import 'smart_dash_account_test.mocks.dart';
 
 @GenerateMocks([
   Dio,
-  AccountRepository,
+  BackendAccountRepository,
 ])
 void main() {
   _initLogger(Level.FINE);
   group('AccountClient', () {
     late MockDio mockDio;
     late AccountClient apiClient;
-    final String userId1 = 'u:1';
-    final String userId2 = 'u:2';
+    const String userId1 = 'u:1';
+    const String userId2 = 'u:2';
 
     setUp(() {
       mockDio = MockDio();
@@ -192,320 +197,183 @@ void main() {
       expect(result.removed, true);
     });
   });
-  /*
   group('AccountController', () {
-    late MockIntegrationManager mockManager;
-    late MockAccountRepository mockRepo;
-    late AccountController controller;
     late s.Handler app;
-    final foo = _define('foo');
+    late AccountController controller;
+    late MockBackendAccountRepository mockRepo;
+
+    const String userId1 = 'u:1';
+    const String userId2 = 'u:2';
+    const String dbPath = 'some/path';
+    const String host = 'http://example.com';
 
     setUp(() {
-      mockManager = MockIntegrationManager();
-      mockRepo = MockAccountRepository();
+      mockRepo = MockBackendAccountRepository();
       when(mockRepo.toId(any)).thenAnswer(
-        (args) => Account.toUniqueId(
-          args.positionalArguments.first as Account,
-        ),
+        (args) => (args.positionalArguments.first as Account).userId,
       );
-      controller = AccountController(mockManager, mockRepo);
+      final ref = ProviderContainer(overrides: [
+        backendAccountRepositoryProvider.overrideWith(
+          (_) => mockRepo,
+        ),
+      ]);
+      controller = AccountController(ref, dbPath);
       app = const s.Pipeline()
           .addMiddleware(s.logRequests())
           .addHandler(controller.router.call);
+      addTearDown(ref.dispose);
     });
 
     test('should inject dependencies correctly', () {
       expect(controller.repo, equals(mockRepo));
-      expect(controller.integrations, equals(mockManager));
     });
 
     test(
-        'validate should return integration-not-found problem if integration is missing',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final item = _newConfig(foo);
+      'validate should return account-home-duplicate problem',
+      () async {
+        // Arrange
+        final testUri = Uri.parse(host);
+        final home1 = _newHome(userId1);
+        final home2 = _newHome(userId1);
+        final item = _newAccount(userId1, [home1, home2]);
 
-      when(mockManager.get(any)).thenReturn(Optional.empty());
+        _mockGetAccount(mockRepo, item);
 
-      final result = await controller.validate(testUri, item);
+        // Act
+        final result = await controller.validate(
+          RepositoryAction.create,
+          testUri,
+          item,
+        );
 
-      expect(result.isPresent, isTrue);
-      expect(result.value.status, equals(400));
-      expect(result.value.type, equals('integration-not-found'));
-    });
-
-    test('validate should return empty optional for valid configuration',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final item = _newConfig(foo);
-
-      _mockIntegrationGet(mockManager, foo);
-      when(mockRepo.where(any)).thenAnswer((_) async => []);
-      _mockAccountExistsNone(mockRepo);
-
-      final result = await controller.validate(testUri, item);
-
-      expect(result.isPresent, isFalse);
-    });
+        // Assert
+        expect(result.isPresent, isTrue);
+        expect(result.value.status, equals(400));
+        expect(result.value.type, equals('account-duplicate-home'));
+      },
+    );
 
     test(
-        'validate should return integration-instances-exceeded problem if limit exceeded',
-        () async {
-      final testUri = Uri.parse('http://example.com');
-      final bar = _define('bar', 1);
-      final item1 = _newConfig(bar, '1');
-      final item2 = _newConfig(bar, '2');
+      'validate should return empty optional',
+      () async {
+        // Arrange
+        final testUri = Uri.parse(host);
+        final home1 = _newHome(userId1);
+        final home2 = _newHome(userId2);
+        final item = _newAccount(userId1, [home1, home2]);
 
-      _mockIntegrationGet(mockManager, bar);
-      _mockAccountExistsNone(mockRepo);
-      _mockAccountWhere(mockRepo, [item2]);
+        _mockGetAccount(mockRepo, item);
 
-      final result = await controller.validate(testUri, item1);
+        // Act
+        final result = await controller.validate(
+          RepositoryAction.create,
+          testUri,
+          item,
+        );
 
-      expect(result.isPresent, isTrue);
-      expect(result.value.status, equals(400));
-      expect(result.value.type, equals('integration-instances-exceeded'));
-    });
+        // Assert
+        expect(result.isPresent, isFalse);
+      },
+    );
 
     test('where should filter results based on query parameters', () async {
+      // Arrange
       final query = {
-        'keys': [foo.key],
-        'ids': ['1']
+        'ids': [userId1]
       };
-      final item = _newConfig(foo, '1');
+      final item = _newAccount(userId1);
 
       _mockAccountWhere(mockRepo, [item]);
 
+      // Act
       final results = await controller.where(query);
 
+      // Assert
       expect(results, isNotEmpty);
-      expect(results.first.key, equals(foo.key));
+      expect(results.first.userId, equals(item.userId));
     });
 
-    test('GET /integration/config should be configured', () async {
+    test('GET /account should be configured', () async {
       // Arrange
-      final item = _newConfig(foo);
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGetAll(mockRepo, [item]);
+      final testUri = Uri.parse('$host/account');
+      final item1 = _newAccount(userId1);
+      final item2 = _newAccount(userId2);
+      final expected = [item1, item2];
+      _mockAccountGetAll(mockRepo, expected);
       _mockAccountExistsNone(mockRepo);
 
       // Act
-      final request = s.Request(
-        'GET',
-        Uri.parse('http://localhost/integration/config'),
-      );
+      final request = s.Request('GET', testUri);
       final response = await app(request);
+      final reason = await response.readAsString();
 
       // Assert
       expect(
         response.statusCode,
         equals(200),
-        reason: await response.readAsString(),
+        reason: reason,
+      );
+      final json = jsonDecode(reason);
+      final actual = _toAccountList(json);
+      expect(
+        actual,
+        equals(expected),
+        reason: 'Result does not match',
       );
     });
 
-    test('GET /integration/<key>/config should be configured', () async {
+    test('GET /account/<userId> should be configured', () async {
       // Arrange
-      final item = _newConfig(foo);
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountWhere(mockRepo, [item]);
-      _mockAccountGetAll(mockRepo, [item]);
+      final testUri = Uri.parse('$host/account/$userId1');
+      final item1 = _newAccount(userId1);
+      final item2 = _newAccount(userId2);
+      final items = [item1, item2];
+      _mockAccountWhere(mockRepo, items);
+      _mockAccountGet(mockRepo, items);
       _mockAccountExistsNone(mockRepo);
 
       // Act
-      final request = s.Request(
-        'GET',
-        Uri.parse('http://localhost/integration/foo/config'),
-      );
+      final request = s.Request('GET', testUri);
       final response = await app(request);
+      final reason = await response.readAsString();
 
       // Assert
       expect(
         response.statusCode,
         equals(200),
-        reason: await response.readAsString(),
+        reason: reason,
       );
-    });
-
-    test('GET /integration/<key>/config/<id> should be configured', () async {
-      // Arrange
-      final item = _newConfig(foo, '123');
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountWhere(mockRepo, [item]);
-      when(mockRepo.get(any)).thenAnswer((_) async => Optional.of(item));
-      _mockAccountExistsNone(mockRepo);
-
-      // Act
-      final request = s.Request(
-        'GET',
-        Uri.parse('http://localhost/integration/foo/config/123'),
-      );
-      final response = await app(request);
-
-      // Assert
+      final json = jsonDecode(reason);
+      final actual = Account.fromJson(json);
       expect(
-        response.statusCode,
-        equals(200),
-        reason: await response.readAsString(),
+        actual,
+        equals(item1),
+        reason: 'Result does not match',
       );
     });
 
-    test('POST /integration/config should be configured', () async {
+    test('POST /account should be configured', () async {
       // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2 = _newConfig(foo, '2');
-      final result = BulkRepositoryResponse<String, Account>(
-        created: [item1],
-        updated: [item2],
-        removed: [],
+      final testUri = Uri.parse('$host/account');
+      final item1 = _newAccount(userId1);
+      final item2 = _newAccount(userId2);
+      final result = SingleRepositoryResponse<String, Account>(
+        item: item2,
+        created: true,
+        updated: false,
+        removed: false,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
       _mockAccountWhere(mockRepo, [item1]);
       _mockAccountGetNone(mockRepo);
-      _mockAccountUpdateAll(mockRepo, result);
+      _mockAccountAddOrUpdate(mockRepo, result);
       _mockAccountExistsNone(mockRepo);
 
       // Act
       final request = s.Request(
         'POST',
-        Uri.parse('http://localhost/integration/config'),
-        body: jsonEncode([item1.toJson()]),
-      );
-      final response = await app(request);
-      final reason = await response.readAsString();
-
-      // Assert
-      expect(
-        response.statusCode,
-        equals(200),
-        reason: reason,
-      );
-      final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
-      final actual = bulk.toResult();
-      expect(
-        actual,
-        equals(result),
-        reason: 'Result does not match',
-      );
-    });
-
-    test('PUT /integration/config should be configured', () async {
-      // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2v1 = _newConfig(foo, '2');
-      final item2v2 = item2v1.copyWith(data: {
-        ...item2v1.data,
-        IntegrationField.username: 'baz',
-      });
-      final items = [item1, item2v1];
-      final result = BulkRepositoryResponse<String, Account>(
-        created: [],
-        updated: [item2v2],
-        removed: [],
-      ).toResult();
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGet(mockRepo, items);
-      _mockAccountExists(mockRepo, items);
-      _mockAccountUpdateAll(mockRepo, result);
-
-      // Act
-      final request = s.Request(
-        'PUT',
-        Uri.parse('http://localhost/integration/config'),
-        body: jsonEncode([item2v2.toJson()]),
-      );
-      final response = await app(request);
-      final reason = await response.readAsString();
-
-      // Assert
-      expect(
-        response.statusCode,
-        equals(200),
-        reason: reason,
-      );
-      final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
-      final actual = bulk.toResult();
-      expect(
-        actual,
-        equals(result),
-        reason: 'Result does not match',
-      );
-    });
-
-    test('DELETE /integration/config should be configured', () async {
-      // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2 = _newConfig(foo, '2');
-      final items = [item1, item2];
-      final result = BulkRepositoryResponse<String, Account>(
-        created: [],
-        updated: [],
-        removed: items,
-      ).toResult();
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGet(mockRepo, items);
-      _mockAccountExistsAll(mockRepo);
-      _mockAccountRemoveAll(mockRepo, result);
-
-      // Act
-      final request = s.Request(
-        'DELETE',
-        Uri.parse('http://localhost/integration/config'),
-        body: jsonEncode([item1.toJson(), item2.toJson()]),
-      );
-      final response = await app(request);
-      final reason = await response.readAsString();
-
-      // Assert
-      expect(
-        response.statusCode,
-        equals(200),
-        reason: reason,
-      );
-      final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
-      final actual = bulk.toResult();
-      expect(
-        actual,
-        equals(result),
-        reason: 'Result does not match',
-      );
-    });
-
-    test('POST /integration/<key>/config should be configured', () async {
-      // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2 = _newConfig(foo, '2');
-      final item3 = _newConfig(foo, '3');
-      final exists = [item1, item2];
-      final created = [item3];
-      final result = BulkRepositoryResponse<String, Account>(
-        created: created,
-        updated: [],
-        removed: [],
-      ).toResult();
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGet(mockRepo, exists);
-      _mockAccountWhere(mockRepo, exists);
-      _mockAccountExists(mockRepo, exists);
-      _mockAccountUpdateAll(mockRepo, result);
-
-      // Act
-      final request = s.Request(
-        'POST',
-        Uri.parse('http://localhost/integration/foo/config'),
-        body: jsonEncode(
-          created.map((e) => e.toJson()).toList(),
-        ),
+        testUri,
+        body: jsonEncode(item2.toJson()),
       );
       final response = await app(request);
       final reason = await response.readAsString();
@@ -517,117 +385,44 @@ void main() {
         reason: reason,
       );
       final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
+      final bulk = _toSingleRepositoryResponse(json);
       final actual = bulk.toResult();
       expect(
         actual,
         equals(result),
         reason: 'Result does not match',
       );
+      expect(
+        bulk.created,
+        isTrue,
+        reason: 'Only [created] should be true',
+      );
+      expect(
+        bulk.updated,
+        isFalse,
+        reason: 'Only [created] should be true',
+      );
+      expect(
+        bulk.removed,
+        isFalse,
+        reason: 'Only [created] should be true',
+      );
     });
 
-    test('PUT /integration/<key>/config should be configured', () async {
+    test('PUT /account/<userId> should be configured', () async {
       // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2v1 = _newConfig(foo, '2');
-      final item2v2 = item2v1.copyWith(data: {
-        ...item2v1.data,
-        IntegrationField.username: 'baz',
-      });
+      final testUri = Uri.parse('$host/account/$userId2');
+      final item1 = _newAccount(userId1);
+      final item2v1 = _newAccount(userId2);
+      final item2v2 = _newAccount(userId2, [_newHome(userId1)]);
       final items = [item1, item2v1];
-      final result = BulkRepositoryResponse<String, Account>(
-        created: [],
-        updated: [item2v2],
-        removed: [],
-      ).toResult();
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGet(mockRepo, items);
-      _mockAccountExists(mockRepo, items);
-      _mockAccountUpdateAll(mockRepo, result);
-
-      // Act
-      final request = s.Request(
-        'PUT',
-        Uri.parse('http://localhost/integration/config'),
-        body: jsonEncode([item2v2.toJson()]),
-      );
-      final response = await app(request);
-      final reason = await response.readAsString();
-
-      // Assert
-      expect(
-        response.statusCode,
-        equals(200),
-        reason: reason,
-      );
-      final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
-      final actual = bulk.toResult();
-      expect(
-        actual,
-        equals(result),
-        reason: 'Result does not match',
-      );
-    });
-
-    test('DELETE /integration/<key>/config should be configured', () async {
-      // Arrange
-      final item1 = _newConfig(foo, '1');
-      final item2 = _newConfig(foo, '2');
-      final items = [item1, item2];
-      final result = BulkRepositoryResponse<String, Account>(
-        created: [],
-        updated: [],
-        removed: items,
-      ).toResult();
-
-      _mockIntegrationGet(mockManager, foo);
-      _mockAccountGet(mockRepo, items);
-      _mockAccountExistsAll(mockRepo);
-      _mockAccountRemoveAll(mockRepo, result);
-
-      // Act
-      final request = s.Request(
-        'DELETE',
-        Uri.parse('http://localhost/integration/foo/config'),
-        body: jsonEncode([item1.toJson(), item2.toJson()]),
-      );
-      final response = await app(request);
-      final reason = await response.readAsString();
-
-      // Assert
-      expect(
-        response.statusCode,
-        equals(200),
-        reason: reason,
-      );
-      final json = jsonDecode(reason);
-      final bulk = _toBulkRepositoryResponse(json);
-      final actual = bulk.toResult();
-      expect(
-        actual,
-        equals(result),
-        reason: 'Result does not match',
-      );
-    });
-
-    test('PUT /integration/<key>/config/<id> should be configured', () async {
-      // Arrange
-      final item1v1 = _newConfig(foo, '123');
-      final item1v2 = item1v1.copyWith(data: {
-        ...item1v1.data,
-        IntegrationField.username: 'baz',
-      });
-      final items = [item1v1];
       final result = SingleRepositoryResponse<String, Account>(
-        item: item1v2,
+        item: item2v2,
         created: false,
         updated: true,
         removed: false,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
       _mockAccountGet(mockRepo, items);
       _mockAccountExists(mockRepo, items);
       _mockAccountAddOrUpdate(mockRepo, result);
@@ -635,8 +430,8 @@ void main() {
       // Act
       final request = s.Request(
         'PUT',
-        Uri.parse('http://localhost/integration/foo/config/123'),
-        body: jsonEncode(item1v2.toJson()),
+        testUri,
+        body: jsonEncode(item2v2.toJson()),
       );
       final response = await app(request);
       final reason = await response.readAsString();
@@ -648,28 +443,43 @@ void main() {
         reason: reason,
       );
       final json = jsonDecode(reason);
-      final single = _toSingleRepositoryResponse(json);
-      final actual = single.toResult();
+      final bulk = _toSingleRepositoryResponse(json);
+      final actual = bulk.toResult();
       expect(
         actual,
         equals(result),
         reason: 'Result does not match',
       );
+      expect(
+        bulk.created,
+        isFalse,
+        reason: 'Only [updated] should be true',
+      );
+      expect(
+        bulk.updated,
+        isTrue,
+        reason: 'Only [updated] should be true',
+      );
+      expect(
+        bulk.removed,
+        isFalse,
+        reason: 'Only [updated] should be true',
+      );
     });
 
-    test('DELETE /integration/<key>/config/<id> should be configured',
-        () async {
+    test('DELETE /account/<userId> should be configured', () async {
       // Arrange
-      final item = _newConfig(foo, '123');
-      final items = [item];
+      final testUri = Uri.parse('$host/account/$userId2');
+      final item1 = _newAccount(userId1);
+      final item2 = _newAccount(userId2);
+      final items = [item1, item2];
       final result = SingleRepositoryResponse<String, Account>(
-        item: item,
+        item: item2,
         created: false,
-        updated: true,
-        removed: false,
+        updated: false,
+        removed: true,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
       _mockAccountGet(mockRepo, items);
       _mockAccountExists(mockRepo, items);
       _mockAccountRemove(mockRepo, result);
@@ -677,8 +487,8 @@ void main() {
       // Act
       final request = s.Request(
         'DELETE',
-        Uri.parse('http://localhost/integration/foo/config/123'),
-        body: jsonEncode(item.toJson()),
+        testUri,
+        body: jsonEncode(item2.toJson()),
       );
       final response = await app(request);
       final reason = await response.readAsString();
@@ -690,40 +500,60 @@ void main() {
         reason: reason,
       );
       final json = jsonDecode(reason);
-      final single = _toSingleRepositoryResponse(json);
-      final actual = single.toResult();
+      final bulk = _toSingleRepositoryResponse(json);
+      final actual = bulk.toResult();
       expect(
         actual,
         equals(result),
         reason: 'Result does not match',
       );
+      expect(
+        bulk.created,
+        isFalse,
+        reason: 'Only [removed] should be true',
+      );
+      expect(
+        bulk.updated,
+        isFalse,
+        reason: 'Only [removed] should be true',
+      );
+      expect(
+        bulk.removed,
+        isTrue,
+        reason: 'Only [removed] should be true',
+      );
     });
   });
-   */
 }
 
-void _mockAccountExistsAll(MockAccountRepository mockRepo) {
+void _mockGetAccount(MockBackendAccountRepository mockRepo, Account item) {
+  when(mockRepo.get(any)).thenAnswer((_) async => Optional.of(item));
+}
+
+void _mockAccountExistsAll(MockBackendAccountRepository mockRepo) {
   when(mockRepo.exists(any)).thenAnswer((_) async => true);
 }
 
-void _mockAccountExistsNone(MockAccountRepository mockRepo) {
+void _mockAccountExistsNone(MockBackendAccountRepository mockRepo) {
   when(mockRepo.exists(any)).thenAnswer((_) async => false);
 }
 
-void _mockAccountGetNone(MockAccountRepository mockRepo) {
+void _mockAccountGetNone(MockBackendAccountRepository mockRepo) {
   when(mockRepo.get(any)).thenAnswer((_) async => Optional.empty());
 }
 
-void _mockAccountGetAll(MockAccountRepository mockRepo, List<Account> items) {
+void _mockAccountGetAll(
+    MockBackendAccountRepository mockRepo, List<Account> items) {
   when(mockRepo.getAll(any)).thenAnswer((_) async => items);
 }
 
-void _mockAccountWhere(MockAccountRepository mockRepo, List<Account> items) {
+void _mockAccountWhere(
+    MockBackendAccountRepository mockRepo, List<Account> items) {
   when(mockRepo.where(any)).thenAnswer((_) async => items);
 }
 
 void _mockAccountAddOrUpdate(
-  MockAccountRepository mockRepo,
+  MockBackendAccountRepository mockRepo,
   SingleRepositoryResult<String, Account> result,
 ) {
   provideDummy(result);
@@ -733,7 +563,7 @@ void _mockAccountAddOrUpdate(
 }
 
 void _mockAccountRemove(
-  MockAccountRepository mockRepo,
+  MockBackendAccountRepository mockRepo,
   SingleRepositoryResult<String, Account> result,
 ) {
   provideDummy(result);
@@ -742,7 +572,8 @@ void _mockAccountRemove(
   );
 }
 
-void _mockAccountExists(MockAccountRepository mockRepo, List<Account> items) {
+void _mockAccountExists(
+    MockBackendAccountRepository mockRepo, List<Account> items) {
   when(mockRepo.exists(any)).thenAnswer((args) async {
     final id = args.positionalArguments.first as String;
     return items.any(
@@ -751,7 +582,8 @@ void _mockAccountExists(MockAccountRepository mockRepo, List<Account> items) {
   });
 }
 
-void _mockAccountGet(MockAccountRepository mockRepo, List<Account> items) {
+void _mockAccountGet(
+    MockBackendAccountRepository mockRepo, List<Account> items) {
   when(mockRepo.get(any)).thenAnswer((args) async {
     final id = args.positionalArguments.first as String;
     return items.firstWhereOptional(
@@ -760,7 +592,12 @@ void _mockAccountGet(MockAccountRepository mockRepo, List<Account> items) {
   });
 }
 
-SingleRepositoryResponse<String, Account> _toSingleRepositoryResponse(json) {
+List<Account> _toAccountList(dynamic json) {
+  return (json as List).whereType<JsonObject>().map(Account.fromJson).toList();
+}
+
+SingleRepositoryResponse<String, Account> _toSingleRepositoryResponse(
+    dynamic json) {
   return SingleRepositoryResponse<String, Account>.fromJson(
     json,
     (value) {
@@ -772,7 +609,8 @@ SingleRepositoryResponse<String, Account> _toSingleRepositoryResponse(json) {
   );
 }
 
-BulkRepositoryResponse<String, Account> _toBulkRepositoryResponse(json) {
+BulkRepositoryResponse<String, Account> _toBulkRepositoryResponse(
+    dynamic json) {
   return BulkRepositoryResponse<String, Account>.fromJson(
     json,
     (value) {
@@ -784,8 +622,18 @@ BulkRepositoryResponse<String, Account> _toBulkRepositoryResponse(json) {
   );
 }
 
-Account _newAccount(String userId) {
-  return Account(userId: userId, homes: []);
+Account _newAccount(String userId, [List<Home> homes = const []]) {
+  return Account(userId: userId, homes: homes);
+}
+
+Home _newHome(String id) {
+  return Home(
+    id: id,
+    name: id,
+    members: [],
+    services: [],
+    location: Location.empty(),
+  );
 }
 
 void _initLogger(Level level) {

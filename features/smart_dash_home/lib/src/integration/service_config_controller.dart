@@ -1,5 +1,4 @@
 import 'package:optional/optional.dart';
-import 'package:problem_details/problem_details.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -77,7 +76,11 @@ class ServiceConfigController extends BulkRepositoryController<String,
   }
 
   @override
-  Future<Optional<ProblemDetails>> validate(Uri uri, ServiceConfig item) async {
+  Future<Optional<ProblemDetails>> validate(
+    RepositoryAction action,
+    Uri uri,
+    ServiceConfig item,
+  ) async {
     final integration = integrations.get(item.key);
     if (!integration.isPresent) {
       return Optional.of(
