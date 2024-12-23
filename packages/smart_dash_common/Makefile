@@ -17,10 +17,10 @@ else
 endif
 
 .PHONY: \
-	build clean-build
+	build clean-build test
 
 .SILENT: \
-	build clean-build
+	build clean-build test
 
 build:
 	echo "Watch for buildable changes..."
@@ -29,3 +29,11 @@ build:
 clean-build:
 	echo "Clean generated build..."
 	dart pub run build_runner clean
+
+test:
+	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	  echo "Running tests in $(pwd)"; \
+	  flutter test; \
+	else \
+	  echo "Skipping $(pwd) - no tests found."; \
+	fi

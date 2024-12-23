@@ -30,6 +30,11 @@ scripts:
     exec: dart run build_runner watch --delete-conflicting-outputs
     packageFilters:
       scope: '*smart_dash*'
+  test:
+    run: make test
+    exec:
+      concurrency: 1
+      orderDependents: true
   upgrade:
     run: flutter pub upgrade --major-versions
     exec:

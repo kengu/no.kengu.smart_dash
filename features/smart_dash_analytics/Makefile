@@ -21,11 +21,11 @@ storeFile = "$$(grep "storeFile" android/key.properties | cut -d'=' -f2)"
 storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)"
 
 .PHONY: \
-	doctor configure drift-info drift-export drift-migration drift-generate-tests \
+	doctor configure drift-info drift-export drift-migration drift-generate-tests test \
 	build clean-build upgrade \
 
 .SILENT: \
-	doctor configure drift-info drift-export drift-migration drift-generate-tests \
+	doctor configure drift-info drift-export drift-migration drift-generate-tests test \
 	build clean-build upgrade \
 
 doctor:
@@ -93,3 +93,11 @@ build:
 clean-build:
 	echo "Clean generated build..."
 	dart pub run build_runner clean
+
+test:
+	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	  echo "Running tests in $(pwd)"; \
+	  flutter test; \
+	else \
+	  echo "Skipping $(pwd) - no tests found."; \
+	fi

@@ -17,11 +17,19 @@ else
 endif
 
 .PHONY: \
-	build
+	build test
 
 .SILENT: \
-	build
+	build test
 
 build:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
+
+test:
+	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	  echo "Running tests in $(pwd)"; \
+	  flutter test; \
+	else \
+	  echo "Skipping $(pwd) - no tests found."; \
+	fi

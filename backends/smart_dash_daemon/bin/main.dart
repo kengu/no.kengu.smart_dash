@@ -16,7 +16,7 @@ typedef Installer = IntegrationType Function(ProviderContainer ref);
 void main(List<String> args) async {
   // Prepare
   final vars = _parseArgs(args);
-  final log = _initLogger(vars, 'Daemon');
+  final log = _initLogger(vars);
   final websocket = WebSocketServerMultiplexer();
 
   // Bootstrap integrations
@@ -75,7 +75,7 @@ ArgResults _parseArgs(List<String> args) {
 }
 
 // TODO: Move to utils for backends
-Logger _initLogger(ArgResults args, String name) {
+Logger _initLogger(ArgResults args) {
   final name = args[argLogLevel] as String;
   final level = Level.LEVELS.firstWhere(
     (e) => e.name.toLowerCase() == name.toLowerCase(),
@@ -97,7 +97,7 @@ Logger _initLogger(ArgResults args, String name) {
       ].join('\n'),
     ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
-  final logger = Logger(name);
+  final logger = Logger('Daemon');
   logger.info('Log level set to ${level.name}');
   return logger;
 }

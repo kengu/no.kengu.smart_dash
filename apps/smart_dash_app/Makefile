@@ -24,13 +24,13 @@ storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)
 	doctor configure drift-info \
 	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
-	macos-bootstrap macos-repair macos-update \
+	macos-bootstrap macos-repair macos-update test \
 
 .SILENT: \
 	doctor toolchain drift-info \
 	build clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
-	macos-bootstrap macos-repair macos-update \
+	macos-bootstrap macos-repair macos-update test \
 
 doctor:
 	echo "Doctor summary"
@@ -182,3 +182,11 @@ upgrade:
 action:
 	echo "Running github actions..."
 	act
+
+test:
+	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	  echo "Running tests in $(pwd)"; \
+	  flutter test; \
+	else \
+	  echo "Skipping $(pwd) - no tests found."; \
+	fi
