@@ -35,6 +35,10 @@ void main() {
       apiClient = ServiceConfigClient(mockDio);
     });
 
+    tearDown(() {
+      reset(mockDio);
+    });
+
     test('query all items', () async {
       // Arrange
       final item1 = _newConfig(foo);
@@ -573,6 +577,11 @@ void main() {
       app = const s.Pipeline()
           .addMiddleware(s.logRequests())
           .addHandler(controller.router.call);
+    });
+
+    tearDown(() {
+      reset(mockManager);
+      reset(mockRepo);
     });
 
     test('should inject dependencies correctly', () {

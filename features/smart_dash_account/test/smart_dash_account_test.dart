@@ -35,6 +35,10 @@ void main() {
       apiClient = AccountClient(mockDio);
     });
 
+    tearDown(() {
+      reset(mockDio);
+    });
+
     test('query all items', () async {
       // Arrange
       final item1 = _newAccount(userId1);
@@ -222,6 +226,10 @@ void main() {
           .addMiddleware(s.logRequests())
           .addHandler(controller.router.call);
       addTearDown(ref.dispose);
+    });
+
+    tearDown(() {
+      reset(mockRepo);
     });
 
     test('should inject dependencies correctly', () {
@@ -530,10 +538,6 @@ void _mockGetAccount(MockBackendAccountRepository mockRepo, Account item) {
   when(mockRepo.get(any)).thenAnswer((_) async => Optional.of(item));
 }
 
-void _mockAccountExistsAll(MockBackendAccountRepository mockRepo) {
-  when(mockRepo.exists(any)).thenAnswer((_) async => true);
-}
-
 void _mockAccountExistsNone(MockBackendAccountRepository mockRepo) {
   when(mockRepo.exists(any)).thenAnswer((_) async => false);
 }
@@ -599,19 +603,6 @@ List<Account> _toAccountList(dynamic json) {
 SingleRepositoryResponse<String, Account> _toSingleRepositoryResponse(
     dynamic json) {
   return SingleRepositoryResponse<String, Account>.fromJson(
-    json,
-    (value) {
-      return value.toString();
-    },
-    (data) {
-      return Account.fromJson(data as JsonObject);
-    },
-  );
-}
-
-BulkRepositoryResponse<String, Account> _toBulkRepositoryResponse(
-    dynamic json) {
-  return BulkRepositoryResponse<String, Account>.fromJson(
     json,
     (value) {
       return value.toString();

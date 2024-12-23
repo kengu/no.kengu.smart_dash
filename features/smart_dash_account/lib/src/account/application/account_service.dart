@@ -53,7 +53,7 @@ class AccountService {
       final result = await repo.addOrUpdate(
         newAccount.value,
       );
-      return result.item.toOptional;
+      return result.item.data.toOptional;
     }, ttl: ttl);
   }
 
@@ -65,7 +65,10 @@ class AccountService {
   }) {
     final uid = userId ?? currentUser.userId;
     return _cache.getOrFetch('get_user_account:$uid', () async {
-      return ref.read(appAccountRepositoryProvider).get(uid);
+      final result = await ref.read(appAccountRepositoryProvider).get(uid);
+      return result.isPresent
+          ? result.value.data.toOptional
+          : const Optional.empty();
     }, ttl: ttl);
   }
 
@@ -122,7 +125,7 @@ class AccountService {
       final repo = ref.read(appAccountRepositoryProvider);
       final result = await repo.get(uid);
       if (!result.isPresent) return Optional.empty();
-      return result.value.homeWhere(homeId);
+      return result.value.data.homeWhere(homeId);
     }, ttl: ttl);
   }
 
@@ -178,7 +181,7 @@ class AccountService {
   Future<bool> addOrUpdate(Account account) async {
     final repo = ref.read(appAccountRepositoryProvider);
     final result = await repo.addOrUpdate(account);
-    final changed = account != result.item;
+    final changed = account != result.item.data;
     if (changed) {
       _cache.set(
         'get_user_account:${account.userId}',

@@ -37,5 +37,7 @@ mixin AccountRepositoryMixin on AccountRepository {
     return data == null ? null : Account.fromJson(jsonDecode(data));
   }
 
-  Future<void> clear();
+  Future<void> clear() {
+    throw UnsupportedError('$runtimeType does not support clear');
+  }
 }

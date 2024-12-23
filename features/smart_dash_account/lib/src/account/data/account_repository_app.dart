@@ -8,25 +8,16 @@ import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
 part 'account_repository_app.g.dart';
 
-class AppAccountRepository extends ConnectionAwareRepository<String, Account>
-    with AccountRepositoryMixin {
-  AppAccountRepository(
-    super.ref, {
+class AppAccountRepository extends ConnectionAwareRepository<String, Account> {
+  AppAccountRepository({
+    required super.checker,
     required AccountRepositoryMixin local,
-    required AccountRepositoryMixin remote,
+    required RemoteAccountRepository remote,
   }) : super(
           local: local,
           remote: remote,
-          checker: ref.read(connectivityProvider),
         );
 
-  @override
-  Future<bool> exists(String userId) async {
-    final result = await get(userId);
-    return result.isPresent;
-  }
-
-  @override
   Future<void> clear() {
     return (local as AccountRepositoryMixin).clear();
   }
@@ -54,11 +45,6 @@ class RemoteAccountRepository extends RemoteRepository<String, Account>
 
   @override
   AccountClient get client => ref.read(accountClientProvider(baseUrl));
-
-  @override
-  Future<void> clear() {
-    throw UnsupportedError('$RemoteAccountRepository does not support clear');
-  }
 }
 
 class AccountAdapter extends TypedAdapter<Account> {
@@ -82,8 +68,8 @@ class AccountAdapter extends TypedAdapter<Account> {
 @Riverpod(keepAlive: true)
 AppAccountRepository appAccountRepository(AppAccountRepositoryRef ref) {
   return AppAccountRepository(
-    ref,
     local: LocalAccountRepository(ref),
     remote: RemoteAccountRepository(ref, 'http://localhost:8080'),
+    checker: ref.read(connectivityProvider),
   );
 }

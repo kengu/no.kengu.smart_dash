@@ -9,6 +9,7 @@ export 'package:problem_details/problem_details.dart';
 export 'src/drift/connection.dart';
 export 'src/local/file_repository.dart';
 export 'src/local/hive_repository.dart';
+export 'src/local/in_memory_repository.dart';
 export 'src/remote/remote_repository.dart';
 export 'src/repository.dart';
 export 'src/repository_client.dart';

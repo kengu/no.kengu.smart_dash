@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:smart_dash_common/smart_dash_common.dart';
 
+/// Base class for implementing [Repository]
+/// for items of type [T] with id of type [I]
 abstract class Repository<I, T> {
   Repository(this.ref) {
     ref.onDispose(() {
@@ -18,6 +18,7 @@ abstract class Repository<I, T> {
   final StreamController<RepositoryEvent<I, T>> _controller =
       StreamController.broadcast();
 
+  /// Get stream of [RepositoryEvent]s
   Stream<RepositoryEvent<I, T>> get events => _controller.stream;
 
   /// Translate [item] to id of type [I]
@@ -108,7 +109,7 @@ abstract class Repository<I, T> {
   R raise<R extends RepositoryResult<I, T>>(R result) {
     if (result.isNotEmpty) {
       _controller.add(
-        RepositoryEvent(result),
+        RepositoryEvent<I, T>(result),
       );
     }
     return result;
@@ -128,231 +129,6 @@ mixin BulkWriteRepositoryMixin<I, T> on Repository<I, T> {
 
   /// Clear all items from repository.
   Future<void> clear();
-}
-
-/// Repository aware of connectivity status. It stores changes in a local
-/// repository when offline and commits changes to remote when status changes to online
-abstract class BulkConnectionAwareRepository<I, T>
-    extends ConnectionAwareRepository<I, T>
-    with BulkWriteRepositoryMixin<I, T> {
-  BulkConnectionAwareRepository(
-    super.ref, {
-    required super.checker,
-    required BulkWriteRepositoryMixin<I, T> super.local,
-    required BulkWriteRepositoryMixin<I, T> super.remote,
-  });
-
-  @override
-  BulkWriteRepositoryMixin<I, T> get local =>
-      super.local as BulkWriteRepositoryMixin<I, T>;
-
-  @override
-  BulkWriteRepositoryMixin<I, T> get remote =>
-      super.remote as BulkWriteRepositoryMixin<I, T>;
-
-  @override
-  Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
-    return guard(
-      () async {
-        final result = await local.updateAll(items);
-        if (result.isNotEmpty) {
-          await _push(
-            () => remote.updateAll(items),
-          );
-        }
-        return result;
-      },
-      task: 'updateAll',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-
-  @override
-  Future<BulkRepositoryResult<I, T>> removeAll(Iterable<T> items) async {
-    return guard(
-      () async {
-        final result = await local.removeAll(items);
-        if (result.isNotEmpty) {
-          await _push(
-            () => remote.removeAll(items),
-          );
-        }
-        return result;
-      },
-      task: 'removeAll',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-}
-
-/// Repository aware of connectivity status. It stores changes in a local
-/// repository when offline and commits changes to remote when status changes to online
-abstract class ConnectionAwareRepository<I, T> extends Repository<I, T> {
-  ConnectionAwareRepository(
-    super.ref, {
-    required this.checker,
-    required this.local,
-    required this.remote,
-  });
-
-  final Logger _logger = Logger('$ConnectionAwareRepository');
-  final List<Future<RepositoryResult<I, T>> Function()> _tasks = [];
-
-  @protected
-  final Connectivity checker;
-
-  @protected
-  final Repository<I, T> local;
-
-  @protected
-  final Repository<I, T> remote;
-
-  bool get isOnline => checker.isOnline;
-
-  bool get isOffline => checker.isOffline;
-
-  ConnectivityStatus get status => checker.status;
-
-  @override
-  Stream<RepositoryEvent<I, T>> get events => local.events;
-
-  @override
-  I toId(T item) => local.toId(item);
-
-  @override
-  String toKey(I id) => local.toKey(id);
-
-  @override
-  Future<List<T>> seed() {
-    throw UnimplementedError('Seed is not implemented');
-  }
-
-  @override
-  Future<bool> exists(I id) async {
-    if (await local.exists(id)) return true;
-    if (isOnline) return remote.exists(id);
-    return false;
-  }
-
-  /// Get given item from repository.
-  @override
-  Future<Optional<T>> get(I id) async {
-    return guard(
-      () async {
-        if (isOffline) {
-          return local.get(id);
-        }
-        final result = await remote.get(id);
-        if (result.isPresent) {
-          await local.addOrUpdate(result.value);
-        }
-        return result;
-      },
-      task: 'get',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-
-  /// Get all given items to repository.
-  /// Use [keys] to pick only items that matches these.
-  @override
-  Future<List<T>> getAll([List<I> ids = const []]) async {
-    return guard(
-      () async {
-        if (isOffline) {
-          return local.getAll(ids);
-        }
-        final result = await remote.getAll(ids);
-        if (local is BulkWriteRepositoryMixin<I, T>) {
-          final bulk = local as BulkWriteRepositoryMixin<I, T>;
-          if (result.isNotEmpty) {
-            if (ids.isEmpty) {
-              final items = await bulk.getAll();
-              bulk.removeAll(items);
-            } else {
-              bulk.updateAll(result);
-            }
-          }
-        } else {
-          for (final item in result) {
-            if (result.isNotEmpty) {
-              local.addOrUpdate(item);
-            } else {
-              local.remove(item);
-            }
-          }
-        }
-
-        return result;
-      },
-      task: 'getAll',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-
-  @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) async {
-    return guard(
-      () async {
-        final result = await local.addOrUpdate(item);
-        if (result.isNotEmpty) {
-          await _push(
-            () => remote.addOrUpdate(item),
-          );
-        }
-        return result;
-      },
-      task: 'updateAll',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-
-  @override
-  Future<SingleRepositoryResult<I, T>> remove(T item) async {
-    return guard(
-      () async {
-        final result = await local.remove(item);
-        if (result.isNotEmpty) {
-          await _push(
-            () => remote.remove(item),
-          );
-        }
-        return result;
-      },
-      task: 'updateAll',
-      transaction: true,
-      name: '$runtimeType',
-    );
-  }
-
-  Future<void> _push(Future<RepositoryResult<I, T>> Function() task) async {
-    final done = <Future<RepositoryResult<I, T>> Function()>[];
-    try {
-      _tasks.add(task);
-      if (isOnline) {
-        // Execute in order!
-        for (final task in _tasks) {
-          await task();
-          done.add(task);
-        }
-      }
-    } catch (error, stackTrace) {
-      if (!check_client_error(error)) {
-        _logger.severe(
-          '$ConnectionAwareRepository::_push() failed '
-          '(${done.length} of ${_tasks.length} done)',
-          error,
-          stackTrace,
-        );
-      }
-    }
-    _tasks.removeWhere(done.contains);
-  }
 }
 
 sealed class RepositoryResult<I, T> {
@@ -389,7 +165,7 @@ final class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
       SingleRepositoryResult<I, T>(item, false, true, false);
 
   factory SingleRepositoryResult.removed(T item) =>
-      SingleRepositoryResult<I, T>(item, true, false, false);
+      SingleRepositoryResult<I, T>(item, false, false, true);
 
   @override
   bool operator ==(Object other) =>
@@ -404,6 +180,15 @@ final class SingleRepositoryResult<I, T> extends RepositoryResult<I, T> {
   @override
   int get hashCode =>
       item.hashCode ^ updated.hashCode ^ created.hashCode ^ removed.hashCode;
+
+  @override
+  String toString() {
+    return '${SingleRepositoryResult<I, T>}{'
+        'item: $item, '
+        'created: $created, '
+        'updated: $updated, '
+        'removed: $removed}';
+  }
 }
 
 final class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
@@ -468,6 +253,14 @@ final class BulkRepositoryResult<I, T> extends RepositoryResult<I, T> {
 
   @override
   int get hashCode => updated.hashCode ^ created.hashCode ^ removed.hashCode;
+
+  @override
+  String toString() {
+    return '${BulkRepositoryResult<I, T>}{'
+        'created: $created, '
+        'updated: $updated, '
+        'removed: $removed';
+  }
 }
 
 class RepositoryEvent<I, T> {
@@ -482,6 +275,8 @@ class RepositoryEvent<I, T> {
   T get item => isBulk
       ? (result as BulkRepositoryResult<I, T>).first.item
       : (result as SingleRepositoryResult<I, T>).item;
+
+  List<T> get all => [...created, ...updated, ...removed];
 
   List<T> get created => isBulk
       ? (result as BulkRepositoryResult<I, T>).created
@@ -500,4 +295,19 @@ class RepositoryEvent<I, T> {
       : (result as SingleRepositoryResult<I, T>).removed
           ? [(result as SingleRepositoryResult<I, T>).item]
           : [];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RepositoryEvent &&
+          runtimeType == other.runtimeType &&
+          result == other.result;
+
+  @override
+  int get hashCode => result.hashCode;
+
+  @override
+  String toString() {
+    return '${RepositoryEvent<I, T>}{result: $result}';
+  }
 }
