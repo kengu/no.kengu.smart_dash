@@ -25,16 +25,21 @@ class Connectivity {
         onError: (error, stackTrace) => _controller.addError(error, stackTrace),
       );
     }
-    _logger.info('Connection initialized as [${_status.name.toUpperCase()}]');
+    _logger.info(
+        'Connection STATUS initialized as [${_status.name.toUpperCase()}]');
   }
 
   static final _logger = Logger('$Connectivity');
 
-  static final Connectivity online =
-      Connectivity(() async => ConnectivityStatus.online);
+  static final Connectivity online = Connectivity(
+    () async => ConnectivityStatus.online,
+    status: ConnectivityStatus.online,
+  );
 
-  static final Connectivity offline =
-      Connectivity(() async => ConnectivityStatus.offline);
+  static final Connectivity offline = Connectivity(
+    () async => ConnectivityStatus.offline,
+    status: ConnectivityStatus.offline,
+  );
 
   final Duration checkInterval;
   final ConnectivityStatusChecker _checker;
@@ -56,7 +61,9 @@ class Connectivity {
     if (lock) {
       _override = Optional.of(status);
     } else {
-      _logger.info('Connection status UNLOCKED as [${_status.name}]');
+      _logger.info(
+        'Connection STATUS UNLOCKED as [${_status.name.toUpperCase()}]',
+      );
       _override = Optional.empty();
     }
     return _handle(status);
@@ -71,7 +78,7 @@ class Connectivity {
     if (_override.isPresent) {
       _status = next;
       _logger.info(
-        'Connection status LOCKED as '
+        'Connection STATUS LOCKED as '
         '[${_override.value.name}] is [${next.name}]',
       );
       return _override.value;
@@ -80,9 +87,9 @@ class Connectivity {
     if (next != _status) {
       _status = next;
       _controller.add(next);
-      _logger.info('Connection changed to [${next.name.toUpperCase()}]');
+      _logger.info('Connection STATUS changed to [${next.name.toUpperCase()}]');
     } else {
-      _logger.info('Connection is [${next.name.toUpperCase()}]');
+      _logger.info('Connection STATUS is [${next.name.toUpperCase()}]');
     }
 
     return _status;
