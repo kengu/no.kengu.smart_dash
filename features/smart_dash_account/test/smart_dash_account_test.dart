@@ -204,7 +204,7 @@ void main() {
   group('AccountController', () {
     late s.Handler app;
     late AccountBackendController controller;
-    late MockBackendAccountRepository mockRepo;
+    late MockAccountBackendRepository mockRepo;
 
     const String userId1 = 'u:1';
     const String userId2 = 'u:2';
@@ -212,7 +212,7 @@ void main() {
     const String host = 'http://example.com';
 
     setUp(() {
-      mockRepo = MockBackendAccountRepository();
+      mockRepo = MockAccountBackendRepository();
       when(mockRepo.toId(any)).thenAnswer(
         (args) => (args.positionalArguments.first as Account).userId,
       );
@@ -534,30 +534,30 @@ void main() {
   });
 }
 
-void _mockGetAccount(MockBackendAccountRepository mockRepo, Account item) {
+void _mockGetAccount(MockAccountBackendRepository mockRepo, Account item) {
   when(mockRepo.get(any)).thenAnswer((_) async => Optional.of(item));
 }
 
-void _mockAccountExistsNone(MockBackendAccountRepository mockRepo) {
+void _mockAccountExistsNone(MockAccountBackendRepository mockRepo) {
   when(mockRepo.exists(any)).thenAnswer((_) async => false);
 }
 
-void _mockAccountGetNone(MockBackendAccountRepository mockRepo) {
+void _mockAccountGetNone(MockAccountBackendRepository mockRepo) {
   when(mockRepo.get(any)).thenAnswer((_) async => Optional.empty());
 }
 
 void _mockAccountGetAll(
-    MockBackendAccountRepository mockRepo, List<Account> items) {
+    MockAccountBackendRepository mockRepo, List<Account> items) {
   when(mockRepo.getAll(any)).thenAnswer((_) async => items);
 }
 
 void _mockAccountWhere(
-    MockBackendAccountRepository mockRepo, List<Account> items) {
+    MockAccountBackendRepository mockRepo, List<Account> items) {
   when(mockRepo.where(any)).thenAnswer((_) async => items);
 }
 
 void _mockAccountAddOrUpdate(
-  MockBackendAccountRepository mockRepo,
+  MockAccountBackendRepository mockRepo,
   SingleRepositoryResult<String, Account> result,
 ) {
   provideDummy(result);
@@ -567,7 +567,7 @@ void _mockAccountAddOrUpdate(
 }
 
 void _mockAccountRemove(
-  MockBackendAccountRepository mockRepo,
+  MockAccountBackendRepository mockRepo,
   SingleRepositoryResult<String, Account> result,
 ) {
   provideDummy(result);
@@ -577,7 +577,7 @@ void _mockAccountRemove(
 }
 
 void _mockAccountExists(
-    MockBackendAccountRepository mockRepo, List<Account> items) {
+    MockAccountBackendRepository mockRepo, List<Account> items) {
   when(mockRepo.exists(any)).thenAnswer((args) async {
     final id = args.positionalArguments.first as String;
     return items.any(
@@ -587,7 +587,7 @@ void _mockAccountExists(
 }
 
 void _mockAccountGet(
-    MockBackendAccountRepository mockRepo, List<Account> items) {
+    MockAccountBackendRepository mockRepo, List<Account> items) {
   when(mockRepo.get(any)).thenAnswer((args) async {
     final id = args.positionalArguments.first as String;
     return items.firstWhereOptional(

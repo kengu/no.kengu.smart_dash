@@ -6,7 +6,7 @@ part of 'account_app_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$accountClientHash() => r'6688d7fb43667cc42812bd13e912608fa4253750';
+String _$accountClientHash() => r'691416d0645f0324fcc8075dcef0a9af623fada1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -72,7 +72,8 @@ class AccountClientFamily extends Family {
   }
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(AccountClient Function(AccountClientRef ref) create) {
+  Override overrideWith(
+      AccountAppClient Function(AccountClientRef ref) create) {
     return _$AccountClientFamilyOverride(this, create);
   }
 }
@@ -80,7 +81,7 @@ class AccountClientFamily extends Family {
 class _$AccountClientFamilyOverride implements FamilyOverride {
   _$AccountClientFamilyOverride(this.overriddenFamily, this.create);
 
-  final AccountClient Function(AccountClientRef ref) create;
+  final AccountAppClient Function(AccountClientRef ref) create;
 
   @override
   final AccountClientFamily overriddenFamily;
@@ -94,7 +95,7 @@ class _$AccountClientFamilyOverride implements FamilyOverride {
 }
 
 /// See also [accountClient].
-class AccountClientProvider extends Provider<AccountClient> {
+class AccountClientProvider extends Provider<AccountAppClient> {
   /// See also [accountClient].
   AccountClientProvider(
     String baseUrl,
@@ -129,7 +130,7 @@ class AccountClientProvider extends Provider<AccountClient> {
 
   @override
   Override overrideWith(
-    AccountClient Function(AccountClientRef ref) create,
+    AccountAppClient Function(AccountClientRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -151,12 +152,12 @@ class AccountClientProvider extends Provider<AccountClient> {
   }
 
   @override
-  ProviderElement<AccountClient> createElement() {
+  ProviderElement<AccountAppClient> createElement() {
     return _AccountClientProviderElement(this);
   }
 
   AccountClientProvider _copyWith(
-    AccountClient Function(AccountClientRef ref) create,
+    AccountAppClient Function(AccountClientRef ref) create,
   ) {
     return AccountClientProvider._internal(
       (ref) => create(ref as AccountClientRef),
@@ -183,12 +184,12 @@ class AccountClientProvider extends Provider<AccountClient> {
   }
 }
 
-mixin AccountClientRef on ProviderRef<AccountClient> {
+mixin AccountClientRef on ProviderRef<AccountAppClient> {
   /// The parameter `baseUrl` of this provider.
   String get baseUrl;
 }
 
-class _AccountClientProviderElement extends ProviderElement<AccountClient>
+class _AccountClientProviderElement extends ProviderElement<AccountAppClient>
     with AccountClientRef {
   _AccountClientProviderElement(super.provider);
 

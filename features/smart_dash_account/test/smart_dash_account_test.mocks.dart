@@ -824,12 +824,12 @@ class MockDio extends _i1.Mock implements _i10.Dio {
       ) as _i11.Future<_i6.Response<T>>);
 }
 
-/// A class which mocks [BackendAccountRepository].
+/// A class which mocks [AccountBackendRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBackendAccountRepository extends _i1.Mock
+class MockAccountBackendRepository extends _i1.Mock
     implements _i13.AccountBackendRepository {
-  MockBackendAccountRepository() {
+  MockAccountBackendRepository() {
     _i1.throwOnMissingStub(this);
   }
 

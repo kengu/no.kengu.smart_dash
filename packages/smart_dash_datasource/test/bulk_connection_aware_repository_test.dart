@@ -706,59 +706,6 @@ void main() {
 // LOCAL Repository Mocking Methods
 // ==========================================
 
-StreamController<FooResult> _mockLocalAddOrUpdate(
-  MockBulkFooRepository mockRepo,
-  SingleFooResult result, [
-  Optional<Foo> existing = const Optional.empty(),
-]) {
-  return _mockLocalAddOrUpdateBuilder(
-    mockRepo,
-    result: (invocation) => result,
-    exists: (invocation) => existing.isPresent,
-  );
-}
-
-StreamController<FooResult> _mockLocalAddOrUpdateBuilder(
-  MockBulkFooRepository mockRepo, {
-  required bool Function(Invocation invocation) exists,
-  required SingleFooResult Function(Invocation invocation) result,
-}) {
-  provideDummyBuilder<SingleFooResult>((parent, invocation) {
-    return result(invocation);
-  });
-
-  when(mockRepo.toId(any)).thenAnswer(
-    (invocation) => invocation.item.value.id,
-  );
-
-  when(mockRepo.exists(any)).thenAnswer(
-    (invocation) async => exists(invocation),
-  );
-
-  when(mockRepo.get(any)).thenAnswer(
-    (invocation) async {
-      return exists(invocation)
-          ? Optional.of(result(invocation).item)
-          : Optional.empty();
-    },
-  );
-
-  final controller = StreamController<FooResult>();
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
-    (invocation) async {
-      final r = result(invocation);
-      controller.add(r);
-      return r;
-    },
-  );
-  when(mockRepo.events).thenAnswer(
-    (_) => controller.stream.map(
-      (e) => FooEvent(e),
-    ),
-  );
-  return controller;
-}
-
 StreamController<FooResult> _mockLocalUpdateAll(
   MockBulkFooRepository mockRepo,
   BulkFooResult result, {
@@ -793,45 +740,6 @@ StreamController<FooResult> _mockLocalUpdateAllBuilder(
       final r = result(invocation);
       controller.add(r);
       return r;
-    },
-  );
-  when(mockRepo.events).thenAnswer(
-    (_) => controller.stream.map(
-      (e) => FooEvent(e),
-    ),
-  );
-  return controller;
-}
-
-StreamController<FooResult> _mockLocalRemove(
-  MockBulkFooRepository mockRepo,
-  SingleFooResult result, [
-  Optional<Foo> existing = const Optional.empty(),
-]) {
-  provideDummy<SingleFooResult>(result);
-
-  when(mockRepo.toId(any)).thenAnswer(
-    (invocation) => invocation.item.value.id,
-  );
-
-  _mockLocalExists(
-    mockRepo,
-    [if (existing.isPresent) existing.value],
-  );
-
-  when(mockRepo.get(any)).thenAnswer(
-    (invocation) async {
-      return existing;
-    },
-  );
-
-  final controller = StreamController<FooResult>();
-  when(mockRepo.remove(any)).thenAnswer(
-    (invocation) async {
-      if (result.isNotEmpty) {
-        controller.add(result);
-      }
-      return result;
     },
   );
   when(mockRepo.events).thenAnswer(
@@ -922,39 +830,6 @@ void _mockLocalEvents(
 // REMOTE Repository Mocking Methods
 // ==========================================
 
-StreamController<SingleFooResult> _mockRemoteAddOrUpdate(
-  MockBulkFooRemoteRepository mockRepo,
-  SingleFooResult result, [
-  Optional<Foo> existing = const Optional.empty(),
-]) {
-  provideDummy<SingleFooResult>(result);
-
-  when(mockRepo.toId(any)).thenAnswer(
-    (invocation) => result.item.id,
-  );
-
-  when(mockRepo.get(any)).thenAnswer(
-    (invocation) async {
-      return existing;
-    },
-  );
-
-  final controller = StreamController<SingleFooResult>();
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
-    (invocation) async {
-      controller.add(result);
-      return result;
-    },
-  );
-  when(mockRepo.events).thenAnswer(
-    (_) => controller.stream.map(
-      (e) => FooEvent(e),
-    ),
-  );
-  when(mockRepo.getAll(any)).thenAnswer((_) async => [result.item]);
-  return controller;
-}
-
 StreamController<FooResult> _mockRemoteUpdateAll(
   MockBulkFooRemoteRepository mockRepo,
   BulkFooResult result, {
@@ -991,44 +866,6 @@ StreamController<FooResult> _mockRemoteUpdateAllBuilder(
       return r;
     },
   );
-  when(mockRepo.events).thenAnswer(
-    (_) => controller.stream.map(
-      (e) => FooEvent(e),
-    ),
-  );
-  return controller;
-}
-
-StreamController<SingleFooResult> _mockRemoteRemove(
-  MockBulkFooRemoteRepository mockRepo,
-  SingleFooResult result, [
-  Optional<Foo> existing = const Optional.empty(),
-]) {
-  provideDummy<SingleFooResult>(result);
-
-  when(mockRepo.toId(any)).thenAnswer(
-    (invocation) => result.item.id,
-  );
-
-  _mockRemoteExists(
-    mockRepo,
-    [if (existing.isPresent) existing.value],
-  );
-
-  when(mockRepo.get(any)).thenAnswer(
-    (invocation) async {
-      return existing;
-    },
-  );
-
-  final controller = StreamController<SingleFooResult>();
-  when(mockRepo.remove(any)).thenAnswer(
-    (invocation) async {
-      controller.add(result);
-      return result;
-    },
-  );
-
   when(mockRepo.events).thenAnswer(
     (_) => controller.stream.map(
       (e) => FooEvent(e),
@@ -1084,21 +921,6 @@ void _mockRemoteExists(MockBulkFooRemoteRepository mockRepo, List<Foo> items) {
       (e) => e.id == id,
     );
   });
-}
-
-StreamController<Foo> _mockRemoteGet(
-  MockBulkFooRemoteRepository mockRepo,
-  Foo item, [
-  bool emit = true,
-]) {
-  final controller = StreamController<Foo>();
-  when(mockRepo.get(any)).thenAnswer((_) async {
-    if (emit) {
-      controller.addStream(Stream.fromIterable([item]));
-    }
-    return Optional.of(item);
-  });
-  return controller;
 }
 
 StreamController<Foo> _mockRemoteGetAll(

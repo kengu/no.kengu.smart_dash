@@ -7,7 +7,7 @@ part of 'account_backend_repository.dart';
 // **************************************************************************
 
 String _$backendAccountRepositoryHash() =>
-    r'bff53cfa490c2012f823cef8ca8a600a36c30b74';
+    r'95ba004bbffa56f9efa14afc531b3ba858a559a1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -74,7 +74,7 @@ class BackendAccountRepositoryFamily extends Family {
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
   Override overrideWith(
-      BackendAccountRepository Function(BackendAccountRepositoryRef ref)
+      AccountBackendRepository Function(BackendAccountRepositoryRef ref)
           create) {
     return _$BackendAccountRepositoryFamilyOverride(this, create);
   }
@@ -83,7 +83,7 @@ class BackendAccountRepositoryFamily extends Family {
 class _$BackendAccountRepositoryFamilyOverride implements FamilyOverride {
   _$BackendAccountRepositoryFamilyOverride(this.overriddenFamily, this.create);
 
-  final BackendAccountRepository Function(BackendAccountRepositoryRef ref)
+  final AccountBackendRepository Function(BackendAccountRepositoryRef ref)
       create;
 
   @override
@@ -99,7 +99,7 @@ class _$BackendAccountRepositoryFamilyOverride implements FamilyOverride {
 
 /// See also [backendAccountRepository].
 class BackendAccountRepositoryProvider
-    extends Provider<BackendAccountRepository> {
+    extends Provider<AccountBackendRepository> {
   /// See also [backendAccountRepository].
   BackendAccountRepositoryProvider(
     String dbPath,
@@ -134,7 +134,7 @@ class BackendAccountRepositoryProvider
 
   @override
   Override overrideWith(
-    BackendAccountRepository Function(BackendAccountRepositoryRef ref) create,
+    AccountBackendRepository Function(BackendAccountRepositoryRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -156,12 +156,12 @@ class BackendAccountRepositoryProvider
   }
 
   @override
-  ProviderElement<BackendAccountRepository> createElement() {
+  ProviderElement<AccountBackendRepository> createElement() {
     return _BackendAccountRepositoryProviderElement(this);
   }
 
   BackendAccountRepositoryProvider _copyWith(
-    BackendAccountRepository Function(BackendAccountRepositoryRef ref) create,
+    AccountBackendRepository Function(BackendAccountRepositoryRef ref) create,
   ) {
     return BackendAccountRepositoryProvider._internal(
       (ref) => create(ref as BackendAccountRepositoryRef),
@@ -188,13 +188,13 @@ class BackendAccountRepositoryProvider
   }
 }
 
-mixin BackendAccountRepositoryRef on ProviderRef<BackendAccountRepository> {
+mixin BackendAccountRepositoryRef on ProviderRef<AccountBackendRepository> {
   /// The parameter `dbPath` of this provider.
   String get dbPath;
 }
 
 class _BackendAccountRepositoryProviderElement
-    extends ProviderElement<BackendAccountRepository>
+    extends ProviderElement<AccountBackendRepository>
     with BackendAccountRepositoryRef {
   _BackendAccountRepositoryProviderElement(super.provider);
 
