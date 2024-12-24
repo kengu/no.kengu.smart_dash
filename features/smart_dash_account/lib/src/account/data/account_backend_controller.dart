@@ -4,9 +4,9 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
-class AccountController
+class AccountBackendController
     extends RepositoryController<String, Account, AccountRepositoryMixin> {
-  AccountController(this.ref, this.dbPath);
+  AccountBackendController(this.ref, this.dbPath);
 
   static const ids = 'ids';
   static const userId = 'userId';

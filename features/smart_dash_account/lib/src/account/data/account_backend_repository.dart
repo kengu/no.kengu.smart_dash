@@ -7,15 +7,15 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 import 'drift/account_database.dart';
 
-part 'account_repository_backend.g.dart';
+part 'account_backend_repository.g.dart';
 
-class BackendAccountRepository extends AccountRepository
+class AccountBackendRepository extends AccountRepository
     with AccountRepositoryMixin {
-  BackendAccountRepository(super.ref, this.db);
+  AccountBackendRepository(super.ref, this.db);
 
   AccountDatabase db;
 
-  final Logger _logger = Logger('$BackendAccountRepository');
+  final Logger _logger = Logger('$AccountBackendRepository');
 
   @override
   Future<bool> exists(String userId) async {
@@ -137,9 +137,9 @@ class BackendAccountRepository extends AccountRepository
 }
 
 @Riverpod(keepAlive: true)
-BackendAccountRepository backendAccountRepository(
+AccountBackendRepository backendAccountRepository(
     BackendAccountRepositoryRef ref, String dbPath) {
-  return BackendAccountRepository(
+  return AccountBackendRepository(
     ref,
     AccountDatabase(ref, dbPath).autoDispose(ref),
   );

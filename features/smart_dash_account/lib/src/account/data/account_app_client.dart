@@ -3,11 +3,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
-part 'account_client.g.dart';
+part 'account_app_client.g.dart';
 
-class AccountClient extends RepositoryClient<String, Account>
+class AccountAppClient extends RepositoryClient<String, Account>
     with BulkRepositoryClientMixin<String, Account> {
-  AccountClient(Dio api) : super(api, 'account');
+  AccountAppClient(Dio api) : super(api, 'account');
 
   @override
   String toId(Account item) {
@@ -21,8 +21,8 @@ class AccountClient extends RepositoryClient<String, Account>
 }
 
 @Riverpod(keepAlive: true)
-AccountClient accountClient(AccountClientRef ref, String baseUrl) {
-  return AccountClient(
+AccountAppClient accountClient(AccountClientRef ref, String baseUrl) {
+  return AccountAppClient(
     Dio(BaseOptions(headers: {}, baseUrl: baseUrl))
       // Process json in the background
       ..transformer = BackgroundTransformer(),

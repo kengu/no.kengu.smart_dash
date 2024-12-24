@@ -16,13 +16,13 @@ import 'smart_dash_account_test.mocks.dart';
 
 @GenerateMocks([
   Dio,
-  BackendAccountRepository,
+  AccountBackendRepository,
 ])
 void main() {
   _initLogger(Level.FINE);
   group('AccountClient', () {
     late MockDio mockDio;
-    late AccountClient apiClient;
+    late AccountAppClient apiClient;
     const String userId1 = 'u:1';
     const String userId2 = 'u:2';
 
@@ -32,7 +32,7 @@ void main() {
       mockDio.interceptors.add(
         RepositoryClientInterceptor(Account.fromJson),
       );
-      apiClient = AccountClient(mockDio);
+      apiClient = AccountAppClient(mockDio);
     });
 
     tearDown(() {
@@ -203,7 +203,7 @@ void main() {
   });
   group('AccountController', () {
     late s.Handler app;
-    late AccountController controller;
+    late AccountBackendController controller;
     late MockBackendAccountRepository mockRepo;
 
     const String userId1 = 'u:1';
@@ -221,7 +221,7 @@ void main() {
           (_) => mockRepo,
         ),
       ]);
-      controller = AccountController(ref, dbPath);
+      controller = AccountBackendController(ref, dbPath);
       app = const s.Pipeline()
           .addMiddleware(s.logRequests())
           .addHandler(controller.router.call);

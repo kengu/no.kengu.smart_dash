@@ -6,10 +6,10 @@ import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
-part 'account_repository_app.g.dart';
+part 'account_app_repository.g.dart';
 
-class AppAccountRepository extends ConnectionAwareRepository<String, Account> {
-  AppAccountRepository({
+class AccountAppRepository extends ConnectionAwareRepository<String, Account> {
+  AccountAppRepository({
     required super.checker,
     required AccountRepositoryMixin local,
     required RemoteAccountRepository remote,
@@ -44,7 +44,7 @@ class RemoteAccountRepository extends RemoteRepository<String, Account>
   final String baseUrl;
 
   @override
-  AccountClient get client => ref.read(accountClientProvider(baseUrl));
+  AccountAppClient get client => ref.read(accountClientProvider(baseUrl));
 }
 
 class AccountAdapter extends TypedAdapter<Account> {
@@ -66,8 +66,8 @@ class AccountAdapter extends TypedAdapter<Account> {
 }
 
 @Riverpod(keepAlive: true)
-AppAccountRepository appAccountRepository(AppAccountRepositoryRef ref) {
-  return AppAccountRepository(
+AccountAppRepository appAccountRepository(AppAccountRepositoryRef ref) {
+  return AccountAppRepository(
     local: LocalAccountRepository(ref),
     remote: RemoteAccountRepository(ref, 'http://localhost:8080'),
     checker: ref.read(connectivityProvider),

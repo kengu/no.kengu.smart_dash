@@ -30,7 +30,7 @@ Router _buildRouter(Logger log, ArgResults vars) {
   final ref = ProviderContainer();
 
   // Create controllers
-  final accounts = AccountController(ref, dbPath);
+  final accounts = AccountBackendController(ref, dbPath);
 
   return Router()..mount('/', accounts.router.call);
 }

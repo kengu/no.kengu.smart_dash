@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
-part 'current_home_repository_app.g.dart';
+part 'current_home_app_repository.g.dart';
 
 typedef CurrentHomeRepository
     = SharedPreferencesRepository<String, CurrentHome>;
@@ -43,10 +43,10 @@ mixin CurrentHomeRepositoryMixin
   }
 }
 
-class AppCurrentHomeRepository
+class CurrentHomeAppRepository
     extends SharedPreferencesRepository<String, CurrentHome>
     with CurrentHomeRepositoryMixin {
-  AppCurrentHomeRepository(Ref ref)
+  CurrentHomeAppRepository(Ref ref)
       : super(
           ref,
           CurrentHomeRepositoryMixin.key,
@@ -54,7 +54,7 @@ class AppCurrentHomeRepository
 }
 
 @Riverpod(keepAlive: true)
-AppCurrentHomeRepository appCurrentHomeRepository(
+CurrentHomeAppRepository appCurrentHomeRepository(
     AppCurrentHomeRepositoryRef ref) {
-  return AppCurrentHomeRepository(ref);
+  return CurrentHomeAppRepository(ref);
 }
