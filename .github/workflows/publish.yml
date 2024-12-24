@@ -113,7 +113,7 @@ jobs:
           pattern: bin-rpi4b-arm64*
           path: bin-rpi4b-arm64
           merge-multiple: true
-      - run: ls -R my-artifact
+      - run: ls -R bin-rpi4b-arm64
       - uses: softprops/action-gh-release@v1
         with:
           draft: true
