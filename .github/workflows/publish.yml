@@ -82,11 +82,11 @@ jobs:
       - name: Build Cloud Backend
         run: dart compile exe ./backends/smart_dash_cloud/bin/main.dart -o build/rpi4b-arm64/cloud_rpi4b_arm64
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: bin-rpi4b-arm64
           path: build/rpi4b-arm64
-
+          overwrite: true
 
   release:
     needs:
@@ -107,10 +107,13 @@ jobs:
 #        with:
 #          name: bin-windows-latest
 #          path: bin-windows
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: bin-rpi4b-arm64
+#          name: bin-rpi4b-arm64
+          pattern: bin-rpi4b-arm64*
           path: bin-rpi4b-arm64
+          merge-multiple: true
+      - run: ls -R my-artifact
       - uses: softprops/action-gh-release@v1
         with:
           draft: true
