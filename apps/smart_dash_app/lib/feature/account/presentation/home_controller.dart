@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -38,7 +38,7 @@ class HomeData {
 
 @riverpod
 class HomeController extends _$HomeController
-    with AsyncLoadController<HomeQuery, HomeData> {
+    with AsyncViewModel<HomeQuery, HomeData> {
   final List<StreamSubscription> _subscriptions = [];
 
   @override

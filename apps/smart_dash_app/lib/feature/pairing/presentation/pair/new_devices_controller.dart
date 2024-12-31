@@ -1,6 +1,6 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 
 part 'new_devices_controller.g.dart';
@@ -16,7 +16,7 @@ class NewDevicesQuery {
 
 @riverpod
 class NewDevicesScreenController extends _$NewDevicesScreenController
-    with AsyncLoadController<NewDevicesQuery, List<Device>> {
+    with AsyncViewModel<NewDevicesQuery, List<Device>> {
   @override
   FutureOr<Optional<List<Device>>> build(NewDevicesQuery query) =>
       super.build(query);

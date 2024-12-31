@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_widget.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 typedef AsyncFormWidgetBuilder<Data> = Widget Function(
@@ -19,7 +17,7 @@ typedef AsyncFormWidgetBuilder<Data> = Widget Function(
 
 /// [ReactiveForm] wrapped with [Scaffold].
 class AsyncFormWidget<Query, Data,
-        Controller extends AsyncLoadControllerProvider<Data>>
+        Controller extends AsyncViewModelProvider<Data>>
     extends ConsumerStatefulWidget {
   const AsyncFormWidget({
     super.key,
@@ -35,7 +33,7 @@ class AsyncFormWidget<Query, Data,
           'builder or child must be given',
         );
 
-  /// Data query used buy [AsyncFormController] to load data
+  /// Data query used buy [AsyncFormViewModel] to load data
   final Query query;
 
   /// Called when an error have occurred
@@ -45,7 +43,7 @@ class AsyncFormWidget<Query, Data,
   final ValueChanged<Data> onSubmitted;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
+  final AsyncViewModelProviderBuilder<Query, Data, Controller> provider;
 
   /// Every change is submitted automatically (default false)
   /// No manual 'SAVE' action is shown when auto submitting.
@@ -59,11 +57,11 @@ class AsyncFormWidget<Query, Data,
 
   @override
   ConsumerState<AsyncFormWidget<Query, Data, Controller>> createState() =>
-      _AsyncSaveWidgetState<Query, Data, Controller>();
+      _AsyncFormWidgetState<Query, Data, Controller>();
 }
 
-class _AsyncSaveWidgetState<Query, Data,
-        Controller extends AsyncLoadControllerProvider<Data>>
+class _AsyncFormWidgetState<Query, Data,
+        Controller extends AsyncViewModelProvider<Data>>
     extends ConsumerState<AsyncFormWidget<Query, Data, Controller>> {
   /// Reference to stream of auto submitted [Data] changes
   StreamSubscription<Data>? _autoSubmitSubscription;
@@ -76,12 +74,12 @@ class _AsyncSaveWidgetState<Query, Data,
 
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadWidget<Query, Data, Controller>(
+    return AsyncViewModelWidget<Query, Data, Controller>(
       query: widget.query,
       provider: widget.provider,
       builder: (context, ref, data, _) {
         return ReactiveFormBuilder(
-          form: () => AsyncFormController.of(
+          form: () => AsyncFormViewModel.of(
             ref,
             widget.provider,
             widget.query,
@@ -100,7 +98,7 @@ class _AsyncSaveWidgetState<Query, Data,
   void _initAutoCommitIfEnabled(FormGroup formGroup) {
     if (widget.autoSubmit) {
       _autoSubmitSubscription?.cancel();
-      _autoSubmitSubscription = AsyncFormController.of<Query, Data>(
+      _autoSubmitSubscription = AsyncFormViewModel.of<Query, Data>(
         ref,
         widget.provider,
         widget.query,

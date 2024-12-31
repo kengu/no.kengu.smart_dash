@@ -7,7 +7,7 @@ part of 'system_health_controller.dart';
 // **************************************************************************
 
 String _$systemHealthScreenControllerHash() =>
-    r'b07393a653c391e4115b618637fc1c1f9c2321b8';
+    r'8d390c63c16d9bd4abbc88d821f3810f7213d4f2';
 
 /// Copied from Dart SDK
 class _SystemHash {

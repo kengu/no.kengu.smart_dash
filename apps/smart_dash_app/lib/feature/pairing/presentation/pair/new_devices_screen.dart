@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/multi_selector.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/pair/new_devices_controller.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 
@@ -50,7 +50,7 @@ class _NewDevicesScreenState extends ConsumerState<NewDevicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadScreen<NewDevicesQuery, List<Device>,
+    return AsyncViewModelScreen<NewDevicesQuery, List<Device>,
         NewDevicesScreenController>(
       title: _buildTitle(),
       query: query,

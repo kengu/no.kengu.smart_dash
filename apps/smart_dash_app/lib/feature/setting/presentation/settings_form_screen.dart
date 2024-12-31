@@ -5,11 +5,11 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_screen.dart';
 import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/setting/data/setting_repository.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
-import 'package:smart_dash_app/feature/setting/presentation/settings_form_screen_controller.dart';
+import 'package:smart_dash_app/feature/setting/presentation/settings_form_screen_view_model.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/dark_mode_tile.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/price_area_tile.dart';
 import 'package:smart_dash_app/feature/setting/presentation/tile/setting_switch_tile.dart';
@@ -29,11 +29,11 @@ class SettingFormScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncFormScreen<SettingsQuery, SettingMap,
-        SettingsFormScreenController>(
+        SettingsFormScreenViewModel>(
       title: 'Edit settings',
       query: const SettingsQuery(),
       autoSubmit: true,
-      provider: settingsFormScreenControllerProvider.call,
+      provider: settingsFormScreenViewModelProvider.call,
       onClose: () => context.pop(),
       onSubmitted: (settings) => SnackbarController.showSnackBarByRef(
         context,

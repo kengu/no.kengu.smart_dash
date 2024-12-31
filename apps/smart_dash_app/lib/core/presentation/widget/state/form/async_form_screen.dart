@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 /// A async Fullscreen dialog form widget with [Scaffold].
 class AsyncFormScreen<Query, Data,
-        Controller extends AsyncLoadControllerProvider<Data>>
-    extends StatelessWidget {
+    Controller extends AsyncViewModelProvider<Data>> extends StatelessWidget {
   const AsyncFormScreen({
     super.key,
     required this.title,
@@ -40,11 +37,11 @@ class AsyncFormScreen<Query, Data,
   /// Called when user submitted form successfully
   final ValueChanged<Data> onSubmitted;
 
-  /// Data query used buy [AsyncFormController] to load data
+  /// Data query used buy [AsyncFormViewModel] to load data
   final Query query;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
+  final AsyncViewModelProviderBuilder<Query, Data, Controller> provider;
 
   /// [SingleChildScrollView] is inserted above [child] if true
   final bool scrollable;
@@ -110,7 +107,7 @@ class AsyncFormScreen<Query, Data,
 
   void _onSubmit(WidgetRef ref, FormGroup formGroup) {
     if (formGroup.valid) {
-      AsyncFormController.of(ref, provider, query)
+      AsyncFormViewModel.of(ref, provider, query)
           .submit(formGroup.value)
           .then((value) => onSubmitted(value.value), onError: onError);
     } else {

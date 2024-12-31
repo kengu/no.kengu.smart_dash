@@ -3,8 +3,7 @@ import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 
 part 'account_form_screen_controller.g.dart';
 
@@ -21,13 +20,13 @@ class AccountQuery {
 @riverpod
 class AccountFormScreenController extends _$AccountFormScreenController
     with
-        AsyncLoadController<AccountQuery, Account>,
-        AsyncFormController<AccountQuery, Account> {
+        AsyncViewModel<AccountQuery, Account>,
+        AsyncFormViewModel<AccountQuery, Account> {
   static AccountFormScreenController forCurrentUser(WidgetRef ref) {
     final user = ref.read(userRepositoryProvider).currentUser;
     final manager = ref.watch(integrationManagerProvider);
     final integrations = manager.getAll();
-    return AsyncFormController.of(
+    return AsyncFormViewModel.of(
         ref,
         accountFormScreenControllerProvider.call,
         AccountQuery(
@@ -185,7 +184,7 @@ class AccountFormScreenController extends _$AccountFormScreenController
   }
 
   @override
-  Account buildData(Map<String, Object?> value) {
+  Account toData(Map<String, Object?> value) {
     return Account.fromJson({
       ...value,
       AccountFields.userId: query.userId,

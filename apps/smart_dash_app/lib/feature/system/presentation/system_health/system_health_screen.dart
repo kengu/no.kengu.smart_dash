@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/system/application/system_health_service.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 import 'package:smart_dash_app/feature/system/presentation/system_health/system_health_controller.dart';
@@ -23,7 +23,7 @@ class SystemHealthScreen extends ConsumerStatefulWidget {
 class _SystemHealthScreenState extends ConsumerState<SystemHealthScreen> {
   @override
   Widget build(BuildContext context) {
-    return AsyncLoadScreen<SystemHealthQuery, SystemHealth,
+    return AsyncViewModelScreen<SystemHealthQuery, SystemHealth,
         SystemHealthScreenController>(
       title: 'System Health',
       onClose: () => context.go(widget.location),

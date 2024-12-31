@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/route_selector.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/pairing/presentation/paring_routes.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 
@@ -18,7 +18,7 @@ class DeviceTypesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<DeviceTypesQuery, List<DeviceDefinition>,
+    return AsyncViewModelScreen<DeviceTypesQuery, List<DeviceDefinition>,
         DeviceTypesScreenController>(
       title: 'Device types',
       onClose: () => context.pop(),

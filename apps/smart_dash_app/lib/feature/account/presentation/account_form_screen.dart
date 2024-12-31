@@ -8,17 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
-import 'package:smart_dash_app/core/presentation/dialog.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
 import 'package:smart_dash_app/core/presentation/theme/smart_dash_theme_data.dart';
-import 'package:smart_dash_app/core/presentation/widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_screen.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/field/smart_dash_expansion_group_field.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/field/smart_dash_text_field.dart';
-import 'package:smart_dash_app/core/presentation/widget/list/expansion_list.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
-import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_presence/smart_dash_presence.dart';
 
 import 'account_form_screen_controller.dart';

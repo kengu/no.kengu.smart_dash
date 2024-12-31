@@ -4,21 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-/// [AsyncFormController] interface (mixin). The method [build] MUST be
+/// [AsyncFormViewModel] interface (mixin). The method [build] MUST be
 /// overridden by class using mixin. If not, riverpod_generator will throw
 /// and error (mixins are not evaluated by it, only classes I guess).
-mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
-  static AsyncFormController<Query, Data> of<Query, Data>(
+mixin AsyncFormViewModel<Query, Data>
+    implements AsyncViewModel<Query, Data>, AsyncSaveMixin<Query, Data> {
+  static AsyncFormViewModel<Query, Data> of<Query, Data>(
       WidgetRef ref,
-      AsyncLoadControllerProviderBuilder<Query, Data,
-              AsyncLoadControllerProvider<Data>>
+      AsyncViewModelProviderBuilder<Query, Data, AsyncViewModelProvider<Data>>
           provider,
       Query query) {
     return ref.read(provider(query).notifier)
-        as AsyncFormController<Query, Data>;
+        as AsyncFormViewModel<Query, Data>;
   }
 
   /// Reference to [FormGroup.valueChanges],
@@ -52,18 +53,21 @@ mixin AsyncFormController<Query, Data> on AsyncLoadController<Query, Data> {
   }
 
   /// Build [Data] from [FormGroup.value] data
-  Data buildData(Map<String, Object?> value);
+  @override
+  Data toData(JsonObject value);
 
-  /// Save [Data] to store.
+  /// Save [Data] to persistent storage.
+  @override
   @visibleForOverriding
   Future<bool> save(Data data);
 
   /// Submit [FormGroup.value] data.
-  Future<Optional<Data>> submit(Map<String, Object?>? value) async {
+  @override
+  Future<Optional<Data>> submit(JsonObject? value) async {
     if (value != null) {
       state = AsyncLoading<Optional<Data>>();
       state = await AsyncValue.guard(() async {
-        final data = buildData(value);
+        final data = toData(value);
         return await save(data)
             ? Optional.of(data)
             : Optional.ofNullable(

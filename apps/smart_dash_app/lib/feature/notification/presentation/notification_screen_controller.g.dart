@@ -7,7 +7,7 @@ part of 'notification_screen_controller.dart';
 // **************************************************************************
 
 String _$notificationScreenControllerHash() =>
-    r'84c4fff6d7cf0a4f7ccb0445cd6ba532fde316fc';
+    r'f4f1895bf99f908dfca47bd0fdb19dc87b67e97e';
 
 /// Copied from Dart SDK
 class _SystemHash {

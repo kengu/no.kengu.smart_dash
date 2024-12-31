@@ -2,8 +2,7 @@ import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/form/async_form_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
@@ -34,8 +33,8 @@ class BlockFlowFormQuery {
 @riverpod
 class BlockFlowFormController extends _$BlockFlowFormController
     with
-        AsyncLoadController<BlockFlowFormQuery, BlockModel>,
-        AsyncFormController<BlockFlowFormQuery, BlockModel> {
+        AsyncViewModel<BlockFlowFormQuery, BlockModel>,
+        AsyncFormViewModel<BlockFlowFormQuery, BlockModel> {
   @override
   FutureOr<Optional<BlockModel>> build(BlockFlowFormQuery query) =>
       super.build(query);
@@ -197,7 +196,7 @@ class BlockFlowFormController extends _$BlockFlowFormController
   }
 
   @override
-  BlockModel buildData(Map<String, Object?> value) {
+  BlockModel toData(Map<String, Object?> value) {
     return BlockModel.fromJson(value);
   }
 

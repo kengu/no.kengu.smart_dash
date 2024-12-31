@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_dash_app/core/presentation/widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 import 'package:smart_dash_app/feature/device/presentation/utils.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';

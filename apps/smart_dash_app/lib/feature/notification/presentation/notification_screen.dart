@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:smart_dash_app/core/presentation/widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
 
 import 'notification_screen_controller.dart';
@@ -20,7 +19,7 @@ class NotificationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final style = getLegendTextStyle(context);
-    return AsyncLoadScreen<NotificationQuery, List<NotificationModel>,
+    return AsyncViewModelScreen<NotificationQuery, List<NotificationModel>,
         NotificationScreenController>(
       title: 'Notifications',
       onClose: () => context.go(location),

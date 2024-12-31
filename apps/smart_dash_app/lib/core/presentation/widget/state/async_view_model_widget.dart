@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_error_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_progress_indicator.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
-typedef AsyncLoadWidgetBuilder<Data> = Widget Function(
+typedef AsyncViewModelWidgetBuilder<Data> = Widget Function(
   BuildContext context,
   WidgetRef ref,
   Optional<Data> data,
@@ -14,10 +14,9 @@ typedef AsyncLoadWidgetBuilder<Data> = Widget Function(
 );
 
 /// Widget for async load of data matching given query.
-class AsyncLoadWidget<Query, Data,
-        Controller extends AsyncLoadControllerProvider<Data>>
-    extends ConsumerWidget {
-  const AsyncLoadWidget({
+class AsyncViewModelWidget<Query, Data,
+    Controller extends AsyncViewModelProvider<Data>> extends ConsumerWidget {
+  const AsyncViewModelWidget({
     super.key,
     required this.query,
     required this.builder,
@@ -26,17 +25,17 @@ class AsyncLoadWidget<Query, Data,
     this.onError,
   });
 
-  /// Data query used buy [AsyncLoadController] to load data
+  /// Data query used buy [AsyncViewModel] to load data
   final Query query;
 
   /// Called when an error have occurred
   final ErrorCallback? onError;
 
   /// Builder called when [Data] returns from [angle].
-  final AsyncLoadWidgetBuilder<Data> builder;
+  final AsyncViewModelWidgetBuilder<Data> builder;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
+  final AsyncViewModelProviderBuilder<Query, Data, Controller> provider;
 
   /// The screen content
   final Widget? child;

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_widget.dart';
 import 'package:smart_dash_app/core/presentation/widget/smart_dash_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 /// A async load fullscreen dialog with [Scaffold]
-class AsyncLoadScreen<Query, Data,
-        Controller extends AsyncLoadControllerProvider<Data>>
-    extends StatelessWidget {
-  const AsyncLoadScreen({
+class AsyncViewModelScreen<Query, Data,
+    Controller extends AsyncViewModelProvider<Data>> extends StatelessWidget {
+  const AsyncViewModelScreen({
     super.key,
     required this.title,
     required this.query,
@@ -40,17 +38,17 @@ class AsyncLoadScreen<Query, Data,
   /// How the scroll view should respond to user input.
   final ScrollPhysics? physics;
 
-  /// Data query used buy [AsyncLoadController] to load data
+  /// Data query used buy [AsyncViewModel] to load data
   final Query query;
 
   /// Called when an error have occurred
   final ErrorCallback? onError;
 
   /// Builder called when [Data] returns from [angle].
-  final AsyncLoadWidgetBuilder<Data> builder;
+  final AsyncViewModelWidgetBuilder<Data> builder;
 
   /// A provider of [AsyncValue] of type [Data] fetched async
-  final AsyncLoadControllerProviderBuilder<Query, Data, Controller> provider;
+  final AsyncViewModelProviderBuilder<Query, Data, Controller> provider;
 
   /// The screen content
   final Widget? child;
@@ -67,7 +65,7 @@ class AsyncLoadScreen<Query, Data,
       physics: physics,
       scrollable: scrollable,
       constraints: constraints,
-      child: AsyncLoadWidget<Query, Data, Controller>(
+      child: AsyncViewModelWidget<Query, Data, Controller>(
         query: query,
         builder: builder,
         provider: provider,

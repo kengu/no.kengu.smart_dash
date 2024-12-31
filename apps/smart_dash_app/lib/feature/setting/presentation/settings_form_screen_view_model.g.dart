@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'settings_form_screen_controller.dart';
+part of 'settings_form_screen_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsFormScreenControllerHash() =>
-    r'e58e525624405efb69912e21b14afb6e5c0cc0e5';
+String _$settingsFormScreenViewModelHash() =>
+    r'1be652c59658fa89a3ed51549984167ef8ecc004';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$SettingsFormScreenController
+abstract class _$SettingsFormScreenViewModel
     extends BuildlessAutoDisposeAsyncNotifier<Optional<SettingMap>> {
   late final SettingsQuery query;
 
@@ -39,15 +39,14 @@ abstract class _$SettingsFormScreenController
   );
 }
 
-/// See also [SettingsFormScreenController].
-@ProviderFor(SettingsFormScreenController)
-const settingsFormScreenControllerProvider =
-    SettingsFormScreenControllerFamily();
+/// See also [SettingsFormScreenViewModel].
+@ProviderFor(SettingsFormScreenViewModel)
+const settingsFormScreenViewModelProvider = SettingsFormScreenViewModelFamily();
 
-/// See also [SettingsFormScreenController].
-class SettingsFormScreenControllerFamily extends Family {
-  /// See also [SettingsFormScreenController].
-  const SettingsFormScreenControllerFamily();
+/// See also [SettingsFormScreenViewModel].
+class SettingsFormScreenViewModelFamily extends Family {
+  /// See also [SettingsFormScreenViewModel].
+  const SettingsFormScreenViewModelFamily();
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
 
@@ -61,21 +60,21 @@ class SettingsFormScreenControllerFamily extends Family {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'settingsFormScreenControllerProvider';
+  String? get name => r'settingsFormScreenViewModelProvider';
 
-  /// See also [SettingsFormScreenController].
-  SettingsFormScreenControllerProvider call(
+  /// See also [SettingsFormScreenViewModel].
+  SettingsFormScreenViewModelProvider call(
     SettingsQuery query,
   ) {
-    return SettingsFormScreenControllerProvider(
+    return SettingsFormScreenViewModelProvider(
       query,
     );
   }
 
   @visibleForOverriding
   @override
-  SettingsFormScreenControllerProvider getProviderOverride(
-    covariant SettingsFormScreenControllerProvider provider,
+  SettingsFormScreenViewModelProvider getProviderOverride(
+    covariant SettingsFormScreenViewModelProvider provider,
   ) {
     return call(
       provider.query,
@@ -83,50 +82,50 @@ class SettingsFormScreenControllerFamily extends Family {
   }
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(SettingsFormScreenController Function() create) {
-    return _$SettingsFormScreenControllerFamilyOverride(this, create);
+  Override overrideWith(SettingsFormScreenViewModel Function() create) {
+    return _$SettingsFormScreenViewModelFamilyOverride(this, create);
   }
 }
 
-class _$SettingsFormScreenControllerFamilyOverride implements FamilyOverride {
-  _$SettingsFormScreenControllerFamilyOverride(
+class _$SettingsFormScreenViewModelFamilyOverride implements FamilyOverride {
+  _$SettingsFormScreenViewModelFamilyOverride(
       this.overriddenFamily, this.create);
 
-  final SettingsFormScreenController Function() create;
+  final SettingsFormScreenViewModel Function() create;
 
   @override
-  final SettingsFormScreenControllerFamily overriddenFamily;
+  final SettingsFormScreenViewModelFamily overriddenFamily;
 
   @override
-  SettingsFormScreenControllerProvider getProviderOverride(
-    covariant SettingsFormScreenControllerProvider provider,
+  SettingsFormScreenViewModelProvider getProviderOverride(
+    covariant SettingsFormScreenViewModelProvider provider,
   ) {
     return provider._copyWith(create);
   }
 }
 
-/// See also [SettingsFormScreenController].
-class SettingsFormScreenControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<SettingsFormScreenController,
+/// See also [SettingsFormScreenViewModel].
+class SettingsFormScreenViewModelProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<SettingsFormScreenViewModel,
         Optional<SettingMap>> {
-  /// See also [SettingsFormScreenController].
-  SettingsFormScreenControllerProvider(
+  /// See also [SettingsFormScreenViewModel].
+  SettingsFormScreenViewModelProvider(
     SettingsQuery query,
   ) : this._internal(
-          () => SettingsFormScreenController()..query = query,
-          from: settingsFormScreenControllerProvider,
-          name: r'settingsFormScreenControllerProvider',
+          () => SettingsFormScreenViewModel()..query = query,
+          from: settingsFormScreenViewModelProvider,
+          name: r'settingsFormScreenViewModelProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$settingsFormScreenControllerHash,
-          dependencies: SettingsFormScreenControllerFamily._dependencies,
+                  : _$settingsFormScreenViewModelHash,
+          dependencies: SettingsFormScreenViewModelFamily._dependencies,
           allTransitiveDependencies:
-              SettingsFormScreenControllerFamily._allTransitiveDependencies,
+              SettingsFormScreenViewModelFamily._allTransitiveDependencies,
           query: query,
         );
 
-  SettingsFormScreenControllerProvider._internal(
+  SettingsFormScreenViewModelProvider._internal(
     super.create, {
     required super.name,
     required super.dependencies,
@@ -140,7 +139,7 @@ class SettingsFormScreenControllerProvider
 
   @override
   FutureOr<Optional<SettingMap>> runNotifierBuild(
-    covariant SettingsFormScreenController notifier,
+    covariant SettingsFormScreenViewModel notifier,
   ) {
     return notifier.build(
       query,
@@ -148,10 +147,10 @@ class SettingsFormScreenControllerProvider
   }
 
   @override
-  Override overrideWith(SettingsFormScreenController Function() create) {
+  Override overrideWith(SettingsFormScreenViewModel Function() create) {
     return ProviderOverride(
       origin: this,
-      override: SettingsFormScreenControllerProvider._internal(
+      override: SettingsFormScreenViewModelProvider._internal(
         () => create()..query = query,
         from: from,
         name: null,
@@ -169,15 +168,15 @@ class SettingsFormScreenControllerProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<SettingsFormScreenController,
+  AutoDisposeAsyncNotifierProviderElement<SettingsFormScreenViewModel,
       Optional<SettingMap>> createElement() {
-    return _SettingsFormScreenControllerProviderElement(this);
+    return _SettingsFormScreenViewModelProviderElement(this);
   }
 
-  SettingsFormScreenControllerProvider _copyWith(
-    SettingsFormScreenController Function() create,
+  SettingsFormScreenViewModelProvider _copyWith(
+    SettingsFormScreenViewModel Function() create,
   ) {
-    return SettingsFormScreenControllerProvider._internal(
+    return SettingsFormScreenViewModelProvider._internal(
       () => create()..query = query,
       name: name,
       dependencies: dependencies,
@@ -190,8 +189,7 @@ class SettingsFormScreenControllerProvider
 
   @override
   bool operator ==(Object other) {
-    return other is SettingsFormScreenControllerProvider &&
-        other.query == query;
+    return other is SettingsFormScreenViewModelProvider && other.query == query;
   }
 
   @override
@@ -203,21 +201,20 @@ class SettingsFormScreenControllerProvider
   }
 }
 
-mixin SettingsFormScreenControllerRef
+mixin SettingsFormScreenViewModelRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<SettingMap>> {
   /// The parameter `query` of this provider.
   SettingsQuery get query;
 }
 
-class _SettingsFormScreenControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<
-        SettingsFormScreenController,
-        Optional<SettingMap>> with SettingsFormScreenControllerRef {
-  _SettingsFormScreenControllerProviderElement(super.provider);
+class _SettingsFormScreenViewModelProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<SettingsFormScreenViewModel,
+        Optional<SettingMap>> with SettingsFormScreenViewModelRef {
+  _SettingsFormScreenViewModelProviderElement(super.provider);
 
   @override
   SettingsQuery get query =>
-      (origin as SettingsFormScreenControllerProvider).query;
+      (origin as SettingsFormScreenViewModelProvider).query;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

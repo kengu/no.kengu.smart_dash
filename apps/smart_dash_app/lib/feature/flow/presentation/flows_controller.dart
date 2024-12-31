@@ -1,6 +1,6 @@
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_controller.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
 
 part 'flows_controller.g.dart';
@@ -13,7 +13,7 @@ class FlowsQuery {
 
 @riverpod
 class FlowsController extends _$FlowsController
-    with AsyncLoadController<FlowsQuery, List<BlockModel>> {
+    with AsyncViewModel<FlowsQuery, List<BlockModel>> {
   @override
   FutureOr<Optional<List<BlockModel>>> build(FlowsQuery query) {
     return super.build(query);

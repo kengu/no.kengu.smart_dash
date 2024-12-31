@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_dash_app/core/presentation/widget.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 import 'package:smart_dash_weather/smart_dash_weather.dart';
 
 import 'weather.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_dash_app/core/presentation/widget/list/route_selector.dart';
-import 'package:smart_dash_app/core/presentation/widget/load/async_load_screen.dart';
+import 'package:smart_dash_app/core/presentation/widget/state/smart_dash_state.dart';
 import 'package:smart_dash_app/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash_app/feature/flow/presentation/flows_controller.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
@@ -17,7 +17,7 @@ class SelectFlowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncLoadScreen<FlowsQuery, List<BlockModel>, FlowsController>(
+    return AsyncViewModelScreen<FlowsQuery, List<BlockModel>, FlowsController>(
       title: 'Flows',
       onClose: () => context.go(location),
       query: const FlowsQuery(),

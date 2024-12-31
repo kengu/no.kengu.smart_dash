@@ -4,8 +4,8 @@
 // import 'package:smart_dash_app/feature/account/data/account_repository.dart';
 // import 'package:smart_dash_app/feature/account/domain/account.dart';
 // import 'package:smart_dash_app/feature/account/domain/service_config.dart';
-// import 'package:smart_dash_app/core/presentation/widget/async_form_controller.dart';
-// import 'package:smart_dash_app/core/presentation/widget/async_load_controller.dart';
+// import 'package:smart_dash_app/core/presentation/widget/async_form_view_model.dart';
+// import 'package:smart_dash_app/core/presentation/widget/async_view_model.dart';
 //
 // part '../login_form_screen_controller.g.dart';
 //

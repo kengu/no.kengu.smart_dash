@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_dash_app/core/presentation/dialog.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
 import 'package:smart_dash_app/core/presentation/scaffold/smart_dash_bottom_sheet.dart';
 import 'package:smart_dash_app/core/presentation/screens.dart';
-import 'package:smart_dash_app/core/presentation/smart_dash_icons_icons.dart';
-import 'package:smart_dash_app/core/presentation/widget.dart';
-import 'package:smart_dash_app/core/presentation/widget/snackbar/snackbar_controller.dart';
 import 'package:smart_dash_app/feature/account/presentation/account_avatar.dart';
 import 'package:smart_dash_app/feature/flow/presentation/flow_routes.dart';
 import 'package:smart_dash_app/feature/notification/presentation/notification_badge.dart';
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 
 import 'smart_dash_menu.dart';
 
