@@ -12,8 +12,13 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
   }
 
   @override
-  ServiceConfig toItem(JsonObject data) {
+  ServiceConfig fromJson(JsonObject data) {
     return ServiceConfig.fromJson(data);
+  }
+
+  @override
+  JsonObject toJson(ServiceConfig data) {
+    return data.toJson();
   }
 
   @override

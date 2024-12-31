@@ -122,7 +122,10 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
     }
 
     final created = items.where((e) => !currentIds.contains(toId(e))).toList();
-    final updated = items.where((e) => currentIds.contains(toId(e))).toList();
+    final updated = items
+        // Only match against changed items
+        .where((e) => currentIds.contains(toId(e)) && !current.contains(e))
+        .toList();
 
     return raise(BulkRepositoryResult<I, T>(
       created.toList(),

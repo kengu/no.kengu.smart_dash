@@ -30,7 +30,10 @@ void main() {
       mockDio = MockDio();
       when(mockDio.interceptors).thenReturn(Interceptors());
       mockDio.interceptors.add(
-        RepositoryClientInterceptor(Account.fromJson),
+        RepositoryClientInterceptor(
+          Account.fromJson,
+          (e) => e.toJson(),
+        ),
       );
       apiClient = AccountAppClient(mockDio);
     });

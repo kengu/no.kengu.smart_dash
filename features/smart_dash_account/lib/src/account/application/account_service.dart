@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
@@ -20,10 +21,25 @@ class AccountService {
   final Ref ref;
   final _cache = FutureCache(prefix: '$AccountService');
 
+  AccountAppRepository get repo => ref.read(appAccountRepositoryProvider);
+
   final StreamController<AccountEvent> _controller =
       StreamController.broadcast();
 
-  Stream<AccountEvent> get changes => _controller.stream;
+  Stream<AccountEvent> get changes {
+    return StreamGroup.merge([
+      _controller.stream,
+      _changes(),
+    ]);
+  }
+
+  Stream<AccountEvent> _changes() async* {
+    await for (final e in repo.events) {
+      if (e.isSingle && e.item.data.userId == currentUser.userId) {
+        yield AccountEvent(e.item.data);
+      }
+    }
+  }
 
   /// Get current [User]
   User get currentUser => ref.read(userRepositoryProvider).currentUser;
@@ -41,8 +57,7 @@ class AccountService {
   }) {
     final uid = userId ?? currentUser.userId;
     return _cache.getOrFetch('get_user_account:$uid', () async {
-      final repo = ref.read(appAccountRepositoryProvider);
-      final account = await ref.read(appAccountRepositoryProvider).get(uid);
+      final account = await repo.get(uid);
       if (account.isPresent) {
         account;
       }
@@ -61,7 +76,7 @@ class AccountService {
   /// If not given, get [Account] for [currentUser]
   Future<Optional<Account>> getAccount({
     String? userId,
-    Duration? ttl = Duration.zero,
+    Duration? ttl = const Duration(milliseconds: 200),
   }) {
     final uid = userId ?? currentUser.userId;
     return _cache.getOrFetch('get_user_account:$uid', () async {
@@ -181,15 +196,13 @@ class AccountService {
   Future<bool> addOrUpdate(Account account) async {
     final repo = ref.read(appAccountRepositoryProvider);
     final result = await repo.addOrUpdate(account);
-    final changed = account != result.item.data;
-    if (changed) {
+    if (result.isNotEmpty) {
       _cache.set(
         'get_user_account:${account.userId}',
         Optional.of(account),
       );
-      _controller.add(AccountEvent(account));
     }
-    return changed;
+    return result.isNotEmpty;
   }
 
   Future<void> clear() {

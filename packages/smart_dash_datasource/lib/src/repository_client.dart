@@ -35,8 +35,12 @@ enum RepositoryAction {
 abstract class RepositoryClient<I, T> {
   RepositoryClient(this.api, this.type, {this.prefix = ''}) {
     if (api.interceptors.whereType<RepositoryClientInterceptor<T>>().isEmpty) {
-      _deserializer = Optional.of(RepositoryClientInterceptor<T>(this.toItem));
-      api.interceptors.add(_deserializer.value);
+      api.interceptors.removeImplyContentTypeInterceptor();
+      _interceptor = Optional.of(RepositoryClientInterceptor<T>(
+        this.fromJson,
+        this.toJson,
+      ));
+      api.interceptors.add(_interceptor.value);
     }
   }
 
@@ -44,12 +48,13 @@ abstract class RepositoryClient<I, T> {
   final String type;
   final String prefix;
 
-  Optional<RepositoryClientInterceptor<T>> _deserializer = Optional.empty();
+  Optional<RepositoryClientInterceptor<T>> _interceptor = Optional.empty();
 
   Logger get log => Logger('$runtimeType');
 
   I toId(T item);
-  T toItem(JsonObject data);
+  dynamic toJson(T data);
+  T fromJson(JsonObject data);
 
   Future<bool> exists(I id) async {
     final result = await get(id);
@@ -184,8 +189,8 @@ abstract class RepositoryClient<I, T> {
 
   void close() {
     api.close(force: true);
-    if (_deserializer.isPresent) {
-      api.interceptors.remove(_deserializer.value);
+    if (_interceptor.isPresent) {
+      api.interceptors.remove(_interceptor.value);
     }
   }
 
@@ -239,9 +244,19 @@ mixin BulkRepositoryClientMixin<I, T> on RepositoryClient<I, T> {
 }
 
 class RepositoryClientInterceptor<T> extends InterceptorsWrapper {
-  RepositoryClientInterceptor(this.toItem);
+  RepositoryClientInterceptor(this.fromJson, this.toJson);
 
-  T Function(JsonObject data) toItem;
+  T Function(JsonObject data) fromJson;
+  dynamic Function(T data) toJson;
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if (options.data is T) {
+      options.data = toJson(options.data);
+      options.contentType = Headers.jsonContentType;
+    }
+    return super.onRequest(options, handler);
+  }
 
   @override
   Future onResponse(
@@ -253,7 +268,7 @@ class RepositoryClientInterceptor<T> extends InterceptorsWrapper {
         Response<T>(
           extra: response.extra,
           headers: response.headers,
-          data: toItem(response.data),
+          data: fromJson(response.data),
           redirects: response.redirects,
           isRedirect: response.isRedirect,
           statusCode: response.statusCode,

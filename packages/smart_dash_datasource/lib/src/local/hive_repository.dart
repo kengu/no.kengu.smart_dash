@@ -210,8 +210,9 @@ abstract class BulkHiveRepository<I, T> extends HiveRepository<I, T>
     final created = unique.where(
       (e) => !existingIds.contains(toKey(toId(e))),
     );
+    // Only match against changed items
     final updated = unique.where(
-      (e) => existingIds.contains(toKey(toId(e))),
+      (e) => existingIds.contains(toKey(toId(e))) && !current.contains(e),
     );
 
     return raise(BulkRepositoryResult<I, T>(

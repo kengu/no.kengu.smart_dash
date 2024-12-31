@@ -65,7 +65,9 @@ class AccountAdapter extends TypedAdapter<Account> {
   }
 }
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [
+  connectivity,
+])
 AccountAppRepository appAccountRepository(AppAccountRepositoryRef ref) {
   return AccountAppRepository(
     local: LocalAccountRepository(ref),

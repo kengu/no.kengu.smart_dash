@@ -24,6 +24,7 @@ dependencies:
   shelf: ^1.4.1
   shelf_router: ^1.1.4
 
+  async: ^2.11.0
   nanoid: ^1.0.0
   logging: ^1.2.0
   optional: ^6.1.0+1

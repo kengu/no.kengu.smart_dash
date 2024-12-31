@@ -15,8 +15,13 @@ class AccountAppClient extends RepositoryClient<String, Account>
   }
 
   @override
-  Account toItem(JsonObject data) {
+  Account fromJson(JsonObject data) {
     return Account.fromJson(data);
+  }
+
+  @override
+  JsonObject toJson(Account data) {
+    return data.toJson();
   }
 }
 

@@ -30,7 +30,10 @@ void main() {
       mockDio = MockDio();
       when(mockDio.interceptors).thenReturn(Interceptors());
       mockDio.interceptors.add(
-        RepositoryClientInterceptor(ServiceConfig.fromJson),
+        RepositoryClientInterceptor(
+          ServiceConfig.fromJson,
+          (e) => e.toJson(),
+        ),
       );
       apiClient = ServiceConfigClient(mockDio);
     });
