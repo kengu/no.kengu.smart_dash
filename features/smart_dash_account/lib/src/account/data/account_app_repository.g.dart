@@ -7,7 +7,7 @@ part of 'account_app_repository.dart';
 // **************************************************************************
 
 String _$appAccountRepositoryHash() =>
-    r'b1d6896f223106d9b974ccfe812c8d20bf9e696c';
+    r'fed0ef0ff5844379c00f4a20b2ad7a2dbc1cf8c9';
 
 /// See also [appAccountRepository].
 @ProviderFor(appAccountRepository)
@@ -17,8 +17,11 @@ final appAccountRepositoryProvider = Provider<AccountAppRepository>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$appAccountRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: <ProviderOrFamily>[connectivityProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    connectivityProvider,
+    ...?connectivityProvider.allTransitiveDependencies
+  },
 );
 
 typedef AppAccountRepositoryRef = ProviderRef<AccountAppRepository>;

@@ -8,8 +8,8 @@ import 'package:mockito/mockito.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart' as s;
-import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
+import 'package:smart_dash_account/src/account/data/account_app_client.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 import 'smart_dash_account_test.mocks.dart';

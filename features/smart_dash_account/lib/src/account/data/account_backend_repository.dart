@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
+import 'account_repository.dart';
 import 'drift/account_database.dart';
 
 part 'account_backend_repository.g.dart';

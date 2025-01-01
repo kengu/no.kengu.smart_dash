@@ -4,6 +4,8 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
+import 'account_repository.dart';
+
 class AccountBackendController
     extends RepositoryController<String, Account, AccountRepositoryMixin> {
   AccountBackendController(this.ref, this.dbPath);

@@ -6,6 +6,8 @@ import 'package:optional/optional.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_app.dart';
+import 'package:smart_dash_account/src/account/data/account_app_repository.dart';
+import 'package:smart_dash_account/src/account/data/current_home_app_repository.dart';
 
 part 'account_service.g.dart';
 

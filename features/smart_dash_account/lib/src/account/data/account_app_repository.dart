@@ -6,6 +6,9 @@ import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_common/smart_dash_common_flutter.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource_app.dart';
 
+import 'account_app_client.dart';
+import 'account_repository.dart';
+
 part 'account_app_repository.g.dart';
 
 class AccountAppRepository extends ConnectionAwareRepository<String, Account> {
