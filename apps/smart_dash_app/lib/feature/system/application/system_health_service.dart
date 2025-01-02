@@ -88,10 +88,8 @@ class SystemHealthService {
             setOK(e.key);
           }
           break;
-        case DevicesUpdatedEvent _:
+        case DriverEvent _:
           setOK(e.key);
-          break;
-        case _:
           break;
       }
     }

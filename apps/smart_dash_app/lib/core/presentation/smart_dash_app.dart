@@ -121,6 +121,7 @@ class _SmartDashAppState extends ConsumerState<SmartDashApp>
               message: 'Loading modules...',
             ),
           ),
+          debugShowCheckedModeBanner: false,
           theme: SmartDashThemeData.build(settings, brightness),
         );
       },
