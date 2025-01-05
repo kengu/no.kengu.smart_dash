@@ -16,6 +16,7 @@ _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
           .map((e) => ServiceConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: Location.fromJson(json['location'] as Map<String, dynamic>),
+      baseUrl: json['baseUrl'] as String?,
     );
 
 Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
       'members': instance.members.map((e) => e.toJson()).toList(),
       'services': instance.services.map((e) => e.toJson()).toList(),
       'location': instance.location.toJson(),
+      'baseUrl': instance.baseUrl,
     };
 
 _$CurrentHomeImpl _$$CurrentHomeImplFromJson(Map<String, dynamic> json) =>

@@ -16,7 +16,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i13;
 import 'package:optional/optional.dart' as _i7;
 import 'package:riverpod/riverpod.dart' as _i8;
-import 'package:smart_dash_datasource/src/repository.dart' as _i14;
+import 'package:smart_dash_datasource/smart_dash_datasource.dart' as _i14;
 import 'package:smart_dash_integration/smart_dash_integration.dart' as _i12;
 
 // ignore_for_file: type=lint

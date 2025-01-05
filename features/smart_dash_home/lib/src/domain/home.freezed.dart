@@ -25,6 +25,7 @@ mixin _$Home {
   List<HomeMember> get members => throw _privateConstructorUsedError;
   List<ServiceConfig> get services => throw _privateConstructorUsedError;
   Location get location => throw _privateConstructorUsedError;
+  String? get baseUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Home to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $HomeCopyWith<$Res> {
       String name,
       List<HomeMember> members,
       List<ServiceConfig> services,
-      Location location});
+      Location location,
+      String? baseUrl});
 
   $LocationCopyWith<$Res> get location;
 }
@@ -70,6 +72,7 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
     Object? members = null,
     Object? services = null,
     Object? location = null,
+    Object? baseUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -92,6 +95,10 @@ class _$HomeCopyWithImpl<$Res, $Val extends Home>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location,
+      baseUrl: freezed == baseUrl
+          ? _value.baseUrl
+          : baseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -118,7 +125,8 @@ abstract class _$$HomeImplCopyWith<$Res> implements $HomeCopyWith<$Res> {
       String name,
       List<HomeMember> members,
       List<ServiceConfig> services,
-      Location location});
+      Location location,
+      String? baseUrl});
 
   @override
   $LocationCopyWith<$Res> get location;
@@ -141,6 +149,7 @@ class __$$HomeImplCopyWithImpl<$Res>
     Object? members = null,
     Object? services = null,
     Object? location = null,
+    Object? baseUrl = freezed,
   }) {
     return _then(_$HomeImpl(
       id: null == id
@@ -163,6 +172,10 @@ class __$$HomeImplCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location,
+      baseUrl: freezed == baseUrl
+          ? _value.baseUrl
+          : baseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -175,7 +188,8 @@ class _$HomeImpl extends _Home {
       required this.name,
       required final List<HomeMember> members,
       required final List<ServiceConfig> services,
-      required this.location})
+      required this.location,
+      this.baseUrl})
       : _members = members,
         _services = services,
         super._();
@@ -205,10 +219,12 @@ class _$HomeImpl extends _Home {
 
   @override
   final Location location;
+  @override
+  final String? baseUrl;
 
   @override
   String toString() {
-    return 'Home(id: $id, name: $name, members: $members, services: $services, location: $location)';
+    return 'Home(id: $id, name: $name, members: $members, services: $services, location: $location, baseUrl: $baseUrl)';
   }
 
   @override
@@ -221,7 +237,8 @@ class _$HomeImpl extends _Home {
             const DeepCollectionEquality().equals(other._members, _members) &&
             const DeepCollectionEquality().equals(other._services, _services) &&
             (identical(other.location, location) ||
-                other.location == location));
+                other.location == location) &&
+            (identical(other.baseUrl, baseUrl) || other.baseUrl == baseUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -232,7 +249,8 @@ class _$HomeImpl extends _Home {
       name,
       const DeepCollectionEquality().hash(_members),
       const DeepCollectionEquality().hash(_services),
-      location);
+      location,
+      baseUrl);
 
   /// Create a copy of Home
   /// with the given fields replaced by the non-null parameter values.
@@ -256,7 +274,8 @@ abstract class _Home extends Home {
       required final String name,
       required final List<HomeMember> members,
       required final List<ServiceConfig> services,
-      required final Location location}) = _$HomeImpl;
+      required final Location location,
+      final String? baseUrl}) = _$HomeImpl;
   const _Home._() : super._();
 
   factory _Home.fromJson(Map<String, dynamic> json) = _$HomeImpl.fromJson;
@@ -271,6 +290,8 @@ abstract class _Home extends Home {
   List<ServiceConfig> get services;
   @override
   Location get location;
+  @override
+  String? get baseUrl;
 
   /// Create a copy of Home
   /// with the given fields replaced by the non-null parameter values.

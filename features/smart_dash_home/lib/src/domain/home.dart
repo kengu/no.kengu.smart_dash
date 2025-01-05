@@ -16,6 +16,7 @@ class Home with _$Home {
     required List<HomeMember> members,
     required List<ServiceConfig> services,
     required Location location,
+    String? baseUrl,
   }) = _Home;
 
   factory Home.fromJson(Map<String, Object?> json) => _$HomeFromJson(json);

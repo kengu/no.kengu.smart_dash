@@ -31,13 +31,14 @@ class AccountService {
   Stream<AccountEvent> get changes {
     return StreamGroup.merge([
       _controller.stream,
-      _changes(),
+      _accountRepoEvents(),
     ]);
   }
 
-  Stream<AccountEvent> _changes() async* {
+  Stream<AccountEvent> _accountRepoEvents() async* {
     await for (final e in repo.events) {
       if (e.isSingle && e.item.data.userId == currentUser.userId) {
+        ref.notifyListeners();
         yield AccountEvent(e.item.data);
       }
     }
@@ -91,18 +92,18 @@ class AccountService {
 
   /// Create a new home for given [userId].
   ///
-  /// If [userId] is not given, current user
+  /// If [userId] is not given, [currentUser]
   /// is used.
   ///
   /// This method will set the first home in
   /// current user [Account] as current home if
   /// current user have not selected a home
   /// yet. The method will return [Optional.empty]
-  /// result if current user is not found.
+  /// result if [userId] or [currentUser] is not found.
   Future<Optional<Home>> newHome(
     String name, {
     String? userId,
-    bool isCurrent = true,
+    String? baseUrl,
   }) async {
     final result = await getAccount(userId: userId);
     if (!result.isPresent) {
@@ -116,6 +117,7 @@ class AccountService {
       name: name,
       members: [],
       services: [],
+      baseUrl: baseUrl,
       location: Location.empty(),
     );
     await addOrUpdate(
@@ -174,8 +176,9 @@ class AccountService {
         if (success) {
           final account = await getAccount(userId: current.userId);
           if (account.isPresent) {
+            ref.notifyListeners();
             _controller.add(
-              NewHomeEvent(account.value, home),
+              CurrentHomeSetEvent(account.value, home),
             );
           }
         }
