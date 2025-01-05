@@ -46,29 +46,31 @@ class Rtl433DeviceClient extends DeviceClient {
 
   Future<Rtl433Device> _estimate(Rtl433Device device) async {
     if (device.capabilities.hasRainTotal) {
-      final previous = await ref.read(deviceServiceProvider).get(
+      final result = await ref.read(deviceServiceProvider).get(
             Identity.of(device.toDevice()),
           );
-      if (previous.isPresent) {
-        // Calculate rain difference since last measurement
-        final rain = device.rainTotal! - (previous.value.rainTotal ?? 0);
-        // Calculate rain rate since last measurement
+      if (result.isPresent) {
+        final prev = result.value;
+        final span = device.lastUpdated.difference(
+          prev.lastUpdated,
+        );
         // TODO: Calculate rain rate over longer period
-        double? rainRate = device.rainRate;
-        if (!device.hasRainRate) {
-          final span = device.lastUpdated.difference(
-            previous.value.lastUpdated,
-          );
-          if (span.inSeconds > 0) {
-            rainRate = rain / span.inSeconds * 60;
+        if (span.inSeconds > 10) {
+          // Calculate rain difference since last measurement
+          final rain = device.rainTotal! - (prev.rainTotal ?? 0);
+          // Only calculate if change is positive
+          if (rain > (prev.rainTotal ?? 0)) {
+            // Calculate rain rate since last measurement
+            double? rainRate = device.rainRate;
+            if (!device.hasRainRate) {
+              rainRate = rain / span.inSeconds * 60;
+            }
+            return device.copyWith(
+              rainRateInchesPerHour: null,
+              rainRateMillimeterPerHour: rainRate,
+            );
           }
         }
-        return device.copyWith(
-          rainInInches: null,
-          rainInMillimeters: rain,
-          rainRateInchesPerHour: null,
-          rainRateMillimeterPerHour: rainRate,
-        );
       }
     }
     return device;
