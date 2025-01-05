@@ -12,6 +12,7 @@ dependencies:
 
   # Smart Dash packages (managed by Mesos)
   smart_dash_common: any
+  smart_dash_websocket: any
   smart_dash_datasource: any
 
   async: ^2.11.0
@@ -36,8 +37,10 @@ dev_dependencies:
   test: ^1.25.8
   lints: ^3.0.0
   custom_lint: ^0.5.11
+  shelf_test_handler: ^2.0.2
 
   freezed: ^2.5.7
+  mockito: ^5.4.4
   build_runner: ^2.4.13
   riverpod_lint: ^3.0.0-dev.4
   riverpod_generator: ^3.0.0-dev.11
