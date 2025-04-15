@@ -87,7 +87,7 @@ class _NetworkNowTileState extends ConsumerState<NetworkNowTile> {
                           LinearProgressIndicator(
                             minHeight: 1,
                             value: e.value / 100,
-                            color: Colors.lightGreen.withOpacity(0.6),
+                            color: Colors.lightGreen.withAlpha(153),
                           ),
                           Expanded(
                             flex: 30,

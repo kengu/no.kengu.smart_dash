@@ -24,6 +24,7 @@ analyzer:
     unnecessary_overrides: ignore
     invalid_annotation_target: ignore
     non_constant_identifier_names: ignore
+    avoid_renaming_method_parameters: ignore
 
   exclude: [
     lib/**/*.g.dart,

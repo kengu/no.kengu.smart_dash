@@ -45,14 +45,14 @@ class MemPieChart extends StatelessWidget {
                     value: info.memApp.toDouble(), // Used memory
                     showTitle: false,
                     radius: 50,
-                    color: Colors.green.withOpacity(0.3),
+                    color: Colors.green.withAlpha(76),
                   ),
                   PieChartSectionData(
                     value:
                         (info.memUsed - info.memApp).toDouble(), // Used memory
                     showTitle: false,
                     radius: 50,
-                    color: Colors.lightGreen.withOpacity(0.6),
+                    color: Colors.lightGreen.withAlpha(153),
                   ),
                   PieChartSectionData(
                     value: info.memFree.toDouble(), // Available memory

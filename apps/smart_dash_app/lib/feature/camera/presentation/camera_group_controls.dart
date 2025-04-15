@@ -71,7 +71,7 @@ class _CameraGroupControlsState extends State<CameraGroupControls> {
                           : 'Turn ON motion detection for cameras'
                       : 'Unavailable',
                   child: CupertinoSwitch(
-                    activeColor: Colors.blueAccent,
+                    activeTrackColor: Colors.blueAccent,
                     value: _motionDetectEnabled.orElseNull ?? false,
                     onChanged:
                         _motionDetectEnabled.isPresent && !_updatingMotionConfig

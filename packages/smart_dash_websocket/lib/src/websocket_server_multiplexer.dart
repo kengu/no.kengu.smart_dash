@@ -110,8 +110,6 @@ class WebSocketServerMultiplexer {
         case WebSocketAction.unsub:
           _unsubscribe(webSocket, channel, message.type);
           break;
-        default:
-          _sendError(webSocket, channel, 'Unknown action: $action');
       }
     } catch (error, stackTrace) {
       log.severe('Invalid message format', error, stackTrace);

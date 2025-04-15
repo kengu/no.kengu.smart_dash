@@ -39,7 +39,7 @@ TextStyle getLegendTextStyle(BuildContext context) {
 
 MaterialColor toMaterial(Color color) {
   return MaterialColor(
-    color.value,
+    color.toARGB32(),
     {
       50: color.lighten(0.5),
       100: color.lighten(0.4),

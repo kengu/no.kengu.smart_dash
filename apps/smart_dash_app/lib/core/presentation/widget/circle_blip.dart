@@ -22,7 +22,7 @@ class CircleBlip extends StatefulWidget {
 
 class _CircleBlipState extends State<CircleBlip>
     with SingleTickerProviderStateMixin {
-  static final _defaultColor = Colors.green.withOpacity(0.7);
+  static final _defaultColor = Colors.green.withAlpha(178);
 
   late AnimationController _animController;
 

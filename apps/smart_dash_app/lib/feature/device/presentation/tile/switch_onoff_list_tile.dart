@@ -269,7 +269,7 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
                 }
                 if (states.contains(WidgetState.selected)) {
                   return _errorState
-                      ? Colors.red.withOpacity(0.6)
+                      ? Colors.red.withAlpha(153)
                       : Theme.of(context).colorScheme.secondaryContainer;
                 }
                 return null;
@@ -297,7 +297,7 @@ class _SwitchOnOffButtonState extends ConsumerState<SwitchOnOffButton> {
               width: 120,
               child: LinearProgressIndicator(
                 minHeight: 1,
-                color: Colors.lightGreen.withOpacity(0.6),
+                color: Colors.lightGreen.withAlpha(153),
               ),
             ),
           ),

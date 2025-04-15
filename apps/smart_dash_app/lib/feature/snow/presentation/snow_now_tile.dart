@@ -98,7 +98,7 @@ class SnowNowTile extends ConsumerWidget {
                   width: 56,
                   height: 56,
                   child: CircularProgressIndicator(
-                    color: Colors.lightGreen.withOpacity(0.6),
+                    color: Colors.lightGreen.withAlpha(153),
                   ),
                 ),
               ),

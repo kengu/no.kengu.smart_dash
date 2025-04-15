@@ -44,7 +44,7 @@ class BarChartTile<T extends num> extends StatelessWidget {
     final valuePadding =
         (items.max() < 1.0 ? 1.0 : 1.5) + (min < 0 ? min.abs() : 0);
 
-    final foregroundColor = Colors.lightGreen.withOpacity(0.6);
+    final foregroundColor = Colors.lightGreen.withAlpha(153);
     final surfaceColor = Theme.of(context).navigationRailTheme.backgroundColor!;
     final lineColor = surfaceColor.lighten(0.05);
     final textStyle = getLegendTextStyle(context);

@@ -189,7 +189,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
                                 ? Transform.scale(
                                     scale: 0.75,
                                     child: CupertinoSwitch(
-                                      activeColor: Colors.blueAccent,
+                                      activeTrackColor: Colors.blueAccent,
                                       value: state,
                                       onChanged:
                                           _isUpdating ? null : _setMotionConfig,
@@ -215,7 +215,7 @@ class _VideoCardState extends ConsumerState<CameraCard>
                           Transform.scale(
                             scale: 0.75,
                             child: CupertinoSwitch(
-                              activeColor: Colors.blueAccent,
+                              activeTrackColor: Colors.blueAccent,
                               value: isVideoPlaying,
                               onChanged: (play) =>
                                   play ? _startVideo() : _stopVideo(),

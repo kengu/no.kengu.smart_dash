@@ -25,8 +25,6 @@ extension ValueTypeX on ValueType {
           value.toString(),
         ) ??
             0.0;
-      default:
-        return value;
     }
   }
 }

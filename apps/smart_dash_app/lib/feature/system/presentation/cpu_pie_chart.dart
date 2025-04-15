@@ -45,14 +45,14 @@ class CpuPieChart extends StatelessWidget {
                     showTitle: false,
                     radius: 50,
                     color: info.isAppUsage
-                        ? Colors.lightGreen.withOpacity(0.6)
-                        : Colors.green.withOpacity(0.3),
+                        ? Colors.lightGreen.withAlpha(153)
+                        : Colors.green.withAlpha(76),
                   ),
                   PieChartSectionData(
                     value: info.cpuTotal - (info.cpuApp ?? 0), // Total load
                     showTitle: false,
                     radius: 50,
-                    color: Colors.lightGreen.withOpacity(0.6),
+                    color: Colors.lightGreen.withAlpha(153),
                   ),
                   PieChartSectionData(
                     value: 100 - info.cpuTotal, // Available memory
