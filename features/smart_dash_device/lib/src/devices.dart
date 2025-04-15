@@ -5,11 +5,11 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'integration/sikom/application/sikom_driver.dart';
 
 class Devices {
-  static IntegrationType install(Ref ref) {
-    final service = DeviceService(ref);
+  static IntegrationType install(Ref ref, String baseUrl) {
+    final service = DeviceDriverService(ref);
 
     // Register Device service and integrations
-    ref.read(integrationManagerProvider).install(
+    ref.read(integrationRegistryProvider(baseUrl)).install(
           IntegrationType.device,
           () => service
             ..manager.install(

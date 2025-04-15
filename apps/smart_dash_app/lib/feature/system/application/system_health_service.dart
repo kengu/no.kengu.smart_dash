@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_dash_account/smart_dash_account_app.dart';
 import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
 import 'package:smart_dash_app/feature/system/domain/system_health.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
-import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'system_health_service.g.dart';
 
@@ -48,7 +48,9 @@ class SystemHealthService {
 
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
-    final integrations = ref.read(integrationManagerProvider);
+
+    final integrations =
+        ref.read(GetCurrentIntegrationRegistryProvider()).requireValue.value;
     final service = integrations.get(key);
     assert(service.isPresent, 'Service [$key] not found');
 

@@ -5,8 +5,7 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
 part 'account_app_client.g.dart';
 
-class AccountAppClient extends RepositoryClient<String, Account>
-    with BulkRepositoryClientMixin<String, Account> {
+class AccountAppClient extends RepositoryClient<String, Account> {
   AccountAppClient(Dio api) : super(api, 'account');
 
   @override

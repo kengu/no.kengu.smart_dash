@@ -7,7 +7,7 @@ part of 'pairing_screen_controller.dart';
 // **************************************************************************
 
 String _$pairingScreenControllerHash() =>
-    r'5526a6f17dd5d613c42344e0f1c6bf04f46ff5f8';
+    r'281e9e50cb7a7e5db4bb4b06a85a8318a222b72e';
 
 /// Copied from Dart SDK
 class _SystemHash {

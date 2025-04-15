@@ -3,7 +3,7 @@ import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 import 'application/mqtt_driver.dart';
-import 'application/mqtt_service.dart';
+import 'application/mqtt_driver_service.dart';
 import 'integration/rtl_433/rtl_433.dart';
 
 class Mqtt {
@@ -29,11 +29,11 @@ class Mqtt {
     dependsOn: [],
   );
 
-  static IntegrationType install(Ref ref) {
-    final service = MqttService(ref);
+  static IntegrationType install(Ref ref, String baseUrl) {
+    final service = MqttDriverService(ref);
 
     // Register mqtt service and integrations
-    ref.read(integrationManagerProvider).install(
+    ref.read(integrationRegistryProvider(baseUrl)).install(
           IntegrationType.mqtt,
           () => service
             ..manager.install(

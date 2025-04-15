@@ -105,9 +105,9 @@ class _FakeOptional_6<T> extends _i1.SmartFake implements _i8.Optional<T> {
         );
 }
 
-class _FakeBulkRepositoryClientMixin_7<I, T> extends _i1.SmartFake
-    implements _i9.BulkRepositoryClientMixin<I, T> {
-  _FakeBulkRepositoryClientMixin_7(
+class _FakeRepositoryClient_7<I, T> extends _i1.SmartFake
+    implements _i9.RepositoryClient<I, T> {
+  _FakeRepositoryClient_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -990,6 +990,25 @@ class MockBulkFooRepository extends _i1.Mock implements _i13.BulkFooRepository {
       ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
 
   @override
+  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> upsert(
+          _i13.Foo? item) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #upsert,
+          [item],
+        ),
+        returnValue:
+            _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>.value(
+                _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
+          this,
+          Invocation.method(
+            #upsert,
+            [item],
+          ),
+        )),
+      ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
+
+  @override
   _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> update(
           _i13.Foo? item) =>
       (super.noSuchMethod(
@@ -1003,25 +1022,6 @@ class MockBulkFooRepository extends _i1.Mock implements _i13.BulkFooRepository {
           this,
           Invocation.method(
             #update,
-            [item],
-          ),
-        )),
-      ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
-
-  @override
-  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> addOrUpdate(
-          _i13.Foo? item) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #addOrUpdate,
-          [item],
-        ),
-        returnValue:
-            _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>.value(
-                _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
-          this,
-          Invocation.method(
-            #addOrUpdate,
             [item],
           ),
         )),
@@ -1073,14 +1073,13 @@ class MockBulkFooRemoteRepository extends _i1.Mock
   }
 
   @override
-  _i9.BulkRepositoryClientMixin<int, _i13.Foo> get client =>
-      (super.noSuchMethod(
+  _i9.RepositoryClient<int, _i13.Foo> get client => (super.noSuchMethod(
         Invocation.getter(#client),
-        returnValue: _FakeBulkRepositoryClientMixin_7<int, _i13.Foo>(
+        returnValue: _FakeRepositoryClient_7<int, _i13.Foo>(
           this,
           Invocation.getter(#client),
         ),
-      ) as _i9.BulkRepositoryClientMixin<int, _i13.Foo>);
+      ) as _i9.RepositoryClient<int, _i13.Foo>);
 
   @override
   _i7.Ref<Object?> get ref => (super.noSuchMethod(
@@ -1170,11 +1169,11 @@ class MockBulkFooRemoteRepository extends _i1.Mock
       ) as _i11.Future<List<_i13.Foo>>);
 
   @override
-  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> addOrUpdate(
+  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> upsert(
           _i13.Foo? item) =>
       (super.noSuchMethod(
         Invocation.method(
-          #addOrUpdate,
+          #upsert,
           [item],
         ),
         returnValue:
@@ -1182,7 +1181,7 @@ class MockBulkFooRemoteRepository extends _i1.Mock
                 _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
           this,
           Invocation.method(
-            #addOrUpdate,
+            #upsert,
             [item],
           ),
         )),

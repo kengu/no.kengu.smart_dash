@@ -18,6 +18,7 @@ enum HiveTypeId {
   networkDevice,
   setting,
   integration,
+  snowState,
 }
 
 abstract class HiveRepository<I, T> extends Repository<I, T> {
@@ -95,7 +96,7 @@ abstract class HiveRepository<I, T> extends Repository<I, T> {
   }
 
   @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) {
+  Future<SingleRepositoryResult<I, T>> upsert(T item) {
     return guard(
       () async {
         final box = await _open();

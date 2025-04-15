@@ -144,7 +144,7 @@ void main() {
       final events = [
         FooStateEvent(expected),
       ];
-      _mockLocalAddOrUpdate(
+      _mockLocalupsert(
         local,
         SingleFooResult.created(item),
       );
@@ -160,11 +160,11 @@ void main() {
       await expectLater(repo.events, emitsInOrder(events));
       expect(repo.modified, equals([item.id]));
       verify(local.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verifyNever(local.get(any));
       verifyNever(remote.get(any));
       verifyNever(remote.getAll(any));
-      verifyNever(remote.addOrUpdate(any));
+      verifyNever(remote.upsert(any));
     });
 
     test('then item is updated locally only', () async {
@@ -175,7 +175,7 @@ void main() {
       final events = [
         FooStateEvent(expected),
       ];
-      _mockLocalAddOrUpdate(
+      _mockLocalupsert(
         local,
         SingleFooResult.updated(item1v2),
         Optional.of(item1v1),
@@ -192,11 +192,11 @@ void main() {
       await expectLater(repo.events, emitsInOrder(events));
       expect(repo.modified, equals([item1v2.id]));
       verify(local.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verifyNever(local.exists(any));
       verifyNever(remote.get(any));
       verifyNever(remote.getAll(any));
-      verifyNever(remote.addOrUpdate(any));
+      verifyNever(remote.upsert(any));
     });
 
     test('then updating same item does nothing', () async {
@@ -205,7 +205,7 @@ void main() {
       final expected = SingleFooStateResult.empty(
         FooState.local(item),
       );
-      _mockLocalAddOrUpdate(
+      _mockLocalupsert(
         local,
         SingleFooResult.empty(item),
         Optional.of(item),
@@ -221,11 +221,11 @@ void main() {
       expect(repo.modified, isEmpty);
       await expectLater(repo.events, emitsInOrder([]));
       verify(local.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verifyNever(local.exists(any));
       verifyNever(remote.get(any));
       verifyNever(remote.getAll(any));
-      verifyNever(remote.addOrUpdate(any));
+      verifyNever(remote.upsert(any));
     });
 
     test('then item is removed locally only', () async {
@@ -338,7 +338,7 @@ void main() {
       final events = [
         FooStateEvent(localResult),
       ];
-      final localEvents = _mockLocalAddOrUpdate(
+      final localEvents = _mockLocalupsert(
         local,
         SingleFooResult.created(item),
       );
@@ -352,7 +352,7 @@ void main() {
       await expectLater(result, completion(equals(Optional.empty())));
       await expectLater(repo.events, emitsInOrder(events));
       verify(local.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verify(remote.get(any));
 
       // Cleanup
@@ -369,7 +369,7 @@ void main() {
       final events = [
         FooStateEvent(SingleFooStateResult.updated(localState1v2)),
       ];
-      final localEvents = _mockLocalAddOrUpdateBuilder(
+      final localEvents = _mockLocalupsertBuilder(
         local,
         exists: (invocation) => true,
         result: (invocation) {
@@ -390,7 +390,7 @@ void main() {
       await expectLater(result, completion(equals(Optional.of(localState1v1))));
       await expectLater(repo.events, emitsInOrder(events));
       verify(local.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verify(remote.get(any));
 
       // Cleanup
@@ -408,7 +408,7 @@ void main() {
         FooStateEvent(SingleFooStateResult.empty(FooState.local(item2))),
       ];
       _mockLocalGetAll(local, []);
-      final localEvents = _mockLocalAddOrUpdateBuilder(local,
+      final localEvents = _mockLocalupsertBuilder(local,
           exists: (invocation) => true,
           result: (invocation) {
             return SingleFooResult.empty(invocation.itemOrDefault(item1));
@@ -444,7 +444,7 @@ void main() {
         FooStateEvent(SingleFooStateResult.empty(FooState.local(item2))),
       ];
       _mockLocalGetAll(local, []);
-      final localEvents = _mockLocalAddOrUpdateBuilder(local,
+      final localEvents = _mockLocalupsertBuilder(local,
           exists: (invocation) => true,
           result: (invocation) {
             return SingleFooResult.empty(invocation.itemOrDefault(item1));
@@ -477,11 +477,11 @@ void main() {
         FooStateEvent(localResult),
         FooStateEvent(remoteResult),
       ];
-      final localEvents = _mockLocalAddOrUpdate(
+      final localEvents = _mockLocalupsert(
         local,
         SingleFooResult.created(item),
       );
-      final remoteEvents = _mockRemoteAddOrUpdate(
+      final remoteEvents = _mockRemoteupsert(
         remote,
         SingleFooResult.created(item),
       );
@@ -495,8 +495,8 @@ void main() {
       expect(repo.modified, isEmpty);
       verify(local.get(any));
       verify(remote.get(any));
-      verify(local.addOrUpdate(any));
-      verify(remote.addOrUpdate(any));
+      verify(local.upsert(any));
+      verify(remote.upsert(any));
 
       // Cleanup
       localEvents.close();
@@ -517,12 +517,12 @@ void main() {
         FooStateEvent(localResult),
         FooStateEvent(remoteResult),
       ];
-      final localEvents = _mockLocalAddOrUpdate(
+      final localEvents = _mockLocalupsert(
         local,
         SingleFooResult.updated(item1v2),
         Optional.of(item1v1),
       );
-      final remoteEvents = _mockRemoteAddOrUpdate(
+      final remoteEvents = _mockRemoteupsert(
         remote,
         SingleFooResult.updated(item1v2),
         Optional.of(item1v1),
@@ -538,8 +538,8 @@ void main() {
       expect(repo.modified, isEmpty);
       verify(local.get(any));
       verify(remote.get(any));
-      verify(local.addOrUpdate(any));
-      verify(remote.addOrUpdate(any));
+      verify(local.upsert(any));
+      verify(remote.upsert(any));
       verifyNever(local.exists(any));
       verifyNever(local.getAll(any));
       verifyNever(remote.getAll(any));
@@ -555,12 +555,12 @@ void main() {
       final expected = SingleFooStateResult.empty(
         FooState.local(item),
       );
-      final localEvents = _mockLocalAddOrUpdate(
+      final localEvents = _mockLocalupsert(
         local,
         SingleFooResult.empty(item),
         Optional.of(item),
       );
-      final remoteEvents = _mockRemoteAddOrUpdate(
+      final remoteEvents = _mockRemoteupsert(
         remote,
         SingleFooResult.empty(item),
         Optional.of(item),
@@ -575,10 +575,10 @@ void main() {
       await expectLater(repo.events, emitsInOrder([]));
       verify(local.get(any));
       verify(remote.get(any));
-      verify(local.addOrUpdate(any));
+      verify(local.upsert(any));
       verifyNever(local.exists(any));
       verifyNever(remote.getAll(any));
-      verifyNever(remote.addOrUpdate(any));
+      verifyNever(remote.upsert(any));
 
       // Cleanup
       localEvents.close();
@@ -635,19 +635,19 @@ void main() {
 // LOCAL Repository Mocking Methods
 // ==========================================
 
-StreamController<SingleFooResult> _mockLocalAddOrUpdate(
+StreamController<SingleFooResult> _mockLocalupsert(
   MockFooRepository mockRepo,
   SingleFooResult result, [
   Optional<Foo> existing = const Optional.empty(),
 ]) {
-  return _mockLocalAddOrUpdateBuilder(
+  return _mockLocalupsertBuilder(
     mockRepo,
     result: (invocation) => result,
     exists: (invocation) => existing.isPresent,
   );
 }
 
-StreamController<SingleFooResult> _mockLocalAddOrUpdateBuilder(
+StreamController<SingleFooResult> _mockLocalupsertBuilder(
   MockFooRepository mockRepo, {
   required bool Function(Invocation invocation) exists,
   required SingleFooResult Function(Invocation invocation) result,
@@ -673,7 +673,7 @@ StreamController<SingleFooResult> _mockLocalAddOrUpdateBuilder(
   );
 
   final controller = StreamController<SingleFooResult>();
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
+  when(mockRepo.upsert(any)).thenAnswer(
     (invocation) async {
       final r = result(invocation);
       controller.add(r);
@@ -765,7 +765,7 @@ void _mockLocalEvents(
 // REMOTE Repository Mocking Methods
 // ==========================================
 
-StreamController<SingleFooResult> _mockRemoteAddOrUpdate(
+StreamController<SingleFooResult> _mockRemoteupsert(
   MockFooRemoteRepository mockRepo,
   SingleFooResult result, [
   Optional<Foo> existing = const Optional.empty(),
@@ -783,7 +783,7 @@ StreamController<SingleFooResult> _mockRemoteAddOrUpdate(
   );
 
   final controller = StreamController<SingleFooResult>();
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
+  when(mockRepo.upsert(any)).thenAnswer(
     (invocation) async {
       controller.add(result);
       return result;

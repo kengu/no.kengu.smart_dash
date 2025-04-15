@@ -51,7 +51,7 @@ class AccountBackendRepository extends AccountRepository
   }
 
   @override
-  Future<SingleRepositoryResult<String, Account>> addOrUpdate(Account account) {
+  Future<SingleRepositoryResult<String, Account>> upsert(Account account) {
     return guard(() async {
       // Using a transaction instead of a batch to handle the
       // insert/update operations. This allows for finer control,

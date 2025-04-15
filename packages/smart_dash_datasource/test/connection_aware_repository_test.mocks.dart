@@ -944,6 +944,25 @@ class MockFooRepository extends _i1.Mock implements _i13.FooRepository {
       ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
 
   @override
+  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> upsert(
+          _i13.Foo? item) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #upsert,
+          [item],
+        ),
+        returnValue:
+            _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>.value(
+                _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
+          this,
+          Invocation.method(
+            #upsert,
+            [item],
+          ),
+        )),
+      ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
+
+  @override
   _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> update(
           _i13.Foo? item) =>
       (super.noSuchMethod(
@@ -957,25 +976,6 @@ class MockFooRepository extends _i1.Mock implements _i13.FooRepository {
           this,
           Invocation.method(
             #update,
-            [item],
-          ),
-        )),
-      ) as _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>);
-
-  @override
-  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> addOrUpdate(
-          _i13.Foo? item) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #addOrUpdate,
-          [item],
-        ),
-        returnValue:
-            _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>>.value(
-                _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
-          this,
-          Invocation.method(
-            #addOrUpdate,
             [item],
           ),
         )),
@@ -1087,11 +1087,11 @@ class MockFooRemoteRepository extends _i1.Mock
       ) as _i11.Future<List<_i13.Foo>>);
 
   @override
-  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> addOrUpdate(
+  _i11.Future<_i9.SingleRepositoryResult<int, _i13.Foo>> upsert(
           _i13.Foo? item) =>
       (super.noSuchMethod(
         Invocation.method(
-          #addOrUpdate,
+          #upsert,
           [item],
         ),
         returnValue:
@@ -1099,7 +1099,7 @@ class MockFooRemoteRepository extends _i1.Mock
                 _i14.dummyValue<_i9.SingleRepositoryResult<int, _i13.Foo>>(
           this,
           Invocation.method(
-            #addOrUpdate,
+            #upsert,
             [item],
           ),
         )),

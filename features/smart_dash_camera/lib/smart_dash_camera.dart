@@ -4,8 +4,8 @@
 library;
 
 export 'src/application/camera_driver.dart';
+export 'src/application/camera_driver_service.dart';
 export 'src/application/camera_manager.dart';
-export 'src/application/camera_service.dart';
 export 'src/cameras.dart';
 export 'src/data/camera_client.dart';
 export 'src/data/snapshot_repository.dart';

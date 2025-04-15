@@ -26,7 +26,7 @@ class NetworkDeviceInfoRepository
   String toKey(String id) => '$key:$id';
 
   Future<Optional<NetworkDeviceInfo>> set(NetworkDeviceInfo device) async {
-    final result = await addOrUpdate(device);
+    final result = await upsert(device);
     return result.isEmpty ? Optional.empty() : Optional.of(result.item);
   }
 

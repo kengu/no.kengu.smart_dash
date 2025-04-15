@@ -43,16 +43,18 @@ Future<ProviderContainer> _bootstrap() async {
 
 Router _buildHandler(
     ProviderContainer ref, WebSocketServerMultiplexer websocket) {
-  final integrations = IntegrationController(ref);
+  final types = IntegrationTypeController(
+    ref.read(integrationRegistryProvider('localhost')),
+  );
   final configs = ServiceConfigController(
-    integrations.manager,
+    types.registry,
     ref.read(serviceConfigHiveRepositoryProvider),
   );
   configs.registerChannel(websocket);
 
   return Router()
-    ..mount('/', configs.router.call)
-    ..mount('/', integrations.router.call);
+    ..mount('/', types.router.call)
+    ..mount('/', configs.router.call);
 }
 
 // TODO: Move to utils for backends

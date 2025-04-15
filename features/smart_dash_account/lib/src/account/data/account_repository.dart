@@ -26,7 +26,7 @@ mixin AccountRepositoryMixin on AccountRepository {
   Future<List<Account>> getAll([List<String> userIds = const []]);
 
   @override
-  Future<SingleRepositoryResult<String, Account>> addOrUpdate(Account account);
+  Future<SingleRepositoryResult<String, Account>> upsert(Account account);
 
   @override
   Future<SingleRepositoryResult<String, Account>> remove(Account account);

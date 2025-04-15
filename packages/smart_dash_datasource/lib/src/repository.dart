@@ -58,15 +58,27 @@ abstract class Repository<I, T> {
   /// if (old.isPresent) {
   ///   return SingleRepositoryResult<I, T>.empty(old.value);
   /// }
-  /// return update(item);
+  /// return upsert(item);
   /// ```
   Future<SingleRepositoryResult<I, T>> add(T item) async {
     final old = await get(toId(item));
     if (old.isPresent) {
       return SingleRepositoryResult<I, T>.empty(old.value);
     }
-    return addOrUpdate(item);
+    return upsert(item);
   }
+
+  /// Attempt to add given item in repository.
+  ///
+  /// Returns [item] with
+  /// [SingleRepositoryResult.updated] if [exists], or
+  /// [SingleRepositoryResult.created] otherwise.
+  ///
+  /// Same as
+  /// ```dart
+  /// update(item, ifAbsent: () => item);
+  /// ```
+  Future<SingleRepositoryResult<I, T>> upsert(T item);
 
   /// Attempt to update given item in repository.
   ///
@@ -85,20 +97,8 @@ abstract class Repository<I, T> {
     if (!await exists(toId(item))) {
       return SingleRepositoryResult<I, T>.empty(item);
     }
-    return addOrUpdate(item);
+    return upsert(item);
   }
-
-  /// Attempt to add given item in repository.
-  ///
-  /// Returns [item] with
-  /// [SingleRepositoryResult.updated] if [exists], or
-  /// [SingleRepositoryResult.created] otherwise.
-  ///
-  /// Same as
-  /// ```dart
-  /// update(item, ifAbsent: () => item);
-  /// ```
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item);
 
   /// Attempt to remove given item from repository.
   ///

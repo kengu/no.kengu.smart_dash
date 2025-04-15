@@ -7,10 +7,9 @@ import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 class ServiceConfigController extends BulkRepositoryController<String,
         ServiceConfig, ServiceConfigRepository>
     with
-        WebsocketCRUDControllerMixin<String, ServiceConfig>,
-        WebsocketRepositoryControllerMixin<String, ServiceConfig,
+        RepositoryControllerWebsocketMixin<String, ServiceConfig,
             ServiceConfigRepository> {
-  ServiceConfigController(this.integrations, this.repo);
+  ServiceConfigController(this.registry, this.repo);
 
   static const id = 'id';
   static const key = 'key';
@@ -18,10 +17,10 @@ class ServiceConfigController extends BulkRepositoryController<String,
   static const keys = 'keys';
   static const data = 'data';
 
+  final IntegrationRegistry registry;
+
   @override
   final ServiceConfigRepository repo;
-
-  final IntegrationManager integrations;
 
   @override
   String toId(String key) {
@@ -76,12 +75,12 @@ class ServiceConfigController extends BulkRepositoryController<String,
   }
 
   @override
-  Future<Optional<ProblemDetails>> validate(
-    RepositoryAction action,
+  Future<Optional<ProblemDetails>> validateSchema(
+    ClientAction action,
     Uri uri,
     ServiceConfig item,
   ) async {
-    final integration = integrations.get(item.key);
+    final integration = registry.get(item.key);
     if (!integration.isPresent) {
       return Optional.of(
         ProblemDetails(
@@ -153,15 +152,15 @@ class ServiceConfigController extends BulkRepositoryController<String,
       ..get('/integration/<$key>/config', handleQuery([key], [ids]))
       ..get('/integration/<$key>/config/<$id>', handleGet([key, id]))
       // Batch commands
-      ..post('/integration/config', handlePostAll([key, id], true))
-      ..put('/integration/config', handlePutAll([key, id]))
-      ..delete('/integration/config', handleDeleteAll([key, id]))
+      ..post('/integration/config', handleUpsertAll([key, id]))
+      ..put('/integration/config', handleUpsertAll([key, id]))
+      ..delete('/integration/config', handleRemoveAll([key, id]))
       // Batch commands on key
-      ..post('/integration/<$key>/config', handlePostAll([key, id], true))
-      ..put('/integration/<$key>/config', handlePutAll([key, id]))
-      ..delete('/integration/<$key>/config', handleDeleteAll([key, id]))
+      ..post('/integration/<$key>/config', handleUpsertAll([key, id]))
+      ..put('/integration/<$key>/config', handleUpsertAll([key, id]))
+      ..delete('/integration/<$key>/config', handleRemoveAll([key, id]))
       // Single commands on key and id
-      ..put('/integration/<$key>/config/<$id>', handlePut([key, id]))
-      ..delete('/integration/<$key>/config/<$id>', handleDelete([key, id]));
+      ..put('/integration/<$key>/config/<$id>', handleUpsert([key, id]))
+      ..delete('/integration/<$key>/config/<$id>', handleRemove([key, id]));
   }
 }

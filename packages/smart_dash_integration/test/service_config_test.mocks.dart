@@ -14,8 +14,8 @@ import 'package:dio/src/response.dart' as _i6;
 import 'package:dio/src/transformer.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i13;
-import 'package:optional/optional.dart' as _i7;
-import 'package:riverpod/riverpod.dart' as _i8;
+import 'package:optional/optional.dart' as _i8;
+import 'package:riverpod/riverpod.dart' as _i7;
 import 'package:smart_dash_datasource/smart_dash_datasource.dart' as _i14;
 import 'package:smart_dash_integration/smart_dash_integration.dart' as _i12;
 
@@ -83,8 +83,9 @@ class _FakeResponse_4<T1> extends _i1.SmartFake implements _i6.Response<T1> {
         );
 }
 
-class _FakeOptional_5<T> extends _i1.SmartFake implements _i7.Optional<T> {
-  _FakeOptional_5(
+class _FakeRef_5<State extends Object?> extends _i1.SmartFake
+    implements _i7.Ref<State> {
+  _FakeRef_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -93,9 +94,8 @@ class _FakeOptional_5<T> extends _i1.SmartFake implements _i7.Optional<T> {
         );
 }
 
-class _FakeRef_6<State extends Object?> extends _i1.SmartFake
-    implements _i8.Ref<State> {
-  _FakeRef_6(
+class _FakeOptional_6<T> extends _i1.SmartFake implements _i8.Optional<T> {
+  _FakeOptional_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -811,14 +811,41 @@ class MockDio extends _i1.Mock implements _i9.Dio {
       ) as _i10.Future<_i6.Response<T>>);
 }
 
-/// A class which mocks [IntegrationManager].
+/// A class which mocks [IntegrationRegistry].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIntegrationManager extends _i1.Mock
-    implements _i12.IntegrationManager {
-  MockIntegrationManager() {
+class MockIntegrationRegistry extends _i1.Mock
+    implements _i12.IntegrationRegistry {
+  MockIntegrationRegistry() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  _i7.Ref<Object?> get ref => (super.noSuchMethod(
+        Invocation.getter(#ref),
+        returnValue: _FakeRef_5<Object?>(
+          this,
+          Invocation.getter(#ref),
+        ),
+      ) as _i7.Ref<Object?>);
+
+  @override
+  String get baseUrl => (super.noSuchMethod(
+        Invocation.getter(#baseUrl),
+        returnValue: _i13.dummyValue<String>(
+          this,
+          Invocation.getter(#baseUrl),
+        ),
+      ) as String);
+
+  @override
+  bool exists(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #exists,
+          [key],
+        ),
+        returnValue: false,
+      ) as bool);
 
   @override
   void install(
@@ -837,6 +864,16 @@ class MockIntegrationManager extends _i1.Mock
       );
 
   @override
+  void register(_i12.IntegrationService<dynamic>? service) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #register,
+          [service],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   Map<String, _i12.Integration> getAll() => (super.noSuchMethod(
         Invocation.method(
           #getAll,
@@ -846,19 +883,19 @@ class MockIntegrationManager extends _i1.Mock
       ) as Map<String, _i12.Integration>);
 
   @override
-  _i7.Optional<_i12.Integration> get(String? key) => (super.noSuchMethod(
+  _i8.Optional<_i12.Integration> get(String? key) => (super.noSuchMethod(
         Invocation.method(
           #get,
           [key],
         ),
-        returnValue: _FakeOptional_5<_i12.Integration>(
+        returnValue: _FakeOptional_6<_i12.Integration>(
           this,
           Invocation.method(
             #get,
             [key],
           ),
         ),
-      ) as _i7.Optional<_i12.Integration>);
+      ) as _i8.Optional<_i12.Integration>);
 
   @override
   Map<String, _i12.Integration> where(
@@ -870,6 +907,29 @@ class MockIntegrationManager extends _i1.Mock
         ),
         returnValue: <String, _i12.Integration>{},
       ) as Map<String, _i12.Integration>);
+
+  @override
+  _i10.Future<Map<String, _i12.Integration>> discover() => (super.noSuchMethod(
+        Invocation.method(
+          #discover,
+          [],
+        ),
+        returnValue: _i10.Future<Map<String, _i12.Integration>>.value(
+            <String, _i12.Integration>{}),
+      ) as _i10.Future<Map<String, _i12.Integration>>);
+
+  @override
+  _i10.FutureOr<List<_i12.ServiceConfig>> getConfigs(
+          {_i12.IntegrationType? type}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getConfigs,
+          [],
+          {#type: type},
+        ),
+        returnValue:
+            _i10.Future<List<_i12.ServiceConfig>>.value(<_i12.ServiceConfig>[]),
+      ) as _i10.FutureOr<List<_i12.ServiceConfig>>);
 
   @override
   _i10.Future<
@@ -904,24 +964,6 @@ class MockIntegrationManager extends _i1.Mock
                   _i12.DriverDataEvent<dynamic>,
                   _i12.Driver<dynamic>,
                   _i12.DriverManager<_i12.Driver<dynamic>>>>>);
-
-  @override
-  bool supports(_i12.IntegrationType? type) => (super.noSuchMethod(
-        Invocation.method(
-          #supports,
-          [type],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  bool exists(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #exists,
-          [key],
-        ),
-        returnValue: false,
-      ) as bool);
 }
 
 /// A class which mocks [ServiceConfigRepository].
@@ -952,13 +994,13 @@ class MockServiceConfigRepository extends _i1.Mock
       ) as String);
 
   @override
-  _i8.Ref<Object?> get ref => (super.noSuchMethod(
+  _i7.Ref<Object?> get ref => (super.noSuchMethod(
         Invocation.getter(#ref),
-        returnValue: _FakeRef_6<Object?>(
+        returnValue: _FakeRef_5<Object?>(
           this,
           Invocation.getter(#ref),
         ),
-      ) as _i8.Ref<Object?>);
+      ) as _i7.Ref<Object?>);
 
   @override
   _i10.Stream<_i14.RepositoryEvent<String, _i12.ServiceConfig>> get events =>
@@ -1028,21 +1070,21 @@ class MockServiceConfigRepository extends _i1.Mock
       ) as _i10.Future<bool>);
 
   @override
-  _i10.Future<_i7.Optional<_i12.ServiceConfig>> get(String? id) =>
+  _i10.Future<_i8.Optional<_i12.ServiceConfig>> get(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #get,
           [id],
         ),
-        returnValue: _i10.Future<_i7.Optional<_i12.ServiceConfig>>.value(
-            _FakeOptional_5<_i12.ServiceConfig>(
+        returnValue: _i10.Future<_i8.Optional<_i12.ServiceConfig>>.value(
+            _FakeOptional_6<_i12.ServiceConfig>(
           this,
           Invocation.method(
             #get,
             [id],
           ),
         )),
-      ) as _i10.Future<_i7.Optional<_i12.ServiceConfig>>);
+      ) as _i10.Future<_i8.Optional<_i12.ServiceConfig>>);
 
   @override
   _i10.Future<List<String>> getKeys() => (super.noSuchMethod(
@@ -1078,25 +1120,25 @@ class MockServiceConfigRepository extends _i1.Mock
       ) as _i10.Future<List<_i12.ServiceConfig>>);
 
   @override
-  _i10.Future<_i14.SingleRepositoryResult<String, _i12.ServiceConfig>>
-      addOrUpdate(_i12.ServiceConfig? item) => (super.noSuchMethod(
-            Invocation.method(
-              #addOrUpdate,
-              [item],
-            ),
-            returnValue: _i10.Future<
-                    _i14
-                    .SingleRepositoryResult<String, _i12.ServiceConfig>>.value(
-                _i13.dummyValue<
-                    _i14.SingleRepositoryResult<String, _i12.ServiceConfig>>(
-              this,
-              Invocation.method(
-                #addOrUpdate,
-                [item],
-              ),
-            )),
-          ) as _i10
-              .Future<_i14.SingleRepositoryResult<String, _i12.ServiceConfig>>);
+  _i10.Future<_i14.SingleRepositoryResult<String, _i12.ServiceConfig>> upsert(
+          _i12.ServiceConfig? item) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #upsert,
+          [item],
+        ),
+        returnValue: _i10.Future<
+                _i14.SingleRepositoryResult<String, _i12.ServiceConfig>>.value(
+            _i13.dummyValue<
+                _i14.SingleRepositoryResult<String, _i12.ServiceConfig>>(
+          this,
+          Invocation.method(
+            #upsert,
+            [item],
+          ),
+        )),
+      ) as _i10
+          .Future<_i14.SingleRepositoryResult<String, _i12.ServiceConfig>>);
 
   @override
   _i10.Future<_i14.SingleRepositoryResult<String, _i12.ServiceConfig>> remove(

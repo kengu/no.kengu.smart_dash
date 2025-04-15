@@ -11,11 +11,11 @@ import 'integration/osm/application/osm_driver.dart';
 import 'integration/osm/osm.dart';
 
 class Geocoder {
-  static IntegrationType install(Ref ref) {
+  static IntegrationType install(Ref ref, String baseUrl) {
     final service = ref.read(geocoderServiceProvider);
 
     // Register mqtt service and integrations
-    ref.read(integrationManagerProvider).install(
+    ref.read(integrationRegistryProvider(baseUrl)).install(
           IntegrationType.location,
           () => service
             ..manager.install(

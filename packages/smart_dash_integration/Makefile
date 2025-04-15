@@ -17,12 +17,16 @@ else
 endif
 
 .PHONY: \
-	build clean-build test
+	build watch clean-build test
 
 .SILENT: \
-	build clean-build test
+	build watch clean-build test
 
 build:
+	echo "Run code generation..."
+	dart run build_runner build --delete-conflicting-outputs
+
+watch:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
 

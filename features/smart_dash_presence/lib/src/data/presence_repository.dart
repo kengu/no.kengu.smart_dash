@@ -25,7 +25,7 @@ class PresenceRepository extends BulkHiveRepository<Token, Presence> {
   Future<Optional<Presence>> put(Token token) async {
     final presence = await get(token);
     if (!presence.isPresent) {
-      final updated = await addOrUpdate(
+      final updated = await upsert(
         Presence.empty(token),
       );
       if (updated.isEmpty) {

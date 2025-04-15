@@ -6,6 +6,7 @@ library;
 export 'package:hive/hive.dart';
 export 'package:problem_details/problem_details.dart';
 
+export 'src/caching.dart';
 export 'src/drift/connection.dart';
 export 'src/local/file_repository.dart';
 export 'src/local/hive_repository.dart';

@@ -22,13 +22,13 @@ storePassword = "$$(grep "storePassword" android/key.properties | cut -d'=' -f2)
 
 .PHONY: \
 	doctor configure drift-info \
-	build clean-build serve stop upgrade action \
+	build watch clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update test \
 
 .SILENT: \
 	doctor toolchain drift-info \
-	build clean-build serve stop upgrade action \
+	build watch clean-build serve stop upgrade action \
 	android-configure android-build android-install android-rebuild \
 	macos-bootstrap macos-repair macos-update test \
 
@@ -89,6 +89,10 @@ drift-info:
 	dart run drift_dev identify-databases
 
 build:
+	echo "run code generation..."
+	dart run build_runner build --delete-conflicting-outputs
+
+watch:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
 

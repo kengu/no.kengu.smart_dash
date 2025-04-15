@@ -3,7 +3,7 @@
 /// More dartdocs go here.
 library;
 
-export 'src/application/weather_service.dart';
+export 'src/application/weather_driver_service.dart';
 export 'src/domain/weather_forecast_device.dart';
 export 'src/domain/weather_now_device.dart';
 export 'src/domain/weather_state.dart';

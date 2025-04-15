@@ -19,7 +19,7 @@ import 'package:universal_io/io.dart';
 
 part 'bootstrap.g.dart';
 
-typedef Installer = IntegrationType Function(Ref ref);
+typedef Installer = IntegrationType Function(Ref ref, String baseUrl);
 
 @Riverpod(keepAlive: true)
 class Bootstrap extends _$Bootstrap {
@@ -105,16 +105,17 @@ class Bootstrap extends _$Bootstrap {
   }
 
   Future<List<DriverService>> _build(List<Installer> list) async {
+    final baseUrl = 'localhost';
     final repo = ref.read(serviceConfigHiveRepositoryProvider);
 
     final configs = await repo.getAll();
 
     for (final install in list) {
-      install(ref);
+      install(ref, baseUrl);
     }
 
     // Build all integrations
-    final manager = ref.read(integrationManagerProvider);
+    final manager = ref.read(integrationRegistryProvider(baseUrl));
     final services = await manager.build(
       (String key) => configs.where(
         (e) {

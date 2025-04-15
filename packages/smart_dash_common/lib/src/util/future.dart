@@ -1,9 +1,12 @@
 import 'package:optional/optional.dart';
-
-import 'guard.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 class FutureCache {
   FutureCache({required this.prefix});
+
+  static FutureCache of<T>() {
+    return FutureCache(prefix: '${typeOf<T>()}');
+  }
 
   final String prefix;
 
@@ -67,8 +70,9 @@ class FutureCache {
   Future<T> getOrFetch<T>(
     String key,
     Future<T> Function() fetch, {
-    void Function(T data)? onResult,
     Duration? ttl = Duration.zero,
+    GuardErrorHandler<T>? onError,
+    void Function(T data)? onResult,
   }) async {
     final now = DateTime.now();
     final cached = _requests[key];
@@ -78,6 +82,14 @@ class FutureCache {
 
     final request = guard(
       fetch,
+      onError: onError ??
+          (error, [StackTrace? stackTrace]) {
+            return check_client_error<T>(
+              error,
+              stackTrace,
+              _results[key],
+            );
+          },
       task: 'getOrFetch',
       name: '$prefix:$key',
     );

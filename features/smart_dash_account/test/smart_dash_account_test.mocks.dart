@@ -905,7 +905,7 @@ class MockAccountBackendRepository extends _i1.Mock
       ) as _i11.Future<List<_i13.Account>>);
 
   @override
-  _i11.Future<_i14.SingleRepositoryResult<String, _i13.Account>> addOrUpdate(
+  _i11.Future<_i14.SingleRepositoryResult<String, _i13.Account>> upsert(
           _i13.Account? account) =>
       (super.noSuchMethod(
         Invocation.method(

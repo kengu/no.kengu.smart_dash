@@ -49,7 +49,7 @@ class CameraManager extends DriverManager<CameraDriver> {
     guard(
       () async {
         final repo = ref.read(snapshotRepositoryProvider);
-        final snapshot = await repo.addOrUpdate(Snapshot.of(e));
+        final snapshot = await repo.upsert(Snapshot.of(e));
         final file = repo.toFile(repo.toId(snapshot.item));
         _log.fine(
           'Saved snapshot from '

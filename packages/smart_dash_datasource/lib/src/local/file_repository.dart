@@ -61,7 +61,7 @@ abstract class FileRepository<I, T> extends Repository<I, T>
   }
 
   @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) {
+  Future<SingleRepositoryResult<I, T>> upsert(T item) {
     try {
       return guard(
         () async {

@@ -29,7 +29,7 @@ class SettingRepository extends BulkHiveRepository<SettingType, Setting> {
 
   Future<Optional<Setting>> set(Setting item) async {
     final current = await get(toId(item));
-    await addOrUpdate(item);
+    await upsert(item);
     return current;
   }
 

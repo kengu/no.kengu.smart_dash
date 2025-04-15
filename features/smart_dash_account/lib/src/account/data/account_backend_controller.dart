@@ -63,8 +63,8 @@ class AccountBackendController
   }
 
   @override
-  Future<Optional<ProblemDetails>> validate(
-    RepositoryAction action,
+  Future<Optional<ProblemDetails>> validateSchema(
+    ClientAction action,
     Uri uri,
     Account item,
   ) async {
@@ -100,8 +100,8 @@ class AccountBackendController
       ..get('/account', handleQuery(const [], [ids]))
       ..get('/account/<$userId>', handleGet([userId]))
       // Commands
-      ..post('/account', handlePost([userId]))
-      ..put('/account/<$userId>', handlePut([userId]))
-      ..delete('/account/<$userId>', handleDelete([userId]));
+      ..post('/account', handleCreate([userId]))
+      ..put('/account/<$userId>', handleUpsert([userId]))
+      ..delete('/account/<$userId>', handleRemove([userId]));
   }
 }

@@ -6,9 +6,9 @@ import 'package:optional/optional.dart';
 import 'package:sentry/sentry.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
-import 'package:smart_dash_snow/src/data/snow_client.dart';
+import 'package:smart_dash_snow/src/driver/snow_driver_client.dart';
 
-class NySnyClient extends SnowClient {
+class NySnyClient extends SnowDriverClient {
   NySnyClient(this.credentials)
       : api = Dio(
           BaseOptions(
@@ -53,7 +53,7 @@ class NySnyClient extends SnowClient {
             headers: <String, String>{
               'Content-Type': 'application/x-www-form-urlencoded',
             },
-            followRedirects: false,
+            followRedirects: true,
             validateStatus: (status) {
               return status == 302;
             }),
@@ -123,7 +123,7 @@ class NySnyClient extends SnowClient {
             '[${loginResponse.statusCode}] ${loginResponse.realUri}');
       }
       return const Optional.empty();
-    }, error: check_client_error);
+    }, onError: check_client_error);
   }
 
   @override
@@ -209,7 +209,7 @@ class NySnyClient extends SnowClient {
     Pattern? match,
     String? replace,
   }) {
-    final value = data[field] as String;
+    final value = data[field] as String? ?? '';
     final first = split == null ? value : value.split(split)[0];
     final item = match == null
         ? first

@@ -19,7 +19,7 @@ class OsmClient extends GeocoderClient {
         addressDetails: true,
       );
       return Optional.of(toLocation(result));
-    }, error: check_client_error);
+    }, onError: check_client_error);
   }
 
   @override
@@ -32,7 +32,7 @@ class OsmClient extends GeocoderClient {
         nameDetails: true,
       );
       return result.map(toLocation).toList();
-    }, error: check_client_error);
+    }, onError: check_client_error);
   }
 
   static Location toLocation(Place data) {

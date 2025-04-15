@@ -7,7 +7,7 @@ part of 'snapshot_repository.dart';
 // **************************************************************************
 
 String _$snapshotRepositoryHash() =>
-    r'8f32e02e6ab98c0a01750345a46e3588f6847f5b';
+    r'39edefc1f4be83c121a3f42b8063cff643166dfb';
 
 /// See also [snapshotRepository].
 @ProviderFor(snapshotRepository)

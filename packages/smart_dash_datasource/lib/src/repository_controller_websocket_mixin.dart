@@ -4,24 +4,44 @@ import 'package:smart_dash_websocket/smart_dash_websocket.dart';
 
 typedef _SendMessage = void Function(WebSocketMessage message);
 
-mixin WebsocketCRUDControllerMixin<I, T> on RepositoryControllerMixin<I, T> {
+mixin RepositoryControllerWebsocketMixin<I, T, R extends Repository<I, T>>
+    on RepositoryController<I, T, R> {
   late _SendMessage _sendMessage;
 
   String get channel => type.toLowerCase();
   Future<WebSocketMessage> onMessage(WebSocketMessage message);
+
+  WebSocketMessage toMessage(RepositoryEvent<I, T> e) {
+    return WebSocketMessage(
+      channel: channel,
+      type: '${typeOf<RepositoryEvent<I, T>>()}',
+      // TODO: Handle single and bulk events
+      payload: toJson(e.item),
+    );
+  }
 
   void registerChannel(WebSocketServerMultiplexer websocket) {
     websocket.registerChannel(channel, onMessage);
     _sendMessage = (WebSocketMessage message) {
       websocket.sendMessage(channel, message);
     };
+    repo.events.listen(
+      (e) => _sendMessage(toMessage(e)),
+      onError: (error, stackTrace) {
+        log.severe(
+          'Failed to process ${RepositoryEvent<I, T>}',
+          error,
+          stackTrace,
+        );
+      },
+      cancelOnError: false,
+    );
   }
 }
 
+/*
 mixin WebsocketRepositoryControllerMixin<I, T, R extends Repository<I, T>>
-    on WebsocketCRUDControllerMixin<I, T> {
-  R get repo;
-
+    on RepositoryControllerWebsocketMixin<I, T, R> {
   WebSocketMessage toMessage(RepositoryEvent<I, T> e) {
     return WebSocketMessage(
       channel: channel,
@@ -49,3 +69,4 @@ mixin WebsocketRepositoryControllerMixin<I, T, R extends Repository<I, T>>
     );
   }
 }
+ */

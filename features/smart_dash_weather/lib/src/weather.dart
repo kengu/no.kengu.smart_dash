@@ -76,10 +76,10 @@ class Weather {
   }
 
   // Install
-  static IntegrationType install(Ref ref) {
-    final service = ref.read(weatherServiceProvider);
+  static IntegrationType install(Ref ref, String baseUrl) {
+    final service = WeatherDriverService(ref);
     // Register weather service and integrations
-    ref.read(integrationManagerProvider).install(
+    ref.read(integrationRegistryProvider(baseUrl)).install(
           IntegrationType.weather,
           () => service
             ..manager.install(

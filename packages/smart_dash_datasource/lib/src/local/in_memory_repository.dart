@@ -29,7 +29,7 @@ abstract class InMemoryRepository<I, T> extends Repository<I, T> {
   }
 
   @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) async {
+  Future<SingleRepositoryResult<I, T>> upsert(T item) async {
     final id = toId(item);
     final old = _items[id];
     _items[id] = item;

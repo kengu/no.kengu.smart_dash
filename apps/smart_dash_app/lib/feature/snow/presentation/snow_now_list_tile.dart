@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
-import 'package:smart_dash_app/core/presentation/widget/tile/smart_dash_tile.dart';
+import 'package:smart_dash_app/core/presentation/presentation.dart';
+import 'package:smart_dash_app/feature/snow/application/snow_service.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 
 class SnowNowListTile extends ConsumerWidget {
@@ -16,15 +17,26 @@ class SnowNowListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final service = ref.watch(snowServiceProvider);
-    return StreamBuilder<List<SnowState>>(
-      stream: service.getStatesAsStream(refresh: true),
-      initialData: service.getStatesCached().orElseNull,
-      builder: (context, snapshot) {
-        final states = snapshot.hasData ? snapshot.data! : <SnowState>[];
-        return _buildTile(context, states);
-      },
-    );
+    return ref.watch(getCurrentSnowServiceProvider()).when(
+          data: (state) {
+            if (!state.isPresent) {
+              _buildTile(context, const []);
+            }
+            final service = state.value;
+            return StreamBuilder<List<SnowState>>(
+              stream: service.getStatesAsStream(refresh: true),
+              initialData: service.getStatesCached().orElseNull,
+              builder: (context, snapshot) {
+                return _buildTile(
+                  context,
+                  snapshot.data ?? <SnowState>[],
+                );
+              },
+            );
+          },
+          error: SmartDashErrorWidget.from,
+          loading: SmartDashProgressIndicator.new,
+        );
   }
 
   SmartDashTile _buildTile(BuildContext context, List<SnowState> states) {

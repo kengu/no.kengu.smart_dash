@@ -86,7 +86,7 @@ abstract class SharedPreferencesRepository<I, T> extends Repository<I, T>
   ///
   /// Returns list of actual updated items.
   @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) async {
+  Future<SingleRepositoryResult<I, T>> upsert(T item) async {
     final id = toId(item);
     final success = await _putAll([toKey(id)], [toValue(item)]);
 

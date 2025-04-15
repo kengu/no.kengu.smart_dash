@@ -14,7 +14,7 @@ import 'service_config_test.mocks.dart';
 
 @GenerateMocks([
   Dio,
-  IntegrationManager,
+  IntegrationRegistry,
   ServiceConfigRepository,
 ])
 void main() {
@@ -29,7 +29,7 @@ void main() {
       mockDio = MockDio();
       when(mockDio.interceptors).thenReturn(Interceptors());
       mockDio.interceptors.add(
-        RepositoryClientInterceptor(
+        JsonClientInterceptor(
           ServiceConfig.fromJson,
           (e) => e.toJson(),
         ),
@@ -321,7 +321,7 @@ void main() {
       // Arrange
       final item = _newConfig(foo);
       final url = '/integration/foo/config';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -351,7 +351,7 @@ void main() {
       // Arrange
       final item = _newConfig(foo, '1');
       final url = '/integration/foo/config/1';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -383,7 +383,7 @@ void main() {
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
       final url = '/integration/foo/config';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -413,7 +413,7 @@ void main() {
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
       final url = '/integration/config';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -503,7 +503,7 @@ void main() {
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
       final url = '/integration/foo/config';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -533,7 +533,7 @@ void main() {
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
       final url = '/integration/config';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -559,7 +559,7 @@ void main() {
   });
 
   group('ServiceConfigController', () {
-    late MockIntegrationManager mockManager;
+    late MockIntegrationRegistry mockRegistry;
     late MockServiceConfigRepository mockRepo;
     late ServiceConfigController controller;
     late s.Handler app;
@@ -568,27 +568,27 @@ void main() {
     const String host = 'http://example.com';
 
     setUp(() {
-      mockManager = MockIntegrationManager();
+      mockRegistry = MockIntegrationRegistry();
       mockRepo = MockServiceConfigRepository();
       when(mockRepo.toId(any)).thenAnswer(
         (args) => ServiceConfig.toUniqueId(
           args.positionalArguments.first as ServiceConfig,
         ),
       );
-      controller = ServiceConfigController(mockManager, mockRepo);
+      controller = ServiceConfigController(mockRegistry, mockRepo);
       app = const s.Pipeline()
           .addMiddleware(s.logRequests())
           .addHandler(controller.router.call);
     });
 
     tearDown(() {
-      reset(mockManager);
+      reset(mockRegistry);
       reset(mockRepo);
     });
 
     test('should inject dependencies correctly', () {
       expect(controller.repo, equals(mockRepo));
-      expect(controller.integrations, equals(mockManager));
+      expect(controller.registry, equals(mockRegistry));
     });
 
     test(
@@ -597,10 +597,10 @@ void main() {
         final testUri = Uri.parse(host);
         final item = _newConfig(foo);
 
-        when(mockManager.get(any)).thenReturn(Optional.empty());
+        when(mockRegistry.get(any)).thenReturn(Optional.empty());
 
-        final result = await controller.validate(
-          RepositoryAction.create,
+        final result = await controller.validateSchema(
+          ClientAction.create,
           testUri,
           item,
         );
@@ -617,12 +617,12 @@ void main() {
         final testUri = Uri.parse(host);
         final item = _newConfig(foo);
 
-        _mockIntegrationGet(mockManager, foo);
+        _mockIntegrationGet(mockRegistry, foo);
         when(mockRepo.where(any)).thenAnswer((_) async => []);
         _mockServiceConfigExistsNone(mockRepo);
 
-        final result = await controller.validate(
-          RepositoryAction.create,
+        final result = await controller.validateSchema(
+          ClientAction.create,
           testUri,
           item,
         );
@@ -639,12 +639,12 @@ void main() {
         final item1 = _newConfig(bar, '1');
         final item2 = _newConfig(bar, '2');
 
-        _mockIntegrationGet(mockManager, bar);
+        _mockIntegrationGet(mockRegistry, bar);
         _mockServiceConfigExistsNone(mockRepo);
         _mockServiceConfigWhere(mockRepo, [item2]);
 
-        final result = await controller.validate(
-          RepositoryAction.create,
+        final result = await controller.validateSchema(
+          ClientAction.create,
           testUri,
           item1,
         );
@@ -676,7 +676,7 @@ void main() {
       final item2 = _newConfig(foo, '2');
       final expected = [item1, item2];
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGetAll(mockRepo, expected);
       _mockServiceConfigExistsNone(mockRepo);
 
@@ -708,7 +708,7 @@ void main() {
       final item = _newConfig(foo);
       final expected = [item];
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigWhere(mockRepo, expected);
       _mockServiceConfigGetAll(mockRepo, expected);
       _mockServiceConfigExistsNone(mockRepo);
@@ -740,7 +740,7 @@ void main() {
       // Arrange
       final item = _newConfig(foo, '123');
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigWhere(mockRepo, [item]);
       when(mockRepo.get(any)).thenAnswer((_) async => Optional.of(item));
       _mockServiceConfigExistsNone(mockRepo);
@@ -778,7 +778,7 @@ void main() {
         removed: [],
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigWhere(mockRepo, [item1]);
       _mockServiceConfigGetNone(mockRepo);
       _mockServiceConfigUpdateAll(mockRepo, result);
@@ -824,7 +824,7 @@ void main() {
         removed: [],
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExists(mockRepo, items);
       _mockServiceConfigUpdateAll(mockRepo, result);
@@ -865,7 +865,7 @@ void main() {
         removed: items,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExistsAll(mockRepo);
       _mockServiceConfigRemoveAll(mockRepo, result);
@@ -908,7 +908,7 @@ void main() {
         removed: [],
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, exists);
       _mockServiceConfigWhere(mockRepo, exists);
       _mockServiceConfigExists(mockRepo, exists);
@@ -928,7 +928,7 @@ void main() {
       // Assert
       expect(
         response.statusCode,
-        equals(201),
+        equals(200),
         reason: reason,
       );
       final json = jsonDecode(reason);
@@ -956,7 +956,7 @@ void main() {
         removed: [],
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExists(mockRepo, items);
       _mockServiceConfigUpdateAll(mockRepo, result);
@@ -997,7 +997,7 @@ void main() {
         removed: items,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExistsAll(mockRepo);
       _mockServiceConfigRemoveAll(mockRepo, result);
@@ -1042,7 +1042,7 @@ void main() {
         removed: false,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExists(mockRepo, items);
       _mockServiceConfigAddOrUpdate(mockRepo, result);
@@ -1084,7 +1084,7 @@ void main() {
         removed: false,
       ).toResult();
 
-      _mockIntegrationGet(mockManager, foo);
+      _mockIntegrationGet(mockRegistry, foo);
       _mockServiceConfigGet(mockRepo, items);
       _mockServiceConfigExists(mockRepo, items);
       _mockServiceConfigRemove(mockRepo, result);
@@ -1139,8 +1139,8 @@ void _mockServiceConfigWhere(
 }
 
 void _mockIntegrationGet(
-    MockIntegrationManager mockIntegrationManager, Integration foo) {
-  when(mockIntegrationManager.get(any)).thenReturn(Optional.of(foo));
+    MockIntegrationRegistry MockIntegrations, Integration foo) {
+  when(MockIntegrations.get(any)).thenReturn(Optional.of(foo));
 }
 
 void _mockServiceConfigAddOrUpdate(
@@ -1148,7 +1148,7 @@ void _mockServiceConfigAddOrUpdate(
   SingleRepositoryResult<String, ServiceConfig> result,
 ) {
   provideDummy(result);
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
+  when(mockRepo.upsert(any)).thenAnswer(
     (_) async => result,
   );
 }

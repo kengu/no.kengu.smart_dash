@@ -23,7 +23,7 @@ abstract class RemoteRepository<I, T> extends Repository<I, T> {
   Future<List<T>> getAll([List<I> ids = const []]) => client.getAll(ids);
 
   @override
-  Future<SingleRepositoryResult<I, T>> addOrUpdate(T item) async {
+  Future<SingleRepositoryResult<I, T>> upsert(T item) async {
     final result = await client.update(item);
     return result.isNotEmpty ? raise(result) : result;
   }
@@ -37,9 +37,6 @@ abstract class RemoteRepository<I, T> extends Repository<I, T> {
 
 mixin BulkRemoteRepositoryMixin<I, T> on RemoteRepository<I, T>
     implements BulkWriteRepositoryMixin<I, T> {
-  @override
-  BulkRepositoryClientMixin<I, T> get client;
-
   @override
   Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
     final result = await client.updateAll(items);
@@ -260,7 +257,7 @@ class ConnectionAwareRepository<I, T> {
             break;
           default:
             for (final item in remotes) {
-              local.addOrUpdate(item);
+              local.upsert(item);
             }
             for (final it in removed) {
               await local.remove(it);
@@ -341,11 +338,11 @@ class ConnectionAwareRepository<I, T> {
   ) async {
     return guard(
       () async {
-        final result = await local.addOrUpdate(item);
+        final result = await local.upsert(item);
         if (result.isNotEmpty) {
           _schedule(
             [item],
-            () => remote.addOrUpdate(item),
+            () => remote.upsert(item),
           );
           return SingleRepositoryResult<I, RepositoryState<I, T>>(
             RepositoryState<I, T>.modified(item),
@@ -438,7 +435,7 @@ class ConnectionAwareRepository<I, T> {
         }
       }
     } catch (error, stackTrace) {
-      if (!check_client_error(error)) {
+      if (check_client_error(error).fatal) {
         // TODO: Should we just clear schedules changes on error?
         log.severe(
           '_push() failed '

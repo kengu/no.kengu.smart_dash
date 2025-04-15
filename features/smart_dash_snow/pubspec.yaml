@@ -18,6 +18,7 @@ dependencies:
   smart_dash_datasource: any
   smart_dash_integration: any
 
+
   path: ^1.9.0
   intl: ^0.19.0
   html: ^0.15.4
@@ -28,7 +29,10 @@ dependencies:
 
 
   dio: ^5.4.3+1
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
   stream_transform: ^2.1.0
+  dio_cache_interceptor: ^3.5.1
 
   sentry: ^8.0.0
   sentry_flutter: ^8.0.0

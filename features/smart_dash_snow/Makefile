@@ -17,14 +17,22 @@ else
 endif
 
 .PHONY: \
-	build test
+	build watch clean-build test
 
 .SILENT: \
-	build test
+	build watch clean-build
 
 build:
+	echo "Run code generation..."
+	dart run build_runner build --delete-conflicting-outputs
+
+watch:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
+
+clean-build:
+	echo "Clean generated code..."
+	dart pub run build_runner clean
 
 test:
 	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \

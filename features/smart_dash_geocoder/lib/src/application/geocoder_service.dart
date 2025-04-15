@@ -9,10 +9,16 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 
 part 'geocoder_service.g.dart';
 
+/// A [DriverService] for [Location] lookup from [GeocoderDriver]s
+/// that implements [IntegrationType.location] integrations.
 class GeocoderService extends DriverService<Location, LocationEvent,
     GeocoderDriver, GeocoderManager> {
   GeocoderService(Ref ref)
-      : super(ref, FutureCache(prefix: '$GeocoderService'));
+      : super(
+          ref,
+          IntegrationType.location,
+          FutureCache(prefix: '$GeocoderService'),
+        );
 
   @override
   GeocoderManager get manager => ref.read(geocoderManagerProvider);

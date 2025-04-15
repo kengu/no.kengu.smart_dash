@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
-class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
-    with BulkRepositoryClientMixin<String, ServiceConfig> {
+part 'service_config_client.g.dart';
+
+class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
   ServiceConfigClient(Dio api) : super(api, 'config', prefix: '/integration');
 
   @override
@@ -22,7 +24,7 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
   }
 
   @override
-  String buildPath(RepositoryAction action, [List<String> ids = const []]) {
+  String buildPath(ClientAction action, [List<String> ids = const []]) {
     final keys = ids.map(ServiceConfig.toKey).toSet();
     // MATCH
     //   Query integration/config?ids=key1,key2
@@ -44,7 +46,7 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
       return switch (ids.length) {
         0 => '$prefix/${keys.first}/$type',
         1 => '$prefix/${keys.first}/$type/${ids.first}',
-        _ => '$prefix/${keys.first}/$type?${buildQuery(action, ids)}'
+        _ => '$prefix/${keys.first}/$type?${buildQuery(ids)}'
       };
     }
 
@@ -63,7 +65,19 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig>
     return switch (keys.length) {
       0 => '$prefix/$type',
       1 => '$prefix/${keys.first}/$type${id.isNotEmpty ? '/$id' : ''}',
-      _ => '$prefix/$type?${buildQuery(action, ids)}'
+      _ => '$prefix/$type?${buildQuery(ids)}'
     };
   }
+}
+
+@Riverpod(keepAlive: true)
+ServiceConfigClient serviceConfigClient(
+    ServiceConfigClientRef ref, String baseUrl) {
+  return ServiceConfigClient(
+    Dio(BaseOptions(headers: {
+      // TODO: Authentication
+    }, baseUrl: baseUrl))
+      // Process json in the background
+      ..transformer = BackgroundTransformer(),
+  );
 }

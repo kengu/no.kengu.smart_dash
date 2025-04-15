@@ -3,7 +3,6 @@ import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
 
-import 'application/snow_device_driver.dart';
 import 'integration/nysny/application/nysny_driver.dart';
 
 class Snow {
@@ -15,11 +14,11 @@ class Snow {
     DeviceType.sensor: 'Snow Sensor',
   };
 
-  static IntegrationType install(Ref ref) {
-    final service = SnowService(ref);
+  static IntegrationType install(Ref ref, String baseUrl) {
+    final service = SnowDriverService(ref);
 
     // Register weather service and integrations
-    ref.read(integrationManagerProvider).install(
+    ref.read(integrationRegistryProvider(baseUrl)).install(
           IntegrationType.snow,
           () => service
             ..manager.install(

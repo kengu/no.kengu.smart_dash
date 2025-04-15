@@ -30,7 +30,7 @@ void main() {
       mockDio = MockDio();
       when(mockDio.interceptors).thenReturn(Interceptors());
       mockDio.interceptors.add(
-        RepositoryClientInterceptor(
+        JsonClientInterceptor(
           Account.fromJson,
           (e) => e.toJson(),
         ),
@@ -148,7 +148,7 @@ void main() {
       // Arrange
       final item = _newAccount(userId1);
       final url = '/account/$userId1';
-      when(mockDio.put(
+      when(mockDio.patch(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
       )).thenAnswer((_) async {
@@ -204,6 +204,7 @@ void main() {
       expect(result.removed, true);
     });
   });
+
   group('AccountController', () {
     late s.Handler app;
     late AccountBackendController controller;
@@ -251,8 +252,8 @@ void main() {
         _mockGetAccount(mockRepo, item);
 
         // Act
-        final result = await controller.validate(
-          RepositoryAction.create,
+        final result = await controller.validateSchema(
+          ClientAction.create,
           testUri,
           item,
         );
@@ -276,8 +277,8 @@ void main() {
         _mockGetAccount(mockRepo, item);
 
         // Act
-        final result = await controller.validate(
-          RepositoryAction.create,
+        final result = await controller.validateSchema(
+          ClientAction.create,
           testUri,
           item,
         );
@@ -377,7 +378,7 @@ void main() {
 
       _mockAccountWhere(mockRepo, [item1]);
       _mockAccountGetNone(mockRepo);
-      _mockAccountAddOrUpdate(mockRepo, result);
+      _mockAccountUpsert(mockRepo, result);
       _mockAccountExistsNone(mockRepo);
 
       // Act
@@ -436,7 +437,7 @@ void main() {
 
       _mockAccountGet(mockRepo, items);
       _mockAccountExists(mockRepo, items);
-      _mockAccountAddOrUpdate(mockRepo, result);
+      _mockAccountUpsert(mockRepo, result);
 
       // Act
       final request = s.Request(
@@ -559,12 +560,12 @@ void _mockAccountWhere(
   when(mockRepo.where(any)).thenAnswer((_) async => items);
 }
 
-void _mockAccountAddOrUpdate(
+void _mockAccountUpsert(
   MockAccountBackendRepository mockRepo,
   SingleRepositoryResult<String, Account> result,
 ) {
   provideDummy(result);
-  when(mockRepo.addOrUpdate(any)).thenAnswer(
+  when(mockRepo.upsert(any)).thenAnswer(
     (_) async => result,
   );
 }

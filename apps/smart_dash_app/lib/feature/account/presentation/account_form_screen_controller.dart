@@ -24,8 +24,9 @@ class AccountFormScreenController extends _$AccountFormScreenController
         AsyncFormViewModel<AccountQuery, Account> {
   static AccountFormScreenController forCurrentUser(WidgetRef ref) {
     final user = ref.read(userRepositoryProvider).currentUser;
-    final manager = ref.watch(integrationManagerProvider);
-    final integrations = manager.getAll();
+    final result =
+        ref.watch(GetCurrentIntegrationRegistryProvider()).requireValue;
+    final integrations = result.value.getAll();
     return AsyncFormViewModel.of(
         ref,
         accountFormScreenControllerProvider.call,
