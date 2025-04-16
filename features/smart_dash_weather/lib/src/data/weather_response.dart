@@ -5,7 +5,7 @@ part 'weather_response.freezed.dart';
 part 'weather_response.g.dart';
 
 @freezed
-class WeatherResponse with _$WeatherResponse {
+sealed class WeatherResponse with _$WeatherResponse {
   const WeatherResponse._();
   const factory WeatherResponse({
     @JsonKey(name: 'data') required WeatherState data,

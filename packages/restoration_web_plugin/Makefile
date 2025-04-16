@@ -22,14 +22,6 @@ endif
 .SILENT: \
 	build clean-build test
 
-build:
-	echo "Watch for buildable changes..."
-	dart run build_runner watch --delete-conflicting-outputs
-
-clean-build:
-	echo "Clean generated build..."
-	dart pub run build_runner clean
-
 test:
 	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
 	  echo "Running tests in $(pwd)"; \

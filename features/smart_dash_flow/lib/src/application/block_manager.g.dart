@@ -34,23 +34,9 @@ class _SystemHash {
 const blockModelFlowProvider = BlockModelFlowFamily();
 
 /// See also [blockModelFlow].
-class BlockModelFlowFamily extends Family {
+class BlockModelFlowFamily extends Family<AsyncValue<BlockModel>> {
   /// See also [blockModelFlow].
   const BlockModelFlowFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'blockModelFlowProvider';
 
   /// See also [blockModelFlow].
   BlockModelFlowProvider call(
@@ -61,7 +47,6 @@ class BlockModelFlowFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   BlockModelFlowProvider getProviderOverride(
     covariant BlockModelFlowProvider provider,
@@ -71,27 +56,19 @@ class BlockModelFlowFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      Stream<BlockModel> Function(BlockModelFlowRef ref) create) {
-    return _$BlockModelFlowFamilyOverride(this, create);
-  }
-}
-
-class _$BlockModelFlowFamilyOverride implements FamilyOverride {
-  _$BlockModelFlowFamilyOverride(this.overriddenFamily, this.create);
-
-  final Stream<BlockModel> Function(BlockModelFlowRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final BlockModelFlowFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  BlockModelFlowProvider getProviderOverride(
-    covariant BlockModelFlowProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'blockModelFlowProvider';
 }
 
 /// See also [blockModelFlow].
@@ -117,7 +94,7 @@ class BlockModelFlowProvider extends AutoDisposeStreamProvider<BlockModel> {
         );
 
   BlockModelFlowProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -130,7 +107,7 @@ class BlockModelFlowProvider extends AutoDisposeStreamProvider<BlockModel> {
 
   @override
   Override overrideWith(
-    Stream<BlockModel> Function(BlockModelFlowRef ref) create,
+    Stream<BlockModel> Function(BlockModelFlowRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -147,27 +124,8 @@ class BlockModelFlowProvider extends AutoDisposeStreamProvider<BlockModel> {
   }
 
   @override
-  (BlockFlowQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeStreamProviderElement<BlockModel> createElement() {
     return _BlockModelFlowProviderElement(this);
-  }
-
-  BlockModelFlowProvider _copyWith(
-    Stream<BlockModel> Function(BlockModelFlowRef ref) create,
-  ) {
-    return BlockModelFlowProvider._internal(
-      (ref) => create(ref as BlockModelFlowRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -184,6 +142,8 @@ class BlockModelFlowProvider extends AutoDisposeStreamProvider<BlockModel> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin BlockModelFlowRef on AutoDisposeStreamProviderRef<BlockModel> {
   /// The parameter `query` of this provider.
   BlockFlowQuery get query;
@@ -211,6 +171,8 @@ final blockManagerProvider = Provider<BlockManager>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BlockManagerRef = ProviderRef<BlockManager>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

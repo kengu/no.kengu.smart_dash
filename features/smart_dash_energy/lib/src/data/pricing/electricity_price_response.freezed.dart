@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,60 @@ part of 'electricity_price_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-ElectricityPriceResponse _$ElectricityPriceResponseFromJson(
-    Map<String, dynamic> json) {
-  return _ElectricityPriceResponse.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ElectricityPriceResponse {
   @JsonKey(name: 'data')
-  List<ElectricityPrice> get prices => throw _privateConstructorUsedError;
-
-  /// Serializes this ElectricityPriceResponse to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  List<ElectricityPrice> get prices;
 
   /// Create a copy of ElectricityPriceResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ElectricityPriceResponseCopyWith<ElectricityPriceResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ElectricityPriceResponseCopyWith<$Res> {
-  factory $ElectricityPriceResponseCopyWith(ElectricityPriceResponse value,
-          $Res Function(ElectricityPriceResponse) then) =
-      _$ElectricityPriceResponseCopyWithImpl<$Res, ElectricityPriceResponse>;
-  @useResult
-  $Res call({@JsonKey(name: 'data') List<ElectricityPrice> prices});
-}
-
-/// @nodoc
-class _$ElectricityPriceResponseCopyWithImpl<$Res,
-        $Val extends ElectricityPriceResponse>
-    implements $ElectricityPriceResponseCopyWith<$Res> {
-  _$ElectricityPriceResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ElectricityPriceResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ElectricityPriceResponseCopyWith<ElectricityPriceResponse> get copyWith =>
+      _$ElectricityPriceResponseCopyWithImpl<ElectricityPriceResponse>(
+          this as ElectricityPriceResponse, _$identity);
+
+  /// Serializes this ElectricityPriceResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? prices = null,
-  }) {
-    return _then(_value.copyWith(
-      prices: null == prices
-          ? _value.prices
-          : prices // ignore: cast_nullable_to_non_nullable
-              as List<ElectricityPrice>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ElectricityPriceResponse &&
+            const DeepCollectionEquality().equals(other.prices, prices));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(prices));
+
+  @override
+  String toString() {
+    return 'ElectricityPriceResponse(prices: $prices)';
   }
 }
 
 /// @nodoc
-abstract class _$$ElectricityPriceResponseImplCopyWith<$Res>
-    implements $ElectricityPriceResponseCopyWith<$Res> {
-  factory _$$ElectricityPriceResponseImplCopyWith(
-          _$ElectricityPriceResponseImpl value,
-          $Res Function(_$ElectricityPriceResponseImpl) then) =
-      __$$ElectricityPriceResponseImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ElectricityPriceResponseCopyWith<$Res> {
+  factory $ElectricityPriceResponseCopyWith(ElectricityPriceResponse value,
+          $Res Function(ElectricityPriceResponse) _then) =
+      _$ElectricityPriceResponseCopyWithImpl;
   @useResult
   $Res call({@JsonKey(name: 'data') List<ElectricityPrice> prices});
 }
 
 /// @nodoc
-class __$$ElectricityPriceResponseImplCopyWithImpl<$Res>
-    extends _$ElectricityPriceResponseCopyWithImpl<$Res,
-        _$ElectricityPriceResponseImpl>
-    implements _$$ElectricityPriceResponseImplCopyWith<$Res> {
-  __$$ElectricityPriceResponseImplCopyWithImpl(
-      _$ElectricityPriceResponseImpl _value,
-      $Res Function(_$ElectricityPriceResponseImpl) _then)
-      : super(_value, _then);
+class _$ElectricityPriceResponseCopyWithImpl<$Res>
+    implements $ElectricityPriceResponseCopyWith<$Res> {
+  _$ElectricityPriceResponseCopyWithImpl(this._self, this._then);
+
+  final ElectricityPriceResponse _self;
+  final $Res Function(ElectricityPriceResponse) _then;
 
   /// Create a copy of ElectricityPriceResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -99,9 +72,9 @@ class __$$ElectricityPriceResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? prices = null,
   }) {
-    return _then(_$ElectricityPriceResponseImpl(
+    return _then(_self.copyWith(
       prices: null == prices
-          ? _value._prices
+          ? _self.prices
           : prices // ignore: cast_nullable_to_non_nullable
               as List<ElectricityPrice>,
     ));
@@ -110,13 +83,12 @@ class __$$ElectricityPriceResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ElectricityPriceResponseImpl implements _ElectricityPriceResponse {
-  const _$ElectricityPriceResponseImpl(
+class _ElectricityPriceResponse implements ElectricityPriceResponse {
+  const _ElectricityPriceResponse(
       {@JsonKey(name: 'data') required final List<ElectricityPrice> prices})
       : _prices = prices;
-
-  factory _$ElectricityPriceResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ElectricityPriceResponseImplFromJson(json);
+  factory _ElectricityPriceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ElectricityPriceResponseFromJson(json);
 
   final List<ElectricityPrice> _prices;
   @override
@@ -127,16 +99,27 @@ class _$ElectricityPriceResponseImpl implements _ElectricityPriceResponse {
     return EqualUnmodifiableListView(_prices);
   }
 
+  /// Create a copy of ElectricityPriceResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'ElectricityPriceResponse(prices: $prices)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ElectricityPriceResponseCopyWith<_ElectricityPriceResponse> get copyWith =>
+      __$ElectricityPriceResponseCopyWithImpl<_ElectricityPriceResponse>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ElectricityPriceResponseToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ElectricityPriceResponseImpl &&
+            other is _ElectricityPriceResponse &&
             const DeepCollectionEquality().equals(other._prices, _prices));
   }
 
@@ -145,40 +128,45 @@ class _$ElectricityPriceResponseImpl implements _ElectricityPriceResponse {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_prices));
 
-  /// Create a copy of ElectricityPriceResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ElectricityPriceResponseImplCopyWith<_$ElectricityPriceResponseImpl>
-      get copyWith => __$$ElectricityPriceResponseImplCopyWithImpl<
-          _$ElectricityPriceResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ElectricityPriceResponseImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ElectricityPriceResponse(prices: $prices)';
   }
 }
 
-abstract class _ElectricityPriceResponse implements ElectricityPriceResponse {
-  const factory _ElectricityPriceResponse(
-          {@JsonKey(name: 'data')
-          required final List<ElectricityPrice> prices}) =
-      _$ElectricityPriceResponseImpl;
-
-  factory _ElectricityPriceResponse.fromJson(Map<String, dynamic> json) =
-      _$ElectricityPriceResponseImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$ElectricityPriceResponseCopyWith<$Res>
+    implements $ElectricityPriceResponseCopyWith<$Res> {
+  factory _$ElectricityPriceResponseCopyWith(_ElectricityPriceResponse value,
+          $Res Function(_ElectricityPriceResponse) _then) =
+      __$ElectricityPriceResponseCopyWithImpl;
   @override
-  @JsonKey(name: 'data')
-  List<ElectricityPrice> get prices;
+  @useResult
+  $Res call({@JsonKey(name: 'data') List<ElectricityPrice> prices});
+}
+
+/// @nodoc
+class __$ElectricityPriceResponseCopyWithImpl<$Res>
+    implements _$ElectricityPriceResponseCopyWith<$Res> {
+  __$ElectricityPriceResponseCopyWithImpl(this._self, this._then);
+
+  final _ElectricityPriceResponse _self;
+  final $Res Function(_ElectricityPriceResponse) _then;
 
   /// Create a copy of ElectricityPriceResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ElectricityPriceResponseImplCopyWith<_$ElectricityPriceResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? prices = null,
+  }) {
+    return _then(_ElectricityPriceResponse(
+      prices: null == prices
+          ? _self._prices
+          : prices // ignore: cast_nullable_to_non_nullable
+              as List<ElectricityPrice>,
+    ));
+  }
 }
+
+// dart format on

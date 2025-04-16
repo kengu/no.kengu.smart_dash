@@ -7,7 +7,7 @@ part 'snow_device.freezed.dart';
 part 'snow_device.g.dart';
 
 @freezed
-class SnowDevice with _$SnowDevice, DeviceMapper {
+sealed class SnowDevice with _$SnowDevice, DeviceMapper {
   const SnowDevice._();
   const factory SnowDevice({
     @JsonKey(name: 'state') required SnowState state,

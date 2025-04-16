@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
@@ -43,7 +44,7 @@ mixin SnowService on IntegrationService<List<SnowState>> {
 
 /// Build a new [SnowService] instance.
 @Riverpod(keepAlive: true)
-Future<SnowService> snowService(SnowServiceRef ref, String baseUrl) async {
+Future<SnowService> snowService(Ref ref, String baseUrl) async {
   if (baseUrl.isLocalhost) {
     final service = SnowConsumerService(ref, baseUrl);
     await service.build();

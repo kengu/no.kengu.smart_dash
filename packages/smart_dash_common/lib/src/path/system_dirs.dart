@@ -1,4 +1,5 @@
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:universal_io/io.dart';
 
@@ -49,7 +50,7 @@ Optional<SystemDirsBuilder> _builder = Optional.empty();
 
 /// Get [SystemDirs]
 @riverpod
-SystemDirs systemDirs(SystemDirsRef ref) {
+SystemDirs systemDirs(Ref ref) {
   if (_builder.isPresent) {
     return _builder.value();
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
@@ -34,7 +35,7 @@ class BlockRepository extends BulkHiveRepository<String, BlockModel> {
 }
 
 @Riverpod(keepAlive: true)
-BlockRepository blockRepository(BlockRepositoryRef ref) {
+BlockRepository blockRepository(Ref ref) {
   return BlockRepository(ref, _defaults);
 }
 

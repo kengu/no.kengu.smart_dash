@@ -6,8 +6,7 @@ part of 'account.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AccountImpl _$$AccountImplFromJson(Map<String, dynamic> json) =>
-    _$AccountImpl(
+_Account _$AccountFromJson(Map<String, dynamic> json) => _Account(
       userId: json['userId'] as String,
       homes: (json['homes'] as List<dynamic>)
           .map((e) => Home.fromJson(e as Map<String, dynamic>))
@@ -16,8 +15,7 @@ _$AccountImpl _$$AccountImplFromJson(Map<String, dynamic> json) =>
       lname: json['lname'] as String?,
     );
 
-Map<String, dynamic> _$$AccountImplToJson(_$AccountImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$AccountToJson(_Account instance) => <String, dynamic>{
       'userId': instance.userId,
       'homes': instance.homes.map((e) => e.toJson()).toList(),
       'fname': instance.fname,

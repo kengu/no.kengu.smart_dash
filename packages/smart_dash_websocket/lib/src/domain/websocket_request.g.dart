@@ -6,16 +6,14 @@ part of 'websocket_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WebSocketRequestImpl _$$WebSocketRequestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WebSocketRequestImpl(
+_WebSocketRequest _$WebSocketRequestFromJson(Map<String, dynamic> json) =>
+    _WebSocketRequest(
       action: $enumDecode(_$WebSocketActionEnumMap, json['action']),
       message:
           WebSocketMessage.fromJson(json['message'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$WebSocketRequestImplToJson(
-        _$WebSocketRequestImpl instance) =>
+Map<String, dynamic> _$WebSocketRequestToJson(_WebSocketRequest instance) =>
     <String, dynamic>{
       'action': _$WebSocketActionEnumMap[instance.action]!,
       'message': instance.message.toJson(),

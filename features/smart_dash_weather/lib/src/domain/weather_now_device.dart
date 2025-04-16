@@ -9,7 +9,7 @@ part 'weather_now_device.freezed.dart';
 part 'weather_now_device.g.dart';
 
 @freezed
-class WeatherNowDevice with _$WeatherNowDevice, DeviceMapper {
+sealed class WeatherNowDevice with _$WeatherNowDevice, DeviceMapper {
   const WeatherNowDevice._();
   const factory WeatherNowDevice({
     @JsonKey(name: 'service') required String service,

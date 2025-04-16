@@ -6,8 +6,7 @@ part of 'dashboard.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DashboardImpl _$$DashboardImplFromJson(Map<String, dynamic> json) =>
-    _$DashboardImpl(
+_Dashboard _$DashboardFromJson(Map<String, dynamic> json) => _Dashboard(
       key: json['key'] as String,
       title: json['title'] as String,
       tokens: (json['tokens'] as List<dynamic>)
@@ -24,7 +23,7 @@ _$DashboardImpl _$$DashboardImplFromJson(Map<String, dynamic> json) =>
           DashboardLayout.fromJson(json['mobileLarge'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$DashboardImplToJson(_$DashboardImpl instance) =>
+Map<String, dynamic> _$DashboardToJson(_Dashboard instance) =>
     <String, dynamic>{
       'key': instance.key,
       'title': instance.title,
@@ -36,9 +35,8 @@ Map<String, dynamic> _$$DashboardImplToJson(_$DashboardImpl instance) =>
       'mobileLarge': instance.mobileLarge.toJson(),
     };
 
-_$DashboardLayoutImpl _$$DashboardLayoutImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DashboardLayoutImpl(
+_DashboardLayout _$DashboardLayoutFromJson(Map<String, dynamic> json) =>
+    _DashboardLayout(
       slotCount: (json['slotCount'] as num).toInt(),
       slotHeight: (json['slotHeight'] as num).toDouble(),
       items: (json['items'] as List<dynamic>)
@@ -46,30 +44,28 @@ _$DashboardLayoutImpl _$$DashboardLayoutImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$DashboardLayoutImplToJson(
-        _$DashboardLayoutImpl instance) =>
+Map<String, dynamic> _$DashboardLayoutToJson(_DashboardLayout instance) =>
     <String, dynamic>{
       'slotCount': instance.slotCount,
       'slotHeight': instance.slotHeight,
       'items': instance.items.map((e) => e.toJson()).toList(),
     };
 
-_$DashboardItemImpl _$$DashboardItemImplFromJson(Map<String, dynamic> json) =>
-    _$DashboardItemImpl(
+_DashboardItem _$DashboardItemFromJson(Map<String, dynamic> json) =>
+    _DashboardItem(
       key: json['item_id'] as String,
       layout:
           DashboardItemLayout.fromJson(json['layout'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$DashboardItemImplToJson(_$DashboardItemImpl instance) =>
+Map<String, dynamic> _$DashboardItemToJson(_DashboardItem instance) =>
     <String, dynamic>{
       'item_id': instance.key,
       'layout': instance.layout.toJson(),
     };
 
-_$DashboardItemLayoutImpl _$$DashboardItemLayoutImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DashboardItemLayoutImpl(
+_DashboardItemLayout _$DashboardItemLayoutFromJson(Map<String, dynamic> json) =>
+    _DashboardItemLayout(
       width: (json['w'] as num).toInt(),
       height: (json['h'] as num).toInt(),
       minWidth: (json['min_W'] as num).toInt(),
@@ -80,8 +76,8 @@ _$DashboardItemLayoutImpl _$$DashboardItemLayoutImplFromJson(
       startY: (json['s_Y'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$DashboardItemLayoutImplToJson(
-        _$DashboardItemLayoutImpl instance) =>
+Map<String, dynamic> _$DashboardItemLayoutToJson(
+        _DashboardItemLayout instance) =>
     <String, dynamic>{
       'w': instance.width,
       'h': instance.height,

@@ -6,7 +6,7 @@ part 'snow_state.freezed.dart';
 part 'snow_state.g.dart';
 
 @freezed
-class SnowState with _$SnowState {
+sealed class SnowState with _$SnowState {
   const SnowState._();
   const factory SnowState({
     /// Measurement location

@@ -6,15 +6,14 @@ part of 'time_series.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TimeSeriesImpl _$$TimeSeriesImplFromJson(Map<String, dynamic> json) =>
-    _$TimeSeriesImpl(
+_TimeSeries _$TimeSeriesFromJson(Map<String, dynamic> json) => _TimeSeries(
       name: json['name'] as String,
       array: DataArray.fromJson(json['array'] as Map<String, dynamic>),
       offset: DateTime.parse(json['offset'] as String),
       span: Duration(microseconds: (json['span'] as num).toInt()),
     );
 
-Map<String, dynamic> _$$TimeSeriesImplToJson(_$TimeSeriesImpl instance) =>
+Map<String, dynamic> _$TimeSeriesToJson(_TimeSeries instance) =>
     <String, dynamic>{
       'name': instance.name,
       'array': instance.array.toJson(),

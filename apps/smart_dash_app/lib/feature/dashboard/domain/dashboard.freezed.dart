@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,40 +10,69 @@ part of 'dashboard.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Dashboard _$DashboardFromJson(Map<String, dynamic> json) {
-  return _Dashboard.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Dashboard {
-  String get key => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  List<Token> get tokens => throw _privateConstructorUsedError;
-  List<Identity> get ids => throw _privateConstructorUsedError;
-  DashboardLayout get mobile => throw _privateConstructorUsedError;
-  DashboardLayout get tablet => throw _privateConstructorUsedError;
-  DashboardLayout get desktop => throw _privateConstructorUsedError;
-  DashboardLayout get mobileLarge => throw _privateConstructorUsedError;
-
-  /// Serializes this Dashboard to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get key;
+  String get title;
+  List<Token> get tokens;
+  List<Identity> get ids;
+  DashboardLayout get mobile;
+  DashboardLayout get tablet;
+  DashboardLayout get desktop;
+  DashboardLayout get mobileLarge;
 
   /// Create a copy of Dashboard
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $DashboardCopyWith<Dashboard> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$DashboardCopyWithImpl<Dashboard>(this as Dashboard, _$identity);
+
+  /// Serializes this Dashboard to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Dashboard &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.title, title) || other.title == title) &&
+            const DeepCollectionEquality().equals(other.tokens, tokens) &&
+            const DeepCollectionEquality().equals(other.ids, ids) &&
+            (identical(other.mobile, mobile) || other.mobile == mobile) &&
+            (identical(other.tablet, tablet) || other.tablet == tablet) &&
+            (identical(other.desktop, desktop) || other.desktop == desktop) &&
+            (identical(other.mobileLarge, mobileLarge) ||
+                other.mobileLarge == mobileLarge));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      key,
+      title,
+      const DeepCollectionEquality().hash(tokens),
+      const DeepCollectionEquality().hash(ids),
+      mobile,
+      tablet,
+      desktop,
+      mobileLarge);
+
+  @override
+  String toString() {
+    return 'Dashboard(key: $key, title: $title, tokens: $tokens, ids: $ids, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
+  }
 }
 
 /// @nodoc
-abstract class $DashboardCopyWith<$Res> {
-  factory $DashboardCopyWith(Dashboard value, $Res Function(Dashboard) then) =
-      _$DashboardCopyWithImpl<$Res, Dashboard>;
+abstract mixin class $DashboardCopyWith<$Res> {
+  factory $DashboardCopyWith(Dashboard value, $Res Function(Dashboard) _then) =
+      _$DashboardCopyWithImpl;
   @useResult
   $Res call(
       {String key,
@@ -61,14 +91,11 @@ abstract class $DashboardCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
-    implements $DashboardCopyWith<$Res> {
-  _$DashboardCopyWithImpl(this._value, this._then);
+class _$DashboardCopyWithImpl<$Res> implements $DashboardCopyWith<$Res> {
+  _$DashboardCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final Dashboard _self;
+  final $Res Function(Dashboard) _then;
 
   /// Create a copy of Dashboard
   /// with the given fields replaced by the non-null parameter values.
@@ -84,40 +111,40 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
     Object? desktop = null,
     Object? mobileLarge = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       key: null == key
-          ? _value.key
+          ? _self.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
       tokens: null == tokens
-          ? _value.tokens
+          ? _self.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
       ids: null == ids
-          ? _value.ids
+          ? _self.ids
           : ids // ignore: cast_nullable_to_non_nullable
               as List<Identity>,
       mobile: null == mobile
-          ? _value.mobile
+          ? _self.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
               as DashboardLayout,
       tablet: null == tablet
-          ? _value.tablet
+          ? _self.tablet
           : tablet // ignore: cast_nullable_to_non_nullable
               as DashboardLayout,
       desktop: null == desktop
-          ? _value.desktop
+          ? _self.desktop
           : desktop // ignore: cast_nullable_to_non_nullable
               as DashboardLayout,
       mobileLarge: null == mobileLarge
-          ? _value.mobileLarge
+          ? _self.mobileLarge
           : mobileLarge // ignore: cast_nullable_to_non_nullable
               as DashboardLayout,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of Dashboard
@@ -125,8 +152,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get mobile {
-    return $DashboardLayoutCopyWith<$Res>(_value.mobile, (value) {
-      return _then(_value.copyWith(mobile: value) as $Val);
+    return $DashboardLayoutCopyWith<$Res>(_self.mobile, (value) {
+      return _then(_self.copyWith(mobile: value));
     });
   }
 
@@ -135,8 +162,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get tablet {
-    return $DashboardLayoutCopyWith<$Res>(_value.tablet, (value) {
-      return _then(_value.copyWith(tablet: value) as $Val);
+    return $DashboardLayoutCopyWith<$Res>(_self.tablet, (value) {
+      return _then(_self.copyWith(tablet: value));
     });
   }
 
@@ -145,8 +172,8 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get desktop {
-    return $DashboardLayoutCopyWith<$Res>(_value.desktop, (value) {
-      return _then(_value.copyWith(desktop: value) as $Val);
+    return $DashboardLayoutCopyWith<$Res>(_self.desktop, (value) {
+      return _then(_self.copyWith(desktop: value));
     });
   }
 
@@ -155,103 +182,16 @@ class _$DashboardCopyWithImpl<$Res, $Val extends Dashboard>
   @override
   @pragma('vm:prefer-inline')
   $DashboardLayoutCopyWith<$Res> get mobileLarge {
-    return $DashboardLayoutCopyWith<$Res>(_value.mobileLarge, (value) {
-      return _then(_value.copyWith(mobileLarge: value) as $Val);
+    return $DashboardLayoutCopyWith<$Res>(_self.mobileLarge, (value) {
+      return _then(_self.copyWith(mobileLarge: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$DashboardImplCopyWith<$Res>
-    implements $DashboardCopyWith<$Res> {
-  factory _$$DashboardImplCopyWith(
-          _$DashboardImpl value, $Res Function(_$DashboardImpl) then) =
-      __$$DashboardImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String key,
-      String title,
-      List<Token> tokens,
-      List<Identity> ids,
-      DashboardLayout mobile,
-      DashboardLayout tablet,
-      DashboardLayout desktop,
-      DashboardLayout mobileLarge});
-
-  @override
-  $DashboardLayoutCopyWith<$Res> get mobile;
-  @override
-  $DashboardLayoutCopyWith<$Res> get tablet;
-  @override
-  $DashboardLayoutCopyWith<$Res> get desktop;
-  @override
-  $DashboardLayoutCopyWith<$Res> get mobileLarge;
-}
-
-/// @nodoc
-class __$$DashboardImplCopyWithImpl<$Res>
-    extends _$DashboardCopyWithImpl<$Res, _$DashboardImpl>
-    implements _$$DashboardImplCopyWith<$Res> {
-  __$$DashboardImplCopyWithImpl(
-      _$DashboardImpl _value, $Res Function(_$DashboardImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Dashboard
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? key = null,
-    Object? title = null,
-    Object? tokens = null,
-    Object? ids = null,
-    Object? mobile = null,
-    Object? tablet = null,
-    Object? desktop = null,
-    Object? mobileLarge = null,
-  }) {
-    return _then(_$DashboardImpl(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      tokens: null == tokens
-          ? _value._tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as List<Token>,
-      ids: null == ids
-          ? _value._ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<Identity>,
-      mobile: null == mobile
-          ? _value.mobile
-          : mobile // ignore: cast_nullable_to_non_nullable
-              as DashboardLayout,
-      tablet: null == tablet
-          ? _value.tablet
-          : tablet // ignore: cast_nullable_to_non_nullable
-              as DashboardLayout,
-      desktop: null == desktop
-          ? _value.desktop
-          : desktop // ignore: cast_nullable_to_non_nullable
-              as DashboardLayout,
-      mobileLarge: null == mobileLarge
-          ? _value.mobileLarge
-          : mobileLarge // ignore: cast_nullable_to_non_nullable
-              as DashboardLayout,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$DashboardImpl extends _Dashboard {
-  const _$DashboardImpl(
+class _Dashboard extends Dashboard {
+  const _Dashboard(
       {required this.key,
       required this.title,
       required final List<Token> tokens,
@@ -263,9 +203,8 @@ class _$DashboardImpl extends _Dashboard {
       : _tokens = tokens,
         _ids = ids,
         super._();
-
-  factory _$DashboardImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DashboardImplFromJson(json);
+  factory _Dashboard.fromJson(Map<String, dynamic> json) =>
+      _$DashboardFromJson(json);
 
   @override
   final String key;
@@ -296,16 +235,26 @@ class _$DashboardImpl extends _Dashboard {
   @override
   final DashboardLayout mobileLarge;
 
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Dashboard(key: $key, title: $title, tokens: $tokens, ids: $ids, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DashboardCopyWith<_Dashboard> get copyWith =>
+      __$DashboardCopyWithImpl<_Dashboard>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DashboardToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DashboardImpl &&
+            other is _Dashboard &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._tokens, _tokens) &&
@@ -330,140 +279,186 @@ class _$DashboardImpl extends _Dashboard {
       desktop,
       mobileLarge);
 
-  /// Create a copy of Dashboard
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DashboardImplCopyWith<_$DashboardImpl> get copyWith =>
-      __$$DashboardImplCopyWithImpl<_$DashboardImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DashboardImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Dashboard(key: $key, title: $title, tokens: $tokens, ids: $ids, mobile: $mobile, tablet: $tablet, desktop: $desktop, mobileLarge: $mobileLarge)';
   }
 }
 
-abstract class _Dashboard extends Dashboard {
-  const factory _Dashboard(
-      {required final String key,
-      required final String title,
-      required final List<Token> tokens,
-      required final List<Identity> ids,
-      required final DashboardLayout mobile,
-      required final DashboardLayout tablet,
-      required final DashboardLayout desktop,
-      required final DashboardLayout mobileLarge}) = _$DashboardImpl;
-  const _Dashboard._() : super._();
+/// @nodoc
+abstract mixin class _$DashboardCopyWith<$Res>
+    implements $DashboardCopyWith<$Res> {
+  factory _$DashboardCopyWith(
+          _Dashboard value, $Res Function(_Dashboard) _then) =
+      __$DashboardCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String key,
+      String title,
+      List<Token> tokens,
+      List<Identity> ids,
+      DashboardLayout mobile,
+      DashboardLayout tablet,
+      DashboardLayout desktop,
+      DashboardLayout mobileLarge});
 
-  factory _Dashboard.fromJson(Map<String, dynamic> json) =
-      _$DashboardImpl.fromJson;
+  @override
+  $DashboardLayoutCopyWith<$Res> get mobile;
+  @override
+  $DashboardLayoutCopyWith<$Res> get tablet;
+  @override
+  $DashboardLayoutCopyWith<$Res> get desktop;
+  @override
+  $DashboardLayoutCopyWith<$Res> get mobileLarge;
+}
 
-  @override
-  String get key;
-  @override
-  String get title;
-  @override
-  List<Token> get tokens;
-  @override
-  List<Identity> get ids;
-  @override
-  DashboardLayout get mobile;
-  @override
-  DashboardLayout get tablet;
-  @override
-  DashboardLayout get desktop;
-  @override
-  DashboardLayout get mobileLarge;
+/// @nodoc
+class __$DashboardCopyWithImpl<$Res> implements _$DashboardCopyWith<$Res> {
+  __$DashboardCopyWithImpl(this._self, this._then);
+
+  final _Dashboard _self;
+  final $Res Function(_Dashboard) _then;
 
   /// Create a copy of Dashboard
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DashboardImplCopyWith<_$DashboardImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? key = null,
+    Object? title = null,
+    Object? tokens = null,
+    Object? ids = null,
+    Object? mobile = null,
+    Object? tablet = null,
+    Object? desktop = null,
+    Object? mobileLarge = null,
+  }) {
+    return _then(_Dashboard(
+      key: null == key
+          ? _self.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokens: null == tokens
+          ? _self._tokens
+          : tokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
+      ids: null == ids
+          ? _self._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<Identity>,
+      mobile: null == mobile
+          ? _self.mobile
+          : mobile // ignore: cast_nullable_to_non_nullable
+              as DashboardLayout,
+      tablet: null == tablet
+          ? _self.tablet
+          : tablet // ignore: cast_nullable_to_non_nullable
+              as DashboardLayout,
+      desktop: null == desktop
+          ? _self.desktop
+          : desktop // ignore: cast_nullable_to_non_nullable
+              as DashboardLayout,
+      mobileLarge: null == mobileLarge
+          ? _self.mobileLarge
+          : mobileLarge // ignore: cast_nullable_to_non_nullable
+              as DashboardLayout,
+    ));
+  }
 
-DashboardLayout _$DashboardLayoutFromJson(Map<String, dynamic> json) {
-  return _DashboardLayout.fromJson(json);
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardLayoutCopyWith<$Res> get mobile {
+    return $DashboardLayoutCopyWith<$Res>(_self.mobile, (value) {
+      return _then(_self.copyWith(mobile: value));
+    });
+  }
+
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardLayoutCopyWith<$Res> get tablet {
+    return $DashboardLayoutCopyWith<$Res>(_self.tablet, (value) {
+      return _then(_self.copyWith(tablet: value));
+    });
+  }
+
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardLayoutCopyWith<$Res> get desktop {
+    return $DashboardLayoutCopyWith<$Res>(_self.desktop, (value) {
+      return _then(_self.copyWith(desktop: value));
+    });
+  }
+
+  /// Create a copy of Dashboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardLayoutCopyWith<$Res> get mobileLarge {
+    return $DashboardLayoutCopyWith<$Res>(_self.mobileLarge, (value) {
+      return _then(_self.copyWith(mobileLarge: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$DashboardLayout {
   @JsonKey(name: 'slotCount')
-  int get slotCount => throw _privateConstructorUsedError;
+  int get slotCount;
   @JsonKey(name: 'slotHeight')
-  double get slotHeight => throw _privateConstructorUsedError;
+  double get slotHeight;
   @JsonKey(name: 'items')
-  List<DashboardItem> get items => throw _privateConstructorUsedError;
-
-  /// Serializes this DashboardLayout to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  List<DashboardItem> get items;
 
   /// Create a copy of DashboardLayout
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DashboardLayoutCopyWith<DashboardLayout> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DashboardLayoutCopyWith<$Res> {
-  factory $DashboardLayoutCopyWith(
-          DashboardLayout value, $Res Function(DashboardLayout) then) =
-      _$DashboardLayoutCopyWithImpl<$Res, DashboardLayout>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'slotCount') int slotCount,
-      @JsonKey(name: 'slotHeight') double slotHeight,
-      @JsonKey(name: 'items') List<DashboardItem> items});
-}
-
-/// @nodoc
-class _$DashboardLayoutCopyWithImpl<$Res, $Val extends DashboardLayout>
-    implements $DashboardLayoutCopyWith<$Res> {
-  _$DashboardLayoutCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DashboardLayout
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $DashboardLayoutCopyWith<DashboardLayout> get copyWith =>
+      _$DashboardLayoutCopyWithImpl<DashboardLayout>(
+          this as DashboardLayout, _$identity);
+
+  /// Serializes this DashboardLayout to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? slotCount = null,
-    Object? slotHeight = null,
-    Object? items = null,
-  }) {
-    return _then(_value.copyWith(
-      slotCount: null == slotCount
-          ? _value.slotCount
-          : slotCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      slotHeight: null == slotHeight
-          ? _value.slotHeight
-          : slotHeight // ignore: cast_nullable_to_non_nullable
-              as double,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<DashboardItem>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DashboardLayout &&
+            (identical(other.slotCount, slotCount) ||
+                other.slotCount == slotCount) &&
+            (identical(other.slotHeight, slotHeight) ||
+                other.slotHeight == slotHeight) &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, slotCount, slotHeight,
+      const DeepCollectionEquality().hash(items));
+
+  @override
+  String toString() {
+    return 'DashboardLayout(slotCount: $slotCount, slotHeight: $slotHeight, items: $items)';
   }
 }
 
 /// @nodoc
-abstract class _$$DashboardLayoutImplCopyWith<$Res>
-    implements $DashboardLayoutCopyWith<$Res> {
-  factory _$$DashboardLayoutImplCopyWith(_$DashboardLayoutImpl value,
-          $Res Function(_$DashboardLayoutImpl) then) =
-      __$$DashboardLayoutImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DashboardLayoutCopyWith<$Res> {
+  factory $DashboardLayoutCopyWith(
+          DashboardLayout value, $Res Function(DashboardLayout) _then) =
+      _$DashboardLayoutCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'slotCount') int slotCount,
@@ -472,12 +467,12 @@ abstract class _$$DashboardLayoutImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DashboardLayoutImplCopyWithImpl<$Res>
-    extends _$DashboardLayoutCopyWithImpl<$Res, _$DashboardLayoutImpl>
-    implements _$$DashboardLayoutImplCopyWith<$Res> {
-  __$$DashboardLayoutImplCopyWithImpl(
-      _$DashboardLayoutImpl _value, $Res Function(_$DashboardLayoutImpl) _then)
-      : super(_value, _then);
+class _$DashboardLayoutCopyWithImpl<$Res>
+    implements $DashboardLayoutCopyWith<$Res> {
+  _$DashboardLayoutCopyWithImpl(this._self, this._then);
+
+  final DashboardLayout _self;
+  final $Res Function(DashboardLayout) _then;
 
   /// Create a copy of DashboardLayout
   /// with the given fields replaced by the non-null parameter values.
@@ -488,17 +483,17 @@ class __$$DashboardLayoutImplCopyWithImpl<$Res>
     Object? slotHeight = null,
     Object? items = null,
   }) {
-    return _then(_$DashboardLayoutImpl(
+    return _then(_self.copyWith(
       slotCount: null == slotCount
-          ? _value.slotCount
+          ? _self.slotCount
           : slotCount // ignore: cast_nullable_to_non_nullable
               as int,
       slotHeight: null == slotHeight
-          ? _value.slotHeight
+          ? _self.slotHeight
           : slotHeight // ignore: cast_nullable_to_non_nullable
               as double,
       items: null == items
-          ? _value._items
+          ? _self.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<DashboardItem>,
     ));
@@ -507,15 +502,14 @@ class __$$DashboardLayoutImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DashboardLayoutImpl implements _DashboardLayout {
-  const _$DashboardLayoutImpl(
+class _DashboardLayout implements DashboardLayout {
+  const _DashboardLayout(
       {@JsonKey(name: 'slotCount') required this.slotCount,
       @JsonKey(name: 'slotHeight') required this.slotHeight,
       @JsonKey(name: 'items') required final List<DashboardItem> items})
       : _items = items;
-
-  factory _$DashboardLayoutImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DashboardLayoutImplFromJson(json);
+  factory _DashboardLayout.fromJson(Map<String, dynamic> json) =>
+      _$DashboardLayoutFromJson(json);
 
   @override
   @JsonKey(name: 'slotCount')
@@ -532,16 +526,26 @@ class _$DashboardLayoutImpl implements _DashboardLayout {
     return EqualUnmodifiableListView(_items);
   }
 
+  /// Create a copy of DashboardLayout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DashboardLayout(slotCount: $slotCount, slotHeight: $slotHeight, items: $items)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DashboardLayoutCopyWith<_DashboardLayout> get copyWith =>
+      __$DashboardLayoutCopyWithImpl<_DashboardLayout>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DashboardLayoutToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DashboardLayoutImpl &&
+            other is _DashboardLayout &&
             (identical(other.slotCount, slotCount) ||
                 other.slotCount == slotCount) &&
             (identical(other.slotHeight, slotHeight) ||
@@ -554,198 +558,83 @@ class _$DashboardLayoutImpl implements _DashboardLayout {
   int get hashCode => Object.hash(runtimeType, slotCount, slotHeight,
       const DeepCollectionEquality().hash(_items));
 
-  /// Create a copy of DashboardLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DashboardLayoutImplCopyWith<_$DashboardLayoutImpl> get copyWith =>
-      __$$DashboardLayoutImplCopyWithImpl<_$DashboardLayoutImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DashboardLayoutImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DashboardLayout(slotCount: $slotCount, slotHeight: $slotHeight, items: $items)';
   }
 }
 
-abstract class _DashboardLayout implements DashboardLayout {
-  const factory _DashboardLayout(
-          {@JsonKey(name: 'slotCount') required final int slotCount,
-          @JsonKey(name: 'slotHeight') required final double slotHeight,
-          @JsonKey(name: 'items') required final List<DashboardItem> items}) =
-      _$DashboardLayoutImpl;
+/// @nodoc
+abstract mixin class _$DashboardLayoutCopyWith<$Res>
+    implements $DashboardLayoutCopyWith<$Res> {
+  factory _$DashboardLayoutCopyWith(
+          _DashboardLayout value, $Res Function(_DashboardLayout) _then) =
+      __$DashboardLayoutCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'slotCount') int slotCount,
+      @JsonKey(name: 'slotHeight') double slotHeight,
+      @JsonKey(name: 'items') List<DashboardItem> items});
+}
 
-  factory _DashboardLayout.fromJson(Map<String, dynamic> json) =
-      _$DashboardLayoutImpl.fromJson;
+/// @nodoc
+class __$DashboardLayoutCopyWithImpl<$Res>
+    implements _$DashboardLayoutCopyWith<$Res> {
+  __$DashboardLayoutCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'slotCount')
-  int get slotCount;
-  @override
-  @JsonKey(name: 'slotHeight')
-  double get slotHeight;
-  @override
-  @JsonKey(name: 'items')
-  List<DashboardItem> get items;
+  final _DashboardLayout _self;
+  final $Res Function(_DashboardLayout) _then;
 
   /// Create a copy of DashboardLayout
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DashboardLayoutImplCopyWith<_$DashboardLayoutImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-DashboardItem _$DashboardItemFromJson(Map<String, dynamic> json) {
-  return _DashboardItem.fromJson(json);
-}
-
-/// @nodoc
-mixin _$DashboardItem {
-  @JsonKey(name: 'item_id')
-  String get key => throw _privateConstructorUsedError;
-  @JsonKey(name: 'layout')
-  DashboardItemLayout get layout => throw _privateConstructorUsedError;
-
-  /// Serializes this DashboardItem to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of DashboardItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $DashboardItemCopyWith<DashboardItem> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DashboardItemCopyWith<$Res> {
-  factory $DashboardItemCopyWith(
-          DashboardItem value, $Res Function(DashboardItem) then) =
-      _$DashboardItemCopyWithImpl<$Res, DashboardItem>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'item_id') String key,
-      @JsonKey(name: 'layout') DashboardItemLayout layout});
-
-  $DashboardItemLayoutCopyWith<$Res> get layout;
-}
-
-/// @nodoc
-class _$DashboardItemCopyWithImpl<$Res, $Val extends DashboardItem>
-    implements $DashboardItemCopyWith<$Res> {
-  _$DashboardItemCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DashboardItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
-    Object? key = null,
-    Object? layout = null,
+    Object? slotCount = null,
+    Object? slotHeight = null,
+    Object? items = null,
   }) {
-    return _then(_value.copyWith(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
-      layout: null == layout
-          ? _value.layout
-          : layout // ignore: cast_nullable_to_non_nullable
-              as DashboardItemLayout,
-    ) as $Val);
-  }
-
-  /// Create a copy of DashboardItem
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DashboardItemLayoutCopyWith<$Res> get layout {
-    return $DashboardItemLayoutCopyWith<$Res>(_value.layout, (value) {
-      return _then(_value.copyWith(layout: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$DashboardItemImplCopyWith<$Res>
-    implements $DashboardItemCopyWith<$Res> {
-  factory _$$DashboardItemImplCopyWith(
-          _$DashboardItemImpl value, $Res Function(_$DashboardItemImpl) then) =
-      __$$DashboardItemImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'item_id') String key,
-      @JsonKey(name: 'layout') DashboardItemLayout layout});
-
-  @override
-  $DashboardItemLayoutCopyWith<$Res> get layout;
-}
-
-/// @nodoc
-class __$$DashboardItemImplCopyWithImpl<$Res>
-    extends _$DashboardItemCopyWithImpl<$Res, _$DashboardItemImpl>
-    implements _$$DashboardItemImplCopyWith<$Res> {
-  __$$DashboardItemImplCopyWithImpl(
-      _$DashboardItemImpl _value, $Res Function(_$DashboardItemImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of DashboardItem
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? key = null,
-    Object? layout = null,
-  }) {
-    return _then(_$DashboardItemImpl(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
-      layout: null == layout
-          ? _value.layout
-          : layout // ignore: cast_nullable_to_non_nullable
-              as DashboardItemLayout,
+    return _then(_DashboardLayout(
+      slotCount: null == slotCount
+          ? _self.slotCount
+          : slotCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      slotHeight: null == slotHeight
+          ? _self.slotHeight
+          : slotHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      items: null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<DashboardItem>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$DashboardItemImpl implements _DashboardItem {
-  const _$DashboardItemImpl(
-      {@JsonKey(name: 'item_id') required this.key,
-      @JsonKey(name: 'layout') required this.layout});
-
-  factory _$DashboardItemImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DashboardItemImplFromJson(json);
-
-  @override
+mixin _$DashboardItem {
   @JsonKey(name: 'item_id')
-  final String key;
-  @override
+  String get key;
   @JsonKey(name: 'layout')
-  final DashboardItemLayout layout;
+  DashboardItemLayout get layout;
 
-  @override
-  String toString() {
-    return 'DashboardItem(key: $key, layout: $layout)';
-  }
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DashboardItemCopyWith<DashboardItem> get copyWith =>
+      _$DashboardItemCopyWithImpl<DashboardItem>(
+          this as DashboardItem, _$identity);
+
+  /// Serializes this DashboardItem to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DashboardItemImpl &&
+            other is DashboardItem &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.layout, layout) || other.layout == layout));
   }
@@ -754,164 +643,234 @@ class _$DashboardItemImpl implements _DashboardItem {
   @override
   int get hashCode => Object.hash(runtimeType, key, layout);
 
-  /// Create a copy of DashboardItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DashboardItemImplCopyWith<_$DashboardItemImpl> get copyWith =>
-      __$$DashboardItemImplCopyWithImpl<_$DashboardItemImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DashboardItemImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DashboardItem(key: $key, layout: $layout)';
   }
 }
 
-abstract class _DashboardItem implements DashboardItem {
-  const factory _DashboardItem(
-          {@JsonKey(name: 'item_id') required final String key,
-          @JsonKey(name: 'layout') required final DashboardItemLayout layout}) =
-      _$DashboardItemImpl;
+/// @nodoc
+abstract mixin class $DashboardItemCopyWith<$Res> {
+  factory $DashboardItemCopyWith(
+          DashboardItem value, $Res Function(DashboardItem) _then) =
+      _$DashboardItemCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'item_id') String key,
+      @JsonKey(name: 'layout') DashboardItemLayout layout});
 
-  factory _DashboardItem.fromJson(Map<String, dynamic> json) =
-      _$DashboardItemImpl.fromJson;
+  $DashboardItemLayoutCopyWith<$Res> get layout;
+}
+
+/// @nodoc
+class _$DashboardItemCopyWithImpl<$Res>
+    implements $DashboardItemCopyWith<$Res> {
+  _$DashboardItemCopyWithImpl(this._self, this._then);
+
+  final DashboardItem _self;
+  final $Res Function(DashboardItem) _then;
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? layout = null,
+  }) {
+    return _then(_self.copyWith(
+      key: null == key
+          ? _self.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      layout: null == layout
+          ? _self.layout
+          : layout // ignore: cast_nullable_to_non_nullable
+              as DashboardItemLayout,
+    ));
+  }
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardItemLayoutCopyWith<$Res> get layout {
+    return $DashboardItemLayoutCopyWith<$Res>(_self.layout, (value) {
+      return _then(_self.copyWith(layout: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _DashboardItem implements DashboardItem {
+  const _DashboardItem(
+      {@JsonKey(name: 'item_id') required this.key,
+      @JsonKey(name: 'layout') required this.layout});
+  factory _DashboardItem.fromJson(Map<String, dynamic> json) =>
+      _$DashboardItemFromJson(json);
 
   @override
   @JsonKey(name: 'item_id')
-  String get key;
+  final String key;
   @override
   @JsonKey(name: 'layout')
-  DashboardItemLayout get layout;
+  final DashboardItemLayout layout;
 
   /// Create a copy of DashboardItem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DashboardItemImplCopyWith<_$DashboardItemImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$DashboardItemCopyWith<_DashboardItem> get copyWith =>
+      __$DashboardItemCopyWithImpl<_DashboardItem>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DashboardItemToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _DashboardItem &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.layout, layout) || other.layout == layout));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, key, layout);
+
+  @override
+  String toString() {
+    return 'DashboardItem(key: $key, layout: $layout)';
+  }
 }
 
-DashboardItemLayout _$DashboardItemLayoutFromJson(Map<String, dynamic> json) {
-  return _DashboardItemLayout.fromJson(json);
+/// @nodoc
+abstract mixin class _$DashboardItemCopyWith<$Res>
+    implements $DashboardItemCopyWith<$Res> {
+  factory _$DashboardItemCopyWith(
+          _DashboardItem value, $Res Function(_DashboardItem) _then) =
+      __$DashboardItemCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'item_id') String key,
+      @JsonKey(name: 'layout') DashboardItemLayout layout});
+
+  @override
+  $DashboardItemLayoutCopyWith<$Res> get layout;
+}
+
+/// @nodoc
+class __$DashboardItemCopyWithImpl<$Res>
+    implements _$DashboardItemCopyWith<$Res> {
+  __$DashboardItemCopyWithImpl(this._self, this._then);
+
+  final _DashboardItem _self;
+  final $Res Function(_DashboardItem) _then;
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? key = null,
+    Object? layout = null,
+  }) {
+    return _then(_DashboardItem(
+      key: null == key
+          ? _self.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      layout: null == layout
+          ? _self.layout
+          : layout // ignore: cast_nullable_to_non_nullable
+              as DashboardItemLayout,
+    ));
+  }
+
+  /// Create a copy of DashboardItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DashboardItemLayoutCopyWith<$Res> get layout {
+    return $DashboardItemLayoutCopyWith<$Res>(_self.layout, (value) {
+      return _then(_self.copyWith(layout: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$DashboardItemLayout {
   @JsonKey(name: 'w')
-  int get width => throw _privateConstructorUsedError;
+  int get width;
   @JsonKey(name: 'h')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @JsonKey(name: 'min_W')
-  int get minWidth => throw _privateConstructorUsedError;
+  int get minWidth;
   @JsonKey(name: 'min_H')
-  int get minHeight => throw _privateConstructorUsedError;
+  int get minHeight;
   @JsonKey(name: 'max_W')
-  int? get maxWidth => throw _privateConstructorUsedError;
+  int? get maxWidth;
   @JsonKey(name: 'max_H')
-  int? get maxHeight => throw _privateConstructorUsedError;
+  int? get maxHeight;
   @JsonKey(name: 's_X')
-  int? get startX => throw _privateConstructorUsedError;
+  int? get startX;
   @JsonKey(name: 's_Y')
-  int? get startY => throw _privateConstructorUsedError;
-
-  /// Serializes this DashboardItemLayout to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int? get startY;
 
   /// Create a copy of DashboardItemLayout
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DashboardItemLayoutCopyWith<DashboardItemLayout> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DashboardItemLayoutCopyWith<$Res> {
-  factory $DashboardItemLayoutCopyWith(
-          DashboardItemLayout value, $Res Function(DashboardItemLayout) then) =
-      _$DashboardItemLayoutCopyWithImpl<$Res, DashboardItemLayout>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'w') int width,
-      @JsonKey(name: 'h') int height,
-      @JsonKey(name: 'min_W') int minWidth,
-      @JsonKey(name: 'min_H') int minHeight,
-      @JsonKey(name: 'max_W') int? maxWidth,
-      @JsonKey(name: 'max_H') int? maxHeight,
-      @JsonKey(name: 's_X') int? startX,
-      @JsonKey(name: 's_Y') int? startY});
-}
-
-/// @nodoc
-class _$DashboardItemLayoutCopyWithImpl<$Res, $Val extends DashboardItemLayout>
-    implements $DashboardItemLayoutCopyWith<$Res> {
-  _$DashboardItemLayoutCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DashboardItemLayout
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $DashboardItemLayoutCopyWith<DashboardItemLayout> get copyWith =>
+      _$DashboardItemLayoutCopyWithImpl<DashboardItemLayout>(
+          this as DashboardItemLayout, _$identity);
+
+  /// Serializes this DashboardItemLayout to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? width = null,
-    Object? height = null,
-    Object? minWidth = null,
-    Object? minHeight = null,
-    Object? maxWidth = freezed,
-    Object? maxHeight = freezed,
-    Object? startX = freezed,
-    Object? startY = freezed,
-  }) {
-    return _then(_value.copyWith(
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      minWidth: null == minWidth
-          ? _value.minWidth
-          : minWidth // ignore: cast_nullable_to_non_nullable
-              as int,
-      minHeight: null == minHeight
-          ? _value.minHeight
-          : minHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxWidth: freezed == maxWidth
-          ? _value.maxWidth
-          : maxWidth // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxHeight: freezed == maxHeight
-          ? _value.maxHeight
-          : maxHeight // ignore: cast_nullable_to_non_nullable
-              as int?,
-      startX: freezed == startX
-          ? _value.startX
-          : startX // ignore: cast_nullable_to_non_nullable
-              as int?,
-      startY: freezed == startY
-          ? _value.startY
-          : startY // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DashboardItemLayout &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.minWidth, minWidth) ||
+                other.minWidth == minWidth) &&
+            (identical(other.minHeight, minHeight) ||
+                other.minHeight == minHeight) &&
+            (identical(other.maxWidth, maxWidth) ||
+                other.maxWidth == maxWidth) &&
+            (identical(other.maxHeight, maxHeight) ||
+                other.maxHeight == maxHeight) &&
+            (identical(other.startX, startX) || other.startX == startX) &&
+            (identical(other.startY, startY) || other.startY == startY));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, width, height, minWidth,
+      minHeight, maxWidth, maxHeight, startX, startY);
+
+  @override
+  String toString() {
+    return 'DashboardItemLayout(width: $width, height: $height, minWidth: $minWidth, minHeight: $minHeight, maxWidth: $maxWidth, maxHeight: $maxHeight, startX: $startX, startY: $startY)';
   }
 }
 
 /// @nodoc
-abstract class _$$DashboardItemLayoutImplCopyWith<$Res>
-    implements $DashboardItemLayoutCopyWith<$Res> {
-  factory _$$DashboardItemLayoutImplCopyWith(_$DashboardItemLayoutImpl value,
-          $Res Function(_$DashboardItemLayoutImpl) then) =
-      __$$DashboardItemLayoutImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DashboardItemLayoutCopyWith<$Res> {
+  factory $DashboardItemLayoutCopyWith(
+          DashboardItemLayout value, $Res Function(DashboardItemLayout) _then) =
+      _$DashboardItemLayoutCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'w') int width,
@@ -925,12 +884,12 @@ abstract class _$$DashboardItemLayoutImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DashboardItemLayoutImplCopyWithImpl<$Res>
-    extends _$DashboardItemLayoutCopyWithImpl<$Res, _$DashboardItemLayoutImpl>
-    implements _$$DashboardItemLayoutImplCopyWith<$Res> {
-  __$$DashboardItemLayoutImplCopyWithImpl(_$DashboardItemLayoutImpl _value,
-      $Res Function(_$DashboardItemLayoutImpl) _then)
-      : super(_value, _then);
+class _$DashboardItemLayoutCopyWithImpl<$Res>
+    implements $DashboardItemLayoutCopyWith<$Res> {
+  _$DashboardItemLayoutCopyWithImpl(this._self, this._then);
+
+  final DashboardItemLayout _self;
+  final $Res Function(DashboardItemLayout) _then;
 
   /// Create a copy of DashboardItemLayout
   /// with the given fields replaced by the non-null parameter values.
@@ -946,37 +905,37 @@ class __$$DashboardItemLayoutImplCopyWithImpl<$Res>
     Object? startX = freezed,
     Object? startY = freezed,
   }) {
-    return _then(_$DashboardItemLayoutImpl(
+    return _then(_self.copyWith(
       width: null == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as int,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       minWidth: null == minWidth
-          ? _value.minWidth
+          ? _self.minWidth
           : minWidth // ignore: cast_nullable_to_non_nullable
               as int,
       minHeight: null == minHeight
-          ? _value.minHeight
+          ? _self.minHeight
           : minHeight // ignore: cast_nullable_to_non_nullable
               as int,
       maxWidth: freezed == maxWidth
-          ? _value.maxWidth
+          ? _self.maxWidth
           : maxWidth // ignore: cast_nullable_to_non_nullable
               as int?,
       maxHeight: freezed == maxHeight
-          ? _value.maxHeight
+          ? _self.maxHeight
           : maxHeight // ignore: cast_nullable_to_non_nullable
               as int?,
       startX: freezed == startX
-          ? _value.startX
+          ? _self.startX
           : startX // ignore: cast_nullable_to_non_nullable
               as int?,
       startY: freezed == startY
-          ? _value.startY
+          ? _self.startY
           : startY // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
@@ -985,8 +944,8 @@ class __$$DashboardItemLayoutImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DashboardItemLayoutImpl implements _DashboardItemLayout {
-  const _$DashboardItemLayoutImpl(
+class _DashboardItemLayout implements DashboardItemLayout {
+  const _DashboardItemLayout(
       {@JsonKey(name: 'w') required this.width,
       @JsonKey(name: 'h') required this.height,
       @JsonKey(name: 'min_W') required this.minWidth,
@@ -995,9 +954,8 @@ class _$DashboardItemLayoutImpl implements _DashboardItemLayout {
       @JsonKey(name: 'max_H') this.maxHeight,
       @JsonKey(name: 's_X') this.startX,
       @JsonKey(name: 's_Y') this.startY});
-
-  factory _$DashboardItemLayoutImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DashboardItemLayoutImplFromJson(json);
+  factory _DashboardItemLayout.fromJson(Map<String, dynamic> json) =>
+      _$DashboardItemLayoutFromJson(json);
 
   @override
   @JsonKey(name: 'w')
@@ -1024,16 +982,27 @@ class _$DashboardItemLayoutImpl implements _DashboardItemLayout {
   @JsonKey(name: 's_Y')
   final int? startY;
 
+  /// Create a copy of DashboardItemLayout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DashboardItemLayout(width: $width, height: $height, minWidth: $minWidth, minHeight: $minHeight, maxWidth: $maxWidth, maxHeight: $maxHeight, startX: $startX, startY: $startY)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DashboardItemLayoutCopyWith<_DashboardItemLayout> get copyWith =>
+      __$DashboardItemLayoutCopyWithImpl<_DashboardItemLayout>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DashboardItemLayoutToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DashboardItemLayoutImpl &&
+            other is _DashboardItemLayout &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.minWidth, minWidth) ||
@@ -1053,66 +1022,88 @@ class _$DashboardItemLayoutImpl implements _DashboardItemLayout {
   int get hashCode => Object.hash(runtimeType, width, height, minWidth,
       minHeight, maxWidth, maxHeight, startX, startY);
 
-  /// Create a copy of DashboardItemLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DashboardItemLayoutImplCopyWith<_$DashboardItemLayoutImpl> get copyWith =>
-      __$$DashboardItemLayoutImplCopyWithImpl<_$DashboardItemLayoutImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DashboardItemLayoutImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DashboardItemLayout(width: $width, height: $height, minWidth: $minWidth, minHeight: $minHeight, maxWidth: $maxWidth, maxHeight: $maxHeight, startX: $startX, startY: $startY)';
   }
 }
 
-abstract class _DashboardItemLayout implements DashboardItemLayout {
-  const factory _DashboardItemLayout(
-      {@JsonKey(name: 'w') required final int width,
-      @JsonKey(name: 'h') required final int height,
-      @JsonKey(name: 'min_W') required final int minWidth,
-      @JsonKey(name: 'min_H') required final int minHeight,
-      @JsonKey(name: 'max_W') final int? maxWidth,
-      @JsonKey(name: 'max_H') final int? maxHeight,
-      @JsonKey(name: 's_X') final int? startX,
-      @JsonKey(name: 's_Y') final int? startY}) = _$DashboardItemLayoutImpl;
+/// @nodoc
+abstract mixin class _$DashboardItemLayoutCopyWith<$Res>
+    implements $DashboardItemLayoutCopyWith<$Res> {
+  factory _$DashboardItemLayoutCopyWith(_DashboardItemLayout value,
+          $Res Function(_DashboardItemLayout) _then) =
+      __$DashboardItemLayoutCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'w') int width,
+      @JsonKey(name: 'h') int height,
+      @JsonKey(name: 'min_W') int minWidth,
+      @JsonKey(name: 'min_H') int minHeight,
+      @JsonKey(name: 'max_W') int? maxWidth,
+      @JsonKey(name: 'max_H') int? maxHeight,
+      @JsonKey(name: 's_X') int? startX,
+      @JsonKey(name: 's_Y') int? startY});
+}
 
-  factory _DashboardItemLayout.fromJson(Map<String, dynamic> json) =
-      _$DashboardItemLayoutImpl.fromJson;
+/// @nodoc
+class __$DashboardItemLayoutCopyWithImpl<$Res>
+    implements _$DashboardItemLayoutCopyWith<$Res> {
+  __$DashboardItemLayoutCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'w')
-  int get width;
-  @override
-  @JsonKey(name: 'h')
-  int get height;
-  @override
-  @JsonKey(name: 'min_W')
-  int get minWidth;
-  @override
-  @JsonKey(name: 'min_H')
-  int get minHeight;
-  @override
-  @JsonKey(name: 'max_W')
-  int? get maxWidth;
-  @override
-  @JsonKey(name: 'max_H')
-  int? get maxHeight;
-  @override
-  @JsonKey(name: 's_X')
-  int? get startX;
-  @override
-  @JsonKey(name: 's_Y')
-  int? get startY;
+  final _DashboardItemLayout _self;
+  final $Res Function(_DashboardItemLayout) _then;
 
   /// Create a copy of DashboardItemLayout
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DashboardItemLayoutImplCopyWith<_$DashboardItemLayoutImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? width = null,
+    Object? height = null,
+    Object? minWidth = null,
+    Object? minHeight = null,
+    Object? maxWidth = freezed,
+    Object? maxHeight = freezed,
+    Object? startX = freezed,
+    Object? startY = freezed,
+  }) {
+    return _then(_DashboardItemLayout(
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      minWidth: null == minWidth
+          ? _self.minWidth
+          : minWidth // ignore: cast_nullable_to_non_nullable
+              as int,
+      minHeight: null == minHeight
+          ? _self.minHeight
+          : minHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxWidth: freezed == maxWidth
+          ? _self.maxWidth
+          : maxWidth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxHeight: freezed == maxHeight
+          ? _self.maxHeight
+          : maxHeight // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startX: freezed == startX
+          ? _self.startX
+          : startX // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startY: freezed == startY
+          ? _self.startY
+          : startY // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
 }
+
+// dart format on

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -52,7 +51,7 @@ class SmartDashTextField<T> extends StatelessWidget {
             (oldValue, newValue) => newValue.text.isEmpty ? oldValue : newValue,
           )
       ],
-      formControlName: [...formPath, formControlName].whereNotNull().join('.'),
+      formControlName: [...formPath, formControlName].nonNulls.join('.'),
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,

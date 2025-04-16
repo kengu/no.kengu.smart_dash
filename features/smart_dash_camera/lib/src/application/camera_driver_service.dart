@@ -313,6 +313,6 @@ class CameraDriverService
 }
 
 @Riverpod(keepAlive: true)
-CameraDriverService cameraService(CameraServiceRef ref) {
+CameraDriverService cameraService(Ref ref) {
   return CameraDriverService(ref);
 }

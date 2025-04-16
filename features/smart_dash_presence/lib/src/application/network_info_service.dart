@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:network_tools/network_tools.dart';
 import 'package:optional/optional.dart';
@@ -349,7 +348,7 @@ class NetworkInfoService {
           Stream.fromIterable(
             missing
                 .map((e) => _devices[e])
-                .whereNotNull()
+                .nonNulls
                 .map((NetworkDeviceRemoved.new)),
           ),
         );
@@ -429,5 +428,5 @@ extension NetworkDeviceEventList on List<NetworkDeviceInfo> {
 }
 
 @Riverpod(keepAlive: true)
-NetworkInfoService networkInfoService(NetworkInfoServiceRef ref) =>
+NetworkInfoService networkInfoService(Ref ref) =>
     NetworkInfoService(ref, debug: true, enabled: false);

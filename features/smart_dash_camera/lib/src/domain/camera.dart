@@ -6,7 +6,7 @@ part 'camera.freezed.dart';
 part 'camera.g.dart';
 
 @freezed
-class Camera with _$Camera {
+sealed class Camera with _$Camera {
   const Camera._();
   const factory Camera({
     // ignore: invalid_annotation_target
@@ -24,7 +24,7 @@ class CameraSnapshot {
 }
 
 @freezed
-class MotionDetectConfig with _$MotionDetectConfig {
+sealed class MotionDetectConfig with _$MotionDetectConfig {
   const MotionDetectConfig._();
   const factory MotionDetectConfig({
     required bool enabled,

@@ -6,8 +6,7 @@ part of 'location.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LocationImpl _$$LocationImplFromJson(Map<String, dynamic> json) =>
-    _$LocationImpl(
+_Location _$LocationFromJson(Map<String, dynamic> json) => _Location(
       service: json['service'] as String?,
       lon: (json['lon'] as num).toDouble(),
       lat: (json['lat'] as num).toDouble(),
@@ -22,8 +21,7 @@ _$LocationImpl _$$LocationImplFromJson(Map<String, dynamic> json) =>
       data: json['data'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$$LocationImplToJson(_$LocationImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LocationToJson(_Location instance) => <String, dynamic>{
       'service': instance.service,
       'lon': instance.lon,
       'lat': instance.lat,
@@ -38,14 +36,14 @@ Map<String, dynamic> _$$LocationImplToJson(_$LocationImpl instance) =>
       'data': instance.data,
     };
 
-_$PointGeometryImpl _$$PointGeometryImplFromJson(Map<String, dynamic> json) =>
-    _$PointGeometryImpl(
+_PointGeometry _$PointGeometryFromJson(Map<String, dynamic> json) =>
+    _PointGeometry(
       coords: (json['coordinates'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$$PointGeometryImplToJson(_$PointGeometryImpl instance) =>
+Map<String, dynamic> _$PointGeometryToJson(_PointGeometry instance) =>
     <String, dynamic>{
       'coordinates': instance.coords,
     };

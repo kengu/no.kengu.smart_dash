@@ -7,7 +7,7 @@ part 'integration.g.dart';
 typedef IntegrationMap = Map<String, Integration>;
 
 @freezed
-class Integration with _$Integration {
+sealed class Integration with _$Integration {
   const factory Integration({
     required String key,
     required String name,

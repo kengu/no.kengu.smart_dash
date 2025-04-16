@@ -5,7 +5,7 @@ part 'notification.g.dart';
 
 /// Block model
 @freezed
-class NotificationModel with _$NotificationModel {
+sealed class NotificationModel with _$NotificationModel {
   const NotificationModel._();
 
   const factory NotificationModel({

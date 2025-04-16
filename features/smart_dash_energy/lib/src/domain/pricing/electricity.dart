@@ -4,7 +4,7 @@ part 'electricity.freezed.dart';
 part 'electricity.g.dart';
 
 @freezed
-class ElectricityPrice with _$ElectricityPrice {
+sealed class ElectricityPrice with _$ElectricityPrice {
   const ElectricityPrice._();
   const factory ElectricityPrice({
     @JsonKey(name: 'NOK_per_kWh') required double nokPerKwh,
@@ -25,7 +25,7 @@ class ElectricityPrice with _$ElectricityPrice {
 }
 
 @freezed
-class ElectricityTariff with _$ElectricityTariff {
+sealed class ElectricityTariff with _$ElectricityTariff {
   const ElectricityTariff._();
   const factory ElectricityTariff({
     required String provider,
@@ -39,7 +39,7 @@ class ElectricityTariff with _$ElectricityTariff {
 }
 
 @freezed
-class ElectricityCapacity with _$ElectricityCapacity {
+sealed class ElectricityCapacity with _$ElectricityCapacity {
   const ElectricityCapacity._();
   const factory ElectricityCapacity({
     @JsonKey(name: 'from_kWh') required double fromKWh,
@@ -52,7 +52,7 @@ class ElectricityCapacity with _$ElectricityCapacity {
 }
 
 @freezed
-class ElectricityConsumption with _$ElectricityConsumption {
+sealed class ElectricityConsumption with _$ElectricityConsumption {
   const ElectricityConsumption._();
   const factory ElectricityConsumption({
     @JsonKey(name: 'NOK_per_kWh') required double nokPerKwh,

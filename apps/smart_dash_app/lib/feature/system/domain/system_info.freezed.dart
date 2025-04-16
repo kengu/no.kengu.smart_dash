@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,107 +10,59 @@ part of 'system_info.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SystemInfo {
-  double? get cpuApp => throw _privateConstructorUsedError;
-  double get cpuTotal => throw _privateConstructorUsedError;
-  int get memApp => throw _privateConstructorUsedError;
-  int get memFree => throw _privateConstructorUsedError;
-  int get memTotal => throw _privateConstructorUsedError;
-  bool get memIsLow => throw _privateConstructorUsedError;
-  double get batteryLevel => throw _privateConstructorUsedError;
+  double? get cpuApp;
+  double get cpuTotal;
+  int get memApp;
+  int get memFree;
+  int get memTotal;
+  bool get memIsLow;
+  double get batteryLevel;
 
   /// Create a copy of SystemInfo
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SystemInfoCopyWith<SystemInfo> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SystemInfoCopyWith<$Res> {
-  factory $SystemInfoCopyWith(
-          SystemInfo value, $Res Function(SystemInfo) then) =
-      _$SystemInfoCopyWithImpl<$Res, SystemInfo>;
-  @useResult
-  $Res call(
-      {double? cpuApp,
-      double cpuTotal,
-      int memApp,
-      int memFree,
-      int memTotal,
-      bool memIsLow,
-      double batteryLevel});
-}
-
-/// @nodoc
-class _$SystemInfoCopyWithImpl<$Res, $Val extends SystemInfo>
-    implements $SystemInfoCopyWith<$Res> {
-  _$SystemInfoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SystemInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $SystemInfoCopyWith<SystemInfo> get copyWith =>
+      _$SystemInfoCopyWithImpl<SystemInfo>(this as SystemInfo, _$identity);
+
   @override
-  $Res call({
-    Object? cpuApp = freezed,
-    Object? cpuTotal = null,
-    Object? memApp = null,
-    Object? memFree = null,
-    Object? memTotal = null,
-    Object? memIsLow = null,
-    Object? batteryLevel = null,
-  }) {
-    return _then(_value.copyWith(
-      cpuApp: freezed == cpuApp
-          ? _value.cpuApp
-          : cpuApp // ignore: cast_nullable_to_non_nullable
-              as double?,
-      cpuTotal: null == cpuTotal
-          ? _value.cpuTotal
-          : cpuTotal // ignore: cast_nullable_to_non_nullable
-              as double,
-      memApp: null == memApp
-          ? _value.memApp
-          : memApp // ignore: cast_nullable_to_non_nullable
-              as int,
-      memFree: null == memFree
-          ? _value.memFree
-          : memFree // ignore: cast_nullable_to_non_nullable
-              as int,
-      memTotal: null == memTotal
-          ? _value.memTotal
-          : memTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      memIsLow: null == memIsLow
-          ? _value.memIsLow
-          : memIsLow // ignore: cast_nullable_to_non_nullable
-              as bool,
-      batteryLevel: null == batteryLevel
-          ? _value.batteryLevel
-          : batteryLevel // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SystemInfo &&
+            (identical(other.cpuApp, cpuApp) || other.cpuApp == cpuApp) &&
+            (identical(other.cpuTotal, cpuTotal) ||
+                other.cpuTotal == cpuTotal) &&
+            (identical(other.memApp, memApp) || other.memApp == memApp) &&
+            (identical(other.memFree, memFree) || other.memFree == memFree) &&
+            (identical(other.memTotal, memTotal) ||
+                other.memTotal == memTotal) &&
+            (identical(other.memIsLow, memIsLow) ||
+                other.memIsLow == memIsLow) &&
+            (identical(other.batteryLevel, batteryLevel) ||
+                other.batteryLevel == batteryLevel));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, cpuApp, cpuTotal, memApp,
+      memFree, memTotal, memIsLow, batteryLevel);
+
+  @override
+  String toString() {
+    return 'SystemInfo(cpuApp: $cpuApp, cpuTotal: $cpuTotal, memApp: $memApp, memFree: $memFree, memTotal: $memTotal, memIsLow: $memIsLow, batteryLevel: $batteryLevel)';
   }
 }
 
 /// @nodoc
-abstract class _$$SystemInfoImplCopyWith<$Res>
-    implements $SystemInfoCopyWith<$Res> {
-  factory _$$SystemInfoImplCopyWith(
-          _$SystemInfoImpl value, $Res Function(_$SystemInfoImpl) then) =
-      __$$SystemInfoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SystemInfoCopyWith<$Res> {
+  factory $SystemInfoCopyWith(
+          SystemInfo value, $Res Function(SystemInfo) _then) =
+      _$SystemInfoCopyWithImpl;
   @useResult
   $Res call(
       {double? cpuApp,
@@ -122,12 +75,11 @@ abstract class _$$SystemInfoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SystemInfoImplCopyWithImpl<$Res>
-    extends _$SystemInfoCopyWithImpl<$Res, _$SystemInfoImpl>
-    implements _$$SystemInfoImplCopyWith<$Res> {
-  __$$SystemInfoImplCopyWithImpl(
-      _$SystemInfoImpl _value, $Res Function(_$SystemInfoImpl) _then)
-      : super(_value, _then);
+class _$SystemInfoCopyWithImpl<$Res> implements $SystemInfoCopyWith<$Res> {
+  _$SystemInfoCopyWithImpl(this._self, this._then);
+
+  final SystemInfo _self;
+  final $Res Function(SystemInfo) _then;
 
   /// Create a copy of SystemInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -142,33 +94,33 @@ class __$$SystemInfoImplCopyWithImpl<$Res>
     Object? memIsLow = null,
     Object? batteryLevel = null,
   }) {
-    return _then(_$SystemInfoImpl(
+    return _then(_self.copyWith(
       cpuApp: freezed == cpuApp
-          ? _value.cpuApp
+          ? _self.cpuApp
           : cpuApp // ignore: cast_nullable_to_non_nullable
               as double?,
       cpuTotal: null == cpuTotal
-          ? _value.cpuTotal
+          ? _self.cpuTotal
           : cpuTotal // ignore: cast_nullable_to_non_nullable
               as double,
       memApp: null == memApp
-          ? _value.memApp
+          ? _self.memApp
           : memApp // ignore: cast_nullable_to_non_nullable
               as int,
       memFree: null == memFree
-          ? _value.memFree
+          ? _self.memFree
           : memFree // ignore: cast_nullable_to_non_nullable
               as int,
       memTotal: null == memTotal
-          ? _value.memTotal
+          ? _self.memTotal
           : memTotal // ignore: cast_nullable_to_non_nullable
               as int,
       memIsLow: null == memIsLow
-          ? _value.memIsLow
+          ? _self.memIsLow
           : memIsLow // ignore: cast_nullable_to_non_nullable
               as bool,
       batteryLevel: null == batteryLevel
-          ? _value.batteryLevel
+          ? _self.batteryLevel
           : batteryLevel // ignore: cast_nullable_to_non_nullable
               as double,
     ));
@@ -177,8 +129,8 @@ class __$$SystemInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SystemInfoImpl extends _SystemInfo {
-  const _$SystemInfoImpl(
+class _SystemInfo extends SystemInfo {
+  const _SystemInfo(
       {required this.cpuApp,
       required this.cpuTotal,
       required this.memApp,
@@ -203,16 +155,19 @@ class _$SystemInfoImpl extends _SystemInfo {
   @override
   final double batteryLevel;
 
+  /// Create a copy of SystemInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SystemInfo(cpuApp: $cpuApp, cpuTotal: $cpuTotal, memApp: $memApp, memFree: $memFree, memTotal: $memTotal, memIsLow: $memIsLow, batteryLevel: $batteryLevel)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SystemInfoCopyWith<_SystemInfo> get copyWith =>
+      __$SystemInfoCopyWithImpl<_SystemInfo>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SystemInfoImpl &&
+            other is _SystemInfo &&
             (identical(other.cpuApp, cpuApp) || other.cpuApp == cpuApp) &&
             (identical(other.cpuTotal, cpuTotal) ||
                 other.cpuTotal == cpuTotal) &&
@@ -230,45 +185,81 @@ class _$SystemInfoImpl extends _SystemInfo {
   int get hashCode => Object.hash(runtimeType, cpuApp, cpuTotal, memApp,
       memFree, memTotal, memIsLow, batteryLevel);
 
+  @override
+  String toString() {
+    return 'SystemInfo(cpuApp: $cpuApp, cpuTotal: $cpuTotal, memApp: $memApp, memFree: $memFree, memTotal: $memTotal, memIsLow: $memIsLow, batteryLevel: $batteryLevel)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SystemInfoCopyWith<$Res>
+    implements $SystemInfoCopyWith<$Res> {
+  factory _$SystemInfoCopyWith(
+          _SystemInfo value, $Res Function(_SystemInfo) _then) =
+      __$SystemInfoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {double? cpuApp,
+      double cpuTotal,
+      int memApp,
+      int memFree,
+      int memTotal,
+      bool memIsLow,
+      double batteryLevel});
+}
+
+/// @nodoc
+class __$SystemInfoCopyWithImpl<$Res> implements _$SystemInfoCopyWith<$Res> {
+  __$SystemInfoCopyWithImpl(this._self, this._then);
+
+  final _SystemInfo _self;
+  final $Res Function(_SystemInfo) _then;
+
   /// Create a copy of SystemInfo
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SystemInfoImplCopyWith<_$SystemInfoImpl> get copyWith =>
-      __$$SystemInfoImplCopyWithImpl<_$SystemInfoImpl>(this, _$identity);
+  $Res call({
+    Object? cpuApp = freezed,
+    Object? cpuTotal = null,
+    Object? memApp = null,
+    Object? memFree = null,
+    Object? memTotal = null,
+    Object? memIsLow = null,
+    Object? batteryLevel = null,
+  }) {
+    return _then(_SystemInfo(
+      cpuApp: freezed == cpuApp
+          ? _self.cpuApp
+          : cpuApp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      cpuTotal: null == cpuTotal
+          ? _self.cpuTotal
+          : cpuTotal // ignore: cast_nullable_to_non_nullable
+              as double,
+      memApp: null == memApp
+          ? _self.memApp
+          : memApp // ignore: cast_nullable_to_non_nullable
+              as int,
+      memFree: null == memFree
+          ? _self.memFree
+          : memFree // ignore: cast_nullable_to_non_nullable
+              as int,
+      memTotal: null == memTotal
+          ? _self.memTotal
+          : memTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      memIsLow: null == memIsLow
+          ? _self.memIsLow
+          : memIsLow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      batteryLevel: null == batteryLevel
+          ? _self.batteryLevel
+          : batteryLevel // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
 }
 
-abstract class _SystemInfo extends SystemInfo {
-  const factory _SystemInfo(
-      {required final double? cpuApp,
-      required final double cpuTotal,
-      required final int memApp,
-      required final int memFree,
-      required final int memTotal,
-      required final bool memIsLow,
-      required final double batteryLevel}) = _$SystemInfoImpl;
-  const _SystemInfo._() : super._();
-
-  @override
-  double? get cpuApp;
-  @override
-  double get cpuTotal;
-  @override
-  int get memApp;
-  @override
-  int get memFree;
-  @override
-  int get memTotal;
-  @override
-  bool get memIsLow;
-  @override
-  double get batteryLevel;
-
-  /// Create a copy of SystemInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SystemInfoImplCopyWith<_$SystemInfoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

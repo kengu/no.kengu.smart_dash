@@ -7,7 +7,7 @@ part 'presence.freezed.dart';
 part 'presence.g.dart';
 
 @freezed
-class Presence with _$Presence {
+sealed class Presence with _$Presence {
   const Presence._();
   const factory Presence({
     required Token token,

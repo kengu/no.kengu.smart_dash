@@ -44,23 +44,10 @@ abstract class _$AccountFormScreenController
 const accountFormScreenControllerProvider = AccountFormScreenControllerFamily();
 
 /// See also [AccountFormScreenController].
-class AccountFormScreenControllerFamily extends Family {
+class AccountFormScreenControllerFamily
+    extends Family<AsyncValue<Optional<Account>>> {
   /// See also [AccountFormScreenController].
   const AccountFormScreenControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'accountFormScreenControllerProvider';
 
   /// See also [AccountFormScreenController].
   AccountFormScreenControllerProvider call(
@@ -71,7 +58,6 @@ class AccountFormScreenControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   AccountFormScreenControllerProvider getProviderOverride(
     covariant AccountFormScreenControllerProvider provider,
@@ -81,27 +67,19 @@ class AccountFormScreenControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(AccountFormScreenController Function() create) {
-    return _$AccountFormScreenControllerFamilyOverride(this, create);
-  }
-}
-
-class _$AccountFormScreenControllerFamilyOverride implements FamilyOverride {
-  _$AccountFormScreenControllerFamilyOverride(
-      this.overriddenFamily, this.create);
-
-  final AccountFormScreenController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final AccountFormScreenControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  AccountFormScreenControllerProvider getProviderOverride(
-    covariant AccountFormScreenControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'accountFormScreenControllerProvider';
 }
 
 /// See also [AccountFormScreenController].
@@ -126,7 +104,7 @@ class AccountFormScreenControllerProvider
         );
 
   AccountFormScreenControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -163,28 +141,9 @@ class AccountFormScreenControllerProvider
   }
 
   @override
-  (AccountQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<AccountFormScreenController,
       Optional<Account>> createElement() {
     return _AccountFormScreenControllerProviderElement(this);
-  }
-
-  AccountFormScreenControllerProvider _copyWith(
-    AccountFormScreenController Function() create,
-  ) {
-    return AccountFormScreenControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -201,6 +160,8 @@ class AccountFormScreenControllerProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin AccountFormScreenControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<Account>> {
   /// The parameter `query` of this provider.
@@ -217,4 +178,4 @@ class _AccountFormScreenControllerProviderElement
       (origin as AccountFormScreenControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

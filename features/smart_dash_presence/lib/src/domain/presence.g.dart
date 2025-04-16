@@ -6,8 +6,7 @@ part of 'presence.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PresenceImpl _$$PresenceImplFromJson(Map<String, dynamic> json) =>
-    _$PresenceImpl(
+_Presence _$PresenceFromJson(Map<String, dynamic> json) => _Presence(
       token: Token.fromJson(json['token'] as Map<String, dynamic>),
       isHome: json['isHome'] as bool,
       when: DateTime.parse(json['when'] as String),
@@ -16,8 +15,7 @@ _$PresenceImpl _$$PresenceImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$PresenceImplToJson(_$PresenceImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PresenceToJson(_Presence instance) => <String, dynamic>{
       'token': instance.token.toJson(),
       'isHome': instance.isHome,
       'when': instance.when.toIso8601String(),

@@ -10,7 +10,7 @@ sealed class RepositoryResponse<I, T> {
 }
 
 @Freezed(genericArgumentFactories: true)
-class SingleRepositoryResponse<I, T>
+sealed class SingleRepositoryResponse<I, T>
     with _$SingleRepositoryResponse<I, T>
     implements RepositoryResponse<I, T> {
   const SingleRepositoryResponse._();
@@ -50,7 +50,7 @@ class SingleRepositoryResponse<I, T>
 }
 
 @Freezed(genericArgumentFactories: true)
-class BulkRepositoryResponse<I, T>
+sealed class BulkRepositoryResponse<I, T>
     with _$BulkRepositoryResponse<I, T>
     implements RepositoryResponse<I, T> {
   const BulkRepositoryResponse._();

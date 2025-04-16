@@ -7,7 +7,7 @@ part of 'snow_service.dart';
 // **************************************************************************
 
 String _$getCurrentSnowServiceHash() =>
-    r'a1ff0819e2465e32f2e1d80671a1eea70467a32a';
+    r'fa8962cdb08d10bb96bc14d94b2ee844ae4832e4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -35,23 +35,10 @@ class _SystemHash {
 const getCurrentSnowServiceProvider = GetCurrentSnowServiceFamily();
 
 /// See also [getCurrentSnowService].
-class GetCurrentSnowServiceFamily extends Family {
+class GetCurrentSnowServiceFamily
+    extends Family<AsyncValue<Optional<SnowService>>> {
   /// See also [getCurrentSnowService].
   const GetCurrentSnowServiceFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getCurrentSnowServiceProvider';
 
   /// See also [getCurrentSnowService].
   GetCurrentSnowServiceProvider call([
@@ -62,7 +49,6 @@ class GetCurrentSnowServiceFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   GetCurrentSnowServiceProvider getProviderOverride(
     covariant GetCurrentSnowServiceProvider provider,
@@ -72,29 +58,19 @@ class GetCurrentSnowServiceFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      FutureOr<Optional<SnowService>> Function(GetCurrentSnowServiceRef ref)
-          create) {
-    return _$GetCurrentSnowServiceFamilyOverride(this, create);
-  }
-}
-
-class _$GetCurrentSnowServiceFamilyOverride implements FamilyOverride {
-  _$GetCurrentSnowServiceFamilyOverride(this.overriddenFamily, this.create);
-
-  final FutureOr<Optional<SnowService>> Function(GetCurrentSnowServiceRef ref)
-      create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final GetCurrentSnowServiceFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  GetCurrentSnowServiceProvider getProviderOverride(
-    covariant GetCurrentSnowServiceProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getCurrentSnowServiceProvider';
 }
 
 /// See also [getCurrentSnowService].
@@ -121,7 +97,7 @@ class GetCurrentSnowServiceProvider
         );
 
   GetCurrentSnowServiceProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -134,7 +110,7 @@ class GetCurrentSnowServiceProvider
 
   @override
   Override overrideWith(
-    FutureOr<Optional<SnowService>> Function(GetCurrentSnowServiceRef ref)
+    FutureOr<Optional<SnowService>> Function(GetCurrentSnowServiceRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -152,28 +128,8 @@ class GetCurrentSnowServiceProvider
   }
 
   @override
-  (String?,) get argument {
-    return (userId,);
-  }
-
-  @override
   AutoDisposeFutureProviderElement<Optional<SnowService>> createElement() {
     return _GetCurrentSnowServiceProviderElement(this);
-  }
-
-  GetCurrentSnowServiceProvider _copyWith(
-    FutureOr<Optional<SnowService>> Function(GetCurrentSnowServiceRef ref)
-        create,
-  ) {
-    return GetCurrentSnowServiceProvider._internal(
-      (ref) => create(ref as GetCurrentSnowServiceRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      userId: userId,
-    );
   }
 
   @override
@@ -190,6 +146,8 @@ class GetCurrentSnowServiceProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetCurrentSnowServiceRef
     on AutoDisposeFutureProviderRef<Optional<SnowService>> {
   /// The parameter `userId` of this provider.
@@ -205,4 +163,4 @@ class _GetCurrentSnowServiceProviderElement
   String? get userId => (origin as GetCurrentSnowServiceProvider).userId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,7 +6,7 @@ part of 'account_app_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$accountClientHash() => r'691416d0645f0324fcc8075dcef0a9af623fada1';
+String _$accountClientHash() => r'9582238f316b2b355f40ff9bd24a0cdf2bd6078d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,23 +34,9 @@ class _SystemHash {
 const accountClientProvider = AccountClientFamily();
 
 /// See also [accountClient].
-class AccountClientFamily extends Family {
+class AccountClientFamily extends Family<AccountAppClient> {
   /// See also [accountClient].
   const AccountClientFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'accountClientProvider';
 
   /// See also [accountClient].
   AccountClientProvider call(
@@ -61,7 +47,6 @@ class AccountClientFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   AccountClientProvider getProviderOverride(
     covariant AccountClientProvider provider,
@@ -71,27 +56,19 @@ class AccountClientFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      AccountAppClient Function(AccountClientRef ref) create) {
-    return _$AccountClientFamilyOverride(this, create);
-  }
-}
-
-class _$AccountClientFamilyOverride implements FamilyOverride {
-  _$AccountClientFamilyOverride(this.overriddenFamily, this.create);
-
-  final AccountAppClient Function(AccountClientRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final AccountClientFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  AccountClientProvider getProviderOverride(
-    covariant AccountClientProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'accountClientProvider';
 }
 
 /// See also [accountClient].
@@ -117,7 +94,7 @@ class AccountClientProvider extends Provider<AccountAppClient> {
         );
 
   AccountClientProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -130,7 +107,7 @@ class AccountClientProvider extends Provider<AccountAppClient> {
 
   @override
   Override overrideWith(
-    AccountAppClient Function(AccountClientRef ref) create,
+    AccountAppClient Function(AccountClientRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -147,27 +124,8 @@ class AccountClientProvider extends Provider<AccountAppClient> {
   }
 
   @override
-  (String,) get argument {
-    return (baseUrl,);
-  }
-
-  @override
   ProviderElement<AccountAppClient> createElement() {
     return _AccountClientProviderElement(this);
-  }
-
-  AccountClientProvider _copyWith(
-    AccountAppClient Function(AccountClientRef ref) create,
-  ) {
-    return AccountClientProvider._internal(
-      (ref) => create(ref as AccountClientRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      baseUrl: baseUrl,
-    );
   }
 
   @override
@@ -184,6 +142,8 @@ class AccountClientProvider extends Provider<AccountAppClient> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin AccountClientRef on ProviderRef<AccountAppClient> {
   /// The parameter `baseUrl` of this provider.
   String get baseUrl;
@@ -197,4 +157,4 @@ class _AccountClientProviderElement extends ProviderElement<AccountAppClient>
   String get baseUrl => (origin as AccountClientProvider).baseUrl;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

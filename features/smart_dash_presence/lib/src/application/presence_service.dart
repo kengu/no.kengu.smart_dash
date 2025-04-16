@@ -315,4 +315,4 @@ class MemberPresenceIsAway extends MemberPresenceEvent {
 }
 
 @Riverpod(keepAlive: true)
-PresenceService presenceService(PresenceServiceRef ref) => PresenceService(ref);
+PresenceService presenceService(Ref ref) => PresenceService(ref);

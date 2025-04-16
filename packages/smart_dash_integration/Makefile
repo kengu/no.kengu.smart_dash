@@ -32,7 +32,7 @@ watch:
 
 clean-build:
 	echo "Clean generated build..."
-	dart pub run build_runner clean
+	dart run build_runner clean
 
 test:
 	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \

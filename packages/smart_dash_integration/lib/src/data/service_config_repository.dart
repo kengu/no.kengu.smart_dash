@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -32,8 +33,7 @@ class ServiceConfigHiveRepository
 }
 
 @Riverpod(keepAlive: true)
-ServiceConfigHiveRepository serviceConfigHiveRepository(
-    ServiceConfigHiveRepositoryRef ref) {
+ServiceConfigHiveRepository serviceConfigHiveRepository(Ref ref) {
   return ServiceConfigHiveRepository(ref);
 }
 

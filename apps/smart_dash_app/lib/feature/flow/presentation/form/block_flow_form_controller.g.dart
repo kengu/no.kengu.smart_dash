@@ -44,23 +44,10 @@ abstract class _$BlockFlowFormController
 const blockFlowFormControllerProvider = BlockFlowFormControllerFamily();
 
 /// See also [BlockFlowFormController].
-class BlockFlowFormControllerFamily extends Family {
+class BlockFlowFormControllerFamily
+    extends Family<AsyncValue<Optional<BlockModel>>> {
   /// See also [BlockFlowFormController].
   const BlockFlowFormControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'blockFlowFormControllerProvider';
 
   /// See also [BlockFlowFormController].
   BlockFlowFormControllerProvider call(
@@ -71,7 +58,6 @@ class BlockFlowFormControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   BlockFlowFormControllerProvider getProviderOverride(
     covariant BlockFlowFormControllerProvider provider,
@@ -81,26 +67,19 @@ class BlockFlowFormControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(BlockFlowFormController Function() create) {
-    return _$BlockFlowFormControllerFamilyOverride(this, create);
-  }
-}
-
-class _$BlockFlowFormControllerFamilyOverride implements FamilyOverride {
-  _$BlockFlowFormControllerFamilyOverride(this.overriddenFamily, this.create);
-
-  final BlockFlowFormController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final BlockFlowFormControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  BlockFlowFormControllerProvider getProviderOverride(
-    covariant BlockFlowFormControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'blockFlowFormControllerProvider';
 }
 
 /// See also [BlockFlowFormController].
@@ -125,7 +104,7 @@ class BlockFlowFormControllerProvider
         );
 
   BlockFlowFormControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -162,28 +141,9 @@ class BlockFlowFormControllerProvider
   }
 
   @override
-  (BlockFlowFormQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<BlockFlowFormController,
       Optional<BlockModel>> createElement() {
     return _BlockFlowFormControllerProviderElement(this);
-  }
-
-  BlockFlowFormControllerProvider _copyWith(
-    BlockFlowFormController Function() create,
-  ) {
-    return BlockFlowFormControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -200,6 +160,8 @@ class BlockFlowFormControllerProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin BlockFlowFormControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<BlockModel>> {
   /// The parameter `query` of this provider.
@@ -216,4 +178,4 @@ class _BlockFlowFormControllerProviderElement
       (origin as BlockFlowFormControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

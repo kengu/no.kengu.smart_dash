@@ -43,23 +43,10 @@ abstract class _$FlowsController
 const flowsControllerProvider = FlowsControllerFamily();
 
 /// See also [FlowsController].
-class FlowsControllerFamily extends Family {
+class FlowsControllerFamily
+    extends Family<AsyncValue<Optional<List<BlockModel>>>> {
   /// See also [FlowsController].
   const FlowsControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'flowsControllerProvider';
 
   /// See also [FlowsController].
   FlowsControllerProvider call(
@@ -70,7 +57,6 @@ class FlowsControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   FlowsControllerProvider getProviderOverride(
     covariant FlowsControllerProvider provider,
@@ -80,26 +66,19 @@ class FlowsControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(FlowsController Function() create) {
-    return _$FlowsControllerFamilyOverride(this, create);
-  }
-}
-
-class _$FlowsControllerFamilyOverride implements FamilyOverride {
-  _$FlowsControllerFamilyOverride(this.overriddenFamily, this.create);
-
-  final FlowsController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final FlowsControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  FlowsControllerProvider getProviderOverride(
-    covariant FlowsControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'flowsControllerProvider';
 }
 
 /// See also [FlowsController].
@@ -123,7 +102,7 @@ class FlowsControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
         );
 
   FlowsControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -160,28 +139,9 @@ class FlowsControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  (FlowsQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<FlowsController,
       Optional<List<BlockModel>>> createElement() {
     return _FlowsControllerProviderElement(this);
-  }
-
-  FlowsControllerProvider _copyWith(
-    FlowsController Function() create,
-  ) {
-    return FlowsControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -198,6 +158,8 @@ class FlowsControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin FlowsControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<List<BlockModel>>> {
   /// The parameter `query` of this provider.
@@ -213,4 +175,4 @@ class _FlowsControllerProviderElement
   FlowsQuery get query => (origin as FlowsControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

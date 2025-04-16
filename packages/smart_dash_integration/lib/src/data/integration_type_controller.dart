@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -28,7 +27,7 @@ class IntegrationTypeController with QueryControllerMixin<String, Integration> {
   ) {
     return [
       params[key] ?? json[key],
-    ].whereNotNull().join(':');
+    ].nonNulls.join(':');
   }
 
   @override

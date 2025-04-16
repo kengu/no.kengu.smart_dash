@@ -150,7 +150,7 @@ class SettingService {
 }
 
 @Riverpod(keepAlive: true)
-SettingService settingService(SettingServiceRef ref) {
+SettingService settingService(Ref ref) {
   return SettingService(ref);
 }
 

@@ -23,11 +23,15 @@ endif
 	build test
 
 build:
+	echo "Run code generation..."
+	dart run build_runner build --delete-conflicting-outputs
+
+watch:
 	echo "Watch for buildable changes..."
 	dart run build_runner watch --delete-conflicting-outputs
 
 test:
-	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	@if [ -d test ] && ls test/* > /dev/null 2>&1; then \
 	  echo "Running tests in $(pwd)"; \
 	  flutter test; \
 	else \

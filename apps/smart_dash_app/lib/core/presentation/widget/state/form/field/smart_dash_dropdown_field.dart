@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -30,7 +29,7 @@ class SmartDashDropdownField<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       formControl: formControl,
-      formControlName: [...formPath, formControlName].whereNotNull().join('.'),
+      formControlName: [...formPath, formControlName].nonNulls.join('.'),
       validationMessages: validationMessages,
       decoration: InputDecoration(labelText: labelText, suffixIcon: suffixIcon),
     );

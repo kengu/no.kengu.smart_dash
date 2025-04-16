@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,61 @@ part of 'energy_bill.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-EnergyBillMonth _$EnergyBillMonthFromJson(Map<String, dynamic> json) {
-  return _EnergyBillMonth.fromJson(json);
-}
 
 /// @nodoc
 mixin _$EnergyBillMonth {
-  DateTime get begin => throw _privateConstructorUsedError;
-  List<EnergyBillDay> get daily => throw _privateConstructorUsedError;
-
-  /// Serializes this EnergyBillMonth to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  DateTime get begin;
+  List<EnergyBillDay> get daily;
 
   /// Create a copy of EnergyBillMonth
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $EnergyBillMonthCopyWith<EnergyBillMonth> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $EnergyBillMonthCopyWith<$Res> {
-  factory $EnergyBillMonthCopyWith(
-          EnergyBillMonth value, $Res Function(EnergyBillMonth) then) =
-      _$EnergyBillMonthCopyWithImpl<$Res, EnergyBillMonth>;
-  @useResult
-  $Res call({DateTime begin, List<EnergyBillDay> daily});
-}
-
-/// @nodoc
-class _$EnergyBillMonthCopyWithImpl<$Res, $Val extends EnergyBillMonth>
-    implements $EnergyBillMonthCopyWith<$Res> {
-  _$EnergyBillMonthCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of EnergyBillMonth
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $EnergyBillMonthCopyWith<EnergyBillMonth> get copyWith =>
+      _$EnergyBillMonthCopyWithImpl<EnergyBillMonth>(
+          this as EnergyBillMonth, _$identity);
+
+  /// Serializes this EnergyBillMonth to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? begin = null,
-    Object? daily = null,
-  }) {
-    return _then(_value.copyWith(
-      begin: null == begin
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      daily: null == daily
-          ? _value.daily
-          : daily // ignore: cast_nullable_to_non_nullable
-              as List<EnergyBillDay>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is EnergyBillMonth &&
+            (identical(other.begin, begin) || other.begin == begin) &&
+            const DeepCollectionEquality().equals(other.daily, daily));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, begin, const DeepCollectionEquality().hash(daily));
+
+  @override
+  String toString() {
+    return 'EnergyBillMonth(begin: $begin, daily: $daily)';
   }
 }
 
 /// @nodoc
-abstract class _$$EnergyBillMonthImplCopyWith<$Res>
-    implements $EnergyBillMonthCopyWith<$Res> {
-  factory _$$EnergyBillMonthImplCopyWith(_$EnergyBillMonthImpl value,
-          $Res Function(_$EnergyBillMonthImpl) then) =
-      __$$EnergyBillMonthImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $EnergyBillMonthCopyWith<$Res> {
+  factory $EnergyBillMonthCopyWith(
+          EnergyBillMonth value, $Res Function(EnergyBillMonth) _then) =
+      _$EnergyBillMonthCopyWithImpl;
   @useResult
   $Res call({DateTime begin, List<EnergyBillDay> daily});
 }
 
 /// @nodoc
-class __$$EnergyBillMonthImplCopyWithImpl<$Res>
-    extends _$EnergyBillMonthCopyWithImpl<$Res, _$EnergyBillMonthImpl>
-    implements _$$EnergyBillMonthImplCopyWith<$Res> {
-  __$$EnergyBillMonthImplCopyWithImpl(
-      _$EnergyBillMonthImpl _value, $Res Function(_$EnergyBillMonthImpl) _then)
-      : super(_value, _then);
+class _$EnergyBillMonthCopyWithImpl<$Res>
+    implements $EnergyBillMonthCopyWith<$Res> {
+  _$EnergyBillMonthCopyWithImpl(this._self, this._then);
+
+  final EnergyBillMonth _self;
+  final $Res Function(EnergyBillMonth) _then;
 
   /// Create a copy of EnergyBillMonth
   /// with the given fields replaced by the non-null parameter values.
@@ -100,13 +74,13 @@ class __$$EnergyBillMonthImplCopyWithImpl<$Res>
     Object? begin = null,
     Object? daily = null,
   }) {
-    return _then(_$EnergyBillMonthImpl(
+    return _then(_self.copyWith(
       begin: null == begin
-          ? _value.begin
+          ? _self.begin
           : begin // ignore: cast_nullable_to_non_nullable
               as DateTime,
       daily: null == daily
-          ? _value._daily
+          ? _self.daily
           : daily // ignore: cast_nullable_to_non_nullable
               as List<EnergyBillDay>,
     ));
@@ -115,14 +89,13 @@ class __$$EnergyBillMonthImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$EnergyBillMonthImpl extends _EnergyBillMonth {
-  const _$EnergyBillMonthImpl(
+class _EnergyBillMonth extends EnergyBillMonth {
+  const _EnergyBillMonth(
       {required this.begin, required final List<EnergyBillDay> daily})
       : _daily = daily,
         super._();
-
-  factory _$EnergyBillMonthImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EnergyBillMonthImplFromJson(json);
+  factory _EnergyBillMonth.fromJson(Map<String, dynamic> json) =>
+      _$EnergyBillMonthFromJson(json);
 
   @override
   final DateTime begin;
@@ -134,16 +107,26 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
     return EqualUnmodifiableListView(_daily);
   }
 
+  /// Create a copy of EnergyBillMonth
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'EnergyBillMonth(begin: $begin, daily: $daily)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$EnergyBillMonthCopyWith<_EnergyBillMonth> get copyWith =>
+      __$EnergyBillMonthCopyWithImpl<_EnergyBillMonth>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EnergyBillMonthToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EnergyBillMonthImpl &&
+            other is _EnergyBillMonth &&
             (identical(other.begin, begin) || other.begin == begin) &&
             const DeepCollectionEquality().equals(other._daily, _daily));
   }
@@ -153,122 +136,104 @@ class _$EnergyBillMonthImpl extends _EnergyBillMonth {
   int get hashCode => Object.hash(
       runtimeType, begin, const DeepCollectionEquality().hash(_daily));
 
-  /// Create a copy of EnergyBillMonth
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$EnergyBillMonthImplCopyWith<_$EnergyBillMonthImpl> get copyWith =>
-      __$$EnergyBillMonthImplCopyWithImpl<_$EnergyBillMonthImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EnergyBillMonthImplToJson(
-      this,
-    );
+  String toString() {
+    return 'EnergyBillMonth(begin: $begin, daily: $daily)';
   }
 }
 
-abstract class _EnergyBillMonth extends EnergyBillMonth {
-  const factory _EnergyBillMonth(
-      {required final DateTime begin,
-      required final List<EnergyBillDay> daily}) = _$EnergyBillMonthImpl;
-  const _EnergyBillMonth._() : super._();
-
-  factory _EnergyBillMonth.fromJson(Map<String, dynamic> json) =
-      _$EnergyBillMonthImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$EnergyBillMonthCopyWith<$Res>
+    implements $EnergyBillMonthCopyWith<$Res> {
+  factory _$EnergyBillMonthCopyWith(
+          _EnergyBillMonth value, $Res Function(_EnergyBillMonth) _then) =
+      __$EnergyBillMonthCopyWithImpl;
   @override
-  DateTime get begin;
-  @override
-  List<EnergyBillDay> get daily;
+  @useResult
+  $Res call({DateTime begin, List<EnergyBillDay> daily});
+}
+
+/// @nodoc
+class __$EnergyBillMonthCopyWithImpl<$Res>
+    implements _$EnergyBillMonthCopyWith<$Res> {
+  __$EnergyBillMonthCopyWithImpl(this._self, this._then);
+
+  final _EnergyBillMonth _self;
+  final $Res Function(_EnergyBillMonth) _then;
 
   /// Create a copy of EnergyBillMonth
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EnergyBillMonthImplCopyWith<_$EnergyBillMonthImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-EnergyBillDay _$EnergyBillDayFromJson(Map<String, dynamic> json) {
-  return _EnergyBillDay.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? begin = null,
+    Object? daily = null,
+  }) {
+    return _then(_EnergyBillMonth(
+      begin: null == begin
+          ? _self.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      daily: null == daily
+          ? _self._daily
+          : daily // ignore: cast_nullable_to_non_nullable
+              as List<EnergyBillDay>,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$EnergyBillDay {
-  DateTime get begin => throw _privateConstructorUsedError;
-  List<EnergyBillHour> get hourly => throw _privateConstructorUsedError;
-
-  /// Serializes this EnergyBillDay to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  DateTime get begin;
+  List<EnergyBillHour> get hourly;
 
   /// Create a copy of EnergyBillDay
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $EnergyBillDayCopyWith<EnergyBillDay> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $EnergyBillDayCopyWith<$Res> {
-  factory $EnergyBillDayCopyWith(
-          EnergyBillDay value, $Res Function(EnergyBillDay) then) =
-      _$EnergyBillDayCopyWithImpl<$Res, EnergyBillDay>;
-  @useResult
-  $Res call({DateTime begin, List<EnergyBillHour> hourly});
-}
-
-/// @nodoc
-class _$EnergyBillDayCopyWithImpl<$Res, $Val extends EnergyBillDay>
-    implements $EnergyBillDayCopyWith<$Res> {
-  _$EnergyBillDayCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of EnergyBillDay
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $EnergyBillDayCopyWith<EnergyBillDay> get copyWith =>
+      _$EnergyBillDayCopyWithImpl<EnergyBillDay>(
+          this as EnergyBillDay, _$identity);
+
+  /// Serializes this EnergyBillDay to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? begin = null,
-    Object? hourly = null,
-  }) {
-    return _then(_value.copyWith(
-      begin: null == begin
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      hourly: null == hourly
-          ? _value.hourly
-          : hourly // ignore: cast_nullable_to_non_nullable
-              as List<EnergyBillHour>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is EnergyBillDay &&
+            (identical(other.begin, begin) || other.begin == begin) &&
+            const DeepCollectionEquality().equals(other.hourly, hourly));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, begin, const DeepCollectionEquality().hash(hourly));
+
+  @override
+  String toString() {
+    return 'EnergyBillDay(begin: $begin, hourly: $hourly)';
   }
 }
 
 /// @nodoc
-abstract class _$$EnergyBillDayImplCopyWith<$Res>
-    implements $EnergyBillDayCopyWith<$Res> {
-  factory _$$EnergyBillDayImplCopyWith(
-          _$EnergyBillDayImpl value, $Res Function(_$EnergyBillDayImpl) then) =
-      __$$EnergyBillDayImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $EnergyBillDayCopyWith<$Res> {
+  factory $EnergyBillDayCopyWith(
+          EnergyBillDay value, $Res Function(EnergyBillDay) _then) =
+      _$EnergyBillDayCopyWithImpl;
   @useResult
   $Res call({DateTime begin, List<EnergyBillHour> hourly});
 }
 
 /// @nodoc
-class __$$EnergyBillDayImplCopyWithImpl<$Res>
-    extends _$EnergyBillDayCopyWithImpl<$Res, _$EnergyBillDayImpl>
-    implements _$$EnergyBillDayImplCopyWith<$Res> {
-  __$$EnergyBillDayImplCopyWithImpl(
-      _$EnergyBillDayImpl _value, $Res Function(_$EnergyBillDayImpl) _then)
-      : super(_value, _then);
+class _$EnergyBillDayCopyWithImpl<$Res>
+    implements $EnergyBillDayCopyWith<$Res> {
+  _$EnergyBillDayCopyWithImpl(this._self, this._then);
+
+  final EnergyBillDay _self;
+  final $Res Function(EnergyBillDay) _then;
 
   /// Create a copy of EnergyBillDay
   /// with the given fields replaced by the non-null parameter values.
@@ -278,13 +243,13 @@ class __$$EnergyBillDayImplCopyWithImpl<$Res>
     Object? begin = null,
     Object? hourly = null,
   }) {
-    return _then(_$EnergyBillDayImpl(
+    return _then(_self.copyWith(
       begin: null == begin
-          ? _value.begin
+          ? _self.begin
           : begin // ignore: cast_nullable_to_non_nullable
               as DateTime,
       hourly: null == hourly
-          ? _value._hourly
+          ? _self.hourly
           : hourly // ignore: cast_nullable_to_non_nullable
               as List<EnergyBillHour>,
     ));
@@ -293,14 +258,13 @@ class __$$EnergyBillDayImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$EnergyBillDayImpl extends _EnergyBillDay {
-  const _$EnergyBillDayImpl(
+class _EnergyBillDay extends EnergyBillDay {
+  const _EnergyBillDay(
       {required this.begin, required final List<EnergyBillHour> hourly})
       : _hourly = hourly,
         super._();
-
-  factory _$EnergyBillDayImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EnergyBillDayImplFromJson(json);
+  factory _EnergyBillDay.fromJson(Map<String, dynamic> json) =>
+      _$EnergyBillDayFromJson(json);
 
   @override
   final DateTime begin;
@@ -312,16 +276,26 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
     return EqualUnmodifiableListView(_hourly);
   }
 
+  /// Create a copy of EnergyBillDay
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'EnergyBillDay(begin: $begin, hourly: $hourly)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$EnergyBillDayCopyWith<_EnergyBillDay> get copyWith =>
+      __$EnergyBillDayCopyWithImpl<_EnergyBillDay>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EnergyBillDayToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EnergyBillDayImpl &&
+            other is _EnergyBillDay &&
             (identical(other.begin, begin) || other.begin == begin) &&
             const DeepCollectionEquality().equals(other._hourly, _hourly));
   }
@@ -331,72 +305,101 @@ class _$EnergyBillDayImpl extends _EnergyBillDay {
   int get hashCode => Object.hash(
       runtimeType, begin, const DeepCollectionEquality().hash(_hourly));
 
-  /// Create a copy of EnergyBillDay
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$EnergyBillDayImplCopyWith<_$EnergyBillDayImpl> get copyWith =>
-      __$$EnergyBillDayImplCopyWithImpl<_$EnergyBillDayImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EnergyBillDayImplToJson(
-      this,
-    );
+  String toString() {
+    return 'EnergyBillDay(begin: $begin, hourly: $hourly)';
   }
 }
 
-abstract class _EnergyBillDay extends EnergyBillDay {
-  const factory _EnergyBillDay(
-      {required final DateTime begin,
-      required final List<EnergyBillHour> hourly}) = _$EnergyBillDayImpl;
-  const _EnergyBillDay._() : super._();
-
-  factory _EnergyBillDay.fromJson(Map<String, dynamic> json) =
-      _$EnergyBillDayImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$EnergyBillDayCopyWith<$Res>
+    implements $EnergyBillDayCopyWith<$Res> {
+  factory _$EnergyBillDayCopyWith(
+          _EnergyBillDay value, $Res Function(_EnergyBillDay) _then) =
+      __$EnergyBillDayCopyWithImpl;
   @override
-  DateTime get begin;
-  @override
-  List<EnergyBillHour> get hourly;
+  @useResult
+  $Res call({DateTime begin, List<EnergyBillHour> hourly});
+}
+
+/// @nodoc
+class __$EnergyBillDayCopyWithImpl<$Res>
+    implements _$EnergyBillDayCopyWith<$Res> {
+  __$EnergyBillDayCopyWithImpl(this._self, this._then);
+
+  final _EnergyBillDay _self;
+  final $Res Function(_EnergyBillDay) _then;
 
   /// Create a copy of EnergyBillDay
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EnergyBillDayImplCopyWith<_$EnergyBillDayImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-EnergyBillHour _$EnergyBillHourFromJson(Map<String, dynamic> json) {
-  return _EnergyBillHour.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? begin = null,
+    Object? hourly = null,
+  }) {
+    return _then(_EnergyBillDay(
+      begin: null == begin
+          ? _self.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      hourly: null == hourly
+          ? _self._hourly
+          : hourly // ignore: cast_nullable_to_non_nullable
+              as List<EnergyBillHour>,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$EnergyBillHour {
-  int get vat => throw _privateConstructorUsedError;
-  DateTime get end => throw _privateConstructorUsedError;
-  DateTime get begin => throw _privateConstructorUsedError;
-  double get energy => throw _privateConstructorUsedError;
-  ElectricityPrice get price => throw _privateConstructorUsedError;
-  ElectricityTariff get tariff => throw _privateConstructorUsedError;
-
-  /// Serializes this EnergyBillHour to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int get vat;
+  DateTime get end;
+  DateTime get begin;
+  double get energy;
+  ElectricityPrice get price;
+  ElectricityTariff get tariff;
 
   /// Create a copy of EnergyBillHour
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $EnergyBillHourCopyWith<EnergyBillHour> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$EnergyBillHourCopyWithImpl<EnergyBillHour>(
+          this as EnergyBillHour, _$identity);
+
+  /// Serializes this EnergyBillHour to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is EnergyBillHour &&
+            (identical(other.vat, vat) || other.vat == vat) &&
+            (identical(other.end, end) || other.end == end) &&
+            (identical(other.begin, begin) || other.begin == begin) &&
+            (identical(other.energy, energy) || other.energy == energy) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.tariff, tariff) || other.tariff == tariff));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, vat, end, begin, energy, price, tariff);
+
+  @override
+  String toString() {
+    return 'EnergyBillHour(vat: $vat, end: $end, begin: $begin, energy: $energy, price: $price, tariff: $tariff)';
+  }
 }
 
 /// @nodoc
-abstract class $EnergyBillHourCopyWith<$Res> {
+abstract mixin class $EnergyBillHourCopyWith<$Res> {
   factory $EnergyBillHourCopyWith(
-          EnergyBillHour value, $Res Function(EnergyBillHour) then) =
-      _$EnergyBillHourCopyWithImpl<$Res, EnergyBillHour>;
+          EnergyBillHour value, $Res Function(EnergyBillHour) _then) =
+      _$EnergyBillHourCopyWithImpl;
   @useResult
   $Res call(
       {int vat,
@@ -411,14 +414,12 @@ abstract class $EnergyBillHourCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
+class _$EnergyBillHourCopyWithImpl<$Res>
     implements $EnergyBillHourCopyWith<$Res> {
-  _$EnergyBillHourCopyWithImpl(this._value, this._then);
+  _$EnergyBillHourCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final EnergyBillHour _self;
+  final $Res Function(EnergyBillHour) _then;
 
   /// Create a copy of EnergyBillHour
   /// with the given fields replaced by the non-null parameter values.
@@ -432,32 +433,32 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
     Object? price = null,
     Object? tariff = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       vat: null == vat
-          ? _value.vat
+          ? _self.vat
           : vat // ignore: cast_nullable_to_non_nullable
               as int,
       end: null == end
-          ? _value.end
+          ? _self.end
           : end // ignore: cast_nullable_to_non_nullable
               as DateTime,
       begin: null == begin
-          ? _value.begin
+          ? _self.begin
           : begin // ignore: cast_nullable_to_non_nullable
               as DateTime,
       energy: null == energy
-          ? _value.energy
+          ? _self.energy
           : energy // ignore: cast_nullable_to_non_nullable
               as double,
       price: null == price
-          ? _value.price
+          ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as ElectricityPrice,
       tariff: null == tariff
-          ? _value.tariff
+          ? _self.tariff
           : tariff // ignore: cast_nullable_to_non_nullable
               as ElectricityTariff,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of EnergyBillHour
@@ -465,8 +466,8 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
   @override
   @pragma('vm:prefer-inline')
   $ElectricityPriceCopyWith<$Res> get price {
-    return $ElectricityPriceCopyWith<$Res>(_value.price, (value) {
-      return _then(_value.copyWith(price: value) as $Val);
+    return $ElectricityPriceCopyWith<$Res>(_self.price, (value) {
+      return _then(_self.copyWith(price: value));
     });
   }
 
@@ -475,87 +476,16 @@ class _$EnergyBillHourCopyWithImpl<$Res, $Val extends EnergyBillHour>
   @override
   @pragma('vm:prefer-inline')
   $ElectricityTariffCopyWith<$Res> get tariff {
-    return $ElectricityTariffCopyWith<$Res>(_value.tariff, (value) {
-      return _then(_value.copyWith(tariff: value) as $Val);
+    return $ElectricityTariffCopyWith<$Res>(_self.tariff, (value) {
+      return _then(_self.copyWith(tariff: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$EnergyBillHourImplCopyWith<$Res>
-    implements $EnergyBillHourCopyWith<$Res> {
-  factory _$$EnergyBillHourImplCopyWith(_$EnergyBillHourImpl value,
-          $Res Function(_$EnergyBillHourImpl) then) =
-      __$$EnergyBillHourImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int vat,
-      DateTime end,
-      DateTime begin,
-      double energy,
-      ElectricityPrice price,
-      ElectricityTariff tariff});
-
-  @override
-  $ElectricityPriceCopyWith<$Res> get price;
-  @override
-  $ElectricityTariffCopyWith<$Res> get tariff;
-}
-
-/// @nodoc
-class __$$EnergyBillHourImplCopyWithImpl<$Res>
-    extends _$EnergyBillHourCopyWithImpl<$Res, _$EnergyBillHourImpl>
-    implements _$$EnergyBillHourImplCopyWith<$Res> {
-  __$$EnergyBillHourImplCopyWithImpl(
-      _$EnergyBillHourImpl _value, $Res Function(_$EnergyBillHourImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of EnergyBillHour
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? vat = null,
-    Object? end = null,
-    Object? begin = null,
-    Object? energy = null,
-    Object? price = null,
-    Object? tariff = null,
-  }) {
-    return _then(_$EnergyBillHourImpl(
-      vat: null == vat
-          ? _value.vat
-          : vat // ignore: cast_nullable_to_non_nullable
-              as int,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      begin: null == begin
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      energy: null == energy
-          ? _value.energy
-          : energy // ignore: cast_nullable_to_non_nullable
-              as double,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as ElectricityPrice,
-      tariff: null == tariff
-          ? _value.tariff
-          : tariff // ignore: cast_nullable_to_non_nullable
-              as ElectricityTariff,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$EnergyBillHourImpl extends _EnergyBillHour {
-  const _$EnergyBillHourImpl(
+class _EnergyBillHour extends EnergyBillHour {
+  const _EnergyBillHour(
       {required this.vat,
       required this.end,
       required this.begin,
@@ -563,9 +493,8 @@ class _$EnergyBillHourImpl extends _EnergyBillHour {
       required this.price,
       required this.tariff})
       : super._();
-
-  factory _$EnergyBillHourImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EnergyBillHourImplFromJson(json);
+  factory _EnergyBillHour.fromJson(Map<String, dynamic> json) =>
+      _$EnergyBillHourFromJson(json);
 
   @override
   final int vat;
@@ -580,16 +509,26 @@ class _$EnergyBillHourImpl extends _EnergyBillHour {
   @override
   final ElectricityTariff tariff;
 
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'EnergyBillHour(vat: $vat, end: $end, begin: $begin, energy: $energy, price: $price, tariff: $tariff)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$EnergyBillHourCopyWith<_EnergyBillHour> get copyWith =>
+      __$EnergyBillHourCopyWithImpl<_EnergyBillHour>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EnergyBillHourToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EnergyBillHourImpl &&
+            other is _EnergyBillHour &&
             (identical(other.vat, vat) || other.vat == vat) &&
             (identical(other.end, end) || other.end == end) &&
             (identical(other.begin, begin) || other.begin == begin) &&
@@ -603,53 +542,101 @@ class _$EnergyBillHourImpl extends _EnergyBillHour {
   int get hashCode =>
       Object.hash(runtimeType, vat, end, begin, energy, price, tariff);
 
-  /// Create a copy of EnergyBillHour
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$EnergyBillHourImplCopyWith<_$EnergyBillHourImpl> get copyWith =>
-      __$$EnergyBillHourImplCopyWithImpl<_$EnergyBillHourImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EnergyBillHourImplToJson(
-      this,
-    );
+  String toString() {
+    return 'EnergyBillHour(vat: $vat, end: $end, begin: $begin, energy: $energy, price: $price, tariff: $tariff)';
   }
 }
 
-abstract class _EnergyBillHour extends EnergyBillHour {
-  const factory _EnergyBillHour(
-      {required final int vat,
-      required final DateTime end,
-      required final DateTime begin,
-      required final double energy,
-      required final ElectricityPrice price,
-      required final ElectricityTariff tariff}) = _$EnergyBillHourImpl;
-  const _EnergyBillHour._() : super._();
+/// @nodoc
+abstract mixin class _$EnergyBillHourCopyWith<$Res>
+    implements $EnergyBillHourCopyWith<$Res> {
+  factory _$EnergyBillHourCopyWith(
+          _EnergyBillHour value, $Res Function(_EnergyBillHour) _then) =
+      __$EnergyBillHourCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int vat,
+      DateTime end,
+      DateTime begin,
+      double energy,
+      ElectricityPrice price,
+      ElectricityTariff tariff});
 
-  factory _EnergyBillHour.fromJson(Map<String, dynamic> json) =
-      _$EnergyBillHourImpl.fromJson;
+  @override
+  $ElectricityPriceCopyWith<$Res> get price;
+  @override
+  $ElectricityTariffCopyWith<$Res> get tariff;
+}
 
-  @override
-  int get vat;
-  @override
-  DateTime get end;
-  @override
-  DateTime get begin;
-  @override
-  double get energy;
-  @override
-  ElectricityPrice get price;
-  @override
-  ElectricityTariff get tariff;
+/// @nodoc
+class __$EnergyBillHourCopyWithImpl<$Res>
+    implements _$EnergyBillHourCopyWith<$Res> {
+  __$EnergyBillHourCopyWithImpl(this._self, this._then);
+
+  final _EnergyBillHour _self;
+  final $Res Function(_EnergyBillHour) _then;
 
   /// Create a copy of EnergyBillHour
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EnergyBillHourImplCopyWith<_$EnergyBillHourImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? vat = null,
+    Object? end = null,
+    Object? begin = null,
+    Object? energy = null,
+    Object? price = null,
+    Object? tariff = null,
+  }) {
+    return _then(_EnergyBillHour(
+      vat: null == vat
+          ? _self.vat
+          : vat // ignore: cast_nullable_to_non_nullable
+              as int,
+      end: null == end
+          ? _self.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      begin: null == begin
+          ? _self.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      energy: null == energy
+          ? _self.energy
+          : energy // ignore: cast_nullable_to_non_nullable
+              as double,
+      price: null == price
+          ? _self.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as ElectricityPrice,
+      tariff: null == tariff
+          ? _self.tariff
+          : tariff // ignore: cast_nullable_to_non_nullable
+              as ElectricityTariff,
+    ));
+  }
+
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ElectricityPriceCopyWith<$Res> get price {
+    return $ElectricityPriceCopyWith<$Res>(_self.price, (value) {
+      return _then(_self.copyWith(price: value));
+    });
+  }
+
+  /// Create a copy of EnergyBillHour
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ElectricityTariffCopyWith<$Res> get tariff {
+    return $ElectricityTariffCopyWith<$Res>(_self.tariff, (value) {
+      return _then(_self.copyWith(tariff: value));
+    });
+  }
 }
+
+// dart format on

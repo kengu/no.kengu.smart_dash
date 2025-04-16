@@ -101,5 +101,4 @@ class SystemInfoResult {
 }
 
 @Riverpod(keepAlive: true)
-SystemInfoService systemInfoService(SystemInfoServiceRef ref) =>
-    SystemInfoService(ref);
+SystemInfoService systemInfoService(Ref ref) => SystemInfoService(ref);

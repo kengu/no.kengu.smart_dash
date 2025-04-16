@@ -4,7 +4,7 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class User with _$User {
+sealed class User with _$User {
   const User._();
 
   const factory User({

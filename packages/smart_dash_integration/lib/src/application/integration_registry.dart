@@ -107,7 +107,6 @@ class IntegrationRegistry {
 }
 
 @Riverpod(keepAlive: true)
-IntegrationRegistry integrationRegistry(
-    IntegrationRegistryRef ref, String baseUrl) {
+IntegrationRegistry integrationRegistry(Ref ref, String baseUrl) {
   return IntegrationRegistry(ref, baseUrl);
 }

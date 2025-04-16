@@ -7,7 +7,7 @@ part 'metno_forecast_device.freezed.dart';
 part 'metno_forecast_device.g.dart';
 
 @freezed
-class MetNoForecastDevice with _$MetNoForecastDevice, DeviceMapper {
+sealed class MetNoForecastDevice with _$MetNoForecastDevice, DeviceMapper {
   const MetNoForecastDevice._();
   const factory MetNoForecastDevice({
     @JsonKey(name: 'state') required WeatherState state,

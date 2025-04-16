@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,300 +10,195 @@ part of 'rtl_433_device.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Rtl433Device _$Rtl433DeviceFromJson(Map<String, dynamic> json) {
-  return _Rtl433Device.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Rtl433Device {
   @JsonKey(name: 'id')
-  Object get id => throw _privateConstructorUsedError;
+  Object get id;
   @JsonKey(name: 'time')
-  String get time => throw _privateConstructorUsedError;
+  String get time;
   @JsonKey(name: 'model')
-  String get model => throw _privateConstructorUsedError;
+  String get model;
   @JsonKey(name: 'mic')
-  String? get mic => throw _privateConstructorUsedError;
+  String? get mic;
   @JsonKey(name: 'channel')
-  String? get channel => throw _privateConstructorUsedError;
+  String? get channel;
   @JsonKey(name: 'subtype')
-  String? get subtype => throw _privateConstructorUsedError;
+  String? get subtype;
   @JsonKey(name: 'battery_ok')
-  double? get batteryOk => throw _privateConstructorUsedError;
+  double? get batteryOk;
   @JsonKey(name: 'battery_V')
-  double? get batteryVolts => throw _privateConstructorUsedError;
+  double? get batteryVolts;
   @JsonKey(name: 'temperature_C')
-  double? get temperatureCelsius => throw _privateConstructorUsedError;
+  double? get temperatureCelsius;
   @JsonKey(name: 'temperature_F')
-  double? get temperatureFahrenheit => throw _privateConstructorUsedError;
+  double? get temperatureFahrenheit;
   @JsonKey(name: 'setpoint_C')
-  double? get targetTemperatureCelsius => throw _privateConstructorUsedError;
+  double? get targetTemperatureCelsius;
   @JsonKey(name: 'setpoint_F')
-  double? get targetTemperatureFahrenheit => throw _privateConstructorUsedError;
+  double? get targetTemperatureFahrenheit;
   @JsonKey(name: 'humidity')
-  double? get humidity => throw _privateConstructorUsedError;
+  double? get humidity;
   @JsonKey(name: 'moisture')
-  double? get moisture => throw _privateConstructorUsedError;
+  double? get moisture;
   @JsonKey(name: 'wind_dir_deg')
-  double? get windAngleInDegrees => throw _privateConstructorUsedError;
+  double? get windAngleInDegrees;
   @JsonKey(name: 'wind_avg_m_s')
-  double? get windStrengthInMeterPerSeconds =>
-      throw _privateConstructorUsedError;
+  double? get windStrengthInMeterPerSeconds;
   @JsonKey(name: 'wind_avg_km_h')
-  double? get windStrengthInKilometerPerHour =>
-      throw _privateConstructorUsedError;
+  double? get windStrengthInKilometerPerHour;
   @JsonKey(name: 'wind_avg_mi_h')
-  double? get windStrengthInMilesPerHour => throw _privateConstructorUsedError;
+  double? get windStrengthInMilesPerHour;
   @JsonKey(name: 'wind_max_m_s')
-  double? get gustStrengthInMeterPerSeconds =>
-      throw _privateConstructorUsedError;
+  double? get gustStrengthInMeterPerSeconds;
   @JsonKey(name: 'wind_max_km_h')
-  double? get gustStrengthInKilometerPerHour =>
-      throw _privateConstructorUsedError;
+  double? get gustStrengthInKilometerPerHour;
   @JsonKey(name: 'wind_max_mi_h')
-  double? get gustStrengthInMilesPerHour => throw _privateConstructorUsedError;
+  double? get gustStrengthInMilesPerHour;
   @JsonKey(name: 'light_lux')
-  int? get lightInLux => throw _privateConstructorUsedError;
+  int? get lightInLux;
   @JsonKey(name: 'uv')
-  int? get uvRadiation => throw _privateConstructorUsedError;
+  int? get uvRadiation;
 
   /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
   @JsonKey(name: 'rain_mm')
-  double? get rainInMillimeters => throw _privateConstructorUsedError;
+  double? get rainInMillimeters;
 
   /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
   @JsonKey(name: 'rain_in')
-  double? get rainInInches => throw _privateConstructorUsedError;
+  double? get rainInInches;
 
   /// Rainfall rate from rain sensor (in mm) per hour.
   @JsonKey(name: 'rain_rate_mm_h')
-  double? get rainRateMillimeterPerHour => throw _privateConstructorUsedError;
+  double? get rainRateMillimeterPerHour;
 
   /// Rainfall rate from rain sensor (in inches) per hour.
   @JsonKey(name: 'rain_rate_in_h')
-  double? get rainRateInchesPerHour => throw _privateConstructorUsedError;
+  double? get rainRateInchesPerHour;
 
   /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
   @JsonKey(name: 'pressure_hPa')
-  double? get pressureInhPa => throw _privateConstructorUsedError;
-
-  /// Serializes this Rtl433Device to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  double? get pressureInhPa;
 
   /// Create a copy of Rtl433Device
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $Rtl433DeviceCopyWith<Rtl433Device> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $Rtl433DeviceCopyWith<$Res> {
-  factory $Rtl433DeviceCopyWith(
-          Rtl433Device value, $Res Function(Rtl433Device) then) =
-      _$Rtl433DeviceCopyWithImpl<$Res, Rtl433Device>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id') Object id,
-      @JsonKey(name: 'time') String time,
-      @JsonKey(name: 'model') String model,
-      @JsonKey(name: 'mic') String? mic,
-      @JsonKey(name: 'channel') String? channel,
-      @JsonKey(name: 'subtype') String? subtype,
-      @JsonKey(name: 'battery_ok') double? batteryOk,
-      @JsonKey(name: 'battery_V') double? batteryVolts,
-      @JsonKey(name: 'temperature_C') double? temperatureCelsius,
-      @JsonKey(name: 'temperature_F') double? temperatureFahrenheit,
-      @JsonKey(name: 'setpoint_C') double? targetTemperatureCelsius,
-      @JsonKey(name: 'setpoint_F') double? targetTemperatureFahrenheit,
-      @JsonKey(name: 'humidity') double? humidity,
-      @JsonKey(name: 'moisture') double? moisture,
-      @JsonKey(name: 'wind_dir_deg') double? windAngleInDegrees,
-      @JsonKey(name: 'wind_avg_m_s') double? windStrengthInMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h') double? windStrengthInKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') double? windStrengthInMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
-      @JsonKey(name: 'light_lux') int? lightInLux,
-      @JsonKey(name: 'uv') int? uvRadiation,
-      @JsonKey(name: 'rain_mm') double? rainInMillimeters,
-      @JsonKey(name: 'rain_in') double? rainInInches,
-      @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
-      @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa') double? pressureInhPa});
-}
-
-/// @nodoc
-class _$Rtl433DeviceCopyWithImpl<$Res, $Val extends Rtl433Device>
-    implements $Rtl433DeviceCopyWith<$Res> {
-  _$Rtl433DeviceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Rtl433Device
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $Rtl433DeviceCopyWith<Rtl433Device> get copyWith =>
+      _$Rtl433DeviceCopyWithImpl<Rtl433Device>(
+          this as Rtl433Device, _$identity);
+
+  /// Serializes this Rtl433Device to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? time = null,
-    Object? model = null,
-    Object? mic = freezed,
-    Object? channel = freezed,
-    Object? subtype = freezed,
-    Object? batteryOk = freezed,
-    Object? batteryVolts = freezed,
-    Object? temperatureCelsius = freezed,
-    Object? temperatureFahrenheit = freezed,
-    Object? targetTemperatureCelsius = freezed,
-    Object? targetTemperatureFahrenheit = freezed,
-    Object? humidity = freezed,
-    Object? moisture = freezed,
-    Object? windAngleInDegrees = freezed,
-    Object? windStrengthInMeterPerSeconds = freezed,
-    Object? windStrengthInKilometerPerHour = freezed,
-    Object? windStrengthInMilesPerHour = freezed,
-    Object? gustStrengthInMeterPerSeconds = freezed,
-    Object? gustStrengthInKilometerPerHour = freezed,
-    Object? gustStrengthInMilesPerHour = freezed,
-    Object? lightInLux = freezed,
-    Object? uvRadiation = freezed,
-    Object? rainInMillimeters = freezed,
-    Object? rainInInches = freezed,
-    Object? rainRateMillimeterPerHour = freezed,
-    Object? rainRateInchesPerHour = freezed,
-    Object? pressureInhPa = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id ? _value.id : id,
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as String,
-      model: null == model
-          ? _value.model
-          : model // ignore: cast_nullable_to_non_nullable
-              as String,
-      mic: freezed == mic
-          ? _value.mic
-          : mic // ignore: cast_nullable_to_non_nullable
-              as String?,
-      channel: freezed == channel
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subtype: freezed == subtype
-          ? _value.subtype
-          : subtype // ignore: cast_nullable_to_non_nullable
-              as String?,
-      batteryOk: freezed == batteryOk
-          ? _value.batteryOk
-          : batteryOk // ignore: cast_nullable_to_non_nullable
-              as double?,
-      batteryVolts: freezed == batteryVolts
-          ? _value.batteryVolts
-          : batteryVolts // ignore: cast_nullable_to_non_nullable
-              as double?,
-      temperatureCelsius: freezed == temperatureCelsius
-          ? _value.temperatureCelsius
-          : temperatureCelsius // ignore: cast_nullable_to_non_nullable
-              as double?,
-      temperatureFahrenheit: freezed == temperatureFahrenheit
-          ? _value.temperatureFahrenheit
-          : temperatureFahrenheit // ignore: cast_nullable_to_non_nullable
-              as double?,
-      targetTemperatureCelsius: freezed == targetTemperatureCelsius
-          ? _value.targetTemperatureCelsius
-          : targetTemperatureCelsius // ignore: cast_nullable_to_non_nullable
-              as double?,
-      targetTemperatureFahrenheit: freezed == targetTemperatureFahrenheit
-          ? _value.targetTemperatureFahrenheit
-          : targetTemperatureFahrenheit // ignore: cast_nullable_to_non_nullable
-              as double?,
-      humidity: freezed == humidity
-          ? _value.humidity
-          : humidity // ignore: cast_nullable_to_non_nullable
-              as double?,
-      moisture: freezed == moisture
-          ? _value.moisture
-          : moisture // ignore: cast_nullable_to_non_nullable
-              as double?,
-      windAngleInDegrees: freezed == windAngleInDegrees
-          ? _value.windAngleInDegrees
-          : windAngleInDegrees // ignore: cast_nullable_to_non_nullable
-              as double?,
-      windStrengthInMeterPerSeconds: freezed == windStrengthInMeterPerSeconds
-          ? _value.windStrengthInMeterPerSeconds
-          : windStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
-              as double?,
-      windStrengthInKilometerPerHour: freezed == windStrengthInKilometerPerHour
-          ? _value.windStrengthInKilometerPerHour
-          : windStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      windStrengthInMilesPerHour: freezed == windStrengthInMilesPerHour
-          ? _value.windStrengthInMilesPerHour
-          : windStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      gustStrengthInMeterPerSeconds: freezed == gustStrengthInMeterPerSeconds
-          ? _value.gustStrengthInMeterPerSeconds
-          : gustStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
-              as double?,
-      gustStrengthInKilometerPerHour: freezed == gustStrengthInKilometerPerHour
-          ? _value.gustStrengthInKilometerPerHour
-          : gustStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      gustStrengthInMilesPerHour: freezed == gustStrengthInMilesPerHour
-          ? _value.gustStrengthInMilesPerHour
-          : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      lightInLux: freezed == lightInLux
-          ? _value.lightInLux
-          : lightInLux // ignore: cast_nullable_to_non_nullable
-              as int?,
-      uvRadiation: freezed == uvRadiation
-          ? _value.uvRadiation
-          : uvRadiation // ignore: cast_nullable_to_non_nullable
-              as int?,
-      rainInMillimeters: freezed == rainInMillimeters
-          ? _value.rainInMillimeters
-          : rainInMillimeters // ignore: cast_nullable_to_non_nullable
-              as double?,
-      rainInInches: freezed == rainInInches
-          ? _value.rainInInches
-          : rainInInches // ignore: cast_nullable_to_non_nullable
-              as double?,
-      rainRateMillimeterPerHour: freezed == rainRateMillimeterPerHour
-          ? _value.rainRateMillimeterPerHour
-          : rainRateMillimeterPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      rainRateInchesPerHour: freezed == rainRateInchesPerHour
-          ? _value.rainRateInchesPerHour
-          : rainRateInchesPerHour // ignore: cast_nullable_to_non_nullable
-              as double?,
-      pressureInhPa: freezed == pressureInhPa
-          ? _value.pressureInhPa
-          : pressureInhPa // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Rtl433Device &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.mic, mic) || other.mic == mic) &&
+            (identical(other.channel, channel) || other.channel == channel) &&
+            (identical(other.subtype, subtype) || other.subtype == subtype) &&
+            (identical(other.batteryOk, batteryOk) ||
+                other.batteryOk == batteryOk) &&
+            (identical(other.batteryVolts, batteryVolts) ||
+                other.batteryVolts == batteryVolts) &&
+            (identical(other.temperatureCelsius, temperatureCelsius) ||
+                other.temperatureCelsius == temperatureCelsius) &&
+            (identical(other.temperatureFahrenheit, temperatureFahrenheit) ||
+                other.temperatureFahrenheit == temperatureFahrenheit) &&
+            (identical(other.targetTemperatureCelsius, targetTemperatureCelsius) ||
+                other.targetTemperatureCelsius == targetTemperatureCelsius) &&
+            (identical(other.targetTemperatureFahrenheit, targetTemperatureFahrenheit) ||
+                other.targetTemperatureFahrenheit ==
+                    targetTemperatureFahrenheit) &&
+            (identical(other.humidity, humidity) ||
+                other.humidity == humidity) &&
+            (identical(other.moisture, moisture) ||
+                other.moisture == moisture) &&
+            (identical(other.windAngleInDegrees, windAngleInDegrees) ||
+                other.windAngleInDegrees == windAngleInDegrees) &&
+            (identical(other.windStrengthInMeterPerSeconds, windStrengthInMeterPerSeconds) ||
+                other.windStrengthInMeterPerSeconds ==
+                    windStrengthInMeterPerSeconds) &&
+            (identical(other.windStrengthInKilometerPerHour, windStrengthInKilometerPerHour) ||
+                other.windStrengthInKilometerPerHour ==
+                    windStrengthInKilometerPerHour) &&
+            (identical(other.windStrengthInMilesPerHour, windStrengthInMilesPerHour) ||
+                other.windStrengthInMilesPerHour ==
+                    windStrengthInMilesPerHour) &&
+            (identical(other.gustStrengthInMeterPerSeconds, gustStrengthInMeterPerSeconds) ||
+                other.gustStrengthInMeterPerSeconds ==
+                    gustStrengthInMeterPerSeconds) &&
+            (identical(other.gustStrengthInKilometerPerHour, gustStrengthInKilometerPerHour) ||
+                other.gustStrengthInKilometerPerHour ==
+                    gustStrengthInKilometerPerHour) &&
+            (identical(other.gustStrengthInMilesPerHour, gustStrengthInMilesPerHour) ||
+                other.gustStrengthInMilesPerHour ==
+                    gustStrengthInMilesPerHour) &&
+            (identical(other.lightInLux, lightInLux) ||
+                other.lightInLux == lightInLux) &&
+            (identical(other.uvRadiation, uvRadiation) ||
+                other.uvRadiation == uvRadiation) &&
+            (identical(other.rainInMillimeters, rainInMillimeters) ||
+                other.rainInMillimeters == rainInMillimeters) &&
+            (identical(other.rainInInches, rainInInches) ||
+                other.rainInInches == rainInInches) &&
+            (identical(other.rainRateMillimeterPerHour, rainRateMillimeterPerHour) || other.rainRateMillimeterPerHour == rainRateMillimeterPerHour) &&
+            (identical(other.rainRateInchesPerHour, rainRateInchesPerHour) || other.rainRateInchesPerHour == rainRateInchesPerHour) &&
+            (identical(other.pressureInhPa, pressureInhPa) || other.pressureInhPa == pressureInhPa));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(id),
+        time,
+        model,
+        mic,
+        channel,
+        subtype,
+        batteryOk,
+        batteryVolts,
+        temperatureCelsius,
+        temperatureFahrenheit,
+        targetTemperatureCelsius,
+        targetTemperatureFahrenheit,
+        humidity,
+        moisture,
+        windAngleInDegrees,
+        windStrengthInMeterPerSeconds,
+        windStrengthInKilometerPerHour,
+        windStrengthInMilesPerHour,
+        gustStrengthInMeterPerSeconds,
+        gustStrengthInKilometerPerHour,
+        gustStrengthInMilesPerHour,
+        lightInLux,
+        uvRadiation,
+        rainInMillimeters,
+        rainInInches,
+        rainRateMillimeterPerHour,
+        rainRateInchesPerHour,
+        pressureInhPa
+      ]);
+
+  @override
+  String toString() {
+    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, lightInLux: $lightInLux, uvRadiation: $uvRadiation, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
   }
 }
 
 /// @nodoc
-abstract class _$$Rtl433DeviceImplCopyWith<$Res>
-    implements $Rtl433DeviceCopyWith<$Res> {
-  factory _$$Rtl433DeviceImplCopyWith(
-          _$Rtl433DeviceImpl value, $Res Function(_$Rtl433DeviceImpl) then) =
-      __$$Rtl433DeviceImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $Rtl433DeviceCopyWith<$Res> {
+  factory $Rtl433DeviceCopyWith(
+          Rtl433Device value, $Res Function(Rtl433Device) _then) =
+      _$Rtl433DeviceCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') Object id,
@@ -336,12 +232,11 @@ abstract class _$$Rtl433DeviceImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$Rtl433DeviceImplCopyWithImpl<$Res>
-    extends _$Rtl433DeviceCopyWithImpl<$Res, _$Rtl433DeviceImpl>
-    implements _$$Rtl433DeviceImplCopyWith<$Res> {
-  __$$Rtl433DeviceImplCopyWithImpl(
-      _$Rtl433DeviceImpl _value, $Res Function(_$Rtl433DeviceImpl) _then)
-      : super(_value, _then);
+class _$Rtl433DeviceCopyWithImpl<$Res> implements $Rtl433DeviceCopyWith<$Res> {
+  _$Rtl433DeviceCopyWithImpl(this._self, this._then);
+
+  final Rtl433Device _self;
+  final $Res Function(Rtl433Device) _then;
 
   /// Create a copy of Rtl433Device
   /// with the given fields replaced by the non-null parameter values.
@@ -377,114 +272,114 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
     Object? rainRateInchesPerHour = freezed,
     Object? pressureInhPa = freezed,
   }) {
-    return _then(_$Rtl433DeviceImpl(
-      id: null == id ? _value.id : id,
+    return _then(_self.copyWith(
+      id: null == id ? _self.id : id,
       time: null == time
-          ? _value.time
+          ? _self.time
           : time // ignore: cast_nullable_to_non_nullable
               as String,
       model: null == model
-          ? _value.model
+          ? _self.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
       mic: freezed == mic
-          ? _value.mic
+          ? _self.mic
           : mic // ignore: cast_nullable_to_non_nullable
               as String?,
       channel: freezed == channel
-          ? _value.channel
+          ? _self.channel
           : channel // ignore: cast_nullable_to_non_nullable
               as String?,
       subtype: freezed == subtype
-          ? _value.subtype
+          ? _self.subtype
           : subtype // ignore: cast_nullable_to_non_nullable
               as String?,
       batteryOk: freezed == batteryOk
-          ? _value.batteryOk
+          ? _self.batteryOk
           : batteryOk // ignore: cast_nullable_to_non_nullable
               as double?,
       batteryVolts: freezed == batteryVolts
-          ? _value.batteryVolts
+          ? _self.batteryVolts
           : batteryVolts // ignore: cast_nullable_to_non_nullable
               as double?,
       temperatureCelsius: freezed == temperatureCelsius
-          ? _value.temperatureCelsius
+          ? _self.temperatureCelsius
           : temperatureCelsius // ignore: cast_nullable_to_non_nullable
               as double?,
       temperatureFahrenheit: freezed == temperatureFahrenheit
-          ? _value.temperatureFahrenheit
+          ? _self.temperatureFahrenheit
           : temperatureFahrenheit // ignore: cast_nullable_to_non_nullable
               as double?,
       targetTemperatureCelsius: freezed == targetTemperatureCelsius
-          ? _value.targetTemperatureCelsius
+          ? _self.targetTemperatureCelsius
           : targetTemperatureCelsius // ignore: cast_nullable_to_non_nullable
               as double?,
       targetTemperatureFahrenheit: freezed == targetTemperatureFahrenheit
-          ? _value.targetTemperatureFahrenheit
+          ? _self.targetTemperatureFahrenheit
           : targetTemperatureFahrenheit // ignore: cast_nullable_to_non_nullable
               as double?,
       humidity: freezed == humidity
-          ? _value.humidity
+          ? _self.humidity
           : humidity // ignore: cast_nullable_to_non_nullable
               as double?,
       moisture: freezed == moisture
-          ? _value.moisture
+          ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
               as double?,
       windAngleInDegrees: freezed == windAngleInDegrees
-          ? _value.windAngleInDegrees
+          ? _self.windAngleInDegrees
           : windAngleInDegrees // ignore: cast_nullable_to_non_nullable
               as double?,
       windStrengthInMeterPerSeconds: freezed == windStrengthInMeterPerSeconds
-          ? _value.windStrengthInMeterPerSeconds
+          ? _self.windStrengthInMeterPerSeconds
           : windStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
       windStrengthInKilometerPerHour: freezed == windStrengthInKilometerPerHour
-          ? _value.windStrengthInKilometerPerHour
+          ? _self.windStrengthInKilometerPerHour
           : windStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       windStrengthInMilesPerHour: freezed == windStrengthInMilesPerHour
-          ? _value.windStrengthInMilesPerHour
+          ? _self.windStrengthInMilesPerHour
           : windStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       gustStrengthInMeterPerSeconds: freezed == gustStrengthInMeterPerSeconds
-          ? _value.gustStrengthInMeterPerSeconds
+          ? _self.gustStrengthInMeterPerSeconds
           : gustStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
               as double?,
       gustStrengthInKilometerPerHour: freezed == gustStrengthInKilometerPerHour
-          ? _value.gustStrengthInKilometerPerHour
+          ? _self.gustStrengthInKilometerPerHour
           : gustStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       gustStrengthInMilesPerHour: freezed == gustStrengthInMilesPerHour
-          ? _value.gustStrengthInMilesPerHour
+          ? _self.gustStrengthInMilesPerHour
           : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       lightInLux: freezed == lightInLux
-          ? _value.lightInLux
+          ? _self.lightInLux
           : lightInLux // ignore: cast_nullable_to_non_nullable
               as int?,
       uvRadiation: freezed == uvRadiation
-          ? _value.uvRadiation
+          ? _self.uvRadiation
           : uvRadiation // ignore: cast_nullable_to_non_nullable
               as int?,
       rainInMillimeters: freezed == rainInMillimeters
-          ? _value.rainInMillimeters
+          ? _self.rainInMillimeters
           : rainInMillimeters // ignore: cast_nullable_to_non_nullable
               as double?,
       rainInInches: freezed == rainInInches
-          ? _value.rainInInches
+          ? _self.rainInInches
           : rainInInches // ignore: cast_nullable_to_non_nullable
               as double?,
       rainRateMillimeterPerHour: freezed == rainRateMillimeterPerHour
-          ? _value.rainRateMillimeterPerHour
+          ? _self.rainRateMillimeterPerHour
           : rainRateMillimeterPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       rainRateInchesPerHour: freezed == rainRateInchesPerHour
-          ? _value.rainRateInchesPerHour
+          ? _self.rainRateInchesPerHour
           : rainRateInchesPerHour // ignore: cast_nullable_to_non_nullable
               as double?,
       pressureInhPa: freezed == pressureInhPa
-          ? _value.pressureInhPa
+          ? _self.pressureInhPa
           : pressureInhPa // ignore: cast_nullable_to_non_nullable
               as double?,
     ));
@@ -493,8 +388,8 @@ class __$$Rtl433DeviceImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Rtl433DeviceImpl extends _Rtl433Device {
-  const _$Rtl433DeviceImpl(
+class _Rtl433Device extends Rtl433Device {
+  const _Rtl433Device(
       {@JsonKey(name: 'id') required this.id,
       @JsonKey(name: 'time') required this.time,
       @JsonKey(name: 'model') required this.model,
@@ -524,9 +419,8 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
       @JsonKey(name: 'rain_rate_in_h') this.rainRateInchesPerHour,
       @JsonKey(name: 'pressure_hPa') this.pressureInhPa})
       : super._();
-
-  factory _$Rtl433DeviceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Rtl433DeviceImplFromJson(json);
+  factory _Rtl433Device.fromJson(Map<String, dynamic> json) =>
+      _$Rtl433DeviceFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -623,16 +517,26 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
   @JsonKey(name: 'pressure_hPa')
   final double? pressureInhPa;
 
+  /// Create a copy of Rtl433Device
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, lightInLux: $lightInLux, uvRadiation: $uvRadiation, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$Rtl433DeviceCopyWith<_Rtl433Device> get copyWith =>
+      __$Rtl433DeviceCopyWithImpl<_Rtl433Device>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$Rtl433DeviceToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Rtl433DeviceImpl &&
+            other is _Rtl433Device &&
             const DeepCollectionEquality().equals(other.id, id) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.model, model) || other.model == model) &&
@@ -723,161 +627,205 @@ class _$Rtl433DeviceImpl extends _Rtl433Device {
         pressureInhPa
       ]);
 
-  /// Create a copy of Rtl433Device
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$Rtl433DeviceImplCopyWith<_$Rtl433DeviceImpl> get copyWith =>
-      __$$Rtl433DeviceImplCopyWithImpl<_$Rtl433DeviceImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Rtl433DeviceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Rtl433Device(id: $id, time: $time, model: $model, mic: $mic, channel: $channel, subtype: $subtype, batteryOk: $batteryOk, batteryVolts: $batteryVolts, temperatureCelsius: $temperatureCelsius, temperatureFahrenheit: $temperatureFahrenheit, targetTemperatureCelsius: $targetTemperatureCelsius, targetTemperatureFahrenheit: $targetTemperatureFahrenheit, humidity: $humidity, moisture: $moisture, windAngleInDegrees: $windAngleInDegrees, windStrengthInMeterPerSeconds: $windStrengthInMeterPerSeconds, windStrengthInKilometerPerHour: $windStrengthInKilometerPerHour, windStrengthInMilesPerHour: $windStrengthInMilesPerHour, gustStrengthInMeterPerSeconds: $gustStrengthInMeterPerSeconds, gustStrengthInKilometerPerHour: $gustStrengthInKilometerPerHour, gustStrengthInMilesPerHour: $gustStrengthInMilesPerHour, lightInLux: $lightInLux, uvRadiation: $uvRadiation, rainInMillimeters: $rainInMillimeters, rainInInches: $rainInInches, rainRateMillimeterPerHour: $rainRateMillimeterPerHour, rainRateInchesPerHour: $rainRateInchesPerHour, pressureInhPa: $pressureInhPa)';
   }
 }
 
-abstract class _Rtl433Device extends Rtl433Device {
-  const factory _Rtl433Device(
-      {@JsonKey(name: 'id') required final Object id,
-      @JsonKey(name: 'time') required final String time,
-      @JsonKey(name: 'model') required final String model,
-      @JsonKey(name: 'mic') final String? mic,
-      @JsonKey(name: 'channel') final String? channel,
-      @JsonKey(name: 'subtype') final String? subtype,
-      @JsonKey(name: 'battery_ok') final double? batteryOk,
-      @JsonKey(name: 'battery_V') final double? batteryVolts,
-      @JsonKey(name: 'temperature_C') final double? temperatureCelsius,
-      @JsonKey(name: 'temperature_F') final double? temperatureFahrenheit,
-      @JsonKey(name: 'setpoint_C') final double? targetTemperatureCelsius,
-      @JsonKey(name: 'setpoint_F') final double? targetTemperatureFahrenheit,
-      @JsonKey(name: 'humidity') final double? humidity,
-      @JsonKey(name: 'moisture') final double? moisture,
-      @JsonKey(name: 'wind_dir_deg') final double? windAngleInDegrees,
-      @JsonKey(name: 'wind_avg_m_s')
-      final double? windStrengthInMeterPerSeconds,
-      @JsonKey(name: 'wind_avg_km_h')
-      final double? windStrengthInKilometerPerHour,
-      @JsonKey(name: 'wind_avg_mi_h') final double? windStrengthInMilesPerHour,
-      @JsonKey(name: 'wind_max_m_s')
-      final double? gustStrengthInMeterPerSeconds,
-      @JsonKey(name: 'wind_max_km_h')
-      final double? gustStrengthInKilometerPerHour,
-      @JsonKey(name: 'wind_max_mi_h') final double? gustStrengthInMilesPerHour,
-      @JsonKey(name: 'light_lux') final int? lightInLux,
-      @JsonKey(name: 'uv') final int? uvRadiation,
-      @JsonKey(name: 'rain_mm') final double? rainInMillimeters,
-      @JsonKey(name: 'rain_in') final double? rainInInches,
-      @JsonKey(name: 'rain_rate_mm_h') final double? rainRateMillimeterPerHour,
-      @JsonKey(name: 'rain_rate_in_h') final double? rainRateInchesPerHour,
-      @JsonKey(name: 'pressure_hPa')
-      final double? pressureInhPa}) = _$Rtl433DeviceImpl;
-  const _Rtl433Device._() : super._();
+/// @nodoc
+abstract mixin class _$Rtl433DeviceCopyWith<$Res>
+    implements $Rtl433DeviceCopyWith<$Res> {
+  factory _$Rtl433DeviceCopyWith(
+          _Rtl433Device value, $Res Function(_Rtl433Device) _then) =
+      __$Rtl433DeviceCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') Object id,
+      @JsonKey(name: 'time') String time,
+      @JsonKey(name: 'model') String model,
+      @JsonKey(name: 'mic') String? mic,
+      @JsonKey(name: 'channel') String? channel,
+      @JsonKey(name: 'subtype') String? subtype,
+      @JsonKey(name: 'battery_ok') double? batteryOk,
+      @JsonKey(name: 'battery_V') double? batteryVolts,
+      @JsonKey(name: 'temperature_C') double? temperatureCelsius,
+      @JsonKey(name: 'temperature_F') double? temperatureFahrenheit,
+      @JsonKey(name: 'setpoint_C') double? targetTemperatureCelsius,
+      @JsonKey(name: 'setpoint_F') double? targetTemperatureFahrenheit,
+      @JsonKey(name: 'humidity') double? humidity,
+      @JsonKey(name: 'moisture') double? moisture,
+      @JsonKey(name: 'wind_dir_deg') double? windAngleInDegrees,
+      @JsonKey(name: 'wind_avg_m_s') double? windStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_avg_km_h') double? windStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_avg_mi_h') double? windStrengthInMilesPerHour,
+      @JsonKey(name: 'wind_max_m_s') double? gustStrengthInMeterPerSeconds,
+      @JsonKey(name: 'wind_max_km_h') double? gustStrengthInKilometerPerHour,
+      @JsonKey(name: 'wind_max_mi_h') double? gustStrengthInMilesPerHour,
+      @JsonKey(name: 'light_lux') int? lightInLux,
+      @JsonKey(name: 'uv') int? uvRadiation,
+      @JsonKey(name: 'rain_mm') double? rainInMillimeters,
+      @JsonKey(name: 'rain_in') double? rainInInches,
+      @JsonKey(name: 'rain_rate_mm_h') double? rainRateMillimeterPerHour,
+      @JsonKey(name: 'rain_rate_in_h') double? rainRateInchesPerHour,
+      @JsonKey(name: 'pressure_hPa') double? pressureInhPa});
+}
 
-  factory _Rtl433Device.fromJson(Map<String, dynamic> json) =
-      _$Rtl433DeviceImpl.fromJson;
+/// @nodoc
+class __$Rtl433DeviceCopyWithImpl<$Res>
+    implements _$Rtl433DeviceCopyWith<$Res> {
+  __$Rtl433DeviceCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'id')
-  Object get id;
-  @override
-  @JsonKey(name: 'time')
-  String get time;
-  @override
-  @JsonKey(name: 'model')
-  String get model;
-  @override
-  @JsonKey(name: 'mic')
-  String? get mic;
-  @override
-  @JsonKey(name: 'channel')
-  String? get channel;
-  @override
-  @JsonKey(name: 'subtype')
-  String? get subtype;
-  @override
-  @JsonKey(name: 'battery_ok')
-  double? get batteryOk;
-  @override
-  @JsonKey(name: 'battery_V')
-  double? get batteryVolts;
-  @override
-  @JsonKey(name: 'temperature_C')
-  double? get temperatureCelsius;
-  @override
-  @JsonKey(name: 'temperature_F')
-  double? get temperatureFahrenheit;
-  @override
-  @JsonKey(name: 'setpoint_C')
-  double? get targetTemperatureCelsius;
-  @override
-  @JsonKey(name: 'setpoint_F')
-  double? get targetTemperatureFahrenheit;
-  @override
-  @JsonKey(name: 'humidity')
-  double? get humidity;
-  @override
-  @JsonKey(name: 'moisture')
-  double? get moisture;
-  @override
-  @JsonKey(name: 'wind_dir_deg')
-  double? get windAngleInDegrees;
-  @override
-  @JsonKey(name: 'wind_avg_m_s')
-  double? get windStrengthInMeterPerSeconds;
-  @override
-  @JsonKey(name: 'wind_avg_km_h')
-  double? get windStrengthInKilometerPerHour;
-  @override
-  @JsonKey(name: 'wind_avg_mi_h')
-  double? get windStrengthInMilesPerHour;
-  @override
-  @JsonKey(name: 'wind_max_m_s')
-  double? get gustStrengthInMeterPerSeconds;
-  @override
-  @JsonKey(name: 'wind_max_km_h')
-  double? get gustStrengthInKilometerPerHour;
-  @override
-  @JsonKey(name: 'wind_max_mi_h')
-  double? get gustStrengthInMilesPerHour;
-  @override
-  @JsonKey(name: 'light_lux')
-  int? get lightInLux;
-  @override
-  @JsonKey(name: 'uv')
-  int? get uvRadiation;
-
-  /// Rainfall from rain sensor (in mm) since last reset. Reset method is device dependent.
-  @override
-  @JsonKey(name: 'rain_mm')
-  double? get rainInMillimeters;
-
-  /// Rainfall from rain sensor (in inches) since last reset. Reset method is device dependent.
-  @override
-  @JsonKey(name: 'rain_in')
-  double? get rainInInches;
-
-  /// Rainfall rate from rain sensor (in mm) per hour.
-  @override
-  @JsonKey(name: 'rain_rate_mm_h')
-  double? get rainRateMillimeterPerHour;
-
-  /// Rainfall rate from rain sensor (in inches) per hour.
-  @override
-  @JsonKey(name: 'rain_rate_in_h')
-  double? get rainRateInchesPerHour;
-
-  /// Air pressure from barometer or Tire Pressure Monitor in hPa (psi)
-  @override
-  @JsonKey(name: 'pressure_hPa')
-  double? get pressureInhPa;
+  final _Rtl433Device _self;
+  final $Res Function(_Rtl433Device) _then;
 
   /// Create a copy of Rtl433Device
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Rtl433DeviceImplCopyWith<_$Rtl433DeviceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? time = null,
+    Object? model = null,
+    Object? mic = freezed,
+    Object? channel = freezed,
+    Object? subtype = freezed,
+    Object? batteryOk = freezed,
+    Object? batteryVolts = freezed,
+    Object? temperatureCelsius = freezed,
+    Object? temperatureFahrenheit = freezed,
+    Object? targetTemperatureCelsius = freezed,
+    Object? targetTemperatureFahrenheit = freezed,
+    Object? humidity = freezed,
+    Object? moisture = freezed,
+    Object? windAngleInDegrees = freezed,
+    Object? windStrengthInMeterPerSeconds = freezed,
+    Object? windStrengthInKilometerPerHour = freezed,
+    Object? windStrengthInMilesPerHour = freezed,
+    Object? gustStrengthInMeterPerSeconds = freezed,
+    Object? gustStrengthInKilometerPerHour = freezed,
+    Object? gustStrengthInMilesPerHour = freezed,
+    Object? lightInLux = freezed,
+    Object? uvRadiation = freezed,
+    Object? rainInMillimeters = freezed,
+    Object? rainInInches = freezed,
+    Object? rainRateMillimeterPerHour = freezed,
+    Object? rainRateInchesPerHour = freezed,
+    Object? pressureInhPa = freezed,
+  }) {
+    return _then(_Rtl433Device(
+      id: null == id ? _self.id : id,
+      time: null == time
+          ? _self.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+      model: null == model
+          ? _self.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+      mic: freezed == mic
+          ? _self.mic
+          : mic // ignore: cast_nullable_to_non_nullable
+              as String?,
+      channel: freezed == channel
+          ? _self.channel
+          : channel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subtype: freezed == subtype
+          ? _self.subtype
+          : subtype // ignore: cast_nullable_to_non_nullable
+              as String?,
+      batteryOk: freezed == batteryOk
+          ? _self.batteryOk
+          : batteryOk // ignore: cast_nullable_to_non_nullable
+              as double?,
+      batteryVolts: freezed == batteryVolts
+          ? _self.batteryVolts
+          : batteryVolts // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperatureCelsius: freezed == temperatureCelsius
+          ? _self.temperatureCelsius
+          : temperatureCelsius // ignore: cast_nullable_to_non_nullable
+              as double?,
+      temperatureFahrenheit: freezed == temperatureFahrenheit
+          ? _self.temperatureFahrenheit
+          : temperatureFahrenheit // ignore: cast_nullable_to_non_nullable
+              as double?,
+      targetTemperatureCelsius: freezed == targetTemperatureCelsius
+          ? _self.targetTemperatureCelsius
+          : targetTemperatureCelsius // ignore: cast_nullable_to_non_nullable
+              as double?,
+      targetTemperatureFahrenheit: freezed == targetTemperatureFahrenheit
+          ? _self.targetTemperatureFahrenheit
+          : targetTemperatureFahrenheit // ignore: cast_nullable_to_non_nullable
+              as double?,
+      humidity: freezed == humidity
+          ? _self.humidity
+          : humidity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      moisture: freezed == moisture
+          ? _self.moisture
+          : moisture // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windAngleInDegrees: freezed == windAngleInDegrees
+          ? _self.windAngleInDegrees
+          : windAngleInDegrees // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windStrengthInMeterPerSeconds: freezed == windStrengthInMeterPerSeconds
+          ? _self.windStrengthInMeterPerSeconds
+          : windStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windStrengthInKilometerPerHour: freezed == windStrengthInKilometerPerHour
+          ? _self.windStrengthInKilometerPerHour
+          : windStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      windStrengthInMilesPerHour: freezed == windStrengthInMilesPerHour
+          ? _self.windStrengthInMilesPerHour
+          : windStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gustStrengthInMeterPerSeconds: freezed == gustStrengthInMeterPerSeconds
+          ? _self.gustStrengthInMeterPerSeconds
+          : gustStrengthInMeterPerSeconds // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gustStrengthInKilometerPerHour: freezed == gustStrengthInKilometerPerHour
+          ? _self.gustStrengthInKilometerPerHour
+          : gustStrengthInKilometerPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gustStrengthInMilesPerHour: freezed == gustStrengthInMilesPerHour
+          ? _self.gustStrengthInMilesPerHour
+          : gustStrengthInMilesPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lightInLux: freezed == lightInLux
+          ? _self.lightInLux
+          : lightInLux // ignore: cast_nullable_to_non_nullable
+              as int?,
+      uvRadiation: freezed == uvRadiation
+          ? _self.uvRadiation
+          : uvRadiation // ignore: cast_nullable_to_non_nullable
+              as int?,
+      rainInMillimeters: freezed == rainInMillimeters
+          ? _self.rainInMillimeters
+          : rainInMillimeters // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainInInches: freezed == rainInInches
+          ? _self.rainInInches
+          : rainInInches // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainRateMillimeterPerHour: freezed == rainRateMillimeterPerHour
+          ? _self.rainRateMillimeterPerHour
+          : rainRateMillimeterPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rainRateInchesPerHour: freezed == rainRateInchesPerHour
+          ? _self.rainRateInchesPerHour
+          : rainRateInchesPerHour // ignore: cast_nullable_to_non_nullable
+              as double?,
+      pressureInhPa: freezed == pressureInhPa
+          ? _self.pressureInhPa
+          : pressureInhPa // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
 }
+
+// dart format on

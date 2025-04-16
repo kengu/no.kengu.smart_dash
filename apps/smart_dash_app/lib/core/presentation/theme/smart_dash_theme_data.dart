@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/setting/application/setting_service.dart';
@@ -96,7 +97,7 @@ class SmartDashAppThemeController extends _$SmartDashAppThemeController {
 }
 
 @riverpod
-SettingMap themeChanged(ThemeChangedRef ref) {
+SettingMap themeChanged(Ref ref) {
   final settings = Map.fromEntries(
     ref.watch(settingServiceProvider).settings.entries.where(
           (e) => SettingType.darkMode == e.key,

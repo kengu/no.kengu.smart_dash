@@ -22,10 +22,6 @@ endif
 .SILENT: \
 	build clean-build drift-info drift-export drift-migration drift-generate-tests test
 
-build:
-	echo "Watch for buildable changes..."
-	dart run build_runner watch --delete-conflicting-outputs
-
 drift-info:
 	echo "Analyzing Drift"
 	dart run drift_dev analyze
@@ -51,12 +47,20 @@ drift-generate-tests:
 		lib/src/account/data/drift/schemas/ \
 		test/account/data/drift/
 
+build:
+	echo "Run code generation..."
+	dart run build_runner build --delete-conflicting-outputs
+
+watch:
+	echo "Watch for buildable changes..."
+	dart run build_runner watch --delete-conflicting-outputs
+
 clean-build:
 	echo "Clean generated build..."
-	dart pub run build_runner clean
+	dart run build_runner clean
 
 test:
-	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	@if [ -d test ] && ls test/* > /dev/null 2>&1; then \
 	  echo "Running tests in $(pwd)"; \
 	  flutter test; \
 	else \

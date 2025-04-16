@@ -52,6 +52,6 @@ class MqttDriverService
 }
 
 @Riverpod(keepAlive: true)
-MqttDriverService mqttService(MqttServiceRef ref) {
+MqttDriverService mqttService(Ref ref) {
   return MqttDriverService(ref);
 }

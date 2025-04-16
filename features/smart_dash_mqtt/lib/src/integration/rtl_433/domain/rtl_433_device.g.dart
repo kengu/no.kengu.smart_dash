@@ -6,8 +6,8 @@ part of 'rtl_433_device.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$Rtl433DeviceImpl _$$Rtl433DeviceImplFromJson(Map<String, dynamic> json) =>
-    _$Rtl433DeviceImpl(
+_Rtl433Device _$Rtl433DeviceFromJson(Map<String, dynamic> json) =>
+    _Rtl433Device(
       id: json['id'] as Object,
       time: json['time'] as String,
       model: json['model'] as String,
@@ -40,7 +40,7 @@ _$Rtl433DeviceImpl _$$Rtl433DeviceImplFromJson(Map<String, dynamic> json) =>
       pressureInhPa: (json['pressure_hPa'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$Rtl433DeviceImplToJson(_$Rtl433DeviceImpl instance) =>
+Map<String, dynamic> _$Rtl433DeviceToJson(_Rtl433Device instance) =>
     <String, dynamic>{
       'id': instance.id,
       'time': instance.time,

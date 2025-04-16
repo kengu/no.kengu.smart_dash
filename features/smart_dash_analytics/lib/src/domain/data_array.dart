@@ -10,7 +10,7 @@ part 'data_array.g.dart';
 /// length equal to [coords] length. Use [isValid]
 /// to test if all lengths are equal.
 @freezed
-class DataArray with _$DataArray {
+sealed class DataArray with _$DataArray {
   const DataArray._();
   const factory DataArray(
     /// Get the array's data (organized in

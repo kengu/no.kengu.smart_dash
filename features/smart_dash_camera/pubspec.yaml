@@ -29,20 +29,18 @@ dependencies:
 
   stream_transform: ^2.1.0
 
-  riverpod: ^3.0.0-dev.3
-
+  riverpod: ^2.6.1
   json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.1
-  riverpod_annotation: ^3.0.0-dev.3
-
+  freezed_annotation: ^3.0.0
+  riverpod_annotation: ^2.6.1
 
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.25.8
 
-  freezed: ^2.5.2
+  freezed: ^3.0.6
   build_runner: ^2.4.9
   json_serializable: ^6.7.1
-  riverpod_lint: ^3.0.0-dev.4
-  riverpod_generator: ^3.0.0-dev.11
+  riverpod_lint: ^2.6.5
+  riverpod_generator: ^2.6.5
 

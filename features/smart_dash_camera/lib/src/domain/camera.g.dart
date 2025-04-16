@@ -6,7 +6,7 @@ part of 'camera.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CameraImpl _$$CameraImplFromJson(Map<String, dynamic> json) => _$CameraImpl(
+_Camera _$CameraFromJson(Map<String, dynamic> json) => _Camera(
       name: json['name'] as String,
       service: json['service'] as String,
       motion: json['motion'] == null
@@ -14,23 +14,20 @@ _$CameraImpl _$$CameraImplFromJson(Map<String, dynamic> json) => _$CameraImpl(
           : MotionDetectConfig.fromJson(json['motion'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$CameraImplToJson(_$CameraImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CameraToJson(_Camera instance) => <String, dynamic>{
       'name': instance.name,
       'service': instance.service,
       'motion': instance.motion?.toJson(),
     };
 
-_$MotionDetectConfigImpl _$$MotionDetectConfigImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MotionDetectConfigImpl(
+_MotionDetectConfig _$MotionDetectConfigFromJson(Map<String, dynamic> json) =>
+    _MotionDetectConfig(
       enabled: json['enabled'] as bool,
       sensitivity: $enumDecode(
           _$MotionDetectSensitivityLevelEnumMap, json['sensitivity']),
     );
 
-Map<String, dynamic> _$$MotionDetectConfigImplToJson(
-        _$MotionDetectConfigImpl instance) =>
+Map<String, dynamic> _$MotionDetectConfigToJson(_MotionDetectConfig instance) =>
     <String, dynamic>{
       'enabled': instance.enabled,
       'sensitivity':

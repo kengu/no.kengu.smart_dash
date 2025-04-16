@@ -28,10 +28,6 @@ dependencies:
   nanoid: ^1.0.0
   logging: ^1.2.0
   optional: ^6.1.0+1
-  riverpod: ^3.0.0-dev.3
-  json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.4
-  riverpod_annotation: ^3.0.0-dev.3
 
   drift: ^2.21.0
   drift_dev: ^2.21.2
@@ -39,14 +35,19 @@ dependencies:
   sqlite3: ^2.4.7
   sqlite3_flutter_libs: ^0.5.26
 
+  riverpod: ^2.6.1
+  json_annotation: ^4.9.0
+  freezed_annotation: ^3.0.0
+  riverpod_annotation: ^2.6.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
 
-  freezed: ^2.5.7
-  mockito: ^5.4.4
-  build_runner: ^2.4.13
-  riverpod_lint: ^3.0.0-dev.4
-  riverpod_generator: ^3.0.0-dev.11
+  freezed: ^3.0.0
+  mockito: ^5.4.5
+  build_runner: ^2.4.15
   json_serializable: ^6.8.0
+  riverpod_lint: ^2.6.5
+  riverpod_generator: ^2.6.5

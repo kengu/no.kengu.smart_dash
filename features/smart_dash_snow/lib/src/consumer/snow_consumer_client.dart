@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
@@ -25,8 +26,7 @@ class SnowConsumerClient extends QueryClient<String, SnowState> {
 }
 
 @Riverpod(keepAlive: true)
-SnowConsumerClient snowConsumerClient(
-    SnowConsumerClientRef ref, String baseUrl) {
+SnowConsumerClient snowConsumerClient(Ref ref, String baseUrl) {
   return SnowConsumerClient(
     Dio(BaseOptions(headers: {}, baseUrl: baseUrl))
       // Process json in the background

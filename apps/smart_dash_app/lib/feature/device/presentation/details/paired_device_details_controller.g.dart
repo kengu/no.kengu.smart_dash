@@ -45,23 +45,10 @@ const pairedDeviceDetailsScreenControllerProvider =
     PairedDeviceDetailsScreenControllerFamily();
 
 /// See also [PairedDeviceDetailsScreenController].
-class PairedDeviceDetailsScreenControllerFamily extends Family {
+class PairedDeviceDetailsScreenControllerFamily
+    extends Family<AsyncValue<Optional<Device>>> {
   /// See also [PairedDeviceDetailsScreenController].
   const PairedDeviceDetailsScreenControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'pairedDeviceDetailsScreenControllerProvider';
 
   /// See also [PairedDeviceDetailsScreenController].
   PairedDeviceDetailsScreenControllerProvider call(
@@ -72,7 +59,6 @@ class PairedDeviceDetailsScreenControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   PairedDeviceDetailsScreenControllerProvider getProviderOverride(
     covariant PairedDeviceDetailsScreenControllerProvider provider,
@@ -82,28 +68,19 @@ class PairedDeviceDetailsScreenControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(PairedDeviceDetailsScreenController Function() create) {
-    return _$PairedDeviceDetailsScreenControllerFamilyOverride(this, create);
-  }
-}
-
-class _$PairedDeviceDetailsScreenControllerFamilyOverride
-    implements FamilyOverride {
-  _$PairedDeviceDetailsScreenControllerFamilyOverride(
-      this.overriddenFamily, this.create);
-
-  final PairedDeviceDetailsScreenController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final PairedDeviceDetailsScreenControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  PairedDeviceDetailsScreenControllerProvider getProviderOverride(
-    covariant PairedDeviceDetailsScreenControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'pairedDeviceDetailsScreenControllerProvider';
 }
 
 /// See also [PairedDeviceDetailsScreenController].
@@ -128,7 +105,7 @@ class PairedDeviceDetailsScreenControllerProvider
         );
 
   PairedDeviceDetailsScreenControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -165,28 +142,9 @@ class PairedDeviceDetailsScreenControllerProvider
   }
 
   @override
-  (PairedDeviceDetailsQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<PairedDeviceDetailsScreenController,
       Optional<Device>> createElement() {
     return _PairedDeviceDetailsScreenControllerProviderElement(this);
-  }
-
-  PairedDeviceDetailsScreenControllerProvider _copyWith(
-    PairedDeviceDetailsScreenController Function() create,
-  ) {
-    return PairedDeviceDetailsScreenControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -204,6 +162,8 @@ class PairedDeviceDetailsScreenControllerProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin PairedDeviceDetailsScreenControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<Device>> {
   /// The parameter `query` of this provider.
@@ -221,4 +181,4 @@ class _PairedDeviceDetailsScreenControllerProviderElement
       (origin as PairedDeviceDetailsScreenControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

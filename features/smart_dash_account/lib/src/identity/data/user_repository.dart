@@ -1,3 +1,4 @@
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account.dart';
 
@@ -9,6 +10,6 @@ class UserRepository {
 }
 
 @Riverpod(keepAlive: true)
-UserRepository userRepository(UserRepositoryRef ref) {
+UserRepository userRepository(Ref ref) {
   return UserRepository();
 }

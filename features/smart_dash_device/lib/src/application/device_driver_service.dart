@@ -193,6 +193,6 @@ class DeviceDriverService extends DriverService<Device, DriverDataEvent<Device>,
 }
 
 @Riverpod(keepAlive: true)
-DeviceDriverService deviceService(DeviceServiceRef ref) {
+DeviceDriverService deviceService(Ref ref) {
   return DeviceDriverService(ref);
 }

@@ -6,8 +6,7 @@ part of 'snow_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SnowStateImpl _$$SnowStateImplFromJson(Map<String, dynamic> json) =>
-    _$SnowStateImpl(
+_SnowState _$SnowStateFromJson(Map<String, dynamic> json) => _SnowState(
       location: json['location'] as String,
       depth: (json['depth'] as num).toInt(),
       elevation: (json['elevation'] as num).toInt(),
@@ -17,7 +16,7 @@ _$SnowStateImpl _$$SnowStateImplFromJson(Map<String, dynamic> json) =>
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
     );
 
-Map<String, dynamic> _$$SnowStateImplToJson(_$SnowStateImpl instance) =>
+Map<String, dynamic> _$SnowStateToJson(_SnowState instance) =>
     <String, dynamic>{
       'location': instance.location,
       'depth': instance.depth,

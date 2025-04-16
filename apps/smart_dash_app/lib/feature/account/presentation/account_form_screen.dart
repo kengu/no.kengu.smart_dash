@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart' hide ProgressIndicator;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -107,11 +106,8 @@ class _CurrentHomeSetup extends ConsumerWidget {
           array.isNotNull,
           'An account requires at least one home, found none',
         );
-        final homes = array.value!
-            .whereNotNull()
-            .map(Home.fromJson)
-            .map((e) => e.id)
-            .toList();
+        final homes =
+            array.value!.nonNulls.map(Home.fromJson).map((e) => e.id).toList();
         final current = currentHome.value;
         final index = homes.indexOf(current.id);
         assert(

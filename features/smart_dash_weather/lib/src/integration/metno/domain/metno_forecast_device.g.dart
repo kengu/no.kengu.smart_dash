@@ -6,14 +6,13 @@ part of 'metno_forecast_device.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MetNoForecastDeviceImpl _$$MetNoForecastDeviceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MetNoForecastDeviceImpl(
+_MetNoForecastDevice _$MetNoForecastDeviceFromJson(Map<String, dynamic> json) =>
+    _MetNoForecastDevice(
       state: WeatherState.fromJson(json['state'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MetNoForecastDeviceImplToJson(
-        _$MetNoForecastDeviceImpl instance) =>
+Map<String, dynamic> _$MetNoForecastDeviceToJson(
+        _MetNoForecastDevice instance) =>
     <String, dynamic>{
       'state': instance.state.toJson(),
     };

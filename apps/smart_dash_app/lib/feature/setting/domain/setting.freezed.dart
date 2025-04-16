@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,119 +10,29 @@ part of 'setting.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Setting _$SettingFromJson(Map<String, dynamic> json) {
-  return _Setting.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Setting {
-  String get name => throw _privateConstructorUsedError;
-  Object get value => throw _privateConstructorUsedError;
-
-  /// Serializes this Setting to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get name;
+  Object get value;
 
   /// Create a copy of Setting
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SettingCopyWith<Setting> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SettingCopyWith<$Res> {
-  factory $SettingCopyWith(Setting value, $Res Function(Setting) then) =
-      _$SettingCopyWithImpl<$Res, Setting>;
-  @useResult
-  $Res call({String name, Object value});
-}
-
-/// @nodoc
-class _$SettingCopyWithImpl<$Res, $Val extends Setting>
-    implements $SettingCopyWith<$Res> {
-  _$SettingCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Setting
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-    ) as $Val);
-  }
-}
+  $SettingCopyWith<Setting> get copyWith =>
+      _$SettingCopyWithImpl<Setting>(this as Setting, _$identity);
 
-/// @nodoc
-abstract class _$$SettingImplCopyWith<$Res> implements $SettingCopyWith<$Res> {
-  factory _$$SettingImplCopyWith(
-          _$SettingImpl value, $Res Function(_$SettingImpl) then) =
-      __$$SettingImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String name, Object value});
-}
-
-/// @nodoc
-class __$$SettingImplCopyWithImpl<$Res>
-    extends _$SettingCopyWithImpl<$Res, _$SettingImpl>
-    implements _$$SettingImplCopyWith<$Res> {
-  __$$SettingImplCopyWithImpl(
-      _$SettingImpl _value, $Res Function(_$SettingImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Setting
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? value = null,
-  }) {
-    return _then(_$SettingImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$SettingImpl extends _Setting {
-  const _$SettingImpl({required this.name, required this.value}) : super._();
-
-  factory _$SettingImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SettingImplFromJson(json);
-
-  @override
-  final String name;
-  @override
-  final Object value;
+  /// Serializes this Setting to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SettingImpl &&
+            other is Setting &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other.value, value));
   }
@@ -130,40 +41,115 @@ class _$SettingImpl extends _Setting {
   @override
   int get hashCode => Object.hash(
       runtimeType, name, const DeepCollectionEquality().hash(value));
+}
+
+/// @nodoc
+abstract mixin class $SettingCopyWith<$Res> {
+  factory $SettingCopyWith(Setting value, $Res Function(Setting) _then) =
+      _$SettingCopyWithImpl;
+  @useResult
+  $Res call({String name, Object value});
+}
+
+/// @nodoc
+class _$SettingCopyWithImpl<$Res> implements $SettingCopyWith<$Res> {
+  _$SettingCopyWithImpl(this._self, this._then);
+
+  final Setting _self;
+  final $Res Function(Setting) _then;
 
   /// Create a copy of Setting
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$SettingImplCopyWith<_$SettingImpl> get copyWith =>
-      __$$SettingImplCopyWithImpl<_$SettingImpl>(this, _$identity);
-
   @override
-  Map<String, dynamic> toJson() {
-    return _$$SettingImplToJson(
-      this,
-    );
+  $Res call({
+    Object? name = null,
+    Object? value = null,
+  }) {
+    return _then(_self.copyWith(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _self.value : value,
+    ));
   }
 }
 
-abstract class _Setting extends Setting {
-  const factory _Setting(
-      {required final String name,
-      required final Object value}) = _$SettingImpl;
-  const _Setting._() : super._();
-
-  factory _Setting.fromJson(Map<String, dynamic> json) = _$SettingImpl.fromJson;
+/// @nodoc
+@JsonSerializable()
+class _Setting extends Setting {
+  const _Setting({required this.name, required this.value}) : super._();
+  factory _Setting.fromJson(Map<String, dynamic> json) =>
+      _$SettingFromJson(json);
 
   @override
-  String get name;
+  final String name;
   @override
-  Object get value;
+  final Object value;
 
   /// Create a copy of Setting
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SettingImplCopyWith<_$SettingImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$SettingCopyWith<_Setting> get copyWith =>
+      __$SettingCopyWithImpl<_Setting>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SettingToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Setting &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.value, value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, name, const DeepCollectionEquality().hash(value));
 }
+
+/// @nodoc
+abstract mixin class _$SettingCopyWith<$Res> implements $SettingCopyWith<$Res> {
+  factory _$SettingCopyWith(_Setting value, $Res Function(_Setting) _then) =
+      __$SettingCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String name, Object value});
+}
+
+/// @nodoc
+class __$SettingCopyWithImpl<$Res> implements _$SettingCopyWith<$Res> {
+  __$SettingCopyWithImpl(this._self, this._then);
+
+  final _Setting _self;
+  final $Res Function(_Setting) _then;
+
+  /// Create a copy of Setting
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? value = null,
+  }) {
+    return _then(_Setting(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _self.value : value,
+    ));
+  }
+}
+
+// dart format on

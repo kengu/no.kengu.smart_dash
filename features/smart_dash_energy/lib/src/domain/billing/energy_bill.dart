@@ -6,7 +6,7 @@ part 'energy_bill.freezed.dart';
 part 'energy_bill.g.dart';
 
 @freezed
-class EnergyBillMonth with _$EnergyBillMonth {
+sealed class EnergyBillMonth with _$EnergyBillMonth {
   const EnergyBillMonth._();
   const factory EnergyBillMonth({
     required DateTime begin,
@@ -46,7 +46,7 @@ class EnergyBillMonth with _$EnergyBillMonth {
 }
 
 @freezed
-class EnergyBillDay with _$EnergyBillDay {
+sealed class EnergyBillDay with _$EnergyBillDay {
   const EnergyBillDay._();
   const factory EnergyBillDay({
     required DateTime begin,
@@ -103,7 +103,7 @@ class EnergyBillDay with _$EnergyBillDay {
 }
 
 @freezed
-class EnergyBillHour with _$EnergyBillHour {
+sealed class EnergyBillHour with _$EnergyBillHour {
   const EnergyBillHour._();
   const factory EnergyBillHour({
     required int vat,

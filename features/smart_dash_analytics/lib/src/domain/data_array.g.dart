@@ -6,8 +6,7 @@ part of 'data_array.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DataArrayImpl _$$DataArrayImplFromJson(Map<String, dynamic> json) =>
-    _$DataArrayImpl(
+_DataArray _$DataArrayFromJson(Map<String, dynamic> json) => _DataArray(
       (json['data'] as List<dynamic>)
           .map((e) => (e as List<dynamic>).map((e) => e as num).toList())
           .toList(),
@@ -19,7 +18,7 @@ _$DataArrayImpl _$$DataArrayImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$DataArrayImplToJson(_$DataArrayImpl instance) =>
+Map<String, dynamic> _$DataArrayToJson(_DataArray instance) =>
     <String, dynamic>{
       'data': instance.data,
       'coords': instance.coords,

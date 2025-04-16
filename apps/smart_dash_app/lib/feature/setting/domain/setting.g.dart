@@ -6,14 +6,12 @@ part of 'setting.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SettingImpl _$$SettingImplFromJson(Map<String, dynamic> json) =>
-    _$SettingImpl(
+_Setting _$SettingFromJson(Map<String, dynamic> json) => _Setting(
       name: json['name'] as String,
       value: json['value'] as Object,
     );
 
-Map<String, dynamic> _$$SettingImplToJson(_$SettingImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SettingToJson(_Setting instance) => <String, dynamic>{
       'name': instance.name,
       'value': instance.value,
     };

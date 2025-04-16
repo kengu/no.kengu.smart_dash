@@ -221,7 +221,7 @@ void main() {
         (args) => (args.positionalArguments.first as Account).userId,
       );
       final ref = ProviderContainer(overrides: [
-        backendAccountRepositoryProvider.overrideWith(
+        backendAccountRepositoryProvider(dbPath).overrideWith(
           (_) => mockRepo,
         ),
       ]);

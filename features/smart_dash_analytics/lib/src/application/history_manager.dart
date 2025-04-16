@@ -285,10 +285,10 @@ class HistoryEvent {
 }
 
 @Riverpod(keepAlive: true)
-HistoryManager historyManager(HistoryManagerRef ref) => HistoryManager(ref);
+HistoryManager historyManager(Ref ref) => HistoryManager(ref);
 
 @Riverpod(keepAlive: true)
-Stream<HistoryEvent> history(HistoryRef ref, [Token? token]) {
+Stream<HistoryEvent> history(Ref ref, [Token? token]) {
   final manager = ref.watch(historyManagerProvider);
   manager.pump(tokens: [if (token != null) token]);
   return manager.events.where(

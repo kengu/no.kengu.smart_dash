@@ -39,6 +39,5 @@ class ElectricityPriceService {
 }
 
 @Riverpod(keepAlive: true)
-ElectricityPriceService electricityPriceService(
-        ElectricityPriceServiceRef ref) =>
+ElectricityPriceService electricityPriceService(Ref ref) =>
     ElectricityPriceService(ref);

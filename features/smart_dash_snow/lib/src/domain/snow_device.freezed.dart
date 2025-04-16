@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,159 +10,31 @@ part of 'snow_device.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-SnowDevice _$SnowDeviceFromJson(Map<String, dynamic> json) {
-  return _SnowDevice.fromJson(json);
-}
 
 /// @nodoc
 mixin _$SnowDevice {
   @JsonKey(name: 'state')
-  SnowState get state => throw _privateConstructorUsedError;
+  SnowState get state;
   @JsonKey(name: 'service')
-  String get service => throw _privateConstructorUsedError;
-
-  /// Serializes this SnowDevice to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get service;
 
   /// Create a copy of SnowDevice
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $SnowDeviceCopyWith<SnowDevice> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$SnowDeviceCopyWithImpl<SnowDevice>(this as SnowDevice, _$identity);
 
-/// @nodoc
-abstract class $SnowDeviceCopyWith<$Res> {
-  factory $SnowDeviceCopyWith(
-          SnowDevice value, $Res Function(SnowDevice) then) =
-      _$SnowDeviceCopyWithImpl<$Res, SnowDevice>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'state') SnowState state,
-      @JsonKey(name: 'service') String service});
-
-  $SnowStateCopyWith<$Res> get state;
-}
-
-/// @nodoc
-class _$SnowDeviceCopyWithImpl<$Res, $Val extends SnowDevice>
-    implements $SnowDeviceCopyWith<$Res> {
-  _$SnowDeviceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SnowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? state = null,
-    Object? service = null,
-  }) {
-    return _then(_value.copyWith(
-      state: null == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as SnowState,
-      service: null == service
-          ? _value.service
-          : service // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-
-  /// Create a copy of SnowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $SnowStateCopyWith<$Res> get state {
-    return $SnowStateCopyWith<$Res>(_value.state, (value) {
-      return _then(_value.copyWith(state: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$SnowDeviceImplCopyWith<$Res>
-    implements $SnowDeviceCopyWith<$Res> {
-  factory _$$SnowDeviceImplCopyWith(
-          _$SnowDeviceImpl value, $Res Function(_$SnowDeviceImpl) then) =
-      __$$SnowDeviceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'state') SnowState state,
-      @JsonKey(name: 'service') String service});
-
-  @override
-  $SnowStateCopyWith<$Res> get state;
-}
-
-/// @nodoc
-class __$$SnowDeviceImplCopyWithImpl<$Res>
-    extends _$SnowDeviceCopyWithImpl<$Res, _$SnowDeviceImpl>
-    implements _$$SnowDeviceImplCopyWith<$Res> {
-  __$$SnowDeviceImplCopyWithImpl(
-      _$SnowDeviceImpl _value, $Res Function(_$SnowDeviceImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of SnowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? state = null,
-    Object? service = null,
-  }) {
-    return _then(_$SnowDeviceImpl(
-      state: null == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as SnowState,
-      service: null == service
-          ? _value.service
-          : service // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$SnowDeviceImpl extends _SnowDevice {
-  const _$SnowDeviceImpl(
-      {@JsonKey(name: 'state') required this.state,
-      @JsonKey(name: 'service') required this.service})
-      : super._();
-
-  factory _$SnowDeviceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SnowDeviceImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'state')
-  final SnowState state;
-  @override
-  @JsonKey(name: 'service')
-  final String service;
-
-  @override
-  String toString() {
-    return 'SnowDevice(state: $state, service: $service)';
-  }
+  /// Serializes this SnowDevice to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SnowDeviceImpl &&
+            other is SnowDevice &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.service, service) || other.service == service));
   }
@@ -170,43 +43,166 @@ class _$SnowDeviceImpl extends _SnowDevice {
   @override
   int get hashCode => Object.hash(runtimeType, state, service);
 
-  /// Create a copy of SnowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SnowDeviceImplCopyWith<_$SnowDeviceImpl> get copyWith =>
-      __$$SnowDeviceImplCopyWithImpl<_$SnowDeviceImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SnowDeviceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'SnowDevice(state: $state, service: $service)';
   }
 }
 
-abstract class _SnowDevice extends SnowDevice {
-  const factory _SnowDevice(
-          {@JsonKey(name: 'state') required final SnowState state,
-          @JsonKey(name: 'service') required final String service}) =
-      _$SnowDeviceImpl;
-  const _SnowDevice._() : super._();
+/// @nodoc
+abstract mixin class $SnowDeviceCopyWith<$Res> {
+  factory $SnowDeviceCopyWith(
+          SnowDevice value, $Res Function(SnowDevice) _then) =
+      _$SnowDeviceCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'state') SnowState state,
+      @JsonKey(name: 'service') String service});
 
-  factory _SnowDevice.fromJson(Map<String, dynamic> json) =
-      _$SnowDeviceImpl.fromJson;
+  $SnowStateCopyWith<$Res> get state;
+}
+
+/// @nodoc
+class _$SnowDeviceCopyWithImpl<$Res> implements $SnowDeviceCopyWith<$Res> {
+  _$SnowDeviceCopyWithImpl(this._self, this._then);
+
+  final SnowDevice _self;
+  final $Res Function(SnowDevice) _then;
+
+  /// Create a copy of SnowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? state = null,
+    Object? service = null,
+  }) {
+    return _then(_self.copyWith(
+      state: null == state
+          ? _self.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as SnowState,
+      service: null == service
+          ? _self.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+
+  /// Create a copy of SnowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SnowStateCopyWith<$Res> get state {
+    return $SnowStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SnowDevice extends SnowDevice {
+  const _SnowDevice(
+      {@JsonKey(name: 'state') required this.state,
+      @JsonKey(name: 'service') required this.service})
+      : super._();
+  factory _SnowDevice.fromJson(Map<String, dynamic> json) =>
+      _$SnowDeviceFromJson(json);
 
   @override
   @JsonKey(name: 'state')
-  SnowState get state;
+  final SnowState state;
   @override
   @JsonKey(name: 'service')
-  String get service;
+  final String service;
 
   /// Create a copy of SnowDevice
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SnowDeviceImplCopyWith<_$SnowDeviceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$SnowDeviceCopyWith<_SnowDevice> get copyWith =>
+      __$SnowDeviceCopyWithImpl<_SnowDevice>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SnowDeviceToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SnowDevice &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.service, service) || other.service == service));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, state, service);
+
+  @override
+  String toString() {
+    return 'SnowDevice(state: $state, service: $service)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$SnowDeviceCopyWith<$Res>
+    implements $SnowDeviceCopyWith<$Res> {
+  factory _$SnowDeviceCopyWith(
+          _SnowDevice value, $Res Function(_SnowDevice) _then) =
+      __$SnowDeviceCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'state') SnowState state,
+      @JsonKey(name: 'service') String service});
+
+  @override
+  $SnowStateCopyWith<$Res> get state;
+}
+
+/// @nodoc
+class __$SnowDeviceCopyWithImpl<$Res> implements _$SnowDeviceCopyWith<$Res> {
+  __$SnowDeviceCopyWithImpl(this._self, this._then);
+
+  final _SnowDevice _self;
+  final $Res Function(_SnowDevice) _then;
+
+  /// Create a copy of SnowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? state = null,
+    Object? service = null,
+  }) {
+    return _then(_SnowDevice(
+      state: null == state
+          ? _self.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as SnowState,
+      service: null == service
+          ? _self.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+
+  /// Create a copy of SnowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SnowStateCopyWith<$Res> get state {
+    return $SnowStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
+    });
+  }
+}
+
+// dart format on

@@ -257,6 +257,6 @@ class WeatherDriverService extends DriverService<WeatherState, WeatherEvent,
 }
 
 @Riverpod(keepAlive: true)
-WeatherDriverService weatherService(WeatherServiceRef ref) {
+WeatherDriverService weatherService(Ref ref) {
   return WeatherDriverService(ref);
 }

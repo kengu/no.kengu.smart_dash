@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -8,7 +7,7 @@ part 'service_config.freezed.dart';
 part 'service_config.g.dart';
 
 @freezed
-class ServiceConfig with _$ServiceConfig {
+sealed class ServiceConfig with _$ServiceConfig {
   const ServiceConfig._();
   const factory ServiceConfig({
     required String key,
@@ -51,7 +50,7 @@ class ServiceConfig with _$ServiceConfig {
   }
 
   static String toUniqueIdFromParts(Object? key, Object? id) {
-    return [key, id].whereNotNull().join(':');
+    return [key, id].nonNulls.join(':');
   }
 
   static String toBasicAuth(String username, String password) =>

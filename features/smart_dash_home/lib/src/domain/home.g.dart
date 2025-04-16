@@ -6,7 +6,7 @@ part of 'home.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
+_Home _$HomeFromJson(Map<String, dynamic> json) => _Home(
       id: json['id'] as String,
       name: json['name'] as String,
       members: (json['members'] as List<dynamic>)
@@ -19,8 +19,7 @@ _$HomeImpl _$$HomeImplFromJson(Map<String, dynamic> json) => _$HomeImpl(
       baseUrl: json['baseUrl'] as String?,
     );
 
-Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$HomeToJson(_Home instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'members': instance.members.map((e) => e.toJson()).toList(),
@@ -29,25 +28,23 @@ Map<String, dynamic> _$$HomeImplToJson(_$HomeImpl instance) =>
       'baseUrl': instance.baseUrl,
     };
 
-_$CurrentHomeImpl _$$CurrentHomeImplFromJson(Map<String, dynamic> json) =>
-    _$CurrentHomeImpl(
+_CurrentHome _$CurrentHomeFromJson(Map<String, dynamic> json) => _CurrentHome(
       homeId: json['homeId'] as String,
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$$CurrentHomeImplToJson(_$CurrentHomeImpl instance) =>
+Map<String, dynamic> _$CurrentHomeToJson(_CurrentHome instance) =>
     <String, dynamic>{
       'homeId': instance.homeId,
       'userId': instance.userId,
     };
 
-_$HomeMemberImpl _$$HomeMemberImplFromJson(Map<String, dynamic> json) =>
-    _$HomeMemberImpl(
+_HomeMember _$HomeMemberFromJson(Map<String, dynamic> json) => _HomeMember(
       key: json['key'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$HomeMemberImplToJson(_$HomeMemberImpl instance) =>
+Map<String, dynamic> _$HomeMemberToJson(_HomeMember instance) =>
     <String, dynamic>{
       'key': instance.key,
       'name': instance.name,

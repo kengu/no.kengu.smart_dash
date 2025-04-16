@@ -44,23 +44,10 @@ abstract class _$PairingScreenController
 const pairingScreenControllerProvider = PairingScreenControllerFamily();
 
 /// See also [PairingScreenController].
-class PairingScreenControllerFamily extends Family {
+class PairingScreenControllerFamily
+    extends Family<AsyncValue<Optional<IntegrationMap>>> {
   /// See also [PairingScreenController].
   const PairingScreenControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'pairingScreenControllerProvider';
 
   /// See also [PairingScreenController].
   PairingScreenControllerProvider call(
@@ -71,7 +58,6 @@ class PairingScreenControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   PairingScreenControllerProvider getProviderOverride(
     covariant PairingScreenControllerProvider provider,
@@ -81,26 +67,19 @@ class PairingScreenControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(PairingScreenController Function() create) {
-    return _$PairingScreenControllerFamilyOverride(this, create);
-  }
-}
-
-class _$PairingScreenControllerFamilyOverride implements FamilyOverride {
-  _$PairingScreenControllerFamilyOverride(this.overriddenFamily, this.create);
-
-  final PairingScreenController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final PairingScreenControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  PairingScreenControllerProvider getProviderOverride(
-    covariant PairingScreenControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'pairingScreenControllerProvider';
 }
 
 /// See also [PairingScreenController].
@@ -125,7 +104,7 @@ class PairingScreenControllerProvider
         );
 
   PairingScreenControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -162,28 +141,9 @@ class PairingScreenControllerProvider
   }
 
   @override
-  (PairingQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<PairingScreenController,
       Optional<IntegrationMap>> createElement() {
     return _PairingScreenControllerProviderElement(this);
-  }
-
-  PairingScreenControllerProvider _copyWith(
-    PairingScreenController Function() create,
-  ) {
-    return PairingScreenControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -200,6 +160,8 @@ class PairingScreenControllerProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin PairingScreenControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<IntegrationMap>> {
   /// The parameter `query` of this provider.
@@ -215,4 +177,4 @@ class _PairingScreenControllerProviderElement
   PairingQuery get query => (origin as PairingScreenControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

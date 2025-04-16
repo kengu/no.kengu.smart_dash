@@ -43,23 +43,9 @@ abstract class _$HomeController
 const homeControllerProvider = HomeControllerFamily();
 
 /// See also [HomeController].
-class HomeControllerFamily extends Family {
+class HomeControllerFamily extends Family<AsyncValue<Optional<HomeData>>> {
   /// See also [HomeController].
   const HomeControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'homeControllerProvider';
 
   /// See also [HomeController].
   HomeControllerProvider call(
@@ -70,7 +56,6 @@ class HomeControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   HomeControllerProvider getProviderOverride(
     covariant HomeControllerProvider provider,
@@ -80,26 +65,19 @@ class HomeControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(HomeController Function() create) {
-    return _$HomeControllerFamilyOverride(this, create);
-  }
-}
-
-class _$HomeControllerFamilyOverride implements FamilyOverride {
-  _$HomeControllerFamilyOverride(this.overriddenFamily, this.create);
-
-  final HomeController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final HomeControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  HomeControllerProvider getProviderOverride(
-    covariant HomeControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'homeControllerProvider';
 }
 
 /// See also [HomeController].
@@ -123,7 +101,7 @@ class HomeControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
         );
 
   HomeControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -160,28 +138,9 @@ class HomeControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  (HomeQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<HomeController, Optional<HomeData>>
       createElement() {
     return _HomeControllerProviderElement(this);
-  }
-
-  HomeControllerProvider _copyWith(
-    HomeController Function() create,
-  ) {
-    return HomeControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -198,6 +157,8 @@ class HomeControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin HomeControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<HomeData>> {
   /// The parameter `query` of this provider.
@@ -213,4 +174,4 @@ class _HomeControllerProviderElement
   HomeQuery get query => (origin as HomeControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

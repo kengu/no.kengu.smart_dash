@@ -74,6 +74,6 @@ class GeocoderService extends DriverService<Location, LocationEvent,
 }
 
 @Riverpod(keepAlive: true)
-GeocoderService geocoderService(GeocoderServiceRef ref) {
+GeocoderService geocoderService(Ref ref) {
   return GeocoderService(ref);
 }

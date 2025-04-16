@@ -38,25 +38,11 @@ const snowServiceProvider = SnowServiceFamily();
 /// Build a new [SnowService] instance.
 ///
 /// Copied from [snowService].
-class SnowServiceFamily extends Family {
+class SnowServiceFamily extends Family<AsyncValue<SnowService>> {
   /// Build a new [SnowService] instance.
   ///
   /// Copied from [snowService].
   const SnowServiceFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'snowServiceProvider';
 
   /// Build a new [SnowService] instance.
   ///
@@ -69,7 +55,6 @@ class SnowServiceFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   SnowServiceProvider getProviderOverride(
     covariant SnowServiceProvider provider,
@@ -79,27 +64,19 @@ class SnowServiceFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      FutureOr<SnowService> Function(SnowServiceRef ref) create) {
-    return _$SnowServiceFamilyOverride(this, create);
-  }
-}
-
-class _$SnowServiceFamilyOverride implements FamilyOverride {
-  _$SnowServiceFamilyOverride(this.overriddenFamily, this.create);
-
-  final FutureOr<SnowService> Function(SnowServiceRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final SnowServiceFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  SnowServiceProvider getProviderOverride(
-    covariant SnowServiceProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'snowServiceProvider';
 }
 
 /// Build a new [SnowService] instance.
@@ -129,7 +106,7 @@ class SnowServiceProvider extends FutureProvider<SnowService> {
         );
 
   SnowServiceProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -142,7 +119,7 @@ class SnowServiceProvider extends FutureProvider<SnowService> {
 
   @override
   Override overrideWith(
-    FutureOr<SnowService> Function(SnowServiceRef ref) create,
+    FutureOr<SnowService> Function(SnowServiceRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -159,27 +136,8 @@ class SnowServiceProvider extends FutureProvider<SnowService> {
   }
 
   @override
-  (String,) get argument {
-    return (baseUrl,);
-  }
-
-  @override
   FutureProviderElement<SnowService> createElement() {
     return _SnowServiceProviderElement(this);
-  }
-
-  SnowServiceProvider _copyWith(
-    FutureOr<SnowService> Function(SnowServiceRef ref) create,
-  ) {
-    return SnowServiceProvider._internal(
-      (ref) => create(ref as SnowServiceRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      baseUrl: baseUrl,
-    );
   }
 
   @override
@@ -196,6 +154,8 @@ class SnowServiceProvider extends FutureProvider<SnowService> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SnowServiceRef on FutureProviderRef<SnowService> {
   /// The parameter `baseUrl` of this provider.
   String get baseUrl;
@@ -209,4 +169,4 @@ class _SnowServiceProviderElement extends FutureProviderElement<SnowService>
   String get baseUrl => (origin as SnowServiceProvider).baseUrl;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

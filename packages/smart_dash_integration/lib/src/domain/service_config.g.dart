@@ -6,8 +6,8 @@ part of 'service_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ServiceConfigImpl _$$ServiceConfigImplFromJson(Map<String, dynamic> json) =>
-    _$ServiceConfigImpl(
+_ServiceConfig _$ServiceConfigFromJson(Map<String, dynamic> json) =>
+    _ServiceConfig(
       key: json['key'] as String,
       name: json['name'] as String,
       data: (json['data'] as Map<String, dynamic>).map(
@@ -16,7 +16,7 @@ _$ServiceConfigImpl _$$ServiceConfigImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$ServiceConfigImplToJson(_$ServiceConfigImpl instance) =>
+Map<String, dynamic> _$ServiceConfigToJson(_ServiceConfig instance) =>
     <String, dynamic>{
       'key': instance.key,
       'name': instance.name,

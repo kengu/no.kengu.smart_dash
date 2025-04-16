@@ -5,7 +5,7 @@ part 'electricity_price_response.freezed.dart';
 part 'electricity_price_response.g.dart';
 
 @freezed
-class ElectricityPriceResponse with _$ElectricityPriceResponse {
+sealed class ElectricityPriceResponse with _$ElectricityPriceResponse {
   const factory ElectricityPriceResponse({
     @JsonKey(name: 'data') required List<ElectricityPrice> prices,
   }) = _ElectricityPriceResponse;

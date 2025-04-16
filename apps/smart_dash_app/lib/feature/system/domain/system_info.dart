@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'system_info.freezed.dart';
 
 @freezed
-class SystemInfo with _$SystemInfo {
+sealed class SystemInfo with _$SystemInfo {
   const SystemInfo._();
 
   const factory SystemInfo({

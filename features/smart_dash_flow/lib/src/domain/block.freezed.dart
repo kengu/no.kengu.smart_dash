@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,44 +10,81 @@ part of 'block.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-BlockModel _$BlockModelFromJson(Map<String, dynamic> json) {
-  return _BlockModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$BlockModel {
-  String get id => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  String get label => throw _privateConstructorUsedError;
-  bool get enabled => throw _privateConstructorUsedError;
-  BlockState get state => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  BlockTrigger get trigger => throw _privateConstructorUsedError;
-  List<BlockAction> get whenTrue => throw _privateConstructorUsedError;
-  List<BlockAction> get whenFalse => throw _privateConstructorUsedError;
-  List<BlockParameter> get parameters => throw _privateConstructorUsedError;
-  List<BlockCondition> get conditions => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get id;
+  String get type;
+  String get label;
+  bool get enabled;
+  BlockState get state;
+  String get description;
+  BlockTrigger get trigger;
+  List<BlockAction> get whenTrue;
+  List<BlockAction> get whenFalse;
+  List<BlockParameter> get parameters;
+  List<BlockCondition> get conditions;
 
   /// Create a copy of BlockModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $BlockModelCopyWith<BlockModel> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$BlockModelCopyWithImpl<BlockModel>(this as BlockModel, _$identity);
+
+  /// Serializes this BlockModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BlockModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.trigger, trigger) || other.trigger == trigger) &&
+            const DeepCollectionEquality().equals(other.whenTrue, whenTrue) &&
+            const DeepCollectionEquality().equals(other.whenFalse, whenFalse) &&
+            const DeepCollectionEquality()
+                .equals(other.parameters, parameters) &&
+            const DeepCollectionEquality()
+                .equals(other.conditions, conditions));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      type,
+      label,
+      enabled,
+      state,
+      description,
+      trigger,
+      const DeepCollectionEquality().hash(whenTrue),
+      const DeepCollectionEquality().hash(whenFalse),
+      const DeepCollectionEquality().hash(parameters),
+      const DeepCollectionEquality().hash(conditions));
+
+  @override
+  String toString() {
+    return 'BlockModel(id: $id, type: $type, label: $label, enabled: $enabled, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
+  }
 }
 
 /// @nodoc
-abstract class $BlockModelCopyWith<$Res> {
+abstract mixin class $BlockModelCopyWith<$Res> {
   factory $BlockModelCopyWith(
-          BlockModel value, $Res Function(BlockModel) then) =
-      _$BlockModelCopyWithImpl<$Res, BlockModel>;
+          BlockModel value, $Res Function(BlockModel) _then) =
+      _$BlockModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -66,14 +104,11 @@ abstract class $BlockModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
-    implements $BlockModelCopyWith<$Res> {
-  _$BlockModelCopyWithImpl(this._value, this._then);
+class _$BlockModelCopyWithImpl<$Res> implements $BlockModelCopyWith<$Res> {
+  _$BlockModelCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final BlockModel _self;
+  final $Res Function(BlockModel) _then;
 
   /// Create a copy of BlockModel
   /// with the given fields replaced by the non-null parameter values.
@@ -92,52 +127,52 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
     Object? parameters = null,
     Object? conditions = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
-          ? _value.type
+          ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
       label: null == label
-          ? _value.label
+          ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
       enabled: null == enabled
-          ? _value.enabled
+          ? _self.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
       state: null == state
-          ? _value.state
+          ? _self.state
           : state // ignore: cast_nullable_to_non_nullable
               as BlockState,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       trigger: null == trigger
-          ? _value.trigger
+          ? _self.trigger
           : trigger // ignore: cast_nullable_to_non_nullable
               as BlockTrigger,
       whenTrue: null == whenTrue
-          ? _value.whenTrue
+          ? _self.whenTrue
           : whenTrue // ignore: cast_nullable_to_non_nullable
               as List<BlockAction>,
       whenFalse: null == whenFalse
-          ? _value.whenFalse
+          ? _self.whenFalse
           : whenFalse // ignore: cast_nullable_to_non_nullable
               as List<BlockAction>,
       parameters: null == parameters
-          ? _value.parameters
+          ? _self.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as List<BlockParameter>,
       conditions: null == conditions
-          ? _value.conditions
+          ? _self.conditions
           : conditions // ignore: cast_nullable_to_non_nullable
               as List<BlockCondition>,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of BlockModel
@@ -145,8 +180,8 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
   @override
   @pragma('vm:prefer-inline')
   $BlockStateCopyWith<$Res> get state {
-    return $BlockStateCopyWith<$Res>(_value.state, (value) {
-      return _then(_value.copyWith(state: value) as $Val);
+    return $BlockStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
     });
   }
 
@@ -155,117 +190,16 @@ class _$BlockModelCopyWithImpl<$Res, $Val extends BlockModel>
   @override
   @pragma('vm:prefer-inline')
   $BlockTriggerCopyWith<$Res> get trigger {
-    return $BlockTriggerCopyWith<$Res>(_value.trigger, (value) {
-      return _then(_value.copyWith(trigger: value) as $Val);
+    return $BlockTriggerCopyWith<$Res>(_self.trigger, (value) {
+      return _then(_self.copyWith(trigger: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$BlockModelImplCopyWith<$Res>
-    implements $BlockModelCopyWith<$Res> {
-  factory _$$BlockModelImplCopyWith(
-          _$BlockModelImpl value, $Res Function(_$BlockModelImpl) then) =
-      __$$BlockModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String type,
-      String label,
-      bool enabled,
-      BlockState state,
-      String description,
-      BlockTrigger trigger,
-      List<BlockAction> whenTrue,
-      List<BlockAction> whenFalse,
-      List<BlockParameter> parameters,
-      List<BlockCondition> conditions});
-
-  @override
-  $BlockStateCopyWith<$Res> get state;
-  @override
-  $BlockTriggerCopyWith<$Res> get trigger;
-}
-
-/// @nodoc
-class __$$BlockModelImplCopyWithImpl<$Res>
-    extends _$BlockModelCopyWithImpl<$Res, _$BlockModelImpl>
-    implements _$$BlockModelImplCopyWith<$Res> {
-  __$$BlockModelImplCopyWithImpl(
-      _$BlockModelImpl _value, $Res Function(_$BlockModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of BlockModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? label = null,
-    Object? enabled = null,
-    Object? state = null,
-    Object? description = null,
-    Object? trigger = null,
-    Object? whenTrue = null,
-    Object? whenFalse = null,
-    Object? parameters = null,
-    Object? conditions = null,
-  }) {
-    return _then(_$BlockModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
-      enabled: null == enabled
-          ? _value.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      state: null == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as BlockState,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      trigger: null == trigger
-          ? _value.trigger
-          : trigger // ignore: cast_nullable_to_non_nullable
-              as BlockTrigger,
-      whenTrue: null == whenTrue
-          ? _value._whenTrue
-          : whenTrue // ignore: cast_nullable_to_non_nullable
-              as List<BlockAction>,
-      whenFalse: null == whenFalse
-          ? _value._whenFalse
-          : whenFalse // ignore: cast_nullable_to_non_nullable
-              as List<BlockAction>,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
-      conditions: null == conditions
-          ? _value._conditions
-          : conditions // ignore: cast_nullable_to_non_nullable
-              as List<BlockCondition>,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$BlockModelImpl extends _BlockModel {
-  const _$BlockModelImpl(
+class _BlockModel extends BlockModel {
+  const _BlockModel(
       {required this.id,
       required this.type,
       required this.label,
@@ -282,9 +216,8 @@ class _$BlockModelImpl extends _BlockModel {
         _parameters = parameters,
         _conditions = conditions,
         super._();
-
-  factory _$BlockModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockModelImplFromJson(json);
+  factory _BlockModel.fromJson(Map<String, dynamic> json) =>
+      _$BlockModelFromJson(json);
 
   @override
   final String id;
@@ -332,16 +265,26 @@ class _$BlockModelImpl extends _BlockModel {
     return EqualUnmodifiableListView(_conditions);
   }
 
+  /// Create a copy of BlockModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'BlockModel(id: $id, type: $type, label: $label, enabled: $enabled, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BlockModelCopyWith<_BlockModel> get copyWith =>
+      __$BlockModelCopyWithImpl<_BlockModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockModelToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockModelImpl &&
+            other is _BlockModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.label, label) || other.label == label) &&
@@ -375,234 +318,156 @@ class _$BlockModelImpl extends _BlockModel {
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_conditions));
 
-  /// Create a copy of BlockModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockModelImplCopyWith<_$BlockModelImpl> get copyWith =>
-      __$$BlockModelImplCopyWithImpl<_$BlockModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BlockModel(id: $id, type: $type, label: $label, enabled: $enabled, state: $state, description: $description, trigger: $trigger, whenTrue: $whenTrue, whenFalse: $whenFalse, parameters: $parameters, conditions: $conditions)';
   }
 }
 
-abstract class _BlockModel extends BlockModel {
-  const factory _BlockModel(
-      {required final String id,
-      required final String type,
-      required final String label,
-      required final bool enabled,
-      required final BlockState state,
-      required final String description,
-      required final BlockTrigger trigger,
-      required final List<BlockAction> whenTrue,
-      required final List<BlockAction> whenFalse,
-      required final List<BlockParameter> parameters,
-      required final List<BlockCondition> conditions}) = _$BlockModelImpl;
-  const _BlockModel._() : super._();
+/// @nodoc
+abstract mixin class _$BlockModelCopyWith<$Res>
+    implements $BlockModelCopyWith<$Res> {
+  factory _$BlockModelCopyWith(
+          _BlockModel value, $Res Function(_BlockModel) _then) =
+      __$BlockModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String type,
+      String label,
+      bool enabled,
+      BlockState state,
+      String description,
+      BlockTrigger trigger,
+      List<BlockAction> whenTrue,
+      List<BlockAction> whenFalse,
+      List<BlockParameter> parameters,
+      List<BlockCondition> conditions});
 
-  factory _BlockModel.fromJson(Map<String, dynamic> json) =
-      _$BlockModelImpl.fromJson;
+  @override
+  $BlockStateCopyWith<$Res> get state;
+  @override
+  $BlockTriggerCopyWith<$Res> get trigger;
+}
 
-  @override
-  String get id;
-  @override
-  String get type;
-  @override
-  String get label;
-  @override
-  bool get enabled;
-  @override
-  BlockState get state;
-  @override
-  String get description;
-  @override
-  BlockTrigger get trigger;
-  @override
-  List<BlockAction> get whenTrue;
-  @override
-  List<BlockAction> get whenFalse;
-  @override
-  List<BlockParameter> get parameters;
-  @override
-  List<BlockCondition> get conditions;
+/// @nodoc
+class __$BlockModelCopyWithImpl<$Res> implements _$BlockModelCopyWith<$Res> {
+  __$BlockModelCopyWithImpl(this._self, this._then);
+
+  final _BlockModel _self;
+  final $Res Function(_BlockModel) _then;
 
   /// Create a copy of BlockModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockModelImplCopyWith<_$BlockModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? label = null,
+    Object? enabled = null,
+    Object? state = null,
+    Object? description = null,
+    Object? trigger = null,
+    Object? whenTrue = null,
+    Object? whenFalse = null,
+    Object? parameters = null,
+    Object? conditions = null,
+  }) {
+    return _then(_BlockModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      label: null == label
+          ? _self.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
+      enabled: null == enabled
+          ? _self.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      state: null == state
+          ? _self.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as BlockState,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      trigger: null == trigger
+          ? _self.trigger
+          : trigger // ignore: cast_nullable_to_non_nullable
+              as BlockTrigger,
+      whenTrue: null == whenTrue
+          ? _self._whenTrue
+          : whenTrue // ignore: cast_nullable_to_non_nullable
+              as List<BlockAction>,
+      whenFalse: null == whenFalse
+          ? _self._whenFalse
+          : whenFalse // ignore: cast_nullable_to_non_nullable
+              as List<BlockAction>,
+      parameters: null == parameters
+          ? _self._parameters
+          : parameters // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
+      conditions: null == conditions
+          ? _self._conditions
+          : conditions // ignore: cast_nullable_to_non_nullable
+              as List<BlockCondition>,
+    ));
+  }
 
-BlockParameter _$BlockParameterFromJson(Map<String, dynamic> json) {
-  return _BlockParameter.fromJson(json);
+  /// Create a copy of BlockModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BlockStateCopyWith<$Res> get state {
+    return $BlockStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
+    });
+  }
+
+  /// Create a copy of BlockModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BlockTriggerCopyWith<$Res> get trigger {
+    return $BlockTriggerCopyWith<$Res>(_self.trigger, (value) {
+      return _then(_self.copyWith(trigger: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$BlockParameter {
-  String get tag => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  Object get value => throw _privateConstructorUsedError;
-  ValueType get type => throw _privateConstructorUsedError;
-  ValueUnit get unit => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockParameter to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get tag;
+  String get name;
+  Object get value;
+  ValueType get type;
+  ValueUnit get unit;
 
   /// Create a copy of BlockParameter
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $BlockParameterCopyWith<BlockParameter> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$BlockParameterCopyWithImpl<BlockParameter>(
+          this as BlockParameter, _$identity);
 
-/// @nodoc
-abstract class $BlockParameterCopyWith<$Res> {
-  factory $BlockParameterCopyWith(
-          BlockParameter value, $Res Function(BlockParameter) then) =
-      _$BlockParameterCopyWithImpl<$Res, BlockParameter>;
-  @useResult
-  $Res call(
-      {String tag, String name, Object value, ValueType type, ValueUnit unit});
-}
-
-/// @nodoc
-class _$BlockParameterCopyWithImpl<$Res, $Val extends BlockParameter>
-    implements $BlockParameterCopyWith<$Res> {
-  _$BlockParameterCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tag = null,
-    Object? name = null,
-    Object? value = null,
-    Object? type = null,
-    Object? unit = null,
-  }) {
-    return _then(_value.copyWith(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ValueType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as ValueUnit,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$BlockParameterImplCopyWith<$Res>
-    implements $BlockParameterCopyWith<$Res> {
-  factory _$$BlockParameterImplCopyWith(_$BlockParameterImpl value,
-          $Res Function(_$BlockParameterImpl) then) =
-      __$$BlockParameterImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String tag, String name, Object value, ValueType type, ValueUnit unit});
-}
-
-/// @nodoc
-class __$$BlockParameterImplCopyWithImpl<$Res>
-    extends _$BlockParameterCopyWithImpl<$Res, _$BlockParameterImpl>
-    implements _$$BlockParameterImplCopyWith<$Res> {
-  __$$BlockParameterImplCopyWithImpl(
-      _$BlockParameterImpl _value, $Res Function(_$BlockParameterImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of BlockParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tag = null,
-    Object? name = null,
-    Object? value = null,
-    Object? type = null,
-    Object? unit = null,
-  }) {
-    return _then(_$BlockParameterImpl(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value ? _value.value : value,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ValueType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as ValueUnit,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$BlockParameterImpl extends _BlockParameter {
-  const _$BlockParameterImpl(
-      {required this.tag,
-      required this.name,
-      required this.value,
-      required this.type,
-      required this.unit})
-      : super._();
-
-  factory _$BlockParameterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockParameterImplFromJson(json);
-
-  @override
-  final String tag;
-  @override
-  final String name;
-  @override
-  final Object value;
-  @override
-  final ValueType type;
-  @override
-  final ValueUnit unit;
-
-  @override
-  String toString() {
-    return 'BlockParameter(tag: $tag, name: $name, value: $value, type: $type, unit: $unit)';
-  }
+  /// Serializes this BlockParameter to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockParameterImpl &&
+            other is BlockParameter &&
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other.value, value) &&
@@ -615,136 +480,224 @@ class _$BlockParameterImpl extends _BlockParameter {
   int get hashCode => Object.hash(runtimeType, tag, name,
       const DeepCollectionEquality().hash(value), type, unit);
 
-  /// Create a copy of BlockParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
-      __$$BlockParameterImplCopyWithImpl<_$BlockParameterImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockParameterImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BlockParameter(tag: $tag, name: $name, value: $value, type: $type, unit: $unit)';
   }
 }
 
-abstract class _BlockParameter extends BlockParameter {
-  const factory _BlockParameter(
-      {required final String tag,
-      required final String name,
-      required final Object value,
-      required final ValueType type,
-      required final ValueUnit unit}) = _$BlockParameterImpl;
-  const _BlockParameter._() : super._();
+/// @nodoc
+abstract mixin class $BlockParameterCopyWith<$Res> {
+  factory $BlockParameterCopyWith(
+          BlockParameter value, $Res Function(BlockParameter) _then) =
+      _$BlockParameterCopyWithImpl;
+  @useResult
+  $Res call(
+      {String tag, String name, Object value, ValueType type, ValueUnit unit});
+}
 
-  factory _BlockParameter.fromJson(Map<String, dynamic> json) =
-      _$BlockParameterImpl.fromJson;
+/// @nodoc
+class _$BlockParameterCopyWithImpl<$Res>
+    implements $BlockParameterCopyWith<$Res> {
+  _$BlockParameterCopyWithImpl(this._self, this._then);
+
+  final BlockParameter _self;
+  final $Res Function(BlockParameter) _then;
+
+  /// Create a copy of BlockParameter
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tag = null,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
+    Object? unit = null,
+  }) {
+    return _then(_self.copyWith(
+      tag: null == tag
+          ? _self.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _self.value : value,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ValueType,
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as ValueUnit,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _BlockParameter extends BlockParameter {
+  const _BlockParameter(
+      {required this.tag,
+      required this.name,
+      required this.value,
+      required this.type,
+      required this.unit})
+      : super._();
+  factory _BlockParameter.fromJson(Map<String, dynamic> json) =>
+      _$BlockParameterFromJson(json);
 
   @override
-  String get tag;
+  final String tag;
   @override
-  String get name;
+  final String name;
   @override
-  Object get value;
+  final Object value;
   @override
-  ValueType get type;
+  final ValueType type;
   @override
-  ValueUnit get unit;
+  final ValueUnit unit;
 
   /// Create a copy of BlockParameter
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockParameterImplCopyWith<_$BlockParameterImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$BlockParameterCopyWith<_BlockParameter> get copyWith =>
+      __$BlockParameterCopyWithImpl<_BlockParameter>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockParameterToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _BlockParameter &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.unit, unit) || other.unit == unit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, tag, name,
+      const DeepCollectionEquality().hash(value), type, unit);
+
+  @override
+  String toString() {
+    return 'BlockParameter(tag: $tag, name: $name, value: $value, type: $type, unit: $unit)';
+  }
 }
 
-BlockState _$BlockStateFromJson(Map<String, dynamic> json) {
-  return _BlockState.fromJson(json);
+/// @nodoc
+abstract mixin class _$BlockParameterCopyWith<$Res>
+    implements $BlockParameterCopyWith<$Res> {
+  factory _$BlockParameterCopyWith(
+          _BlockParameter value, $Res Function(_BlockParameter) _then) =
+      __$BlockParameterCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String tag, String name, Object value, ValueType type, ValueUnit unit});
+}
+
+/// @nodoc
+class __$BlockParameterCopyWithImpl<$Res>
+    implements _$BlockParameterCopyWith<$Res> {
+  __$BlockParameterCopyWithImpl(this._self, this._then);
+
+  final _BlockParameter _self;
+  final $Res Function(_BlockParameter) _then;
+
+  /// Create a copy of BlockParameter
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? tag = null,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
+    Object? unit = null,
+  }) {
+    return _then(_BlockParameter(
+      tag: null == tag
+          ? _self.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value ? _self.value : value,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ValueType,
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as ValueUnit,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$BlockState {
-  bool get value => throw _privateConstructorUsedError;
-  int get repeated => throw _privateConstructorUsedError;
-  List<BlockParameter> get tags => throw _privateConstructorUsedError;
-  DateTime? get lastChanged => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockState to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  bool get value;
+  int get repeated;
+  List<BlockParameter> get tags;
+  DateTime? get lastChanged;
 
   /// Create a copy of BlockState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockStateCopyWith<BlockState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockStateCopyWith<$Res> {
-  factory $BlockStateCopyWith(
-          BlockState value, $Res Function(BlockState) then) =
-      _$BlockStateCopyWithImpl<$Res, BlockState>;
-  @useResult
-  $Res call(
-      {bool value,
-      int repeated,
-      List<BlockParameter> tags,
-      DateTime? lastChanged});
-}
-
-/// @nodoc
-class _$BlockStateCopyWithImpl<$Res, $Val extends BlockState>
-    implements $BlockStateCopyWith<$Res> {
-  _$BlockStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $BlockStateCopyWith<BlockState> get copyWith =>
+      _$BlockStateCopyWithImpl<BlockState>(this as BlockState, _$identity);
+
+  /// Serializes this BlockState to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? value = null,
-    Object? repeated = null,
-    Object? tags = null,
-    Object? lastChanged = freezed,
-  }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as bool,
-      repeated: null == repeated
-          ? _value.repeated
-          : repeated // ignore: cast_nullable_to_non_nullable
-              as int,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<BlockParameter>,
-      lastChanged: freezed == lastChanged
-          ? _value.lastChanged
-          : lastChanged // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BlockState &&
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.repeated, repeated) ||
+                other.repeated == repeated) &&
+            const DeepCollectionEquality().equals(other.tags, tags) &&
+            (identical(other.lastChanged, lastChanged) ||
+                other.lastChanged == lastChanged));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, value, repeated,
+      const DeepCollectionEquality().hash(tags), lastChanged);
+
+  @override
+  String toString() {
+    return 'BlockState(value: $value, repeated: $repeated, tags: $tags, lastChanged: $lastChanged)';
   }
 }
 
 /// @nodoc
-abstract class _$$BlockStateImplCopyWith<$Res>
-    implements $BlockStateCopyWith<$Res> {
-  factory _$$BlockStateImplCopyWith(
-          _$BlockStateImpl value, $Res Function(_$BlockStateImpl) then) =
-      __$$BlockStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BlockStateCopyWith<$Res> {
+  factory $BlockStateCopyWith(
+          BlockState value, $Res Function(BlockState) _then) =
+      _$BlockStateCopyWithImpl;
   @useResult
   $Res call(
       {bool value,
@@ -754,12 +707,11 @@ abstract class _$$BlockStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BlockStateImplCopyWithImpl<$Res>
-    extends _$BlockStateCopyWithImpl<$Res, _$BlockStateImpl>
-    implements _$$BlockStateImplCopyWith<$Res> {
-  __$$BlockStateImplCopyWithImpl(
-      _$BlockStateImpl _value, $Res Function(_$BlockStateImpl) _then)
-      : super(_value, _then);
+class _$BlockStateCopyWithImpl<$Res> implements $BlockStateCopyWith<$Res> {
+  _$BlockStateCopyWithImpl(this._self, this._then);
+
+  final BlockState _self;
+  final $Res Function(BlockState) _then;
 
   /// Create a copy of BlockState
   /// with the given fields replaced by the non-null parameter values.
@@ -771,21 +723,21 @@ class __$$BlockStateImplCopyWithImpl<$Res>
     Object? tags = null,
     Object? lastChanged = freezed,
   }) {
-    return _then(_$BlockStateImpl(
+    return _then(_self.copyWith(
       value: null == value
-          ? _value.value
+          ? _self.value
           : value // ignore: cast_nullable_to_non_nullable
               as bool,
       repeated: null == repeated
-          ? _value.repeated
+          ? _self.repeated
           : repeated // ignore: cast_nullable_to_non_nullable
               as int,
       tags: null == tags
-          ? _value._tags
+          ? _self.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<BlockParameter>,
       lastChanged: freezed == lastChanged
-          ? _value.lastChanged
+          ? _self.lastChanged
           : lastChanged // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
@@ -794,17 +746,16 @@ class __$$BlockStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BlockStateImpl extends _BlockState {
-  const _$BlockStateImpl(
+class _BlockState extends BlockState {
+  const _BlockState(
       {required this.value,
       required this.repeated,
       required final List<BlockParameter> tags,
       this.lastChanged})
       : _tags = tags,
         super._();
-
-  factory _$BlockStateImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockStateImplFromJson(json);
+  factory _BlockState.fromJson(Map<String, dynamic> json) =>
+      _$BlockStateFromJson(json);
 
   @override
   final bool value;
@@ -821,16 +772,26 @@ class _$BlockStateImpl extends _BlockState {
   @override
   final DateTime? lastChanged;
 
+  /// Create a copy of BlockState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'BlockState(value: $value, repeated: $repeated, tags: $tags, lastChanged: $lastChanged)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BlockStateCopyWith<_BlockState> get copyWith =>
+      __$BlockStateCopyWithImpl<_BlockState>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockStateToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockStateImpl &&
+            other is _BlockState &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.repeated, repeated) ||
                 other.repeated == repeated) &&
@@ -844,153 +805,127 @@ class _$BlockStateImpl extends _BlockState {
   int get hashCode => Object.hash(runtimeType, value, repeated,
       const DeepCollectionEquality().hash(_tags), lastChanged);
 
-  /// Create a copy of BlockState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockStateImplCopyWith<_$BlockStateImpl> get copyWith =>
-      __$$BlockStateImplCopyWithImpl<_$BlockStateImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockStateImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BlockState(value: $value, repeated: $repeated, tags: $tags, lastChanged: $lastChanged)';
   }
 }
 
-abstract class _BlockState extends BlockState {
-  const factory _BlockState(
-      {required final bool value,
-      required final int repeated,
-      required final List<BlockParameter> tags,
-      final DateTime? lastChanged}) = _$BlockStateImpl;
-  const _BlockState._() : super._();
+/// @nodoc
+abstract mixin class _$BlockStateCopyWith<$Res>
+    implements $BlockStateCopyWith<$Res> {
+  factory _$BlockStateCopyWith(
+          _BlockState value, $Res Function(_BlockState) _then) =
+      __$BlockStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool value,
+      int repeated,
+      List<BlockParameter> tags,
+      DateTime? lastChanged});
+}
 
-  factory _BlockState.fromJson(Map<String, dynamic> json) =
-      _$BlockStateImpl.fromJson;
+/// @nodoc
+class __$BlockStateCopyWithImpl<$Res> implements _$BlockStateCopyWith<$Res> {
+  __$BlockStateCopyWithImpl(this._self, this._then);
 
-  @override
-  bool get value;
-  @override
-  int get repeated;
-  @override
-  List<BlockParameter> get tags;
-  @override
-  DateTime? get lastChanged;
+  final _BlockState _self;
+  final $Res Function(_BlockState) _then;
 
   /// Create a copy of BlockState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockStateImplCopyWith<_$BlockStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BlockTrigger _$BlockTriggerFromJson(Map<String, dynamic> json) {
-  return _BlockTrigger.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? value = null,
+    Object? repeated = null,
+    Object? tags = null,
+    Object? lastChanged = freezed,
+  }) {
+    return _then(_BlockState(
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as bool,
+      repeated: null == repeated
+          ? _self.repeated
+          : repeated // ignore: cast_nullable_to_non_nullable
+              as int,
+      tags: null == tags
+          ? _self._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<BlockParameter>,
+      lastChanged: freezed == lastChanged
+          ? _self.lastChanged
+          : lastChanged // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$BlockTrigger {
-  bool get any => throw _privateConstructorUsedError;
-  int get repeatCount => throw _privateConstructorUsedError;
-  int get repeatAfter => throw _privateConstructorUsedError;
-  int get debounceCount => throw _privateConstructorUsedError;
-  int get debounceAfter => throw _privateConstructorUsedError;
-  List<String> get onTags => throw _privateConstructorUsedError;
-  List<BlockTriggerOnType> get onTypes => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockTrigger to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  bool get any;
+  int get repeatCount;
+  int get repeatAfter;
+  int get debounceCount;
+  int get debounceAfter;
+  List<String> get onTags;
+  List<BlockTriggerOnType> get onTypes;
 
   /// Create a copy of BlockTrigger
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockTriggerCopyWith<BlockTrigger> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockTriggerCopyWith<$Res> {
-  factory $BlockTriggerCopyWith(
-          BlockTrigger value, $Res Function(BlockTrigger) then) =
-      _$BlockTriggerCopyWithImpl<$Res, BlockTrigger>;
-  @useResult
-  $Res call(
-      {bool any,
-      int repeatCount,
-      int repeatAfter,
-      int debounceCount,
-      int debounceAfter,
-      List<String> onTags,
-      List<BlockTriggerOnType> onTypes});
-}
-
-/// @nodoc
-class _$BlockTriggerCopyWithImpl<$Res, $Val extends BlockTrigger>
-    implements $BlockTriggerCopyWith<$Res> {
-  _$BlockTriggerCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockTrigger
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $BlockTriggerCopyWith<BlockTrigger> get copyWith =>
+      _$BlockTriggerCopyWithImpl<BlockTrigger>(
+          this as BlockTrigger, _$identity);
+
+  /// Serializes this BlockTrigger to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? any = null,
-    Object? repeatCount = null,
-    Object? repeatAfter = null,
-    Object? debounceCount = null,
-    Object? debounceAfter = null,
-    Object? onTags = null,
-    Object? onTypes = null,
-  }) {
-    return _then(_value.copyWith(
-      any: null == any
-          ? _value.any
-          : any // ignore: cast_nullable_to_non_nullable
-              as bool,
-      repeatCount: null == repeatCount
-          ? _value.repeatCount
-          : repeatCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      repeatAfter: null == repeatAfter
-          ? _value.repeatAfter
-          : repeatAfter // ignore: cast_nullable_to_non_nullable
-              as int,
-      debounceCount: null == debounceCount
-          ? _value.debounceCount
-          : debounceCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      debounceAfter: null == debounceAfter
-          ? _value.debounceAfter
-          : debounceAfter // ignore: cast_nullable_to_non_nullable
-              as int,
-      onTags: null == onTags
-          ? _value.onTags
-          : onTags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      onTypes: null == onTypes
-          ? _value.onTypes
-          : onTypes // ignore: cast_nullable_to_non_nullable
-              as List<BlockTriggerOnType>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BlockTrigger &&
+            (identical(other.any, any) || other.any == any) &&
+            (identical(other.repeatCount, repeatCount) ||
+                other.repeatCount == repeatCount) &&
+            (identical(other.repeatAfter, repeatAfter) ||
+                other.repeatAfter == repeatAfter) &&
+            (identical(other.debounceCount, debounceCount) ||
+                other.debounceCount == debounceCount) &&
+            (identical(other.debounceAfter, debounceAfter) ||
+                other.debounceAfter == debounceAfter) &&
+            const DeepCollectionEquality().equals(other.onTags, onTags) &&
+            const DeepCollectionEquality().equals(other.onTypes, onTypes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      any,
+      repeatCount,
+      repeatAfter,
+      debounceCount,
+      debounceAfter,
+      const DeepCollectionEquality().hash(onTags),
+      const DeepCollectionEquality().hash(onTypes));
+
+  @override
+  String toString() {
+    return 'BlockTrigger(any: $any, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, onTags: $onTags, onTypes: $onTypes)';
   }
 }
 
 /// @nodoc
-abstract class _$$BlockTriggerImplCopyWith<$Res>
-    implements $BlockTriggerCopyWith<$Res> {
-  factory _$$BlockTriggerImplCopyWith(
-          _$BlockTriggerImpl value, $Res Function(_$BlockTriggerImpl) then) =
-      __$$BlockTriggerImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BlockTriggerCopyWith<$Res> {
+  factory $BlockTriggerCopyWith(
+          BlockTrigger value, $Res Function(BlockTrigger) _then) =
+      _$BlockTriggerCopyWithImpl;
   @useResult
   $Res call(
       {bool any,
@@ -1003,12 +938,11 @@ abstract class _$$BlockTriggerImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BlockTriggerImplCopyWithImpl<$Res>
-    extends _$BlockTriggerCopyWithImpl<$Res, _$BlockTriggerImpl>
-    implements _$$BlockTriggerImplCopyWith<$Res> {
-  __$$BlockTriggerImplCopyWithImpl(
-      _$BlockTriggerImpl _value, $Res Function(_$BlockTriggerImpl) _then)
-      : super(_value, _then);
+class _$BlockTriggerCopyWithImpl<$Res> implements $BlockTriggerCopyWith<$Res> {
+  _$BlockTriggerCopyWithImpl(this._self, this._then);
+
+  final BlockTrigger _self;
+  final $Res Function(BlockTrigger) _then;
 
   /// Create a copy of BlockTrigger
   /// with the given fields replaced by the non-null parameter values.
@@ -1023,33 +957,33 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
     Object? onTags = null,
     Object? onTypes = null,
   }) {
-    return _then(_$BlockTriggerImpl(
+    return _then(_self.copyWith(
       any: null == any
-          ? _value.any
+          ? _self.any
           : any // ignore: cast_nullable_to_non_nullable
               as bool,
       repeatCount: null == repeatCount
-          ? _value.repeatCount
+          ? _self.repeatCount
           : repeatCount // ignore: cast_nullable_to_non_nullable
               as int,
       repeatAfter: null == repeatAfter
-          ? _value.repeatAfter
+          ? _self.repeatAfter
           : repeatAfter // ignore: cast_nullable_to_non_nullable
               as int,
       debounceCount: null == debounceCount
-          ? _value.debounceCount
+          ? _self.debounceCount
           : debounceCount // ignore: cast_nullable_to_non_nullable
               as int,
       debounceAfter: null == debounceAfter
-          ? _value.debounceAfter
+          ? _self.debounceAfter
           : debounceAfter // ignore: cast_nullable_to_non_nullable
               as int,
       onTags: null == onTags
-          ? _value._onTags
+          ? _self.onTags
           : onTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
       onTypes: null == onTypes
-          ? _value._onTypes
+          ? _self.onTypes
           : onTypes // ignore: cast_nullable_to_non_nullable
               as List<BlockTriggerOnType>,
     ));
@@ -1058,8 +992,8 @@ class __$$BlockTriggerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BlockTriggerImpl extends _BlockTrigger {
-  const _$BlockTriggerImpl(
+class _BlockTrigger extends BlockTrigger {
+  const _BlockTrigger(
       {required this.any,
       required this.repeatCount,
       required this.repeatAfter,
@@ -1070,9 +1004,8 @@ class _$BlockTriggerImpl extends _BlockTrigger {
       : _onTags = onTags,
         _onTypes = onTypes,
         super._();
-
-  factory _$BlockTriggerImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockTriggerImplFromJson(json);
+  factory _BlockTrigger.fromJson(Map<String, dynamic> json) =>
+      _$BlockTriggerFromJson(json);
 
   @override
   final bool any;
@@ -1100,16 +1033,26 @@ class _$BlockTriggerImpl extends _BlockTrigger {
     return EqualUnmodifiableListView(_onTypes);
   }
 
+  /// Create a copy of BlockTrigger
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'BlockTrigger(any: $any, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, onTags: $onTags, onTypes: $onTypes)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BlockTriggerCopyWith<_BlockTrigger> get copyWith =>
+      __$BlockTriggerCopyWithImpl<_BlockTrigger>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockTriggerToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockTriggerImpl &&
+            other is _BlockTrigger &&
             (identical(other.any, any) || other.any == any) &&
             (identical(other.repeatCount, repeatCount) ||
                 other.repeatCount == repeatCount) &&
@@ -1135,141 +1078,131 @@ class _$BlockTriggerImpl extends _BlockTrigger {
       const DeepCollectionEquality().hash(_onTags),
       const DeepCollectionEquality().hash(_onTypes));
 
-  /// Create a copy of BlockTrigger
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockTriggerImplCopyWith<_$BlockTriggerImpl> get copyWith =>
-      __$$BlockTriggerImplCopyWithImpl<_$BlockTriggerImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockTriggerImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BlockTrigger(any: $any, repeatCount: $repeatCount, repeatAfter: $repeatAfter, debounceCount: $debounceCount, debounceAfter: $debounceAfter, onTags: $onTags, onTypes: $onTypes)';
   }
 }
 
-abstract class _BlockTrigger extends BlockTrigger {
-  const factory _BlockTrigger(
-      {required final bool any,
-      required final int repeatCount,
-      required final int repeatAfter,
-      required final int debounceCount,
-      required final int debounceAfter,
-      required final List<String> onTags,
-      required final List<BlockTriggerOnType> onTypes}) = _$BlockTriggerImpl;
-  const _BlockTrigger._() : super._();
+/// @nodoc
+abstract mixin class _$BlockTriggerCopyWith<$Res>
+    implements $BlockTriggerCopyWith<$Res> {
+  factory _$BlockTriggerCopyWith(
+          _BlockTrigger value, $Res Function(_BlockTrigger) _then) =
+      __$BlockTriggerCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool any,
+      int repeatCount,
+      int repeatAfter,
+      int debounceCount,
+      int debounceAfter,
+      List<String> onTags,
+      List<BlockTriggerOnType> onTypes});
+}
 
-  factory _BlockTrigger.fromJson(Map<String, dynamic> json) =
-      _$BlockTriggerImpl.fromJson;
+/// @nodoc
+class __$BlockTriggerCopyWithImpl<$Res>
+    implements _$BlockTriggerCopyWith<$Res> {
+  __$BlockTriggerCopyWithImpl(this._self, this._then);
 
-  @override
-  bool get any;
-  @override
-  int get repeatCount;
-  @override
-  int get repeatAfter;
-  @override
-  int get debounceCount;
-  @override
-  int get debounceAfter;
-  @override
-  List<String> get onTags;
-  @override
-  List<BlockTriggerOnType> get onTypes;
+  final _BlockTrigger _self;
+  final $Res Function(_BlockTrigger) _then;
 
   /// Create a copy of BlockTrigger
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockTriggerImplCopyWith<_$BlockTriggerImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BlockCondition _$BlockConditionFromJson(Map<String, dynamic> json) {
-  return _BlockCondition.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? any = null,
+    Object? repeatCount = null,
+    Object? repeatAfter = null,
+    Object? debounceCount = null,
+    Object? debounceAfter = null,
+    Object? onTags = null,
+    Object? onTypes = null,
+  }) {
+    return _then(_BlockTrigger(
+      any: null == any
+          ? _self.any
+          : any // ignore: cast_nullable_to_non_nullable
+              as bool,
+      repeatCount: null == repeatCount
+          ? _self.repeatCount
+          : repeatCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      repeatAfter: null == repeatAfter
+          ? _self.repeatAfter
+          : repeatAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceCount: null == debounceCount
+          ? _self.debounceCount
+          : debounceCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      debounceAfter: null == debounceAfter
+          ? _self.debounceAfter
+          : debounceAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      onTags: null == onTags
+          ? _self._onTags
+          : onTags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      onTypes: null == onTypes
+          ? _self._onTypes
+          : onTypes // ignore: cast_nullable_to_non_nullable
+              as List<BlockTriggerOnType>,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$BlockCondition {
-  String get label => throw _privateConstructorUsedError;
-  String get expression => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  List<BlockVariable> get variables => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockCondition to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get label;
+  String get expression;
+  String get description;
+  List<BlockVariable> get variables;
 
   /// Create a copy of BlockCondition
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockConditionCopyWith<BlockCondition> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockConditionCopyWith<$Res> {
-  factory $BlockConditionCopyWith(
-          BlockCondition value, $Res Function(BlockCondition) then) =
-      _$BlockConditionCopyWithImpl<$Res, BlockCondition>;
-  @useResult
-  $Res call(
-      {String label,
-      String expression,
-      String description,
-      List<BlockVariable> variables});
-}
-
-/// @nodoc
-class _$BlockConditionCopyWithImpl<$Res, $Val extends BlockCondition>
-    implements $BlockConditionCopyWith<$Res> {
-  _$BlockConditionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockCondition
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $BlockConditionCopyWith<BlockCondition> get copyWith =>
+      _$BlockConditionCopyWithImpl<BlockCondition>(
+          this as BlockCondition, _$identity);
+
+  /// Serializes this BlockCondition to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? label = null,
-    Object? expression = null,
-    Object? description = null,
-    Object? variables = null,
-  }) {
-    return _then(_value.copyWith(
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
-      expression: null == expression
-          ? _value.expression
-          : expression // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      variables: null == variables
-          ? _value.variables
-          : variables // ignore: cast_nullable_to_non_nullable
-              as List<BlockVariable>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BlockCondition &&
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.expression, expression) ||
+                other.expression == expression) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other.variables, variables));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, label, expression, description,
+      const DeepCollectionEquality().hash(variables));
+
+  @override
+  String toString() {
+    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables)';
   }
 }
 
 /// @nodoc
-abstract class _$$BlockConditionImplCopyWith<$Res>
-    implements $BlockConditionCopyWith<$Res> {
-  factory _$$BlockConditionImplCopyWith(_$BlockConditionImpl value,
-          $Res Function(_$BlockConditionImpl) then) =
-      __$$BlockConditionImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BlockConditionCopyWith<$Res> {
+  factory $BlockConditionCopyWith(
+          BlockCondition value, $Res Function(BlockCondition) _then) =
+      _$BlockConditionCopyWithImpl;
   @useResult
   $Res call(
       {String label,
@@ -1279,12 +1212,12 @@ abstract class _$$BlockConditionImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BlockConditionImplCopyWithImpl<$Res>
-    extends _$BlockConditionCopyWithImpl<$Res, _$BlockConditionImpl>
-    implements _$$BlockConditionImplCopyWith<$Res> {
-  __$$BlockConditionImplCopyWithImpl(
-      _$BlockConditionImpl _value, $Res Function(_$BlockConditionImpl) _then)
-      : super(_value, _then);
+class _$BlockConditionCopyWithImpl<$Res>
+    implements $BlockConditionCopyWith<$Res> {
+  _$BlockConditionCopyWithImpl(this._self, this._then);
+
+  final BlockCondition _self;
+  final $Res Function(BlockCondition) _then;
 
   /// Create a copy of BlockCondition
   /// with the given fields replaced by the non-null parameter values.
@@ -1296,21 +1229,21 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
     Object? description = null,
     Object? variables = null,
   }) {
-    return _then(_$BlockConditionImpl(
+    return _then(_self.copyWith(
       label: null == label
-          ? _value.label
+          ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
       expression: null == expression
-          ? _value.expression
+          ? _self.expression
           : expression // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       variables: null == variables
-          ? _value._variables
+          ? _self.variables
           : variables // ignore: cast_nullable_to_non_nullable
               as List<BlockVariable>,
     ));
@@ -1319,17 +1252,16 @@ class __$$BlockConditionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BlockConditionImpl extends _BlockCondition {
-  const _$BlockConditionImpl(
+class _BlockCondition extends BlockCondition {
+  const _BlockCondition(
       {required this.label,
       required this.expression,
       required this.description,
       required final List<BlockVariable> variables})
       : _variables = variables,
         super._();
-
-  factory _$BlockConditionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockConditionImplFromJson(json);
+  factory _BlockCondition.fromJson(Map<String, dynamic> json) =>
+      _$BlockConditionFromJson(json);
 
   @override
   final String label;
@@ -1345,16 +1277,26 @@ class _$BlockConditionImpl extends _BlockCondition {
     return EqualUnmodifiableListView(_variables);
   }
 
+  /// Create a copy of BlockCondition
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BlockConditionCopyWith<_BlockCondition> get copyWith =>
+      __$BlockConditionCopyWithImpl<_BlockCondition>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockConditionToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockConditionImpl &&
+            other is _BlockCondition &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.expression, expression) ||
                 other.expression == expression) &&
@@ -1369,244 +1311,91 @@ class _$BlockConditionImpl extends _BlockCondition {
   int get hashCode => Object.hash(runtimeType, label, expression, description,
       const DeepCollectionEquality().hash(_variables));
 
-  /// Create a copy of BlockCondition
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockConditionImplCopyWith<_$BlockConditionImpl> get copyWith =>
-      __$$BlockConditionImplCopyWithImpl<_$BlockConditionImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockConditionImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _BlockCondition extends BlockCondition {
-  const factory _BlockCondition(
-      {required final String label,
-      required final String expression,
-      required final String description,
-      required final List<BlockVariable> variables}) = _$BlockConditionImpl;
-  const _BlockCondition._() : super._();
-
-  factory _BlockCondition.fromJson(Map<String, dynamic> json) =
-      _$BlockConditionImpl.fromJson;
-
-  @override
-  String get label;
-  @override
-  String get expression;
-  @override
-  String get description;
-  @override
-  List<BlockVariable> get variables;
-
-  /// Create a copy of BlockCondition
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockConditionImplCopyWith<_$BlockConditionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BlockVariable _$BlockVariableFromJson(Map<String, dynamic> json) {
-  return _BlockVariable.fromJson(json);
-}
-
-/// @nodoc
-mixin _$BlockVariable {
-  String get tag => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get label => throw _privateConstructorUsedError;
-  ValueType get type => throw _privateConstructorUsedError;
-  ValueUnit get unit => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockVariable to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of BlockVariable
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockVariableCopyWith<BlockVariable> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockVariableCopyWith<$Res> {
-  factory $BlockVariableCopyWith(
-          BlockVariable value, $Res Function(BlockVariable) then) =
-      _$BlockVariableCopyWithImpl<$Res, BlockVariable>;
-  @useResult
-  $Res call(
-      {String tag,
-      String name,
-      String label,
-      ValueType type,
-      ValueUnit unit,
-      String description});
-}
-
-/// @nodoc
-class _$BlockVariableCopyWithImpl<$Res, $Val extends BlockVariable>
-    implements $BlockVariableCopyWith<$Res> {
-  _$BlockVariableCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockVariable
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tag = null,
-    Object? name = null,
-    Object? label = null,
-    Object? type = null,
-    Object? unit = null,
-    Object? description = null,
-  }) {
-    return _then(_value.copyWith(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ValueType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as ValueUnit,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  String toString() {
+    return 'BlockCondition(label: $label, expression: $expression, description: $description, variables: $variables)';
   }
 }
 
 /// @nodoc
-abstract class _$$BlockVariableImplCopyWith<$Res>
-    implements $BlockVariableCopyWith<$Res> {
-  factory _$$BlockVariableImplCopyWith(
-          _$BlockVariableImpl value, $Res Function(_$BlockVariableImpl) then) =
-      __$$BlockVariableImplCopyWithImpl<$Res>;
+abstract mixin class _$BlockConditionCopyWith<$Res>
+    implements $BlockConditionCopyWith<$Res> {
+  factory _$BlockConditionCopyWith(
+          _BlockCondition value, $Res Function(_BlockCondition) _then) =
+      __$BlockConditionCopyWithImpl;
   @override
   @useResult
   $Res call(
-      {String tag,
-      String name,
-      String label,
-      ValueType type,
-      ValueUnit unit,
-      String description});
+      {String label,
+      String expression,
+      String description,
+      List<BlockVariable> variables});
 }
 
 /// @nodoc
-class __$$BlockVariableImplCopyWithImpl<$Res>
-    extends _$BlockVariableCopyWithImpl<$Res, _$BlockVariableImpl>
-    implements _$$BlockVariableImplCopyWith<$Res> {
-  __$$BlockVariableImplCopyWithImpl(
-      _$BlockVariableImpl _value, $Res Function(_$BlockVariableImpl) _then)
-      : super(_value, _then);
+class __$BlockConditionCopyWithImpl<$Res>
+    implements _$BlockConditionCopyWith<$Res> {
+  __$BlockConditionCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of BlockVariable
+  final _BlockCondition _self;
+  final $Res Function(_BlockCondition) _then;
+
+  /// Create a copy of BlockCondition
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
-    Object? tag = null,
-    Object? name = null,
     Object? label = null,
-    Object? type = null,
-    Object? unit = null,
+    Object? expression = null,
     Object? description = null,
+    Object? variables = null,
   }) {
-    return _then(_$BlockVariableImpl(
-      tag: null == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_BlockCondition(
       label: null == label
-          ? _value.label
+          ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ValueType,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as ValueUnit,
+      expression: null == expression
+          ? _self.expression
+          : expression // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      variables: null == variables
+          ? _self._variables
+          : variables // ignore: cast_nullable_to_non_nullable
+              as List<BlockVariable>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$BlockVariableImpl extends _BlockVariable {
-  const _$BlockVariableImpl(
-      {required this.tag,
-      required this.name,
-      required this.label,
-      required this.type,
-      required this.unit,
-      required this.description})
-      : super._();
+mixin _$BlockVariable {
+  String get tag;
+  String get name;
+  String get label;
+  ValueType get type;
+  ValueUnit get unit;
+  String get description;
 
-  factory _$BlockVariableImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockVariableImplFromJson(json);
+  /// Create a copy of BlockVariable
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BlockVariableCopyWith<BlockVariable> get copyWith =>
+      _$BlockVariableCopyWithImpl<BlockVariable>(
+          this as BlockVariable, _$identity);
 
-  @override
-  final String tag;
-  @override
-  final String name;
-  @override
-  final String label;
-  @override
-  final ValueType type;
-  @override
-  final ValueUnit unit;
-  @override
-  final String description;
-
-  @override
-  String toString() {
-    return 'BlockVariable(tag: $tag, name: $name, label: $label, type: $type, unit: $unit, description: $description)';
-  }
+  /// Serializes this BlockVariable to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockVariableImpl &&
+            other is BlockVariable &&
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.label, label) || other.label == label) &&
@@ -1621,193 +1410,230 @@ class _$BlockVariableImpl extends _BlockVariable {
   int get hashCode =>
       Object.hash(runtimeType, tag, name, label, type, unit, description);
 
-  /// Create a copy of BlockVariable
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockVariableImplCopyWith<_$BlockVariableImpl> get copyWith =>
-      __$$BlockVariableImplCopyWithImpl<_$BlockVariableImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockVariableImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _BlockVariable extends BlockVariable {
-  const factory _BlockVariable(
-      {required final String tag,
-      required final String name,
-      required final String label,
-      required final ValueType type,
-      required final ValueUnit unit,
-      required final String description}) = _$BlockVariableImpl;
-  const _BlockVariable._() : super._();
-
-  factory _BlockVariable.fromJson(Map<String, dynamic> json) =
-      _$BlockVariableImpl.fromJson;
-
-  @override
-  String get tag;
-  @override
-  String get name;
-  @override
-  String get label;
-  @override
-  ValueType get type;
-  @override
-  ValueUnit get unit;
-  @override
-  String get description;
-
-  /// Create a copy of BlockVariable
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockVariableImplCopyWith<_$BlockVariableImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BlockAction _$BlockActionFromJson(Map<String, dynamic> json) {
-  return _BlockAction.fromJson(json);
-}
-
-/// @nodoc
-mixin _$BlockAction {
-  String get label => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  BlockActionType get type => throw _privateConstructorUsedError;
-
-  /// Serializes this BlockAction to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of BlockAction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockActionCopyWith<BlockAction> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BlockActionCopyWith<$Res> {
-  factory $BlockActionCopyWith(
-          BlockAction value, $Res Function(BlockAction) then) =
-      _$BlockActionCopyWithImpl<$Res, BlockAction>;
-  @useResult
-  $Res call({String label, String description, BlockActionType type});
-}
-
-/// @nodoc
-class _$BlockActionCopyWithImpl<$Res, $Val extends BlockAction>
-    implements $BlockActionCopyWith<$Res> {
-  _$BlockActionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BlockAction
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? label = null,
-    Object? description = null,
-    Object? type = null,
-  }) {
-    return _then(_value.copyWith(
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as BlockActionType,
-    ) as $Val);
+  String toString() {
+    return 'BlockVariable(tag: $tag, name: $name, label: $label, type: $type, unit: $unit, description: $description)';
   }
 }
 
 /// @nodoc
-abstract class _$$BlockActionImplCopyWith<$Res>
-    implements $BlockActionCopyWith<$Res> {
-  factory _$$BlockActionImplCopyWith(
-          _$BlockActionImpl value, $Res Function(_$BlockActionImpl) then) =
-      __$$BlockActionImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BlockVariableCopyWith<$Res> {
+  factory $BlockVariableCopyWith(
+          BlockVariable value, $Res Function(BlockVariable) _then) =
+      _$BlockVariableCopyWithImpl;
   @useResult
-  $Res call({String label, String description, BlockActionType type});
+  $Res call(
+      {String tag,
+      String name,
+      String label,
+      ValueType type,
+      ValueUnit unit,
+      String description});
 }
 
 /// @nodoc
-class __$$BlockActionImplCopyWithImpl<$Res>
-    extends _$BlockActionCopyWithImpl<$Res, _$BlockActionImpl>
-    implements _$$BlockActionImplCopyWith<$Res> {
-  __$$BlockActionImplCopyWithImpl(
-      _$BlockActionImpl _value, $Res Function(_$BlockActionImpl) _then)
-      : super(_value, _then);
+class _$BlockVariableCopyWithImpl<$Res>
+    implements $BlockVariableCopyWith<$Res> {
+  _$BlockVariableCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of BlockAction
+  final BlockVariable _self;
+  final $Res Function(BlockVariable) _then;
+
+  /// Create a copy of BlockVariable
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? tag = null,
+    Object? name = null,
     Object? label = null,
-    Object? description = null,
     Object? type = null,
+    Object? unit = null,
+    Object? description = null,
   }) {
-    return _then(_$BlockActionImpl(
+    return _then(_self.copyWith(
+      tag: null == tag
+          ? _self.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       label: null == label
-          ? _value.label
+          ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ValueType,
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as ValueUnit,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as BlockActionType,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$BlockActionImpl extends _BlockAction {
-  const _$BlockActionImpl(
-      {required this.label, required this.description, required this.type})
+class _BlockVariable extends BlockVariable {
+  const _BlockVariable(
+      {required this.tag,
+      required this.name,
+      required this.label,
+      required this.type,
+      required this.unit,
+      required this.description})
       : super._();
+  factory _BlockVariable.fromJson(Map<String, dynamic> json) =>
+      _$BlockVariableFromJson(json);
 
-  factory _$BlockActionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockActionImplFromJson(json);
-
+  @override
+  final String tag;
+  @override
+  final String name;
   @override
   final String label;
   @override
-  final String description;
+  final ValueType type;
   @override
-  final BlockActionType type;
+  final ValueUnit unit;
+  @override
+  final String description;
+
+  /// Create a copy of BlockVariable
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BlockVariableCopyWith<_BlockVariable> get copyWith =>
+      __$BlockVariableCopyWithImpl<_BlockVariable>(this, _$identity);
 
   @override
-  String toString() {
-    return 'BlockAction(label: $label, description: $description, type: $type)';
+  Map<String, dynamic> toJson() {
+    return _$BlockVariableToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockActionImpl &&
+            other is _BlockVariable &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, tag, name, label, type, unit, description);
+
+  @override
+  String toString() {
+    return 'BlockVariable(tag: $tag, name: $name, label: $label, type: $type, unit: $unit, description: $description)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$BlockVariableCopyWith<$Res>
+    implements $BlockVariableCopyWith<$Res> {
+  factory _$BlockVariableCopyWith(
+          _BlockVariable value, $Res Function(_BlockVariable) _then) =
+      __$BlockVariableCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String tag,
+      String name,
+      String label,
+      ValueType type,
+      ValueUnit unit,
+      String description});
+}
+
+/// @nodoc
+class __$BlockVariableCopyWithImpl<$Res>
+    implements _$BlockVariableCopyWith<$Res> {
+  __$BlockVariableCopyWithImpl(this._self, this._then);
+
+  final _BlockVariable _self;
+  final $Res Function(_BlockVariable) _then;
+
+  /// Create a copy of BlockVariable
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? tag = null,
+    Object? name = null,
+    Object? label = null,
+    Object? type = null,
+    Object? unit = null,
+    Object? description = null,
+  }) {
+    return _then(_BlockVariable(
+      tag: null == tag
+          ? _self.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      label: null == label
+          ? _self.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ValueType,
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as ValueUnit,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$BlockAction {
+  String get label;
+  String get description;
+  BlockActionType get type;
+
+  /// Create a copy of BlockAction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BlockActionCopyWith<BlockAction> get copyWith =>
+      _$BlockActionCopyWithImpl<BlockAction>(this as BlockAction, _$identity);
+
+  /// Serializes this BlockAction to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BlockAction &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -1818,43 +1644,148 @@ class _$BlockActionImpl extends _BlockAction {
   @override
   int get hashCode => Object.hash(runtimeType, label, description, type);
 
-  /// Create a copy of BlockAction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockActionImplCopyWith<_$BlockActionImpl> get copyWith =>
-      __$$BlockActionImplCopyWithImpl<_$BlockActionImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockActionImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BlockAction(label: $label, description: $description, type: $type)';
   }
 }
 
-abstract class _BlockAction extends BlockAction {
-  const factory _BlockAction(
-      {required final String label,
-      required final String description,
-      required final BlockActionType type}) = _$BlockActionImpl;
-  const _BlockAction._() : super._();
+/// @nodoc
+abstract mixin class $BlockActionCopyWith<$Res> {
+  factory $BlockActionCopyWith(
+          BlockAction value, $Res Function(BlockAction) _then) =
+      _$BlockActionCopyWithImpl;
+  @useResult
+  $Res call({String label, String description, BlockActionType type});
+}
 
-  factory _BlockAction.fromJson(Map<String, dynamic> json) =
-      _$BlockActionImpl.fromJson;
+/// @nodoc
+class _$BlockActionCopyWithImpl<$Res> implements $BlockActionCopyWith<$Res> {
+  _$BlockActionCopyWithImpl(this._self, this._then);
+
+  final BlockAction _self;
+  final $Res Function(BlockAction) _then;
+
+  /// Create a copy of BlockAction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? label = null,
+    Object? description = null,
+    Object? type = null,
+  }) {
+    return _then(_self.copyWith(
+      label: null == label
+          ? _self.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BlockActionType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _BlockAction extends BlockAction {
+  const _BlockAction(
+      {required this.label, required this.description, required this.type})
+      : super._();
+  factory _BlockAction.fromJson(Map<String, dynamic> json) =>
+      _$BlockActionFromJson(json);
 
   @override
-  String get label;
+  final String label;
   @override
-  String get description;
+  final String description;
   @override
-  BlockActionType get type;
+  final BlockActionType type;
 
   /// Create a copy of BlockAction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockActionImplCopyWith<_$BlockActionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$BlockActionCopyWith<_BlockAction> get copyWith =>
+      __$BlockActionCopyWithImpl<_BlockAction>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockActionToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _BlockAction &&
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, label, description, type);
+
+  @override
+  String toString() {
+    return 'BlockAction(label: $label, description: $description, type: $type)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$BlockActionCopyWith<$Res>
+    implements $BlockActionCopyWith<$Res> {
+  factory _$BlockActionCopyWith(
+          _BlockAction value, $Res Function(_BlockAction) _then) =
+      __$BlockActionCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String label, String description, BlockActionType type});
+}
+
+/// @nodoc
+class __$BlockActionCopyWithImpl<$Res> implements _$BlockActionCopyWith<$Res> {
+  __$BlockActionCopyWithImpl(this._self, this._then);
+
+  final _BlockAction _self;
+  final $Res Function(_BlockAction) _then;
+
+  /// Create a copy of BlockAction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? label = null,
+    Object? description = null,
+    Object? type = null,
+  }) {
+    return _then(_BlockAction(
+      label: null == label
+          ? _self.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BlockActionType,
+    ));
+  }
+}
+
+// dart format on

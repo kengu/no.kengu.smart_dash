@@ -6,9 +6,8 @@ part of 'network_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NetworkDeviceInfoImpl _$$NetworkDeviceInfoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$NetworkDeviceInfoImpl(
+_NetworkDeviceInfo _$NetworkDeviceInfoFromJson(Map<String, dynamic> json) =>
+    _NetworkDeviceInfo(
       hostId: json['hostId'] as String,
       ipAddress: json['ipAddress'] as String,
       deviceName: json['deviceName'] as String,
@@ -21,8 +20,7 @@ _$NetworkDeviceInfoImpl _$$NetworkDeviceInfoImplFromJson(
           : DateTime.parse(json['aliveWhen'] as String),
     );
 
-Map<String, dynamic> _$$NetworkDeviceInfoImplToJson(
-        _$NetworkDeviceInfoImpl instance) =>
+Map<String, dynamic> _$NetworkDeviceInfoToJson(_NetworkDeviceInfo instance) =>
     <String, dynamic>{
       'hostId': instance.hostId,
       'ipAddress': instance.ipAddress,

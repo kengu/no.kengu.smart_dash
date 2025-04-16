@@ -258,7 +258,6 @@ class DataVectorTable extends Table
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   late final GeneratedColumnWithTypeConverter<DataVectorType, String> type =
       GeneratedColumn<String>('type', aliasedName, false,
               type: DriftSqlType.string,
@@ -304,7 +303,6 @@ class DataVectorTable extends Table
     } else if (isInserting) {
       context.missing(_dataMeta);
     }
-    context.handle(_typeMeta, const VerificationResult.success());
     return context;
   }
 

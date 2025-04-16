@@ -60,6 +60,6 @@ class Snapshot {
 }
 
 @Riverpod(keepAlive: true)
-SnapshotRepository snapshotRepository(SnapshotRepositoryRef ref) {
+SnapshotRepository snapshotRepository(Ref ref) {
   return SnapshotRepository(ref);
 }

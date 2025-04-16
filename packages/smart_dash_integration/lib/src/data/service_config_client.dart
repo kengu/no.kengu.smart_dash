@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -71,8 +72,7 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
 }
 
 @Riverpod(keepAlive: true)
-ServiceConfigClient serviceConfigClient(
-    ServiceConfigClientRef ref, String baseUrl) {
+ServiceConfigClient serviceConfigClient(Ref ref, String baseUrl) {
   return ServiceConfigClient(
     Dio(BaseOptions(headers: {
       // TODO: Authentication

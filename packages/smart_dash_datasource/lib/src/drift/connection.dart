@@ -13,7 +13,7 @@ part 'connection.g.dart';
 const defaultDbPath = './db';
 
 @Riverpod(keepAlive: true)
-ConnectionManager connectionManager(ConnectionManagerRef ref) {
+ConnectionManager connectionManager(Ref ref) {
   return ConnectionManager();
 }
 

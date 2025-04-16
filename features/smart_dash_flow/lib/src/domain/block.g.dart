@@ -6,8 +6,7 @@ part of 'block.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BlockModelImpl _$$BlockModelImplFromJson(Map<String, dynamic> json) =>
-    _$BlockModelImpl(
+_BlockModel _$BlockModelFromJson(Map<String, dynamic> json) => _BlockModel(
       id: json['id'] as String,
       type: json['type'] as String,
       label: json['label'] as String,
@@ -29,7 +28,7 @@ _$BlockModelImpl _$$BlockModelImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$BlockModelImplToJson(_$BlockModelImpl instance) =>
+Map<String, dynamic> _$BlockModelToJson(_BlockModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
@@ -44,8 +43,8 @@ Map<String, dynamic> _$$BlockModelImplToJson(_$BlockModelImpl instance) =>
       'conditions': instance.conditions.map((e) => e.toJson()).toList(),
     };
 
-_$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>
-    _$BlockParameterImpl(
+_BlockParameter _$BlockParameterFromJson(Map<String, dynamic> json) =>
+    _BlockParameter(
       tag: json['tag'] as String,
       name: json['name'] as String,
       value: json['value'] as Object,
@@ -53,8 +52,7 @@ _$BlockParameterImpl _$$BlockParameterImplFromJson(Map<String, dynamic> json) =>
       unit: $enumDecode(_$ValueUnitEnumMap, json['unit']),
     );
 
-Map<String, dynamic> _$$BlockParameterImplToJson(
-        _$BlockParameterImpl instance) =>
+Map<String, dynamic> _$BlockParameterToJson(_BlockParameter instance) =>
     <String, dynamic>{
       'tag': instance.tag,
       'name': instance.name,
@@ -90,8 +88,7 @@ const _$ValueUnitEnumMap = {
   ValueUnit.temperature: 'temperature',
 };
 
-_$BlockStateImpl _$$BlockStateImplFromJson(Map<String, dynamic> json) =>
-    _$BlockStateImpl(
+_BlockState _$BlockStateFromJson(Map<String, dynamic> json) => _BlockState(
       value: json['value'] as bool,
       repeated: (json['repeated'] as num).toInt(),
       tags: (json['tags'] as List<dynamic>)
@@ -102,7 +99,7 @@ _$BlockStateImpl _$$BlockStateImplFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['lastChanged'] as String),
     );
 
-Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
+Map<String, dynamic> _$BlockStateToJson(_BlockState instance) =>
     <String, dynamic>{
       'value': instance.value,
       'repeated': instance.repeated,
@@ -110,8 +107,8 @@ Map<String, dynamic> _$$BlockStateImplToJson(_$BlockStateImpl instance) =>
       'lastChanged': instance.lastChanged?.toIso8601String(),
     };
 
-_$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
-    _$BlockTriggerImpl(
+_BlockTrigger _$BlockTriggerFromJson(Map<String, dynamic> json) =>
+    _BlockTrigger(
       any: json['any'] as bool,
       repeatCount: (json['repeatCount'] as num).toInt(),
       repeatAfter: (json['repeatAfter'] as num).toInt(),
@@ -124,7 +121,7 @@ _$BlockTriggerImpl _$$BlockTriggerImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$BlockTriggerImplToJson(_$BlockTriggerImpl instance) =>
+Map<String, dynamic> _$BlockTriggerToJson(_BlockTrigger instance) =>
     <String, dynamic>{
       'any': instance.any,
       'repeatCount': instance.repeatCount,
@@ -142,8 +139,8 @@ const _$BlockTriggerOnTypeEnumMap = {
   BlockTriggerOnType.device: 'device',
 };
 
-_$BlockConditionImpl _$$BlockConditionImplFromJson(Map<String, dynamic> json) =>
-    _$BlockConditionImpl(
+_BlockCondition _$BlockConditionFromJson(Map<String, dynamic> json) =>
+    _BlockCondition(
       label: json['label'] as String,
       expression: json['expression'] as String,
       description: json['description'] as String,
@@ -152,8 +149,7 @@ _$BlockConditionImpl _$$BlockConditionImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$BlockConditionImplToJson(
-        _$BlockConditionImpl instance) =>
+Map<String, dynamic> _$BlockConditionToJson(_BlockCondition instance) =>
     <String, dynamic>{
       'label': instance.label,
       'expression': instance.expression,
@@ -161,8 +157,8 @@ Map<String, dynamic> _$$BlockConditionImplToJson(
       'variables': instance.variables.map((e) => e.toJson()).toList(),
     };
 
-_$BlockVariableImpl _$$BlockVariableImplFromJson(Map<String, dynamic> json) =>
-    _$BlockVariableImpl(
+_BlockVariable _$BlockVariableFromJson(Map<String, dynamic> json) =>
+    _BlockVariable(
       tag: json['tag'] as String,
       name: json['name'] as String,
       label: json['label'] as String,
@@ -171,7 +167,7 @@ _$BlockVariableImpl _$$BlockVariableImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
     );
 
-Map<String, dynamic> _$$BlockVariableImplToJson(_$BlockVariableImpl instance) =>
+Map<String, dynamic> _$BlockVariableToJson(_BlockVariable instance) =>
     <String, dynamic>{
       'tag': instance.tag,
       'name': instance.name,
@@ -181,14 +177,13 @@ Map<String, dynamic> _$$BlockVariableImplToJson(_$BlockVariableImpl instance) =>
       'description': instance.description,
     };
 
-_$BlockActionImpl _$$BlockActionImplFromJson(Map<String, dynamic> json) =>
-    _$BlockActionImpl(
+_BlockAction _$BlockActionFromJson(Map<String, dynamic> json) => _BlockAction(
       label: json['label'] as String,
       description: json['description'] as String,
       type: $enumDecode(_$BlockActionTypeEnumMap, json['type']),
     );
 
-Map<String, dynamic> _$$BlockActionImplToJson(_$BlockActionImpl instance) =>
+Map<String, dynamic> _$BlockActionToJson(_BlockAction instance) =>
     <String, dynamic>{
       'label': instance.label,
       'description': instance.description,

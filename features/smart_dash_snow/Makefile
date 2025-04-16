@@ -32,10 +32,10 @@ watch:
 
 clean-build:
 	echo "Clean generated code..."
-	dart pub run build_runner clean
+	dart run build_runner clean
 
 test:
-	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	@if [ -d test ] && ls test/* > /dev/null 2>&1; then \
 	  echo "Running tests in $(pwd)"; \
 	  flutter test; \
 	else \

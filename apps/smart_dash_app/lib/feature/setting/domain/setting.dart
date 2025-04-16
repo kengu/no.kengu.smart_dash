@@ -5,7 +5,7 @@ part 'setting.freezed.dart';
 part 'setting.g.dart';
 
 @freezed
-class Setting with _$Setting {
+sealed class Setting with _$Setting {
   const Setting._();
 
   const factory Setting({

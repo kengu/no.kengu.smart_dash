@@ -44,23 +44,10 @@ abstract class _$NewDevicesScreenController
 const newDevicesScreenControllerProvider = NewDevicesScreenControllerFamily();
 
 /// See also [NewDevicesScreenController].
-class NewDevicesScreenControllerFamily extends Family {
+class NewDevicesScreenControllerFamily
+    extends Family<AsyncValue<Optional<List<Device>>>> {
   /// See also [NewDevicesScreenController].
   const NewDevicesScreenControllerFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'newDevicesScreenControllerProvider';
 
   /// See also [NewDevicesScreenController].
   NewDevicesScreenControllerProvider call(
@@ -71,7 +58,6 @@ class NewDevicesScreenControllerFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   NewDevicesScreenControllerProvider getProviderOverride(
     covariant NewDevicesScreenControllerProvider provider,
@@ -81,27 +67,19 @@ class NewDevicesScreenControllerFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(NewDevicesScreenController Function() create) {
-    return _$NewDevicesScreenControllerFamilyOverride(this, create);
-  }
-}
-
-class _$NewDevicesScreenControllerFamilyOverride implements FamilyOverride {
-  _$NewDevicesScreenControllerFamilyOverride(
-      this.overriddenFamily, this.create);
-
-  final NewDevicesScreenController Function() create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final NewDevicesScreenControllerFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  NewDevicesScreenControllerProvider getProviderOverride(
-    covariant NewDevicesScreenControllerProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'newDevicesScreenControllerProvider';
 }
 
 /// See also [NewDevicesScreenController].
@@ -126,7 +104,7 @@ class NewDevicesScreenControllerProvider
         );
 
   NewDevicesScreenControllerProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -163,28 +141,9 @@ class NewDevicesScreenControllerProvider
   }
 
   @override
-  (NewDevicesQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeAsyncNotifierProviderElement<NewDevicesScreenController,
       Optional<List<Device>>> createElement() {
     return _NewDevicesScreenControllerProviderElement(this);
-  }
-
-  NewDevicesScreenControllerProvider _copyWith(
-    NewDevicesScreenController Function() create,
-  ) {
-    return NewDevicesScreenControllerProvider._internal(
-      () => create()..query = query,
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -201,6 +160,8 @@ class NewDevicesScreenControllerProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin NewDevicesScreenControllerRef
     on AutoDisposeAsyncNotifierProviderRef<Optional<List<Device>>> {
   /// The parameter `query` of this provider.
@@ -217,4 +178,4 @@ class _NewDevicesScreenControllerProviderElement
       (origin as NewDevicesScreenControllerProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

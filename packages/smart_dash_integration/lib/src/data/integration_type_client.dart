@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -24,8 +25,7 @@ class IntegrationTypeClient extends QueryClient<String, Integration> {
 }
 
 @Riverpod(keepAlive: true)
-IntegrationTypeClient integrationClient(
-    IntegrationClientRef ref, String baseUrl) {
+IntegrationTypeClient integrationClient(Ref ref, String baseUrl) {
   return IntegrationTypeClient(
     Dio(BaseOptions(headers: {
       // TODO: Authentication

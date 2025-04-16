@@ -27,14 +27,12 @@ class AccountTable extends Table
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       $customConstraints: 'NULL');
-  static const VerificationMeta _usersMeta = const VerificationMeta('users');
   late final GeneratedColumnWithTypeConverter<List<User>, String> users =
       GeneratedColumn<String>('users', aliasedName, false,
               type: DriftSqlType.string,
               requiredDuringInsert: true,
               $customConstraints: 'NOT NULL')
           .withConverter<List<User>>(AccountTable.$converterusers);
-  static const VerificationMeta _homesMeta = const VerificationMeta('homes');
   late final GeneratedColumnWithTypeConverter<List<Home>, String> homes =
       GeneratedColumn<String>('homes', aliasedName, false,
               type: DriftSqlType.string,
@@ -66,8 +64,6 @@ class AccountTable extends Table
       context.handle(
           _lnameMeta, lname.isAcceptableOrUnknown(data['lname']!, _lnameMeta));
     }
-    context.handle(_usersMeta, const VerificationResult.success());
-    context.handle(_homesMeta, const VerificationResult.success());
     return context;
   }
 

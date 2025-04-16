@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,97 +10,62 @@ part of 'account.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Account _$AccountFromJson(Map<String, dynamic> json) {
-  return _Account.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Account {
-  String get userId => throw _privateConstructorUsedError;
-  List<Home> get homes => throw _privateConstructorUsedError;
-  String? get fname => throw _privateConstructorUsedError;
-  String? get lname => throw _privateConstructorUsedError;
-
-  /// Serializes this Account to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get userId;
+  List<Home> get homes;
+  String? get fname;
+  String? get lname;
 
   /// Create a copy of Account
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AccountCopyWith<Account> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AccountCopyWith<$Res> {
-  factory $AccountCopyWith(Account value, $Res Function(Account) then) =
-      _$AccountCopyWithImpl<$Res, Account>;
-  @useResult
-  $Res call({String userId, List<Home> homes, String? fname, String? lname});
-}
-
-/// @nodoc
-class _$AccountCopyWithImpl<$Res, $Val extends Account>
-    implements $AccountCopyWith<$Res> {
-  _$AccountCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Account
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $AccountCopyWith<Account> get copyWith =>
+      _$AccountCopyWithImpl<Account>(this as Account, _$identity);
+
+  /// Serializes this Account to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? userId = null,
-    Object? homes = null,
-    Object? fname = freezed,
-    Object? lname = freezed,
-  }) {
-    return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      homes: null == homes
-          ? _value.homes
-          : homes // ignore: cast_nullable_to_non_nullable
-              as List<Home>,
-      fname: freezed == fname
-          ? _value.fname
-          : fname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lname: freezed == lname
-          ? _value.lname
-          : lname // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Account &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(other.homes, homes) &&
+            (identical(other.fname, fname) || other.fname == fname) &&
+            (identical(other.lname, lname) || other.lname == lname));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId,
+      const DeepCollectionEquality().hash(homes), fname, lname);
+
+  @override
+  String toString() {
+    return 'Account(userId: $userId, homes: $homes, fname: $fname, lname: $lname)';
   }
 }
 
 /// @nodoc
-abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
-  factory _$$AccountImplCopyWith(
-          _$AccountImpl value, $Res Function(_$AccountImpl) then) =
-      __$$AccountImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AccountCopyWith<$Res> {
+  factory $AccountCopyWith(Account value, $Res Function(Account) _then) =
+      _$AccountCopyWithImpl;
   @useResult
   $Res call({String userId, List<Home> homes, String? fname, String? lname});
 }
 
 /// @nodoc
-class __$$AccountImplCopyWithImpl<$Res>
-    extends _$AccountCopyWithImpl<$Res, _$AccountImpl>
-    implements _$$AccountImplCopyWith<$Res> {
-  __$$AccountImplCopyWithImpl(
-      _$AccountImpl _value, $Res Function(_$AccountImpl) _then)
-      : super(_value, _then);
+class _$AccountCopyWithImpl<$Res> implements $AccountCopyWith<$Res> {
+  _$AccountCopyWithImpl(this._self, this._then);
+
+  final Account _self;
+  final $Res Function(Account) _then;
 
   /// Create a copy of Account
   /// with the given fields replaced by the non-null parameter values.
@@ -111,21 +77,21 @@ class __$$AccountImplCopyWithImpl<$Res>
     Object? fname = freezed,
     Object? lname = freezed,
   }) {
-    return _then(_$AccountImpl(
+    return _then(_self.copyWith(
       userId: null == userId
-          ? _value.userId
+          ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
       homes: null == homes
-          ? _value._homes
+          ? _self.homes
           : homes // ignore: cast_nullable_to_non_nullable
               as List<Home>,
       fname: freezed == fname
-          ? _value.fname
+          ? _self.fname
           : fname // ignore: cast_nullable_to_non_nullable
               as String?,
       lname: freezed == lname
-          ? _value.lname
+          ? _self.lname
           : lname // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -134,17 +100,16 @@ class __$$AccountImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AccountImpl extends _Account {
-  const _$AccountImpl(
+class _Account extends Account {
+  const _Account(
       {required this.userId,
       required final List<Home> homes,
       this.fname,
       this.lname})
       : _homes = homes,
         super._();
-
-  factory _$AccountImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AccountImplFromJson(json);
+  factory _Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
 
   @override
   final String userId;
@@ -161,16 +126,26 @@ class _$AccountImpl extends _Account {
   @override
   final String? lname;
 
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Account(userId: $userId, homes: $homes, fname: $fname, lname: $lname)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AccountCopyWith<_Account> get copyWith =>
+      __$AccountCopyWithImpl<_Account>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AccountToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AccountImpl &&
+            other is _Account &&
             (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other._homes, _homes) &&
             (identical(other.fname, fname) || other.fname == fname) &&
@@ -182,45 +157,57 @@ class _$AccountImpl extends _Account {
   int get hashCode => Object.hash(runtimeType, userId,
       const DeepCollectionEquality().hash(_homes), fname, lname);
 
-  /// Create a copy of Account
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
-      __$$AccountImplCopyWithImpl<_$AccountImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AccountImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Account(userId: $userId, homes: $homes, fname: $fname, lname: $lname)';
   }
 }
 
-abstract class _Account extends Account {
-  const factory _Account(
-      {required final String userId,
-      required final List<Home> homes,
-      final String? fname,
-      final String? lname}) = _$AccountImpl;
-  const _Account._() : super._();
+/// @nodoc
+abstract mixin class _$AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
+  factory _$AccountCopyWith(_Account value, $Res Function(_Account) _then) =
+      __$AccountCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String userId, List<Home> homes, String? fname, String? lname});
+}
 
-  factory _Account.fromJson(Map<String, dynamic> json) = _$AccountImpl.fromJson;
+/// @nodoc
+class __$AccountCopyWithImpl<$Res> implements _$AccountCopyWith<$Res> {
+  __$AccountCopyWithImpl(this._self, this._then);
 
-  @override
-  String get userId;
-  @override
-  List<Home> get homes;
-  @override
-  String? get fname;
-  @override
-  String? get lname;
+  final _Account _self;
+  final $Res Function(_Account) _then;
 
   /// Create a copy of Account
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? userId = null,
+    Object? homes = null,
+    Object? fname = freezed,
+    Object? lname = freezed,
+  }) {
+    return _then(_Account(
+      userId: null == userId
+          ? _self.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      homes: null == homes
+          ? _self._homes
+          : homes // ignore: cast_nullable_to_non_nullable
+              as List<Home>,
+      fname: freezed == fname
+          ? _self.fname
+          : fname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lname: freezed == lname
+          ? _self.lname
+          : lname // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
+
+// dart format on

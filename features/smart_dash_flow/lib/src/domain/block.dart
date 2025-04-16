@@ -20,7 +20,7 @@ class BlockFields {
 
 /// Block model
 @freezed
-class BlockModel with _$BlockModel {
+sealed class BlockModel with _$BlockModel {
   const BlockModel._();
 
   const factory BlockModel({
@@ -80,7 +80,7 @@ class BlockParameterFields {
 
 /// Block parameter model
 @freezed
-class BlockParameter with _$BlockParameter {
+sealed class BlockParameter with _$BlockParameter {
   const BlockParameter._();
 
   const factory BlockParameter({
@@ -118,7 +118,7 @@ class BlockParameter with _$BlockParameter {
 
 /// Block state model
 @freezed
-class BlockState with _$BlockState {
+sealed class BlockState with _$BlockState {
   const BlockState._();
 
   const factory BlockState({
@@ -194,7 +194,7 @@ class BlockTriggerFields {
 
 /// Block trigger model
 @freezed
-class BlockTrigger with _$BlockTrigger {
+sealed class BlockTrigger with _$BlockTrigger {
   const BlockTrigger._();
 
   const factory BlockTrigger({
@@ -220,7 +220,7 @@ class BlockConditionFields {
 
 /// Block condition model
 @freezed
-class BlockCondition with _$BlockCondition {
+sealed class BlockCondition with _$BlockCondition {
   const BlockCondition._();
 
   const factory BlockCondition({
@@ -245,7 +245,7 @@ class BlockVariableFields {
 
 /// Block variable model
 @freezed
-class BlockVariable with _$BlockVariable {
+sealed class BlockVariable with _$BlockVariable {
   const BlockVariable._();
 
   const factory BlockVariable({
@@ -298,7 +298,7 @@ class BlockActionFields {
 
 /// Model of block action performed when all conditions are met
 @freezed
-class BlockAction with _$BlockAction {
+sealed class BlockAction with _$BlockAction {
   const BlockAction._();
 
   const factory BlockAction({

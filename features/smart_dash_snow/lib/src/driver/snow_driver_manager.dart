@@ -1,3 +1,4 @@
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -10,5 +11,4 @@ class SnowDriverManager extends DriverManager<SnowDriver> {
 }
 
 @Riverpod(keepAlive: true)
-SnowDriverManager snowDriverManager(SnowDriverManagerRef ref) =>
-    SnowDriverManager(ref);
+SnowDriverManager snowDriverManager(Ref ref) => SnowDriverManager(ref);

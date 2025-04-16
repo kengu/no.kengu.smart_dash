@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:optional/optional.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -46,7 +45,7 @@ class OsmClient extends GeocoderClient {
       street: [
         data.address?['road'] as String?,
         data.address?['house_number'] as String?,
-      ].whereNotNull().join(' '),
+      ].nonNulls.join(' '),
       county: data.address?['county'] as String?,
       country: data.address?['country'] as String?,
       postalCode: data.address?['postcode'] as String?,

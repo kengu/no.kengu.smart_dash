@@ -6,16 +6,16 @@ part of 'electricity_price_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ElectricityPriceResponseImpl _$$ElectricityPriceResponseImplFromJson(
+_ElectricityPriceResponse _$ElectricityPriceResponseFromJson(
         Map<String, dynamic> json) =>
-    _$ElectricityPriceResponseImpl(
+    _ElectricityPriceResponse(
       prices: (json['data'] as List<dynamic>)
           .map((e) => ElectricityPrice.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$ElectricityPriceResponseImplToJson(
-        _$ElectricityPriceResponseImpl instance) =>
+Map<String, dynamic> _$ElectricityPriceResponseToJson(
+        _ElectricityPriceResponse instance) =>
     <String, dynamic>{
       'data': instance.prices.map((e) => e.toJson()).toList(),
     };

@@ -56,5 +56,4 @@ class CalculationEngine {
 }
 
 @Riverpod(keepAlive: true)
-CalculationEngine calculationEngine(CalculationEngineRef ref) =>
-    CalculationEngine(ref);
+CalculationEngine calculationEngine(Ref ref) => CalculationEngine(ref);

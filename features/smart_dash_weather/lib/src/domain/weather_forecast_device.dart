@@ -8,7 +8,7 @@ part 'weather_forecast_device.freezed.dart';
 part 'weather_forecast_device.g.dart';
 
 @freezed
-class WeatherForecastDevice with _$WeatherForecastDevice, DeviceMapper {
+sealed class WeatherForecastDevice with _$WeatherForecastDevice, DeviceMapper {
   const WeatherForecastDevice._();
   const factory WeatherForecastDevice({
     @JsonKey(name: 'service') required String service,

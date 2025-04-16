@@ -64,7 +64,7 @@ else ifeq ($(OSNAME),LINUX)
 	@echo "TODO: [!] Install dependencies"
 else ifeq ($(OSNAME),OSX)
 	@echo "Installing dependencies..."
-	@dart pub global activate pana
+	@dart global activate pana
 	@brew install act watch carthage docker docker-compose colima
 
 	@command -v bundletool >/dev/null 2>&1 || (echo "[!] Installing bundletool" && brew install bundletool)
@@ -89,7 +89,7 @@ drift-info:
 	dart run drift_dev identify-databases
 
 build:
-	echo "run code generation..."
+	echo "Run code generation..."
 	dart run build_runner build --delete-conflicting-outputs
 
 watch:
@@ -98,7 +98,7 @@ watch:
 
 clean-build:
 	echo "Clean generated build..."
-	dart pub run build_runner clean
+	dart run build_runner clean
 
 android-configure:
 	echo "Initialize Android configuration..."; \
@@ -188,7 +188,7 @@ action:
 	act
 
 test:
-	@if [ -d test ] && ls test/*.dart > /dev/null 2>&1; then \
+	@if [ -d test ] && ls test/* > /dev/null 2>&1; then \
 	  echo "Running tests in $(pwd)"; \
 	  flutter test; \
 	else \

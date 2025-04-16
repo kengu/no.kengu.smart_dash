@@ -99,5 +99,4 @@ class SystemHealthService {
 }
 
 @Riverpod(keepAlive: true)
-SystemHealthService systemHealthService(SystemHealthServiceRef ref) =>
-    SystemHealthService(ref);
+SystemHealthService systemHealthService(Ref ref) => SystemHealthService(ref);

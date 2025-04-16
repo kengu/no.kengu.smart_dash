@@ -153,10 +153,10 @@ class FlowEventQuery {
 }
 
 @Riverpod(keepAlive: true)
-FlowManager flowManager(FlowManagerRef ref) => FlowManager(ref);
+FlowManager flowManager(Ref ref) => FlowManager(ref);
 
 @riverpod
-Stream<FlowEvent> flow(FlowRef ref, FlowEventQuery query) async* {
+Stream<FlowEvent> flow(Ref ref, FlowEventQuery query) async* {
   final manager = ref.watch(flowManagerProvider);
   await for (final event in manager.events.where(query.when)) {
     yield event;

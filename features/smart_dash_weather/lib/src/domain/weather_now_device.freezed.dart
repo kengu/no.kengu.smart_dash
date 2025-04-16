@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,159 +10,32 @@ part of 'weather_now_device.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-WeatherNowDevice _$WeatherNowDeviceFromJson(Map<String, dynamic> json) {
-  return _WeatherNowDevice.fromJson(json);
-}
 
 /// @nodoc
 mixin _$WeatherNowDevice {
   @JsonKey(name: 'service')
-  String get service => throw _privateConstructorUsedError;
+  String get service;
   @JsonKey(name: 'state')
-  WeatherState get state => throw _privateConstructorUsedError;
-
-  /// Serializes this WeatherNowDevice to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  WeatherState get state;
 
   /// Create a copy of WeatherNowDevice
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $WeatherNowDeviceCopyWith<WeatherNowDevice> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$WeatherNowDeviceCopyWithImpl<WeatherNowDevice>(
+          this as WeatherNowDevice, _$identity);
 
-/// @nodoc
-abstract class $WeatherNowDeviceCopyWith<$Res> {
-  factory $WeatherNowDeviceCopyWith(
-          WeatherNowDevice value, $Res Function(WeatherNowDevice) then) =
-      _$WeatherNowDeviceCopyWithImpl<$Res, WeatherNowDevice>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'service') String service,
-      @JsonKey(name: 'state') WeatherState state});
-
-  $WeatherStateCopyWith<$Res> get state;
-}
-
-/// @nodoc
-class _$WeatherNowDeviceCopyWithImpl<$Res, $Val extends WeatherNowDevice>
-    implements $WeatherNowDeviceCopyWith<$Res> {
-  _$WeatherNowDeviceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of WeatherNowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? service = null,
-    Object? state = null,
-  }) {
-    return _then(_value.copyWith(
-      service: null == service
-          ? _value.service
-          : service // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as WeatherState,
-    ) as $Val);
-  }
-
-  /// Create a copy of WeatherNowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $WeatherStateCopyWith<$Res> get state {
-    return $WeatherStateCopyWith<$Res>(_value.state, (value) {
-      return _then(_value.copyWith(state: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$WeatherNowDeviceImplCopyWith<$Res>
-    implements $WeatherNowDeviceCopyWith<$Res> {
-  factory _$$WeatherNowDeviceImplCopyWith(_$WeatherNowDeviceImpl value,
-          $Res Function(_$WeatherNowDeviceImpl) then) =
-      __$$WeatherNowDeviceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'service') String service,
-      @JsonKey(name: 'state') WeatherState state});
-
-  @override
-  $WeatherStateCopyWith<$Res> get state;
-}
-
-/// @nodoc
-class __$$WeatherNowDeviceImplCopyWithImpl<$Res>
-    extends _$WeatherNowDeviceCopyWithImpl<$Res, _$WeatherNowDeviceImpl>
-    implements _$$WeatherNowDeviceImplCopyWith<$Res> {
-  __$$WeatherNowDeviceImplCopyWithImpl(_$WeatherNowDeviceImpl _value,
-      $Res Function(_$WeatherNowDeviceImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of WeatherNowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? service = null,
-    Object? state = null,
-  }) {
-    return _then(_$WeatherNowDeviceImpl(
-      service: null == service
-          ? _value.service
-          : service // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as WeatherState,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$WeatherNowDeviceImpl extends _WeatherNowDevice {
-  const _$WeatherNowDeviceImpl(
-      {@JsonKey(name: 'service') required this.service,
-      @JsonKey(name: 'state') required this.state})
-      : super._();
-
-  factory _$WeatherNowDeviceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WeatherNowDeviceImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'service')
-  final String service;
-  @override
-  @JsonKey(name: 'state')
-  final WeatherState state;
-
-  @override
-  String toString() {
-    return 'WeatherNowDevice(service: $service, state: $state)';
-  }
+  /// Serializes this WeatherNowDevice to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WeatherNowDeviceImpl &&
+            other is WeatherNowDevice &&
             (identical(other.service, service) || other.service == service) &&
             (identical(other.state, state) || other.state == state));
   }
@@ -170,44 +44,168 @@ class _$WeatherNowDeviceImpl extends _WeatherNowDevice {
   @override
   int get hashCode => Object.hash(runtimeType, service, state);
 
-  /// Create a copy of WeatherNowDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$WeatherNowDeviceImplCopyWith<_$WeatherNowDeviceImpl> get copyWith =>
-      __$$WeatherNowDeviceImplCopyWithImpl<_$WeatherNowDeviceImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WeatherNowDeviceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'WeatherNowDevice(service: $service, state: $state)';
   }
 }
 
-abstract class _WeatherNowDevice extends WeatherNowDevice {
-  const factory _WeatherNowDevice(
-          {@JsonKey(name: 'service') required final String service,
-          @JsonKey(name: 'state') required final WeatherState state}) =
-      _$WeatherNowDeviceImpl;
-  const _WeatherNowDevice._() : super._();
+/// @nodoc
+abstract mixin class $WeatherNowDeviceCopyWith<$Res> {
+  factory $WeatherNowDeviceCopyWith(
+          WeatherNowDevice value, $Res Function(WeatherNowDevice) _then) =
+      _$WeatherNowDeviceCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'service') String service,
+      @JsonKey(name: 'state') WeatherState state});
 
-  factory _WeatherNowDevice.fromJson(Map<String, dynamic> json) =
-      _$WeatherNowDeviceImpl.fromJson;
+  $WeatherStateCopyWith<$Res> get state;
+}
+
+/// @nodoc
+class _$WeatherNowDeviceCopyWithImpl<$Res>
+    implements $WeatherNowDeviceCopyWith<$Res> {
+  _$WeatherNowDeviceCopyWithImpl(this._self, this._then);
+
+  final WeatherNowDevice _self;
+  final $Res Function(WeatherNowDevice) _then;
+
+  /// Create a copy of WeatherNowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? service = null,
+    Object? state = null,
+  }) {
+    return _then(_self.copyWith(
+      service: null == service
+          ? _self.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _self.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as WeatherState,
+    ));
+  }
+
+  /// Create a copy of WeatherNowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WeatherStateCopyWith<$Res> get state {
+    return $WeatherStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _WeatherNowDevice extends WeatherNowDevice {
+  const _WeatherNowDevice(
+      {@JsonKey(name: 'service') required this.service,
+      @JsonKey(name: 'state') required this.state})
+      : super._();
+  factory _WeatherNowDevice.fromJson(Map<String, dynamic> json) =>
+      _$WeatherNowDeviceFromJson(json);
 
   @override
   @JsonKey(name: 'service')
-  String get service;
+  final String service;
   @override
   @JsonKey(name: 'state')
-  WeatherState get state;
+  final WeatherState state;
 
   /// Create a copy of WeatherNowDevice
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeatherNowDeviceImplCopyWith<_$WeatherNowDeviceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$WeatherNowDeviceCopyWith<_WeatherNowDevice> get copyWith =>
+      __$WeatherNowDeviceCopyWithImpl<_WeatherNowDevice>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$WeatherNowDeviceToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _WeatherNowDevice &&
+            (identical(other.service, service) || other.service == service) &&
+            (identical(other.state, state) || other.state == state));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, service, state);
+
+  @override
+  String toString() {
+    return 'WeatherNowDevice(service: $service, state: $state)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$WeatherNowDeviceCopyWith<$Res>
+    implements $WeatherNowDeviceCopyWith<$Res> {
+  factory _$WeatherNowDeviceCopyWith(
+          _WeatherNowDevice value, $Res Function(_WeatherNowDevice) _then) =
+      __$WeatherNowDeviceCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'service') String service,
+      @JsonKey(name: 'state') WeatherState state});
+
+  @override
+  $WeatherStateCopyWith<$Res> get state;
+}
+
+/// @nodoc
+class __$WeatherNowDeviceCopyWithImpl<$Res>
+    implements _$WeatherNowDeviceCopyWith<$Res> {
+  __$WeatherNowDeviceCopyWithImpl(this._self, this._then);
+
+  final _WeatherNowDevice _self;
+  final $Res Function(_WeatherNowDevice) _then;
+
+  /// Create a copy of WeatherNowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? service = null,
+    Object? state = null,
+  }) {
+    return _then(_WeatherNowDevice(
+      service: null == service
+          ? _self.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _self.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as WeatherState,
+    ));
+  }
+
+  /// Create a copy of WeatherNowDevice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WeatherStateCopyWith<$Res> get state {
+    return $WeatherStateCopyWith<$Res>(_self.state, (value) {
+      return _then(_self.copyWith(state: value));
+    });
+  }
+}
+
+// dart format on

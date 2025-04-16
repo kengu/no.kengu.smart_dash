@@ -123,8 +123,7 @@ class BlockFlowQuery {
 }
 
 @riverpod
-Stream<BlockModel> blockModelFlow(
-    BlockModelFlowRef ref, BlockFlowQuery query) async* {
+Stream<BlockModel> blockModelFlow(Ref ref, BlockFlowQuery query) async* {
   final manager = ref.watch(flowManagerProvider);
   final repo = ref.watch(blockRepositoryProvider);
   final model = await repo.get(query.id);
@@ -142,4 +141,4 @@ Stream<BlockModel> blockModelFlow(
 }
 
 @Riverpod(keepAlive: true)
-BlockManager blockManager(BlockManagerRef ref) => BlockManager(ref);
+BlockManager blockManager(Ref ref) => BlockManager(ref);

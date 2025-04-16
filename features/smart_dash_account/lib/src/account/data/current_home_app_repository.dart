@@ -54,7 +54,6 @@ class CurrentHomeAppRepository
 }
 
 @Riverpod(keepAlive: true)
-CurrentHomeAppRepository appCurrentHomeRepository(
-    AppCurrentHomeRepositoryRef ref) {
+CurrentHomeAppRepository appCurrentHomeRepository(Ref ref) {
   return CurrentHomeAppRepository(ref);
 }

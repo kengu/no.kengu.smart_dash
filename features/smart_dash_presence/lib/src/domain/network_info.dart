@@ -5,7 +5,7 @@ part 'network_info.freezed.dart';
 part 'network_info.g.dart';
 
 @freezed
-class NetworkInfo with _$NetworkInfo {
+sealed class NetworkInfo with _$NetworkInfo {
   const factory NetworkInfo({
     required NetworkDeviceInfo local,
     required List<NetworkDeviceInfo> devices,
@@ -13,7 +13,7 @@ class NetworkInfo with _$NetworkInfo {
 }
 
 @freezed
-class NetworkDeviceInfo with _$NetworkDeviceInfo {
+sealed class NetworkDeviceInfo with _$NetworkDeviceInfo {
   const NetworkDeviceInfo._();
 
   const factory NetworkDeviceInfo({

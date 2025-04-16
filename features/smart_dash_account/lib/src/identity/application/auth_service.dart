@@ -15,4 +15,4 @@ class AuthService {
 }
 
 @Riverpod(keepAlive: true)
-AuthService authService(AuthServiceRef ref) => AuthService(ref);
+AuthService authService(Ref ref) => AuthService(ref);

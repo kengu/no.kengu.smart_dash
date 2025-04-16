@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:optional/optional.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_app/feature/setting/domain/setting.dart';
@@ -51,7 +52,7 @@ class SettingRepository extends BulkHiveRepository<SettingType, Setting> {
 }
 
 @Riverpod(keepAlive: true)
-SettingRepository settingRepository(SettingRepositoryRef ref) {
+SettingRepository settingRepository(Ref ref) {
   return SettingRepository(ref);
 }
 

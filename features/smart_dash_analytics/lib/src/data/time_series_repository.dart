@@ -185,7 +185,7 @@ class TimeSeriesRepository {
 }
 
 @Riverpod(keepAlive: true)
-TimeSeriesRepository timeSeriesRepository(TimeSeriesRepositoryRef ref) {
+TimeSeriesRepository timeSeriesRepository(Ref ref) {
   return TimeSeriesRepository(
       ref,
       TimeSeriesDatabase(

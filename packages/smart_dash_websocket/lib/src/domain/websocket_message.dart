@@ -10,7 +10,7 @@ enum WebSocketAction {
 }
 
 @freezed
-class WebSocketMessage with _$WebSocketMessage {
+sealed class WebSocketMessage with _$WebSocketMessage {
   const WebSocketMessage._();
 
   const factory WebSocketMessage({

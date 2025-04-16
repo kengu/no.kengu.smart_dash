@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_presence/smart_dash_presence.dart';
@@ -46,8 +47,7 @@ class NetworkDeviceInfoRepository
 }
 
 @Riverpod(keepAlive: true)
-NetworkDeviceInfoRepository networkDeviceInfoRepository(
-    NetworkDeviceInfoRepositoryRef ref) {
+NetworkDeviceInfoRepository networkDeviceInfoRepository(Ref ref) {
   return NetworkDeviceInfoRepository(ref);
 }
 

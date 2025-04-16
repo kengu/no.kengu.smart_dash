@@ -7,7 +7,7 @@ part 'weather_state.freezed.dart';
 part 'weather_state.g.dart';
 
 @freezed
-class WeatherState with _$WeatherState {
+sealed class WeatherState with _$WeatherState {
   const WeatherState._();
   const factory WeatherState({
     @JsonKey(name: 'service') required String service,
@@ -178,7 +178,7 @@ class WeatherState with _$WeatherState {
 }
 
 @freezed
-class WeatherTimeStep with _$WeatherTimeStep {
+sealed class WeatherTimeStep with _$WeatherTimeStep {
   const WeatherTimeStep._();
 
   const factory WeatherTimeStep({
@@ -191,7 +191,7 @@ class WeatherTimeStep with _$WeatherTimeStep {
 }
 
 @freezed
-class WeatherData with _$WeatherData {
+sealed class WeatherData with _$WeatherData {
   const WeatherData._();
 
   const factory WeatherData({
@@ -206,7 +206,7 @@ class WeatherData with _$WeatherData {
 }
 
 @freezed
-class WeatherInstant with _$WeatherInstant {
+sealed class WeatherInstant with _$WeatherInstant {
   const WeatherInstant._();
 
   const factory WeatherInstant({
@@ -218,7 +218,7 @@ class WeatherInstant with _$WeatherInstant {
 }
 
 @freezed
-class WeatherInstantDetails with _$WeatherInstantDetails {
+sealed class WeatherInstantDetails with _$WeatherInstantDetails {
   const WeatherInstantDetails._();
 
   const factory WeatherInstantDetails({
@@ -258,7 +258,7 @@ class WeatherInstantDetails with _$WeatherInstantDetails {
 }
 
 @freezed
-class WeatherForecast with _$WeatherForecast {
+sealed class WeatherForecast with _$WeatherForecast {
   const WeatherForecast._();
 
   const factory WeatherForecast({
@@ -271,7 +271,7 @@ class WeatherForecast with _$WeatherForecast {
 }
 
 @freezed
-class WeatherForecastDetails with _$WeatherForecastDetails {
+sealed class WeatherForecastDetails with _$WeatherForecastDetails {
   const WeatherForecastDetails._();
 
   const factory WeatherForecastDetails({
@@ -290,7 +290,7 @@ class WeatherForecastDetails with _$WeatherForecastDetails {
 }
 
 @freezed
-class WeatherDetails with _$WeatherDetails {
+sealed class WeatherDetails with _$WeatherDetails {
   const WeatherDetails._();
 
   const factory WeatherDetails({
@@ -302,7 +302,7 @@ class WeatherDetails with _$WeatherDetails {
 }
 
 @freezed
-class WeatherSummary with _$WeatherSummary {
+sealed class WeatherSummary with _$WeatherSummary {
   const WeatherSummary._();
 
   const factory WeatherSummary({
@@ -314,7 +314,7 @@ class WeatherSummary with _$WeatherSummary {
 }
 
 @freezed
-class WeatherProperties with _$WeatherProperties {
+sealed class WeatherProperties with _$WeatherProperties {
   const WeatherProperties._();
   const factory WeatherProperties({
     @JsonKey(name: 'meta') required WeatherMeta meta,
@@ -325,7 +325,7 @@ class WeatherProperties with _$WeatherProperties {
 }
 
 @freezed
-class WeatherMeta with _$WeatherMeta {
+sealed class WeatherMeta with _$WeatherMeta {
   const WeatherMeta._();
   const factory WeatherMeta({
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
@@ -336,7 +336,7 @@ class WeatherMeta with _$WeatherMeta {
 }
 
 @freezed
-class WeatherUnits with _$WeatherUnits {
+sealed class WeatherUnits with _$WeatherUnits {
   const WeatherUnits._();
   const factory WeatherUnits({
     @JsonKey(name: 'air_pressure_at_sea_level') String? airPressureAtSeaLevel,

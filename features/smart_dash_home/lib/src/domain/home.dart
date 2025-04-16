@@ -7,7 +7,7 @@ part 'home.freezed.dart';
 part 'home.g.dart';
 
 @freezed
-class Home with _$Home {
+sealed class Home with _$Home {
   const Home._();
 
   const factory Home({
@@ -38,7 +38,7 @@ class Home with _$Home {
 /// It is only intended to be stored
 /// locally in each app.
 @freezed
-class CurrentHome with _$CurrentHome {
+sealed class CurrentHome with _$CurrentHome {
   const CurrentHome._();
 
   const factory CurrentHome({
@@ -51,7 +51,7 @@ class CurrentHome with _$CurrentHome {
 }
 
 @freezed
-class HomeMember with _$HomeMember {
+sealed class HomeMember with _$HomeMember {
   const HomeMember._();
 
   const factory HomeMember({

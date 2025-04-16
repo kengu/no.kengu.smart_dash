@@ -6,9 +6,8 @@ part of 'electricity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ElectricityPriceImpl _$$ElectricityPriceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ElectricityPriceImpl(
+_ElectricityPrice _$ElectricityPriceFromJson(Map<String, dynamic> json) =>
+    _ElectricityPrice(
       nokPerKwh: (json['NOK_per_kWh'] as num).toDouble(),
       eurPerKwh: (json['EUR_per_kWh'] as num).toDouble(),
       eurToNokRate: (json['EXR'] as num).toDouble(),
@@ -16,8 +15,7 @@ _$ElectricityPriceImpl _$$ElectricityPriceImplFromJson(
       end: DateTime.parse(json['time_end'] as String),
     );
 
-Map<String, dynamic> _$$ElectricityPriceImplToJson(
-        _$ElectricityPriceImpl instance) =>
+Map<String, dynamic> _$ElectricityPriceToJson(_ElectricityPrice instance) =>
     <String, dynamic>{
       'NOK_per_kWh': instance.nokPerKwh,
       'EUR_per_kWh': instance.eurPerKwh,
@@ -26,9 +24,8 @@ Map<String, dynamic> _$$ElectricityPriceImplToJson(
       'time_end': instance.end.toIso8601String(),
     };
 
-_$ElectricityTariffImpl _$$ElectricityTariffImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ElectricityTariffImpl(
+_ElectricityTariff _$ElectricityTariffFromJson(Map<String, dynamic> json) =>
+    _ElectricityTariff(
       provider: json['provider'] as String,
       validUntil: DateTime.parse(json['validUntil'] as String),
       capacity: (json['capacity'] as List<dynamic>)
@@ -40,8 +37,7 @@ _$ElectricityTariffImpl _$$ElectricityTariffImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ElectricityTariffImplToJson(
-        _$ElectricityTariffImpl instance) =>
+Map<String, dynamic> _$ElectricityTariffToJson(_ElectricityTariff instance) =>
     <String, dynamic>{
       'provider': instance.provider,
       'validUntil': instance.validUntil.toIso8601String(),
@@ -49,32 +45,31 @@ Map<String, dynamic> _$$ElectricityTariffImplToJson(
       'consumption': instance.consumption.map((e) => e.toJson()).toList(),
     };
 
-_$ElectricityCapacityImpl _$$ElectricityCapacityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ElectricityCapacityImpl(
+_ElectricityCapacity _$ElectricityCapacityFromJson(Map<String, dynamic> json) =>
+    _ElectricityCapacity(
       fromKWh: (json['from_kWh'] as num).toDouble(),
       toKWh: (json['to_kWh'] as num).toDouble(),
       nokPerMonth: (json['NOK_per_month'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$ElectricityCapacityImplToJson(
-        _$ElectricityCapacityImpl instance) =>
+Map<String, dynamic> _$ElectricityCapacityToJson(
+        _ElectricityCapacity instance) =>
     <String, dynamic>{
       'from_kWh': instance.fromKWh,
       'to_kWh': instance.toKWh,
       'NOK_per_month': instance.nokPerMonth,
     };
 
-_$ElectricityConsumptionImpl _$$ElectricityConsumptionImplFromJson(
+_ElectricityConsumption _$ElectricityConsumptionFromJson(
         Map<String, dynamic> json) =>
-    _$ElectricityConsumptionImpl(
+    _ElectricityConsumption(
       nokPerKwh: (json['NOK_per_kWh'] as num).toDouble(),
       fromHour: (json['from_hour'] as num).toInt(),
       toHour: (json['to_hour'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ElectricityConsumptionImplToJson(
-        _$ElectricityConsumptionImpl instance) =>
+Map<String, dynamic> _$ElectricityConsumptionToJson(
+        _ElectricityConsumption instance) =>
     <String, dynamic>{
       'NOK_per_kWh': instance.nokPerKwh,
       'from_hour': instance.fromHour,

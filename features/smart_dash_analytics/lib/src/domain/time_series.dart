@@ -10,7 +10,7 @@ part 'time_series.g.dart';
 /// The [TimeSeries] class is a representation of
 /// a series of data points indexed in time order.
 @freezed
-class TimeSeries with _$TimeSeries {
+sealed class TimeSeries with _$TimeSeries {
   const TimeSeries._();
   const factory TimeSeries({
     /// Get the time series's name

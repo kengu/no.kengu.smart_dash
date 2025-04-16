@@ -6,38 +6,36 @@ part of 'energy_bill.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EnergyBillMonthImpl _$$EnergyBillMonthImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EnergyBillMonthImpl(
+_EnergyBillMonth _$EnergyBillMonthFromJson(Map<String, dynamic> json) =>
+    _EnergyBillMonth(
       begin: DateTime.parse(json['begin'] as String),
       daily: (json['daily'] as List<dynamic>)
           .map((e) => EnergyBillDay.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$EnergyBillMonthImplToJson(
-        _$EnergyBillMonthImpl instance) =>
+Map<String, dynamic> _$EnergyBillMonthToJson(_EnergyBillMonth instance) =>
     <String, dynamic>{
       'begin': instance.begin.toIso8601String(),
       'daily': instance.daily.map((e) => e.toJson()).toList(),
     };
 
-_$EnergyBillDayImpl _$$EnergyBillDayImplFromJson(Map<String, dynamic> json) =>
-    _$EnergyBillDayImpl(
+_EnergyBillDay _$EnergyBillDayFromJson(Map<String, dynamic> json) =>
+    _EnergyBillDay(
       begin: DateTime.parse(json['begin'] as String),
       hourly: (json['hourly'] as List<dynamic>)
           .map((e) => EnergyBillHour.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$EnergyBillDayImplToJson(_$EnergyBillDayImpl instance) =>
+Map<String, dynamic> _$EnergyBillDayToJson(_EnergyBillDay instance) =>
     <String, dynamic>{
       'begin': instance.begin.toIso8601String(),
       'hourly': instance.hourly.map((e) => e.toJson()).toList(),
     };
 
-_$EnergyBillHourImpl _$$EnergyBillHourImplFromJson(Map<String, dynamic> json) =>
-    _$EnergyBillHourImpl(
+_EnergyBillHour _$EnergyBillHourFromJson(Map<String, dynamic> json) =>
+    _EnergyBillHour(
       vat: (json['vat'] as num).toInt(),
       end: DateTime.parse(json['end'] as String),
       begin: DateTime.parse(json['begin'] as String),
@@ -47,8 +45,7 @@ _$EnergyBillHourImpl _$$EnergyBillHourImplFromJson(Map<String, dynamic> json) =>
           ElectricityTariff.fromJson(json['tariff'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$EnergyBillHourImplToJson(
-        _$EnergyBillHourImpl instance) =>
+Map<String, dynamic> _$EnergyBillHourToJson(_EnergyBillHour instance) =>
     <String, dynamic>{
       'vat': instance.vat,
       'end': instance.end.toIso8601String(),

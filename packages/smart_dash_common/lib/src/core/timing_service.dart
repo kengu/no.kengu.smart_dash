@@ -34,4 +34,4 @@ class TimingService {
 }
 
 @Riverpod(keepAlive: true)
-TimingService timingService(TimingServiceRef ref) => TimingService(ref);
+TimingService timingService(Ref ref) => TimingService(ref);

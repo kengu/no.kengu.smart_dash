@@ -61,8 +61,7 @@ class ElectricityPriceRepository {
 }
 
 @Riverpod(keepAlive: true)
-ElectricityPriceRepository electricityPriceRepository(
-    ElectricityPriceRepositoryRef ref) {
+ElectricityPriceRepository electricityPriceRepository(Ref ref) {
   return ElectricityPriceRepository(
     ref,
     ElectricityPriceDatabase(ref).autoDispose(ref),

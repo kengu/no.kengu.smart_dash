@@ -19,6 +19,8 @@ final flowManagerProvider = Provider<FlowManager>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FlowManagerRef = ProviderRef<FlowManager>;
 String _$flowHash() => r'91f3c02d787fa612c3068b322b0399fed2d8033c';
 
@@ -48,23 +50,9 @@ class _SystemHash {
 const flowProvider = FlowFamily();
 
 /// See also [flow].
-class FlowFamily extends Family {
+class FlowFamily extends Family<AsyncValue<FlowEvent>> {
   /// See also [flow].
   const FlowFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'flowProvider';
 
   /// See also [flow].
   FlowProvider call(
@@ -75,7 +63,6 @@ class FlowFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   FlowProvider getProviderOverride(
     covariant FlowProvider provider,
@@ -85,26 +72,19 @@ class FlowFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(Stream<FlowEvent> Function(FlowRef ref) create) {
-    return _$FlowFamilyOverride(this, create);
-  }
-}
-
-class _$FlowFamilyOverride implements FamilyOverride {
-  _$FlowFamilyOverride(this.overriddenFamily, this.create);
-
-  final Stream<FlowEvent> Function(FlowRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final FlowFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  FlowProvider getProviderOverride(
-    covariant FlowProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'flowProvider';
 }
 
 /// See also [flow].
@@ -127,7 +107,7 @@ class FlowProvider extends AutoDisposeStreamProvider<FlowEvent> {
         );
 
   FlowProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -140,7 +120,7 @@ class FlowProvider extends AutoDisposeStreamProvider<FlowEvent> {
 
   @override
   Override overrideWith(
-    Stream<FlowEvent> Function(FlowRef ref) create,
+    Stream<FlowEvent> Function(FlowRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -157,27 +137,8 @@ class FlowProvider extends AutoDisposeStreamProvider<FlowEvent> {
   }
 
   @override
-  (FlowEventQuery,) get argument {
-    return (query,);
-  }
-
-  @override
   AutoDisposeStreamProviderElement<FlowEvent> createElement() {
     return _FlowProviderElement(this);
-  }
-
-  FlowProvider _copyWith(
-    Stream<FlowEvent> Function(FlowRef ref) create,
-  ) {
-    return FlowProvider._internal(
-      (ref) => create(ref as FlowRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      query: query,
-    );
   }
 
   @override
@@ -194,6 +155,8 @@ class FlowProvider extends AutoDisposeStreamProvider<FlowEvent> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin FlowRef on AutoDisposeStreamProviderRef<FlowEvent> {
   /// The parameter `query` of this provider.
   FlowEventQuery get query;
@@ -207,4 +170,4 @@ class _FlowProviderElement extends AutoDisposeStreamProviderElement<FlowEvent>
   FlowEventQuery get query => (origin as FlowProvider).query;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

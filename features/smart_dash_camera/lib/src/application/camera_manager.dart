@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:logging/logging.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_camera/smart_dash_camera.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
@@ -63,5 +64,4 @@ class CameraManager extends DriverManager<CameraDriver> {
 }
 
 @Riverpod(keepAlive: true)
-CameraManager cameraManager(CameraManagerRef ref) =>
-    CameraManager(ref, withStorage: true);
+CameraManager cameraManager(Ref ref) => CameraManager(ref, withStorage: true);

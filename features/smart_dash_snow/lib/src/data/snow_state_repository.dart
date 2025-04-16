@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_snow/smart_dash_snow.dart';
@@ -22,7 +23,7 @@ class SnowStateRepository extends BulkHiveRepository<String, SnowState> {
 }
 
 @Riverpod(keepAlive: true)
-SnowStateRepository snowStateRepository(SnowStateRepositoryRef ref) {
+SnowStateRepository snowStateRepository(Ref ref) {
   return SnowStateRepository(ref);
 }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
@@ -38,7 +39,7 @@ class PresenceRepository extends BulkHiveRepository<Token, Presence> {
 }
 
 @Riverpod(keepAlive: true)
-PresenceRepository presenceRepository(PresenceRepositoryRef ref) {
+PresenceRepository presenceRepository(Ref ref) {
   return PresenceRepository(ref);
 }
 

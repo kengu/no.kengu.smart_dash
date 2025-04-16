@@ -157,8 +157,7 @@ class EnergyBillService {
 }
 
 @Riverpod(keepAlive: true)
-EnergyBillService energyBillService(EnergyBillServiceRef ref) =>
-    EnergyBillService(
+EnergyBillService energyBillService(Ref ref) => EnergyBillService(
       ref,
     );
 

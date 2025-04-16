@@ -1,3 +1,4 @@
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_geocoder/smart_dash_geocoder.dart';
 import 'package:smart_dash_geocoder/src/application/geocoder_driver.dart';
@@ -30,4 +31,4 @@ class GeocoderManager extends DriverManager<GeocoderDriver> {
 }
 
 @Riverpod(keepAlive: true)
-GeocoderManager geocoderManager(GeocoderManagerRef ref) => GeocoderManager(ref);
+GeocoderManager geocoderManager(Ref ref) => GeocoderManager(ref);

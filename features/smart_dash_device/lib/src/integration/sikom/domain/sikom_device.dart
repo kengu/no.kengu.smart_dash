@@ -465,7 +465,7 @@ class SikomDeviceProperties with _$SikomDeviceProperties {
       _$SikomDevicePropertiesFromJson(json);
 
   static Optional<DateTime> latestUpdate(List<SikomProperty?> props) {
-    final ts = props.map((e) => e?.created).whereNotNull().toList();
+    final ts = props.map((e) => e?.created).nonNulls.toList();
     return ts.isEmpty ? const Optional.empty() : Optional.of(ts.max);
   }
 }

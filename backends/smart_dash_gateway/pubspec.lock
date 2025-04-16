@@ -5,23 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: f256b0c0ba6c7577c15e2e4e114755640a875e885099367bf6e012b19314c834
+      sha256: "49b9fb8e7e6722ee93252e05fe83eb08fbb2bd9242a375e7afba921a43acd782"
       url: "https://pub.dev"
     source: hosted
-    version: "72.0.0"
-  _macros:
-    dependency: transitive
-    description: dart
-    source: sdk
-    version: "0.3.2"
+    version: "81.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: b652861553cd3990d8ed361f7979dc6d7053a9ac8843fa73820ab68ce5410139
+      sha256: fab62b609c103ef40024384cd90cb44dc13673df7d21702787100b174feccf01
       url: "https://pub.dev"
     source: hosted
-    version: "6.7.0"
+    version: "7.4.0"
   app_dirs:
     dependency: transitive
     description:
@@ -58,18 +53,18 @@ packages:
     dependency: transitive
     description:
       name: characters
-      sha256: "04a925763edad70e8443c99234dc3328f442e811f1d8fd1a72f1c8ad0f69a605"
+      sha256: f71061c654a3380576a52b451dd5532377954cf9dbd272a78fc8479606670803
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.4.0"
   collection:
     dependency: transitive
     description:
       name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
+      sha256: "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76"
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.1"
   compute:
     dependency: transitive
     description:
@@ -180,10 +175,10 @@ packages:
     dependency: transitive
     description:
       name: freezed_annotation
-      sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
+      sha256: c87ff004c8aa6af2d531668b46a4ea379f7191dc6dfa066acd53d506da6e044b
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4"
+    version: "3.0.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -288,14 +283,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
-  macros:
-    dependency: transitive
-    description:
-      name: macros
-      sha256: "0acaed5d6b7eab89f63350bccd82119e6c602df0f391260d0e32b5e23db79536"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2-main.4"
   matcher:
     dependency: transitive
     description:
@@ -316,10 +303,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: bdb68674043280c3428e9ec998512fb681678676b3c54e773629ffe74419f8c7
+      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
       url: "https://pub.dev"
     source: hosted
-    version: "1.15.0"
+    version: "1.16.0"
   mime:
     dependency: transitive
     description:
@@ -468,18 +455,18 @@ packages:
     dependency: transitive
     description:
       name: riverpod
-      sha256: "0f41a697a17609a7ac18e5fe0d5bdbe4c1ff7e7da6523baf46a203df0c44eaf2"
+      sha256: "59062512288d3056b2321804332a13ffdd1bf16df70dcc8e506e411280a72959"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0-dev.3"
+    version: "2.6.1"
   riverpod_annotation:
     dependency: transitive
     description:
       name: riverpod_annotation
-      sha256: "79452c7ba2e8f48c7309c73be5aaa101eec5fe7948dfd26659b883fb276858b4"
+      sha256: e14b0bf45b71326654e2705d462f21b958f987087be850afd60578fcd502d1b8
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0-dev.3"
+    version: "2.6.1"
   sentry:
     dependency: transitive
     description:
@@ -532,7 +519,7 @@ packages:
     dependency: transitive
     description: flutter
     source: sdk
-    version: "0.0.99"
+    version: "0.0.0"
   smart_dash_common:
     dependency: "direct main"
     description:
@@ -741,5 +728,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.24.0"

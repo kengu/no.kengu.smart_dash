@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location.freezed.dart';
@@ -18,7 +17,7 @@ class LocationField {
 }
 
 @freezed
-class Location with _$Location {
+sealed class Location with _$Location {
   const Location._();
 
   const factory Location({
@@ -75,7 +74,7 @@ class Location with _$Location {
 }
 
 @freezed
-class PointGeometry with _$PointGeometry {
+sealed class PointGeometry with _$PointGeometry {
   const PointGeometry._();
 
   const factory PointGeometry({
@@ -84,7 +83,7 @@ class PointGeometry with _$PointGeometry {
 
   factory PointGeometry.from(double lon, double lat, [double? alt]) {
     return PointGeometry(
-      coords: [lon, lat, alt].whereNotNull().toList(),
+      coords: [lon, lat, alt].nonNulls.toList(),
     );
   }
 

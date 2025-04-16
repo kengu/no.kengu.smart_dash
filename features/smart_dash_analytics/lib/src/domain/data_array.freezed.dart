@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,108 +10,73 @@ part of 'data_array.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-DataArray _$DataArrayFromJson(Map<String, dynamic> json) {
-  return _DataArray.fromJson(json);
-}
 
 /// @nodoc
 mixin _$DataArray {
   /// Get the array's data (organized in
   /// columns). Each column is also known as
   /// a dimension.
-  List<List<num>> get data => throw _privateConstructorUsedError;
+  List<List<num>> get data;
 
   /// Get the array's coordinates
   /// (tick labels) to use for indexing
   /// along each dimension
-  List<Map<String, Object?>> get coords => throw _privateConstructorUsedError;
+  List<JsonObject> get coords;
 
   /// Get the array's name(s) of the data dimension(s)
-  List<Map<String, Object?>> get dims => throw _privateConstructorUsedError;
-
-  /// Serializes this DataArray to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  List<JsonObject> get dims;
 
   /// Create a copy of DataArray
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DataArrayCopyWith<DataArray> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DataArrayCopyWith<$Res> {
-  factory $DataArrayCopyWith(DataArray value, $Res Function(DataArray) then) =
-      _$DataArrayCopyWithImpl<$Res, DataArray>;
-  @useResult
-  $Res call(
-      {List<List<num>> data,
-      List<Map<String, Object?>> coords,
-      List<Map<String, Object?>> dims});
-}
-
-/// @nodoc
-class _$DataArrayCopyWithImpl<$Res, $Val extends DataArray>
-    implements $DataArrayCopyWith<$Res> {
-  _$DataArrayCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DataArray
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $DataArrayCopyWith<DataArray> get copyWith =>
+      _$DataArrayCopyWithImpl<DataArray>(this as DataArray, _$identity);
+
+  /// Serializes this DataArray to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? data = null,
-    Object? coords = null,
-    Object? dims = null,
-  }) {
-    return _then(_value.copyWith(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<List<num>>,
-      coords: null == coords
-          ? _value.coords
-          : coords // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object?>>,
-      dims: null == dims
-          ? _value.dims
-          : dims // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object?>>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DataArray &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            const DeepCollectionEquality().equals(other.coords, coords) &&
+            const DeepCollectionEquality().equals(other.dims, dims));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(data),
+      const DeepCollectionEquality().hash(coords),
+      const DeepCollectionEquality().hash(dims));
+
+  @override
+  String toString() {
+    return 'DataArray(data: $data, coords: $coords, dims: $dims)';
   }
 }
 
 /// @nodoc
-abstract class _$$DataArrayImplCopyWith<$Res>
-    implements $DataArrayCopyWith<$Res> {
-  factory _$$DataArrayImplCopyWith(
-          _$DataArrayImpl value, $Res Function(_$DataArrayImpl) then) =
-      __$$DataArrayImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $DataArrayCopyWith<$Res> {
+  factory $DataArrayCopyWith(DataArray value, $Res Function(DataArray) _then) =
+      _$DataArrayCopyWithImpl;
   @useResult
   $Res call(
-      {List<List<num>> data,
-      List<Map<String, Object?>> coords,
-      List<Map<String, Object?>> dims});
+      {List<List<num>> data, List<JsonObject> coords, List<JsonObject> dims});
 }
 
 /// @nodoc
-class __$$DataArrayImplCopyWithImpl<$Res>
-    extends _$DataArrayCopyWithImpl<$Res, _$DataArrayImpl>
-    implements _$$DataArrayImplCopyWith<$Res> {
-  __$$DataArrayImplCopyWithImpl(
-      _$DataArrayImpl _value, $Res Function(_$DataArrayImpl) _then)
-      : super(_value, _then);
+class _$DataArrayCopyWithImpl<$Res> implements $DataArrayCopyWith<$Res> {
+  _$DataArrayCopyWithImpl(this._self, this._then);
+
+  final DataArray _self;
+  final $Res Function(DataArray) _then;
 
   /// Create a copy of DataArray
   /// with the given fields replaced by the non-null parameter values.
@@ -121,36 +87,35 @@ class __$$DataArrayImplCopyWithImpl<$Res>
     Object? coords = null,
     Object? dims = null,
   }) {
-    return _then(_$DataArrayImpl(
-      null == data
-          ? _value._data
+    return _then(_self.copyWith(
+      data: null == data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<List<num>>,
       coords: null == coords
-          ? _value._coords
+          ? _self.coords
           : coords // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object?>>,
+              as List<JsonObject>,
       dims: null == dims
-          ? _value._dims
+          ? _self.dims
           : dims // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object?>>,
+              as List<JsonObject>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DataArrayImpl extends _DataArray {
-  const _$DataArrayImpl(final List<List<num>> data,
-      {required final List<Map<String, Object?>> coords,
-      required final List<Map<String, Object?>> dims})
+class _DataArray extends DataArray {
+  const _DataArray(final List<List<num>> data,
+      {required final List<JsonObject> coords,
+      required final List<JsonObject> dims})
       : _data = data,
         _coords = coords,
         _dims = dims,
         super._();
-
-  factory _$DataArrayImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DataArrayImplFromJson(json);
+  factory _DataArray.fromJson(Map<String, dynamic> json) =>
+      _$DataArrayFromJson(json);
 
   /// Get the array's data (organized in
   /// columns). Each column is also known as
@@ -170,39 +135,49 @@ class _$DataArrayImpl extends _DataArray {
   /// Get the array's coordinates
   /// (tick labels) to use for indexing
   /// along each dimension
-  final List<Map<String, Object?>> _coords;
+  final List<JsonObject> _coords;
 
   /// Get the array's coordinates
   /// (tick labels) to use for indexing
   /// along each dimension
   @override
-  List<Map<String, Object?>> get coords {
+  List<JsonObject> get coords {
     if (_coords is EqualUnmodifiableListView) return _coords;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_coords);
   }
 
   /// Get the array's name(s) of the data dimension(s)
-  final List<Map<String, Object?>> _dims;
+  final List<JsonObject> _dims;
 
   /// Get the array's name(s) of the data dimension(s)
   @override
-  List<Map<String, Object?>> get dims {
+  List<JsonObject> get dims {
     if (_dims is EqualUnmodifiableListView) return _dims;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_dims);
   }
 
+  /// Create a copy of DataArray
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'DataArray(data: $data, coords: $coords, dims: $dims)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$DataArrayCopyWith<_DataArray> get copyWith =>
+      __$DataArrayCopyWithImpl<_DataArray>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DataArrayToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataArrayImpl &&
+            other is _DataArray &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             const DeepCollectionEquality().equals(other._coords, _coords) &&
             const DeepCollectionEquality().equals(other._dims, _dims));
@@ -216,51 +191,55 @@ class _$DataArrayImpl extends _DataArray {
       const DeepCollectionEquality().hash(_coords),
       const DeepCollectionEquality().hash(_dims));
 
-  /// Create a copy of DataArray
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DataArrayImplCopyWith<_$DataArrayImpl> get copyWith =>
-      __$$DataArrayImplCopyWithImpl<_$DataArrayImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DataArrayImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DataArray(data: $data, coords: $coords, dims: $dims)';
   }
 }
 
-abstract class _DataArray extends DataArray {
-  const factory _DataArray(final List<List<num>> data,
-      {required final List<Map<String, Object?>> coords,
-      required final List<Map<String, Object?>> dims}) = _$DataArrayImpl;
-  const _DataArray._() : super._();
-
-  factory _DataArray.fromJson(Map<String, dynamic> json) =
-      _$DataArrayImpl.fromJson;
-
-  /// Get the array's data (organized in
-  /// columns). Each column is also known as
-  /// a dimension.
+/// @nodoc
+abstract mixin class _$DataArrayCopyWith<$Res>
+    implements $DataArrayCopyWith<$Res> {
+  factory _$DataArrayCopyWith(
+          _DataArray value, $Res Function(_DataArray) _then) =
+      __$DataArrayCopyWithImpl;
   @override
-  List<List<num>> get data;
+  @useResult
+  $Res call(
+      {List<List<num>> data, List<JsonObject> coords, List<JsonObject> dims});
+}
 
-  /// Get the array's coordinates
-  /// (tick labels) to use for indexing
-  /// along each dimension
-  @override
-  List<Map<String, Object?>> get coords;
+/// @nodoc
+class __$DataArrayCopyWithImpl<$Res> implements _$DataArrayCopyWith<$Res> {
+  __$DataArrayCopyWithImpl(this._self, this._then);
 
-  /// Get the array's name(s) of the data dimension(s)
-  @override
-  List<Map<String, Object?>> get dims;
+  final _DataArray _self;
+  final $Res Function(_DataArray) _then;
 
   /// Create a copy of DataArray
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DataArrayImplCopyWith<_$DataArrayImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? data = null,
+    Object? coords = null,
+    Object? dims = null,
+  }) {
+    return _then(_DataArray(
+      null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<List<num>>,
+      coords: null == coords
+          ? _self._coords
+          : coords // ignore: cast_nullable_to_non_nullable
+              as List<JsonObject>,
+      dims: null == dims
+          ? _self._dims
+          : dims // ignore: cast_nullable_to_non_nullable
+              as List<JsonObject>,
+    ));
+  }
 }
+
+// dart format on

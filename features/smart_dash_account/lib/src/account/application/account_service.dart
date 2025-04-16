@@ -239,27 +239,25 @@ class CurrentHomeModifiedEvent extends HomeEvent {
 }
 
 @Riverpod(keepAlive: true)
-AccountService accountService(AccountServiceRef ref) => AccountService(ref);
+AccountService accountService(Ref ref) => AccountService(ref);
 
 @Riverpod()
-Future<Optional<Account>> getAccount(GetAccountRef ref,
-    {String? userId, Duration? ttl}) {
+Future<Optional<Account>> getAccount(Ref ref, {String? userId, Duration? ttl}) {
   return ref.watch(accountServiceProvider).getAccount(userId: userId);
 }
 
 @Riverpod()
-Future<Optional<Home>> getCurrentHome(GetCurrentHomeRef ref, [String? userId]) {
+Future<Optional<Home>> getCurrentHome(Ref ref, [String? userId]) {
   return ref.watch(accountServiceProvider).getCurrentHome(userId: userId);
 }
 
 @Riverpod()
-Future<List<Home>> getHomes(GetHomesRef ref, [String? userId]) {
+Future<List<Home>> getHomes(Ref ref, [String? userId]) {
   return ref.watch(accountServiceProvider).getHomes(userId: userId);
 }
 
 @Riverpod()
-Future<Optional<IntegrationRegistry>> getCurrentIntegrationRegistry(
-    GetCurrentIntegrationRegistryRef ref,
+Future<Optional<IntegrationRegistry>> getCurrentIntegrationRegistry(Ref ref,
     [String? userId]) async {
   final home =
       await ref.watch(accountServiceProvider).getCurrentHome(userId: userId);

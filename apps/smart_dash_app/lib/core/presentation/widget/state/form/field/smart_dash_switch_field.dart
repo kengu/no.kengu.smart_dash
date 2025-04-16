@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -45,8 +44,7 @@ class SmartDashSwitchField extends StatelessWidget {
           ),
           ReactiveFormField<bool, bool>(
             formControl: formControl,
-            formControlName:
-                [...formPath, formControlName].whereNotNull().join('.'),
+            formControlName: [...formPath, formControlName].nonNulls.join('.'),
             builder: (field) {
               return Switch.adaptive(
                 value: field.value ?? false,

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -43,7 +42,7 @@ class SmartDashExpansionArrayField<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReactiveFormArray<T>(
-      formArrayName: [...formPath, formArrayName].whereNotNull().join('.'),
+      formArrayName: [...formPath, formArrayName].nonNulls.join('.'),
       builder: (context, array, child) {
         int index = 0;
         return SmartDashExpansionList(

@@ -6,8 +6,7 @@ part of 'integration.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$IntegrationImpl _$$IntegrationImplFromJson(Map<String, dynamic> json) =>
-    _$IntegrationImpl(
+_Integration _$IntegrationFromJson(Map<String, dynamic> json) => _Integration(
       key: json['key'] as String,
       name: json['name'] as String,
       system: json['system'] as bool,
@@ -24,7 +23,7 @@ _$IntegrationImpl _$$IntegrationImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$IntegrationImplToJson(_$IntegrationImpl instance) =>
+Map<String, dynamic> _$IntegrationToJson(_Integration instance) =>
     <String, dynamic>{
       'key': instance.key,
       'name': instance.name,

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional_internal.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_account/smart_dash_account_backend.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
@@ -138,8 +139,7 @@ class AccountBackendRepository extends AccountRepository
 }
 
 @Riverpod(keepAlive: true)
-AccountBackendRepository backendAccountRepository(
-    BackendAccountRepositoryRef ref, String dbPath) {
+AccountBackendRepository backendAccountRepository(Ref ref, String dbPath) {
   return AccountBackendRepository(
     ref,
     AccountDatabase(ref, dbPath).autoDispose(ref),

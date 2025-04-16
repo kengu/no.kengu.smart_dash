@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
 import 'package:smart_dash_flow/smart_dash_flow.dart';
@@ -196,8 +197,8 @@ class DeviceManager extends DriverManager<DeviceDriver> {
 }
 
 @Riverpod(keepAlive: true)
-DeviceManager deviceManager(DeviceManagerRef ref) => DeviceManager(ref);
+DeviceManager deviceManager(Ref ref) => DeviceManager(ref);
 
 @riverpod
-Stream<DevicesUpdatedEvent> driverUpdated(DriverUpdatedRef ref) =>
+Stream<DevicesUpdatedEvent> driverUpdated(Ref ref) =>
     ref.watch(deviceManagerProvider).updated;

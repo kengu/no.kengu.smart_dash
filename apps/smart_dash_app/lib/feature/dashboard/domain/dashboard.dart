@@ -9,7 +9,7 @@ part 'dashboard.g.dart';
 typedef DashboardMap = Map<String, Dashboard>;
 
 @freezed
-class Dashboard with _$Dashboard {
+sealed class Dashboard with _$Dashboard {
   const Dashboard._();
 
   const factory Dashboard({
@@ -56,7 +56,7 @@ class Dashboard with _$Dashboard {
 }
 
 @freezed
-class DashboardLayout with _$DashboardLayout {
+sealed class DashboardLayout with _$DashboardLayout {
   const factory DashboardLayout({
     @JsonKey(name: 'slotCount') required int slotCount,
     @JsonKey(name: 'slotHeight') required double slotHeight,
@@ -68,7 +68,7 @@ class DashboardLayout with _$DashboardLayout {
 }
 
 @freezed
-class DashboardItem with _$DashboardItem {
+sealed class DashboardItem with _$DashboardItem {
   const factory DashboardItem({
     @JsonKey(name: 'item_id') required String key,
     @JsonKey(name: 'layout') required DashboardItemLayout layout,
@@ -79,7 +79,7 @@ class DashboardItem with _$DashboardItem {
 }
 
 @freezed
-class DashboardItemLayout with _$DashboardItemLayout {
+sealed class DashboardItemLayout with _$DashboardItemLayout {
   const factory DashboardItemLayout({
     @JsonKey(name: 'w') required int width,
     @JsonKey(name: 'h') required int height,

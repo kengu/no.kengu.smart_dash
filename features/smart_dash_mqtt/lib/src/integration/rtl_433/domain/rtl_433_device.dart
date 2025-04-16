@@ -56,7 +56,7 @@ enum Rtl433DeviceType {
 
 /// See https://triq.org/rtl_433/DATA_FORMAT.html
 @freezed
-class Rtl433Device with _$Rtl433Device, DeviceMapper {
+sealed class Rtl433Device with _$Rtl433Device, DeviceMapper {
   const Rtl433Device._();
   const factory Rtl433Device({
     @JsonKey(name: 'id') required Object id,

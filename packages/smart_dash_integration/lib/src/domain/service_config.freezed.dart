@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,94 +10,63 @@ part of 'service_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-ServiceConfig _$ServiceConfigFromJson(Map<String, dynamic> json) {
-  return _ServiceConfig.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ServiceConfig {
-  String get key => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  Map<IntegrationField, String> get data => throw _privateConstructorUsedError;
-
-  /// Serializes this ServiceConfig to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get key;
+  String get name;
+  Map<IntegrationField, String> get data;
 
   /// Create a copy of ServiceConfig
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ServiceConfigCopyWith<ServiceConfig> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ServiceConfigCopyWith<$Res> {
-  factory $ServiceConfigCopyWith(
-          ServiceConfig value, $Res Function(ServiceConfig) then) =
-      _$ServiceConfigCopyWithImpl<$Res, ServiceConfig>;
-  @useResult
-  $Res call({String key, String name, Map<IntegrationField, String> data});
-}
-
-/// @nodoc
-class _$ServiceConfigCopyWithImpl<$Res, $Val extends ServiceConfig>
-    implements $ServiceConfigCopyWith<$Res> {
-  _$ServiceConfigCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ServiceConfig
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ServiceConfigCopyWith<ServiceConfig> get copyWith =>
+      _$ServiceConfigCopyWithImpl<ServiceConfig>(
+          this as ServiceConfig, _$identity);
+
+  /// Serializes this ServiceConfig to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? key = null,
-    Object? name = null,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<IntegrationField, String>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ServiceConfig &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, key, name, const DeepCollectionEquality().hash(data));
+
+  @override
+  String toString() {
+    return 'ServiceConfig(key: $key, name: $name, data: $data)';
   }
 }
 
 /// @nodoc
-abstract class _$$ServiceConfigImplCopyWith<$Res>
-    implements $ServiceConfigCopyWith<$Res> {
-  factory _$$ServiceConfigImplCopyWith(
-          _$ServiceConfigImpl value, $Res Function(_$ServiceConfigImpl) then) =
-      __$$ServiceConfigImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ServiceConfigCopyWith<$Res> {
+  factory $ServiceConfigCopyWith(
+          ServiceConfig value, $Res Function(ServiceConfig) _then) =
+      _$ServiceConfigCopyWithImpl;
   @useResult
   $Res call({String key, String name, Map<IntegrationField, String> data});
 }
 
 /// @nodoc
-class __$$ServiceConfigImplCopyWithImpl<$Res>
-    extends _$ServiceConfigCopyWithImpl<$Res, _$ServiceConfigImpl>
-    implements _$$ServiceConfigImplCopyWith<$Res> {
-  __$$ServiceConfigImplCopyWithImpl(
-      _$ServiceConfigImpl _value, $Res Function(_$ServiceConfigImpl) _then)
-      : super(_value, _then);
+class _$ServiceConfigCopyWithImpl<$Res>
+    implements $ServiceConfigCopyWith<$Res> {
+  _$ServiceConfigCopyWithImpl(this._self, this._then);
+
+  final ServiceConfig _self;
+  final $Res Function(ServiceConfig) _then;
 
   /// Create a copy of ServiceConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -107,17 +77,17 @@ class __$$ServiceConfigImplCopyWithImpl<$Res>
     Object? name = null,
     Object? data = null,
   }) {
-    return _then(_$ServiceConfigImpl(
+    return _then(_self.copyWith(
       key: null == key
-          ? _value.key
+          ? _self.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       data: null == data
-          ? _value._data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<IntegrationField, String>,
     ));
@@ -126,16 +96,15 @@ class __$$ServiceConfigImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ServiceConfigImpl extends _ServiceConfig {
-  const _$ServiceConfigImpl(
+class _ServiceConfig extends ServiceConfig {
+  const _ServiceConfig(
       {required this.key,
       required this.name,
       required final Map<IntegrationField, String> data})
       : _data = data,
         super._();
-
-  factory _$ServiceConfigImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ServiceConfigImplFromJson(json);
+  factory _ServiceConfig.fromJson(Map<String, dynamic> json) =>
+      _$ServiceConfigFromJson(json);
 
   @override
   final String key;
@@ -149,16 +118,26 @@ class _$ServiceConfigImpl extends _ServiceConfig {
     return EqualUnmodifiableMapView(_data);
   }
 
+  /// Create a copy of ServiceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'ServiceConfig(key: $key, name: $name, data: $data)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ServiceConfigCopyWith<_ServiceConfig> get copyWith =>
+      __$ServiceConfigCopyWithImpl<_ServiceConfig>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ServiceConfigToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ServiceConfigImpl &&
+            other is _ServiceConfig &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._data, _data));
@@ -169,43 +148,55 @@ class _$ServiceConfigImpl extends _ServiceConfig {
   int get hashCode => Object.hash(
       runtimeType, key, name, const DeepCollectionEquality().hash(_data));
 
-  /// Create a copy of ServiceConfig
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ServiceConfigImplCopyWith<_$ServiceConfigImpl> get copyWith =>
-      __$$ServiceConfigImplCopyWithImpl<_$ServiceConfigImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ServiceConfigImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ServiceConfig(key: $key, name: $name, data: $data)';
   }
 }
 
-abstract class _ServiceConfig extends ServiceConfig {
-  const factory _ServiceConfig(
-      {required final String key,
-      required final String name,
-      required final Map<IntegrationField, String> data}) = _$ServiceConfigImpl;
-  const _ServiceConfig._() : super._();
+/// @nodoc
+abstract mixin class _$ServiceConfigCopyWith<$Res>
+    implements $ServiceConfigCopyWith<$Res> {
+  factory _$ServiceConfigCopyWith(
+          _ServiceConfig value, $Res Function(_ServiceConfig) _then) =
+      __$ServiceConfigCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String key, String name, Map<IntegrationField, String> data});
+}
 
-  factory _ServiceConfig.fromJson(Map<String, dynamic> json) =
-      _$ServiceConfigImpl.fromJson;
+/// @nodoc
+class __$ServiceConfigCopyWithImpl<$Res>
+    implements _$ServiceConfigCopyWith<$Res> {
+  __$ServiceConfigCopyWithImpl(this._self, this._then);
 
-  @override
-  String get key;
-  @override
-  String get name;
-  @override
-  Map<IntegrationField, String> get data;
+  final _ServiceConfig _self;
+  final $Res Function(_ServiceConfig) _then;
 
   /// Create a copy of ServiceConfig
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ServiceConfigImplCopyWith<_$ServiceConfigImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? key = null,
+    Object? name = null,
+    Object? data = null,
+  }) {
+    return _then(_ServiceConfig(
+      key: null == key
+          ? _self.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<IntegrationField, String>,
+    ));
+  }
 }
+
+// dart format on

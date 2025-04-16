@@ -1,5 +1,3 @@
-import 'package:collection/collection.dart';
-
 extension HostX on String {
   bool get isLocalhost {
     const localHosts = {
@@ -19,11 +17,8 @@ extension HostX on String {
     final match = ipRegExp.firstMatch(host);
 
     if (match != null) {
-      final octets = match
-          .groups([1, 2, 3, 4])
-          .whereNotNull()
-          .map((e) => int.parse(e))
-          .toList();
+      final octets =
+          match.groups([1, 2, 3, 4]).nonNulls.map((e) => int.parse(e)).toList();
       if (octets[0] == 10) return true;
       if (octets[0] == 172 && (octets[1] >= 16 && octets[1] <= 31)) return true;
       if (octets[0] == 192 && octets[1] == 168) return true;

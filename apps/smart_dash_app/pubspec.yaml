@@ -71,20 +71,20 @@ dependencies:
   chart_sparkline: ^1.0.15+1
   flutter_gravatar: ^2.0.2
   flutter_json_view: ^1.1.4
-  flutter_riverpod: ^3.0.0-dev.3
   flutter_wall_layout: ^2.1.1
   adaptive_breakpoints: ^0.1.7
   flutter_secure_storage: ^9.0.0
+  permission_handler: ^11.3.1
 
 
   device_info_plus: ^11.1.1
   internet_connection_checker_plus: ^2.5.2
 
+  riverpod: ^2.6.1
+  flutter_riverpod: ^2.6.1
   json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.1
-  riverpod_annotation: ^3.0.0-dev.3
-
-  permission_handler: ^11.3.1
+  freezed_annotation: ^3.0.0
+  riverpod_annotation: ^2.6.1
 
   sentry: ^8.0.0
   sentry_flutter: ^8.0.0
@@ -94,15 +94,15 @@ dependencies:
   restoration_web_plugin: ^1.0.0
 
 dev_dependencies:
-
-  custom_lint: ^0.5.11
+  flutter_test:
+    sdk: flutter
   flutter_lints: ^5.0.0
 
-  freezed: ^2.5.2
+  freezed: ^3.0.6
   build_runner: ^2.4.9
   json_serializable: ^6.7.1
-  riverpod_lint: ^3.0.0-dev.4
-  riverpod_generator: ^3.0.0-dev.11
+  riverpod_lint: ^2.6.5
+  riverpod_generator: ^2.6.5
 
 dependency_overrides:
   dashboard:

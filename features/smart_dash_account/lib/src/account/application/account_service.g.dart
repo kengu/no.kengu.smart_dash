@@ -6,7 +6,7 @@ part of 'account_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$accountServiceHash() => r'4e729f0da330af94a85e44d1824b8a55a719058a';
+String _$accountServiceHash() => r'17493bf6d1164e5584394fcd0cf622e89f685fb6';
 
 /// See also [accountService].
 @ProviderFor(accountService)
@@ -20,8 +20,10 @@ final accountServiceProvider = Provider<AccountService>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AccountServiceRef = ProviderRef<AccountService>;
-String _$getAccountHash() => r'6e5d5c5dc8f50ace2a254dfafc162497d072c871';
+String _$getAccountHash() => r'2044613a16c324b2133bd1e33f30c6133f50d734';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -49,23 +51,9 @@ class _SystemHash {
 const getAccountProvider = GetAccountFamily();
 
 /// See also [getAccount].
-class GetAccountFamily extends Family {
+class GetAccountFamily extends Family<AsyncValue<Optional<Account>>> {
   /// See also [getAccount].
   const GetAccountFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getAccountProvider';
 
   /// See also [getAccount].
   GetAccountProvider call({
@@ -78,7 +66,6 @@ class GetAccountFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   GetAccountProvider getProviderOverride(
     covariant GetAccountProvider provider,
@@ -89,27 +76,19 @@ class GetAccountFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      FutureOr<Optional<Account>> Function(GetAccountRef ref) create) {
-    return _$GetAccountFamilyOverride(this, create);
-  }
-}
-
-class _$GetAccountFamilyOverride implements FamilyOverride {
-  _$GetAccountFamilyOverride(this.overriddenFamily, this.create);
-
-  final FutureOr<Optional<Account>> Function(GetAccountRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final GetAccountFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  GetAccountProvider getProviderOverride(
-    covariant GetAccountProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getAccountProvider';
 }
 
 /// See also [getAccount].
@@ -138,7 +117,7 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
         );
 
   GetAccountProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -153,7 +132,7 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
 
   @override
   Override overrideWith(
-    FutureOr<Optional<Account>> Function(GetAccountRef ref) create,
+    FutureOr<Optional<Account>> Function(GetAccountRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -171,34 +150,8 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
   }
 
   @override
-  ({
-    String? userId,
-    Duration? ttl,
-  }) get argument {
-    return (
-      userId: userId,
-      ttl: ttl,
-    );
-  }
-
-  @override
   AutoDisposeFutureProviderElement<Optional<Account>> createElement() {
     return _GetAccountProviderElement(this);
-  }
-
-  GetAccountProvider _copyWith(
-    FutureOr<Optional<Account>> Function(GetAccountRef ref) create,
-  ) {
-    return GetAccountProvider._internal(
-      (ref) => create(ref as GetAccountRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      userId: userId,
-      ttl: ttl,
-    );
   }
 
   @override
@@ -218,6 +171,8 @@ class GetAccountProvider extends AutoDisposeFutureProvider<Optional<Account>> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetAccountRef on AutoDisposeFutureProviderRef<Optional<Account>> {
   /// The parameter `userId` of this provider.
   String? get userId;
@@ -237,30 +192,16 @@ class _GetAccountProviderElement
   Duration? get ttl => (origin as GetAccountProvider).ttl;
 }
 
-String _$getCurrentHomeHash() => r'b54bee159603cca39d6c369b6172b35bac32c4a7';
+String _$getCurrentHomeHash() => r'1acc0b0cb30f92e67ddfa14279f8cdedcf34f964';
 
 /// See also [getCurrentHome].
 @ProviderFor(getCurrentHome)
 const getCurrentHomeProvider = GetCurrentHomeFamily();
 
 /// See also [getCurrentHome].
-class GetCurrentHomeFamily extends Family {
+class GetCurrentHomeFamily extends Family<AsyncValue<Optional<Home>>> {
   /// See also [getCurrentHome].
   const GetCurrentHomeFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getCurrentHomeProvider';
 
   /// See also [getCurrentHome].
   GetCurrentHomeProvider call([
@@ -271,7 +212,6 @@ class GetCurrentHomeFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   GetCurrentHomeProvider getProviderOverride(
     covariant GetCurrentHomeProvider provider,
@@ -281,27 +221,19 @@ class GetCurrentHomeFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      FutureOr<Optional<Home>> Function(GetCurrentHomeRef ref) create) {
-    return _$GetCurrentHomeFamilyOverride(this, create);
-  }
-}
-
-class _$GetCurrentHomeFamilyOverride implements FamilyOverride {
-  _$GetCurrentHomeFamilyOverride(this.overriddenFamily, this.create);
-
-  final FutureOr<Optional<Home>> Function(GetCurrentHomeRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final GetCurrentHomeFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  GetCurrentHomeProvider getProviderOverride(
-    covariant GetCurrentHomeProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getCurrentHomeProvider';
 }
 
 /// See also [getCurrentHome].
@@ -327,7 +259,7 @@ class GetCurrentHomeProvider extends AutoDisposeFutureProvider<Optional<Home>> {
         );
 
   GetCurrentHomeProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -340,7 +272,7 @@ class GetCurrentHomeProvider extends AutoDisposeFutureProvider<Optional<Home>> {
 
   @override
   Override overrideWith(
-    FutureOr<Optional<Home>> Function(GetCurrentHomeRef ref) create,
+    FutureOr<Optional<Home>> Function(GetCurrentHomeRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -357,27 +289,8 @@ class GetCurrentHomeProvider extends AutoDisposeFutureProvider<Optional<Home>> {
   }
 
   @override
-  (String?,) get argument {
-    return (userId,);
-  }
-
-  @override
   AutoDisposeFutureProviderElement<Optional<Home>> createElement() {
     return _GetCurrentHomeProviderElement(this);
-  }
-
-  GetCurrentHomeProvider _copyWith(
-    FutureOr<Optional<Home>> Function(GetCurrentHomeRef ref) create,
-  ) {
-    return GetCurrentHomeProvider._internal(
-      (ref) => create(ref as GetCurrentHomeRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      userId: userId,
-    );
   }
 
   @override
@@ -394,6 +307,8 @@ class GetCurrentHomeProvider extends AutoDisposeFutureProvider<Optional<Home>> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetCurrentHomeRef on AutoDisposeFutureProviderRef<Optional<Home>> {
   /// The parameter `userId` of this provider.
   String? get userId;
@@ -408,30 +323,16 @@ class _GetCurrentHomeProviderElement
   String? get userId => (origin as GetCurrentHomeProvider).userId;
 }
 
-String _$getHomesHash() => r'b0c3f4d0827da25bfd8da875466a1cfa4e474b32';
+String _$getHomesHash() => r'3798290dd7c2c14effe1b544d2b1bc6dc77258d3';
 
 /// See also [getHomes].
 @ProviderFor(getHomes)
 const getHomesProvider = GetHomesFamily();
 
 /// See also [getHomes].
-class GetHomesFamily extends Family {
+class GetHomesFamily extends Family<AsyncValue<List<Home>>> {
   /// See also [getHomes].
   const GetHomesFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getHomesProvider';
 
   /// See also [getHomes].
   GetHomesProvider call([
@@ -442,7 +343,6 @@ class GetHomesFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   GetHomesProvider getProviderOverride(
     covariant GetHomesProvider provider,
@@ -452,26 +352,19 @@ class GetHomesFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(FutureOr<List<Home>> Function(GetHomesRef ref) create) {
-    return _$GetHomesFamilyOverride(this, create);
-  }
-}
-
-class _$GetHomesFamilyOverride implements FamilyOverride {
-  _$GetHomesFamilyOverride(this.overriddenFamily, this.create);
-
-  final FutureOr<List<Home>> Function(GetHomesRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final GetHomesFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  GetHomesProvider getProviderOverride(
-    covariant GetHomesProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getHomesProvider';
 }
 
 /// See also [getHomes].
@@ -496,7 +389,7 @@ class GetHomesProvider extends AutoDisposeFutureProvider<List<Home>> {
         );
 
   GetHomesProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -509,7 +402,7 @@ class GetHomesProvider extends AutoDisposeFutureProvider<List<Home>> {
 
   @override
   Override overrideWith(
-    FutureOr<List<Home>> Function(GetHomesRef ref) create,
+    FutureOr<List<Home>> Function(GetHomesRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -526,27 +419,8 @@ class GetHomesProvider extends AutoDisposeFutureProvider<List<Home>> {
   }
 
   @override
-  (String?,) get argument {
-    return (userId,);
-  }
-
-  @override
   AutoDisposeFutureProviderElement<List<Home>> createElement() {
     return _GetHomesProviderElement(this);
-  }
-
-  GetHomesProvider _copyWith(
-    FutureOr<List<Home>> Function(GetHomesRef ref) create,
-  ) {
-    return GetHomesProvider._internal(
-      (ref) => create(ref as GetHomesRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      userId: userId,
-    );
   }
 
   @override
@@ -563,6 +437,8 @@ class GetHomesProvider extends AutoDisposeFutureProvider<List<Home>> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetHomesRef on AutoDisposeFutureProviderRef<List<Home>> {
   /// The parameter `userId` of this provider.
   String? get userId;
@@ -577,7 +453,7 @@ class _GetHomesProviderElement
 }
 
 String _$getCurrentIntegrationRegistryHash() =>
-    r'1beff0904dd4899506709df4b122243de8c0a7c0';
+    r'7258db7df561af9f2ece371305907b7bcb242bef';
 
 /// See also [getCurrentIntegrationRegistry].
 @ProviderFor(getCurrentIntegrationRegistry)
@@ -585,23 +461,10 @@ const getCurrentIntegrationRegistryProvider =
     GetCurrentIntegrationRegistryFamily();
 
 /// See also [getCurrentIntegrationRegistry].
-class GetCurrentIntegrationRegistryFamily extends Family {
+class GetCurrentIntegrationRegistryFamily
+    extends Family<AsyncValue<Optional<IntegrationRegistry>>> {
   /// See also [getCurrentIntegrationRegistry].
   const GetCurrentIntegrationRegistryFamily();
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getCurrentIntegrationRegistryProvider';
 
   /// See also [getCurrentIntegrationRegistry].
   GetCurrentIntegrationRegistryProvider call([
@@ -612,7 +475,6 @@ class GetCurrentIntegrationRegistryFamily extends Family {
     );
   }
 
-  @visibleForOverriding
   @override
   GetCurrentIntegrationRegistryProvider getProviderOverride(
     covariant GetCurrentIntegrationRegistryProvider provider,
@@ -622,31 +484,19 @@ class GetCurrentIntegrationRegistryFamily extends Family {
     );
   }
 
-  /// Enables overriding the behavior of this provider, no matter the parameters.
-  Override overrideWith(
-      FutureOr<Optional<IntegrationRegistry>> Function(
-              GetCurrentIntegrationRegistryRef ref)
-          create) {
-    return _$GetCurrentIntegrationRegistryFamilyOverride(this, create);
-  }
-}
-
-class _$GetCurrentIntegrationRegistryFamilyOverride implements FamilyOverride {
-  _$GetCurrentIntegrationRegistryFamilyOverride(
-      this.overriddenFamily, this.create);
-
-  final FutureOr<Optional<IntegrationRegistry>> Function(
-      GetCurrentIntegrationRegistryRef ref) create;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  final GetCurrentIntegrationRegistryFamily overriddenFamily;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  GetCurrentIntegrationRegistryProvider getProviderOverride(
-    covariant GetCurrentIntegrationRegistryProvider provider,
-  ) {
-    return provider._copyWith(create);
-  }
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getCurrentIntegrationRegistryProvider';
 }
 
 /// See also [getCurrentIntegrationRegistry].
@@ -673,7 +523,7 @@ class GetCurrentIntegrationRegistryProvider
         );
 
   GetCurrentIntegrationRegistryProvider._internal(
-    super.create, {
+    super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -687,7 +537,7 @@ class GetCurrentIntegrationRegistryProvider
   @override
   Override overrideWith(
     FutureOr<Optional<IntegrationRegistry>> Function(
-            GetCurrentIntegrationRegistryRef ref)
+            GetCurrentIntegrationRegistryRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -705,30 +555,9 @@ class GetCurrentIntegrationRegistryProvider
   }
 
   @override
-  (String?,) get argument {
-    return (userId,);
-  }
-
-  @override
   AutoDisposeFutureProviderElement<Optional<IntegrationRegistry>>
       createElement() {
     return _GetCurrentIntegrationRegistryProviderElement(this);
-  }
-
-  GetCurrentIntegrationRegistryProvider _copyWith(
-    FutureOr<Optional<IntegrationRegistry>> Function(
-            GetCurrentIntegrationRegistryRef ref)
-        create,
-  ) {
-    return GetCurrentIntegrationRegistryProvider._internal(
-      (ref) => create(ref as GetCurrentIntegrationRegistryRef),
-      name: name,
-      dependencies: dependencies,
-      allTransitiveDependencies: allTransitiveDependencies,
-      debugGetCreateSourceHash: debugGetCreateSourceHash,
-      from: from,
-      userId: userId,
-    );
   }
 
   @override
@@ -746,6 +575,8 @@ class GetCurrentIntegrationRegistryProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetCurrentIntegrationRegistryRef
     on AutoDisposeFutureProviderRef<Optional<IntegrationRegistry>> {
   /// The parameter `userId` of this provider.
@@ -762,4 +593,4 @@ class _GetCurrentIntegrationRegistryProviderElement
       (origin as GetCurrentIntegrationRegistryProvider).userId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

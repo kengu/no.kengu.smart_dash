@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:drift_dev/api/migrations.dart';
+import 'package:drift_dev/api/migrations_native.dart';
 import 'package:smart_dash_analytics/smart_dash_analytics.dart';
 import 'package:test/test.dart';
 

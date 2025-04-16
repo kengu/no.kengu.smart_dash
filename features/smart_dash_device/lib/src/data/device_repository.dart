@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 import 'package:smart_dash_device/smart_dash_device.dart';
@@ -22,7 +23,7 @@ class DeviceRepository extends BulkHiveRepository<Identity, Device> {
 }
 
 @Riverpod(keepAlive: true)
-DeviceRepository deviceRepository(DeviceRepositoryRef ref) {
+DeviceRepository deviceRepository(Ref ref) {
   return DeviceRepository(ref);
 }
 

@@ -6,15 +6,15 @@ part of 'weather_forecast_device.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WeatherForecastDeviceImpl _$$WeatherForecastDeviceImplFromJson(
+_WeatherForecastDevice _$WeatherForecastDeviceFromJson(
         Map<String, dynamic> json) =>
-    _$WeatherForecastDeviceImpl(
+    _WeatherForecastDevice(
       service: json['service'] as String,
       state: WeatherState.fromJson(json['state'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$WeatherForecastDeviceImplToJson(
-        _$WeatherForecastDeviceImpl instance) =>
+Map<String, dynamic> _$WeatherForecastDeviceToJson(
+        _WeatherForecastDevice instance) =>
     <String, dynamic>{
       'service': instance.service,
       'state': instance.state.toJson(),

@@ -1,4 +1,5 @@
 import 'package:optional/optional.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_integration/smart_dash_integration.dart';
 
@@ -27,6 +28,6 @@ class WeatherForecastManager extends DriverManager<WeatherForecastDriver> {
 }
 
 @Riverpod(keepAlive: true)
-WeatherForecastManager weatherForecastManager(WeatherForecastManagerRef ref) {
+WeatherForecastManager weatherForecastManager(Ref ref) {
   return WeatherForecastManager(ref);
 }

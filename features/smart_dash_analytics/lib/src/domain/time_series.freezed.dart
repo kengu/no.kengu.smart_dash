@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,44 +10,59 @@ part of 'time_series.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TimeSeries _$TimeSeriesFromJson(Map<String, dynamic> json) {
-  return _TimeSeries.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TimeSeries {
   /// Get the time series's name
-  String get name => throw _privateConstructorUsedError;
+  String get name;
 
   /// Get the time series's data array
-  DataArray get array => throw _privateConstructorUsedError;
+  DataArray get array;
 
   /// Get the time series's [DateTime] offset from epoch
-  DateTime get offset => throw _privateConstructorUsedError;
+  DateTime get offset;
 
   /// Get duration between each coordinate
-  Duration get span => throw _privateConstructorUsedError;
-
-  /// Serializes this TimeSeries to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Duration get span;
 
   /// Create a copy of TimeSeries
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $TimeSeriesCopyWith<TimeSeries> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$TimeSeriesCopyWithImpl<TimeSeries>(this as TimeSeries, _$identity);
+
+  /// Serializes this TimeSeries to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TimeSeries &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.array, array) || other.array == array) &&
+            (identical(other.offset, offset) || other.offset == offset) &&
+            (identical(other.span, span) || other.span == span));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, array, offset, span);
+
+  @override
+  String toString() {
+    return 'TimeSeries(name: $name, array: $array, offset: $offset, span: $span)';
+  }
 }
 
 /// @nodoc
-abstract class $TimeSeriesCopyWith<$Res> {
+abstract mixin class $TimeSeriesCopyWith<$Res> {
   factory $TimeSeriesCopyWith(
-          TimeSeries value, $Res Function(TimeSeries) then) =
-      _$TimeSeriesCopyWithImpl<$Res, TimeSeries>;
+          TimeSeries value, $Res Function(TimeSeries) _then) =
+      _$TimeSeriesCopyWithImpl;
   @useResult
   $Res call({String name, DataArray array, DateTime offset, Duration span});
 
@@ -54,14 +70,11 @@ abstract class $TimeSeriesCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TimeSeriesCopyWithImpl<$Res, $Val extends TimeSeries>
-    implements $TimeSeriesCopyWith<$Res> {
-  _$TimeSeriesCopyWithImpl(this._value, this._then);
+class _$TimeSeriesCopyWithImpl<$Res> implements $TimeSeriesCopyWith<$Res> {
+  _$TimeSeriesCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final TimeSeries _self;
+  final $Res Function(TimeSeries) _then;
 
   /// Create a copy of TimeSeries
   /// with the given fields replaced by the non-null parameter values.
@@ -73,24 +86,24 @@ class _$TimeSeriesCopyWithImpl<$Res, $Val extends TimeSeries>
     Object? offset = null,
     Object? span = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       array: null == array
-          ? _value.array
+          ? _self.array
           : array // ignore: cast_nullable_to_non_nullable
               as DataArray,
       offset: null == offset
-          ? _value.offset
+          ? _self.offset
           : offset // ignore: cast_nullable_to_non_nullable
               as DateTime,
       span: null == span
-          ? _value.span
+          ? _self.span
           : span // ignore: cast_nullable_to_non_nullable
               as Duration,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of TimeSeries
@@ -98,77 +111,23 @@ class _$TimeSeriesCopyWithImpl<$Res, $Val extends TimeSeries>
   @override
   @pragma('vm:prefer-inline')
   $DataArrayCopyWith<$Res> get array {
-    return $DataArrayCopyWith<$Res>(_value.array, (value) {
-      return _then(_value.copyWith(array: value) as $Val);
+    return $DataArrayCopyWith<$Res>(_self.array, (value) {
+      return _then(_self.copyWith(array: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$TimeSeriesImplCopyWith<$Res>
-    implements $TimeSeriesCopyWith<$Res> {
-  factory _$$TimeSeriesImplCopyWith(
-          _$TimeSeriesImpl value, $Res Function(_$TimeSeriesImpl) then) =
-      __$$TimeSeriesImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String name, DataArray array, DateTime offset, Duration span});
-
-  @override
-  $DataArrayCopyWith<$Res> get array;
-}
-
-/// @nodoc
-class __$$TimeSeriesImplCopyWithImpl<$Res>
-    extends _$TimeSeriesCopyWithImpl<$Res, _$TimeSeriesImpl>
-    implements _$$TimeSeriesImplCopyWith<$Res> {
-  __$$TimeSeriesImplCopyWithImpl(
-      _$TimeSeriesImpl _value, $Res Function(_$TimeSeriesImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TimeSeries
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? array = null,
-    Object? offset = null,
-    Object? span = null,
-  }) {
-    return _then(_$TimeSeriesImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      array: null == array
-          ? _value.array
-          : array // ignore: cast_nullable_to_non_nullable
-              as DataArray,
-      offset: null == offset
-          ? _value.offset
-          : offset // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      span: null == span
-          ? _value.span
-          : span // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$TimeSeriesImpl extends _TimeSeries {
-  const _$TimeSeriesImpl(
+class _TimeSeries extends TimeSeries {
+  const _TimeSeries(
       {required this.name,
       required this.array,
       required this.offset,
       required this.span})
       : super._();
-
-  factory _$TimeSeriesImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TimeSeriesImplFromJson(json);
+  factory _TimeSeries.fromJson(Map<String, dynamic> json) =>
+      _$TimeSeriesFromJson(json);
 
   /// Get the time series's name
   @override
@@ -186,16 +145,26 @@ class _$TimeSeriesImpl extends _TimeSeries {
   @override
   final Duration span;
 
+  /// Create a copy of TimeSeries
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'TimeSeries(name: $name, array: $array, offset: $offset, span: $span)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TimeSeriesCopyWith<_TimeSeries> get copyWith =>
+      __$TimeSeriesCopyWithImpl<_TimeSeries>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TimeSeriesToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TimeSeriesImpl &&
+            other is _TimeSeries &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.array, array) || other.array == array) &&
             (identical(other.offset, offset) || other.offset == offset) &&
@@ -206,53 +175,72 @@ class _$TimeSeriesImpl extends _TimeSeries {
   @override
   int get hashCode => Object.hash(runtimeType, name, array, offset, span);
 
-  /// Create a copy of TimeSeries
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$TimeSeriesImplCopyWith<_$TimeSeriesImpl> get copyWith =>
-      __$$TimeSeriesImplCopyWithImpl<_$TimeSeriesImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TimeSeriesImplToJson(
-      this,
-    );
+  String toString() {
+    return 'TimeSeries(name: $name, array: $array, offset: $offset, span: $span)';
   }
 }
 
-abstract class _TimeSeries extends TimeSeries {
-  const factory _TimeSeries(
-      {required final String name,
-      required final DataArray array,
-      required final DateTime offset,
-      required final Duration span}) = _$TimeSeriesImpl;
-  const _TimeSeries._() : super._();
-
-  factory _TimeSeries.fromJson(Map<String, dynamic> json) =
-      _$TimeSeriesImpl.fromJson;
-
-  /// Get the time series's name
+/// @nodoc
+abstract mixin class _$TimeSeriesCopyWith<$Res>
+    implements $TimeSeriesCopyWith<$Res> {
+  factory _$TimeSeriesCopyWith(
+          _TimeSeries value, $Res Function(_TimeSeries) _then) =
+      __$TimeSeriesCopyWithImpl;
   @override
-  String get name;
+  @useResult
+  $Res call({String name, DataArray array, DateTime offset, Duration span});
 
-  /// Get the time series's data array
   @override
-  DataArray get array;
+  $DataArrayCopyWith<$Res> get array;
+}
 
-  /// Get the time series's [DateTime] offset from epoch
-  @override
-  DateTime get offset;
+/// @nodoc
+class __$TimeSeriesCopyWithImpl<$Res> implements _$TimeSeriesCopyWith<$Res> {
+  __$TimeSeriesCopyWithImpl(this._self, this._then);
 
-  /// Get duration between each coordinate
-  @override
-  Duration get span;
+  final _TimeSeries _self;
+  final $Res Function(_TimeSeries) _then;
 
   /// Create a copy of TimeSeries
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TimeSeriesImplCopyWith<_$TimeSeriesImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? array = null,
+    Object? offset = null,
+    Object? span = null,
+  }) {
+    return _then(_TimeSeries(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      array: null == array
+          ? _self.array
+          : array // ignore: cast_nullable_to_non_nullable
+              as DataArray,
+      offset: null == offset
+          ? _self.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      span: null == span
+          ? _self.span
+          : span // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ));
+  }
+
+  /// Create a copy of TimeSeries
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DataArrayCopyWith<$Res> get array {
+    return $DataArrayCopyWith<$Res>(_self.array, (value) {
+      return _then(_self.copyWith(array: value));
+    });
+  }
 }
+
+// dart format on

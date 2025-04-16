@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:optional/optional.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_notification/smart_dash_notification.dart';
@@ -356,5 +356,4 @@ class NotificationService {
 }
 
 @Riverpod(keepAlive: true)
-NotificationService notificationService(NotificationServiceRef ref) =>
-    NotificationService(ref);
+NotificationService notificationService(Ref ref) => NotificationService(ref);
