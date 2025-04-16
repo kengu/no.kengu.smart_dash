@@ -23,7 +23,7 @@ dependencies:
   universal_io: ^2.2.2
   stream_transform: ^2.1.0
 
-  dio: ^5.4.3+1
+  dio: ^5.8.0+1
   shelf: ^1.4.1
   shelf_router: ^1.1.4
   problem_details: ^0.0.2
@@ -39,7 +39,7 @@ dev_dependencies:
   shelf_test_handler: ^2.0.2
 
   freezed: ^3.0.6
-  mockito: ^5.4.4
+  mockito: ^5.4.5
   build_runner: ^2.4.13
   json_serializable: ^6.8.0
   riverpod_lint: ^2.6.5

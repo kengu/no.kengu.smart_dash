@@ -28,7 +28,7 @@ dependencies:
   collection: ^1.18.0
   path_provider: ^2.1.5
 
-  dio: ^5.4.3+1
+  dio: ^5.8.0+1
   hive: ^2.2.3
   shelf: ^1.4.1
   async: ^2.11.0
@@ -58,7 +58,7 @@ dev_dependencies:
   test: ^1.25.8
 
   freezed: ^3.0.6
-  mockito: ^5.4.4
+  mockito: ^5.4.5
   build_runner: ^2.4.13
   riverpod_lint: ^2.6.5
   riverpod_generator: ^2.6.5

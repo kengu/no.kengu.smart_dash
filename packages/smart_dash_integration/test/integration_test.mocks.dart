@@ -7,15 +7,15 @@ import 'dart:async' as _i10;
 
 import 'package:dio/src/adapter.dart' as _i3;
 import 'package:dio/src/cancel_token.dart' as _i11;
-import 'package:dio/src/dio.dart' as _i9;
+import 'package:dio/src/dio.dart' as _i7;
 import 'package:dio/src/dio_mixin.dart' as _i5;
 import 'package:dio/src/options.dart' as _i2;
 import 'package:dio/src/response.dart' as _i6;
 import 'package:dio/src/transformer.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i13;
-import 'package:optional/optional.dart' as _i8;
-import 'package:riverpod/riverpod.dart' as _i7;
+import 'package:optional/optional.dart' as _i9;
+import 'package:riverpod/riverpod.dart' as _i8;
 import 'package:smart_dash_integration/smart_dash_integration.dart' as _i12;
 
 // ignore_for_file: type=lint
@@ -58,21 +58,26 @@ class _FakeResponse_4<T1> extends _i1.SmartFake implements _i6.Response<T1> {
     : super(parent, parentInvocation);
 }
 
-class _FakeRef_5<State extends Object?> extends _i1.SmartFake
-    implements _i7.Ref<State> {
-  _FakeRef_5(Object parent, Invocation parentInvocation)
+class _FakeDio_5 extends _i1.SmartFake implements _i7.Dio {
+  _FakeDio_5(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeOptional_6<T> extends _i1.SmartFake implements _i8.Optional<T> {
-  _FakeOptional_6(Object parent, Invocation parentInvocation)
+class _FakeRef_6<State extends Object?> extends _i1.SmartFake
+    implements _i8.Ref<State> {
+  _FakeRef_6(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeOptional_7<T> extends _i1.SmartFake implements _i9.Optional<T> {
+  _FakeOptional_7(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
 /// A class which mocks [Dio].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDio extends _i1.Mock implements _i9.Dio {
+class MockDio extends _i1.Mock implements _i7.Dio {
   MockDio() {
     _i1.throwOnMissingStub(this);
   }
@@ -603,6 +608,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
     Map<String, dynamic>? queryParameters,
     _i11.CancelToken? cancelToken,
     bool? deleteOnError = true,
+    _i2.FileAccessMode? fileAccessMode = _i2.FileAccessMode.write,
     String? lengthHeader = 'content-length',
     Object? data,
     _i2.Options? options,
@@ -616,6 +622,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
                 #queryParameters: queryParameters,
                 #cancelToken: cancelToken,
                 #deleteOnError: deleteOnError,
+                #fileAccessMode: fileAccessMode,
                 #lengthHeader: lengthHeader,
                 #data: data,
                 #options: options,
@@ -632,6 +639,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
                     #queryParameters: queryParameters,
                     #cancelToken: cancelToken,
                     #deleteOnError: deleteOnError,
+                    #fileAccessMode: fileAccessMode,
                     #lengthHeader: lengthHeader,
                     #data: data,
                     #options: options,
@@ -649,6 +657,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
     _i2.ProgressCallback? onReceiveProgress,
     _i11.CancelToken? cancelToken,
     bool? deleteOnError = true,
+    _i2.FileAccessMode? fileAccessMode = _i2.FileAccessMode.write,
     String? lengthHeader = 'content-length',
     Object? data,
     _i2.Options? options,
@@ -661,6 +670,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
                 #onReceiveProgress: onReceiveProgress,
                 #cancelToken: cancelToken,
                 #deleteOnError: deleteOnError,
+                #fileAccessMode: fileAccessMode,
                 #lengthHeader: lengthHeader,
                 #data: data,
                 #options: options,
@@ -676,6 +686,7 @@ class MockDio extends _i1.Mock implements _i9.Dio {
                     #onReceiveProgress: onReceiveProgress,
                     #cancelToken: cancelToken,
                     #deleteOnError: deleteOnError,
+                    #fileAccessMode: fileAccessMode,
                     #lengthHeader: lengthHeader,
                     #data: data,
                     #options: options,
@@ -781,6 +792,32 @@ class MockDio extends _i1.Mock implements _i9.Dio {
             ),
           )
           as _i10.Future<_i6.Response<T>>);
+
+  @override
+  _i7.Dio clone({
+    _i2.BaseOptions? options,
+    _i5.Interceptors? interceptors,
+    _i3.HttpClientAdapter? httpClientAdapter,
+    _i4.Transformer? transformer,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#clone, [], {
+              #options: options,
+              #interceptors: interceptors,
+              #httpClientAdapter: httpClientAdapter,
+              #transformer: transformer,
+            }),
+            returnValue: _FakeDio_5(
+              this,
+              Invocation.method(#clone, [], {
+                #options: options,
+                #interceptors: interceptors,
+                #httpClientAdapter: httpClientAdapter,
+                #transformer: transformer,
+              }),
+            ),
+          )
+          as _i7.Dio);
 }
 
 /// A class which mocks [IntegrationRegistry].
@@ -793,12 +830,12 @@ class MockIntegrationRegistry extends _i1.Mock
   }
 
   @override
-  _i7.Ref<Object?> get ref =>
+  _i8.Ref<Object?> get ref =>
       (super.noSuchMethod(
             Invocation.getter(#ref),
-            returnValue: _FakeRef_5<Object?>(this, Invocation.getter(#ref)),
+            returnValue: _FakeRef_6<Object?>(this, Invocation.getter(#ref)),
           )
-          as _i7.Ref<Object?>);
+          as _i8.Ref<Object?>);
 
   @override
   String get baseUrl =>
@@ -848,15 +885,15 @@ class MockIntegrationRegistry extends _i1.Mock
           as Map<String, _i12.Integration>);
 
   @override
-  _i8.Optional<_i12.Integration> get(String? key) =>
+  _i9.Optional<_i12.Integration> get(String? key) =>
       (super.noSuchMethod(
             Invocation.method(#get, [key]),
-            returnValue: _FakeOptional_6<_i12.Integration>(
+            returnValue: _FakeOptional_7<_i12.Integration>(
               this,
               Invocation.method(#get, [key]),
             ),
           )
-          as _i8.Optional<_i12.Integration>);
+          as _i9.Optional<_i12.Integration>);
 
   @override
   Map<String, _i12.Integration> where(
