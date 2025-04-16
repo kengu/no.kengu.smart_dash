@@ -31,7 +31,7 @@ dependencies:
 
   drift: ^2.21.0
   drift_dev: ^2.21.2
-  drift_flutter: ^0.1.0
+  drift_flutter: ^0.2.4
   sqlite3: ^2.4.7
   sqlite3_flutter_libs: ^0.5.26
 
@@ -43,7 +43,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
   freezed: ^3.0.0
   mockito: ^5.4.5

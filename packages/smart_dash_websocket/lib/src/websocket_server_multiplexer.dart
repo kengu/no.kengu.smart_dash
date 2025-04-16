@@ -78,7 +78,7 @@ class WebSocketServerMultiplexer {
   }
 
   Middleware middleware(String wsPath) {
-    final wsHandler = webSocketHandler((WebSocketChannel webSocket) {
+    final wsHandler = webSocketHandler((WebSocketChannel webSocket, String? _) {
       addWebSocket(webSocket);
     });
     return (Handler innerHandler) {

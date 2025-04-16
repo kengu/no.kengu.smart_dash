@@ -16,7 +16,7 @@ dependencies:
   logging: ^1.2.0
 
   shelf: ^1.4.1
-  shelf_web_socket: ^2.0.1
+  shelf_web_socket: ^3.0.0
   web_socket_channel: ^3.0.1
 
   json_annotation: ^4.9.0
@@ -24,7 +24,7 @@ dependencies:
 
 dev_dependencies:
   test: ^1.25.8
-  lints: ^3.0.0
+  lints: ^5.1.1
 
   freezed: ^3.0.6
   build_runner: ^2.4.13

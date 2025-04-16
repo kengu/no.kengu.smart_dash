@@ -20,7 +20,7 @@ dependencies:
 
 
   path: ^1.9.0
-  intl: ^0.19.0
+  intl: ^0.20.2
   html: ^0.15.4
   async: ^2.11.0
   logging: ^1.2.0
@@ -31,7 +31,7 @@ dependencies:
   shelf: ^1.4.1
   shelf_router: ^1.1.4
   stream_transform: ^2.1.0
-  dio_cache_interceptor: ^3.5.1
+  dio_cache_interceptor: ^4.0.3
 
   sentry: ^8.0.0
   sentry_flutter: ^8.0.0
@@ -42,7 +42,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
 
 dev_dependencies:
-  lints: ^3.0.0
+  lints: ^5.1.1
   test: ^1.25.8
 
   freezed: ^3.0.6

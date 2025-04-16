@@ -35,7 +35,7 @@ dependencies:
 
 dev_dependencies:
   test: ^1.25.8
-  lints: ^3.0.0
+  lints: ^5.1.1
   shelf_test_handler: ^2.0.2
 
   freezed: ^3.0.6
