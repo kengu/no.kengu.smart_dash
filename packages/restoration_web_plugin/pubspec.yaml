@@ -16,8 +16,8 @@ dependencies:
     sdk: flutter
 
   plugin_platform_interface: ^2.1.8
-  shared_preferences: ^2.3.3
-  shared_preferences_android: ^2.4.0
+  shared_preferences: ^2.5.3
+  shared_preferences_android: ^2.4.9
 
 
 dev_dependencies:

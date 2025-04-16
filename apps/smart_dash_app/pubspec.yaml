@@ -28,37 +28,30 @@ dependencies:
   smart_dash_integration: any
   smart_dash_notification: any
 
-  dio: ^5.4.3+1
+  dio: ^5.8.0+1
   xml: ^6.5.0
-  http: ^1.2.1
+  http: ^1.3.0
   path: ^1.9.0
   intl: ^0.19.0
   html: ^0.15.4
-  async: ^2.11.0
+  async: ^2.12.0
   universal_io: ^2.2.2
-  path_provider: ^2.1.3
+  path_provider: ^2.1.5
   window_manager: ^0.4.3
 
   hive_flutter: ^1.1.0
-  shared_preferences: ^2.3.3
-  shared_preferences_android: ^2.4.0
+  shared_preferences: ^2.5.3
+  shared_preferences_android: ^2.4.9
 
   nanoid: ^1.0.0
-  logging: ^1.2.0
-  strings: ^3.1.1
-  timeago: ^3.6.1
+  logging: ^1.3.0
+  strings: ^3.2.0
+  timeago: ^3.7.0
   optional: ^6.1.0+1
-  collection: ^1.18.0
-  pretty_bytes: ^6.1.0
-  stream_transform: ^2.1.0
+  collection: ^1.19.1
+  pretty_bytes: ^6.2.0
+  stream_transform: ^2.1.1
   battery_indicator: ^0.1.2
-
-  # Video
-  media_kit: ^1.1.10+1
-  media_kit_video: ^1.2.4
-  media_kit_libs_video: ^1.0.4
-  media_kit_libs_android_video: ^1.3.6
-
 
   # UI
   fl_chart: ^0.69.0
@@ -74,7 +67,7 @@ dependencies:
   flutter_wall_layout: ^2.1.1
   adaptive_breakpoints: ^0.1.7
   flutter_secure_storage: ^9.0.0
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.0+1
 
 
   device_info_plus: ^11.1.1
@@ -86,8 +79,8 @@ dependencies:
   freezed_annotation: ^3.0.0
   riverpod_annotation: ^2.6.1
 
-  sentry: ^8.0.0
-  sentry_flutter: ^8.0.0
+  sentry: ^8.14.1
+  sentry_flutter: ^8.14.1
 
   stack_trace: ^1.11.1
 
