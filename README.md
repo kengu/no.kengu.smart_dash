@@ -1,6 +1,6 @@
 # Smart Dash Project 
 
-[![Publish](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml/badge.svg)](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml)
+[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=rounded-square)](https://github.com/invertase/melos) [![Publish](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml/badge.svg)](https://github.com/kengu/no.kengu.smart_dash/actions/workflows/publish.yml)
 
 _A Smart Dashboard project for my personal use._
 
