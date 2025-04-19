@@ -46,9 +46,9 @@ mixin SnowService on IntegrationService<List<SnowState>> {
 @Riverpod(keepAlive: true)
 Future<SnowService> snowService(Ref ref, String baseUrl) async {
   if (baseUrl.isLocalhost) {
-    final service = SnowConsumerService(ref, baseUrl);
-    await service.build();
-    return service;
+    return SnowDriverService(ref);
   }
-  return SnowDriverService(ref);
+  final service = SnowConsumerService(ref, baseUrl);
+  await service.build();
+  return service;
 }

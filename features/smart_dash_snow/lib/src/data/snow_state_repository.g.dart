@@ -7,7 +7,7 @@ part of 'snow_state_repository.dart';
 // **************************************************************************
 
 String _$snowStateRepositoryHash() =>
-    r'9979072c42f5af821dcd022bca0df4ebdf5a9920';
+    r'7fde7d17ae0e046bf44939c2efdde7772dbb513c';
 
 /// See also [snowStateRepository].
 @ProviderFor(snowStateRepository)
