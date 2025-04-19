@@ -880,7 +880,7 @@ packages:
     source: hosted
     version: "0.11.1"
   media_kit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: media_kit
       sha256: "48c10c3785df5d88f0eef970743f8c99b2e5da2b34b9d8f9876e598f62d9e776"
@@ -888,7 +888,7 @@ packages:
     source: hosted
     version: "1.2.0"
   media_kit_libs_android_video:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: media_kit_libs_android_video
       sha256: adff9b571b8ead0867f9f91070f8df39562078c0eb3371d88b9029a2d547d7b7
@@ -920,7 +920,7 @@ packages:
     source: hosted
     version: "1.1.4"
   media_kit_libs_video:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: media_kit_libs_video
       sha256: "958cc55e7065d9d01f52a2842dab2a0812a92add18489f1006d864fb5e42a3ef"
@@ -936,7 +936,7 @@ packages:
     source: hosted
     version: "1.0.11"
   media_kit_video:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: media_kit_video
       sha256: a656a9463298c1adc64c57f2d012874f7f2900f0c614d9545a3e7b8bb9e2137b
