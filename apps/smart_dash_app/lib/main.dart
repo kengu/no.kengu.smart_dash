@@ -34,10 +34,6 @@ void main() async {
     ].where((e) => e.toString().isNotEmpty == true).join(': '));
   });
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('nb_NO');
-  await Hive.initFlutter(io.Platform.pathSeparator);
-
   // This is needed for riverpod error messages
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
@@ -48,12 +44,19 @@ void main() async {
   await SentryFlutter.init(
     (options) {
       options.dsn = sentryDNS;
+      options.enableFramesTracking = true;
       // Set tracesSampleRate to 1.0 to capture 100% of
-      // transactions for performance monitoring.
-      // We recommend adjusting this value in production.
+      // transactions for performance monitoring in
+      // debug mode. Only trace 10% in production.
       options.tracesSampleRate = kReleaseMode ? 0.1 : 1.0;
+      // Too chatty for me
+      options.debug = kDebugMode;
+      options.diagnosticLevel = SentryLevel.error;
     },
     appRunner: () async {
+      await initializeDateFormatting('nb_NO');
+      await Hive.initFlutter(io.Platform.pathSeparator);
+
       // Initialize desktop-specific capabilities
       await _initOnDesktop();
 
