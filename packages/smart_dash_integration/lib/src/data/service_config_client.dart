@@ -70,12 +70,6 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
       _ => '$prefix/$suffix?${buildQuery(ids)}'
     };
   }
-
-  @override
-  ServiceConfig fromData(ServiceConfig data) {
-    // TODO: implement fromData
-    throw UnimplementedError();
-  }
 }
 
 @Riverpod(keepAlive: true)
