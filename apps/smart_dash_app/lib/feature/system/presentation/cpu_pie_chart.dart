@@ -29,7 +29,7 @@ class CpuPieChart extends StatelessWidget {
           child: Transform.scale(
             scale: scale,
             child: PieChart(
-              swapAnimationDuration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               PieChartData(
                 borderData: FlBorderData(
                   show: false,
