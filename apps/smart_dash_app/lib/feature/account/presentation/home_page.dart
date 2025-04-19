@@ -146,7 +146,7 @@ class HomePage extends ConsumerWidget {
                           );
                         case 'snow_now':
                           return SnowNowTile(
-                            location: 'Skirvedalen',
+                            location: 'skirvedalen(tinn)',
                           );
                         case 'snow_now_list':
                           return const SnowNowListTile();

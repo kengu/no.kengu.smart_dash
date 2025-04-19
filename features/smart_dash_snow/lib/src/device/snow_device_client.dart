@@ -18,13 +18,15 @@ class SnowDeviceClient extends DeviceClient {
         ));
       }
     }
-    return devices
+    final tests = ids.toList();
+    final found = devices
         .where((e) =>
-            ids.isEmpty ||
-            ids.contains(
-              Identity.from(e.service, e.location).id,
+            tests.isEmpty ||
+            tests.contains(
+              e.toDevice().id,
             ))
         .toList();
+    return found;
   }
 
   @override

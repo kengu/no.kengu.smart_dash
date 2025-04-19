@@ -61,8 +61,9 @@ final class SnowConsumerService
   }) async* {
     // TODO: Implement SnowConsumerClient.getStateAsStream
     if (refresh) {
-      for (final snow in await getState(location)) {
-        yield snow;
+      final state = await getState(location);
+      if (state.isPresent) {
+        yield state.value;
       }
     }
 
@@ -105,8 +106,9 @@ final class SnowConsumerService
   }) async* {
     // TODO: Implement SnowConsumerClient.getStatesAsStream
     if (refresh) {
-      for (final states in await getStates(period)) {
-        yield states;
+      final result = await getStates(period);
+      if (result.isPresent) {
+        yield result.value;
       }
     }
 

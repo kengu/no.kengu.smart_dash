@@ -6,7 +6,7 @@ part of 'snow_driver_manager.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snowDriverManagerHash() => r'6750bc573b30bd64815e3787ec2795b5b7ddc80d';
+String _$snowDriverManagerHash() => r'8ed70a42f5633145b71d117698a4de498c92e4b0';
 
 /// See also [snowDriverManager].
 @ProviderFor(snowDriverManager)

@@ -6,7 +6,7 @@ part of 'snow_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snowServiceHash() => r'2c4d1b9877f3c5513a8faa85e0605e39c206481d';
+String _$snowServiceHash() => r'141dd8dff0fc46a4ee21286385b27d541148e0b7';
 
 /// Copied from Dart SDK
 class _SystemHash {
