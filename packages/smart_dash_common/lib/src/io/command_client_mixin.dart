@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
@@ -7,141 +9,119 @@ mixin ExecuteCommandMixin<I, T> on DioClient
   Future<Optional<R>> executeCommand<R>(
       ClientAction action, Object? data, List<I> ids) async {
     final request = switch (action) {
-      ClientAction.query => throw AssertionError('Use executeQuery() instead'),
       ClientAction.create => super.api.post<R>,
       ClientAction.upsert => super.api.put<R>,
       ClientAction.update => super.api.patch<R>,
       ClientAction.remove => super.api.delete<R>,
+      ClientAction.query => throw AssertionError('Use executeQuery() instead'),
     };
 
     final path = buildPath(action, ids);
 
-    final response = await request(
-      path,
-      data: data,
-      options: Options(
-        headers: const {},
-        validateStatus: (status) {
-          return validateStatus(action, status, path);
-        },
+    final response = await guard<Response<R>>(
+      () => request(
+        path,
+        data: data,
+        options: Options(
+          headers: const {},
+          validateStatus: (status) {
+            return validateStatus(action, status, path);
+          },
+        ),
       ),
+      name: '$runtimeType',
+      task: 'executeCommand:${action.name}',
+      onError: (Object error, [StackTrace? stackTrace]) {
+        return handleError(
+          action,
+          path,
+          error,
+          stackTrace,
+        );
+      },
     );
 
     log.fine(
       '${action.toMethod()} request: '
       '[${response.statusCode}] ${response.realUri}',
     );
-    return Optional.ofNullable(response.data);
+
+    return Optional.ofNullable(
+      response.data,
+    );
   }
 }
 
-mixin CommandClientMixin<I, T, R, S> on DioClient
+mixin CommandClientMixin<I, T, D, R> on DioClient
     implements ExecuteCommandMixin<I, T> {
   /// Implements [ClientAction.create]
   /// by insert unique only
-  Future<S> create(T item) {
-    return guard(
-      () => _executeSingle(ClientAction.create, item),
-      task: 'create',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> create(T item) {
+    return _executeSingle(ClientAction.create, item);
   }
 
   /// Implements [ClientAction.upsert]
   /// by insert unique, replace existing
-  Future<S> upsert(T item) {
-    return guard(
-      () => _executeSingle(ClientAction.upsert, item),
-      task: 'upsert',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> upsert(T item) {
+    return _executeSingle(ClientAction.upsert, item);
   }
 
   /// Implements [ClientAction.update]
   /// by updating existing only
-  Future<S> update(T item) {
-    return guard(
-      () => _executeSingle(ClientAction.update, item),
-      task: 'update',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> update(T item) {
+    return _executeSingle(ClientAction.update, item);
   }
 
   /// Implements [ClientAction.remove]
   /// by removing existing only
-  Future<S> remove(T item) {
-    return guard(
-      () => _executeSingle(ClientAction.remove, item),
-      task: 'remove',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> remove(T item) {
+    return _executeSingle(ClientAction.remove, item);
   }
 
-  /// Transform [response] to single result of type [S]
-  S toSingleResult(T item, Optional<R> response);
+  /// Transform [response] to single result of type [R]
+  R toSingleResult(T item, Optional<D> response);
 
-  Future<S> _executeSingle(ClientAction action, T item) async {
-    final response = await executeCommand<R>(action, item, [toId(item)]);
+  Future<R> _executeSingle(ClientAction action, T item) async {
+    final response = await executeCommand<D>(action, item, [toId(item)]);
     return toSingleResult(item, response);
   }
 }
 
-mixin BulkCommandClientMixin<I, T, R, B> on DioClient
+mixin BulkCommandClientMixin<I, T, D, R> on DioClient
     implements ExecuteCommandMixin<I, T> {
   /// Implements [ClientAction.create]
   /// on [items] by insert unique only
-  Future<B> createAll(List<T> items) {
-    return guard(
-      () => _executeBulk(ClientAction.create, items),
-      task: 'createAll',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> createAll(List<T> items) {
+    return _executeBulk(ClientAction.create, items);
   }
 
   /// Implements [ClientAction.upsert]
   /// on [items] by insert unique, replace existing
-  Future<B> upsertAll(Iterable<T> items) {
-    return guard(
-      () => _executeBulk(ClientAction.upsert, items),
-      task: 'upsertAll',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> upsertAll(Iterable<T> items) {
+    return _executeBulk(ClientAction.upsert, items);
   }
 
   /// Implements [ClientAction.update]
   /// on [items] by updating existing only
-  Future<B> updateAll(Iterable<T> items) {
-    return guard(
-      () => _executeBulk(ClientAction.update, items),
-      task: 'updateAll',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> updateAll(Iterable<T> items) {
+    return _executeBulk(ClientAction.update, items);
   }
 
   /// Implements [ClientAction.remove]
   /// on [items] by removing existing only
-  Future<B> removeAll(Iterable<T> items) {
-    return guard(
-      () => _executeBulk(ClientAction.remove, items),
-      task: 'removeAll',
-      name: '$runtimeType',
-      onError: check_client_error,
-    );
+  Future<R> removeAll(Iterable<T> items) {
+    return _executeBulk(ClientAction.remove, items);
   }
 
-  /// Transform [response] to bulk result of type [B]
-  B toBulkResult(Iterable<T> items, Optional<R> response);
+  /// Transform [response] to bulk result of type [R]
+  R toBulkResult(Iterable<T> items, Optional<D> response);
 
-  Future<B> _executeBulk(ClientAction action, Iterable<T> items) async {
-    final response =
-        await executeCommand<R>(action, items, items.map(toId).toList());
+  Future<R> _executeBulk(ClientAction action, Iterable<T> items) async {
+    final response = await executeCommand<D>(
+      action,
+      items,
+      items.map(toId).toList(),
+    );
     return toBulkResult(items, response);
   }
 }

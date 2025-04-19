@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
+import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class DioClient {
   DioClient(this.api);

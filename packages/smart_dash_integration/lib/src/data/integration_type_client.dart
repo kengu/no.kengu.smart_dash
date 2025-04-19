@@ -6,7 +6,8 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 part 'integration_type_client.g.dart';
 
 class IntegrationTypeClient extends QueryClient<String, Integration> {
-  IntegrationTypeClient(Dio api) : super(api, 'integration', query: 'keys');
+  IntegrationTypeClient(super.api)
+      : super(suffix: 'integration', query: 'keys');
 
   @override
   String toId(Integration item) {

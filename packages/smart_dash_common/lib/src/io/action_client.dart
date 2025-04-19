@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
+import 'package:sentry/sentry.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 enum ClientAction {
@@ -41,8 +45,13 @@ enum ClientAction {
   }
 }
 
+abstract class ActionClient<I, T> extends DioClient
+    with ActionClientMixin<I, T> {
+  ActionClient(super.api);
+}
+
 mixin ActionClientMixin<I, T> on DioClient {
-  String get type;
+  String get suffix;
   String get query;
   String get prefix;
 
@@ -54,12 +63,12 @@ mixin ActionClientMixin<I, T> on DioClient {
 
   String buildPath(ClientAction action, [List<I> ids = const []]) {
     if (action == ClientAction.create) {
-      return '$prefix/$type';
+      return '$prefix/$suffix';
     }
     return switch (ids.length) {
-      0 => '$prefix/$type',
-      1 => '$prefix/$type/${ids.first}',
-      _ => '$prefix/$type?${buildQuery(ids)}'
+      0 => '$prefix/$suffix',
+      1 => '$prefix/$suffix/${ids.first}',
+      _ => '$prefix/$suffix?${buildQuery(ids)}'
     };
   }
 
@@ -67,7 +76,7 @@ mixin ActionClientMixin<I, T> on DioClient {
     final success = status != null && status < 400;
     if (!success) {
       log.warning(
-        '${ClientAction.query.toMethod()} '
+        '${action.toMethod()} '
         'request failed: [$status] $path',
       );
     }

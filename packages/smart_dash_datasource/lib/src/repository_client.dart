@@ -2,14 +2,27 @@ import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 
-abstract class RepositoryClient<I, T> extends QueryClient<I, T>
+abstract class RepositoryClient<I, T> extends RepositoryDataClient<I, T, T> {
+  RepositoryClient(
+    super.api, {
+    required super.suffix,
+    super.prefix,
+    super.query,
+  });
+  @override
+  T fromData(T data) {
+    return data;
+  }
+}
+
+abstract class RepositoryDataClient<I, T, R> extends QueryDataClient<I, T, R>
     with
         ExecuteCommandMixin<I, T>,
         RepositoryClientMixin<I, T>,
         BulkRepositoryClientMixin<I, T> {
-  RepositoryClient(
-    super.api,
-    super.type, {
+  RepositoryDataClient(
+    super.api, {
+    required super.suffix,
     super.prefix = '',
     super.query = 'ids',
   });

@@ -7,7 +7,8 @@ import 'package:smart_dash_integration/smart_dash_integration.dart';
 part 'service_config_client.g.dart';
 
 class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
-  ServiceConfigClient(Dio api) : super(api, 'config', prefix: '/integration');
+  ServiceConfigClient(super.api)
+      : super(suffix: 'config', prefix: 'integration');
 
   @override
   String toId(ServiceConfig item) {
@@ -33,7 +34,7 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
     //   Update integration/config [items]
     //   Remove integration/config [items]
     if (keys.length > 1 && action.isCommand) {
-      return '$prefix/$type';
+      return '$prefix/$suffix';
     }
 
     // MATCH
@@ -42,12 +43,12 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
     if (action.isQuery && keys.length == 1) {
       final keyIds = ids.map(ServiceConfig.toId).where((e) => e.isNotEmpty);
       if (keyIds.isEmpty) {
-        return '$prefix/${keys.first}/$type';
+        return '$prefix/${keys.first}/$suffix';
       }
       return switch (ids.length) {
-        0 => '$prefix/${keys.first}/$type',
-        1 => '$prefix/${keys.first}/$type/${ids.first}',
-        _ => '$prefix/${keys.first}/$type?${buildQuery(ids)}'
+        0 => '$prefix/${keys.first}/$suffix',
+        1 => '$prefix/${keys.first}/$suffix/${ids.first}',
+        _ => '$prefix/${keys.first}/$suffix?${buildQuery(ids)}'
       };
     }
 
@@ -64,10 +65,16 @@ class ServiceConfigClient extends RepositoryClient<String, ServiceConfig> {
     //   Remove integration/<key>/config/<id> item
     final id = ids.length == 1 ? ServiceConfig.toId(ids.first) : '';
     return switch (keys.length) {
-      0 => '$prefix/$type',
-      1 => '$prefix/${keys.first}/$type${id.isNotEmpty ? '/$id' : ''}',
-      _ => '$prefix/$type?${buildQuery(ids)}'
+      0 => '$prefix/$suffix',
+      1 => '$prefix/${keys.first}/$suffix${id.isNotEmpty ? '/$id' : ''}',
+      _ => '$prefix/$suffix?${buildQuery(ids)}'
     };
+  }
+
+  @override
+  ServiceConfig fromData(ServiceConfig data) {
+    // TODO: implement fromData
+    throw UnimplementedError();
   }
 }
 

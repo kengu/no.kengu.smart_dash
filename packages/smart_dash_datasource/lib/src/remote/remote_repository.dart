@@ -35,7 +35,7 @@ abstract class RemoteRepository<I, T> extends Repository<I, T> {
   }
 }
 
-mixin BulkRemoteRepositoryMixin<I, T> on RemoteRepository<I, T>
+mixin BulkRemoteRepositoryMixin<I, T, R> on RemoteRepository<I, T>
     implements BulkWriteRepositoryMixin<I, T> {
   @override
   Future<BulkRepositoryResult<I, T>> updateAll(Iterable<T> items) async {
@@ -544,12 +544,12 @@ class ConnectionAwareRepository<I, T> {
 
 /// Repository aware of connectivity status. It stores changes in a local
 /// repository when offline and commits changes to remote when status changes to online
-class BulkConnectionAwareRepository<I, T>
+class BulkConnectionAwareRepository<I, T, R>
     extends ConnectionAwareRepository<I, T> {
   BulkConnectionAwareRepository({
     required super.checker,
     required BulkWriteRepositoryMixin<I, T> super.local,
-    required BulkRemoteRepositoryMixin<I, T> super.remote,
+    required BulkRemoteRepositoryMixin<I, T, R> super.remote,
   });
 
   @override
@@ -557,8 +557,8 @@ class BulkConnectionAwareRepository<I, T>
       super.local as BulkWriteRepositoryMixin<I, T>;
 
   @override
-  BulkRemoteRepositoryMixin<I, T> get remote =>
-      super.remote as BulkRemoteRepositoryMixin<I, T>;
+  BulkRemoteRepositoryMixin<I, T, R> get remote =>
+      super.remote as BulkRemoteRepositoryMixin<I, T, R>;
 
   /// Attempt to update all given items in repository.
   ///

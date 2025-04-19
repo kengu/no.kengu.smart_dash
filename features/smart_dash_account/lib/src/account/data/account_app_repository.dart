@@ -41,7 +41,9 @@ class LocalAccountRepository
 }
 
 class RemoteAccountRepository extends RemoteRepository<String, Account>
-    with BulkRemoteRepositoryMixin<String, Account>, AccountRepositoryMixin {
+    with
+        AccountRepositoryMixin,
+        BulkRemoteRepositoryMixin<String, Account, Account> {
   RemoteAccountRepository(super.ref, this.baseUrl);
 
   final String baseUrl;

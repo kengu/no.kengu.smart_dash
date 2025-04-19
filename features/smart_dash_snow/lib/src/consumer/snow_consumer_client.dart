@@ -7,7 +7,7 @@ import 'package:smart_dash_snow/smart_dash_snow.dart';
 part 'snow_consumer_client.g.dart';
 
 class SnowConsumerClient extends QueryClient<String, SnowState> {
-  SnowConsumerClient(Dio api) : super(api, 'snow');
+  SnowConsumerClient(super.api) : super(suffix: 'snow');
 
   @override
   String toId(SnowState item) {

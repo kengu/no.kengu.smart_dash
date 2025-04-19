@@ -46,7 +46,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
-      final url = '/integration/config';
+      final url = 'integration/config';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -68,7 +68,7 @@ void main() {
     test('query item with key', () async {
       // Arrange
       final item = _newConfig(foo);
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -94,7 +94,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
-      final url = '/integration/foo/config?ids=foo,foo:1';
+      final url = 'integration/foo/config?ids=foo,foo:1';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -121,7 +121,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
-      final url = '/integration/config?ids=foo,bar:1';
+      final url = 'integration/config?ids=foo,bar:1';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -147,7 +147,7 @@ void main() {
       // Arrange
       final item = _newConfig(foo, '1');
       final items = [item];
-      final url = '/integration/foo/config/foo:1';
+      final url = 'integration/foo/config/foo:1';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -174,7 +174,7 @@ void main() {
       final item2 = _newConfig(foo, '1');
       final item3 = _newConfig(foo, '2');
       final items = [item1, item2, item3];
-      final url = '/integration/foo/config?ids=foo,foo:1,foo:2';
+      final url = 'integration/foo/config?ids=foo,foo:1,foo:2';
       when(mockDio.get(
         url,
         options: anyNamed('options'),
@@ -200,7 +200,7 @@ void main() {
     test('creates an item for key', () async {
       // Arrange
       final item = _newConfig(foo);
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.post(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -230,7 +230,7 @@ void main() {
     test('creates an item with key and id', () async {
       // Arrange
       final item = _newConfig(foo, '1');
-      final url = '/integration/foo/config/1';
+      final url = 'integration/foo/config/1';
       when(mockDio.post(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -262,7 +262,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.post(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -292,7 +292,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
-      final url = '/integration/config';
+      final url = 'integration/config';
       when(mockDio.post(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -320,7 +320,7 @@ void main() {
     test('updates an item with key', () async {
       // Arrange
       final item = _newConfig(foo);
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.patch(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -350,7 +350,7 @@ void main() {
     test('updates an item with key and id', () async {
       // Arrange
       final item = _newConfig(foo, '1');
-      final url = '/integration/foo/config/1';
+      final url = 'integration/foo/config/1';
       when(mockDio.patch(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -382,7 +382,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -412,7 +412,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
-      final url = '/integration/config';
+      final url = 'integration/config';
       when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -440,7 +440,7 @@ void main() {
     test('removes an item with key', () async {
       // Arrange
       final item = _newConfig(foo);
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.delete(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -470,7 +470,7 @@ void main() {
     test('removes an item with key and id', () async {
       // Arrange
       final item = _newConfig(foo, '1');
-      final url = '/integration/foo/config/1';
+      final url = 'integration/foo/config/1';
       when(mockDio.delete(
         url, data: equals(item), // Compare specific data
         options: anyNamed('options'),
@@ -502,7 +502,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(foo, '1');
       final items = [item1, item2];
-      final url = '/integration/foo/config';
+      final url = 'integration/foo/config';
       when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -532,7 +532,7 @@ void main() {
       final item1 = _newConfig(foo);
       final item2 = _newConfig(bar, '1');
       final items = [item1, item2];
-      final url = '/integration/config';
+      final url = 'integration/config';
       when(mockDio.patch(
         url, data: equals(items), // Compare specific data
         options: anyNamed('options'),
@@ -670,7 +670,7 @@ void main() {
       expect(results.first.key, equals(foo.key));
     });
 
-    test('GET /integration/config should be configured', () async {
+    test('GET integration/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2 = _newConfig(foo, '2');
@@ -703,7 +703,7 @@ void main() {
       );
     });
 
-    test('GET /integration/<key>/config should be configured', () async {
+    test('GET integration/<key>/config should be configured', () async {
       // Arrange
       final item = _newConfig(foo);
       final expected = [item];
@@ -736,7 +736,7 @@ void main() {
       );
     });
 
-    test('GET /integration/<key>/config/<id> should be configured', () async {
+    test('GET integration/<key>/config/<id> should be configured', () async {
       // Arrange
       final item = _newConfig(foo, '123');
 
@@ -768,7 +768,7 @@ void main() {
       );
     });
 
-    test('POST /integration/config should be configured', () async {
+    test('POST integration/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2 = _newConfig(foo, '2');
@@ -809,7 +809,7 @@ void main() {
       );
     });
 
-    test('PUT /integration/config should be configured', () async {
+    test('PUT integration/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2v1 = _newConfig(foo, '2');
@@ -854,7 +854,7 @@ void main() {
       );
     });
 
-    test('DELETE /integration/config should be configured', () async {
+    test('DELETE integration/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2 = _newConfig(foo, '2');
@@ -895,7 +895,7 @@ void main() {
       );
     });
 
-    test('POST /integration/<key>/config should be configured', () async {
+    test('POST integration/<key>/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2 = _newConfig(foo, '2');
@@ -941,7 +941,7 @@ void main() {
       );
     });
 
-    test('PUT /integration/<key>/config should be configured', () async {
+    test('PUT integration/<key>/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2v1 = _newConfig(foo, '2');
@@ -986,7 +986,7 @@ void main() {
       );
     });
 
-    test('DELETE /integration/<key>/config should be configured', () async {
+    test('DELETE integration/<key>/config should be configured', () async {
       // Arrange
       final item1 = _newConfig(foo, '1');
       final item2 = _newConfig(foo, '2');
@@ -1027,7 +1027,7 @@ void main() {
       );
     });
 
-    test('PUT /integration/<key>/config/<id> should be configured', () async {
+    test('PUT integration/<key>/config/<id> should be configured', () async {
       // Arrange
       final item1v1 = _newConfig(foo, '123');
       final item1v2 = item1v1.copyWith(data: {
@@ -1072,8 +1072,7 @@ void main() {
       );
     });
 
-    test('DELETE /integration/<key>/config/<id> should be configured',
-        () async {
+    test('DELETE integration/<key>/config/<id> should be configured', () async {
       // Arrange
       final item = _newConfig(foo, '123');
       final items = [item];

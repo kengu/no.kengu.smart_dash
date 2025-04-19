@@ -1,28 +1,30 @@
 import 'package:dio/dio.dart';
-import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
 abstract class JsonClient<I, T> extends DioClient {
   JsonClient(super.api) {
     if (api.interceptors.whereType<JsonClientInterceptor<T>>().isEmpty) {
       api.interceptors.removeImplyContentTypeInterceptor();
-      _interceptor = Optional.of(JsonClientInterceptor<T>(
+      final interceptor = JsonClientInterceptor<T>(
         this.fromJson,
         this.toJson,
-      ));
-      api.interceptors.add(_interceptor.value);
+      );
+      api.interceptors.add(interceptor);
+      _interceptors.add(interceptor);
     }
   }
 
-  Optional<JsonClientInterceptor<T>> _interceptor = Optional.empty();
+  final List<JsonClientInterceptor> _interceptors = [];
 
   dynamic toJson(T data);
   T fromJson(JsonObject data);
 
   @override
   void close({bool force = false}) {
-    if (_interceptor.isPresent) {
-      api.interceptors.remove(_interceptor.value);
+    if (_interceptors.isNotEmpty) {
+      for (final it in _interceptors) {
+        api.interceptors.remove(it);
+      }
     }
     super.close(force: force);
   }
@@ -36,7 +38,7 @@ class JsonClientInterceptor<T> extends InterceptorsWrapper {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (options.data is T) {
+    if (options.data is T || options.data is List<T>) {
       options.data = toJson(options.data);
       options.contentType = Headers.jsonContentType;
     }
@@ -44,7 +46,7 @@ class JsonClientInterceptor<T> extends InterceptorsWrapper {
   }
 
   @override
-  Future onResponse(
+  void onResponse(
     Response response,
     ResponseInterceptorHandler handler,
   ) async {
@@ -62,7 +64,24 @@ class JsonClientInterceptor<T> extends InterceptorsWrapper {
         ),
         handler,
       );
+    } else if (response.data is List<JsonObject>) {
+      final data = List<JsonObject>.from(response.data).map(fromJson).toList();
+      super.onResponse(
+        Response<List<T>>(
+          data: data,
+          extra: response.extra,
+          headers: response.headers,
+          redirects: response.redirects,
+          isRedirect: response.isRedirect,
+          statusCode: response.statusCode,
+          statusMessage: response.statusMessage,
+          requestOptions: response.requestOptions,
+        ),
+        handler,
+      );
     }
-    return super.onResponse(response, handler);
+    if (!handler.isCompleted) {
+      super.onResponse(response, handler);
+    }
   }
 }

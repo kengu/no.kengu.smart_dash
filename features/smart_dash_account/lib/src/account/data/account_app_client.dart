@@ -7,11 +7,16 @@ import 'package:smart_dash_datasource/smart_dash_datasource.dart';
 part 'account_app_client.g.dart';
 
 class AccountAppClient extends RepositoryClient<String, Account> {
-  AccountAppClient(Dio api) : super(api, 'account');
+  AccountAppClient(super.api) : super(suffix: 'account');
 
   @override
   String toId(Account item) {
     return item.userId;
+  }
+
+  @override
+  Account fromData(Account data) {
+    return data;
   }
 
   @override

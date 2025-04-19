@@ -7,7 +7,7 @@ part of 'snow_consumer_client.dart';
 // **************************************************************************
 
 String _$snowConsumerClientHash() =>
-    r'86c4bee983aca44efcef265ed370e22f8e581cff';
+    r'730ab0be11eff7e13e890a835b9a26505dc84b95';
 
 /// Copied from Dart SDK
 class _SystemHash {

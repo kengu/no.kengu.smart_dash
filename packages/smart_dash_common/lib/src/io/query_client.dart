@@ -1,27 +1,45 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:optional/optional.dart';
 import 'package:smart_dash_common/smart_dash_common.dart';
 
-abstract class QueryClient<I, T> extends JsonClient<I, T>
-    with ActionClientMixin<I, T>, QueryClientMixin<I, T> {
+abstract class QueryClient<I, T> extends QueryDataClient<I, T, T> {
   QueryClient(
-    super.api,
-    this.type, {
+    super.api, {
+    required super.suffix,
+    super.prefix,
+    super.query,
+  });
+
+  @override
+  T fromData(T data) {
+    return data;
+  }
+}
+
+abstract class QueryDataClient<I, T, D> extends JsonClient<I, D>
+    with ActionClientMixin<I, T>, QueryDataClientMixin<I, T, D> {
+  QueryDataClient(
+    super.api, {
+    required this.suffix,
     this.prefix = '',
     this.query = 'ids',
   });
 
   @override
-  final String type;
+  final String query;
 
   @override
-  final String query;
+  final String suffix;
 
   @override
   final String prefix;
 }
 
-mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
+mixin QueryDataClientMixin<I, T, D> on ActionClientMixin<I, T> {
+  T fromData(D data);
+
   Future<bool> exists(I id) async {
     final result = await get(id);
     return result.isPresent;
@@ -33,11 +51,10 @@ mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
   }
 
   Future<Optional<T>> get(I id) {
+    final path = buildPath(ClientAction.query, [id]);
     return guard(
       () {
-        return executeQuery<T>(
-          buildPath(ClientAction.query, [id]),
-        );
+        return executeQueryOne(path);
       },
       task: 'get',
       name: '$runtimeType',
@@ -53,10 +70,10 @@ mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
   }
 
   Future<List<T>> getAll([List<I> ids = const []]) {
+    final path = buildPath(ClientAction.query, ids);
     return guard(
       () async {
-        final path = buildPath(ClientAction.query, ids);
-        final result = await executeQuery<List<T>>(path);
+        final result = await executeQueryMany(path);
         return result.isPresent ? result.value : <T>[];
       },
       task: 'getAll',
@@ -72,8 +89,26 @@ mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
     );
   }
 
-  Future<Optional<D>> executeQuery<D>(String path) async {
-    final response = await api.get<D>(
+  Future<Optional<T>> executeQueryOne(String path) async {
+    final data = await executeQuery<D>(path);
+    if (data.isPresent) {
+      return Optional.of(fromData(data.value));
+    }
+    return Optional.empty();
+  }
+
+  Future<Optional<List<T>>> executeQueryMany(String path) async {
+    final data = await executeQuery<List<D>>(path);
+    if (data.isPresent) {
+      return Optional.of(
+        data.value.map(fromData).toList(),
+      );
+    }
+    return Optional.empty();
+  }
+
+  Future<Optional<V>> executeQuery<V>(String path) async {
+    final response = await api.get<V>(
       path,
       options: Options(
         headers: const {},

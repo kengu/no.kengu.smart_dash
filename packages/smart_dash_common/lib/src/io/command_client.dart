@@ -4,13 +4,13 @@ abstract class CommandClient<I, T, R, S> extends JsonClient<I, T>
     with CommandClientMixin<I, T, R, S> {
   CommandClient(
     super.api,
-    this.type, {
+    this.suffix, {
     this.prefix = '',
     this.query = 'ids',
   });
 
   @override
-  final String type;
+  final String suffix;
 
   @override
   final String query;
@@ -23,7 +23,7 @@ abstract class BulkCommandClient<I, T, R, S, B>
     extends CommandClient<I, T, R, S> with BulkCommandClientMixin<I, T, R, B> {
   BulkCommandClient(
     super.api,
-    super.type, {
+    super.suffix, {
     super.prefix = '',
     super.query = 'ids',
   });

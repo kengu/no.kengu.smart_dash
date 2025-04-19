@@ -22,9 +22,9 @@ typedef BulkFooStateResult = BulkRepositoryResult<int, FooState>;
 typedef SingleFooStateResult = SingleRepositoryResult<int, FooState>;
 
 typedef BulkFooRepository = BulkWriteRepositoryMixin<int, Foo>;
-typedef BulkFooRemoteRepository = BulkRemoteRepositoryMixin<int, Foo>;
+typedef BulkFooRemoteRepository = BulkRemoteRepositoryMixin<int, Foo, Foo>;
 typedef BulkConnectionAwareFooRepository
-    = BulkConnectionAwareRepository<int, Foo>;
+    = BulkConnectionAwareRepository<int, Foo, Foo>;
 
 @GenerateMocks([
   Dio,
@@ -309,7 +309,7 @@ void main() {
   group('When BulkConnectionAwareRepository is [ONLINE]', () {
     final local = MockBulkFooRepository();
     final remote = MockBulkFooRemoteRepository();
-    late BulkConnectionAwareRepository<int, Foo> repo;
+    late BulkConnectionAwareRepository<int, Foo, Foo> repo;
     late Connectivity checker;
 
     setUp(() {
