@@ -23,7 +23,7 @@ class AccountFormScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userRepositoryProvider).currentUser;
     final result =
-        ref.watch(GetCurrentIntegrationRegistryProvider()).requireValue;
+        ref.watch(getCurrentIntegrationRegistryProvider).requireValue;
     final integrations = result.value.getAll();
 
     return ref.watch(getCurrentHomeProvider()).when(

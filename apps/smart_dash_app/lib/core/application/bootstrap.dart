@@ -57,6 +57,11 @@ class Bootstrap extends _$Bootstrap {
       Geocoder.install,
     ]);
 
+    // Ensure integration registry is loaded for current user
+    await ref.read(
+      getCurrentIntegrationRegistryProvider.future,
+    );
+
     // Monitor integration health
     final monitor = ref.read(systemHealthServiceProvider);
     for (final service in services) {

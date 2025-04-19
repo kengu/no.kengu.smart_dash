@@ -49,8 +49,10 @@ class SystemHealthService {
   void set(String key, bool isOK, [Object? reason]) {
     final prev = _states[key];
 
-    final integrations =
-        ref.read(GetCurrentIntegrationRegistryProvider()).requireValue.value;
+    final registry = ref.read(getCurrentIntegrationRegistryProvider);
+    if (!registry.hasValue) return;
+
+    final integrations = registry.requireValue.value;
     final service = integrations.get(key);
     assert(service.isPresent, 'Service [$key] not found');
 

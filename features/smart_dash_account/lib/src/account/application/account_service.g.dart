@@ -453,144 +453,24 @@ class _GetHomesProviderElement
 }
 
 String _$getCurrentIntegrationRegistryHash() =>
-    r'7258db7df561af9f2ece371305907b7bcb242bef';
+    r'd1af7c0102d0c165407052e31e5c64197f836fb5';
 
 /// See also [getCurrentIntegrationRegistry].
 @ProviderFor(getCurrentIntegrationRegistry)
-const getCurrentIntegrationRegistryProvider =
-    GetCurrentIntegrationRegistryFamily();
-
-/// See also [getCurrentIntegrationRegistry].
-class GetCurrentIntegrationRegistryFamily
-    extends Family<AsyncValue<Optional<IntegrationRegistry>>> {
-  /// See also [getCurrentIntegrationRegistry].
-  const GetCurrentIntegrationRegistryFamily();
-
-  /// See also [getCurrentIntegrationRegistry].
-  GetCurrentIntegrationRegistryProvider call([
-    String? userId,
-  ]) {
-    return GetCurrentIntegrationRegistryProvider(
-      userId,
-    );
-  }
-
-  @override
-  GetCurrentIntegrationRegistryProvider getProviderOverride(
-    covariant GetCurrentIntegrationRegistryProvider provider,
-  ) {
-    return call(
-      provider.userId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getCurrentIntegrationRegistryProvider';
-}
-
-/// See also [getCurrentIntegrationRegistry].
-class GetCurrentIntegrationRegistryProvider
-    extends AutoDisposeFutureProvider<Optional<IntegrationRegistry>> {
-  /// See also [getCurrentIntegrationRegistry].
-  GetCurrentIntegrationRegistryProvider([
-    String? userId,
-  ]) : this._internal(
-          (ref) => getCurrentIntegrationRegistry(
-            ref as GetCurrentIntegrationRegistryRef,
-            userId,
-          ),
-          from: getCurrentIntegrationRegistryProvider,
-          name: r'getCurrentIntegrationRegistryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getCurrentIntegrationRegistryHash,
-          dependencies: GetCurrentIntegrationRegistryFamily._dependencies,
-          allTransitiveDependencies:
-              GetCurrentIntegrationRegistryFamily._allTransitiveDependencies,
-          userId: userId,
-        );
-
-  GetCurrentIntegrationRegistryProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.userId,
-  }) : super.internal();
-
-  final String? userId;
-
-  @override
-  Override overrideWith(
-    FutureOr<Optional<IntegrationRegistry>> Function(
-            GetCurrentIntegrationRegistryRef provider)
-        create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetCurrentIntegrationRegistryProvider._internal(
-        (ref) => create(ref as GetCurrentIntegrationRegistryRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        userId: userId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<Optional<IntegrationRegistry>>
-      createElement() {
-    return _GetCurrentIntegrationRegistryProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetCurrentIntegrationRegistryProvider &&
-        other.userId == userId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, userId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
+final getCurrentIntegrationRegistryProvider =
+    AutoDisposeFutureProvider<Optional<IntegrationRegistry>>.internal(
+  getCurrentIntegrationRegistry,
+  name: r'getCurrentIntegrationRegistryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getCurrentIntegrationRegistryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin GetCurrentIntegrationRegistryRef
-    on AutoDisposeFutureProviderRef<Optional<IntegrationRegistry>> {
-  /// The parameter `userId` of this provider.
-  String? get userId;
-}
-
-class _GetCurrentIntegrationRegistryProviderElement
-    extends AutoDisposeFutureProviderElement<Optional<IntegrationRegistry>>
-    with GetCurrentIntegrationRegistryRef {
-  _GetCurrentIntegrationRegistryProviderElement(super.provider);
-
-  @override
-  String? get userId =>
-      (origin as GetCurrentIntegrationRegistryProvider).userId;
-}
+typedef GetCurrentIntegrationRegistryRef
+    = AutoDisposeFutureProviderRef<Optional<IntegrationRegistry>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

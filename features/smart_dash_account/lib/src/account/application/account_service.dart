@@ -257,10 +257,8 @@ Future<List<Home>> getHomes(Ref ref, [String? userId]) {
 }
 
 @Riverpod()
-Future<Optional<IntegrationRegistry>> getCurrentIntegrationRegistry(Ref ref,
-    [String? userId]) async {
-  final home =
-      await ref.watch(accountServiceProvider).getCurrentHome(userId: userId);
+Future<Optional<IntegrationRegistry>> getCurrentIntegrationRegistry(Ref ref) async {
+  final home = await ref.watch(accountServiceProvider).getCurrentHome();
   if (!home.isPresent) return const Optional.empty();
   return Optional.of(ref.read(
     integrationRegistryProvider(home.value.baseUrl ?? 'localhost'),

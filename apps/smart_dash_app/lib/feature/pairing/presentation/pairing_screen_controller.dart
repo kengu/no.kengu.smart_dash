@@ -17,7 +17,7 @@ class PairingScreenController extends _$PairingScreenController
   @override
   Future<Optional<IntegrationMap>> load(PairingQuery query) async {
     final result =
-        ref.watch(GetCurrentIntegrationRegistryProvider()).requireValue;
+        await ref.watch(getCurrentIntegrationRegistryProvider.future);
     if (!result.isPresent) return const Optional.empty();
     final integrations = result.value.getAll();
     return Optional.of(Map.fromEntries(integrations.entries.where(
