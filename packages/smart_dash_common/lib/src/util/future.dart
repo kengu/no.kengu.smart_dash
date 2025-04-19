@@ -77,7 +77,13 @@ class FutureCache {
     final now = DateTime.now();
     final cached = _requests[key];
     if (cached != null && !isExpired(now, cached.$1, ttl)) {
-      return _results[key] ?? cached.$2;
+      final result = _results[key];
+      if (result is T) {
+        return result;
+      }
+      if (cached.$2 is Future<T>) {
+        return cached.$2 as Future<T>;
+      }
     }
 
     final request = guard(
