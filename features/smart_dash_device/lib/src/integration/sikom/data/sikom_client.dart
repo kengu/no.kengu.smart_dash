@@ -51,7 +51,7 @@ class SikomClient extends DeviceClient {
       );
       final result = SikomResponse.fromJson(response.data);
       return result.data.scalarResult == 'True';
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   Future<Optional<List<SikomGateway>>> getGateways() async {
@@ -83,7 +83,7 @@ class SikomClient extends DeviceClient {
               .toList()
           : <SikomGateway>[];
       return Optional.ofNullable(gateways);
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   Future<Optional<List<SikomDevice>>> getDevices(
@@ -101,7 +101,7 @@ class SikomClient extends DeviceClient {
             ? devices.value.where((d) => type.isAny || d.type == type).toList()
             : [],
       );
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   Future<Optional<List<SikomDevice>>> getAllDevices({
@@ -148,7 +148,7 @@ class SikomClient extends DeviceClient {
         }
       }
       return Optional.ofNullable(devices);
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   Future<Optional<String>> getDevicePropertyValue(
@@ -178,7 +178,7 @@ class SikomClient extends DeviceClient {
         '[${response.statusCode}] ${response.realUri}[$value]',
       );
       return Optional.ofNullable(value);
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   Future<Optional<SikomProperty>> setDeviceProperty(
@@ -233,7 +233,7 @@ class SikomClient extends DeviceClient {
         );
       }
       return const Optional.empty();
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override

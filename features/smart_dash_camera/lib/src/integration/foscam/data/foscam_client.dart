@@ -26,7 +26,7 @@ class FoscamClient extends CameraClient {
     return guard(() async {
       final response = await _command('getIPInfo').exec(api);
       return response.type == FoscamResultType.success;
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override
@@ -42,7 +42,7 @@ class FoscamClient extends CameraClient {
           ),
         _ => null,
       });
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override
@@ -53,7 +53,7 @@ class FoscamClient extends CameraClient {
         FoscamResultType.success => fromResponse(motion),
         _ => null,
       });
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override
@@ -83,7 +83,7 @@ class FoscamClient extends CameraClient {
         });
       }
       return const Optional.empty();
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override
@@ -97,7 +97,7 @@ class FoscamClient extends CameraClient {
         FoscamResultType.success => CameraSnapshot(snapshot.bytes),
         _ => null,
       });
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   @override
@@ -218,7 +218,7 @@ class FoscamCommand {
         type: type,
         data: xml,
       );
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   String _toQuery() =>

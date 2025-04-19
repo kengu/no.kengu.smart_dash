@@ -435,7 +435,10 @@ class ConnectionAwareRepository<I, T> {
         }
       }
     } catch (error, stackTrace) {
-      if (check_client_error(error).fatal) {
+      final checked = checkDioError(error);
+      if (!checked.fatal) {
+        // TODO: Implement retry logic
+      } else {
         // TODO: Should we just clear schedules changes on error?
         log.severe(
           '_push() failed '

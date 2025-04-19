@@ -78,7 +78,7 @@ abstract class WeatherForecastClient {
           response.headers.value('last-modified')!,
         ),
       ));
-    }, onError: check_client_error);
+    }, onError: checkDioError);
   }
 
   void close() {

@@ -73,4 +73,26 @@ mixin ActionClientMixin<I, T> on DioClient {
     }
     return success;
   }
+
+  GuardError<R> handleError<R>(
+    ClientAction action,
+    String path,
+    Object error, [
+    StackTrace? stackTrace,
+  ]) {
+    final checked = checkDioError<R>(error, stackTrace, false);
+    if (checked.fatal) {
+      final status = error is DioException
+          ? '[${error.response?.statusCode ?? 'Unknown'}]'
+          : '[Unknown]';
+      String message = '${action.toMethod()} '
+          'request FAILED: '
+          '$status $path';
+      log.severe('$message: $error');
+      unawaited(
+        Sentry.captureMessage('$message: $error'),
+      );
+    }
+    return checked;
+  }
 }

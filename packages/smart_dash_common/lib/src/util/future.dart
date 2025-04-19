@@ -82,14 +82,6 @@ class FutureCache {
 
     final request = guard(
       fetch,
-      onError: onError ??
-          (error, [StackTrace? stackTrace]) {
-            return check_client_error<T>(
-              error,
-              stackTrace,
-              _results[key],
-            );
-          },
       task: 'getOrFetch',
       name: '$prefix:$key',
     );

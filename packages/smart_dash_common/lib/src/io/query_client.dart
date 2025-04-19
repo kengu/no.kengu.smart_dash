@@ -41,7 +41,14 @@ mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
       },
       task: 'get',
       name: '$runtimeType',
-      onError: check_client_error,
+      onError: (Object error, [StackTrace? stackTrace]) {
+        return handleError(
+          ClientAction.query,
+          path,
+          error,
+          stackTrace,
+        );
+      },
     );
   }
 
@@ -54,7 +61,14 @@ mixin QueryClientMixin<I, T> on ActionClientMixin<I, T> {
       },
       task: 'getAll',
       name: '$runtimeType',
-      onError: check_client_error,
+      onError: (Object error, [StackTrace? stackTrace]) {
+        return handleError(
+          ClientAction.query,
+          path,
+          error,
+          stackTrace,
+        );
+      },
     );
   }
 
