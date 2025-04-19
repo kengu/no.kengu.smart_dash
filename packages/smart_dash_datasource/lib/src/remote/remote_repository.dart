@@ -24,7 +24,7 @@ abstract class RemoteRepository<I, T> extends Repository<I, T> {
 
   @override
   Future<SingleRepositoryResult<I, T>> upsert(T item) async {
-    final result = await client.update(item);
+    final result = await client.upsert(item);
     return result.isNotEmpty ? raise(result) : result;
   }
 
